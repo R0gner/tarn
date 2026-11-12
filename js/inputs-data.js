@@ -136,3 +136,21 @@ function tzOffset(ms, timeZone) {
   const g = (k) => Number(p.find((x) => x.type === k).value);
   return Date.UTC(g('year'), g('month') - 1, g('day'), g('hour'), g('minute'), g('second')) - Math.floor(ms / 1000) * 1000;
 }
+
+/**
+ * Validate values against field definitions → { errors: { name: text }, first: name | null }.
+ * fields: [{ name, required?, rules? }]; values: { name: value }. Texts come from the active language.
+ * @param {Array<{ name: string, required?: boolean, rules?: ValidationRules, skip?: boolean }>} fields
+ * @param {Record<string, any>} values
+ * @returns {{ errors: Record<string, string>, first: string | null }}
+ */
+export function validateFields(fields, values) {
+  /** @type {Record<string, string>} */
+  const errors = {};
+  for (const f of fields) {
+    if (f.skip) continue;
+    const msg = validationText(validateValue(values[f.name], { ...(f.rules || {}), required: !!(f.required || f.rules?.required) }));
+    if (msg) errors[f.name] = msg;
+  }
+  return { errors, first: fields.find((f) => errors[f.name])?.name ?? null };
+}

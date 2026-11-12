@@ -1,12 +1,11 @@
 // @ts-check
-// tarn · form() and confirm(): forms with validation and a submit state, and confirmation of dangerous actions.
+// tarn · form(): forms with validation and a submit state (core; confirm() is in confirm.js).
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';
-import { button } from './components.js';
-import { lockScroll } from './sheet.js';
+import { button } from './primitives.js';
 import { field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange } from './inputs.js';
-import { validateFields, confirmMatches } from './actions-data.js';
+import { validateFields } from './inputs-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./inputs.js').Control} Control */
@@ -23,7 +22,6 @@ import { validateFields, confirmMatches } from './actions-data.js';
 /** @typedef {{ errors?: Record<string, string>, error?: string }} FormFailure What onSubmit may return to report server-side problems. */
 /** @typedef {{ fields?: FormField[], value?: Record<string, any>, submitLabel?: string, runningLabel?: string, cancelLabel?: string, danger?: boolean, onSubmit?: (values: Record<string, any>) => any, onSuccess?: (result: any) => void, onCancel?: () => void, actions?: boolean, className?: string }} FormOptions */
 /** @typedef {HTMLFormElement & { values: () => Record<string, any>, setErrors: (map?: Record<string, string>) => FieldElement | null, setError: (text?: string | null) => void, submit: () => Promise<void>, readonly busy: boolean, buttons: () => HTMLElement[], fields: Record<string, FieldElement> }} FormElement */
-/** @typedef {{ title: string, text?: Child, confirmLabel?: string, cancelLabel?: string, danger?: boolean, typeToConfirm?: string }} ConfirmOptions */
 
 const META = new Set(['name', 'type', 'label', 'help', 'required', 'rules', 'value', 'control', 'className']);
 /**
@@ -153,36 +151,4 @@ export function form({ fields = [], value = {}, submitLabel, runningLabel, cance
   });
   Object.defineProperty(fe, 'busy', { get: () => pending });
   return /** @type {FormElement} */ (/** @type {unknown} */ (fe)); // 'busy' is defined as a getter right above
-}
-
-/**
- * Confirm a dangerous action. confirm({ title, text, confirmLabel?, cancelLabel?, danger?, typeToConfirm?: 'text' }) → Promise<boolean>
- * A small modal dialog (centred, on top of open sheets); Esc, a tap outside and “Cancel” answer false. With `danger` the focus starts on “Cancel”;
- * with `typeToConfirm` the confirm button stays off until the text has been typed exactly (e.g. the host name).
- * @param {ConfirmOptions} o
- * @returns {Promise<boolean>}
- */
-export function confirm({ title, text, confirmLabel, cancelLabel, danger, typeToConfirm }) {
-  return new Promise((resolve) => {
-    const id = nextId('confirm');
-    let answer = false;
-    /** @param {boolean} v */
-    const done = (v) => { answer = v; d.close(); };
-    const ok = button(confirmLabel ?? t('confirm.ok'), { variant: danger ? 'danger' : 'primary', onClick: () => { if (!ok.disabled) done(true); } });
-    const no = button(cancelLabel ?? t('common.cancel'), { variant: 'default', onClick: () => done(false) });
-    const typed = typeToConfirm ? textField({ mono: true, autocomplete: 'off', onInput: (v) => { ok.disabled = !confirmMatches(v, typeToConfirm); } }) : null;
-    if (typed) ok.disabled = true;
-    const d = h('dialog', { class: cls('tn-confirm', danger && 'is-danger'), role: danger ? 'alertdialog' : 'dialog', 'aria-labelledby': `${id}-t`, 'aria-describedby': text ? `${id}-d` : null },
-      h('h2', { class: 'tn-confirm-title', id: `${id}-t` }, danger && icon('alert', { size: 16 }), h('span', null, title)),
-      text && h('div', { class: 'tn-confirm-text', id: `${id}-d` }, text),
-      typed && field({ label: t('confirm.type', { text: String(typeToConfirm) }) }, typed),
-      h('div', { class: 'tn-confirm-actions' }, no, ok));
-    typed?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (!ok.disabled) done(true); } });
-    d.addEventListener('click', (e) => { if (e.target === d) done(false); });
-    d.addEventListener('close', () => { lockScroll(false); d.remove(); resolve(answer); });
-    document.body.append(d);
-    d.showModal();
-    lockScroll(true);
-    (typed ? typed.focusEl : danger ? no : ok).focus({ preventScroll: true });
-  });
 }

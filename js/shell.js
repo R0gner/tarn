@@ -7,18 +7,19 @@
 // Detail state lives in the hash (#/view?open=id): the Back button closes the detail.
 import { h, cls, mount } from './dom.js';
 import { icon } from './icons.js';
-import { iconButton, button, badge, banner, empty } from './components.js';
+import { iconButton, button, badge } from './primitives.js';
+import { banner, empty } from './components.js';
 import { openSheet, lockScroll } from './sheet.js';
 import { parseHash, buildHash } from './router.js';
 import { fmtAgo, fmtFull } from './format.js';
 import { favicon } from './favicon.js';
-import { menu } from './controls.js';
+import { menu } from './widgets.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
 import { normalizeBoards } from './boards-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
-/** @typedef {import('./components.js').Status} Status */
+/** @typedef {import('./primitives.js').Status} Status */
 /** @typedef {import('./data.js').DataSource} DataSource */
 /** @typedef {import('./data.js').DataState} DataState */
 /** @typedef {import('./boards-data.js').BoardList} BoardList */

@@ -7,7 +7,7 @@
 //   time     presets (1 h … 30 d) plus an own period (dates)
 import { h, nextId } from './dom.js';
 import { icon } from './icons.js';
-import { button } from './components.js';
+import { button } from './primitives.js';
 import { segmented } from './controls.js';
 import { openSheet } from './sheet.js';
 import { numberField, combobox, dateRange } from './inputs.js';

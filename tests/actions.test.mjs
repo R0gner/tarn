@@ -2,7 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { setLocale } from '../js/i18n.js';
-import { validateFields, confirmMatches, normalizeRun, isFinal, elapsedSec, runTone, RUN_STATUS } from '../js/actions-data.js';
+import { validateFields } from '../js/inputs-data.js';
+import { confirmMatches, normalizeRun, isFinal, elapsedSec, runTone, RUN_STATUS } from '../js/actions-data.js';
 
 test('validateFields: required, rules, first invalid field, language', () => {
   setLocale('en');

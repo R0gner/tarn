@@ -18,6 +18,7 @@
 //   gallery     exported building block without a gallery entry (call in gallery/*.js)
 //   emoji       emoji in UI texts
 //   legacy      the old name or prefix (renamed from dashkit) anywhere in the repo except the migration code and the CHANGELOG
+//   classified  a css/ or js/ file that is not in tools/lib/kit-files.mjs (core or shell), or a listed file that does not exist
 //   page        HTML page without <link rel="icon"> or without a non-empty <title> (every board has a favicon and a title)
 //
 // Checked: kit (css/, js/) and sample board (example/); html and emoji also gallery/.
@@ -27,6 +28,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { classification } from './lib/kit-files.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ALLOW = path.join(ROOT, 'tools', 'lint', 'allow.json');
@@ -215,6 +217,14 @@ export function lintLegacy(add, root = ROOT) {
   visit(root);
 }
 
+/* ---- Core / shell classification: every css/ and js/ file is listed once in tools/lib/kit-files.mjs ---- */
+export function lintClassified(add, root = ROOT) {
+  const c = classification(root);
+  for (const f of c.unclassified) add({ rule: 'classified', file: f, line: 0, text: 'not in tools/lib/kit-files.mjs (core or shell?)' });
+  for (const f of c.missing) add({ rule: 'classified', file: 'tools/lib/kit-files.mjs', line: 0, text: `listed but missing: ${f}` });
+  for (const f of c.twice) add({ rule: 'classified', file: 'tools/lib/kit-files.mjs', line: 0, text: `listed twice: ${f}` });
+}
+
 /* ---- Run ---- */
 export function runLint({ allowFile = ALLOW } = {}) {
   const allow = JSON.parse(fs.readFileSync(allowFile, 'utf8'));
@@ -226,6 +236,7 @@ export function runLint({ allowFile = ALLOW } = {}) {
   for (const f of [...walk(path.join(ROOT, 'gallery'), ['.html']), ...walk(path.join(ROOT, 'example'), ['.html']), path.join(ROOT, 'index.html')].filter((x) => fs.existsSync(x))) lintHtml(f, add);
   lintGallery(add, allow);
   lintLegacy(add);
+  lintClassified(add);
   const sig = (x) => `${x.rule}|${x.file}|${x.text}`;
   const exc = (allow.exceptions || []).map((e) => ({ ...e, re: Object.fromEntries(Object.entries(e.match).map(([k, v]) => [k, new RegExp(v)])) }));
   const known = new Set((allow.known || []).map((k) => `${k.rule}|${k.file}|${k.text}`));

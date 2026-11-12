@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lintCss, lintJs, lintHtml, lintLegacy } from '../tools/lint.mjs';
+import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-lint-'));
@@ -64,5 +64,23 @@ test('legacy: old name and prefix are found outside the allowed files', () => {
     const out = [];
     lintLegacy((f) => out.push(`${f.file}:${f.line}`), dir);
     assert.deepEqual(out.sort(), ['a.css:1', 'b.md:1', `${old}.js:0`]);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('classified: a css/js file outside the core/shell lists is found, and so is a listed file that is gone', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-class-'));
+  try {
+    fs.mkdirSync(path.join(dir, 'js'));
+    fs.mkdirSync(path.join(dir, 'css'));
+    fs.writeFileSync(path.join(dir, 'js', 'dom.js'), '');           // listed (core)
+    fs.writeFileSync(path.join(dir, 'js', 'table.js'), '');         // listed (shell)
+    fs.writeFileSync(path.join(dir, 'js', 'stray.js'), '');         // not listed
+    fs.writeFileSync(path.join(dir, 'css', 'stray.css'), '');
+    const out = [];
+    lintClassified((f) => out.push(`${f.file}|${f.text.split(':')[0].split(' (')[0]}`), dir);
+    assert.ok(out.includes('css/stray.css|not in tools/lib/kit-files.mjs'));
+    assert.ok(out.includes('js/stray.js|not in tools/lib/kit-files.mjs'));
+    assert.ok(!out.some((x) => x.startsWith('js/dom.js') || x.startsWith('js/table.js')));
+    assert.ok(out.some((x) => x.startsWith('tools/lib/kit-files.mjs|listed but missing')));
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

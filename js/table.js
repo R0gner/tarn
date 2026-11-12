@@ -6,12 +6,13 @@
 //         | Subtitle (sub columns joined with ·)
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
-import { statusDot, empty, button } from './components.js';
+import { statusDot, button } from './primitives.js';
+import { empty } from './components.js';
 import { sortRows } from './format.js';
 import { t } from './i18n.js';
 
 /** @typedef {import('./dom.js').Child} Child */
-/** @typedef {import('./components.js').Status} Status */
+/** @typedef {import('./primitives.js').Status} Status */
 /** @typedef {{ key: string, dir: 'asc' | 'desc' }} SortState */
 /** @typedef {{ key: string, label?: Child, get?: (row: any) => any, render?: (row: any) => Child, align?: 'right', width?: number | string, mono?: boolean, wrap?: boolean, sortable?: boolean, mobile?: 'title' | 'value' | 'sub' | 'hide' }} TableColumn get gives the value for sorting (and the default text); render the cell content. */
 /** @typedef {{ columns: TableColumn[], rows?: any[], rowKey?: (row: any) => string | number | null | undefined, onRow?: (row: any) => void, onSort?: (sort: SortState) => void, status?: (row: any) => Status | undefined, sort?: SortState | null, selected?: string | number | null, empty?: string, caption?: string, pageSize?: number }} TableOptions */

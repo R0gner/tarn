@@ -49,7 +49,7 @@ export function typesMutant(root) {
   try {
     fs.cpSync(path.join(root, 'js'), path.join(tmp, 'js'), { recursive: true });
     fs.copyFileSync(path.join(root, 'jsconfig.json'), path.join(tmp, 'jsconfig.json'));
-    fs.appendFileSync(path.join(tmp, 'js', 'components.js'), "\nbadge('x', { colour: 'red' });\n");
+    fs.appendFileSync(path.join(tmp, 'js', 'primitives.js'), "\nbadge('x', { colour: 'red' });\n");
     fs.appendFileSync(path.join(tmp, 'js', 'format.js'), "\nfmtNum('not a number');\n");
     const r = runTsc(tmp);
     if (r.state === 'skipped') return { ok: true, skipped: true, line: `selftest: types mutants skipped (${r.note})` };

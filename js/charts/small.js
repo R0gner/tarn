@@ -2,7 +2,7 @@
 // tarn · small charts: sparkline, donut/ring, heatmap row (runs ok/fail as small boxes).
 import { h, s } from '../dom.js';
 import { fmtNum, fmtPct, fmtWhen } from '../format.js';
-import { STATUS_TEXT } from '../components.js';
+import { STATUS_TEXT } from '../primitives.js';
 import { linear, extent, linePath, areaPath, arcPath } from './scale.js';
 import { chartFrame, colorClass, svg, tipRow } from './base.js';
 import { dataCard } from '../datacard.js';

@@ -29,6 +29,30 @@ For agents that build a board: **read [AGENTS.md](AGENTS.md) first.**
 
 The gallery (`gallery/`) is grouped by these levels and shows every building block in all its states, light and dark.
 
+## Core and shell
+
+The kit has two parts in one repository. The **core** (tokens, fonts, icons, base CSS, formatting/i18n/dom helpers, primitives, inputs and
+`form`) works on any website without the shell. The **ops shell** (everything that only makes sense in boards: cards, tables,
+charts, sheets, data source, router, `createApp`) builds on the core. Direction of imports: the core never imports the shell (lint rule
+`layers`, see [Verification](AGENTS.md)). The classification lives in one file, `tools/lib/kit-files.mjs`; lint rule `classified` fails when a
+`css/` or `js/` file is missing there.
+
+| Part | Files | Provides |
+|---|---|---|
+| **core** | `css/tokens.css`, `fonts.css`, `base.css` | tokens, fonts, reset, focus, helper classes |
+| **core** | `js/version.js`, `theme-init.js`, `dom.js`, `press.js`, `overlay.js`, `format.js`, `i18n.js`, `locales/`, `icons.js`, `icons-data.js`, `favicon.js` | `h`, `icon`, `t`, `fmt*`, overlay layer, press feedback, theme/locale boot |
+| **core** | `js/primitives.js` | `button`, `iconButton`, `badge`, `statusDot` |
+| **core** | `js/controls.js` | `segmented`, `tabs`, `progress`, `tooltip` |
+| **core** | `js/inputs.js`, `inputs-data.js`, `form.js` | `field`, `textField`, `numberField`, `select`, `combobox`, `checkbox`, `toggle`, `dateField`, `dateRange`, `form`, validation |
+| **shell** | `css/components.css`, `charts.css` | shell, cards, rows, table, sheet, charts |
+| **shell** | `js/tarn.js` | the barrel: core and shell together |
+| **shell** | `js/components.js` | `card`, `section`, `statTile`, `metricRow`, `list`, `kv`, `facts`, `banner`, `empty`, `error`, `loading`, `tiles`, `toolbarRow`, `cols`, `stack` |
+| **shell** | `js/widgets.js` | `log`, `toast`, `usageBar`, `menu` |
+| **shell** | `js/table.js`, `filterbar.js`, `filters-data.js`, `confirm.js`, `actionrun.js`, `actions-data.js`, `sheet.js`, `datacard.js`, `markdown.js` | `table`, `filterBar`, `confirm`, `actionRun`, `openSheet`, `dataCard`, `markdown` |
+| **shell** | `js/data.js`, `boards.js`, `boards-data.js`, `router.js`, `shell.js`, `charts/` | `dataSource`, board switcher, router, `createApp`, charts |
+
+The kit texts of the shell (`shell.*`, `table.*`, …) sit in the same locale catalogs as the core texts; a page that uses only the core simply never asks for them.
+
 ## Quick start
 
 Requirements: Node.js 22 or newer and Python 3 (for the local server) and a Chromium-based browser (only for `verify` and the
@@ -68,8 +92,8 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `js/tarn.js`, `js/version.js`, `VERSION`, `CHANGELOG.md` | **the only import for boards** (barrel export, includes `VERSION`) · version · changes per version |
 | `js/theme-init.js` | classic script in `<head>`, prevents a flash of the wrong scheme |
 | `js/shell.js`, `router.js` | app shell (sidebar, toolbar, inspector/panel/bottom sheet), hash router |
-| `js/components.js`, `table.js`, `filterbar.js`, `sheet.js`, `controls.js`, `data.js` | components, data source |
-| `js/inputs.js`, `inputs-data.js`, `filters-data.js`, `form.js`, `actionrun.js`, `actions-data.js` | input primitives, forms, running actions; the `*-data.js` files hold the logic without a DOM (testable in Node) |
+| `js/primitives.js`, `controls.js` (core) · `components.js`, `widgets.js`, `table.js`, `filterbar.js`, `sheet.js`, `data.js` (shell) | primitives and core controls · components, data source |
+| `js/inputs.js`, `inputs-data.js`, `form.js` (core) · `filters-data.js`, `confirm.js`, `actionrun.js`, `actions-data.js` (shell) | input primitives, forms, confirm, running actions; the `*-data.js` files hold the logic without a DOM (testable in Node) |
 | `js/i18n.js`, `js/locales/` | catalog layer `t()` and the kit texts in en, de, es, fr |
 | `js/format.js` | formatting (Intl with the active locale and time zone), sorting, search |
 | `js/boards.js`, `boards-data.js` | board switcher (launcher grid as popover/sheet) and its data checks |

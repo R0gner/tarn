@@ -5,8 +5,9 @@ import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';
 import { fmtDuration } from './format.js';
-import { statusDot, badge, button } from './components.js';
-import { log as logList, progress } from './controls.js';
+import { statusDot, badge, button } from './primitives.js';
+import { progress } from './controls.js';
+import { log as logList } from './widgets.js';
 import { normalizeRun, isFinal, elapsedSec, runTone } from './actions-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */

@@ -1,24 +1,5 @@
 // @ts-check
-// tarn · logic of forms and actions without a DOM (testable in Node): validating fields, type-to-confirm, run state.
-import { validateValue, validationText } from './inputs-data.js';
-
-/**
- * Validate values against field definitions → { errors: { name: text }, first: name | null }.
- * fields: [{ name, required?, rules? }]; values: { name: value }. Texts come from the active language.
- * @param {Array<{ name: string, required?: boolean, rules?: import('./inputs.js').ValidationRules, skip?: boolean }>} fields
- * @param {Record<string, any>} values
- * @returns {{ errors: Record<string, string>, first: string | null }}
- */
-export function validateFields(fields, values) {
-  /** @type {Record<string, string>} */
-  const errors = {};
-  for (const f of fields) {
-    if (f.skip) continue;
-    const msg = validationText(validateValue(values[f.name], { ...(f.rules || {}), required: !!(f.required || f.rules?.required) }));
-    if (msg) errors[f.name] = msg;
-  }
-  return { errors, first: fields.find((f) => errors[f.name])?.name ?? null };
-}
+// tarn · logic of confirm() and actionRun() without a DOM (testable in Node): type-to-confirm, run state. (Field validation: inputs-data.js.)
 
 /**
  * Type-to-confirm: the typed text must equal the expected text (surrounding spaces ignored, case matters: a host name is exact).
@@ -30,7 +11,7 @@ export const confirmMatches = (typed, expected) => String(typed ?? '').trim() ==
 export const RUN_STATUS = ['pending', 'running', 'ok', 'bad', 'cancelled'];
 const FINAL = new Set(['ok', 'bad', 'cancelled']);
 /** @typedef {'pending' | 'running' | 'ok' | 'bad' | 'cancelled'} RunStatus */
-/** @typedef {{ status: RunStatus, startedAt: number | null, endedAt: number | null, progress: number | null, log: import('./controls.js').LogEntry[], message: string | null }} Run A normalised run (times in epoch milliseconds, progress 0..1). */
+/** @typedef {{ status: RunStatus, startedAt: number | null, endedAt: number | null, progress: number | null, log: import('./widgets.js').LogEntry[], message: string | null }} Run A normalised run (times in epoch milliseconds, progress 0..1). */
 
 /**
  * A run in a final state does not change any more (polling stops).
@@ -69,6 +50,6 @@ export function elapsedSec(run, now = Date.now()) {
 /**
  * Tone of a run status (status token).
  * @param {string} status
- * @returns {import('./components.js').Status}
+ * @returns {import('./primitives.js').Status}
  */
-export const runTone = (status) => /** @type {Record<string, import('./components.js').Status>} */ ({ pending: 'pending', running: 'info', ok: 'ok', bad: 'bad', cancelled: 'warn' })[status] || 'unknown';
+export const runTone = (status) => /** @type {Record<string, import('./primitives.js').Status>} */ ({ pending: 'pending', running: 'info', ok: 'ok', bad: 'bad', cancelled: 'warn' })[status] || 'unknown';
