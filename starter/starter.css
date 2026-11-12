@@ -1,0 +1,13 @@
+/* tarn · starter page: placement only, tokens only. Everything else comes from css/core.css. */
+.st-header { display: flex; align-items: center; gap: var(--tn-s3); padding: var(--tn-s3) var(--tn-s4); border-bottom: 1px solid var(--tn-sep); }
+.st-brand { display: inline-flex; align-items: center; gap: var(--tn-s2); font-size: var(--tn-fs-lg); font-weight: var(--tn-fw-strong); }
+.st-spacer { flex: 1; }
+.st-main { display: grid; gap: var(--tn-s5); max-width: calc(var(--tn-sz-480) * 1.5); margin: 0 auto; padding: var(--tn-s6) var(--tn-s4); }
+.st-intro { display: grid; gap: var(--tn-s2); }
+.st-title { font-size: var(--tn-fs-stat); line-height: 1.25; overflow-wrap: anywhere; }
+.st-lede { color: var(--tn-text-2); overflow-wrap: anywhere; }
+.st-status { display: flex; align-items: center; flex-wrap: wrap; gap: var(--tn-s2); }
+.st-panel { display: grid; gap: var(--tn-s4); padding: var(--tn-s4); background: var(--tn-card); border: 1px solid var(--tn-border); border-radius: var(--tn-r); min-width: 0; }
+.st-panel-title { font-size: var(--tn-fs-lg); overflow-wrap: anywhere; }
+.st-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tn-s2); }
+.st-footer { padding: var(--tn-s4); border-top: 1px solid var(--tn-sep); color: var(--tn-text-2); font-size: var(--tn-fs-label); text-align: center; }

@@ -1,0 +1,58 @@
+# starter #/errors · desktop 1440×900 · dunkel
+header @0,0 1424x52
+  div.tn-seg.tn-seg-sm [radiogroup] "Language" @1280,12 128x28
+    button.tn-seg-btn [radio] {checked=true} @1284,16 56x24
+    button.tn-seg-btn [radio] {checked=false} @1344,16 64x24
+main @352,52 720x860
+  h1 "A plain page built from the Tarn core" @368,76 688x24
+  p [status] @368,156 688x20
+    span.tn-dot.tn-s-ok [img] "OK" @368,160 8x8
+    span.tn-badge.tn-badge-info "core only" @508,156 60x20
+  button.tn-btn.tn-btn-primary @368,192 112x28
+    svg.tn-icon @380,200 16x16
+  button.tn-btn.tn-btn-default @488,192 108x28
+  button.tn-btn.tn-btn-ghost @604,192 92x28
+  button.tn-iconbtn "Help" @704,192 28x28
+    svg.tn-icon @708,200 16x16
+  h2 "Contact us" @384,256 656x20
+  form.tn-form @384,296 656x532
+    div.tn-field @384,296 656x72
+      label.tn-field-label @384,296 656x16
+        span.tn-field-req "*" @448,296 8x16
+      div.tn-inputbox.is-invalid @384,316 656x28
+        input.tn-input-el @396,316 636x28
+      div.tn-field-error @384,348 656x16
+        svg.tn-icon @384,352 12x12
+    div.tn-field @384,384 656x92
+      label.tn-field-label @384,384 656x16
+        span.tn-field-req "*" @468,384 8x16
+      div.tn-inputbox.is-invalid @384,404 656x28
+        input.tn-input-el @396,404 636x28
+      div.tn-field-help "We only use it to reply." @384,436 656x16
+      div.tn-field-error @384,460 656x16
+        svg.tn-icon @384,460 12x12
+    div.tn-field @384,492 656x48
+      label.tn-field-label @384,492 656x16
+      div.tn-inputbox.tn-selectbox @384,512 656x28
+        select.tn-select-el @396,516 636x28
+        svg.tn-icon @1016,520 16x16
+    div.tn-field @384,556 656x132
+      label.tn-field-label @384,556 656x16
+        span.tn-field-req "*" @440,556 8x16
+      div.tn-inputbox.is-multiline.is-invalid @384,580 656x92
+        textarea.tn-input-el @396,588 636x72
+      div.tn-field-error @384,676 656x16
+        svg.tn-icon @384,676 12x12
+    div.tn-field @384,708 656x28
+      label.tn-tick.tn-check @384,708 656x28
+        input.tn-tick-input @384,708 0x0
+        span.tn-check-box @384,712 20x20
+          svg.tn-icon @388,716 12x12
+          svg.tn-icon @388,716 12x12
+        span.tn-tick-text @412,712 100x20
+          span.tn-tick-label "Send me a copy" @412,712 100x20
+    div.tn-form-error [alert] @384,752 656x32
+      svg.tn-icon @396,760 16x16
+    div.tn-form-actions @384,800 656x28
+      button.tn-btn.tn-btn-primary @932,800 108x28
+  button.tn-btn.tn-btn-danger @384,844 100x28

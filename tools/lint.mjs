@@ -22,7 +22,7 @@
 //   layers      a core file imports a shell file (static import, export … from, import()): the core must work without the shell
 //   page        HTML page without <link rel="icon"> or without a non-empty <title> (every board has a favicon and a title)
 //
-// Checked: kit (css/, js/) and sample board (example/); html and emoji also gallery/.
+// Checked: kit (css/, js/), sample board (example/) and starter page (starter/); html and emoji also gallery/.
 // Output ≤ 10 lines, exit 0 green · 1 finding (new violations) · 2 tool error.
 // An inventory of known violations may be listed as "known" in allow.json; --write-known writes the current
 // state there (deliberately only, reason in the commit).
@@ -241,6 +241,27 @@ export function lintLayers(add, root = ROOT) {
     }
   }
 }
+/** The starter page proves that the core stands alone: its scripts import only core files and its html loads no shell css or barrel. */
+export function lintStarter(add, root = ROOT) {
+  const dir = path.join(root, 'starter');
+  for (const file of walk(dir, ['.js'])) {
+    const f = rel2(root, file);
+    const code = stripComments(fs.readFileSync(file, 'utf8'));
+    for (const m of code.matchAll(RE_IMPORT)) {
+      const spec = m[1] || m[2];
+      if (!spec.startsWith('.')) continue;
+      const target = rel2(root, path.resolve(path.dirname(file), spec));
+      if (target.startsWith('js/') && layerOf(target) !== 'core') add({ rule: 'layers', file: f, line: lineOf(code, m.index), text: `starter page imports a non-core file: ${target}` });
+    }
+  }
+  for (const file of walk(dir, ['.html'])) {
+    const src = fs.readFileSync(file, 'utf8').replace(/<!--[\s\S]*?-->/g, (c) => c.replace(/[^\n]/g, ' '));
+    for (const m of src.matchAll(/(?:href|src)\s*=\s*["']([^"']+)["']/g)) {
+      const target = rel2(root, path.resolve(path.dirname(file), m[1].split(/[?#]/)[0]));
+      if (/^(css|js)\//.test(target) && layerOf(target) !== 'core') add({ rule: 'layers', file: rel2(root, file), line: lineOf(src, m.index), text: `starter page loads a non-core file: ${target}` });
+    }
+  }
+}
 const rel2 = (root, p) => path.relative(root, p).split(path.sep).join('/');
 
 /* ---- Run ---- */
@@ -248,14 +269,15 @@ export function runLint({ allowFile = ALLOW } = {}) {
   const allow = JSON.parse(fs.readFileSync(allowFile, 'utf8'));
   const found = [];
   const add = (f) => found.push(f);
-  for (const f of [...walk(path.join(ROOT, 'css'), ['.css']), ...walk(path.join(ROOT, 'example'), ['.css'])]) lintCss(f, add);
-  for (const f of [...walk(path.join(ROOT, 'js'), ['.js']), ...walk(path.join(ROOT, 'example'), ['.js'])]) lintJs(f, add, { i18n: !/^(js\/locales\/|js\/i18n\.js|example\/messages\.js|js\/markdown\.js)/.test(rel(f)) });
+  for (const f of [...walk(path.join(ROOT, 'css'), ['.css']), ...walk(path.join(ROOT, 'example'), ['.css']), ...walk(path.join(ROOT, 'starter'), ['.css'])]) lintCss(f, add);
+  for (const f of [...walk(path.join(ROOT, 'js'), ['.js']), ...walk(path.join(ROOT, 'example'), ['.js']), ...walk(path.join(ROOT, 'starter'), ['.js'])]) lintJs(f, add, { i18n: !/^(js\/locales\/|js\/i18n\.js|example\/messages\.js|starter\/messages\.js|js\/markdown\.js)/.test(rel(f)) });
   for (const f of walk(path.join(ROOT, 'gallery'), ['.js'])) lintJs(f, (x) => (x.rule === 'html' || x.rule === 'emoji') && add(x), { timers: false });
-  for (const f of [...walk(path.join(ROOT, 'gallery'), ['.html']), ...walk(path.join(ROOT, 'example'), ['.html']), path.join(ROOT, 'index.html')].filter((x) => fs.existsSync(x))) lintHtml(f, add);
+  for (const f of [...walk(path.join(ROOT, 'gallery'), ['.html']), ...walk(path.join(ROOT, 'example'), ['.html']), ...walk(path.join(ROOT, 'starter'), ['.html']), path.join(ROOT, 'index.html')].filter((x) => fs.existsSync(x))) lintHtml(f, add);
   lintGallery(add, allow);
   lintLegacy(add);
   lintClassified(add);
   lintLayers(add);
+  lintStarter(add);
   const sig = (x) => `${x.rule}|${x.file}|${x.text}`;
   const exc = (allow.exceptions || []).map((e) => ({ ...e, re: Object.fromEntries(Object.entries(e.match).map(([k, v]) => [k, new RegExp(v)])) }));
   const known = new Set((allow.known || []).map((k) => `${k.rule}|${k.file}|${k.text}`));

@@ -58,6 +58,8 @@ Two entry points, two stylesheet sets:
 | plain website (core only) | `theme-init.js`, `css/tokens.css`, `fonts.css`, `base.css`, `core.css` | `import { button, field, textField, form, t, icon } from '/tarn/js/core.js'` |
 | board (core + shell) | the same plus `css/components.css`, `charts.css` | `import { createApp, card, table, … } from '/tarn/js/tarn.js'` (re-exports `core.js`) |
 
+`starter/` is a complete example of a core-only page (`?lang=de` switches the language); lint rule `layers` makes sure it never loads shell files, and verify checks it like a board (geometry on all sizes, snapshots, the validation state at `#/errors`).
+
 The kit texts of the shell (`shell.*`, `table.*`, …) sit in the same locale catalogs as the core texts; a page that uses only the core simply never asks for them.
 
 ## Quick start
@@ -109,6 +111,7 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `js/overlay.js`, `datacard.js`, `press.js` | overlay layer (popover in the topmost dialog), data card, press feedback on touch |
 | `js/charts/` | `scale.js` (maths, testable), line, bar, sparkline, donut, heat row, timeline |
 | `example/` | sample board with a fixture, four languages – **template for new boards** |
+| `starter/` | a plain website page (header, text, form, buttons, status line; en/de) built **only from the core**: no shell, no sidebar – template for pages that are not boards; lint and verify cover it |
 | `gallery/` | every building block in all states, grouped by level |
 | `tools/verify.mjs`, `tools/verify/` | **all checks in one command** (tests, lint, types, DOM geometry, overlays, snapshots, animation inventory) |
 | `tools/lint.mjs`, `tools/lint/` | static kit rules (tokens, transitions, no innerHTML, timers, gallery coverage, emoji, visible texts via `t()`, core/shell classification and import direction) |

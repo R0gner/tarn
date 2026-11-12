@@ -22,7 +22,7 @@ export async function settle(page, { max = 3000 } = {}) {
     // skeletons inside gallery demos (.g-demo) and in the gallery's example sheet are permanent examples of the loading state, not a load
     // in progress: they must not keep settle waiting until its time limit (3 s per call in every gallery view that shows one)
     const inGallery = location.pathname.includes('/gallery/');
-    const busy = () => [...document.querySelectorAll('[aria-busy="true"]')].some((e) => !e.closest('.g-demo') && !(inGallery && e.closest('dialog'))) || !document.querySelector('.tn-nav-item') ||
+    const busy = () => [...document.querySelectorAll('[aria-busy="true"]')].some((e) => !e.closest('.g-demo') && !(inGallery && e.closest('dialog'))) || !(document.querySelector('.tn-nav-item') || document.body.hasAttribute('data-tn-page')) ||
       document.getAnimations().some((a) => a.playState === 'running' && a.effect?.getComputedTiming().iterations !== Infinity);
     const tick = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       calm = busy() ? 0 : calm + 1;
@@ -60,8 +60,8 @@ export function consoleCollector(page) {
   return { take: () => { const e = errs; errs = []; return [...new Set(e)]; }, push: (e) => errs.push(e) };
 }
 
-/** Read the navigation: view IDs from .tn-nav-item[href="#/id"]. */
-export const readViews = (page) => evaluate(page, `[...document.querySelectorAll('.tn-nav-item')].map((a) => (a.getAttribute('href') || '').replace(/^#\\//, '').split('?')[0]).filter(Boolean)`);
+/** Read the navigation: view IDs from .tn-nav-item[href="#/id"]; a page without a shell navigation lists its `views` in tools/verify/targets.mjs. */
+export const readViews = (page, pg) => pg?.views ? Promise.resolve([...pg.views]) : evaluate(page, `[...document.querySelectorAll('.tn-nav-item')].map((a) => (a.getAttribute('href') || '').replace(/^#\\//, '').split('?')[0]).filter(Boolean)`);
 
 export async function goHash(page, hash) {
   await evaluate(page, `(() => { location.hash = ${JSON.stringify('#/' + hash)}; window.scrollTo(0, 0); document.querySelector('.tn-content')?.scrollTo?.(0, 0); return true; })()`);
@@ -97,7 +97,7 @@ export async function geometryTask(w, task, opts) {
   await settle(page);
   if (css) await injectCss(page, css);
   if (js) await evaluate(page, js);
-  const views = (await readViews(page)).filter((v) => !viewFilter || viewFilter(pg.id, v));
+  const views = (await readViews(page, pg)).filter((v) => !viewFilter || viewFilter(pg.id, v));
   const targets = [...views, ...(pg.details || []).filter((d) => !viewFilter || viewFilter(pg.id, d.split('?')[0], d))];
   for (const view of targets) {
     const t0 = Date.now();

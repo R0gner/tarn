@@ -7,6 +7,9 @@ export const PAGES = [
   // sample board in German and French: long words, other number/date formats (geometry and snapshots)
   { id: 'board-de', path: '/example/?lang=de', details: ['jobs?open=offsite-sync', 'deploy?run=bad'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
   { id: 'board-fr', path: '/example/?lang=fr', details: ['jobs?open=offsite-sync', 'deploy?run=ok'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
+  // starter page: a plain website from the core only (no shell, no navigation): `views` replaces the navigation, #/errors shows the validation state
+  { id: 'starter', path: '/starter/?lang=en', views: ['page'], details: ['errors'] },
+  { id: 'starter-de', path: '/starter/?lang=de', views: ['page'], details: ['errors'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
 ];
 
 // mobile = touch emulation (pointer: coarse) + touch target check

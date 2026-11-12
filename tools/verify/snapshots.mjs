@@ -94,7 +94,7 @@ export async function snapshotTask(w, task, { base, viewFilter, update, outDir }
     await emulate(page, size, 'dark');
     await load(page, b + pg.path, { push: () => {} });
     await settle(page);
-    const views = (await readViews(page)).filter((v) => !viewFilter || viewFilter(pg.id, v));
+    const views = (await readViews(page, pg)).filter((v) => !viewFilter || viewFilter(pg.id, v));
     const targets = [...views, ...(pg.details || []).filter((d) => !viewFilter || viewFilter(pg.id, d.split('?')[0], d))];
     for (const view of targets) {
       await goHash(page, view);

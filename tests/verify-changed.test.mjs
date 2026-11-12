@@ -56,3 +56,13 @@ test('treeIdentity: stable for an unchanged tree', () => {
   assert.equal(a.tree, b.tree);
   assert.match(a.tree, /^[0-9a-f]{64}$/);
 });
+
+test('the starter page is its own scope; input and form code reach it too', () => {
+  const s = scopeOf(['starter/starter.js', 'starter/messages.js']);
+  assert.equal(s.all, false);
+  assert.deepEqual([...s.views.keys()].sort(), ['starter', 'starter-de']);
+  assert.equal(s.views.get('starter'), null);
+  const f = scopeFilters(s, PAGES);
+  assert.deepEqual(f.pages.map((p) => p.id), ['starter', 'starter-de']);
+  assert.ok(scopeOf(['js/form.js']).views.has('starter'));
+});

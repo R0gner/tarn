@@ -18,12 +18,14 @@ export const RULES = [
   [/^gallery\/gallery-forms\.js$/, G('forms')],
   [/^gallery\/gallery2\.js$/, G('themes', 'controls', 'feedback', 'charts', 'shell')],
   [/^gallery\//, G()],
+  // the starter page (core only)
+  [/^starter\//, { starter: null, 'starter-de': null }],
   // the sample board (all languages)
   [/^example\//, BOARDS],
   // components with a known footprint: gallery views and the board views that use them
   [/^js\/charts\//, join(G('charts', 'themes'), { board: ['overview', 'history'], 'board-de': ['overview', 'history'], 'board-fr': ['overview', 'history'] })],
   [/^js\/(table|filterbar|filters-data)\.js$/, join(G('table', 'cards', 'rows', 'states'), { board: ['jobs', 'hosts'], 'board-de': ['jobs', 'hosts'], 'board-fr': ['jobs', 'hosts'] })],
-  [/^js\/(inputs|inputs-data|form|confirm|actionrun|actions-data)\.js$/, join(G('inputs', 'forms', 'states', 'feedback'), { board: ['jobs', 'deploy'], 'board-de': ['jobs', 'deploy'], 'board-fr': ['jobs', 'deploy'] })],
+  [/^js\/(inputs|inputs-data|form|confirm|actionrun|actions-data)\.js$/, join(G('inputs', 'forms', 'states', 'feedback'), { board: ['jobs', 'deploy'], 'board-de': ['jobs', 'deploy'], 'board-fr': ['jobs', 'deploy'], starter: null, 'starter-de': null })],
   [/^js\/markdown\.js$/, join(G('markdown', 'states'), { board: ['jobs'], 'board-de': ['jobs'], 'board-fr': ['jobs'] })],
   // snapshot files: exactly this page and view
   [/^tests\/snapshots\//, 'snapshot'],

@@ -3,26 +3,29 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lintLayers } from '../lint.mjs';
+import { lintLayers, lintStarter } from '../lint.mjs';
 
 const PLANTS = [
   ['js/dom.js', "\nimport './shell.js';\n", 'static import'],
   ['js/format.js', "\nexport { card } from './components.js';\n", 'export … from'],
   ['js/primitives.js', "\nconst late = () => import('./table.js');\n", 'dynamic import()'],
+  ['starter/starter.js', "\nimport '../js/tarn.js';\n", 'starter page imports the barrel'],
 ];
 
 export function layersMutant(root) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-layers-mutant-'));
   try {
     fs.cpSync(path.join(root, 'js'), path.join(tmp, 'js'), { recursive: true });
+    fs.cpSync(path.join(root, 'starter'), path.join(tmp, 'starter'), { recursive: true });
+    const lint = (add) => { lintLayers(add, tmp); lintStarter(add, tmp); };
     const clean = [];
-    lintLayers((f) => clean.push(f), tmp);
+    lint((f) => clean.push(f));
     const missed = [];
     for (const [file, add, label] of PLANTS) {
       const f = path.join(tmp, file), before = fs.readFileSync(f, 'utf8');
       fs.writeFileSync(f, before + add);
       const hit = [];
-      lintLayers((x) => hit.push(x), tmp);
+      lint((x) => hit.push(x));
       if (!hit.some((x) => x.file === file)) missed.push(label);
       fs.writeFileSync(f, before);
     }

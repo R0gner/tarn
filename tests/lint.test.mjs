@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified, lintLayers } from '../tools/lint.mjs';
+import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified, lintLayers, lintStarter } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-lint-'));
@@ -97,5 +97,18 @@ test('layers: core files must not import shell files (static, export from, dynam
     const out = [];
     lintLayers((f) => out.push(`${f.file}:${f.line} ${f.text}`), dir);
     assert.deepEqual(out.sort(), ['js/dom.js:2 core imports shell: js/components.js', 'js/format.js:1 core imports shell: js/widgets.js', 'js/primitives.js:1 core imports shell: js/shell.js']);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('starter: the plain page may import and load only core files', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-starter-'));
+  try {
+    fs.mkdirSync(path.join(dir, 'starter'));
+    fs.writeFileSync(path.join(dir, 'starter', 'ok.js'), "import { button } from '../js/core.js';\nimport m from './messages.js';\n");
+    fs.writeFileSync(path.join(dir, 'starter', 'bad.js'), "import { createApp } from '../js/tarn.js';\nimport { card } from '../js/components.js';\n");
+    fs.writeFileSync(path.join(dir, 'starter', 'index.html'), '<link rel="stylesheet" href="../css/core.css"><link rel="stylesheet" href="../css/components.css">\n<!-- <link rel="stylesheet" href="../css/charts.css"> -->');
+    const out = [];
+    lintStarter((f) => out.push(`${f.file}:${f.line} ${f.text}`), dir);
+    assert.deepEqual(out.sort(), ['starter/bad.js:1 starter page imports a non-core file: js/tarn.js', 'starter/bad.js:2 starter page imports a non-core file: js/components.js', 'starter/index.html:1 starter page loads a non-core file: css/components.css']);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

@@ -1,0 +1,50 @@
+# starter-de #/page · phone 390×844 · dunkel
+header @0,0 392x68
+  div.tn-seg.tn-seg-sm [radiogroup] "Sprache" @244,12 128x44
+    button.tn-seg-btn [radio] {checked=false} @248,16 56x36
+    button.tn-seg-btn [radio] {checked=true} @308,16 64x36
+main @0,68 392x936
+  h1 "Eine einfache Seite aus dem Tarn-Kern" @16,92 360x52
+  p [status] @16,212 360x20
+    span.tn-dot.tn-s-ok [img] "In Ordnung" @16,220 8x8
+    span.tn-badge.tn-badge-info "nur Kern" @164,212 56x20
+  button.tn-btn.tn-btn-primary @16,248 100x40
+    svg.tn-icon @28,260 16x16
+  button.tn-btn.tn-btn-default @124,248 148x40
+  button.tn-btn.tn-btn-ghost @276,248 60x40
+  button.tn-iconbtn "Hilfe" @16,296 40x40
+    svg.tn-icon @28,308 16x16
+  h2 "Kontakt" @32,376 324x20
+  form.tn-form @32,412 324x496
+    div.tn-field @32,412 324x64
+      label.tn-field-label @32,412 324x16
+        span.tn-field-req "*" @88,412 8x16
+      div.tn-inputbox @32,432 324x44
+        input.tn-input-el @44,436 308x44
+    div.tn-field @32,492 324x88
+      label.tn-field-label @32,492 324x16
+        span.tn-field-req "*" @124,492 8x16
+      div.tn-inputbox @32,516 324x44
+        input.tn-input-el @44,516 308x44
+      div.tn-field-help "Wir nutzen sie nur für die Antwort." @32,564 324x16
+    div.tn-field @32,596 324x64
+      label.tn-field-label @32,596 324x16
+      div.tn-inputbox.tn-selectbox @32,620 324x44
+        select.tn-select-el @44,620 308x44
+        svg.tn-icon @332,632 16x16
+    div.tn-field @32,680 324x112
+      label.tn-field-label @32,680 324x16
+        span.tn-field-req "*" @92,680 8x16
+      div.tn-inputbox.is-multiline @32,700 324x92
+        textarea.tn-input-el @44,708 308x72
+    div.tn-field @32,808 324x44
+      label.tn-tick.tn-check @32,808 324x44
+        input.tn-tick-input @32,808 0x0
+        span.tn-check-box @32,816 24x24
+          svg.tn-icon @40,824 12x12
+          svg.tn-icon @40,824 12x12
+        span.tn-tick-text @64,820 136x20
+          span.tn-tick-label "Kopie an mich senden" @64,820 136x20
+    div.tn-form-actions @32,868 324x40
+      button.tn-btn.tn-btn-primary @232,868 124x40
+  button.tn-btn.tn-btn-danger @32,924 132x40
