@@ -16,7 +16,7 @@ export function viewInputs() {
   const show = (v) => { out.textContent = `Value: ${JSON.stringify(v)}`; };
   const rng = dateRange({ from: rangeFromPreset('7d', Date.now(), getTimeZone()).from, to: rangeFromPreset('7d', Date.now(), getTimeZone()).to, onChange: show });
   return [
-    h('p', { class: 'g-intro' }, 'Inputs share one contract: el.focusEl (focusable), getValue(), setValue(v), setInvalid(), setDisabled(). Wrap them in field() for label, help and error text. 44 px touch targets on the phone, native pickers for number and date, an own popover only for the combobox.'),
+    h('p', { class: 'g-intro' }, 'Inputs share one contract: el.focusEl (focusable), getValue(), setValue(v), setInvalid(), setDisabled(). Wrap them in field() for label, help and error text. Touch targets of 44 px on the phone (48 px in comfortable density), native pickers for number and date, an own popover only for the combobox.'),
     h('div', { class: 'g-grid2' },
       demo('textField()', `textField({ value, placeholder, type, prefix?, suffix?, rows?, onInput, onChange })\nfield({ label, help, error, required, rules }, control)   // validates on change`,
         col(

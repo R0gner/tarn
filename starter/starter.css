@@ -1,7 +1,8 @@
 /* tarn · starter page: placement only, tokens only. Everything else comes from css/core.css. */
-.st-header { display: flex; align-items: center; gap: var(--tn-s3); padding: var(--tn-s3) var(--tn-s4); border-bottom: 1px solid var(--tn-sep); }
-.st-brand { display: inline-flex; align-items: center; gap: var(--tn-s2); font-size: var(--tn-fs-lg); font-weight: var(--tn-fw-strong); }
-.st-spacer { flex: 1; }
+/* Header: nothing shrinks or clips. The brand sits left, the controls right; when they do not fit in one row (comfortable on a phone) the language switch moves to a second row, right-aligned. */
+.st-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--tn-s2) var(--tn-s3); padding: var(--tn-s3) var(--tn-s4); border-bottom: 1px solid var(--tn-sep); }
+.st-brand { display: inline-flex; align-items: center; gap: var(--tn-s2); margin-right: auto; font-size: var(--tn-fs-lg); font-weight: var(--tn-fw-strong); white-space: nowrap; }
+.st-header > .tn-seg { flex: none; }
 .st-main { display: grid; gap: var(--tn-s5); max-width: calc(var(--tn-sz-480) * 1.5); margin: 0 auto; padding: var(--tn-s6) var(--tn-s4); }
 .st-intro { display: grid; gap: var(--tn-s2); }
 .st-title { font-size: var(--tn-fs-stat); line-height: 1.25; overflow-wrap: anywhere; }

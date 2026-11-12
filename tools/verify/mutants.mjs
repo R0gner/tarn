@@ -106,6 +106,12 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // earlier starter fault: the language switch shrinks in a full header row and scrolls sideways (comfortable phone: “Deutsch” cut off)
+    id: 'segmented-squeezed',
+    page: 'starter-comfortable', views: ['page'], sizes: ['phone-s'], expect: ['scroll-x'],
+    css: '.st-header { flex-wrap: nowrap; } .st-header > .tn-seg { flex: 0 1 auto; min-width: 0; }',
+  },
+  {
     // a second submit while the first one runs is not ignored: the action is sent twice
     id: 'double-submit',
     check: 'overlay', scenarios: ['form-submit'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

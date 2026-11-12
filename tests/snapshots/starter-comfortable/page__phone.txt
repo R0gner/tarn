@@ -1,50 +1,50 @@
 # starter-comfortable #/page · phone 390×844 · dunkel
-header @0,0 392x92
-  button.tn-iconbtn "Help" @152,20 48x48
-    svg.tn-icon @168,36 20x20
-  div.tn-seg.tn-seg-sm [radiogroup] "Language" @216,16 152x60
-    button.tn-seg-btn [radio] {checked=true} @220,20 76x48
-    button.tn-seg-btn [radio] {checked=false} @300,20 84x48
-main @0,92 392x1164
-  h1 "A plain page built from the Tarn core" @20,124 352x72
-  p [status] @20,292 352x24
-    span.tn-dot.tn-s-ok [img] "OK" @20,300 12x12
-    span.tn-badge.tn-badge-info "core only" @204,292 76x24
-  button.tn-btn.tn-btn-primary @20,340 172x48
-    svg.tn-icon @52,352 20x20
-  button.tn-btn.tn-btn-default @204,340 168x48
-  button.tn-btn.tn-btn-ghost @20,400 352x48
-  h2 "Contact us" @40,492 308x28
-  form.tn-form @40,540 308x592
-    div.tn-field @40,540 308x76
-      label.tn-field-label @40,540 308x20
-        span.tn-field-req "*" @120,540 8x20
-      div.tn-inputbox @40,568 308x52
-        input.tn-input-el @56,572 284x48
-    div.tn-field @40,640 308x104
-      label.tn-field-label @40,640 308x20
-        span.tn-field-req "*" @144,640 8x20
-      div.tn-inputbox @40,668 308x52
-        input.tn-input-el @56,668 284x48
-      div.tn-field-help "We only use it to reply." @40,724 308x20
-    div.tn-field @40,764 308x76
-      label.tn-field-label @40,764 308x20
-      div.tn-inputbox.tn-selectbox @40,792 308x52
-        select.tn-select-el @56,792 284x48
-        svg.tn-icon @316,808 20x20
-    div.tn-field @40,864 308x132
-      label.tn-field-label @40,864 308x20
-        span.tn-field-req "*" @108,864 8x20
-      div.tn-inputbox.is-multiline @40,892 308x104
-        textarea.tn-input-el @56,904 284x80
-    div.tn-field @40,1016 308x52
-      label.tn-tick.tn-check @40,1016 308x52
-        input.tn-tick-input @40,1016 0x0
-        span.tn-check-box @40,1024 28x28
-          svg.tn-icon @48,1032 12x12
-          svg.tn-icon @48,1032 12x12
-        span.tn-tick-text @80,1028 128x24
-          span.tn-tick-label "Send me a copy" @80,1028 128x24
-    div.tn-form-actions @40,1084 308x48
-      button.tn-btn.tn-btn-primary @212,1084 140x48
-  button.tn-btn.tn-btn-danger @40,1152 308x48
+header @0,0 392x152
+  button.tn-iconbtn "Help" @324,16 48x48
+    svg.tn-icon @336,32 20x20
+  div.tn-seg.tn-seg-sm [radiogroup] "Language" @200,76 168x60
+    button.tn-seg-btn [radio] {checked=true} @204,80 76x48
+    button.tn-seg-btn [radio] {checked=false} @284,80 84x48
+main @0,152 392x1164
+  h1 "A plain page built from the Tarn core" @20,184 352x72
+  p [status] @20,352 352x24
+    span.tn-dot.tn-s-ok [img] "OK" @20,360 12x12
+    span.tn-badge.tn-badge-info "core only" @204,352 76x24
+  button.tn-btn.tn-btn-primary @20,400 172x48
+    svg.tn-icon @52,412 20x20
+  button.tn-btn.tn-btn-default @204,400 168x48
+  button.tn-btn.tn-btn-ghost @20,460 352x48
+  h2 "Contact us" @40,552 308x28
+  form.tn-form @40,600 308x592
+    div.tn-field @40,600 308x76
+      label.tn-field-label @40,600 308x20
+        span.tn-field-req "*" @120,600 8x20
+      div.tn-inputbox @40,628 308x52
+        input.tn-input-el @56,632 284x48
+    div.tn-field @40,700 308x104
+      label.tn-field-label @40,700 308x20
+        span.tn-field-req "*" @144,700 8x20
+      div.tn-inputbox @40,728 308x52
+        input.tn-input-el @56,728 284x48
+      div.tn-field-help "We only use it to reply." @40,784 308x20
+    div.tn-field @40,824 308x76
+      label.tn-field-label @40,824 308x20
+      div.tn-inputbox.tn-selectbox @40,852 308x52
+        select.tn-select-el @56,852 284x48
+        svg.tn-icon @316,868 20x20
+    div.tn-field @40,924 308x132
+      label.tn-field-label @40,924 308x20
+        span.tn-field-req "*" @108,924 8x20
+      div.tn-inputbox.is-multiline @40,952 308x104
+        textarea.tn-input-el @56,964 284x80
+    div.tn-field @40,1076 308x52
+      label.tn-tick.tn-check @40,1076 308x52
+        input.tn-tick-input @40,1076 0x0
+        span.tn-check-box @40,1084 28x28
+          svg.tn-icon @48,1092 12x12
+          svg.tn-icon @48,1092 12x12
+        span.tn-tick-text @80,1088 128x24
+          span.tn-tick-label "Send me a copy" @80,1088 128x24
+    div.tn-form-actions @40,1144 308x48
+      button.tn-btn.tn-btn-primary @212,1144 140x48
+  button.tn-btn.tn-btn-danger @40,1212 308x48

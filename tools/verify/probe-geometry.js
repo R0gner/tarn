@@ -73,6 +73,12 @@
     push(findings, { rule: 'page', sel: culprit ? path(culprit) : 'html', where: culprit ? where(culprit) : '', px: de.scrollWidth - VW, text: `page ${de.scrollWidth} px wide, viewport ${VW} px` });
   }
 
+  /* ---- scroll-x: a segmented control shows all its options; one that was squeezed scrolls sideways and hides some (.tn-seg has overflow-x: auto as a last resort) ---- */
+  for (const el of document.querySelectorAll('.tn-seg')) {
+    if (ignored(el) || !visible(el)) continue;
+    if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `segmented control scrolls sideways, options hidden (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
+  }
+
   /* ---- identity: every board has a favicon and a meaningful title “View · Board” ---- */
   if (!document.head.querySelector('link[rel~="icon"][href]')) push(findings, { rule: 'identity', sel: 'head', where: '', text: 'no <link rel="icon"> (every board has its own favicon)' });
   if (!/\S.*·.*\S/.test(document.title)) push(findings, { rule: 'identity', sel: 'head > title', where: '', text: `title “${document.title}” is not “View · Board”` });

@@ -1,5 +1,5 @@
 # gallery-comfortable #/inputs · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x2596
+div.tn-app @0,0 1424x2620
   aside.tn-sidebar @0,0 280x900
     div.tn-sidebar-head @12,0 240x24
       div.tn-brand @24,0 136x24
@@ -58,7 +58,7 @@ div.tn-app @0,0 1424x2596
         svg.tn-icon @24,888 20x20
         span.tn-ellipsis "Shell and boards" @56,884 136x24
   div.tn-scrim @0,0 1424x900
-  div.tn-main @280,0 1144x2596
+  div.tn-main @280,0 1144x2620
     header.tn-toolbar @280,0 1144x56
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @292,4 48x48
         svg.tn-icon @308,16 20x20
@@ -73,217 +73,217 @@ div.tn-app @0,0 1424x2596
         svg.tn-icon @1320,16 20x20
       button.tn-iconbtn "Appearance: System (switch)" @1360,4 48x48
         svg.tn-icon @1376,16 20x20
-    main.tn-content @280,56 1144x2540
-      section.tn-card @300,172 544x760
-        header.tn-card-head @300,176 540x48
-          div.tn-card-heading @316,188 508x24
-            h3.tn-card-title "textField()" @316,188 508x24
-        div.tn-card-body @300,224 540x712
-          div.tn-field @316,240 508x104
-            label.tn-field-label @316,240 508x20
-            div.tn-inputbox @316,268 508x52
-              input.tn-input-el @332,268 484x48
-            div.tn-field-help "Shown in the job list." @316,324 508x20
-          div.tn-field @316,364 508x76
-            label.tn-field-label @316,364 508x20
-              span.tn-field-req "*" @380,364 8x20
-            div.tn-inputbox @316,388 508x52
-              span.tn-input-affix "https://" @332,404 52x20
-              input.tn-input-el @392,392 420x48
-          div.tn-field @316,456 508x104
-            label.tn-field-label @316,456 508x20
-              span.tn-field-req "*" @380,456 8x20
-            div.tn-inputbox.is-invalid @316,484 508x52
-              input.tn-input-el @332,484 484x48
-            div.tn-field-error @316,540 508x20
-              svg.tn-icon @316,544 12x12
-          div.tn-field @316,576 508x76
-            label.tn-field-label @316,576 508x20
-            div.tn-inputbox.is-disabled @316,604 508x52
-              input.tn-input-el @332,608 484x48
-          div.tn-field @316,672 508x128
-            label.tn-field-label @316,672 508x20
-            div.tn-inputbox.is-multiline @316,700 508x100
-              textarea.tn-input-el @332,712 484x72
-      section.tn-card @864,172 544x636
-        header.tn-card-head @864,176 540x48
-          div.tn-card-heading @880,188 508x24
-            h3.tn-card-title "numberField()" @880,188 508x24
-        div.tn-card-body @864,224 540x588
-          div.tn-field @880,240 508x104
-            label.tn-field-label @880,240 508x20
-            div.tn-inputbox @880,268 508x52
-              input.tn-input-el.tn-num @892,268 444x48
-              span.tn-input-affix "min" @1348,284 24x20
-            div.tn-field-help "Between 1 and 120." @880,324 508x20
-          div.tn-field @880,364 508x104
-            label.tn-field-label @880,364 508x20
-              span.tn-field-req "*" @956,364 8x20
-            div.tn-inputbox.is-invalid @880,388 508x52
-              input.tn-input-el.tn-num @892,392 448x48
-              span.tn-input-affix "GB" @1352,404 20x20
-            div.tn-field-error @880,444 508x20
-              svg.tn-icon @880,452 12x12
-          div.tn-field @880,484 508x76
-            label.tn-field-label @880,484 508x20
-            div.tn-inputbox @880,512 508x52
-              input.tn-input-el.tn-num @892,512 484x48
-          div.tn-field @880,576 508x76
-            label.tn-field-label @880,576 508x20
-            div.tn-inputbox.is-disabled @880,604 508x52
-              input.tn-input-el.tn-num @892,608 448x48
-              span.tn-input-affix "GB" @1352,620 20x20
-      section.tn-card @300,960 544x456
-        header.tn-card-head @300,960 540x48
-          div.tn-card-heading @316,972 508x24
-            h3.tn-card-title "select()" @316,972 508x24
-        div.tn-card-body @300,1012 540x408
-          div.tn-field @316,1028 508x76
-            label.tn-field-label @316,1028 508x20
-            div.tn-inputbox.tn-selectbox @316,1056 508x52
-              select.tn-select-el @332,1056 484x48
-              svg.tn-icon @792,1068 20x20
-          div.tn-field @316,1120 508x104
-            label.tn-field-label @316,1120 508x20
-              span.tn-field-req "*" @380,1120 8x20
-            div.tn-inputbox.tn-selectbox.is-invalid @316,1148 508x52
-              select.tn-select-el @332,1148 484x48
-              svg.tn-icon @792,1164 20x20
-            div.tn-field-error @316,1204 508x20
-              svg.tn-icon @316,1208 12x12
-          div.tn-field @316,1240 508x76
-            label.tn-field-label @316,1240 508x20
-            div.tn-inputbox.tn-selectbox.is-disabled @316,1268 508x52
-              select.tn-select-el @332,1272 484x48
-              svg.tn-icon @792,1284 20x20
-      section.tn-card @864,960 544x656
-        header.tn-card-head @864,960 540x48
-          div.tn-card-heading @880,972 508x24
-            h3.tn-card-title "combobox()" @880,972 508x24
-        div.tn-card-body @864,1012 540x604
-          div.tn-field @880,1028 508x76
-            label.tn-field-label @880,1028 508x20
-            div.tn-inputbox.tn-combobox @880,1056 508x52
-              button.tn-combo-btn {expanded=false} @892,1056 484x48
-                span.tn-combo-face.tn-ellipsis "delta" @892,1068 452x24
-                svg.tn-icon @1356,1068 20x20
-          div.tn-field @880,1120 508x76
-            label.tn-field-label @880,1120 508x20
-            div.tn-inputbox.tn-combobox @880,1148 508x52
-              button.tn-combo-btn {expanded=false} @892,1148 484x48
-                span.tn-combo-face.tn-ellipsis "3 selected" @892,1160 452x24
-                svg.tn-icon @1356,1164 20x20
-          div.tn-field @880,1212 508x76
-            label.tn-field-label @880,1212 508x20
-            div.tn-inputbox.tn-combobox @880,1240 508x52
-              button.tn-combo-btn {expanded=false} @892,1244 484x48
-                span.tn-combo-face.tn-ellipsis.is-placeholder "Any host" @892,1256 452x24
-                svg.tn-icon @1356,1256 20x20
-          div.tn-field @880,1308 508x76
-            label.tn-field-label @880,1308 508x20
-            div.tn-inputbox.tn-combobox.is-disabled @880,1336 508x52
-              button.tn-combo-btn {expanded=false} @892,1336 484x48
-                span.tn-combo-face.tn-ellipsis "iris" @892,1348 452x24
-                svg.tn-icon @1356,1352 20x20
-      section.tn-card @300,1640 544x668
-        header.tn-card-head @300,1640 540x48
-          div.tn-card-heading @316,1652 508x24
-            h3.tn-card-title "checkbox() and toggle()" @316,1652 508x24
-        div.tn-card-body @300,1692 540x616
-          label.tn-tick.tn-check @316,1708 508x60
-            input.tn-tick-input @316,1708 0x0
-            span.tn-check-box @316,1724 28x28
-              svg.tn-icon @324,1732 12x12
-              svg.tn-icon @324,1732 12x12
-            span.tn-tick-text @356,1712 300x48
-              span.tn-tick-label "Dry run" @356,1712 300x24
-              span.tn-tick-help "Simulate the deployment, change nothing." @356,1740 300x20
-          label.tn-tick.tn-check @316,1780 508x52
-            input.tn-tick-input @316,1780 0x0
-            span.tn-check-box @316,1792 28x28
-              svg.tn-icon @324,1800 12x12
-              svg.tn-icon @324,1800 12x12
-            span.tn-tick-text @356,1796 80x24
-              span.tn-tick-label "Notify me" @356,1796 80x24
-          label.tn-tick.tn-check.is-mixed @316,1848 508x52
-            input.tn-tick-input @316,1848 0x0
-            span.tn-check-box @316,1860 28x28
-              svg.tn-icon @324,1868 12x12
-              svg.tn-icon @324,1868 12x12
-            span.tn-tick-text @356,1860 96x24
-              span.tn-tick-label "Some hosts" @356,1860 96x24
-          label.tn-tick.tn-check.is-disabled @316,1912 508x52
-            input.tn-tick-input @316,1912 0x0
-            span.tn-check-box @316,1924 28x28
-              svg.tn-icon @324,1932 12x12
-              svg.tn-icon @324,1932 12x12
-            span.tn-tick-text @356,1928 68x24
-              span.tn-tick-label "Disabled" @356,1928 68x24
-          label.tn-tick.tn-toggle @316,1980 508x52
-            input.tn-tick-input [switch] @316,1980 0x0
-            span.tn-toggle-track @316,1992 48x28
-              span.tn-toggle-thumb @340,1996 20x20
-            span.tn-tick-text @376,1992 152x24
-              span.tn-tick-label "Maintenance mode" @376,1992 152x24
-          label.tn-tick.tn-toggle @316,2044 508x60
-            input.tn-tick-input [switch] @316,2044 0x0
-            span.tn-toggle-track @316,2060 48x28
-              span.tn-toggle-thumb @320,2064 20x20
-            span.tn-tick-text @376,2052 192x48
-              span.tn-tick-label "Alerts" @376,2052 192x24
-              span.tn-tick-help "Send a message on failure." @376,2076 192x20
-          label.tn-tick.tn-toggle.is-disabled @316,2120 508x52
-            input.tn-tick-input [switch] @316,2120 0x0
-            span.tn-toggle-track @316,2132 48x28
-              span.tn-toggle-thumb @320,2136 20x20
-            span.tn-tick-text @376,2132 68x24
-              span.tn-tick-label "Disabled" @376,2132 68x24
-      section.tn-card @864,1640 544x740
-        header.tn-card-head @864,1640 540x48
-          div.tn-card-heading @880,1652 508x24
-            h3.tn-card-title "dateField() and dateRange()" @880,1652 508x24
-        div.tn-card-body @864,1692 540x688
-          div.tn-field @880,1708 508x76
-            label.tn-field-label @880,1708 508x20
-            div.tn-inputbox.tn-datebox @880,1736 508x52
-              input.tn-input-el.tn-num @892,1736 484x48
-          div.tn-field @880,1800 508x104
-            label.tn-field-label @880,1800 508x20
-            div.tn-inputbox.tn-datebox @880,1828 508x52
-              input.tn-input-el.tn-num @892,1828 484x48
-            div.tn-field-help "Date and time." @880,1884 508x20
-          div.tn-field @880,1920 508x164
-            label.tn-field-label @880,1920 508x20
-            div.tn-daterange [group] @880,1948 508x136
-              div.tn-daterange-row @880,1948 508x76
-                label.tn-daterange-col @880,1948 248x76
-                  span.tn-field-label "From" @880,1948 248x20
-                  div.tn-inputbox.tn-datebox @880,1976 248x52
-                    input.tn-input-el.tn-num "From" @892,1980 224x48
-                label.tn-daterange-col @1140,1948 248x76
-                  span.tn-field-label "To" @1140,1948 248x20
-                  div.tn-inputbox.tn-datebox @1140,1976 248x52
-                    input.tn-input-el.tn-num "To" @1152,1980 224x48
-              div.tn-pills @880,2040 508x48
-                button.tn-pill "Today" @880,2040 80x48
-                button.tn-pill.is-on "7 days" @964,2040 80x48
-                button.tn-pill "30 days" @1056,2040 92x48
-                button.tn-pill "This month" @1156,2040 116x48
-          div.tn-field @880,2104 508x140
-            label.tn-field-label @880,2104 508x20
-            div.tn-daterange [group] @880,2132 508x112
-              div.tn-daterange-row @880,2132 508x76
-                label.tn-daterange-col @880,2132 248x76
-                  span.tn-field-label "From" @880,2132 248x20
-                  div.tn-inputbox.tn-datebox.is-invalid @880,2160 248x52
-                    input.tn-input-el.tn-num "From" @892,2160 224x48
-                label.tn-daterange-col @1140,2132 248x76
-                  span.tn-field-label "To" @1140,2132 248x20
-                  div.tn-inputbox.tn-datebox.is-invalid @1140,2160 248x52
-                    input.tn-input-el.tn-num "To" @1152,2160 224x48
-              div.tn-field-error @880,2220 508x20
-                svg.tn-icon @880,2224 12x12
-      section.tn-section @300,2404 1104x152
-        header.tn-section-head @300,2404 1104x24
-          h2.tn-section-title "In a sheet" @304,2404 1100x20
-        button.tn-btn.tn-btn-default @300,2508 200x48
+    main.tn-content @280,56 1144x2564
+      section.tn-card @300,200 544x760
+        header.tn-card-head @300,200 540x48
+          div.tn-card-heading @316,212 508x24
+            h3.tn-card-title "textField()" @316,212 508x24
+        div.tn-card-body @300,248 540x712
+          div.tn-field @316,264 508x104
+            label.tn-field-label @316,264 508x20
+            div.tn-inputbox @316,292 508x52
+              input.tn-input-el @332,292 484x48
+            div.tn-field-help "Shown in the job list." @316,348 508x20
+          div.tn-field @316,388 508x76
+            label.tn-field-label @316,388 508x20
+              span.tn-field-req "*" @380,388 8x20
+            div.tn-inputbox @316,416 508x52
+              span.tn-input-affix "https://" @332,428 52x20
+              input.tn-input-el @392,416 420x48
+          div.tn-field @316,480 508x104
+            label.tn-field-label @316,480 508x20
+              span.tn-field-req "*" @380,480 8x20
+            div.tn-inputbox.is-invalid @316,508 508x52
+              input.tn-input-el @332,508 484x48
+            div.tn-field-error @316,564 508x20
+              svg.tn-icon @316,568 12x12
+          div.tn-field @316,600 508x76
+            label.tn-field-label @316,600 508x20
+            div.tn-inputbox.is-disabled @316,628 508x52
+              input.tn-input-el @332,632 484x48
+          div.tn-field @316,696 508x128
+            label.tn-field-label @316,696 508x20
+            div.tn-inputbox.is-multiline @316,724 508x100
+              textarea.tn-input-el @332,736 484x72
+      section.tn-card @864,200 544x636
+        header.tn-card-head @864,200 540x48
+          div.tn-card-heading @880,212 508x24
+            h3.tn-card-title "numberField()" @880,212 508x24
+        div.tn-card-body @864,248 540x588
+          div.tn-field @880,264 508x104
+            label.tn-field-label @880,264 508x20
+            div.tn-inputbox @880,292 508x52
+              input.tn-input-el.tn-num @892,292 444x48
+              span.tn-input-affix "min" @1348,308 24x20
+            div.tn-field-help "Between 1 and 120." @880,348 508x20
+          div.tn-field @880,388 508x104
+            label.tn-field-label @880,388 508x20
+              span.tn-field-req "*" @956,388 8x20
+            div.tn-inputbox.is-invalid @880,416 508x52
+              input.tn-input-el.tn-num @892,416 448x48
+              span.tn-input-affix "GB" @1352,428 20x20
+            div.tn-field-error @880,472 508x20
+              svg.tn-icon @880,476 12x12
+          div.tn-field @880,508 508x76
+            label.tn-field-label @880,508 508x20
+            div.tn-inputbox @880,536 508x52
+              input.tn-input-el.tn-num @892,536 484x48
+          div.tn-field @880,600 508x76
+            label.tn-field-label @880,600 508x20
+            div.tn-inputbox.is-disabled @880,628 508x52
+              input.tn-input-el.tn-num @892,632 448x48
+              span.tn-input-affix "GB" @1352,644 20x20
+      section.tn-card @300,984 544x456
+        header.tn-card-head @300,984 540x48
+          div.tn-card-heading @316,996 508x24
+            h3.tn-card-title "select()" @316,996 508x24
+        div.tn-card-body @300,1036 540x408
+          div.tn-field @316,1052 508x76
+            label.tn-field-label @316,1052 508x20
+            div.tn-inputbox.tn-selectbox @316,1080 508x52
+              select.tn-select-el @332,1080 484x48
+              svg.tn-icon @792,1092 20x20
+          div.tn-field @316,1144 508x104
+            label.tn-field-label @316,1144 508x20
+              span.tn-field-req "*" @380,1144 8x20
+            div.tn-inputbox.tn-selectbox.is-invalid @316,1172 508x52
+              select.tn-select-el @332,1172 484x48
+              svg.tn-icon @792,1188 20x20
+            div.tn-field-error @316,1228 508x20
+              svg.tn-icon @316,1232 12x12
+          div.tn-field @316,1268 508x76
+            label.tn-field-label @316,1268 508x20
+            div.tn-inputbox.tn-selectbox.is-disabled @316,1296 508x52
+              select.tn-select-el @332,1296 484x48
+              svg.tn-icon @792,1308 20x20
+      section.tn-card @864,984 544x656
+        header.tn-card-head @864,984 540x48
+          div.tn-card-heading @880,996 508x24
+            h3.tn-card-title "combobox()" @880,996 508x24
+        div.tn-card-body @864,1036 540x604
+          div.tn-field @880,1052 508x76
+            label.tn-field-label @880,1052 508x20
+            div.tn-inputbox.tn-combobox @880,1080 508x52
+              button.tn-combo-btn {expanded=false} @892,1080 484x48
+                span.tn-combo-face.tn-ellipsis "delta" @892,1092 452x24
+                svg.tn-icon @1356,1092 20x20
+          div.tn-field @880,1144 508x76
+            label.tn-field-label @880,1144 508x20
+            div.tn-inputbox.tn-combobox @880,1172 508x52
+              button.tn-combo-btn {expanded=false} @892,1172 484x48
+                span.tn-combo-face.tn-ellipsis "3 selected" @892,1184 452x24
+                svg.tn-icon @1356,1188 20x20
+          div.tn-field @880,1240 508x76
+            label.tn-field-label @880,1240 508x20
+            div.tn-inputbox.tn-combobox @880,1268 508x52
+              button.tn-combo-btn {expanded=false} @892,1268 484x48
+                span.tn-combo-face.tn-ellipsis.is-placeholder "Any host" @892,1280 452x24
+                svg.tn-icon @1356,1280 20x20
+          div.tn-field @880,1332 508x76
+            label.tn-field-label @880,1332 508x20
+            div.tn-inputbox.tn-combobox.is-disabled @880,1360 508x52
+              button.tn-combo-btn {expanded=false} @892,1360 484x48
+                span.tn-combo-face.tn-ellipsis "iris" @892,1372 452x24
+                svg.tn-icon @1356,1376 20x20
+      section.tn-card @300,1664 544x668
+        header.tn-card-head @300,1664 540x48
+          div.tn-card-heading @316,1676 508x24
+            h3.tn-card-title "checkbox() and toggle()" @316,1676 508x24
+        div.tn-card-body @300,1716 540x616
+          label.tn-tick.tn-check @316,1732 508x60
+            input.tn-tick-input @316,1732 0x0
+            span.tn-check-box @316,1748 28x28
+              svg.tn-icon @324,1756 12x12
+              svg.tn-icon @324,1756 12x12
+            span.tn-tick-text @356,1736 300x48
+              span.tn-tick-label "Dry run" @356,1736 300x24
+              span.tn-tick-help "Simulate the deployment, change nothing." @356,1764 300x20
+          label.tn-tick.tn-check @316,1808 508x52
+            input.tn-tick-input @316,1808 0x0
+            span.tn-check-box @316,1816 28x28
+              svg.tn-icon @324,1824 12x12
+              svg.tn-icon @324,1824 12x12
+            span.tn-tick-text @356,1820 80x24
+              span.tn-tick-label "Notify me" @356,1820 80x24
+          label.tn-tick.tn-check.is-mixed @316,1872 508x52
+            input.tn-tick-input @316,1872 0x0
+            span.tn-check-box @316,1884 28x28
+              svg.tn-icon @324,1892 12x12
+              svg.tn-icon @324,1892 12x12
+            span.tn-tick-text @356,1884 96x24
+              span.tn-tick-label "Some hosts" @356,1884 96x24
+          label.tn-tick.tn-check.is-disabled @316,1940 508x52
+            input.tn-tick-input @316,1940 0x0
+            span.tn-check-box @316,1948 28x28
+              svg.tn-icon @324,1956 12x12
+              svg.tn-icon @324,1956 12x12
+            span.tn-tick-text @356,1952 68x24
+              span.tn-tick-label "Disabled" @356,1952 68x24
+          label.tn-tick.tn-toggle @316,2004 508x52
+            input.tn-tick-input [switch] @316,2004 0x0
+            span.tn-toggle-track @316,2016 48x28
+              span.tn-toggle-thumb @340,2020 20x20
+            span.tn-tick-text @376,2016 152x24
+              span.tn-tick-label "Maintenance mode" @376,2016 152x24
+          label.tn-tick.tn-toggle @316,2072 508x60
+            input.tn-tick-input [switch] @316,2072 0x0
+            span.tn-toggle-track @316,2088 48x28
+              span.tn-toggle-thumb @320,2092 20x20
+            span.tn-tick-text @376,2076 192x48
+              span.tn-tick-label "Alerts" @376,2076 192x24
+              span.tn-tick-help "Send a message on failure." @376,2104 192x20
+          label.tn-tick.tn-toggle.is-disabled @316,2144 508x52
+            input.tn-tick-input [switch] @316,2144 0x0
+            span.tn-toggle-track @316,2156 48x28
+              span.tn-toggle-thumb @320,2160 20x20
+            span.tn-tick-text @376,2160 68x24
+              span.tn-tick-label "Disabled" @376,2160 68x24
+      section.tn-card @864,1664 544x740
+        header.tn-card-head @864,1664 540x48
+          div.tn-card-heading @880,1676 508x24
+            h3.tn-card-title "dateField() and dateRange()" @880,1676 508x24
+        div.tn-card-body @864,1716 540x688
+          div.tn-field @880,1732 508x76
+            label.tn-field-label @880,1732 508x20
+            div.tn-inputbox.tn-datebox @880,1760 508x52
+              input.tn-input-el.tn-num @892,1760 484x48
+          div.tn-field @880,1824 508x104
+            label.tn-field-label @880,1824 508x20
+            div.tn-inputbox.tn-datebox @880,1852 508x52
+              input.tn-input-el.tn-num @892,1852 484x48
+            div.tn-field-help "Date and time." @880,1908 508x20
+          div.tn-field @880,1948 508x164
+            label.tn-field-label @880,1948 508x20
+            div.tn-daterange [group] @880,1976 508x136
+              div.tn-daterange-row @880,1976 508x76
+                label.tn-daterange-col @880,1976 248x76
+                  span.tn-field-label "From" @880,1976 248x20
+                  div.tn-inputbox.tn-datebox @880,2000 248x52
+                    input.tn-input-el.tn-num "From" @892,2004 224x48
+                label.tn-daterange-col @1140,1976 248x76
+                  span.tn-field-label "To" @1140,1976 248x20
+                  div.tn-inputbox.tn-datebox @1140,2000 248x52
+                    input.tn-input-el.tn-num "To" @1152,2004 224x48
+              div.tn-pills @880,2064 508x48
+                button.tn-pill "Today" @880,2064 80x48
+                button.tn-pill.is-on "7 days" @964,2064 80x48
+                button.tn-pill "30 days" @1056,2064 92x48
+                button.tn-pill "This month" @1156,2064 116x48
+          div.tn-field @880,2128 508x140
+            label.tn-field-label @880,2128 508x20
+            div.tn-daterange [group] @880,2156 508x112
+              div.tn-daterange-row @880,2156 508x76
+                label.tn-daterange-col @880,2156 248x76
+                  span.tn-field-label "From" @880,2156 248x20
+                  div.tn-inputbox.tn-datebox.is-invalid @880,2184 248x52
+                    input.tn-input-el.tn-num "From" @892,2184 224x48
+                label.tn-daterange-col @1140,2156 248x76
+                  span.tn-field-label "To" @1140,2156 248x20
+                  div.tn-inputbox.tn-datebox.is-invalid @1140,2184 248x52
+                    input.tn-input-el.tn-num "To" @1152,2184 224x48
+              div.tn-field-error @880,2244 508x20
+                svg.tn-icon @880,2252 12x12
+      section.tn-section @300,2428 1104x152
+        header.tn-section-head @300,2428 1104x24
+          h2.tn-section-title "In a sheet" @304,2428 1100x20
+        button.tn-btn.tn-btn-default @300,2532 200x48

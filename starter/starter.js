@@ -33,7 +33,6 @@ function render() {
   mount(document.body,
     h('header', { class: 'st-header' },
       h('span', { class: 'st-brand' }, t('starter.brand')),
-      h('span', { class: 'st-spacer' }),
       iconButton('info', { label: t('starter.btn.help') }),
       segmented({ options: LANGS, value: lang, label: t('starter.lang'), small: true, onChange: (l) => { setLocale(l); render(); } })),
     h('main', { class: 'st-main' },
