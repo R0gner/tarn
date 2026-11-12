@@ -57,6 +57,9 @@ Round 4, stage R: renamed from dashkit.
   with a fine pointer. Inset and travel are derived with `calc()` from the track tokens (`--tn-toggle-w/-h/-thumb`; `--tn-toggle-go` is gone); the thumb
   keeps the same inset on all four sides in both states (deliberate pixel change in compact: fine thumb 12 → 10 px; one gallery phone snapshot changed).
   New verify rule `contained` (toggle thumb and determinate progress fill lie inside their track, in the state shown) and selftest mutant `toggle-thumb-leaves-track`.
+- Fixed: on the starter page in comfortable density on a phone the language switch was squeezed and scrolled sideways (an option was cut off). The header
+  wraps now (brand left, controls right, the switch moves to a second row). New verify finding under `scroll-x`: a segmented control must show all
+  its options; selftest mutant `segmented-squeezed`.
 - Locale catalogs split: `js/locales/<lang>.js` core texts (37 keys), `<lang>-shell.js` shell texts (98 keys), merged by `js/locales/shell.js`
   (`addKitMessages()`); `--profile core` and `@r0gner/tarn/core` ship only core texts. The full barrel is unchanged for boards.
 
