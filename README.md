@@ -39,17 +39,24 @@ charts, sheets, data source, router, `createApp`) builds on the core. Direction 
 
 | Part | Files | Provides |
 |---|---|---|
-| **core** | `css/tokens.css`, `fonts.css`, `base.css` | tokens, fonts, reset, focus, helper classes |
-| **core** | `js/version.js`, `theme-init.js`, `dom.js`, `press.js`, `overlay.js`, `format.js`, `i18n.js`, `locales/`, `icons.js`, `icons-data.js`, `favicon.js` | `h`, `icon`, `t`, `fmt*`, overlay layer, press feedback, theme/locale boot |
+| **core** | `css/tokens.css`, `fonts.css`, `base.css`, `core.css` | tokens, fonts, reset, focus, helper classes · button, badge, status dot, segmented, tabs, progress, tooltip, inputs, form |
+| **core** | `js/core.js` (entry point), `js/version.js`, `theme-init.js`, `dom.js`, `press.js`, `overlay.js`, `format.js`, `i18n.js`, `locales/`, `icons.js`, `icons-data.js`, `favicon.js` | `h`, `icon`, `t`, `fmt*`, overlay layer, press feedback, theme/locale boot |
 | **core** | `js/primitives.js` | `button`, `iconButton`, `badge`, `statusDot` |
 | **core** | `js/controls.js` | `segmented`, `tabs`, `progress`, `tooltip` |
 | **core** | `js/inputs.js`, `inputs-data.js`, `form.js` | `field`, `textField`, `numberField`, `select`, `combobox`, `checkbox`, `toggle`, `dateField`, `dateRange`, `form`, validation |
-| **shell** | `css/components.css`, `charts.css` | shell, cards, rows, table, sheet, charts |
+| **shell** | `css/components.css`, `charts.css` | app shell, cards, rows, table, sheet, confirm · log, toast, usage bar, menu, charts |
 | **shell** | `js/tarn.js` | the barrel: core and shell together |
 | **shell** | `js/components.js` | `card`, `section`, `statTile`, `metricRow`, `list`, `kv`, `facts`, `banner`, `empty`, `error`, `loading`, `tiles`, `toolbarRow`, `cols`, `stack` |
 | **shell** | `js/widgets.js` | `log`, `toast`, `usageBar`, `menu` |
 | **shell** | `js/table.js`, `filterbar.js`, `filters-data.js`, `confirm.js`, `actionrun.js`, `actions-data.js`, `sheet.js`, `datacard.js`, `markdown.js` | `table`, `filterBar`, `confirm`, `actionRun`, `openSheet`, `dataCard`, `markdown` |
 | **shell** | `js/data.js`, `boards.js`, `boards-data.js`, `router.js`, `shell.js`, `charts/` | `dataSource`, board switcher, router, `createApp`, charts |
+
+Two entry points, two stylesheet sets:
+
+| Page type | Scripts and styles | Import |
+|---|---|---|
+| plain website (core only) | `theme-init.js`, `css/tokens.css`, `fonts.css`, `base.css`, `core.css` | `import { button, field, textField, form, t, icon } from '/tarn/js/core.js'` |
+| board (core + shell) | the same plus `css/components.css`, `charts.css` | `import { createApp, card, table, … } from '/tarn/js/tarn.js'` (re-exports `core.js`) |
 
 The kit texts of the shell (`shell.*`, `table.*`, …) sit in the same locale catalogs as the core texts; a page that uses only the core simply never asks for them.
 
@@ -86,10 +93,10 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | Path | Contents |
 |---|---|
 | `css/tokens.css` | the only source of colours, status, accents, spacing (4 px grid), type, radii, motion, breakpoints |
-| `css/base.css`, `fonts.css`, `components.css`, `charts.css` | reset, focus, scrollbars · fonts · components and shell · controls and charts |
+| `css/base.css`, `fonts.css`, `core.css` (core) · `components.css`, `charts.css` (shell) | reset, focus, scrollbars · fonts · primitives and inputs · components and shell · log/toast/usage/menu and charts |
 | `fonts/` | Inter and IBM Plex Mono (woff2, OFL), sources and sha256 in `fonts/SOURCES.md` |
 | `icons/`, `js/icons.js`, `js/icons-data.js` | Lucide icons (fixed version, used ones only), `tools/icons.mjs` manages them |
-| `js/tarn.js`, `js/version.js`, `VERSION`, `CHANGELOG.md` | **the only import for boards** (barrel export, includes `VERSION`) · version · changes per version |
+| `js/tarn.js`, `js/core.js`, `js/version.js`, `VERSION`, `CHANGELOG.md` | **the only import for boards** (`tarn.js`, barrel with core and shell) · core entry point for plain pages (`core.js`) · version · changes per version |
 | `js/theme-init.js` | classic script in `<head>`, prevents a flash of the wrong scheme |
 | `js/shell.js`, `router.js` | app shell (sidebar, toolbar, inspector/panel/bottom sheet), hash router |
 | `js/primitives.js`, `controls.js` (core) · `components.js`, `widgets.js`, `table.js`, `filterbar.js`, `sheet.js`, `data.js` (shell) | primitives and core controls · components, data source |
@@ -151,6 +158,7 @@ The board server serves `GET /tarn/<path>` from `vendor/tarn/` (same path check 
 <link rel="stylesheet" href="/tarn/css/tokens.css">
 <link rel="stylesheet" href="/tarn/css/fonts.css">
 <link rel="stylesheet" href="/tarn/css/base.css">
+<link rel="stylesheet" href="/tarn/css/core.css">
 <link rel="stylesheet" href="/tarn/css/components.css">
 <link rel="stylesheet" href="/tarn/css/charts.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">

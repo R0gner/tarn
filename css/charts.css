@@ -1,39 +1,4 @@
-/* tarn · further controls (controls.js) and charts (js/charts/). Use tokens only. */
-
-/* ============ Segmented ============ */
-.tn-seg {
-  display: inline-flex; gap: var(--tn-sp-2); padding: var(--tn-sp-2); border-radius: var(--tn-r);
-  background: var(--tn-bg-sunken); border: 1px solid var(--tn-border); max-width: 100%; overflow-x: auto; scrollbar-width: none;
-}
-.tn-seg-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--tn-sp-6); flex: 1 0 auto;
-  min-height: calc(var(--tn-hit) - var(--tn-sz-6)); padding: 0 var(--tn-s3); border-radius: var(--tn-r-sm);
-  font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); white-space: nowrap;
-  touch-action: manipulation; user-select: none; -webkit-user-select: none;
-}
-.tn-seg-btn:hover { background: var(--tn-hover); color: var(--tn-text); }
-.tn-seg-btn:is(:active, .is-down) { background: var(--tn-press); }
-.tn-seg-btn[aria-checked="true"] { background: var(--tn-card); color: var(--tn-text); box-shadow: 0 0 0 1px var(--tn-border); }
-.tn-seg-sm .tn-seg-btn { min-height: var(--tn-sz-22); padding: 0 var(--tn-s2); }
-@media (pointer: coarse) { .tn-seg-sm .tn-seg-btn { min-height: var(--tn-sz-34); } }
-@media (pointer: coarse) { .tn-seg { padding-block: var(--tn-sp-3); } } /* hit area of the segments (≥ 40 px) sits inside the frame */
-
-/* ============ Tabs ============ */
-.tn-tabset { display: grid; gap: var(--tn-s3); min-width: 0; }
-.tn-tabs { display: flex; gap: var(--tn-s1); border-bottom: 1px solid var(--tn-sep); overflow-x: auto; scrollbar-width: none; min-width: 0; }
-.tn-tabs::-webkit-scrollbar { display: none; }
-.tn-tab {
-  position: relative; display: inline-flex; align-items: center; gap: var(--tn-sp-6); flex: none;
-  min-height: var(--tn-hit); padding: 0 var(--tn-s2); margin-bottom: calc(-1 * var(--tn-sp-1));
-  font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); border-radius: var(--tn-r-sm) var(--tn-r-sm) 0 0;
-  touch-action: manipulation;
-}
-.tn-tab:hover { color: var(--tn-text); background: var(--tn-hover); }
-.tn-tab:is(:active, .is-down) { background: var(--tn-press); }
-.tn-tab[aria-selected="true"] { color: var(--tn-text); }
-.tn-tab[aria-selected="true"]::after { content: ""; position: absolute; left: var(--tn-s2); right: var(--tn-s2); bottom: 0; height: var(--tn-sz-2); border-radius: var(--tn-r-1); background: var(--tn-text); }
-.tn-tab-count { font-size: var(--tn-fs-xs); color: var(--tn-text-3); font-variant-numeric: tabular-nums; }
-.tn-tabpanel { min-width: 0; }
+/* tarn · shell widgets (widgets.js: log, toast, usage bar, menu) and charts (js/charts/). Use tokens only. */
 
 /* ============ Log ============ */
 .tn-log {
@@ -85,18 +50,8 @@
   .tn-toasts { inset: auto var(--tn-s3) max(var(--tn-s3), env(safe-area-inset-bottom)) var(--tn-s3); max-width: none; align-items: stretch; }
 }
 
-/* ============ Progress, usage ============ */
-.tn-progress { position: relative; height: var(--tn-sz-6); border-radius: var(--tn-r-3); background: var(--tn-skeleton); overflow: hidden; }
-.tn-progress-fill { position: absolute; inset: 0; transform-origin: 0 50%; background: var(--tn-accent); border-radius: inherit; }
-.tn-tone-ok .tn-progress-fill { background: var(--tn-ok); }
-.tn-tone-warn .tn-progress-fill { background: var(--tn-warn); }
-.tn-tone-bad .tn-progress-fill { background: var(--tn-bad); }
-.tn-tone-info .tn-progress-fill { background: var(--tn-info); }
-.tn-progress.is-indeterminate .tn-progress-fill { animation: tn-indet var(--tn-t-loop-indet) var(--tn-ease) infinite; }
-@keyframes tn-indet { from { transform: translateX(-100%) scaleX(.3); } to { transform: translateX(100%) scaleX(.3); } }
-@media (prefers-reduced-motion: reduce) { .tn-progress.is-indeterminate .tn-progress-fill { animation: none; transform: scaleX(.3); } }
-.tn-progress-wrap, .tn-usage { display: grid; gap: var(--tn-sp-6); min-width: 0; }
-.tn-progress-head { display: flex; justify-content: space-between; gap: var(--tn-s2); font-size: var(--tn-fs-label); min-width: 0; }
+/* ============ Usage bar (progress itself: css/core.css) ============ */
+.tn-usage { display: grid; gap: var(--tn-sp-6); min-width: 0; }
 .tn-usage .tn-progress-head { flex-wrap: wrap; row-gap: 0; }
 .tn-usage-label { font-weight: var(--tn-fw-label); flex: 1 1 auto; min-width: var(--tn-sz-6em); }
 .tn-usage-val { color: var(--tn-text-2); min-width: 0; margin-left: auto; text-align: right; } /* may wrap when the row gets too narrow */
@@ -104,12 +59,7 @@
 .tn-usage-multi { display: flex; gap: var(--tn-sp-1); }
 .tn-usage-seg { height: 100%; background: var(--c); }
 
-/* ============ Tooltip, menu ============ */
-.tn-tooltip {
-  position: fixed; inset: 0 auto auto 0; z-index: calc(var(--tn-z-toast) + 1); pointer-events: none; margin: 0; border: 0; width: max-content; height: auto; overflow: visible;
-  max-width: var(--tn-sz-280); padding: var(--tn-s1) var(--tn-s2); border-radius: var(--tn-r-sm);
-  background: var(--tn-text); color: var(--tn-bg); font-size: var(--tn-fs-label); line-height: 1.35;
-}
+/* ============ Menu (tooltip: css/core.css) ============ */
 .tn-menu {
   position: fixed; inset: 0 auto auto 0; z-index: var(--tn-z-toast); margin: 0; width: max-content; height: auto; overflow: visible; min-width: var(--tn-sz-180); max-width: min(var(--tn-sz-320), calc(100vw - var(--tn-s2)));
   padding: var(--tn-s1); border-radius: var(--tn-r); background: var(--tn-popover); border: 1px solid var(--tn-border); color: var(--tn-text);
