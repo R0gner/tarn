@@ -3,6 +3,9 @@
 //
 //   node tools/shoot.mjs --out /path/outside/the/repo [options] URL [URL …]
 //
+// URL: without --attach a path like /starter/?lang=en or /gallery/#/inputs is answered from the repo by the own headless Chrome (CDP file
+// delivery, same bytes and CSP as tools/serve.py; no server needed, the sandbox may forbid connections). With --attach use full http://127.0.0.1:<port>/… URLs.
+//
 // One PNG per URL × size × theme. Reports console errors (including CSP, 404, exceptions) and horizontal
 // overflow. Exit code 1 on errors/overflow, 2 on usage errors.
 //
@@ -26,7 +29,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { openBrowser, emulate, sleep } from './lib/cdp.mjs';
+import { openBrowser, openHeadlessPages, FETCH_ORIGIN, emulate, sleep } from './lib/cdp.mjs';
 
 const SIZES = {
   phone: { w: 390, h: 844, dpr: 3, mobile: true },
@@ -106,7 +109,14 @@ async function main() {
   process.on('SIGINT', async () => { await cleanup(); process.exit(130); });
 
   try {
-    page = await openBrowser({ attach: o.attach, chrome: o.chrome, port: o.port, tmp: o.tmp, log: (t) => console.log(`shoot: ${t}`) });
+    if (o.attach) page = await openBrowser({ attach: o.attach, chrome: o.chrome, port: o.port, tmp: o.tmp, log: (t) => console.log(`shoot: ${t}`) });
+    else {
+      const own = await openHeadlessPages({ chrome: o.chrome, tmp: o.tmp, n: 1, root, log: (t) => console.log(`shoot: ${t}`) });
+      page = own.pages[0];
+      page.pid = own.pid;
+      page.close = own.close;                                   // stops exactly this Chrome and deletes its profile
+      o.urls = o.urls.map((u) => (u.startsWith('/') ? FETCH_ORIGIN + u : u));
+    }
     const S = (m, p) => page.send(m, p);
     await S('Page.enable'); await S('Runtime.enable'); await S('Log.enable');
     await S('Emulation.setTimezoneOverride', { timezoneId: 'Europe/Berlin' });
