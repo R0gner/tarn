@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lintCss, lintJs, lintHtml } from '../tools/lint.mjs';
+import { lintCss, lintJs, lintHtml, lintLegacy } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-lint-'));
@@ -49,4 +49,20 @@ test('JS: visible text must come from t()', () => {
   const r = run(lintJs, 'x.js', `h('button', { 'aria-label': 'Close panel' }, 'Save changes'); const o = { label: 'Müll', title: t('x.title'), sub: \`\${a}\` }; toast('Done now');
 const ok = { label: 'x', class: 'tn-btn', value: 'a-b' };`, { i18n: true });
   assert.deepEqual(r.filter((x) => x.startsWith('i18n')).sort(), ["i18n 'aria-label': „Close panel“", 'i18n label: „Müll“', 'i18n „Done now“', 'i18n „Müll“', 'i18n „Save changes“'].sort());
+});
+
+test('legacy: old name and prefix are found outside the allowed files', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-legacy-'));
+  const old = 'dash' + 'kit', pre = 'd' + 'k-';
+  try {
+    fs.writeFileSync(path.join(dir, 'a.css'), `.${pre}btn { color: var(--${pre}ok); }\n.tn-fine {}\n`);
+    fs.writeFileSync(path.join(dir, 'b.md'), `# ${old}\n`);
+    fs.writeFileSync(path.join(dir, 'CHANGELOG.md'), `renamed from ${old}\n`);
+    fs.mkdirSync(path.join(dir, 'js'));
+    fs.writeFileSync(path.join(dir, 'js', 'theme-init.js'), `localStorage.getItem('${pre}theme');\n`);
+    fs.writeFileSync(path.join(dir, `${old}.js`), '');
+    const out = [];
+    lintLegacy((f) => out.push(`${f.file}:${f.line}`), dir);
+    assert.deepEqual(out.sort(), ['a.css:1', 'b.md:1', `${old}.js:0`]);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

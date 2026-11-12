@@ -17,6 +17,7 @@
 //   title       native title attribute or SVG <title> (tooltips come from the kit: tooltip(), dataCard(); name via aria-label)
 //   gallery     exported building block without a gallery entry (call in gallery/*.js)
 //   emoji       emoji in UI texts
+//   legacy      the old name or prefix (renamed from dashkit) anywhere in the repo except the migration code and the CHANGELOG
 //   page        HTML page without <link rel="icon"> or without a non-empty <title> (every board has a favicon and a title)
 //
 // Checked: kit (css/, js/) and sample board (example/); html and emoji also gallery/.
@@ -195,6 +196,25 @@ function lintGallery(add, allow) {
   }
 }
 
+/* ---- Legacy name (renamed from dashkit): allowed only in the migration code and in the CHANGELOG history ---- */
+const LEGACY_ALLOWED = new Set(['CHANGELOG.md', 'js/theme-init.js', 'tools/lint.mjs']);
+const LEGACY_SKIP_DIRS = new Set(['.git', 'node_modules', '.verify-out']);
+const LEGACY_EXT = new Set(['.js', '.mjs', '.css', '.html', '.md', '.json', '.yml', '.yaml', '.svg', '.webmanifest', '.txt', '.py', '']);
+const RE_LEGACY = new RegExp(['dash' + 'kit', '(?<![A-Za-z0-9_])d' + 'k-', '__d' + 'k', '\\bD' + 'K_', '\\bd' + 'kApp'].join('|'));
+export function lintLegacy(add, root = ROOT) {
+  const visit = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name), r = path.relative(root, p).split(path.sep).join('/');
+      if (e.isDirectory()) { if (!LEGACY_SKIP_DIRS.has(e.name)) visit(p); continue; }
+      if (RE_LEGACY.test(r)) add({ rule: 'legacy', file: r, line: 0, text: 'file name' });
+      if (LEGACY_ALLOWED.has(r) || !LEGACY_EXT.has(path.extname(e.name))) continue;
+      const lines = fs.readFileSync(p, 'utf8').split('\n');
+      for (let i = 0; i < lines.length; i++) { const m = RE_LEGACY.exec(lines[i]); if (m) add({ rule: 'legacy', file: r, line: i + 1, text: m[0] }); }
+    }
+  };
+  visit(root);
+}
+
 /* ---- Run ---- */
 export function runLint({ allowFile = ALLOW } = {}) {
   const allow = JSON.parse(fs.readFileSync(allowFile, 'utf8'));
@@ -205,6 +225,7 @@ export function runLint({ allowFile = ALLOW } = {}) {
   for (const f of walk(path.join(ROOT, 'gallery'), ['.js'])) lintJs(f, (x) => (x.rule === 'html' || x.rule === 'emoji') && add(x), { timers: false });
   for (const f of [...walk(path.join(ROOT, 'gallery'), ['.html']), ...walk(path.join(ROOT, 'example'), ['.html']), path.join(ROOT, 'index.html')].filter((x) => fs.existsSync(x))) lintHtml(f, add);
   lintGallery(add, allow);
+  lintLegacy(add);
   const sig = (x) => `${x.rule}|${x.file}|${x.text}`;
   const exc = (allow.exceptions || []).map((e) => ({ ...e, re: Object.fromEntries(Object.entries(e.match).map(([k, v]) => [k, new RegExp(v)])) }));
   const known = new Set((allow.known || []).map((k) => `${k.rule}|${k.file}|${k.text}`));
