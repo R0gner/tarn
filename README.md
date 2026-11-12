@@ -76,7 +76,7 @@ node tools/verify.mjs                        # the full check, about five minute
 ```
 
 **Start a board:** copy `example/` as the template, copy the kit into it with `node tools/vendor.mjs --to <board>/vendor/tarn`
-(see “Include in a board”), and give your coding agent [AGENTS.md](AGENTS.md) together with the gallery. A board is a folder
+(see “Include in a project”), and give your coding agent [AGENTS.md](AGENTS.md) together with the gallery. A board is a folder
 with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source and its texts.
 
 **Tools at a glance**
@@ -130,7 +130,45 @@ python3 tools/serve.py --port 18810      # 127.0.0.1, no-store, strict CSP
 node --test tests/*.test.mjs
 ```
 
-## Include in a board
+## Include in a project
+
+Two equal ways. Both give a project one fixed version of Tarn; which one fits depends on whether the project has a package manager and a
+bundler. Either way, never edit Tarn files inside the project: a missing building block goes into the kit and arrives with the next update.
+
+| | (a) git dependency | (b) fixed copy |
+|---|---|---|
+| for | projects with npm (or pnpm, yarn) **and** a bundler | pages and boards without any tooling (like the sample board) |
+| how | `npm i github:R0gner/tarn#v<version>` | `node tools/vendor.mjs --to <project>/vendor/tarn [--profile core]` |
+| import | `import { button } from '@r0gner/tarn/core'` · `import { createApp } from '@r0gner/tarn'` | `import … from '/tarn/js/core.js'` · `'/tarn/js/tarn.js'` |
+| styles | `@r0gner/tarn/css/tokens.css`, `fonts.css`, `base.css`, `core.css` (+ `components.css`, `charts.css`) | `<link href="/tarn/css/…">` |
+| pin | the tag in `package.json` (`v0.4.0`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
+| update | change the tag, `npm update @r0gner/tarn` | run `vendor.mjs` again |
+
+### (a) git dependency
+
+The repository root is an npm package (`package.json`: name `@r0gner/tarn`, `private`, `type: module`, no dependencies, no install scripts).
+`exports` maps `.` to the full barrel (`js/tarn.js`), `./core` to `js/core.js`, and `./css/*`, `./fonts/*`, `./icons/*` to the files of
+those folders; `files` limits the installed package to the runtime files plus `LICENSE`, `NOTICE` and `VERSION` (the same list
+`tools/vendor.mjs` copies, kept in `tools/lib/kit-files.mjs`; a test keeps `package.json` equal to it, `node tools/package.mjs` rewrites it).
+
+```sh
+npm i github:R0gner/tarn#v0.4.0        # a tag, never a branch: the version stays fixed
+```
+
+```js
+// a bundler resolves the styles too (Vite, esbuild, webpack …)
+import '@r0gner/tarn/css/tokens.css';
+import '@r0gner/tarn/css/fonts.css';
+import '@r0gner/tarn/css/base.css';
+import '@r0gner/tarn/css/core.css';
+import { button, field, textField, form, t } from '@r0gner/tarn/core';
+```
+
+The classic script `@r0gner/tarn/js/theme-init.js` (no flash of the wrong colour scheme) belongs in the `<head>` as a plain `<script>` that is not bundled;
+bundled into the app script it would run after the first paint. `css/fonts.css` refers to the font files relative to itself, so the bundler
+must resolve those `url()`s (it does for CSS it processes).
+
+### (b) Fixed copy with `tools/vendor.mjs`
 
 **Every board carries a fixed copy of one kit version in `vendor/tarn/` and serves it under `/tarn/`.** No live mount: a kit
 change never reaches a board unnoticed; an update is a deliberate step with a check.

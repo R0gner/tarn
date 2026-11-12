@@ -80,7 +80,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    paths to `/tarn/…`; set title, favicon (`node tools/brand.mjs --name … --icon … --accent … --out …` creates favicon.svg,
    PNGs and manifest; or `favicon()`) and the board name.
 2. Copy a fixed kit version into `vendor/tarn/` with `node <kit>/tools/vendor.mjs --to <board>/vendor/tarn` and serve that folder under
-   `/tarn/` (see README, “Include in a board”). Never edit the copy; update it with the same command and run the checks afterwards.
+   `/tarn/` (see README, “Include in a project”, way b). Never edit the copy; update it with the same command and run the checks afterwards.
 3. `dataSource({ url: '/api/snapshot', ageOf: (d) => d.ageSec })`; prepare raw data once in `parse` (points in time, problems,
    sorting) – views do not calculate themselves.
 4. Views as `views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }]`; the sidebar counter comes from

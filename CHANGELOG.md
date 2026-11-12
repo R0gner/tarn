@@ -20,6 +20,26 @@ Round 4, stage R: renamed from dashkit.
   `tn-locale`, `tn-sb` and removed. Boards must include `theme-init.js` (they already do) to keep their users' choices.
 - Lint rule `legacy`: the old name and prefix may appear only in the migration code and in this changelog.
 
+### Round 4, stage K: core and shell
+- The kit has two parts: **core** (tokens, fonts, icons, base CSS, formatting/i18n/dom helpers, `button`, `iconButton`, `badge`, `statusDot`,
+  `segmented`, `tabs`, `progress`, `tooltip`, inputs and `form`) and the **ops shell** (everything else). Classification: `tools/lib/kit-files.mjs`,
+  README "Core and shell".
+- New files from splits: `js/primitives.js` (core, from `components.js`), `js/widgets.js` (shell: `log`, `toast`, `usageBar`, `menu`, from
+  `controls.js`), `js/confirm.js` (shell, from `form.js`); `validateFields()` moved from `actions-data.js` to `inputs-data.js`. The public API
+  and the barrel `js/tarn.js` are unchanged.
+- Entry points: `js/core.js` (core only) and `css/core.css` (primitives, inputs and form styles, split out of `components.css` and
+  `charts.css`; load it after `base.css`). `js/tarn.js` re-exports `core.js`; pages and boards that use the shell load `core.css` too.
+- `tools/vendor.mjs --profile core|full` (default `full`); the profile is recorded as `# profile: …` in `SHA256SUMS`, `--check` and updates
+  read it from there. Copies now include the `icons/*.svg` sources.
+- `starter/`: a plain website page built only from the core (en/de), covered by lint and verify.
+- `package.json` (`@r0gner/tarn`, private, no dependencies, no scripts): `exports` for `.`, `./core`, `./css/*`, `./fonts/*`, `./icons/*`;
+  `files` equals the full vendor profile. README "Include in a project" describes the git dependency and the fixed copy as equal ways.
+- Gallery: navigation groups `Core · …` and `Shell · …`; the Forms view is split into Forms (core) and Confirm and actions (shell).
+  Gallery snapshots re-baselined for that (group headings, new view); all other snapshots unchanged.
+- Lint: rules `classified` (every css/js file is listed once as core or shell) and `layers` (core never imports shell; the starter page
+  imports and loads core files only); positive controls in the tests and in `verify --selftest`.
+- Fixed: `vendor.mjs` crashed when an update removed several files of one stale folder.
+
 ## 0.3.0
 
 First version with its own history. Round 3 "foundation", in stages:
