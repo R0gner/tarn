@@ -6,15 +6,15 @@ div.tn-app @0,0 392x1632
         span.tn-bicon @-268,12 24x24
           img.tn-bicon-img @-268,12 24x24
         span.tn-ellipsis "Tarn Gallery" @-236,16 76x20
-    nav.tn-nav "Views" @-276,48 264x696
-      div.tn-nav-group [presentation] "Tokens" @-276,48 264x24
+    nav.tn-nav "Views" @-276,48 264x740
+      div.tn-nav-group [presentation] "Core · Tokens" @-276,48 264x24
       a.tn-nav-item @-276,72 264x40
         svg.tn-icon @-268,84 16x16
         span.tn-ellipsis "Foundations" @-244,84 76x20
       a.tn-nav-item @-276,116 264x40
         svg.tn-icon @-268,128 16x16
         span.tn-ellipsis "Light and dark" @-244,124 88x20
-      div.tn-nav-group [presentation] "Primitives" @-276,156 264x32
+      div.tn-nav-group [presentation] "Core · Primitives" @-276,156 264x32
       a.tn-nav-item @-276,188 264x40
         svg.tn-icon @-268,200 16x16
         span.tn-ellipsis "Buttons and status" @-244,200 116x20
@@ -24,36 +24,39 @@ div.tn-app @0,0 392x1632
       a.tn-nav-item @-276,272 264x40
         svg.tn-icon @-268,284 16x16
         span.tn-ellipsis "Inputs" @-244,280 40x20
-      div.tn-nav-group [presentation] "Components" @-276,312 264x32
-      a.tn-nav-item @-276,344 264x40
-        svg.tn-icon @-268,356 16x16
-        span.tn-ellipsis "Cards and tiles" @-244,356 92x20
+      a.tn-nav-item @-276,312 264x40
+        svg.tn-icon @-268,324 16x16
+        span.tn-ellipsis "Forms" @-244,324 40x20
+      div.tn-nav-group [presentation] "Shell · Components" @-276,352 264x32
       a.tn-nav-item @-276,384 264x40
         svg.tn-icon @-268,396 16x16
-        span.tn-ellipsis "Rows and facts" @-244,396 96x20
+        span.tn-ellipsis "Cards and tiles" @-244,396 92x20
       a.tn-nav-item @-276,428 264x40
         svg.tn-icon @-268,440 16x16
-        span.tn-ellipsis "Table and filter" @-244,436 92x20
-        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,436 24x20
+        span.tn-ellipsis "Rows and facts" @-244,436 96x20
       a.tn-nav-item @-276,468 264x40
         svg.tn-icon @-268,480 16x16
-        span.tn-ellipsis "Forms and actions" @-244,480 116x20
+        span.tn-ellipsis "Table and filter" @-244,480 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,480 24x20
       a.tn-nav-item @-276,508 264x40
         svg.tn-icon @-268,520 16x16
-        span.tn-ellipsis "Menus and feedback" @-244,520 132x20
+        span.tn-ellipsis "Confirm and actions" @-244,520 124x20
       a.tn-nav-item @-276,548 264x40
         svg.tn-icon @-268,560 16x16
-        span.tn-ellipsis "Charts" @-244,560 40x20
+        span.tn-ellipsis "Menus and feedback" @-244,560 132x20
       a.tn-nav-item @-276,592 264x40
         svg.tn-icon @-268,604 16x16
-        span.tn-ellipsis "Markdown" @-244,600 64x20
-      a.tn-nav-item.is-active {current=page} @-276,632 264x40
+        span.tn-ellipsis "Charts" @-244,600 40x20
+      a.tn-nav-item @-276,632 264x40
         svg.tn-icon @-268,644 16x16
-        span.tn-ellipsis "States and sheets" @-244,644 112x20
-      div.tn-nav-group [presentation] "Shell" @-276,672 264x32
-      a.tn-nav-item @-276,704 264x40
-        svg.tn-icon @-268,716 16x16
-        span.tn-ellipsis "Shell and boards" @-244,716 104x20
+        span.tn-ellipsis "Markdown" @-244,644 64x20
+      a.tn-nav-item.is-active {current=page} @-276,672 264x40
+        svg.tn-icon @-268,684 16x16
+        span.tn-ellipsis "States and sheets" @-244,684 112x20
+      div.tn-nav-group [presentation] "Shell · App frame" @-276,712 264x32
+      a.tn-nav-item @-276,748 264x40
+        svg.tn-icon @-268,760 16x16
+        span.tn-ellipsis "Shell and boards" @-244,756 104x20
   div.tn-scrim @0,0 392x844
   div.tn-main @0,0 392x1632
     header.tn-toolbar @0,0 392x48

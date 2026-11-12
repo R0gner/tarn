@@ -1,4 +1,4 @@
-// tarn · gallery: forms and actions (form.js, actionrun.js): form(), confirm(), actionRun() in all states.
+// tarn · gallery: forms (core: form()) and actions (shell: confirm(), actionRun(), the form in a sheet) in all states.
 import { h, card, section, button, form, confirm, actionRun, openSheet, toast } from '../js/tarn.js';
 import { HOSTS } from './gallery-inputs.js';
 
@@ -39,6 +39,16 @@ export function viewForms() {
       toast('Deployment started', { tone: 'ok' });
     },
   });
+  return [
+    h('p', { class: 'g-intro' }, 'Forms collect values with validation and a clear submit state. form() is part of the core: it needs no shell. Every action gives feedback, every dangerous one asks first (see Actions).'),
+    h('div', { class: 'g-grid2' },
+      demo('form()', `form({ fields: [{ name, type, label, help?, required?, rules?, …input options }], onSubmit: async (values) => {\n  …  // return { errors: { name: 'text' } } or { error: 'text' } to report a failure\n}, submitLabel, onCancel })\n// validates first (errors on the fields, focus on the first one), then “Running …” and a second submit is ignored\n// try: empty fields · version 0.0.0 (field error) · host falcon (form error)`,
+        col(f, result))),
+  ];
+}
+
+/** Actions (shell): confirm() and actionRun() in all states, and the deploy form inside a sheet. */
+export function viewActions() {
   // a simulated run that is started on click (deterministic static states below)
   const live = h('div', null);
   let n = 0;
@@ -56,15 +66,12 @@ export function viewForms() {
     }));
   };
   return [
-    h('p', { class: 'g-intro' }, 'Forms collect values with validation and a clear submit state; confirm() guards dangerous actions; actionRun() shows a running action with live log. Every action gives feedback (toast or actionRun), every dangerous one asks first.'),
-    h('div', { class: 'g-grid2' },
-      demo('form()', `form({ fields: [{ name, type, label, help?, required?, rules?, …input options }], onSubmit: async (values) => {\n  …  // return { errors: { name: 'text' } } or { error: 'text' } to report a failure\n}, submitLabel, onCancel })\n// validates first (errors on the fields, focus on the first one), then “Running …” and a second submit is ignored\n// try: empty fields · version 0.0.0 (field error) · host falcon (form error)`,
-        col(f, result)),
+    h('p', { class: 'g-intro' }, 'confirm() guards dangerous actions; actionRun() shows a running action with live log. Both belong to the shell (they use the sheet layer); form() is in the core.'),
       demo('confirm()', `if (await confirm({ title: 'Delete job?', text, danger: true, confirmLabel: 'Delete' })) …\nawait confirm({ title, text, danger: true, typeToConfirm: 'delta' })   // confirm stays off until the name is typed`,
         col(
           button('Delete job …', { variant: 'danger', onClick: async () => { const ok = await confirm({ title: 'Delete job offsite-sync?', text: 'The schedule and its history are removed. This cannot be undone.', danger: true, confirmLabel: 'Delete' }); toast(ok ? 'Deleted (demo)' : 'Cancelled', { tone: ok ? 'ok' : 'info' }); } }),
           button('Restart host …', { onClick: async () => { const ok = await confirm({ title: 'Restart delta?', text: 'Running jobs on this host are interrupted.', danger: true, typeToConfirm: 'delta', confirmLabel: 'Restart' }); toast(ok ? 'Restarting (demo)' : 'Cancelled', { tone: ok ? 'ok' : 'info' }); } }),
-          button('Confirm (not dangerous)', { onClick: async () => { const ok = await confirm({ title: 'Start the full scan?', text: 'It takes about ten minutes.' }); toast(ok ? 'Started (demo)' : 'Cancelled', { tone: ok ? 'ok' : 'info' }); } })))),
+          button('Confirm (not dangerous)', { onClick: async () => { const ok = await confirm({ title: 'Start the full scan?', text: 'It takes about ten minutes.' }); toast(ok ? 'Started (demo)' : 'Cancelled', { tone: ok ? 'ok' : 'info' }); } }))),
     section('actionRun()', {}, h('div', { class: 'g-stack' },
       h('div', { class: 'g-grid2' },
         demo('Running, progress known', `actionRun({ source: async () => ({ status, startedAt, progress: 0.4, log }) | '/api/run/42', intervalMs: 2000, onCancel, onDone })`,

@@ -1,0 +1,282 @@
+# gallery #/actions · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x1476
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x560
+      div.tn-nav-group [presentation] "Core · Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Core · Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      a.tn-nav-item @8,248 192x28
+        svg.tn-icon @16,252 16x16
+        span.tn-ellipsis "Forms" @40,252 40x20
+      div.tn-nav-group [presentation] "Shell · Components" @8,276 192x32
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Cards and tiles" @40,316 92x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Rows and facts" @40,344 96x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Table and filter" @40,372 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,372 24x20
+      a.tn-nav-item.is-active {current=page} @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Confirm and actions" @40,400 124x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Menus and feedback" @40,432 132x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Charts" @40,460 40x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "Markdown" @40,488 64x20
+      a.tn-nav-item @8,512 192x28
+        svg.tn-icon @16,520 16x16
+        span.tn-ellipsis "States and sheets" @40,516 112x20
+      div.tn-nav-group [presentation] "Shell · App frame" @8,540 192x32
+      a.tn-nav-item @8,576 192x28
+        svg.tn-icon @16,580 16x16
+        span.tn-ellipsis "Shell and boards" @40,580 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x1476
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Confirm and actions" @252,12 128x20
+      div.tn-toolbar-spacer @384,20 840x0
+      button.tn-fresh "Updated now" @1224,8 92x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x1432
+      section.tn-card @224,116 1184x236
+        header.tn-card-head @224,116 1184x40
+          div.tn-card-heading @236,128 1160x20
+            h3.tn-card-title "confirm()" @236,128 1160x20
+        div.tn-card-body @224,156 1184x196
+          button.tn-btn.tn-btn-danger @236,168 1160x28
+          button.tn-btn.tn-btn-default @236,208 1160x28
+          button.tn-btn.tn-btn-default @236,248 1160x28
+      section.tn-section @224,372 1184x1072
+        header.tn-section-head @224,372 1184x24
+          h2.tn-section-title "actionRun()" @228,376 1180x16
+        section.tn-card @224,404 584x308
+          header.tn-card-head @224,408 584x40
+            div.tn-card-heading @236,416 560x20
+              h3.tn-card-title "Running, progress known" @236,416 560x20
+          div.tn-card-body @224,448 584x264
+            div.tn-run @236,460 560x180
+              div.tn-run-head @236,460 560x24
+                div.tn-run-status @236,460 132x20
+                  span.tn-run-dot @236,468 8x8
+                    span.tn-dot.tn-s-info [img] "Note" @236,468 8x8
+                  span.tn-run-state @252,460 56x20
+                    span.tn-badge.tn-badge-info "Running" @252,464 56x20
+                  span.tn-run-time.tn-num "2 min 5 s" @316,460 52x16
+                div.tn-run-title.tn-ellipsis "Deploy app 2.4.1 → delta" @376,460 332x20
+                button.tn-btn.tn-btn-default.tn-btn-sm @716,460 80x24
+              div.tn-run-bar @236,492 560x28
+                div.tn-progress-wrap @236,492 560x28
+                  div.tn-progress-head @236,492 560x16
+                    span.tn-num "40%" @236,492 28x16
+                  div.tn-progress [progressbar] @236,512 560x8
+                    span.tn-progress-fill @236,512 224x8
+              div.tn-run-log "Log" @236,528 560x112
+                div.tn-log.tn-log-wrap [log] @236,528 560x112
+                  div.tn-log-line.tn-log-info @240,532 556x20
+                    span.tn-log-t "09:57 AM" @252,532 56x20
+                    span.tn-log-lv "INF" @316,532 20x20
+                    span.tn-log-msg "Connecting to delta …" @344,532 152x20
+                  div.tn-log-line.tn-log-info @240,552 556x20
+                    span.tn-log-t "09:57 AM" @252,552 56x20
+                    span.tn-log-lv "INF" @316,552 20x20
+                    span.tn-log-msg "Pulling image registry.example.com/app:2.4.1" @344,552 316x20
+                  div.tn-log-line.tn-log-ok @240,572 556x20
+                    span.tn-log-t "09:57 AM" @252,572 56x20
+                    span.tn-log-lv "OK" @316,572 20x20
+                    span.tn-log-msg "Image pulled (212 MB)" @344,572 152x20
+                  div.tn-log-line.tn-log-warn @240,592 556x20
+                    span.tn-log-t "09:57 AM" @252,592 56x20
+                    span.tn-log-lv "WRN" @316,592 20x20
+                    span.tn-log-msg "Container app-1 still has open connections" @344,592 304x20
+                  div.tn-log-line.tn-log-info @240,612 556x20
+                    span.tn-log-t "09:57 AM" @252,612 56x20
+                    span.tn-log-lv "INF" @316,612 20x20
+                    span.tn-log-msg "Restarting app-1" @344,612 116x20
+        section.tn-card @824,404 584x204
+          header.tn-card-head @824,408 584x40
+            div.tn-card-heading @836,416 560x20
+              h3.tn-card-title "Running, progress unknown" @836,416 560x20
+          div.tn-card-body @824,448 584x164
+            div.tn-run @836,460 560x92
+              div.tn-run-head @836,460 560x20
+                div.tn-run-status @836,460 132x20
+                  span.tn-run-dot @836,464 8x8
+                    span.tn-dot.tn-s-info [img] "Note" @836,464 8x8
+                  span.tn-run-state @852,460 56x20
+                    span.tn-badge.tn-badge-info "Running" @852,460 56x20
+                  span.tn-run-time.tn-num "2 min 5 s" @916,460 52x16
+                div.tn-run-title.tn-ellipsis "Index rebuild" @976,460 420x20
+              div.tn-run-bar @836,484 560x8
+                div.tn-progress.is-indeterminate [progressbar] @836,484 560x8
+                  span.tn-progress-fill @280,484 168x8
+              div.tn-run-log "Log" @836,500 560x52
+                div.tn-log.tn-log-wrap [log] @836,500 560x52
+                  div.tn-log-line.tn-log-info @840,504 556x20
+                    span.tn-log-t "09:57 AM" @852,504 56x20
+                    span.tn-log-lv "INF" @916,504 20x20
+                    span.tn-log-msg "Connecting to delta …" @944,504 152x20
+                  div.tn-log-line.tn-log-info @840,524 556x20
+                    span.tn-log-t "09:57 AM" @852,524 56x20
+                    span.tn-log-lv "INF" @916,524 20x20
+                    span.tn-log-msg "Pulling image registry.example.com/app:2.4.1" @944,524 316x20
+        section.tn-card @224,728 584x224
+          header.tn-card-head @224,732 584x40
+            div.tn-card-heading @236,740 560x20
+              h3.tn-card-title "Done" @236,740 560x20
+          div.tn-card-body @224,772 584x180
+            div.tn-run @236,784 560x156
+              div.tn-run-head @236,784 560x20
+                div.tn-run-status @236,784 96x20
+                  span.tn-run-dot @236,788 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @236,788 8x8
+                  span.tn-run-state @252,784 40x20
+                    span.tn-badge.tn-badge-ok "Done" @252,784 40x20
+                  span.tn-run-time.tn-num "2 min" @300,784 32x16
+                div.tn-run-title.tn-ellipsis "Deploy app 2.4.1 → delta" @340,784 456x20
+              div.tn-run-log "Log" @236,808 560x132
+                div.tn-log.tn-log-wrap [log] @236,808 560x132
+                  div.tn-log-line.tn-log-info @240,816 556x20
+                    span.tn-log-t "09:57 AM" @252,816 56x20
+                    span.tn-log-lv "INF" @316,816 20x20
+                    span.tn-log-msg "Connecting to delta …" @344,816 152x20
+                  div.tn-log-line.tn-log-info @240,836 556x20
+                    span.tn-log-t "09:57 AM" @252,836 56x20
+                    span.tn-log-lv "INF" @316,836 20x20
+                    span.tn-log-msg "Pulling image registry.example.com/app:2.4.1" @344,836 316x20
+                  div.tn-log-line.tn-log-ok @240,856 556x20
+                    span.tn-log-t "09:57 AM" @252,856 56x20
+                    span.tn-log-lv "OK" @316,856 20x20
+                    span.tn-log-msg "Image pulled (212 MB)" @344,856 152x20
+                  div.tn-log-line.tn-log-warn @240,876 556x20
+                    span.tn-log-t "09:57 AM" @252,876 56x20
+                    span.tn-log-lv "WRN" @316,876 20x20
+                    span.tn-log-msg "Container app-1 still has open connections" @344,876 304x20
+                  div.tn-log-line.tn-log-info @240,896 556x20
+                    span.tn-log-t "09:57 AM" @252,896 56x20
+                    span.tn-log-lv "INF" @316,896 20x20
+                    span.tn-log-msg "Restarting app-1" @344,896 116x20
+                  div.tn-log-line.tn-log-ok @240,916 556x20
+                    span.tn-log-t "09:57 AM" @252,916 56x20
+                    span.tn-log-lv "OK" @316,916 20x20
+                    span.tn-log-msg "Health check passed" @344,916 136x20
+        section.tn-card @824,728 584x208
+          header.tn-card-head @824,732 584x40
+            div.tn-card-heading @836,740 560x20
+              h3.tn-card-title "Failed" @836,740 560x20
+          div.tn-card-body @824,772 584x168
+            div.tn-run @836,784 560x144
+              div.tn-run-head @836,784 560x20
+                div.tn-run-status @836,784 96x20
+                  span.tn-run-dot @836,788 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @836,788 8x8
+                  span.tn-run-state @852,784 44x20
+                    span.tn-badge.tn-badge-bad "Failed" @852,784 44x20
+                  span.tn-run-time.tn-num "2 min" @904,784 32x16
+                div.tn-run-title.tn-ellipsis "Deploy app 2.4.2 → delta" @944,784 452x20
+              div.tn-run-msg "Health check failed after 60 s; rolled back." @836,808 560x20
+              div.tn-run-log "Log" @836,836 560x92
+                div.tn-log.tn-log-wrap [log] @836,836 560x92
+                  div.tn-log-line.tn-log-info @840,840 556x20
+                    span.tn-log-t "09:57 AM" @852,840 56x20
+                    span.tn-log-lv "INF" @916,840 20x20
+                    span.tn-log-msg "Connecting to delta …" @944,840 152x20
+                  div.tn-log-line.tn-log-info @840,860 556x20
+                    span.tn-log-t "09:57 AM" @852,860 56x20
+                    span.tn-log-lv "INF" @916,860 20x20
+                    span.tn-log-msg "Pulling image registry.example.com/app:2.4.1" @944,860 316x20
+                  div.tn-log-line.tn-log-ok @840,880 556x20
+                    span.tn-log-t "09:57 AM" @852,880 56x20
+                    span.tn-log-lv "OK" @916,880 20x20
+                    span.tn-log-msg "Image pulled (212 MB)" @944,880 152x20
+                  div.tn-log-line.tn-log-bad @840,900 556x20
+                    span.tn-log-t "09:57 AM" @852,900 56x20
+                    span.tn-log-lv "ERR" @916,900 20x20
+                    span.tn-log-msg "Health check failed: HTTP 503" @944,900 208x20
+        section.tn-card @224,968 584x144
+          header.tn-card-head @224,968 584x40
+            div.tn-card-heading @236,980 560x20
+              h3.tn-card-title "Cancelled" @236,980 560x20
+          div.tn-card-body @224,1008 584x100
+            div.tn-run @236,1020 560x76
+              div.tn-run-head @236,1020 560x20
+                div.tn-run-status @236,1020 120x20
+                  span.tn-run-dot @236,1028 8x8
+                    span.tn-dot.tn-s-warn [img] "Warning" @236,1028 8x8
+                  span.tn-run-state @252,1020 64x20
+                    span.tn-badge.tn-badge-warn "Cancelled" @252,1024 64x20
+                  span.tn-run-time.tn-num "2 min" @324,1024 32x16
+                div.tn-run-title.tn-ellipsis "Media scan" @364,1024 432x20
+              div.tn-run-log "Log" @236,1048 560x52
+                div.tn-log.tn-log-wrap [log] @236,1048 560x52
+                  div.tn-log-line.tn-log-info @240,1056 556x20
+                    span.tn-log-t "09:57 AM" @252,1056 56x20
+                    span.tn-log-lv "INF" @316,1056 20x20
+                    span.tn-log-msg "Connecting to delta …" @344,1056 152x20
+                  div.tn-log-line.tn-log-info @240,1076 556x20
+                    span.tn-log-t "09:57 AM" @252,1076 56x20
+                    span.tn-log-lv "INF" @316,1076 20x20
+                    span.tn-log-msg "Pulling image registry.example.com/app:2.4.1" @344,1076 316x20
+        section.tn-card @824,968 584x152
+          header.tn-card-head @824,968 584x40
+            div.tn-card-heading @836,980 560x20
+              h3.tn-card-title "Waiting and empty log" @836,980 560x20
+          div.tn-card-body @824,1008 584x108
+            div.tn-run @836,1020 560x84
+              div.tn-run-head @836,1020 560x20
+                div.tn-run-status @836,1020 68x20
+                  span.tn-run-dot @836,1028 8x8
+                    span.tn-dot.tn-s-pending [img] "Pending" @836,1028 8x8
+                  span.tn-run-state @852,1020 52x20
+                    span.tn-badge.tn-badge-pending "Waiting" @852,1024 52x20
+                div.tn-run-title.tn-ellipsis "Nightly backup" @912,1024 484x20
+              div.tn-run-bar @836,1048 560x8
+                div.tn-progress [progressbar] @836,1048 560x8
+                  span.tn-progress-fill @836,1048 0x8
+              div.tn-run-log "Log" @836,1064 560x44
+                div.tn-log.tn-log-empty "No output yet" @836,1064 560x44
+        section.tn-card @224,1136 1184x152
+          header.tn-card-head @224,1136 1184x40
+            div.tn-card-heading @236,1148 1160x20
+              h3.tn-card-title "Live (simulated)" @236,1148 1160x20
+          div.tn-card-body @224,1176 1184x112
+            button.tn-btn.tn-btn-primary @236,1188 108x28
+        section.tn-card @224,1304 1184x140
+          header.tn-card-head @224,1304 1184x40
+            div.tn-card-heading @236,1316 1160x20
+              h3.tn-card-title "In a sheet" @236,1316 1160x20
+          div.tn-card-body @224,1344 1184x100
+            button.tn-btn.tn-btn-default @236,1356 212x28

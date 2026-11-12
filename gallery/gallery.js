@@ -1,4 +1,5 @@
-// tarn · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell).
+// tarn · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell); the navigation
+// groups say which part a view shows: "Core · …" (works without the shell) or "Shell · …" (boards only), see README "Core and shell".
 // Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
@@ -7,7 +8,7 @@ import {
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
-import { viewForms } from './gallery-forms.js';
+import { viewForms, viewActions } from './gallery-forms.js';
 import { REPORT, SECURITY_CASES } from './markdown-sample.js';
 
 /* ---- helpers ---- */
@@ -254,20 +255,21 @@ const app = createApp({
   locales: ['en', 'de'],
   source: src,
   views: [
-    { id: 'foundations', group: 'Tokens', label: 'Foundations', icon: 'grid', render: viewBasics },
+    { id: 'foundations', group: 'Core · Tokens', label: 'Foundations', icon: 'grid', render: viewBasics },
     { id: 'themes', label: 'Light and dark', icon: 'contrast', render: viewThemes },
-    { id: 'buttons', group: 'Primitives', label: 'Buttons and status', icon: 'check', render: viewButtons },
+    { id: 'buttons', group: 'Core · Primitives', label: 'Buttons and status', icon: 'check', render: viewButtons },
     { id: 'controls', label: 'Controls', icon: 'more', render: viewControls },
     { id: 'inputs', label: 'Inputs', icon: 'edit', render: viewInputs },
-    { id: 'cards', group: 'Components', label: 'Cards and tiles', icon: 'box', render: viewCards, detail: jobDetail },
+    { id: 'forms', label: 'Forms', icon: 'rocket', render: viewForms },
+    { id: 'cards', group: 'Shell · Components', label: 'Cards and tiles', icon: 'box', render: viewCards, detail: jobDetail },
     { id: 'rows', label: 'Rows and facts', icon: 'list', render: viewRows, detail: jobDetail },
     { id: 'table', label: 'Table and filter', icon: 'server', render: viewTable, detail: jobDetail, count: tableCount },
-    { id: 'forms', label: 'Forms and actions', icon: 'rocket', render: viewForms },
+    { id: 'actions', label: 'Confirm and actions', icon: 'check', render: viewActions },
     { id: 'feedback', label: 'Menus and feedback', icon: 'info', render: viewFeedback },
     { id: 'charts', label: 'Charts', icon: 'chart', render: viewCharts },
     { id: 'markdown', label: 'Markdown', icon: 'list', render: viewMarkdown },
     { id: 'states', label: 'States and sheets', icon: 'alert', render: viewStates },
-    { id: 'shell', group: 'Shell', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
+    { id: 'shell', group: 'Shell · App frame', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
   ],
 });
 /* The sidebar counter comes from the data, not from whether the view was already drawn (that would depend on the order). */

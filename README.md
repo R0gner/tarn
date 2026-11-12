@@ -27,7 +27,7 @@ For agents that build a board: **read [AGENTS.md](AGENTS.md) first.**
 | **Components** | composed blocks | `card`, `section`, `statTile`, `list`, `kv`, `table`, `filterBar`, `banner`, `log`, `menu`, `toast`, sheet/panel, `markdown`, `dataCard`, `form`, `confirm`, `actionRun`, charts |
 | **Shell** | the frame around a board | `createApp`, `dataSource`, board switcher, language menu, install button |
 
-The gallery (`gallery/`) is grouped by these levels and shows every building block in all its states, light and dark.
+The gallery (`gallery/`) is grouped by these levels and shows every building block in all its states, light and dark. The navigation names the part: groups `Core · Tokens`, `Core · Primitives` (incl. inputs and `form`), `Shell · Components`, `Shell · App frame`.
 
 ## Core and shell
 
