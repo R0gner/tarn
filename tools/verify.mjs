@@ -64,6 +64,7 @@ import { MUTANTS } from './verify/mutants.mjs';
 import { snapshotTasks, snapshotTask, mergeSnapshots } from './verify/snapshots.mjs';
 import { lintFindings } from './lint.mjs';
 import { typesFindings, typesMutant } from './verify/types.mjs';
+import { layersMutant } from './verify/layers.mjs';
 import { inventoryUnits, inventoryUnit, inventorySummary } from './tempo.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -311,10 +312,11 @@ async function main() {
         tVerifyEnd = Date.now();
         selftestResult = await selftest(pool, { rules, sizes: sizes.length ? sizes : [parseSize('phone')], themes, pages, viewFilter, only: o.mutants, base: baseRaw || reportBase, baseSource: baseRaw ? 'this run' : reportBase ? path.basename(o.baseReport) : 'own pass' });
         const tm = o.mutants ? null : typesMutant(ROOT); // positive control of the type check (temp copy, no browser)
+        const lm = o.mutants ? null : layersMutant(ROOT); // positive control of the import-direction rule (temp copy, no browser)
         const st = selftestResult;
-        st.ok = st.ok && (!tm || tm.ok);
+        st.ok = st.ok && (!tm || tm.ok) && (!lm || lm.ok);
         const took = `${Math.round((Date.now() - tVerifyEnd) / 1000)} s`;
-        st.lines = tm ? [...st.lines.slice(0, -1), tm.line, st.ok ? `selftest GREEN · ${took} · exit 0` : `selftest RED · ${took} · exit 1`] : [...st.lines.slice(0, -1), st.lines.at(-1).replace(' · exit', ` · ${took} · exit`)];
+        st.lines = tm ? [...st.lines.slice(0, -1), tm.line, lm.line, st.ok ? `selftest GREEN · ${took} · exit 0` : `selftest RED · ${took} · exit 1`] : [...st.lines.slice(0, -1), st.lines.at(-1).replace(' · exit', ` · ${took} · exit`)];
         fs.writeFileSync(path.join(outDir, 'selftest.json'), JSON.stringify(st.report, null, 1));
         if (selftestOnly) {
           lines.push(...st.lines, `Report: ${path.join(outDir, 'selftest.json')}`);

@@ -69,7 +69,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 |---|---|---|
 | `node tools/verify.mjs [--quick]` | everything except frame measurement; ≤ 10 lines, exit 0/1/2 | ≈ 5 min (quick ≈ 1 min) |
 | `node tools/verify.mjs --types` | JSDoc types of `js/` through `tsc` (pinned version via npx; skipped offline) | ≈ 1 s |
-| `node tools/lint.mjs [-v]` | tokens, transitions, no innerHTML, timers, gallery coverage, emoji, texts via `t()` | < 1 s |
+| `node tools/lint.mjs [-v]` | tokens, transitions, no innerHTML, timers, gallery coverage, emoji, texts via `t()`, core/shell classification and import direction | < 1 s |
 | `node tools/tempo.mjs --attach http://127.0.0.1:<port>` | response times against budgets (visible Chrome) | ≈ 10 min |
 | `node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port>` | 50 KB report with `markdown()` under 4× CPU (budget 50 ms) | ≈ 20 s |
 | `node tools/verify.mjs --update` | deliberately rewrite snapshots | ≈ 30 s |

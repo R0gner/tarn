@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified } from '../tools/lint.mjs';
+import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified, lintLayers } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-lint-'));
@@ -82,5 +82,20 @@ test('classified: a css/js file outside the core/shell lists is found, and so is
     assert.ok(out.includes('js/stray.js|not in tools/lib/kit-files.mjs'));
     assert.ok(!out.some((x) => x.startsWith('js/dom.js') || x.startsWith('js/table.js')));
     assert.ok(out.some((x) => x.startsWith('tools/lib/kit-files.mjs|listed but missing')));
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('layers: core files must not import shell files (static, export from, dynamic); shell may import core', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-layers-'));
+  try {
+    fs.mkdirSync(path.join(dir, 'js'));
+    fs.writeFileSync(path.join(dir, 'js', 'dom.js'), "import { icon } from './icons.js';\nimport { card } from './components.js';\n// import './table.js'\n");
+    fs.writeFileSync(path.join(dir, 'js', 'format.js'), "export * from './widgets.js';\nexport { x } from './dom.js';\n");
+    fs.writeFileSync(path.join(dir, 'js', 'primitives.js'), "const l = () => import('./shell.js');\n");
+    fs.writeFileSync(path.join(dir, 'js', 'icons.js'), "import { h } from './dom.js';\n");
+    fs.writeFileSync(path.join(dir, 'js', 'table.js'), "import { h } from './dom.js';\nimport { button } from './primitives.js';\n"); // shell → core: fine
+    const out = [];
+    lintLayers((f) => out.push(`${f.file}:${f.line} ${f.text}`), dir);
+    assert.deepEqual(out.sort(), ['js/dom.js:2 core imports shell: js/components.js', 'js/format.js:1 core imports shell: js/widgets.js', 'js/primitives.js:1 core imports shell: js/shell.js']);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

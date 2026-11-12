@@ -104,7 +104,7 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `example/` | sample board with a fixture, four languages – **template for new boards** |
 | `gallery/` | every building block in all states, grouped by level |
 | `tools/verify.mjs`, `tools/verify/` | **all checks in one command** (tests, lint, types, DOM geometry, overlays, snapshots, animation inventory) |
-| `tools/lint.mjs`, `tools/lint/` | static kit rules (tokens, transitions, no innerHTML, timers, gallery coverage, emoji, visible texts via `t()`) |
+| `tools/lint.mjs`, `tools/lint/` | static kit rules (tokens, transitions, no innerHTML, timers, gallery coverage, emoji, visible texts via `t()`, core/shell classification and import direction) |
 | `tools/tempo.mjs`, `tools/tempo/` | response times (Event Timing, long animation frames, visibility) against budgets |
 | `tools/brand.mjs`, `tools/icons.mjs` | board identity (favicon, PNG icons, manifest) · Lucide icons |
 | `tools/vendor.mjs` | copies a fixed kit version into a board (`vendor/tarn/`), `--check` reports local changes and the version |

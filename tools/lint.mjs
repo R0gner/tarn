@@ -19,6 +19,7 @@
 //   emoji       emoji in UI texts
 //   legacy      the old name or prefix (renamed from dashkit) anywhere in the repo except the migration code and the CHANGELOG
 //   classified  a css/ or js/ file that is not in tools/lib/kit-files.mjs (core or shell), or a listed file that does not exist
+//   layers      a core file imports a shell file (static import, export … from, import()): the core must work without the shell
 //   page        HTML page without <link rel="icon"> or without a non-empty <title> (every board has a favicon and a title)
 //
 // Checked: kit (css/, js/) and sample board (example/); html and emoji also gallery/.
@@ -28,7 +29,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { classification } from './lib/kit-files.mjs';
+import { classification, layerOf } from './lib/kit-files.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ALLOW = path.join(ROOT, 'tools', 'lint', 'allow.json');
@@ -225,6 +226,23 @@ export function lintClassified(add, root = ROOT) {
   for (const f of c.twice) add({ rule: 'classified', file: 'tools/lib/kit-files.mjs', line: 0, text: `listed twice: ${f}` });
 }
 
+/* ---- Import direction: core never imports shell ---- */
+const RE_IMPORT = /(?:\bimport|\bexport)\s*(?:[\w$*{}\s,]*?\bfrom\s*)?['"]([^'"]+)['"]|\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
+export function lintLayers(add, root = ROOT) {
+  for (const file of walk(path.join(root, 'js'), ['.js'])) {
+    const f = rel2(root, file);
+    if (layerOf(f) !== 'core') continue;
+    const code = stripComments(fs.readFileSync(file, 'utf8'));
+    for (const m of code.matchAll(RE_IMPORT)) {
+      const spec = m[1] || m[2];
+      if (!spec.startsWith('.')) continue;
+      const target = rel2(root, path.resolve(path.dirname(file), spec));
+      if (layerOf(target) === 'shell') add({ rule: 'layers', file: f, line: lineOf(code, m.index), text: `core imports shell: ${target}` });
+    }
+  }
+}
+const rel2 = (root, p) => path.relative(root, p).split(path.sep).join('/');
+
 /* ---- Run ---- */
 export function runLint({ allowFile = ALLOW } = {}) {
   const allow = JSON.parse(fs.readFileSync(allowFile, 'utf8'));
@@ -237,6 +255,7 @@ export function runLint({ allowFile = ALLOW } = {}) {
   lintGallery(add, allow);
   lintLegacy(add);
   lintClassified(add);
+  lintLayers(add);
   const sig = (x) => `${x.rule}|${x.file}|${x.text}`;
   const exc = (allow.exceptions || []).map((e) => ({ ...e, re: Object.fromEntries(Object.entries(e.match).map(([k, v]) => [k, new RegExp(v)])) }));
   const known = new Set((allow.known || []).map((k) => `${k.rule}|${k.file}|${k.text}`));
