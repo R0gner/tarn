@@ -1,35 +1,32 @@
 #!/usr/bin/env node
 // tarn · vendor: copy a fixed version of the kit into a board (`<board>/vendor/tarn/`), Node ≥ 22, no npm packages.
 //
-//   node tools/vendor.mjs --to <board>/vendor/tarn            copy (first time) or update
-//   node tools/vendor.mjs --to <board>/vendor/tarn --check    report local changes and the version, change nothing
+//   node tools/vendor.mjs --to <board>/vendor/tarn                    copy (first time) or update, profile full
+//   node tools/vendor.mjs --to <site>/vendor/tarn --profile core      copy only the core (no shell): for plain pages
+//   node tools/vendor.mjs --to <board>/vendor/tarn --check            report local changes, the version and the profile, change nothing
 //
-// Copies only what the browser loads: css/*.css, js/**/*.js, fonts/ (woff2, OFL texts, SOURCES.md), icons/ (LICENSE.txt,
-// SOURCES.md), plus VERSION, LICENSE and NOTICE. Not copied: tests, tools, gallery, example, icon sources.
-// Writes `SHA256SUMS` (sha256sum format, `cd <dir> && sha256sum -c SHA256SUMS` works) as the record of what was copied.
+// Copies only what the browser loads: the css/ and js/ files of the profile, fonts/ (woff2, OFL texts, SOURCES.md), icons/ (svg, LICENSE.txt,
+// SOURCES.md), plus VERSION, LICENSE and NOTICE. Not copied: tests, tools, gallery, example. Profiles: `full` = core + ops shell (default),
+// `core` = core only; the file lists live in tools/lib/kit-files.mjs (the same lists feed package.json and lint).
+// Writes `SHA256SUMS` (sha256sum format, `cd <dir> && sha256sum -c SHA256SUMS` works) as the record of what was copied; its first line
+// `# profile: core|full` tells --check and later updates which profile the copy has. An update keeps the profile of the existing copy unless
+// --profile is given (then files outside the new profile are removed).
 //
 // An update is a deliberate step: it refuses when files of the copy were changed locally (compared with SHA256SUMS) or when the
 // folder is not a vendored copy; `--force` overwrites anyway. Files that left the kit since the last copy are removed; files that
 // are not part of the copy are reported and left alone. The tool never writes into the Tarn repository itself.
 //
-// Options: --to DIR (required) · --check · --force · --dry-run (copy mode: report only) · -h/--help
+// Options: --to DIR (required) · --profile core|full · --check · --force · --dry-run (copy mode: report only) · -h/--help
 // Exit codes: 0 done / copy intact · 1 local changes, missing or foreign files (check) or update refused · 2 usage or environment error.
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { profileFiles, PROFILES, TOP } from './lib/kit-files.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST = 'SHA256SUMS';
-/** Runtime set: [folder, pattern, recursive]. */
-const SETS = [
-  ['css', /\.css$/, false],
-  ['js', /\.js$/, true],
-  ['fonts', /\.woff2$|^OFL-.*\.txt$|^SOURCES\.md$/, false],
-  ['icons', /^LICENSE\.txt$|^SOURCES\.md$/, false],
-];
-/** Files at the repo root; optional ones are skipped with a note while they do not exist yet. */
-const TOP = [['VERSION', true], ['LICENSE', false], ['NOTICE', false]];
+const PROFILE_RE = /^# profile: (core|full)$/m;
 
 const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const rel = (p) => p.split(path.sep).join('/');
@@ -37,16 +34,18 @@ const rel = (p) => p.split(path.sep).join('/');
 function usage(code, msg) {
   if (msg) console.error(`vendor: ${msg}`);
   const out = code ? console.error : console.log;
-  out('usage: node tools/vendor.mjs --to <board>/vendor/tarn [--check] [--force] [--dry-run]');
+  out('usage: node tools/vendor.mjs --to <board>/vendor/tarn [--profile core|full] [--check] [--force] [--dry-run]');
   process.exit(code);
 }
 
 function parseArgs(argv) {
-  const o = { to: null, check: false, force: false, dry: false };
+  const o = { to: null, profile: null, check: false, force: false, dry: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--to') o.to = argv[++i];
     else if (a.startsWith('--to=')) o.to = a.slice(5);
+    else if (a === '--profile') o.profile = argv[++i];
+    else if (a.startsWith('--profile=')) o.profile = a.slice(10);
     else if (a === '--check') o.check = true;
     else if (a === '--force') o.force = true;
     else if (a === '--dry-run') o.dry = true;
@@ -54,33 +53,21 @@ function parseArgs(argv) {
     else usage(2, `unknown option ${a}`);
   }
   if (!o.to) usage(2, '--to <dir> is required');
+  if (o.profile && !PROFILES.includes(o.profile)) usage(2, `unknown profile ${o.profile} (core | full)`);
   return o;
 }
 
-function walk(dir, re, recursive, base = dir, out = []) {
-  if (!fs.existsSync(dir)) return out;
-  for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) { if (recursive) walk(p, re, recursive, base, out); } else if (e.isFile() && re.test(e.name)) out.push(p);
-  }
-  return out;
-}
-
-/** Runtime files of the source checkout: Map(relative path → Buffer), plus notes about optional files that are missing. */
-export function collectSource(root = ROOT) {
+/** Runtime files of the source checkout for a profile: Map(relative path → Buffer), plus notes about optional files that are missing. */
+export function collectSource(root = ROOT, profile = 'full') {
   const files = new Map(), notes = [];
-  for (const [dir, re, recursive] of SETS) for (const f of walk(path.join(root, dir), re, recursive)) files.set(rel(path.relative(root, f)), fs.readFileSync(f));
-  for (const [name, required] of TOP) {
-    const f = path.join(root, name);
-    if (fs.existsSync(f)) files.set(name, fs.readFileSync(f));
-    else if (required) throw new Error(`${name} is missing in ${root}`);
-    else notes.push(`${name} not present in the kit yet (not copied)`);
-  }
+  for (const f of profileFiles(profile, root)) files.set(f, fs.readFileSync(path.join(root, f)));
+  if (!files.has('VERSION')) throw new Error(`VERSION is missing in ${root}`);
+  for (const name of TOP) if (!files.has(name)) notes.push(`${name} not present in the kit yet (not copied)`);
   return { files, notes };
 }
 
-export function manifestText(files) {
-  return [...files].sort(([a], [b]) => (a < b ? -1 : 1)).map(([p, buf]) => `${sha(buf)}  ${p}`).join('\n') + '\n';
+export function manifestText(files, profile = 'full') {
+  return `# profile: ${profile}\n` + [...files].sort(([a], [b]) => (a < b ? -1 : 1)).map(([p, buf]) => `${sha(buf)}  ${p}`).join('\n') + '\n';
 }
 
 export function readManifest(dir) {
@@ -92,6 +79,13 @@ export function readManifest(dir) {
     if (x) m.set(x[2], x[1]);
   }
   return m;
+}
+
+/** Profile recorded in the manifest header ('full' for copies made before profiles existed); null without a manifest. */
+export function readProfile(dir) {
+  const f = path.join(dir, MANIFEST);
+  if (!fs.existsSync(f)) return null;
+  return PROFILE_RE.exec(fs.readFileSync(f, 'utf8'))?.[1] || 'full';
 }
 
 /** Files below dir (except the manifest): Map(relative path → sha256). */
@@ -133,17 +127,22 @@ function main() {
   const dest = resolveTarget(o.to);
   if (inside(dest, fs.realpathSync(ROOT))) { console.error('vendor: the target is inside the Tarn repository; the tool never writes there'); process.exit(2); }
 
+  const existing = fs.existsSync(dest) ? readProfile(dest) : null;   // profile of an existing vendored copy, else null
+  if (o.check) {
+    if (!fs.existsSync(dest)) { console.error(`vendor: ${o.to} does not exist`); process.exit(2); }
+    if (!existing) { console.error(`vendor: ${o.to} has no ${MANIFEST}; not a vendored tarn copy`); process.exit(2); }
+  }
+  const profile = o.check ? existing : o.profile || existing || 'full';
   let src;
-  try { src = collectSource(); } catch (e) { console.error(`vendor: ${e.message}`); process.exit(2); }
+  try { src = collectSource(ROOT, profile); } catch (e) { console.error(`vendor: ${e.message}`); process.exit(2); }
   const srcVersion = src.files.get('VERSION').toString().trim();
 
   if (o.check) {
-    if (!fs.existsSync(dest)) { console.error(`vendor: ${o.to} does not exist`); process.exit(2); }
     const c = checkDir(dest);
-    if (!c) { console.error(`vendor: ${o.to} has no ${MANIFEST}; not a vendored tarn copy`); process.exit(2); }
     const v = versionOf(dest);
-    const lines = [`vendor: tarn ${v} in ${o.to} · ${c.count} files · kit source ${srcVersion}`];
-    const bad = c.modified.length + c.missing.length + c.extra.length;
+    const lines = [`vendor: tarn ${v} (profile ${profile}) in ${o.to} · ${c.count} files · kit source ${srcVersion}`];
+    let bad = c.modified.length + c.missing.length + c.extra.length;
+    if (o.profile && o.profile !== profile) { bad++; lines.push(`PROFILE is ${profile}, not ${o.profile} (switch with: vendor.mjs --to ${o.to} --profile ${o.profile})`); }
     if (c.modified.length) lines.push(`CHANGED locally (${c.modified.length}): ${brief(c.modified)}`);
     if (c.missing.length) lines.push(`MISSING (${c.missing.length}): ${brief(c.missing)}`);
     if (c.extra.length) lines.push(`FOREIGN files (${c.extra.length}): ${brief(c.extra)}`);
@@ -174,15 +173,15 @@ function main() {
   for (const [p, buf] of src.files) { const f = path.join(dest, p); if (!fs.existsSync(f)) added.push(p); else if (sha(buf) !== sha(fs.readFileSync(f))) changed.push(p); }
   for (const p of oldMan.keys()) if (!src.files.has(p) && fs.existsSync(path.join(dest, p))) removed.push(p);
   const from = old ? versionOf(dest) : null;
-  const summary = `${from ? `${from} → ` : ''}${srcVersion} · ${src.files.size} files (${added.length} new, ${changed.length} changed, ${removed.length} removed)`;
+  const summary = `${from ? `${from} → ` : ''}${srcVersion} · profile ${profile}${existing && existing !== profile ? ` (was ${existing})` : ''} · ${src.files.size} files (${added.length} new, ${changed.length} changed, ${removed.length} removed)`;
   if (o.dry) { console.log(`vendor: dry run, nothing written: ${summary}`); process.exit(0); }
 
   for (const [p, buf] of src.files) { const f = path.join(dest, p); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, buf); }
   for (const p of removed) fs.rmSync(path.join(dest, p), { force: true });
   for (const p of removed) { // drop folders that became empty
-    for (let d = path.dirname(path.join(dest, p)); inside(d, dest) && d !== dest; d = path.dirname(d)) { if (fs.readdirSync(d).length) break; fs.rmdirSync(d); }
+    for (let d = path.dirname(path.join(dest, p)); inside(d, dest) && d !== dest; d = path.dirname(d)) { if (!fs.existsSync(d)) continue; if (fs.readdirSync(d).length) break; fs.rmdirSync(d); }
   }
-  fs.writeFileSync(path.join(dest, MANIFEST), manifestText(src.files));
+  fs.writeFileSync(path.join(dest, MANIFEST), manifestText(src.files, profile));
   const foreign = checkDir(dest).extra;
   console.log([`vendor: ${summary}`, `to ${o.to}`, ...src.notes.map((n) => `note: ${n}`), foreign.length ? `note: ${foreign.length} foreign files left alone: ${brief(foreign)}` : null,
     'next: run the board\'s own checks (verify) before committing the update'].filter(Boolean).join('\n'));

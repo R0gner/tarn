@@ -6,7 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { collectSource, checkDir } from '../tools/vendor.mjs';
+import { collectSource, checkDir, readProfile } from '../tools/vendor.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TOOL = path.join(ROOT, 'tools', 'vendor.mjs');
@@ -22,8 +22,8 @@ test('vendor: copies only runtime files, writes SHA256SUMS in sha256sum format',
   const files = walk(to);
   assert.ok(files.includes('js/tarn.js') && files.includes('css/tokens.css') && files.includes('VERSION') && files.includes('SHA256SUMS'));
   assert.ok(files.some((f) => f.startsWith('fonts/') && f.endsWith('.woff2')));
-  for (const f of files) assert.ok(!/^(tests|tools|gallery|example|\.git)\//.test(f) && !f.endsWith('.svg') && !f.endsWith('.png'), `unexpected file ${f}`);
-  const lines = fs.readFileSync(path.join(to, 'SHA256SUMS'), 'utf8').trim().split('\n');
+  for (const f of files) assert.ok(!/^(tests|tools|gallery|example|\.git)\//.test(f) && !f.endsWith('.png'), `unexpected file ${f}`);
+  const lines = fs.readFileSync(path.join(to, 'SHA256SUMS'), 'utf8').trim().split('\n').filter((l) => !l.startsWith('#'));
   assert.equal(lines.length, files.length - 1);
   for (const l of lines) {
     const [, h, p] = /^([0-9a-f]{64})  (.+)$/.exec(l);
@@ -39,7 +39,7 @@ test('vendor --check: intact copy → 0; changed, missing and foreign files → 
   assert.equal(run('--to', to).code, 0);
   let r = run('--to', to, '--check');
   assert.equal(r.code, 0, r.out);
-  assert.match(r.out, /tarn \d+\.\d+\.\d+ in /);
+  assert.match(r.out, /tarn \d+\.\d+\.\d+ \(profile full\) in /);
   assert.match(r.out, /up to date/);
   fs.appendFileSync(path.join(to, 'css', 'base.css'), '\n/* local tweak */\n');
   fs.rmSync(path.join(to, 'js', 'dom.js'));
@@ -98,4 +98,54 @@ test('vendor: refuses non-empty foreign folders, the repository itself and bad u
   assert.equal(run('--check', '--to', foreign).code, 2);
   assert.equal(run().code, 2);
   assert.equal(run('--bogus').code, 2);
+}));
+
+test('vendor --profile core: only core files, header in SHA256SUMS, self-contained, --check reads the profile, update keeps it, switching removes the shell', () => withTmp((d) => {
+  const to = path.join(d, 'c');
+  let r = run('--to', to, '--profile', 'core');
+  assert.equal(r.code, 0, r.out);
+  assert.match(r.out, /profile core/);
+  const files = walk(to);
+  assert.ok(files.includes('js/core.js') && files.includes('css/core.css') && files.includes('LICENSE') && files.includes('NOTICE') && files.includes('VERSION'));
+  for (const f of ['js/tarn.js', 'js/shell.js', 'js/table.js', 'css/components.css', 'css/charts.css', 'js/charts/line.js']) assert.ok(!files.includes(f), `shell file in the core copy: ${f}`);
+  assert.equal(readProfile(to), 'core');
+  assert.match(fs.readFileSync(path.join(to, 'SHA256SUMS'), 'utf8'), /^# profile: core\n[0-9a-f]{64}  /);
+  // every relative import of a copied js file resolves inside the copy
+  for (const f of files.filter((x) => x.endsWith('.js'))) {
+    const code = fs.readFileSync(path.join(to, f), 'utf8');
+    for (const m of code.matchAll(/(?:\bfrom\s*|\bimport\s*\(?\s*)['"](\.[^'"]+)['"]/g)) assert.ok(fs.existsSync(path.resolve(path.dirname(path.join(to, f)), m[1])), `${f} imports ${m[1]}, not in the core copy`);
+  }
+  r = run('--to', to, '--check');
+  assert.equal(r.code, 0, r.out);
+  assert.match(r.out, /profile core/);
+  assert.match(r.out, /up to date/);
+  r = run('--to', to);                                         // no --profile: an update keeps the profile of the copy
+  assert.equal(r.code, 0, r.out);
+  assert.equal(readProfile(to), 'core');
+  assert.ok(!fs.existsSync(path.join(to, 'js', 'tarn.js')));
+  r = run('--to', to, '--check', '--profile', 'full');
+  assert.equal(r.code, 1);
+  assert.match(r.out, /PROFILE is core, not full/);
+  r = run('--to', to, '--profile', 'full');                    // explicit switch adds the shell
+  assert.equal(r.code, 0, r.out);
+  assert.match(r.out, /profile full \(was core\)/);
+  assert.ok(fs.existsSync(path.join(to, 'js', 'tarn.js')) && fs.existsSync(path.join(to, 'css', 'components.css')));
+  r = run('--to', to, '--profile', 'core');                    // and back: the shell files are removed again
+  assert.equal(r.code, 0, r.out);
+  assert.ok(!fs.existsSync(path.join(to, 'js', 'charts')) && !fs.existsSync(path.join(to, 'css', 'components.css')));
+  assert.equal(run('--to', to, '--check').code, 0);
+  assert.equal(run('--to', path.join(d, 'z'), '--profile', 'half').code, 2);
+}));
+
+test('vendor: full profile = core profile + the shell files; a copy without profile header counts as full', () => withTmp((d) => {
+  const core = collectSource(ROOT, 'core').files, full = collectSource(ROOT, 'full').files;
+  for (const f of core.keys()) assert.ok(full.has(f), f);
+  assert.ok(full.size > core.size && full.has('js/tarn.js') && !core.has('js/tarn.js'));
+  const to = path.join(d, 'old');
+  assert.equal(run('--to', to).code, 0);
+  assert.equal(readProfile(to), 'full');
+  const man = path.join(to, 'SHA256SUMS');
+  fs.writeFileSync(man, fs.readFileSync(man, 'utf8').replace(/^# profile: full\n/, ''));
+  assert.equal(readProfile(to), 'full');
+  assert.equal(run('--to', to, '--check').code, 0);
 }));

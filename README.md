@@ -114,7 +114,7 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `tools/lint.mjs`, `tools/lint/` | static kit rules (tokens, transitions, no innerHTML, timers, gallery coverage, emoji, visible texts via `t()`, core/shell classification and import direction) |
 | `tools/tempo.mjs`, `tools/tempo/` | response times (Event Timing, long animation frames, visibility) against budgets |
 | `tools/brand.mjs`, `tools/icons.mjs` | board identity (favicon, PNG icons, manifest) · Lucide icons |
-| `tools/vendor.mjs` | copies a fixed kit version into a board (`vendor/tarn/`), `--check` reports local changes and the version |
+| `tools/vendor.mjs`, `tools/lib/kit-files.mjs` | copies a fixed kit version (`--profile core\|full`) into a board (`vendor/tarn/`), `--check` reports local changes, the version and the profile · the core/shell file lists |
 | `tools/serve.py`, `tools/shoot.mjs`, `tools/lib/` | local server with board CSP · screenshots via CDP · shared CDP client and test server |
 | `tests/` | `node --test tests/*.test.mjs`; `tests/snapshots/` holds the expected DOM outlines for verify |
 
@@ -137,9 +137,15 @@ change never reaches a board unnoticed; an update is a deliberate step with a ch
 node tools/vendor.mjs --to <board>/vendor/tarn
 # later: has anyone changed the copy? which version is it?
 node tools/vendor.mjs --to <board>/vendor/tarn --check
+# a plain page without the shell: core only (no createApp, router, charts, tables), the profile is recorded in SHA256SUMS
+node tools/vendor.mjs --to <site>/vendor/tarn --profile core
 ```
 
-`tools/vendor.mjs` copies only what the browser loads (`css/`, `js/`, `fonts/` with the font licences, `icons/` licence and sources
+`--profile core|full` (default `full`): `core` copies only the core files (see “Core and shell”) plus `VERSION`, `LICENSE`, `NOTICE`;
+`full` adds the ops shell. The first line of `SHA256SUMS` is `# profile: core|full`; `--check` and later updates read it from there, so an
+update keeps the profile of the copy unless you pass `--profile` (then files outside the new profile are removed).
+
+`tools/vendor.mjs` copies only what the browser loads (`css/`, `js/`, `fonts/` with the font licences, `icons/` svg files, licence and sources
 list) plus `VERSION`, `LICENSE` and `NOTICE`, and writes `SHA256SUMS` (the record of what was copied; `sha256sum -c SHA256SUMS` works
 inside the folder). It never writes into the Tarn repository and leaves files it does not know alone.
 Exit codes: 0 done or copy intact · 1 local changes (check) or update refused · 2 usage or environment error.
