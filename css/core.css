@@ -68,6 +68,24 @@
 .tn-badge-info, .tn-badge-accent { background: var(--tn-info-bg); color: var(--tn-info-text); }
 .tn-badge-pending { background: var(--tn-pending-bg); color: var(--tn-pending-text); }
 
+/* ============ Pills (date range presets; the shell filter bar uses them too) ============ */
+.tn-pills { display: flex; flex-wrap: wrap; gap: var(--tn-sp-6); }
+.tn-pill {
+  display: inline-flex; align-items: center; gap: var(--tn-sp-5);
+  min-height: var(--tn-pill-h); padding: 0 var(--tn-s3); border-radius: var(--tn-r);
+  border: 1px solid var(--tn-border); background: var(--tn-card);
+  font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2);
+  position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation;
+}
+.tn-pill:hover, .tn-pill.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); color: var(--tn-text); }
+.tn-pill:is(:active, .is-down), .tn-pill.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
+.tn-pill.is-on { border-color: color-mix(in oklch, var(--tn-accent) 60%, transparent); background: var(--tn-info-bg); color: var(--tn-text); }
+.tn-pill.is-on > .tn-icon { color: var(--tn-accent); }
+.tn-pill:disabled { opacity: .45; pointer-events: none; }
+.tn-pill > .tn-icon { display: none; }
+.tn-pill.is-on > .tn-icon { display: block; }
+.tn-pill-n { color: var(--tn-text-3); font-weight: 400; }
+
 /* ============ Segmented ============ */
 .tn-seg {
   display: inline-flex; gap: var(--tn-sp-2); padding: var(--tn-seg-py) var(--tn-sp-2); border-radius: var(--tn-r);

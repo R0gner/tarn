@@ -120,8 +120,7 @@
 }
 
 /* ============ Chips, pills: press behaviour ============ (buttons, status and badges: css/core.css) */
-.tn-chip, .tn-pill, .tn-row-btn, .tn-stat-btn, .tn-th-btn { position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
-.tn-pill:disabled { opacity: .45; pointer-events: none; }
+.tn-chip, .tn-row-btn, .tn-stat-btn, .tn-th-btn { position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
 
 /* ============ Card, section ============ */
 .tn-card {
@@ -330,19 +329,6 @@ th.is-sorted { color: var(--tn-text); }
 .tn-chip-group { color: var(--tn-text-2); }
 .tn-chip-clear { background: none; border-color: transparent; color: var(--tn-text-2); }
 
-.tn-pills { display: flex; flex-wrap: wrap; gap: var(--tn-sp-6); }
-.tn-pill {
-  display: inline-flex; align-items: center; gap: var(--tn-sp-5);
-  min-height: var(--tn-sz-30); padding: 0 var(--tn-s3); border-radius: var(--tn-r);
-  border: 1px solid var(--tn-border); background: var(--tn-card);
-  font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2);
-}
-@media (pointer: coarse) { .tn-pill { min-height: var(--tn-sz-40); } }
-.tn-pill:hover, .tn-pill.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); color: var(--tn-text); }
-.tn-pill:is(:active, .is-down), .tn-pill.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
-.tn-pill.is-on { border-color: color-mix(in oklch, var(--tn-accent) 60%, transparent); background: var(--tn-info-bg); color: var(--tn-text); }
-.tn-pill.is-on > .tn-icon { color: var(--tn-accent); }
-.tn-pill-n { color: var(--tn-text-3); font-weight: 400; }
 
 /* filter sheet: one calm group per filter (title row, control), hairlines between the groups */
 .tn-fgroups { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -357,8 +343,6 @@ th.is-sorted { color: var(--tn-text); }
 .tn-fgroup .tn-pill { background: none; }
 .tn-fgroup .tn-pill:hover, .tn-fgroup .tn-pill.is-hover { background: var(--tn-hover); }
 .tn-fgroup .tn-pill.is-on { background: var(--tn-info-bg); }
-.tn-pill > .tn-icon { display: none; }
-.tn-pill.is-on > .tn-icon { display: block; }
 .tn-fgroup-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tn-s2); }
 .tn-fgroup-range, .tn-fgroup-time { display: grid; gap: var(--tn-s2); min-width: 0; }
 .tn-fgroup-custom { padding-top: var(--tn-s1); }

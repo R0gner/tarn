@@ -89,6 +89,11 @@ export function lintCss(file, add) {
   const f = rel(file);
   const isTokens = f === 'css/tokens.css';
   const kf = keyframes(src);
+  // density: the values of the comfortable density live in css/tokens.css only; a component never branches on it (no per-component hacks)
+  if (!isTokens) {
+    const bare = src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
+    for (const m of bare.matchAll(/data-density/g)) add({ rule: 'density', file: f, line: lineOf(bare, m.index), text: 'data-density outside css/tokens.css: give the control a token instead' });
+  }
   for (const d of cssDecls(src)) {
     const where = { file: f, line: d.line };
     if (!isTokens) {

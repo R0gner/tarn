@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { lintCss, lintJs, lintHtml, lintLegacy, lintClassified, lintLayers, lintStarter } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
@@ -21,6 +22,14 @@ test('CSS: literals, transitions, keyframes', () => {
 .b { color: #fff; padding: 6px 0; border-radius: 3px; transition: opacity var(--tn-t), height 90ms; }
 .c { animation: spin 1s infinite; } @keyframes spin { to { width: 10%; transform: none; } }`);
   assert.deepEqual(r.sort(), ['color color: #fff', 'duration transition: 90ms', 'duration animation: 1s', 'keyframes @keyframes spin: width', 'radius border-radius: 3px', 'size padding: 6px', 'transition transition: height'].sort());
+});
+
+test('CSS: data-density only in tokens (comfortable is token values, no per-component hacks)', () => {
+  const css = '/* [data-density] in a comment */\n.a { padding: var(--tn-s2); }\n:root[data-density="comfortable"] .tn-btn { min-height: var(--tn-sz-48); }\n';
+  assert.deepEqual(run(lintCss, 'x.css', css), ['density data-density outside css/tokens.css: give the control a token instead']);
+  const out = [];
+  lintCss(fileURLToPath(new URL('../css/tokens.css', import.meta.url)), (f) => out.push(f));
+  assert.deepEqual(out.filter((f) => f.rule === 'density'), [], 'tokens.css is the one place');
 });
 
 test('JS: innerHTML, timer literals, emoji', () => {
