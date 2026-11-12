@@ -1,6 +1,7 @@
 // @ts-check
 // tarn · actionRun(): “action running” – status, elapsed time, progress (if known), live log and an optional cancel button.
 // The data comes from a board function or a URL (polling); no WebSocket required.
+import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';

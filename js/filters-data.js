@@ -7,6 +7,7 @@
 //   range    { min?, max? }                  number: min ≤ value ≤ max (a row without a number does not match)
 //   time     { preset } | { from?, to? }     preset '1h' | '6h' | '24h' | '7d' | '30d' (the last …, relative to now),
 //                                            or calendar days 'YYYY-MM-DD' (from/to inclusive, in the time zone)
+import './locales/shell.js';   // shell texts
 import { t, getTimeZone } from './i18n.js';
 import { fmtNum, fmtDate } from './format.js';
 import { addDays, dayStart } from './inputs-data.js';

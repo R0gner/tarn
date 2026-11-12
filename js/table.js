@@ -4,6 +4,7 @@
 // no longer fit (measured, without horizontal scrolling and without widening the page):
 //   Dot   | Title            Value | ›
 //         | Subtitle (sub columns joined with ·)
+import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';

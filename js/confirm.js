@@ -1,5 +1,6 @@
 // @ts-check
 // tarn · confirm(): confirmation of dangerous actions (a small modal dialog; shell, uses the scroll lock of the sheet layer).
+import './locales/shell.js';   // shell texts
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';

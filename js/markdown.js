@@ -13,6 +13,7 @@
 // Security: links only http, https, mailto and relative (javascript:, data:, vbscript:, //host … become plain
 // text); external links with rel="noopener noreferrer" and target="_blank". Images are off (alt text instead of image);
 // with { images: true } only for relative paths. Nesting is limited to MAX_DEPTH.
+import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { t } from './i18n.js';
 

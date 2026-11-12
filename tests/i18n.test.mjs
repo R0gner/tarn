@@ -2,6 +2,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { KIT_CATALOGS, KIT_LOCALES, t, setLocale, setTimeZone, addMessages, resolveLocale, placeholdersOf, missingKeys, baseLang } from '../js/i18n.js';
+import '../js/locales/shell.js';   // the full kit catalog = core part + shell part (as the barrel loads it)
+import coreEn from '../js/locales/en.js';
+import shellEn from '../js/locales/en-shell.js';
+import { CORE } from '../tools/lib/kit-files.mjs';
+import fs from 'node:fs';
 import { fmtNum, fmtPct, fmtAgo, fmtDuration, fmtTime, fmtDate, fmtWhen, fmtBytes } from '../js/format.js';
 
 const quiet = (fn) => { const w = console.warn; console.warn = () => {}; try { return fn(); } finally { console.warn = w; } };
@@ -17,6 +22,23 @@ test('catalogs: same keys and placeholders in every language', () => {
       const vals = typeof KIT_CATALOGS[l][k] === 'object' ? Object.values(KIT_CATALOGS[l][k]) : [KIT_CATALOGS[l][k]];
       for (const v of vals) assert.ok(String(v).trim(), `${l}:${k} empty`);
     }
+  }
+});
+
+test('catalog split: the core part has what core files use, the shell part the rest; both in every language', async () => {
+  const core = Object.keys(coreEn), shell = Object.keys(shellEn);
+  assert.ok(core.length > 20 && shell.length > 60);
+  assert.deepEqual(core.filter((k) => shell.includes(k)), [], 'a key lives in one part only');
+  for (const l of ['de', 'es', 'fr']) {
+    assert.deepEqual(Object.keys((await import(`../js/locales/${l}.js`)).default).sort(), [...core].sort(), `core keys of ${l}`);
+    assert.deepEqual(Object.keys((await import(`../js/locales/${l}-shell.js`)).default).sort(), [...shell].sort(), `shell keys of ${l}`);
+  }
+  assert.deepEqual(Object.keys(KIT_CATALOGS.en).sort(), [...core, ...shell].sort(), 'merged catalog = both parts');
+  // every text a core file asks for exists in the core part (a core copy without the shell stays complete)
+  for (const f of CORE.js.filter((x) => !x.startsWith('js/locales/') && x !== 'js/i18n.js')) {
+    const src = fs.readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
+    for (const m of src.matchAll(/\bt\(\s*['"]([\w.]+)['"]/g)) assert.ok(core.includes(m[1]), `${f}: t('${m[1]}') is not in the core catalog`);
+    for (const m of src.matchAll(/\bt\(\s*`([\w.]+\.)\$\{/g)) assert.ok(core.some((k) => k.startsWith(m[1])), `${f}: t(\`${m[1]}…\`) has no key in the core catalog`);
   }
 });
 

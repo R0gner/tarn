@@ -8,7 +8,7 @@
 //
 // Lookup order for the active locale L (language part B): board[L], board[B], kit[L], kit[B], then English (board, kit).
 // A missing key shows the English text (or the key itself) and is recorded in missingKeys (console warning in development;
-// verify reports it). Catalogs: js/locales/en.js is the source; de, es, fr ship with the kit.
+// verify reports it). Catalogs: js/locales/en.js is the source; de, es, fr ship with the kit. Core texts in <lang>.js, shell texts in <lang>-shell.js.
 import en from './locales/en.js';
 import de from './locales/de.js';
 import es from './locales/es.js';
@@ -19,7 +19,18 @@ import fr from './locales/fr.js';
 /** @typedef {Record<string, Catalog>} Messages Language code → catalog (board texts for createApp({ messages }) and addMessages()). */
 /** @typedef {{ locale?: string | null, locales?: string[], languages?: readonly string[], stored?: string | null }} ResolveLocaleOptions */
 
+/** Kit catalogs per language: the core part (js/locales/<lang>.js); the shell part is added by js/locales/shell.js. */
 export const KIT_CATALOGS = { en, de, es, fr };
+/**
+ * Add more kit texts (the shell part) to the kit catalogs. Existing keys are not overwritten.
+ * @param {Messages} extra language → { key: text }
+ */
+export function addKitMessages(extra) {
+  for (const [l, msgs] of Object.entries(extra)) {
+    const lang = /** @type {keyof typeof KIT_CATALOGS} */ (l);
+    if (KIT_CATALOGS[lang]) KIT_CATALOGS[lang] = /** @type {any} */ ({ ...msgs, ...KIT_CATALOGS[lang] });   // new object: the imported core catalog stays as it is
+  }
+}
 export const KIT_LOCALES = Object.keys(KIT_CATALOGS);
 /** Names of the languages in their own language, for the language menu. */
 export const LOCALE_NAMES = { en: 'English', de: 'Deutsch', es: 'Español', fr: 'Français' };

@@ -1,5 +1,6 @@
 // @ts-check
 // tarn · small charts: sparkline, donut/ring, heatmap row (runs ok/fail as small boxes).
+import '../locales/shell.js';   // shell texts
 import { h, s } from '../dom.js';
 import { fmtNum, fmtPct, fmtWhen } from '../format.js';
 import { STATUS_TEXT } from '../primitives.js';

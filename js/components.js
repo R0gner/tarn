@@ -1,6 +1,7 @@
 // @ts-check
 // tarn · shell components: card, section, statTile, metricRow, list, kv, facts, banner, empty/error/loading and the layout helpers.
 // The primitives (statusDot, badge, button, iconButton) live in primitives.js and are re-exported by the barrel.
+import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';

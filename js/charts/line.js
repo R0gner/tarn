@@ -1,5 +1,6 @@
 // @ts-check
 // tarn · line/area chart with multiple series and scrubbing (mouse and touch).
+import '../locales/shell.js';   // shell texts
 import { h, s } from '../dom.js';
 import { fmtNum, fmtWhen, fmtShort, fmtTime, fmtDate } from '../format.js';
 import { linear, extent, niceDomain, ticks, timeTicks, nearestIndex, linePath, areaPath, stack } from './scale.js';

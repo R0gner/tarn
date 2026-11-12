@@ -5,6 +5,7 @@
 //              swipe right close it)
 //   < 700      burger → sidebar overlay, detail as bottom sheet (swipe down, background locked)
 // Detail state lives in the hash (#/view?open=id): the Back button closes the detail.
+import './locales/shell.js';   // shell texts
 import { h, cls, mount } from './dom.js';
 import { icon } from './icons.js';
 import { iconButton, button, badge } from './primitives.js';

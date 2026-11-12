@@ -6,6 +6,7 @@
 // Rules: entries without id, name or href, with a duplicate id or an unsafe href (only http, https and relative) are dropped;
 // each case is listed in problems. If categories are configured, entries without or with an unknown category end up in
 // “Other” (at the very bottom). Without categories there is a flat grid.
+import './locales/shell.js';   // shell texts
 import { safeUrl } from './markdown.js';
 import { getLocale, t } from './i18n.js';
 

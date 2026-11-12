@@ -4,6 +4,7 @@
 // in the inspector instead (js/shell.js).
 // Background locked (html.tn-locked), content with overscroll-behavior: contain, safe-area at the bottom.
 // Proven pattern (openSheet + gestures), new look.
+import './locales/shell.js';   // shell texts
 import { h, mount, tokenMs } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';

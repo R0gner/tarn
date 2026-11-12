@@ -1,5 +1,6 @@
 // @ts-check
 // tarn · bar chart: vertical or horizontal, grouped or stacked, tooltip, optionally clickable.
+import '../locales/shell.js';   // shell texts
 import { h, s } from '../dom.js';
 import { fmtNum } from '../format.js';
 import { linear, extent, niceDomain, ticks, stack } from './scale.js';

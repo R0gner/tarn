@@ -1,6 +1,7 @@
 // @ts-check
 // tarn · schedule/Gantt: rows with bars on a time axis, band for frequent runs,
 // maintenance windows in the background, now line, conflict marking. HTML instead of SVG (text, click, scroll).
+import '../locales/shell.js';   // shell texts
 import { h } from '../dom.js';
 import { fmtTime, fmtDate, fmtWhen, fmtDuration } from '../format.js';
 import { timeTicks, findConflicts } from './scale.js';

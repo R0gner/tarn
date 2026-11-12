@@ -6,6 +6,7 @@
 //   boardIcon(spec, name, size)         icon of a board (file URL or { icon, color }); without an icon a letter tile
 // Controls: Enter/Space opens, arrow keys in the grid (Home/End), Esc closes and returns focus, a click outside
 // closes. Middle click/Ctrl-click on a tile opens the board in a new tab.
+import './locales/shell.js';   // shell texts
 import { h, tokenMs } from './dom.js';
 import { icon } from './icons.js';
 import { empty, loading } from './components.js';

@@ -2,6 +2,7 @@
 // tarn · Barrel export (core + ops shell). Boards import only from here:
 //   import { createApp, dataSource, card, table, … } from '/tarn/js/tarn.js';
 // Pages without the shell import from core.js instead.
+import './locales/shell.js';   // shell texts
 export * from './core.js';
 export { boardSwitcher, boardGrid, boardIcon } from './boards.js';
 export { normalizeBoards } from './boards-data.js';

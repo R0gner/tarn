@@ -5,6 +5,7 @@
 //   bool     segment “All · Yes · No”
 //   range    from/to number fields with a unit
 //   time     presets (1 h … 30 d) plus an own period (dates)
+import './locales/shell.js';   // shell texts
 import { h, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { button } from './primitives.js';

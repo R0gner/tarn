@@ -1,5 +1,6 @@
 // @ts-check
 // tarn · shell widgets: log, toast, usageBar, menu (overlay-based or data-driven parts that boards use; the core controls are in controls.js).
+import './locales/shell.js';   // shell texts
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { fmtBytes, fmtPct, fmtTime, fmtWhen } from './format.js';
