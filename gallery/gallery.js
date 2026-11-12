@@ -251,6 +251,7 @@ function viewStates() {
 /* ================= App ================= */
 const app = createApp({
   title: 'Tarn Gallery',
+  densitySwitch: true,
   icon: './favicon.svg',
   locales: ['en', 'de'],
   source: src,

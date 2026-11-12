@@ -3,7 +3,7 @@ import {
   h, icon, card, section, button, iconButton, statTile, tiles, metricRow, list, kv, facts, statusDot, badge, empty, banner,
   segmented, tabs, log, toast, progress, usageBar, tooltip, menu, dataCard, boardSwitcher, boardGrid, boardIcon, normalizeBoards,
   lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtAgo, fmtPct,
-  STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES,
+  STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES, DENSITIES, getDensity, setDensity,
 } from '../js/tarn.js';
 
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
@@ -248,7 +248,12 @@ export function viewThemes() {
       usageBar({ used: 852e9, total: 1e12, label: 'nas-b /archive' })),
     banner('Data is stale: updated 2 h ago', { tone: 'bad' }),
   ];
+  const densityNames = { compact: 'Compact', comfortable: 'Comfortable' };
   return [
+    demo('Density', `<html data-density="comfortable">   // or setDensity('comfortable', { persist: true }); getDensity() reads it back
+// compact (default): today's dense look. comfortable: larger type, more space, every target ≥ 48 px, higher contrast.
+// Same tokens, other values (css/tokens.css); the toolbar button next to the theme switch does the same for this whole gallery.`,
+      segmented({ options: DENSITIES.map((d) => ({ value: d, label: densityNames[d] })), value: getDensity(), label: 'Density', onChange: (d) => setDensity(d, { persist: true }) })),
     h('p', { class: 'g-intro' }, 'The same building blocks in the light and the dark scheme side by side (color-scheme per container, tokens via light-dark()).'),
     h('div', { class: 'g-grid2' },
       h('div', { class: 'g-scheme g-scheme-dark' }, h('div', { class: 'tn-section-title' }, 'Dark'), sample()),

@@ -13,6 +13,7 @@ import { openSheet, lockScroll } from './sheet.js';
 import { parseHash, buildHash } from './router.js';
 import { fmtAgo, fmtFull } from './format.js';
 import { favicon } from './favicon.js';
+import { getDensity, setDensity } from './density.js';
 import { menu } from './widgets.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
@@ -47,6 +48,7 @@ import { normalizeBoards } from './boards-data.js';
  *   messages?: Record<string, Record<string, any>>,
  *   timeZone?: string,
  *   toolbarExtra?: Child,
+ *   densitySwitch?: boolean,   // button next to the theme switch: compact ↔ comfortable (stored; for galleries and boards that offer both)
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
 /** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean }} App Returned by createApp(). */
@@ -139,6 +141,7 @@ export function createApp(cfg0) {
   const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => cfg.source?.reload() });
   reloadBtn.hidden = !cfg.source;
   const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme });
+  const densityBtn = cfg.densitySwitch ? iconButton('list', { label: t('shell.density'), onClick: cycleDensity }) : null;
   /* Language menu: only with more than one offered language and no forced locale; the choice is stored and applied by reloading. */
   const langBtn = offered.length > 1 && !cfg0.locale ? menu(iconButton('languages', { label: t('shell.language') }), [
     { label: t('shell.languageAuto'), checked: !stored || stored === 'auto', onClick: () => chooseLocale('auto') },
@@ -146,7 +149,7 @@ export function createApp(cfg0) {
   ]) : null;
   /** @param {string} l */
   function chooseLocale(l) { try { localStorage.setItem('tn-locale', l); } catch {} const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href; if (u.href === location.href) location.reload(); }
-  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, themeBtn);
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, densityBtn, themeBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
   const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
@@ -245,6 +248,16 @@ export function createApp(cfg0) {
     const label = t({ system: 'shell.themeSystem', light: 'shell.themeLight', dark: 'shell.themeDark' }[mode]);
     themeBtn.dataset.tip = label; themeBtn.setAttribute('aria-label', t('shell.themeSwitch', { label }));
     themeBtn.replaceChildren(icon({ system: 'contrast', light: 'sun', dark: 'moon' }[mode]));
+  }
+
+  /* ---- Density: Compact ↔ Comfortable (only with createApp({ densitySwitch: true })) ---- */
+  function cycleDensity() { setDensity(getDensity() === 'compact' ? 'comfortable' : 'compact', { persist: true }); syncDensity(); }
+  function syncDensity() {
+    if (!densityBtn) return;
+    const mode = getDensity();
+    const label = t(mode === 'comfortable' ? 'shell.densityComfortable' : 'shell.densityCompact');
+    densityBtn.dataset.tip = label; densityBtn.setAttribute('aria-label', t('shell.densitySwitch', { label }));
+    densityBtn.replaceChildren(icon(mode === 'comfortable' ? 'grid' : 'list'));
   }
 
   /* ---- Data status ---- */
@@ -364,7 +377,7 @@ export function createApp(cfg0) {
 
   if (cfg.icon && typeof cfg.icon === 'object') favicon(cfg.icon); else if (cfg.favicon) favicon(cfg.favicon);
   (cfg.root || document.body).append(appEl);
-  syncTheme(); syncSidebarA11y();
+  syncTheme(); syncDensity(); syncSidebarA11y();
   onRoute();
   if (cfg.source) {
     cfg.source.subscribe((s) => {
