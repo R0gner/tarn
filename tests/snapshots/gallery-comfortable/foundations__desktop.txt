@@ -1,0 +1,146 @@
+# gallery-comfortable #/foundations · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x1532
+  aside.tn-sidebar @0,0 280x900
+    div.tn-sidebar-head @12,0 240x24
+      div.tn-brand @24,0 136x24
+        span.tn-bicon @24,0 24x24
+          img.tn-bicon-img @24,0 24x24
+        span.tn-ellipsis "Tarn Gallery" @60,0 100x24
+    nav.tn-nav "Views" @12,24 240x896
+      div.tn-nav-group [presentation] "Core · Tokens" @12,24 240x32
+      a.tn-nav-item.is-active {current=page} @12,56 240x48
+        svg.tn-icon @24,72 20x20
+        span.tn-ellipsis "Foundations" @56,68 100x24
+      a.tn-nav-item @12,108 240x48
+        svg.tn-icon @24,120 20x20
+        span.tn-ellipsis "Light and dark" @56,120 116x24
+      div.tn-nav-group [presentation] "Core · Primitives" @12,156 240x44
+      a.tn-nav-item @12,200 240x48
+        svg.tn-icon @24,212 20x20
+        span.tn-ellipsis "Buttons and status" @56,212 152x24
+      a.tn-nav-item @12,248 240x48
+        svg.tn-icon @24,264 20x20
+        span.tn-ellipsis "Controls" @56,260 68x24
+      a.tn-nav-item @12,296 240x48
+        svg.tn-icon @24,312 20x20
+        span.tn-ellipsis "Inputs" @56,308 52x24
+      a.tn-nav-item @12,348 240x48
+        svg.tn-icon @24,360 20x20
+        span.tn-ellipsis "Forms" @56,356 52x24
+      div.tn-nav-group [presentation] "Shell · Components" @12,396 240x44
+      a.tn-nav-item @12,440 240x48
+        svg.tn-icon @24,452 20x20
+        span.tn-ellipsis "Cards and tiles" @56,452 124x24
+      a.tn-nav-item @12,488 240x48
+        svg.tn-icon @24,500 20x20
+        span.tn-ellipsis "Rows and facts" @56,500 124x24
+      a.tn-nav-item @12,536 240x48
+        svg.tn-icon @24,552 20x20
+        span.tn-ellipsis "Table and filter" @56,548 124x24
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @216,548 24x24
+      a.tn-nav-item @12,584 240x48
+        svg.tn-icon @24,600 20x20
+        span.tn-ellipsis "Confirm and actions" @56,596 168x24
+      a.tn-nav-item @12,636 240x48
+        svg.tn-icon @24,648 20x20
+        span.tn-ellipsis "Menus and feedback" @56,648 172x24
+      a.tn-nav-item @12,684 240x48
+        svg.tn-icon @24,696 20x20
+        span.tn-ellipsis "Charts" @56,696 56x24
+      a.tn-nav-item @12,732 240x48
+        svg.tn-icon @24,748 20x20
+        span.tn-ellipsis "Markdown" @56,744 88x24
+      a.tn-nav-item @12,780 240x48
+        svg.tn-icon @24,796 20x20
+        span.tn-ellipsis "States and sheets" @56,792 148x24
+      div.tn-nav-group [presentation] "Shell · App frame" @12,832 240x44
+      a.tn-nav-item @12,872 240x48
+        svg.tn-icon @24,888 20x20
+        span.tn-ellipsis "Shell and boards" @56,884 136x24
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @280,0 1144x1532
+    header.tn-toolbar @280,0 1144x56
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @292,4 48x48
+        svg.tn-icon @308,16 20x20
+      h1.tn-toolbar-title.tn-ellipsis "Foundations" @352,16 100x24
+      div.tn-toolbar-spacer @460,28 608x0
+      button.tn-fresh "Updated now" @1076,4 120x48
+      button.tn-iconbtn "Reload" @1200,4 48x48
+        svg.tn-icon @1212,16 20x20
+      button.tn-iconbtn {expanded=false} "Language" @1252,4 48x48
+        svg.tn-icon @1268,16 20x20
+      button.tn-iconbtn "Density: Comfortable (switch)" @1308,4 48x48
+        svg.tn-icon @1320,16 20x20
+      button.tn-iconbtn "Appearance: System (switch)" @1360,4 48x48
+        svg.tn-icon @1376,16 20x20
+    main.tn-content @280,56 1144x1476
+      section.tn-section @300,172 1104x164
+        header.tn-section-head @300,172 1104x24
+          h2.tn-section-title "Status" @304,176 1100x20
+        section.tn-card @300,208 1104x128
+          div.tn-card-body @300,212 1104x128
+      section.tn-section @300,364 1104x168
+        header.tn-section-head @300,364 1104x24
+          h2.tn-section-title "Status as text and primary button" @304,364 1100x20
+        section.tn-card @300,400 1104x132
+          div.tn-card-body @300,400 1104x132
+      section.tn-section @300,556 1104x148
+        header.tn-section-head @300,556 1104x24
+          h2.tn-section-title "Accents" @304,556 1100x20
+        section.tn-card @300,592 1104x112
+          div.tn-card-body @300,592 1104x108
+      section.tn-section @300,728 1104x148
+        header.tn-section-head @300,728 1104x24
+          h2.tn-section-title "Surfaces and text" @304,728 1100x20
+        section.tn-card @300,764 1104x112
+          div.tn-card-body @300,764 1104x108
+      section.tn-section @300,896 1104x340
+        header.tn-section-head @300,896 1104x24
+          h2.tn-section-title "Typography" @304,900 1100x20
+        section.tn-card @300,932 1104x304
+          div.tn-card-body @300,932 1104x300
+            span.tn-stat-value.tn-num "12,345.6" @452,948 120x36
+            span.tn-sheet-title "Title in the detail" @452,996 160x28
+            span.tn-stat-label "Label, subtitle" @452,1112 100x20
+            span.tn-section-title "Section" @452,1144 936x20
+            span.tn-mono "rsync exit 12 · 02:30:00" @452,1196 216x20
+      section.tn-section @300,1260 1104x232
+        header.tn-section-head @300,1260 1104x24
+          h2.tn-section-title "Icons" @304,1260 1100x20
+            span.tn-section-count "34" @352,1260 20x20
+        section.tn-card @300,1296 1104x196
+          div.tn-card-body @300,1296 1104x196
+            svg.tn-icon @324,1328 20x20
+            svg.tn-icon @432,1328 20x20
+            svg.tn-icon @540,1328 20x20
+            svg.tn-icon @648,1328 20x20
+            svg.tn-icon @752,1328 20x20
+            svg.tn-icon @860,1328 20x20
+            svg.tn-icon @968,1328 20x20
+            svg.tn-icon @1076,1328 20x20
+            svg.tn-icon @1184,1328 20x20
+            svg.tn-icon @1292,1328 20x20
+            svg.tn-icon @324,1376 20x20
+            svg.tn-icon @432,1376 20x20
+            svg.tn-icon @540,1376 20x20
+            svg.tn-icon @648,1376 20x20
+            svg.tn-icon @752,1376 20x20
+            svg.tn-icon @860,1376 20x20
+            svg.tn-icon @968,1376 20x20
+            svg.tn-icon @1076,1376 20x20
+            svg.tn-icon @1184,1376 20x20
+            svg.tn-icon @1292,1376 20x20
+            svg.tn-icon @324,1412 20x20
+            svg.tn-icon @432,1412 20x20
+            svg.tn-icon @540,1412 20x20
+            svg.tn-icon @648,1412 20x20
+            svg.tn-icon @752,1412 20x20
+            svg.tn-icon @860,1412 20x20
+            svg.tn-icon @968,1412 20x20
+            svg.tn-icon @1076,1412 20x20
+            svg.tn-icon @1184,1412 20x20
+            svg.tn-icon @1292,1412 20x20
+            svg.tn-icon @324,1452 20x20
+            svg.tn-icon @432,1452 20x20
+            svg.tn-icon @540,1452 20x20
+            svg.tn-icon @648,1452 20x20

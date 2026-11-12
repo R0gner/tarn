@@ -67,6 +67,7 @@
 .tn-fresh {
   font-size: var(--tn-fs-label); color: var(--tn-text-2); font-variant-numeric: tabular-nums;
   min-height: var(--tn-hit); padding: 0 var(--tn-s2); border-radius: var(--tn-r); white-space: nowrap;
+  min-width: var(--tn-fresh-min-w); overflow: var(--tn-fresh-overflow); text-overflow: ellipsis;   /* comfortable: gives way when the toolbar is full on a phone */
 }
 .tn-fresh:hover { background: var(--tn-hover); }
 .tn-fresh.is-stale { color: var(--tn-bad-text); font-weight: var(--tn-fw-label); }

@@ -1,0 +1,50 @@
+# starter-de-comfortable #/page · desktop 1440×900 · dunkel
+header @0,0 1424x92
+  div.tn-seg.tn-seg-sm [radiogroup] "Sprache" @1236,16 168x60
+    button.tn-seg-btn [radio] {checked=false} @1240,20 76x48
+    button.tn-seg-btn [radio] {checked=true} @1316,20 84x48
+main @352,92 720x1040
+  h1 "Eine einfache Seite aus dem Tarn-Kern" @372,124 680x36
+  p [status] @372,232 680x24
+    span.tn-dot.tn-s-ok [img] "In Ordnung" @372,240 12x12
+    span.tn-badge.tn-badge-info "nur Kern" @572,232 72x24
+  button.tn-btn.tn-btn-primary @372,280 128x48
+    svg.tn-icon @388,292 20x20
+  button.tn-btn.tn-btn-default @512,280 188x48
+  button.tn-btn.tn-btn-ghost @712,280 80x48
+  button.tn-iconbtn "Hilfe" @804,280 48x48
+    svg.tn-icon @816,292 20x20
+  h2 "Kontakt" @392,372 640x28
+  form.tn-form @392,420 640x588
+    div.tn-field @392,420 640x76
+      label.tn-field-label @392,420 640x20
+        span.tn-field-req "*" @460,420 8x20
+      div.tn-inputbox @392,448 640x52
+        input.tn-input-el @408,452 612x48
+    div.tn-field @392,520 640x104
+      label.tn-field-label @392,520 640x20
+        span.tn-field-req "*" @508,520 8x20
+      div.tn-inputbox @392,548 640x52
+        input.tn-input-el @408,548 612x48
+      div.tn-field-help "Wir nutzen sie nur für die Antwort." @392,604 640x20
+    div.tn-field @392,644 640x76
+      label.tn-field-label @392,644 640x20
+      div.tn-inputbox.tn-selectbox @392,672 640x52
+        select.tn-select-el @408,672 612x48
+        svg.tn-icon @1000,688 20x20
+    div.tn-field @392,744 640x128
+      label.tn-field-label @392,744 640x20
+        span.tn-field-req "*" @468,744 8x20
+      div.tn-inputbox.is-multiline @392,772 640x100
+        textarea.tn-input-el @408,784 612x72
+    div.tn-field @392,892 640x52
+      label.tn-tick.tn-check @392,892 640x52
+        input.tn-tick-input @392,892 0x0
+        span.tn-check-box @392,900 28x28
+          svg.tn-icon @400,908 12x12
+          svg.tn-icon @400,908 12x12
+        span.tn-tick-text @432,904 176x24
+          span.tn-tick-label "Kopie an mich senden" @432,904 176x24
+    div.tn-form-actions @392,960 640x48
+      button.tn-btn.tn-btn-primary @872,960 160x48
+  button.tn-btn.tn-btn-danger @392,1028 168x48

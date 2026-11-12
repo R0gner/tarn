@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { emulate, evaluate } from '../lib/cdp.mjs';
-import { load, settle, goHash, readViews } from './geometry.mjs';
+import { load, settle, goHash, readViews, applyDensity } from './geometry.mjs';
 import { parseSize } from './targets.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -93,6 +93,7 @@ export async function snapshotTask(w, task, { base, viewFilter, update, outDir }
     const size = parseSize(sn);
     await emulate(page, size, 'dark');
     await load(page, b + pg.path, { push: () => {} });
+    if (pg.density) await applyDensity(page, pg.density);
     await settle(page);
     const views = (await readViews(page, pg)).filter((v) => !viewFilter || viewFilter(pg.id, v));
     const targets = [...views, ...(pg.details || []).filter((d) => !viewFilter || viewFilter(pg.id, d.split('?')[0], d))];

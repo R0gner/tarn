@@ -50,6 +50,9 @@ export async function load(page, url, errs) {
   if (/^chrome-error:/.test(docUrl)) throw Object.assign(new Error(`page not reachable: ${url}`), { env: true });
 }
 
+/** Density of the page (data-density on <html>, what setDensity() in js/density.js does): the pages of tools/verify/targets.mjs name theirs. */
+export const applyDensity = (page, density) => evaluate(page, `(() => { const de = document.documentElement; ${density === 'comfortable' ? "de.setAttribute('data-density', 'comfortable')" : "de.removeAttribute('data-density')"}; return true; })()`);
+
 export function consoleCollector(page) {
   let errs = [];
   page.on((m) => {
@@ -94,6 +97,7 @@ export async function geometryTask(w, task, opts) {
   await emulate(page, size, theme);
   con.take();
   await load(page, base + pg.path, { push: con.push });
+  if (pg.density) await applyDensity(page, pg.density);
   await settle(page);
   if (css) await injectCss(page, css);
   if (js) await evaluate(page, js);
@@ -104,7 +108,7 @@ export async function geometryTask(w, task, opts) {
     await goHash(page, view);
     await settle(page);
     const t1 = Date.now();
-    const res = await evaluate(page, `(${PROBE})(${JSON.stringify({ touch: size.mobile })})`, { timeout: 60000 });
+    const res = await evaluate(page, `(${PROBE})(${JSON.stringify({ touch: size.mobile, strictTouch: pg.density === 'comfortable' ? 48 : 0 })})`, { timeout: 60000 });
     const t2 = Date.now();
     states++;
     const ctx = { page: pg.id, view, size: size.name, theme };

@@ -88,6 +88,18 @@ export const MUTANTS = [
     patch: [{ file: 'js/filterbar.js', from: "onclick: () => toggle(def, o.value) },", to: "onclick: (e) => { toggle(def, o.value); const b = e.currentTarget; b.replaceWith(b.cloneNode(true)); } }," }],
   },
   {
+    // comfortable density: one kind of icon button shrinks below 48 px (e.g. a local override of the size)
+    id: 'comfortable-target-shrunk',
+    page: 'gallery-comfortable', views: ['buttons'], sizes: ['phone', 'desktop'], expect: ['touch48'],
+    css: '.tn-iconbtn { width: 40px; height: 40px; }',
+  },
+  {
+    // comfortable density: the token itself is lowered (every control that follows --tn-hit gets small)
+    id: 'comfortable-hit-token-lowered',
+    page: 'gallery-comfortable', views: ['buttons', 'inputs'], sizes: ['phone', 'desktop'], expect: ['touch48'],
+    css: ':root[data-density="comfortable"] { --tn-hit: 40px; --tn-input-h: 40px; --tn-btn-sm-h: 30px; }',
+  },
+  {
     // a second submit while the first one runs is not ignored: the action is sent twice
     id: 'double-submit',
     check: 'overlay', scenarios: ['form-submit'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

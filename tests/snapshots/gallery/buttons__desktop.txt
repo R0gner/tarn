@@ -63,11 +63,13 @@ div.tn-app @0,0 1424x1028
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
       h1.tn-toolbar-title.tn-ellipsis "Buttons and status" @252,12 116x20
-      div.tn-toolbar-spacer @372,20 848x0
-      button.tn-fresh "Updated now" @1224,8 92x28
-      button.tn-iconbtn "Reload" @1320,8 28x28
+      div.tn-toolbar-spacer @372,20 816x0
+      button.tn-fresh "Updated now" @1192,8 92x28
+      button.tn-iconbtn "Reload" @1288,8 28x28
+        svg.tn-icon @1296,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1320,8 28x28
         svg.tn-icon @1328,12 16x16
-      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+      button.tn-iconbtn "Density: Compact (switch)" @1352,8 28x28
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16

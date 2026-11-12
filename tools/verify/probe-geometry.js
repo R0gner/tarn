@@ -7,6 +7,7 @@
 //   overlap    text boxes overlap; siblings in flex/grid overlap
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
+//   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
 (function tnGeometry(opts) {
   const o = Object.assign({ tol: 1, alignTol: 1.5, minTouch: 40, touch: false, contrast: true, maxPerRule: 60 }, opts || {});
@@ -359,6 +360,30 @@
       }
     }
     window.scrollTo(sx, sy);
+  }
+
+  /* ---- touch48: comfortable density, every interactive element ≥ strictTouch px in both directions (own box, no exceptions) ----
+     No hit-area extension (the box itself is the target), no skipped cases: disabled controls, inline links, nested controls and covered
+     controls count. Checkbox and toggle: the native input is invisible, the target is its label row. Not interactive controls:
+     scroll regions that are only focusable (tabindex) and the insides of SVG graphics. */
+  if (o.strictTouch) {
+    const MIN = o.strictTouch;
+    const SEL48 = 'button, a[href], input:not([type=hidden]), select, textarea, summary, [role=button], [role=link], [role=tab], [role=menuitem], [role=menuitemcheckbox], [role=menuitemradio], [role=radio], [role=checkbox], [role=switch], [role=option], [role=combobox], [role=textbox]';
+    const targets = new Set();
+    for (const el of document.querySelectorAll(SEL48)) {
+      if (ignored(el) || inSvg(el)) continue;
+      if (visible(el)) { targets.add(el); continue; }
+      // invisible native checkbox/radio (opacity 0): the row around it is what is tapped
+      if (el.matches('input[type=checkbox], input[type=radio]') && el.checkVisibility({ visibilityProperty: true }) !== false && getComputedStyle(el).display !== 'none') {
+        const row = el.closest('label');
+        if (row && visible(row)) targets.add(row); else targets.add(el);
+      }
+    }
+    for (const el of targets) {
+      const r = el.getBoundingClientRect();
+      if (r.width >= MIN - 0.5 && r.height >= MIN - 0.5) continue;
+      push(findings, { rule: 'touch48', sel: path(el), where: where(el), px: Math.round(Math.min(r.width, r.height)), text: `target ${Math.round(r.width)}×${Math.round(r.height)} px < ${MIN} (“${snippet(el).slice(0, 24)}”)`, rect: R(r), el });
+    }
   }
 
   // mark elements for the screenshot (data-verify-hit = running number), then remove el (not serialisable)

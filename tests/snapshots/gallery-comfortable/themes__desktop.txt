@@ -1,0 +1,214 @@
+# gallery-comfortable #/themes · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x1104
+  aside.tn-sidebar @0,0 280x900
+    div.tn-sidebar-head @12,0 240x24
+      div.tn-brand @24,0 136x24
+        span.tn-bicon @24,0 24x24
+          img.tn-bicon-img @24,0 24x24
+        span.tn-ellipsis "Tarn Gallery" @60,0 100x24
+    nav.tn-nav "Views" @12,24 240x896
+      div.tn-nav-group [presentation] "Core · Tokens" @12,24 240x32
+      a.tn-nav-item @12,56 240x48
+        svg.tn-icon @24,72 20x20
+        span.tn-ellipsis "Foundations" @56,68 100x24
+      a.tn-nav-item.is-active {current=page} @12,108 240x48
+        svg.tn-icon @24,120 20x20
+        span.tn-ellipsis "Light and dark" @56,120 116x24
+      div.tn-nav-group [presentation] "Core · Primitives" @12,156 240x44
+      a.tn-nav-item @12,200 240x48
+        svg.tn-icon @24,212 20x20
+        span.tn-ellipsis "Buttons and status" @56,212 152x24
+      a.tn-nav-item @12,248 240x48
+        svg.tn-icon @24,264 20x20
+        span.tn-ellipsis "Controls" @56,260 68x24
+      a.tn-nav-item @12,296 240x48
+        svg.tn-icon @24,312 20x20
+        span.tn-ellipsis "Inputs" @56,308 52x24
+      a.tn-nav-item @12,348 240x48
+        svg.tn-icon @24,360 20x20
+        span.tn-ellipsis "Forms" @56,356 52x24
+      div.tn-nav-group [presentation] "Shell · Components" @12,396 240x44
+      a.tn-nav-item @12,440 240x48
+        svg.tn-icon @24,452 20x20
+        span.tn-ellipsis "Cards and tiles" @56,452 124x24
+      a.tn-nav-item @12,488 240x48
+        svg.tn-icon @24,500 20x20
+        span.tn-ellipsis "Rows and facts" @56,500 124x24
+      a.tn-nav-item @12,536 240x48
+        svg.tn-icon @24,552 20x20
+        span.tn-ellipsis "Table and filter" @56,548 124x24
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @216,548 24x24
+      a.tn-nav-item @12,584 240x48
+        svg.tn-icon @24,600 20x20
+        span.tn-ellipsis "Confirm and actions" @56,596 168x24
+      a.tn-nav-item @12,636 240x48
+        svg.tn-icon @24,648 20x20
+        span.tn-ellipsis "Menus and feedback" @56,648 172x24
+      a.tn-nav-item @12,684 240x48
+        svg.tn-icon @24,696 20x20
+        span.tn-ellipsis "Charts" @56,696 56x24
+      a.tn-nav-item @12,732 240x48
+        svg.tn-icon @24,748 20x20
+        span.tn-ellipsis "Markdown" @56,744 88x24
+      a.tn-nav-item @12,780 240x48
+        svg.tn-icon @24,796 20x20
+        span.tn-ellipsis "States and sheets" @56,792 148x24
+      div.tn-nav-group [presentation] "Shell · App frame" @12,832 240x44
+      a.tn-nav-item @12,872 240x48
+        svg.tn-icon @24,888 20x20
+        span.tn-ellipsis "Shell and boards" @56,884 136x24
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @280,0 1144x1104
+    header.tn-toolbar @280,0 1144x56
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @292,4 48x48
+        svg.tn-icon @308,16 20x20
+      h1.tn-toolbar-title.tn-ellipsis "Light and dark" @352,16 116x24
+      div.tn-toolbar-spacer @476,28 592x0
+      button.tn-fresh "Updated now" @1076,4 120x48
+      button.tn-iconbtn "Reload" @1200,4 48x48
+        svg.tn-icon @1212,16 20x20
+      button.tn-iconbtn {expanded=false} "Language" @1252,4 48x48
+        svg.tn-icon @1268,16 20x20
+      button.tn-iconbtn "Density: Comfortable (switch)" @1308,4 48x48
+        svg.tn-icon @1320,16 20x20
+      button.tn-iconbtn "Appearance: System (switch)" @1360,4 48x48
+        svg.tn-icon @1376,16 20x20
+    main.tn-content @280,56 1144x1048
+      section.tn-card @300,76 1104x244
+        header.tn-card-head @300,76 1104x48
+          div.tn-card-heading @316,88 1072x24
+            h3.tn-card-title "Density" @316,88 1072x24
+        div.tn-card-body @300,128 1104x192
+          div.tn-seg [radiogroup] "Density" @316,144 1072x60
+            button.tn-seg-btn [radio] {checked=false} @320,148 520x48
+            button.tn-seg-btn [radio] {checked=true} @840,148 544x48
+      div.tn-section-title "Dark" @320,436 500x20
+      div.tn-tiles @320,472 500x116
+        div.tn-stat @320,472 160x116
+          div.tn-stat-label @340,484 124x20
+            span.tn-dot.tn-s-bad [img] "Error" @340,492 12x12
+            span.tn-ellipsis "Jobs" @356,484 36x20
+          div.tn-stat-value.tn-num "12" @340,508 124x36
+          div.tn-stat-sub.tn-t-bad "1 error" @340,548 124x20
+        div.tn-stat @492,472 160x116
+          div.tn-stat-label @508,484 124x20
+            span.tn-ellipsis "Storage" @508,484 56x20
+          div.tn-stat-value.tn-num "1.9" @508,508 124x36
+            span.tn-stat-unit "TB" @556,520 20x20
+          div.tn-stat-sub @508,548 124x28
+            div.tn-chart.tn-spark [img] @508,548 124x24
+              div.tn-chart-plot @508,548 124x24
+                svg.tn-svg @508,548 124x24
+      section.tn-card.tn-card-flush @320,604 500x192
+        header.tn-card-head @324,608 500x72
+          div.tn-card-heading @340,620 468x48
+            h3.tn-card-title "Problems" @340,620 468x24
+            div.tn-card-sub "2 current" @340,644 468x20
+        div.tn-card-body @324,676 500x116
+          div.tn-list [list] @324,676 500x116
+            button.tn-row.tn-row-btn @324,676 500x60
+              span.tn-row-status @340,704 12x12
+                span.tn-dot.tn-s-bad [img] "Error" @340,704 12x12
+              span.tn-row-main @368,684 328x48
+                span.tn-row-title.tn-ellipsis "Offsite archive sync" @368,684 328x24
+                span.tn-row-sub.tn-ellipsis "nas-b · rsync exit 12" @368,708 328x20
+              span.tn-row-value @708,696 60x24
+                span.tn-num "3 h ago" @708,696 60x24
+              span.tn-go @784,696 20x20
+                svg.tn-icon @784,696 20x20
+            button.tn-row.tn-row-btn @324,736 500x60
+              span.tn-row-status @340,760 12x12
+                span.tn-dot.tn-s-warn [img] "Warning" @340,760 12x12
+              span.tn-row-main @368,744 296x48
+                span.tn-row-title.tn-ellipsis "Media library scan" @368,744 296x24
+                span.tn-row-sub.tn-ellipsis "media-1 · takes longer than usual" @368,768 296x20
+              span.tn-row-value @680,756 92x24
+                span.tn-num "40 min ago" @680,756 92x24
+              span.tn-go @784,756 20x20
+                svg.tn-icon @784,756 20x20
+      section.tn-card @320,812 500x168
+        div.tn-card-body @324,812 500x168
+          button.tn-btn.tn-btn-default @340,836 112x48
+            svg.tn-icon @356,848 20x20
+          button.tn-btn.tn-btn-primary @464,836 68x48
+          div.tn-seg.tn-seg-sm [radiogroup] @548,828 124x60
+            button.tn-seg-btn [radio] {checked=true} @552,836 52x48
+            button.tn-seg-btn [radio] {checked=false} @608,836 64x48
+          span.tn-badge.tn-badge-bad "3" @692,848 24x24
+          span.tn-dotlabel @340,904 80x24
+            span.tn-dot.tn-s-ok @340,912 12x12
+          div.tn-usage @340,928 468x36
+            div.tn-progress-head @340,928 468x20
+              span.tn-usage-label.tn-ellipsis "nas-b /archive" @340,928 276x20
+              span.tn-usage-val.tn-num "793 GB of 931 GB" @628,928 176x20
+                span.tn-usage-pct.tn-t-warn "· 85%" @756,928 48x20
+            div.tn-progress.tn-tone-warn [progressbar] @340,960 468x8
+              span.tn-progress-fill @340,960 396x8
+      div.tn-banner.tn-banner-bad [alert] @320,996 500x48
+        svg.tn-icon @340,1012 20x20
+        div.tn-banner-text "Data is stale: updated 2 h ago" @372,1012 436x20
+      div.tn-section-title "Light" @884,436 500x20
+      div.tn-tiles @884,472 500x116
+        div.tn-stat @884,472 160x116
+          div.tn-stat-label @900,484 124x20
+            span.tn-dot.tn-s-bad [img] "Error" @900,492 12x12
+            span.tn-ellipsis "Jobs" @920,484 36x20
+          div.tn-stat-value.tn-num "12" @900,508 124x36
+          div.tn-stat-sub.tn-t-bad "1 error" @900,548 124x20
+        div.tn-stat @1056,472 160x116
+          div.tn-stat-label @1072,484 124x20
+            span.tn-ellipsis "Storage" @1072,484 56x20
+          div.tn-stat-value.tn-num "1.9" @1072,508 124x36
+            span.tn-stat-unit "TB" @1120,520 20x20
+          div.tn-stat-sub @1072,548 124x28
+            div.tn-chart.tn-spark [img] @1072,548 124x24
+              div.tn-chart-plot @1072,548 124x24
+                svg.tn-svg @1072,548 124x24
+      section.tn-card.tn-card-flush @884,604 500x192
+        header.tn-card-head @884,608 500x72
+          div.tn-card-heading @900,620 468x48
+            h3.tn-card-title "Problems" @900,620 468x24
+            div.tn-card-sub "2 current" @900,644 468x20
+        div.tn-card-body @884,676 500x116
+          div.tn-list [list] @884,676 500x116
+            button.tn-row.tn-row-btn @884,676 500x60
+              span.tn-row-status @900,704 12x12
+                span.tn-dot.tn-s-bad [img] "Error" @900,704 12x12
+              span.tn-row-main @928,684 328x48
+                span.tn-row-title.tn-ellipsis "Offsite archive sync" @928,684 328x24
+                span.tn-row-sub.tn-ellipsis "nas-b · rsync exit 12" @928,708 328x20
+              span.tn-row-value @1272,696 60x24
+                span.tn-num "3 h ago" @1272,696 60x24
+              span.tn-go @1348,696 20x20
+                svg.tn-icon @1348,696 20x20
+            button.tn-row.tn-row-btn @884,736 500x60
+              span.tn-row-status @900,760 12x12
+                span.tn-dot.tn-s-warn [img] "Warning" @900,760 12x12
+              span.tn-row-main @928,744 296x48
+                span.tn-row-title.tn-ellipsis "Media library scan" @928,744 296x24
+                span.tn-row-sub.tn-ellipsis "media-1 · takes longer than usual" @928,768 296x20
+              span.tn-row-value @1240,756 92x24
+                span.tn-num "40 min ago" @1240,756 92x24
+              span.tn-go @1348,756 20x20
+                svg.tn-icon @1348,756 20x20
+      section.tn-card @884,812 500x168
+        div.tn-card-body @884,812 500x168
+          button.tn-btn.tn-btn-default @900,836 112x48
+            svg.tn-icon @916,848 20x20
+          button.tn-btn.tn-btn-primary @1028,836 68x48
+          div.tn-seg.tn-seg-sm [radiogroup] @1112,828 124x60
+            button.tn-seg-btn [radio] {checked=true} @1116,836 52x48
+            button.tn-seg-btn [radio] {checked=false} @1168,836 64x48
+          span.tn-badge.tn-badge-bad "3" @1252,848 24x24
+          span.tn-dotlabel @900,904 80x24
+            span.tn-dot.tn-s-ok @900,912 12x12
+          div.tn-usage @900,928 468x36
+            div.tn-progress-head @900,928 468x20
+              span.tn-usage-label.tn-ellipsis "nas-b /archive" @900,928 276x20
+              span.tn-usage-val.tn-num "793 GB of 931 GB" @1188,928 176x20
+                span.tn-usage-pct.tn-t-warn "· 85%" @1320,928 48x20
+            div.tn-progress.tn-tone-warn [progressbar] @900,960 468x8
+              span.tn-progress-fill @900,960 396x8
+      div.tn-banner.tn-banner-bad [alert] @884,996 500x48
+        svg.tn-icon @900,1012 20x20
+        div.tn-banner-text "Data is stale: updated 2 h ago" @932,1012 436x20

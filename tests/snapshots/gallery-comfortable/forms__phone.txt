@@ -1,0 +1,111 @@
+# gallery-comfortable #/forms · phone 390×844 · dunkel
+div.tn-app @0,0 392x1156
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-272,0 256x24
+      div.tn-brand @-260,0 136x24
+        span.tn-bicon @-260,0 24x24
+          img.tn-bicon-img @-260,0 24x24
+        span.tn-ellipsis "Tarn Gallery" @-224,0 100x24
+    nav.tn-nav "Views" @-272,24 256x896
+      div.tn-nav-group [presentation] "Core · Tokens" @-272,24 256x32
+      a.tn-nav-item @-272,56 256x48
+        svg.tn-icon @-260,72 20x20
+        span.tn-ellipsis "Foundations" @-228,68 100x24
+      a.tn-nav-item @-272,108 256x48
+        svg.tn-icon @-260,120 20x20
+        span.tn-ellipsis "Light and dark" @-228,120 116x24
+      div.tn-nav-group [presentation] "Core · Primitives" @-272,156 256x44
+      a.tn-nav-item @-272,200 256x48
+        svg.tn-icon @-260,212 20x20
+        span.tn-ellipsis "Buttons and status" @-228,212 152x24
+      a.tn-nav-item @-272,248 256x48
+        svg.tn-icon @-260,264 20x20
+        span.tn-ellipsis "Controls" @-228,260 68x24
+      a.tn-nav-item @-272,296 256x48
+        svg.tn-icon @-260,312 20x20
+        span.tn-ellipsis "Inputs" @-228,308 52x24
+      a.tn-nav-item.is-active {current=page} @-272,348 256x48
+        svg.tn-icon @-260,360 20x20
+        span.tn-ellipsis "Forms" @-228,356 52x24
+      div.tn-nav-group [presentation] "Shell · Components" @-272,396 256x44
+      a.tn-nav-item @-272,440 256x48
+        svg.tn-icon @-260,452 20x20
+        span.tn-ellipsis "Cards and tiles" @-228,452 124x24
+      a.tn-nav-item @-272,488 256x48
+        svg.tn-icon @-260,500 20x20
+        span.tn-ellipsis "Rows and facts" @-228,500 124x24
+      a.tn-nav-item @-272,536 256x48
+        svg.tn-icon @-260,552 20x20
+        span.tn-ellipsis "Table and filter" @-228,548 124x24
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-56,548 24x24
+      a.tn-nav-item @-272,584 256x48
+        svg.tn-icon @-260,600 20x20
+        span.tn-ellipsis "Confirm and actions" @-228,596 168x24
+      a.tn-nav-item @-272,636 256x48
+        svg.tn-icon @-260,648 20x20
+        span.tn-ellipsis "Menus and feedback" @-228,648 172x24
+      a.tn-nav-item @-272,684 256x48
+        svg.tn-icon @-260,696 20x20
+        span.tn-ellipsis "Charts" @-228,696 56x24
+      a.tn-nav-item @-272,732 256x48
+        svg.tn-icon @-260,748 20x20
+        span.tn-ellipsis "Markdown" @-228,744 88x24
+      a.tn-nav-item @-272,780 256x48
+        svg.tn-icon @-260,796 20x20
+        span.tn-ellipsis "States and sheets" @-228,792 148x24
+      div.tn-nav-group [presentation] "Shell · App frame" @-272,832 256x44
+      a.tn-nav-item @-272,872 256x48
+        svg.tn-icon @-260,888 20x20
+        span.tn-ellipsis "Shell and boards" @-228,884 136x24
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x1156
+    header.tn-toolbar @0,0 392x56
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
+        svg.tn-icon @20,16 20x20
+      h1.tn-toolbar-title.tn-ellipsis "Forms" @68,16 20x24
+      div.tn-toolbar-spacer @92,28 0x0
+      button.tn-fresh "Updated now" @100,4 64x48
+      button.tn-iconbtn "Reload" @168,4 48x48
+        svg.tn-icon @184,16 20x20
+      button.tn-iconbtn {expanded=false} "Language" @224,4 48x48
+        svg.tn-icon @236,16 20x20
+      button.tn-iconbtn "Density: Comfortable (switch)" @276,4 48x48
+        svg.tn-icon @292,16 20x20
+      button.tn-iconbtn "Appearance: System (switch)" @332,4 48x48
+        svg.tn-icon @344,16 20x20
+    main.tn-content @0,56 392x1100
+      section.tn-card @16,216 360x924
+        header.tn-card-head @16,216 356x48
+          div.tn-card-heading @32,228 324x24
+            h3.tn-card-title "form()" @32,228 324x24
+        div.tn-card-body @16,264 356x872
+          form.tn-form @32,280 324x472
+            div.tn-field @32,280 324x76
+              label.tn-field-label @32,280 324x20
+                span.tn-field-req "*" @116,280 8x20
+              div.tn-inputbox.tn-combobox @32,308 324x52
+                button.tn-combo-btn {expanded=false} @48,312 300x48
+                  span.tn-combo-face.tn-ellipsis.is-placeholder "Select …" @48,320 268x28
+                  svg.tn-icon @324,324 20x20
+            div.tn-field @32,380 324x104
+              label.tn-field-label @32,380 324x20
+                span.tn-field-req "*" @92,380 8x20
+              div.tn-inputbox @32,408 324x52
+                input.tn-input-el.tn-mono @48,408 300x48
+              div.tn-field-help "For example 2.4.1" @32,464 324x20
+            div.tn-field @32,504 324x76
+              label.tn-field-label @32,504 324x20
+              div.tn-inputbox.tn-selectbox @32,532 324x52
+                select.tn-select-el @48,532 300x48
+                svg.tn-icon @324,548 20x20
+            div.tn-field @32,604 324x80
+              label.tn-tick.tn-check @32,604 324x80
+                input.tn-tick-input @32,604 0x0
+                span.tn-check-box @32,628 28x28
+                  svg.tn-icon @40,636 12x12
+                  svg.tn-icon @40,636 12x12
+                span.tn-tick-text @72,608 284x68
+                  span.tn-tick-label "Dry run" @72,608 284x24
+                  span.tn-tick-help "Simulate the deployment, change nothing." @72,636 284x44
+            div.tn-form-actions @32,704 324x48
+              button.tn-btn.tn-btn-primary @200,704 156x48

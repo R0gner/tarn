@@ -24,7 +24,7 @@ test('a component file maps to the views that use it', () => {
   assert.ok(s.views.get('board').has('jobs'));
   assert.ok(!s.views.get('gallery').has('charts'));
   const f = scopeFilters(s, PAGES);
-  assert.deepEqual(f.pages.map((p) => p.id), ['gallery', 'board', 'board-de', 'board-fr']);
+  assert.deepEqual(f.pages.map((p) => p.id), ['gallery', 'board', 'board-de', 'board-fr', 'gallery-comfortable']);   // the comfortable twin comes with the gallery
   assert.equal(f.viewFilter('gallery', 'table'), true);
   assert.equal(f.viewFilter('gallery', 'charts'), false);
 });
@@ -60,9 +60,9 @@ test('treeIdentity: stable for an unchanged tree', () => {
 test('the starter page is its own scope; input and form code reach it too', () => {
   const s = scopeOf(['starter/starter.js', 'starter/messages.js']);
   assert.equal(s.all, false);
-  assert.deepEqual([...s.views.keys()].sort(), ['starter', 'starter-de']);
+  assert.deepEqual([...s.views.keys()].sort(), ['starter', 'starter-comfortable', 'starter-de', 'starter-de-comfortable']);
   assert.equal(s.views.get('starter'), null);
   const f = scopeFilters(s, PAGES);
-  assert.deepEqual(f.pages.map((p) => p.id), ['starter', 'starter-de']);
+  assert.deepEqual(f.pages.map((p) => p.id), ['starter', 'starter-de', 'starter-comfortable', 'starter-de-comfortable']);
   assert.ok(scopeOf(['js/form.js']).views.has('starter'));
 });

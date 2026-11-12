@@ -126,6 +126,8 @@
   --tn-seg-h: calc(var(--tn-hit) - var(--tn-sz-6));
   --tn-seg-sm-h: var(--tn-sz-22);
   --tn-seg-py: var(--tn-sp-2);   /* frame above and below the segments */
+  --tn-fresh-min-w: auto;        /* toolbar "Updated …": fixed width (compact) or may shrink down to a control (comfortable) */
+  --tn-fresh-overflow: visible;
   --tn-badge-h: var(--tn-sz-18);
   --tn-pill-h: var(--tn-sz-30);
   --tn-check: var(--tn-sz-18);   /* checkbox box */
@@ -273,6 +275,8 @@
   --tn-seg-sm-h: var(--tn-sz-48);
   --tn-seg-py: var(--tn-sp-3);
   --tn-badge-h: var(--tn-sz-24);
+  --tn-fresh-min-w: var(--tn-hit);
+  --tn-fresh-overflow: hidden;
   --tn-pill-h: var(--tn-sz-48);
   --tn-check: var(--tn-sz-28);
   --tn-toggle-w: var(--tn-sz-48);

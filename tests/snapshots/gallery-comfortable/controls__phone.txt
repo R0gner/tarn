@@ -1,0 +1,180 @@
+# gallery-comfortable #/controls · phone 390×844 · dunkel
+div.tn-app @0,0 392x1924
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-272,0 256x24
+      div.tn-brand @-260,0 136x24
+        span.tn-bicon @-260,0 24x24
+          img.tn-bicon-img @-260,0 24x24
+        span.tn-ellipsis "Tarn Gallery" @-224,0 100x24
+    nav.tn-nav "Views" @-272,24 256x896
+      div.tn-nav-group [presentation] "Core · Tokens" @-272,24 256x32
+      a.tn-nav-item @-272,56 256x48
+        svg.tn-icon @-260,72 20x20
+        span.tn-ellipsis "Foundations" @-228,68 100x24
+      a.tn-nav-item @-272,108 256x48
+        svg.tn-icon @-260,120 20x20
+        span.tn-ellipsis "Light and dark" @-228,120 116x24
+      div.tn-nav-group [presentation] "Core · Primitives" @-272,156 256x44
+      a.tn-nav-item @-272,200 256x48
+        svg.tn-icon @-260,212 20x20
+        span.tn-ellipsis "Buttons and status" @-228,212 152x24
+      a.tn-nav-item.is-active {current=page} @-272,248 256x48
+        svg.tn-icon @-260,264 20x20
+        span.tn-ellipsis "Controls" @-228,260 68x24
+      a.tn-nav-item @-272,296 256x48
+        svg.tn-icon @-260,312 20x20
+        span.tn-ellipsis "Inputs" @-228,308 52x24
+      a.tn-nav-item @-272,348 256x48
+        svg.tn-icon @-260,360 20x20
+        span.tn-ellipsis "Forms" @-228,356 52x24
+      div.tn-nav-group [presentation] "Shell · Components" @-272,396 256x44
+      a.tn-nav-item @-272,440 256x48
+        svg.tn-icon @-260,452 20x20
+        span.tn-ellipsis "Cards and tiles" @-228,452 124x24
+      a.tn-nav-item @-272,488 256x48
+        svg.tn-icon @-260,500 20x20
+        span.tn-ellipsis "Rows and facts" @-228,500 124x24
+      a.tn-nav-item @-272,536 256x48
+        svg.tn-icon @-260,552 20x20
+        span.tn-ellipsis "Table and filter" @-228,548 124x24
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-56,548 24x24
+      a.tn-nav-item @-272,584 256x48
+        svg.tn-icon @-260,600 20x20
+        span.tn-ellipsis "Confirm and actions" @-228,596 168x24
+      a.tn-nav-item @-272,636 256x48
+        svg.tn-icon @-260,648 20x20
+        span.tn-ellipsis "Menus and feedback" @-228,648 172x24
+      a.tn-nav-item @-272,684 256x48
+        svg.tn-icon @-260,696 20x20
+        span.tn-ellipsis "Charts" @-228,696 56x24
+      a.tn-nav-item @-272,732 256x48
+        svg.tn-icon @-260,748 20x20
+        span.tn-ellipsis "Markdown" @-228,744 88x24
+      a.tn-nav-item @-272,780 256x48
+        svg.tn-icon @-260,796 20x20
+        span.tn-ellipsis "States and sheets" @-228,792 148x24
+      div.tn-nav-group [presentation] "Shell · App frame" @-272,832 256x44
+      a.tn-nav-item @-272,872 256x48
+        svg.tn-icon @-260,888 20x20
+        span.tn-ellipsis "Shell and boards" @-228,884 136x24
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x1924
+    header.tn-toolbar @0,0 392x56
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
+        svg.tn-icon @20,16 20x20
+      h1.tn-toolbar-title.tn-ellipsis "Controls" @68,16 24x24
+      div.tn-toolbar-spacer @96,28 0x0
+      button.tn-fresh "Updated now" @104,4 60x48
+      button.tn-iconbtn "Reload" @168,4 48x48
+        svg.tn-icon @184,16 20x20
+      button.tn-iconbtn {expanded=false} "Language" @224,4 48x48
+        svg.tn-icon @236,16 20x20
+      button.tn-iconbtn "Density: Comfortable (switch)" @276,4 48x48
+        svg.tn-icon @292,16 20x20
+      button.tn-iconbtn "Appearance: System (switch)" @332,4 48x48
+        svg.tn-icon @344,16 20x20
+    main.tn-content @0,56 392x1868
+      section.tn-card @16,164 360x540
+        header.tn-card-head @16,168 356x48
+          div.tn-card-heading @32,180 324x24
+            h3.tn-card-title "segmented()" @32,180 324x24
+        div.tn-card-body @16,216 356x488
+          div.tn-seg [radiogroup] "Time range" @32,232 244x60
+            button.tn-seg-btn [radio] {checked=true} @36,236 64x48
+            button.tn-seg-btn [radio] {checked=false} @104,236 80x48
+            button.tn-seg-btn [radio] {checked=false} @184,236 92x48
+          div.tn-seg.tn-seg-sm [radiogroup] @32,368 220x60
+            button.tn-seg-btn [radio] {checked=false} @36,372 48x48
+            button.tn-seg-btn [radio] {checked=true} @88,372 68x48
+            button.tn-seg-btn [radio] {checked=false} @156,372 92x48
+          div.tn-seg [radiogroup] "Layout" @32,464 112x60
+            button.tn-seg-btn [radio] {checked=true} "List" @36,472 52x48
+              svg.tn-icon @52,484 20x20
+            button.tn-seg-btn [radio] {checked=false} "Tiles" @92,472 52x48
+              svg.tn-icon @108,484 20x20
+      section.tn-card @16,724 360x460
+        header.tn-card-head @16,724 356x48
+          div.tn-card-heading @32,736 324x24
+            h3.tn-card-title "tooltip() and hint" @32,736 324x24
+        div.tn-card-body @16,776 356x408
+          button.tn-iconbtn "Info" @32,792 48x48
+            svg.tn-icon @48,804 20x20
+          button.tn-iconbtn "More" @120,792 48x48
+            svg.tn-icon @132,804 20x20
+          span.tn-ellipsis "offsite-sync-archive-nas-b-daily-04-15" @32,880 140x24
+          span.tn-ellipsis "Short" @188,880 44x24
+      section.tn-card @16,1204 360x272
+        header.tn-card-head @16,1204 356x48
+          div.tn-card-heading @32,1216 324x24
+            h3.tn-card-title "tabs()" @32,1216 324x24
+        div.tn-card-body @16,1256 356x220
+          div.tn-tabset @32,1272 324x88
+            div.tn-tabs [tablist] @32,1272 324x48
+              button.tn-tab [tab] {selected=true} @32,1272 76x48
+                span.tn-tab-count "7" @88,1284 8x20
+              button.tn-tab [tab] {selected=false} @116,1272 68x48
+                span.tn-tab-count "6" @164,1284 8x20
+              button.tn-tab [tab] {selected=false} @188,1272 84x48
+                span.tn-tab-count.tn-t-bad "3" @252,1284 8x20
+              button.tn-tab [tab] {selected=false} @280,1272 88x48
+                span.tn-tab-count "0" @348,1284 8x20
+            div.tn-tabpanel [tabpanel] @32,1336 324x24
+              div.tn-heat.is-lg [img] "30 runs, 3 failed" @32,1336 324x24
+                span.tn-heat-cell.tn-s-ok @32,1336 8x24
+                span.tn-heat-cell.tn-s-ok @44,1336 8x24
+                span.tn-heat-cell.tn-s-ok @56,1336 8x24
+                span.tn-heat-cell.tn-s-ok @64,1336 8x24
+                span.tn-heat-cell.tn-s-bad @76,1336 8x24
+                span.tn-heat-cell.tn-s-ok @88,1336 8x24
+                span.tn-heat-cell.tn-s-ok @100,1336 8x24
+                span.tn-heat-cell.tn-s-ok @108,1336 8x24
+                span.tn-heat-cell.tn-s-ok @120,1336 8x24
+                span.tn-heat-cell.tn-s-ok @132,1336 8x24
+                span.tn-heat-cell.tn-s-ok @144,1336 8x24
+                span.tn-heat-cell.tn-s-ok @152,1336 8x24
+                span.tn-heat-cell.tn-s-ok @164,1336 8x24
+                span.tn-heat-cell.tn-s-ok @176,1336 8x24
+                span.tn-heat-cell.tn-s-ok @188,1336 8x24
+                span.tn-heat-cell.tn-s-warn @196,1336 8x24
+                span.tn-heat-cell.tn-s-ok @208,1336 8x24
+                span.tn-heat-cell.tn-s-ok @220,1336 8x24
+                span.tn-heat-cell.tn-s-ok @228,1336 8x24
+                span.tn-heat-cell.tn-s-ok @240,1336 8x24
+                span.tn-heat-cell.tn-s-bad @252,1336 8x24
+                span.tn-heat-cell.tn-s-ok @264,1336 8x24
+                span.tn-heat-cell.tn-s-ok @272,1336 8x24
+                span.tn-heat-cell.tn-s-ok @284,1336 8x24
+                span.tn-heat-cell.tn-s-ok @296,1336 8x24
+                span.tn-heat-cell.tn-s-ok @308,1336 8x24
+                span.tn-heat-cell.tn-s-ok @316,1336 8x24
+                span.tn-heat-cell.tn-s-bad @328,1336 8x24
+                span.tn-heat-cell.tn-s-ok @340,1336 8x24
+                span.tn-heat-cell.tn-s-ok @352,1336 8x24
+      section.tn-card @16,1496 360x416
+        header.tn-card-head @16,1496 356x48
+          div.tn-card-heading @32,1508 324x24
+            h3.tn-card-title "progress()" @32,1508 324x24
+        div.tn-card-body @16,1548 356x364
+          div.tn-progress-wrap @32,1564 324x36
+            div.tn-progress-head @32,1564 324x20
+              span.tn-ellipsis "Offsite upload" @32,1564 100x20
+              span.tn-num "42%" @324,1564 36x20
+            div.tn-progress [progressbar] "Offsite upload" @32,1592 324x8
+              span.tn-progress-fill @32,1592 136x8
+          div.tn-progress-wrap @32,1612 324x36
+            div.tn-progress-head @32,1612 324x20
+              span.tn-ellipsis "Error rate" @32,1612 68x20
+              span.tn-num "93%" @324,1612 36x20
+            div.tn-progress.tn-tone-bad [progressbar] "Error rate" @32,1644 324x8
+              span.tn-progress-fill @32,1644 300x8
+          div.tn-progress-wrap @32,1664 324x36
+            div.tn-progress-head @32,1664 324x20
+              span.tn-ellipsis "Indexing …" @32,1664 76x20
+            div.tn-progress.is-indeterminate [progressbar] "Indexing …" @32,1696 324x8
+              span.tn-progress-fill @-292,1696 96x8
+          div.tn-progress-wrap @32,1716 324x36
+            div.tn-progress-head @32,1716 324x20
+              span.tn-ellipsis "Empty" @32,1716 44x20
+              span.tn-num "0%" @332,1716 24x20
+            div.tn-progress [progressbar] "Empty" @32,1748 324x8
+              span.tn-progress-fill @32,1748 0x8

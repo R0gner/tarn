@@ -7,6 +7,8 @@ import { changedFiles } from '../lib/tree.mjs';
 const ALL = 'all', NONE = 'none';
 const G = (...views) => ({ gallery: views.length ? views : null });
 const BOARDS = { board: null, 'board-de': null, 'board-fr': null };
+// pages that have a comfortable-density twin (tools/verify/targets.mjs): a change that affects the page affects the twin
+const MIRROR = { gallery: 'gallery-comfortable', starter: 'starter-comfortable', 'starter-de': 'starter-de-comfortable' };
 const join = (...s) => Object.assign({}, ...s);
 
 // First match wins.
@@ -44,6 +46,7 @@ export function scopeOf(files) {
   const views = new Map();
   let all = false;
   const add = (pageId, list) => {
+    if (MIRROR[pageId]) add(MIRROR[pageId], list);   // the comfortable twin of a page is checked with it
     if (list === null) { views.set(pageId, null); return; }
     if (views.get(pageId) === null) return;
     const set = views.get(pageId) || new Set();

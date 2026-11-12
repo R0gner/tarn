@@ -8,8 +8,14 @@ export const PAGES = [
   { id: 'board-de', path: '/example/?lang=de', details: ['jobs?open=offsite-sync', 'deploy?run=bad'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
   { id: 'board-fr', path: '/example/?lang=fr', details: ['jobs?open=offsite-sync', 'deploy?run=ok'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
   // starter page: a plain website from the core only (no shell, no navigation): `views` replaces the navigation, #/errors shows the validation state
-  { id: 'starter', path: '/starter/?lang=en', views: ['page'], details: ['errors'] },
-  { id: 'starter-de', path: '/starter/?lang=de', views: ['page'], details: ['errors'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },
+  // density: 'compact' | 'comfortable' – set on <html> after loading (a page may choose its own default; the baseline pages name theirs)
+  { id: 'starter', path: '/starter/?lang=en', views: ['page'], details: ['errors'], density: 'compact' },
+  { id: 'starter-de', path: '/starter/?lang=de', views: ['page'], details: ['errors'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'], density: 'compact' },
+  // comfortable density: the core views of the gallery and the starter page, phone + desktop, dark + light; every interactive element ≥ 48 px
+  // (rule touch48, no exceptions: tools/verify/exceptions.json is not consulted for it). Compact pages above stay as they are.
+  { id: 'gallery-comfortable', path: '/gallery/?lang=en', views: ['foundations', 'themes', 'buttons', 'controls', 'inputs', 'forms'], density: 'comfortable', sizes: ['phone', 'desktop'] },
+  { id: 'starter-comfortable', path: '/starter/?lang=en', views: ['page'], details: ['errors'], density: 'comfortable', sizes: ['phone', 'phone-s', 'desktop'] },
+  { id: 'starter-de-comfortable', path: '/starter/?lang=de', views: ['page'], details: ['errors'], density: 'comfortable', sizes: ['phone', 'phone-s'], themes: ['dark'] },
 ];
 
 // mobile = touch emulation (pointer: coarse) + touch target check

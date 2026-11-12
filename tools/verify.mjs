@@ -125,6 +125,7 @@ function loadRules() {
 }
 function classify(findings, rules) {
   for (const f of findings) {
+    if (f.rule === 'touch48') continue;   // comfortable touch targets: no exceptions and no known faults, whatever exceptions.json says
     const ex = rules.exceptions.find((e) => e.test(f));
     if (ex) { f.excepted = ex.id; continue; }
     const kn = rules.known.find((e) => e.test(f));
