@@ -40,6 +40,22 @@ Round 4, stage R: renamed from dashkit.
   imports and loads core files only); positive controls in the tests and in `verify --selftest`.
 - Fixed: `vendor.mjs` crashed when an update removed several files of one stale folder.
 
+### Round 4, stage T: comfortable density
+- `data-density="comfortable"` on `<html>`: the same tokens with other values (type scale, spacing, 48 px targets for every interactive element,
+  stronger contrast, wider sidebar). Compact stays the default and pixel-identical (every compact snapshot unchanged except the gallery toolbar,
+  see below). `js/density.js` (`getDensity`, `setDensity`, `DENSITIES`, stored as `tn-density`, applied by `theme-init.js`); control
+  dimensions that used to be fixed or `pointer: coarse` rules are tokens now (`--tn-min-w`, `--tn-btn-sm-h`, `--tn-seg-h`, `--tn-seg-sm-h`,
+  `--tn-seg-py`, `--tn-pill-h`, `--tn-badge-h`, `--tn-check`, `--tn-toggle-*`, `--tn-fresh-*`). README "Density" lists the values.
+- Fixed: `.tn-pill` (used by `dateRange`) was styled in the shell stylesheet; it moved to `css/core.css`, so a core-only page gets it.
+- Lint rule `density`: `data-density` only in `css/tokens.css` (positive control in the tests).
+- Gallery: density button next to the theme switch (`createApp({ densitySwitch: true })`) and a Density demo in "Light and dark"; the starter page uses
+  comfortable. The gallery snapshots changed only in the toolbar (new button) and in the "Light and dark" view; board snapshots unchanged.
+- verify: pages `gallery-comfortable` (core views), `starter-comfortable`, `starter-de-comfortable` (geometry, snapshots, phone + desktop, dark + light);
+  strict rule `touch48` without exceptions; mutants `comfortable-target-shrunk` and `comfortable-hit-token-lowered`; `--changed` includes the twins.
+- Starter page: the help icon button sits in the header (it dropped to its own line on a 444 px phone), button rows wrap evenly; starter snapshots re-baselined.
+- Locale catalogs split: `js/locales/<lang>.js` core texts (37 keys), `<lang>-shell.js` shell texts (98 keys), merged by `js/locales/shell.js`
+  (`addKitMessages()`); `--profile core` and `@r0gner/tarn/core` ship only core texts. The full barrel is unchanged for boards.
+
 ## 0.3.0
 
 First version with its own history. Round 3 "foundation", in stages:

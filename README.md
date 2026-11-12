@@ -40,7 +40,7 @@ charts, sheets, data source, router, `createApp`) builds on the core. Direction 
 | Part | Files | Provides |
 |---|---|---|
 | **core** | `css/tokens.css`, `fonts.css`, `base.css`, `core.css` | tokens, fonts, reset, focus, helper classes · button, badge, status dot, segmented, tabs, progress, tooltip, inputs, form |
-| **core** | `js/core.js` (entry point), `js/version.js`, `theme-init.js`, `dom.js`, `press.js`, `overlay.js`, `format.js`, `i18n.js`, `locales/`, `icons.js`, `icons-data.js`, `favicon.js` | `h`, `icon`, `t`, `fmt*`, overlay layer, press feedback, theme/locale boot |
+| **core** | `js/core.js` (entry point), `js/version.js`, `theme-init.js`, `dom.js`, `press.js`, `overlay.js`, `density.js`, `format.js`, `i18n.js`, `locales/<lang>.js` (core texts), `icons.js`, `icons-data.js`, `favicon.js` | `h`, `icon`, `t`, `fmt*`, overlay layer, press feedback, theme/locale boot |
 | **core** | `js/primitives.js` | `button`, `iconButton`, `badge`, `statusDot` |
 | **core** | `js/controls.js` | `segmented`, `tabs`, `progress`, `tooltip` |
 | **core** | `js/inputs.js`, `inputs-data.js`, `form.js` | `field`, `textField`, `numberField`, `select`, `combobox`, `checkbox`, `toggle`, `dateField`, `dateRange`, `form`, validation |
@@ -103,7 +103,8 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `js/shell.js`, `router.js` | app shell (sidebar, toolbar, inspector/panel/bottom sheet), hash router |
 | `js/primitives.js`, `controls.js` (core) · `components.js`, `widgets.js`, `table.js`, `filterbar.js`, `sheet.js`, `data.js` (shell) | primitives and core controls · components, data source |
 | `js/inputs.js`, `inputs-data.js`, `form.js` (core) · `filters-data.js`, `confirm.js`, `actionrun.js`, `actions-data.js` (shell) | input primitives, forms, confirm, running actions; the `*-data.js` files hold the logic without a DOM (testable in Node) |
-| `js/i18n.js`, `js/locales/` | catalog layer `t()` and the kit texts in en, de, es, fr |
+| `js/i18n.js`, `js/locales/` | catalog layer `t()` and the kit texts in en, de, es, fr: `<lang>.js` = core texts, `<lang>-shell.js` = shell texts (merged by `locales/shell.js`, which the barrel and the shell files import; `core.js` does not) |
+| `js/density.js` | `getDensity()`, `setDensity('compact' \| 'comfortable', { persist })`, `DENSITIES` |
 | `js/format.js` | formatting (Intl with the active locale and time zone), sorting, search |
 | `js/boards.js`, `boards-data.js` | board switcher (launcher grid as popover/sheet) and its data checks |
 | `js/favicon.js` | board icon without a graphic file (SVG data URL) |
@@ -214,6 +215,34 @@ The board server serves `GET /tarn/<path>` from `vendor/tarn/` (same path check 
 
 Reason for serving it from the board itself: same origin, so a CSP with `'self'` fits without exceptions and without CORS.
 
+## Density: compact and comfortable
+
+Two densities, the same tokens with other values (`css/tokens.css`, nothing per component):
+
+- **compact** (default): the dense ops-console look.
+- **comfortable**: for a car touchscreen or a big finger: larger type, more space, **every interactive element ≥ 48 px**, stronger
+  contrast. Switch with `<html data-density="comfortable">` (a page sets it itself, like `starter/`), `setDensity('comfortable', { persist: true })`
+  (stored as `tn-density`, applied by `theme-init.js` before the first paint) or in a shell board with `createApp({ densitySwitch: true })`
+  (button next to the theme switch, as in the gallery). It does not depend on the pointer: a car screen may report a fine pointer.
+
+Components never branch on the density (lint rule `density`: `data-density` only in `css/tokens.css`); a control that must change gets a token.
+
+| Token | compact | comfortable |
+|---|---|---|
+| `--tn-fs-xs` / `-section` / `-label` / `-body` / `-lg` / `-stat` / `-input` | 11 / 11.5 / 12 / 13 / 15 / 20 / 16 px | 13 / 14 / 15 / 17 / 20 / 28 / 18 px |
+| `--tn-s1` … `--tn-s8` (spacing) | 4 8 12 16 20 24 32 px | 6 12 16 20 24 32 40 px |
+| `--tn-hit` (control), `--tn-input-h` | 28 px (touch 40 / 44) | 48 px, 50 px (field box; its inner element is 48) |
+| `--tn-row-h`, `--tn-toolbar-h` | 32 px (touch 44), 44 px (touch 48) | 56 px |
+| `--tn-btn-sm-h`, `--tn-seg-h`, `--tn-seg-sm-h`, `--tn-pill-h` | 24, 22, 22, 30 px (touch 36, 34, 34, 40) | 48 px each |
+| `--tn-check`, `--tn-toggle-w` × `-h`, `--tn-badge-h` | 18 px, 28 × 16, 18 px (touch 22, 36 × 22) | 28 px, 48 × 28, 24 px |
+| `--tn-icon`, `--tn-dot`, `--tn-ring`, `--tn-stroke` | 16, 7, 2, 1.5 px | 20, 10, 3, 2 px |
+| `--tn-sidebar-w`, `--tn-inspector-w` | 208, 380 px | 280, 440 px |
+| `--tn-text-2`, `--tn-text-3`, `--tn-border`, `--tn-sep`, `--tn-focus`, `--tn-primary`, `--tn-*-text` | (see file) | stronger: secondary text, lines and focus; primary button and status texts ≥ 4.5:1 |
+
+The values are a first set; fine-tuning comes with the first real board. verify checks the core views of the gallery and the starter page in
+both densities (phone and desktop, dark and light); in comfortable the rule `touch48` applies without exceptions (own box ≥ 48 px, no hit-area
+extension, disabled controls and inline links included, checkbox and toggle count as their whole row) and the selftest shrinks a target to prove it.
+
 ## Languages and time zones
 
 The interface is multilingual; the repository is English. Kit texts ship in **en, de, es, fr** (`js/locales/`, English is the
@@ -256,6 +285,9 @@ node tools/verify.mjs --only overlay --scenarios combobox,form-submit   # single
 node tools/verify.mjs --attach http://127.0.0.1:<port>   # use a running Chrome (own tab)
 ```
 
+- **Density:** the pages `gallery-comfortable` (the core views), `starter-comfortable` and `starter-de-comfortable` run the same geometry and snapshot
+  checks with `data-density="comfortable"` set after loading, plus the strict rule `touch48` (never covered by `exceptions.json`); the compact pages pin
+  their density explicitly. `--changed` checks a page's comfortable twin with it.
 - **CI:** `.github/workflows/verify.yml` runs `node tools/verify.mjs --ci` on every push and pull request (ubuntu-latest, Node 22,
   preinstalled Chrome). `--ci` always starts its own headless Chrome (`--no-sandbox`, throw-away profile) and refuses `--attach`/`--base`.
   `.github/workflows/pages.yml` (manual only) publishes the gallery, the sample board and the start page as a static site.

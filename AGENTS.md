@@ -28,7 +28,8 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    gallery). Data (job names, agent reports) is not translated. Lint rule `i18n` and the catalog test enforce it.
 8. **Data through `dataSource`**: the toolbar shows “Updated … ago” (red from `staleAfter`), a banner on error/stale data; the last
    state stays visible. Every view handles `!ctx.data` with `loading()` or `error({ onRetry })`.
-9. **Mobile first**: everything must work at 390 px without sideways scrolling (also `timeline`: the axis fits the width).
+9. **Mobile first**: everything must work at 390 px without sideways scrolling (also `timeline`: the axis fits the width). Density
+    (`compact` default, `comfortable` for car screens: `data-density` on `<html>`, 48 px targets) is a token matter: never branch on it in a component.
 10. **Hover, hints, overlays only through the kit:** content you only see by pointing (heat map, timeline bars, chart points) is a
     data card (`dataCard()`); text and icon buttons get the small hint (`iconButton`, `tooltip()`; truncated text automatically). No
     `title` attributes, no own popups: menus, toasts and tooltips automatically sit above open sheets (overlay layer, see README).
