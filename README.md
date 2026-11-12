@@ -322,6 +322,9 @@ node tools/shoot.mjs --out <folder-outside-the-repo> [--attach http://127.0.0.1:
   "http://127.0.0.1:18810/example/?lang=en#/overview" "http://127.0.0.1:18810/example/#/jobs?open=offsite-sync"
 ```
 
+Without `--attach` the own headless Chrome answers paths that start with `/` straight from the repo (no server needed):
+`node tools/shoot.mjs --out <folder> --sizes phone --themes light "/starter/?lang=de"`. With `--attach` use full `http://127.0.0.1:<port>/…` URLs.
+
 - One PNG per URL × size (`phone` 390×844 @3 touch, `desktop` 1440×900; `--sizes tablet` or `800x600@1t`) × scheme (`dark`, `light`).
   `--full` full page height, `--eval JS` e.g. a click before the capture.
 - Reports console errors (including CSP violations, 404, exceptions), Chrome error pages and page overflow. Exit 1 on problems.
