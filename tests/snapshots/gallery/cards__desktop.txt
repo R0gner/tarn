@@ -1,201 +1,201 @@
 # gallery #/cards · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x932
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      div.dk-brand @16,12 128x24
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
-    nav.dk-nav "Views" @8,44 192x528
-      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
-      a.dk-nav-item @8,68 192x28
-        svg.dk-icon @16,76 16x16
-        span.dk-ellipsis "Foundations" @40,76 76x20
-      a.dk-nav-item @8,100 192x28
-        svg.dk-icon @16,104 16x16
-        span.dk-ellipsis "Light and dark" @40,104 88x20
-      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
-      a.dk-nav-item @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Buttons and status" @40,164 116x20
-      a.dk-nav-item @8,188 192x28
-        svg.dk-icon @16,196 16x16
-        span.dk-ellipsis "Controls" @40,196 52x20
-      a.dk-nav-item @8,220 192x28
-        svg.dk-icon @16,224 16x16
-        span.dk-ellipsis "Inputs" @40,224 40x20
-      div.dk-nav-group [presentation] "Components" @8,248 192x32
-      a.dk-nav-item.is-active {current=page} @8,280 192x28
-        svg.dk-icon @16,288 16x16
-        span.dk-ellipsis "Cards and tiles" @40,284 92x20
-      a.dk-nav-item @8,308 192x28
-        svg.dk-icon @16,316 16x16
-        span.dk-ellipsis "Rows and facts" @40,316 96x20
-      a.dk-nav-item @8,340 192x28
-        svg.dk-icon @16,344 16x16
-        span.dk-ellipsis "Table and filter" @40,344 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
-      a.dk-nav-item @8,368 192x28
-        svg.dk-icon @16,372 16x16
-        span.dk-ellipsis "Forms and actions" @40,372 116x20
-      a.dk-nav-item @8,396 192x28
-        svg.dk-icon @16,404 16x16
-        span.dk-ellipsis "Menus and feedback" @40,400 132x20
-      a.dk-nav-item @8,424 192x28
-        svg.dk-icon @16,432 16x16
-        span.dk-ellipsis "Charts" @40,432 40x20
-      a.dk-nav-item @8,456 192x28
-        svg.dk-icon @16,460 16x16
-        span.dk-ellipsis "Markdown" @40,460 64x20
-      a.dk-nav-item @8,484 192x28
-        svg.dk-icon @16,488 16x16
-        span.dk-ellipsis "States and sheets" @40,488 112x20
-      div.dk-nav-group [presentation] "Shell" @8,512 192x32
-      a.dk-nav-item @8,544 192x28
-        svg.dk-icon @16,552 16x16
-        span.dk-ellipsis "Shell and boards" @40,552 104x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x932
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Cards and tiles" @252,12 92x20
-      div.dk-toolbar-spacer @348,20 872x0
-      button.dk-fresh "Updated now" @1224,8 92x28
-      button.dk-iconbtn "Reload" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x888
-      section.dk-card @224,60 1184x296
-        header.dk-card-head @224,60 1184x40
-          div.dk-card-heading @236,72 1160x20
-            h3.dk-card-title "statTile()" @236,72 1160x20
-        div.dk-card-body @224,100 1184x256
-          div.dk-tiles @236,112 1160x84
-            button.dk-stat.dk-stat-btn @236,112 160x84
-              div.dk-stat-label @252,124 120x16
-                span.dk-dot.dk-s-bad [img] "Error" @252,128 8x8
-                span.dk-ellipsis "Jobs" @264,124 28x16
-              div.dk-stat-value.dk-num "12" @252,140 120x24
-              div.dk-stat-sub.dk-t-bad "1 error · 1 warning" @252,168 120x16
-              span.dk-go @372,124 16x16
-                svg.dk-icon @372,124 16x16
-            div.dk-stat @404,112 160x84
-              div.dk-stat-label @416,124 132x16
-                span.dk-dot.dk-s-ok [img] "OK" @416,128 8x8
-                span.dk-ellipsis "Storage used" @428,124 76x16
-              div.dk-stat-value.dk-num "7.3" @416,140 132x24
-                span.dk-stat-unit "TB" @452,148 16x16
-              div.dk-stat-sub "of 12 TB · 61%" @416,168 132x16
-            button.dk-stat.dk-stat-btn @572,112 160x84
-              div.dk-stat-label @584,124 120x16
-                span.dk-dot.dk-s-warn [img] "Warning" @584,128 8x8
-                span.dk-ellipsis "Media scan" @596,124 68x16
-              div.dk-stat-value.dk-num "49 min 10 s" @584,140 120x24
-              div.dk-stat-sub.dk-t-warn "above threshold" @584,168 120x16
-              span.dk-go @704,124 16x16
-                svg.dk-icon @704,124 16x16
-            div.dk-stat @736,112 160x84
-              div.dk-stat-label @752,124 132x16
-                span.dk-dot.dk-s-pending [img] "Pending" @752,128 8x8
-                span.dk-ellipsis "Next run" @764,124 48x16
-              div.dk-stat-value.dk-num "09:00" @752,140 132x24
-              div.dk-stat-sub.dk-t-pending "Update check" @752,168 132x16
-            div.dk-stat @904,112 160x84
-              div.dk-stat-label @916,124 132x16
-                span.dk-dot.dk-s-unknown [img] "Unknown" @916,128 8x8
-                span.dk-ellipsis "A very long label of a tile that gets truncated" @928,124 120x16
-              div.dk-stat-value.dk-num "123,456,789.12" @916,140 132x24
-              div.dk-stat-sub.dk-t-unknown "equally long subtitle with overflow" @916,168 132x16
-            button.dk-stat.dk-stat-btn.is-hover @1072,112 160x84
-              div.dk-stat-label @1084,124 120x16
-                span.dk-ellipsis "Hover" @1084,124 36x16
-              div.dk-stat-value.dk-num "42" @1084,140 120x24
-              div.dk-stat-sub "state forced" @1084,168 120x16
-              span.dk-go @1204,124 16x16
-                svg.dk-icon @1204,124 16x16
-          div.dk-tiles "Loading …" @236,208 1160x72
-            div.dk-stat.dk-skel-tile @236,208 160x72
-              span.dk-skel.dk-skel-s @252,224 68x12
-              span.dk-skel.dk-skel-l @252,244 92x16
-            div.dk-stat.dk-skel-tile @404,208 160x72
-              span.dk-skel.dk-skel-s @416,224 68x12
-              span.dk-skel.dk-skel-l @416,244 92x16
-            div.dk-stat.dk-skel-tile @572,208 160x72
-              span.dk-skel.dk-skel-s @584,224 68x12
-              span.dk-skel.dk-skel-l @584,244 92x16
-      section.dk-card @224,376 1184x252
-        header.dk-card-head @224,380 1184x40
-          div.dk-card-heading @236,388 1160x20
-            h3.dk-card-title "card() and section()" @236,388 1160x20
-        div.dk-card-body @224,420 1184x212
-          section.dk-section @236,432 572x124
-            header.dk-section-head @236,432 572x24
-              h2.dk-section-title "Problems" @240,436 508x16
-                span.dk-section-count "2" @300,436 8x16
-              div.dk-section-actions @752,432 52x24
-                button.dk-btn.dk-btn-ghost.dk-btn-sm @752,432 52x24
-                  svg.dk-icon @784,436 16x16
-            section.dk-card.dk-card-flush @236,464 572x92
-              div.dk-card-body @240,464 568x92
-                div.dk-list [list] @240,464 568x92
-                  button.dk-row.dk-row-btn @240,464 568x44
-                    span.dk-row-status @252,484 8x8
-                      span.dk-dot.dk-s-bad [img] "Error" @252,484 8x8
-                    span.dk-row-main @272,468 432x36
-                      span.dk-row-title.dk-ellipsis "Offsite archive sync" @272,468 432x20
-                      span.dk-row-sub.dk-ellipsis "nas-b · daily 04:15" @272,488 432x16
-                    span.dk-row-value @712,468 56x36
-                      span.dk-num "3 hr. ago" @712,468 56x20
-                      span.dk-row-sub "31 s" @744,488 24x16
-                    span.dk-go @780,480 16x16
-                      svg.dk-icon @780,480 16x16
-                  button.dk-row.dk-row-btn @240,508 568x44
-                    span.dk-row-status @252,528 8x8
-                      span.dk-dot.dk-s-warn [img] "Warning" @252,528 8x8
-                    span.dk-row-main @272,516 412x36
-                      span.dk-row-title.dk-ellipsis "Media library scan" @272,516 412x20
-                      span.dk-row-sub.dk-ellipsis "media-1 · every 2 h" @272,532 412x16
-                    span.dk-row-value @696,516 72x36
-                      span.dk-num "40 min. ago" @696,516 72x20
-                      span.dk-row-sub "49 min 10 s" @700,532 68x16
-                    span.dk-go @780,524 16x16
-                      svg.dk-icon @780,524 16x16
-          section.dk-card @824,432 572x96
-            header.dk-card-head @824,432 568x52
-              div.dk-card-heading @836,440 476x36
-                h3.dk-card-title "Card title" @836,440 476x20
-                div.dk-card-sub "Subtitle with context" @836,456 476x16
-              div.dk-card-actions @1324,444 60x28
-                button.dk-iconbtn "Reload" @1324,444 28x28
-                  svg.dk-icon @1328,448 16x16
-                button.dk-iconbtn "More" @1356,444 28x28
-                  svg.dk-icon @1360,448 16x16
-            div.dk-card-body @824,484 568x44
-              p.dk-muted "The card is the only container with a hairline. No shadow, r" @836,496 544x20
-      section.dk-card @224,652 1184x248
-        header.dk-card-head @224,652 1184x40
-          div.dk-card-heading @236,664 1160x20
-            h3.dk-card-title "cols() and stack()" @236,664 1160x20
-        div.dk-card-body @224,692 1184x208
-          div.dk-cols @236,704 1160x104
-            div.dk-stack @236,704 376x104
-              section.dk-card @236,704 376x44
-                div.dk-card-body @240,704 372x44
-                  span.dk-muted "stack: first" @252,720 64x16
-              section.dk-card @236,764 376x44
-                div.dk-card-body @240,764 372x44
-                  span.dk-muted "stack: second" @252,780 84x16
-            section.dk-card @628,704 376x44
-              div.dk-card-body @628,704 372x44
-                span.dk-muted "cols: second column" @640,720 128x16
-            div.dk-cols @1020,704 376x44
-              section.dk-card @1020,704 180x44
-                div.dk-card-body @1020,704 176x44
-                  span.dk-muted "small 1" @1032,720 40x16
-              section.dk-card @1216,704 180x44
-                div.dk-card-body @1216,704 176x44
-                  span.dk-muted "small 2" @1228,720 44x16
+div.tn-app @0,0 1424x932
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x528
+      div.tn-nav-group [presentation] "Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      div.tn-nav-group [presentation] "Components" @8,248 192x32
+      a.tn-nav-item.is-active {current=page} @8,280 192x28
+        svg.tn-icon @16,288 16x16
+        span.tn-ellipsis "Cards and tiles" @40,284 92x20
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Rows and facts" @40,316 96x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Table and filter" @40,344 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,344 24x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Forms and actions" @40,372 116x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Menus and feedback" @40,400 132x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Charts" @40,432 40x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Markdown" @40,460 64x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "States and sheets" @40,488 112x20
+      div.tn-nav-group [presentation] "Shell" @8,512 192x32
+      a.tn-nav-item @8,544 192x28
+        svg.tn-icon @16,552 16x16
+        span.tn-ellipsis "Shell and boards" @40,552 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x932
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Cards and tiles" @252,12 92x20
+      div.tn-toolbar-spacer @348,20 872x0
+      button.tn-fresh "Updated now" @1224,8 92x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x888
+      section.tn-card @224,60 1184x296
+        header.tn-card-head @224,60 1184x40
+          div.tn-card-heading @236,72 1160x20
+            h3.tn-card-title "statTile()" @236,72 1160x20
+        div.tn-card-body @224,100 1184x256
+          div.tn-tiles @236,112 1160x84
+            button.tn-stat.tn-stat-btn @236,112 160x84
+              div.tn-stat-label @252,124 120x16
+                span.tn-dot.tn-s-bad [img] "Error" @252,128 8x8
+                span.tn-ellipsis "Jobs" @264,124 28x16
+              div.tn-stat-value.tn-num "12" @252,140 120x24
+              div.tn-stat-sub.tn-t-bad "1 error · 1 warning" @252,168 120x16
+              span.tn-go @372,124 16x16
+                svg.tn-icon @372,124 16x16
+            div.tn-stat @404,112 160x84
+              div.tn-stat-label @416,124 132x16
+                span.tn-dot.tn-s-ok [img] "OK" @416,128 8x8
+                span.tn-ellipsis "Storage used" @428,124 76x16
+              div.tn-stat-value.tn-num "7.3" @416,140 132x24
+                span.tn-stat-unit "TB" @452,148 16x16
+              div.tn-stat-sub "of 12 TB · 61%" @416,168 132x16
+            button.tn-stat.tn-stat-btn @572,112 160x84
+              div.tn-stat-label @584,124 120x16
+                span.tn-dot.tn-s-warn [img] "Warning" @584,128 8x8
+                span.tn-ellipsis "Media scan" @596,124 68x16
+              div.tn-stat-value.tn-num "49 min 10 s" @584,140 120x24
+              div.tn-stat-sub.tn-t-warn "above threshold" @584,168 120x16
+              span.tn-go @704,124 16x16
+                svg.tn-icon @704,124 16x16
+            div.tn-stat @736,112 160x84
+              div.tn-stat-label @752,124 132x16
+                span.tn-dot.tn-s-pending [img] "Pending" @752,128 8x8
+                span.tn-ellipsis "Next run" @764,124 48x16
+              div.tn-stat-value.tn-num "09:00" @752,140 132x24
+              div.tn-stat-sub.tn-t-pending "Update check" @752,168 132x16
+            div.tn-stat @904,112 160x84
+              div.tn-stat-label @916,124 132x16
+                span.tn-dot.tn-s-unknown [img] "Unknown" @916,128 8x8
+                span.tn-ellipsis "A very long label of a tile that gets truncated" @928,124 120x16
+              div.tn-stat-value.tn-num "123,456,789.12" @916,140 132x24
+              div.tn-stat-sub.tn-t-unknown "equally long subtitle with overflow" @916,168 132x16
+            button.tn-stat.tn-stat-btn.is-hover @1072,112 160x84
+              div.tn-stat-label @1084,124 120x16
+                span.tn-ellipsis "Hover" @1084,124 36x16
+              div.tn-stat-value.tn-num "42" @1084,140 120x24
+              div.tn-stat-sub "state forced" @1084,168 120x16
+              span.tn-go @1204,124 16x16
+                svg.tn-icon @1204,124 16x16
+          div.tn-tiles "Loading …" @236,208 1160x72
+            div.tn-stat.tn-skel-tile @236,208 160x72
+              span.tn-skel.tn-skel-s @252,224 68x12
+              span.tn-skel.tn-skel-l @252,244 92x16
+            div.tn-stat.tn-skel-tile @404,208 160x72
+              span.tn-skel.tn-skel-s @416,224 68x12
+              span.tn-skel.tn-skel-l @416,244 92x16
+            div.tn-stat.tn-skel-tile @572,208 160x72
+              span.tn-skel.tn-skel-s @584,224 68x12
+              span.tn-skel.tn-skel-l @584,244 92x16
+      section.tn-card @224,376 1184x252
+        header.tn-card-head @224,380 1184x40
+          div.tn-card-heading @236,388 1160x20
+            h3.tn-card-title "card() and section()" @236,388 1160x20
+        div.tn-card-body @224,420 1184x212
+          section.tn-section @236,432 572x124
+            header.tn-section-head @236,432 572x24
+              h2.tn-section-title "Problems" @240,436 508x16
+                span.tn-section-count "2" @300,436 8x16
+              div.tn-section-actions @752,432 52x24
+                button.tn-btn.tn-btn-ghost.tn-btn-sm @752,432 52x24
+                  svg.tn-icon @784,436 16x16
+            section.tn-card.tn-card-flush @236,464 572x92
+              div.tn-card-body @240,464 568x92
+                div.tn-list [list] @240,464 568x92
+                  button.tn-row.tn-row-btn @240,464 568x44
+                    span.tn-row-status @252,484 8x8
+                      span.tn-dot.tn-s-bad [img] "Error" @252,484 8x8
+                    span.tn-row-main @272,468 432x36
+                      span.tn-row-title.tn-ellipsis "Offsite archive sync" @272,468 432x20
+                      span.tn-row-sub.tn-ellipsis "nas-b · daily 04:15" @272,488 432x16
+                    span.tn-row-value @712,468 56x36
+                      span.tn-num "3 hr. ago" @712,468 56x20
+                      span.tn-row-sub "31 s" @744,488 24x16
+                    span.tn-go @780,480 16x16
+                      svg.tn-icon @780,480 16x16
+                  button.tn-row.tn-row-btn @240,508 568x44
+                    span.tn-row-status @252,528 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @252,528 8x8
+                    span.tn-row-main @272,516 412x36
+                      span.tn-row-title.tn-ellipsis "Media library scan" @272,516 412x20
+                      span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @272,532 412x16
+                    span.tn-row-value @696,516 72x36
+                      span.tn-num "40 min. ago" @696,516 72x20
+                      span.tn-row-sub "49 min 10 s" @700,532 68x16
+                    span.tn-go @780,524 16x16
+                      svg.tn-icon @780,524 16x16
+          section.tn-card @824,432 572x96
+            header.tn-card-head @824,432 568x52
+              div.tn-card-heading @836,440 476x36
+                h3.tn-card-title "Card title" @836,440 476x20
+                div.tn-card-sub "Subtitle with context" @836,456 476x16
+              div.tn-card-actions @1324,444 60x28
+                button.tn-iconbtn "Reload" @1324,444 28x28
+                  svg.tn-icon @1328,448 16x16
+                button.tn-iconbtn "More" @1356,444 28x28
+                  svg.tn-icon @1360,448 16x16
+            div.tn-card-body @824,484 568x44
+              p.tn-muted "The card is the only container with a hairline. No shadow, r" @836,496 544x20
+      section.tn-card @224,652 1184x248
+        header.tn-card-head @224,652 1184x40
+          div.tn-card-heading @236,664 1160x20
+            h3.tn-card-title "cols() and stack()" @236,664 1160x20
+        div.tn-card-body @224,692 1184x208
+          div.tn-cols @236,704 1160x104
+            div.tn-stack @236,704 376x104
+              section.tn-card @236,704 376x44
+                div.tn-card-body @240,704 372x44
+                  span.tn-muted "stack: first" @252,720 64x16
+              section.tn-card @236,764 376x44
+                div.tn-card-body @240,764 372x44
+                  span.tn-muted "stack: second" @252,780 84x16
+            section.tn-card @628,704 376x44
+              div.tn-card-body @628,704 372x44
+                span.tn-muted "cols: second column" @640,720 128x16
+            div.tn-cols @1020,704 376x44
+              section.tn-card @1020,704 180x44
+                div.tn-card-body @1020,704 176x44
+                  span.tn-muted "small 1" @1032,720 40x16
+              section.tn-card @1216,704 180x44
+                div.tn-card-body @1216,704 176x44
+                  span.tn-muted "small 2" @1228,720 44x16

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · verify: one command for all checks. Node ≥ 22, no npm packages.
+// tarn · verify: one command for all checks. Node ≥ 22, no npm packages.
 //
 //   node tools/verify.mjs [options]
 //
@@ -201,7 +201,7 @@ async function main() {
     reportBase = { findings: rep.findings.filter((f) => f.check === 'geometry' || f.check === 'overlay'), states: rep.stats.geometryStates, scenarios: rep.stats.overlayScenarios };
   }
 
-  const outDir = o.out ? path.resolve(o.out) : fs.mkdtempSync(path.join(os.tmpdir(), 'dk-verify-'));
+  const outDir = o.out ? path.resolve(o.out) : fs.mkdtempSync(path.join(os.tmpdir(), 'tn-verify-'));
   if (outDir === ROOT || outDir.startsWith(ROOT + path.sep)) fail(`--out is inside the repo (${ROOT})`);
   fs.mkdirSync(outDir, { recursive: true });
   const rules = loadRules();

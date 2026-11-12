@@ -1,4 +1,4 @@
-// dashkit · identity of the checked tree: git commit plus a content hash over all tracked and untracked (not ignored) files.
+// tarn · identity of the checked tree: git commit plus a content hash over all tracked and untracked (not ignored) files.
 // A verify report carries both, so that `verify --selftest --base-report` can refuse a report that belongs to another state.
 import { spawnSync } from 'node:child_process';
 import crypto from 'node:crypto';

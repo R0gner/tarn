@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · favicon({ icon, color }): board icon without an image file.
+// tarn · favicon({ icon, color }): board icon without an image file.
 // Draws a rounded square in card gray with a hairline border and a single-color kit symbol (icon()) inside, in the
 // board's accent color as an SVG data URL and sets it as <link rel="icon">. CSP-friendly (img-src data:), no build.
 // Colors are resolved from the tokens at call time (system light/dark); when the
@@ -20,7 +20,7 @@ const SAFE = /^[\w\s.,%()/#+-]+$/;
 function resolve(value, fallback) {
   const probe = document.createElement('span');
   probe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none';
-  probe.style.color = /^[a-z]+$/.test(value) && value !== 'transparent' ? `var(--dk-${value}, ${value})` : value;
+  probe.style.color = /^[a-z]+$/.test(value) && value !== 'transparent' ? `var(--tn-${value}, ${value})` : value;
   document.body.append(probe);
   const c = getComputedStyle(probe).color;
   probe.remove();

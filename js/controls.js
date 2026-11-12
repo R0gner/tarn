@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · further controls: segmented, tabs, log, toast, progress, usageBar, tooltip, menu.
+// tarn · further controls: segmented, tabs, log, toast, progress, usageBar, tooltip, menu.
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { fmtBytes, fmtPct, fmtTime, fmtWhen } from './format.js';
@@ -37,12 +37,12 @@ export function segmented({ options, value, onChange, label, small, className })
   let cur = value ?? options[0]?.value;
   const btns = options.map((o) => {
     const b = h('button', {
-      class: 'dk-seg-btn', type: 'button', role: 'radio', 'data-value': String(o.value), 'aria-label': !o.label ? (o.title || String(o.value)) : null,
+      class: 'tn-seg-btn', type: 'button', role: 'radio', 'data-value': String(o.value), 'aria-label': !o.label ? (o.title || String(o.value)) : null,
       onclick: () => set(o.value, true),
     }, o.icon && icon(o.icon), o.label && h('span', null, o.label));
     return o.label ? b : tooltip(b, o.title || String(o.value)); // icon-only button: hint
   });
-  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('dk-seg', small && 'dk-seg-sm', className), role: 'radiogroup', 'aria-label': label || null, onkeydown: key }, btns)));
+  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('tn-seg', small && 'tn-seg-sm', className), role: 'radiogroup', 'aria-label': label || null, onkeydown: key }, btns)));
   function sync() {
     btns.forEach((b, i) => { const on = options[i].value === cur; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
   }
@@ -70,12 +70,12 @@ export function segmented({ options, value, onChange, label, small, className })
 export function tabs({ tabs: list, value, onChange, className }) {
   let cur = value ?? list[0]?.id;
   const id = nextId('tabs');
-  const panel = h('div', { class: 'dk-tabpanel', role: 'tabpanel', id: `${id}-p`, tabindex: '-1' });
+  const panel = h('div', { class: 'tn-tabpanel', role: 'tabpanel', id: `${id}-p`, tabindex: '-1' });
   const btns = list.map((t) => h('button', {
-    class: 'dk-tab', type: 'button', role: 'tab', id: `${id}-${t.id}`, 'aria-controls': `${id}-p`,
+    class: 'tn-tab', type: 'button', role: 'tab', id: `${id}-${t.id}`, 'aria-controls': `${id}-p`,
     onclick: () => set(t.id, true),
-  }, h('span', null, t.label), t.count != null && h('span', { class: cls('dk-tab-count', t.tone && `dk-t-${t.tone}`) }, t.count)));
-  const bar = h('div', { class: 'dk-tabs', role: 'tablist', onkeydown: key }, btns);
+  }, h('span', null, t.label), t.count != null && h('span', { class: cls('tn-tab-count', t.tone && `tn-t-${t.tone}`) }, t.count)));
+  const bar = h('div', { class: 'tn-tabs', role: 'tablist', onkeydown: key }, btns);
   function sync() {
     list.forEach((t, i) => { const on = t.id === cur; btns[i].setAttribute('aria-selected', String(on)); btns[i].tabIndex = on ? 0 : -1; });
     const t = list.find((x) => x.id === cur);
@@ -92,7 +92,7 @@ export function tabs({ tabs: list, value, onChange, className }) {
     set(list[i].id, true); btns[i].focus();
   }
   sync();
-  const el = /** @type {TabsElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('dk-tabset', className) }, bar, panel)));
+  const el = /** @type {TabsElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('tn-tabset', className) }, bar, panel)));
   el.setValue = (v) => set(v, false);
   return el;
 }
@@ -106,13 +106,13 @@ export function tabs({ tabs: list, value, onChange, className }) {
  */
 export function log(entries = [], { max = 200, wrap = false, newestFirst = true, empty: emptyText, time = 'auto' } = {}) {
   const list = [...entries].sort((x, y) => (newestFirst ? /** @type {number} */ (y.t) - /** @type {number} */ (x.t) : /** @type {number} */ (x.t) - /** @type {number} */ (y.t))).slice(0, max);
-  if (!list.length) return h('div', { class: 'dk-log dk-log-empty' }, emptyText ?? t('common.noEntries'));
+  if (!list.length) return h('div', { class: 'tn-log tn-log-empty' }, emptyText ?? t('common.noEntries'));
   const tf = time === 'time' ? fmtTime : fmtWhen;
-  return h('div', { class: cls('dk-log', wrap && 'dk-log-wrap'), role: 'log' }, list.map((e) => h('div', { class: cls('dk-log-line', e.level && `dk-log-${e.level}`) },
-    h('span', { class: 'dk-log-t' }, e.t != null ? tf(e.t) : ''),
-    h('span', { class: 'dk-log-lv' }, LEVEL[e.level] || ''),
-    e.src && h('span', { class: 'dk-log-src' }, e.src),
-    h('span', { class: 'dk-log-msg' }, e.text))));
+  return h('div', { class: cls('tn-log', wrap && 'tn-log-wrap'), role: 'log' }, list.map((e) => h('div', { class: cls('tn-log-line', e.level && `tn-log-${e.level}`) },
+    h('span', { class: 'tn-log-t' }, e.t != null ? tf(e.t) : ''),
+    h('span', { class: 'tn-log-lv' }, LEVEL[e.level] || ''),
+    e.src && h('span', { class: 'tn-log-src' }, e.src),
+    h('span', { class: 'tn-log-msg' }, e.text))));
 }
 const LEVEL = { bad: 'ERR', warn: 'WRN', info: 'INF', ok: 'OK', debug: 'DBG' };
 
@@ -129,13 +129,13 @@ let toastRegion = null;
  */
 export function toast(text, { tone = 'info', action, duration = 4000 } = {}) {
   const host = overlayHost();
-  if (!toastRegion?.isConnected || toastRegion.parentNode !== host) toastRegion = h('div', { class: 'dk-toasts', role: 'status', 'aria-live': 'polite' });
+  if (!toastRegion?.isConnected || toastRegion.parentNode !== host) toastRegion = h('div', { class: 'tn-toasts', role: 'status', 'aria-live': 'polite' });
   const region = /** @type {HTMLElement} */ (toastRegion);
   const ic = /** @type {Record<string, string>} */ ({ ok: 'check', bad: 'alert', warn: 'alert', info: 'info' })[tone] || 'info';
   const close = () => { clearTimeout(timer); el.remove(); };
-  const el = h('div', { class: `dk-toast dk-toast-${tone}` }, h('span', { class: `dk-toast-ic dk-t-${tone}` }, icon(ic)), h('span', { class: 'dk-toast-text' }, text),
-    action && h('button', { class: 'dk-toast-act', type: 'button', onclick: () => { action.onClick?.(); close(); } }, action.label),
-    h('button', { class: 'dk-toast-x', type: 'button', 'aria-label': t('common.close'), onclick: close }, icon('x', { size: 14 })));
+  const el = h('div', { class: `tn-toast tn-toast-${tone}` }, h('span', { class: `tn-toast-ic tn-t-${tone}` }, icon(ic)), h('span', { class: 'tn-toast-text' }, text),
+    action && h('button', { class: 'tn-toast-act', type: 'button', onclick: () => { action.onClick?.(); close(); } }, action.label),
+    h('button', { class: 'tn-toast-x', type: 'button', 'aria-label': t('common.close'), onclick: close }, icon('x', { size: 14 })));
   region.append(el);
   showOverlay(region, host);
   while (region.children.length > 3) region.firstElementChild?.remove();
@@ -154,12 +154,12 @@ export function progress({ value, tone, label, showValue = false, className } = 
   const ind = value == null;
   const v = ind ? 0 : Math.max(0, Math.min(1, value));
   const bar = h('div', {
-    class: cls('dk-progress', ind && 'is-indeterminate', tone && `dk-tone-${tone}`, className), role: 'progressbar',
+    class: cls('tn-progress', ind && 'is-indeterminate', tone && `tn-tone-${tone}`, className), role: 'progressbar',
     'aria-label': label || null, 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': ind ? null : String(Math.round(v * 100)),
-  }, h('span', { class: 'dk-progress-fill', style: { transform: `scaleX(${ind ? 0.3 : v})` } }));
+  }, h('span', { class: 'tn-progress-fill', style: { transform: `scaleX(${ind ? 0.3 : v})` } }));
   if (!label && !showValue) return bar;
-  return h('div', { class: 'dk-progress-wrap' },
-    h('div', { class: 'dk-progress-head' }, label && h('span', { class: 'dk-ellipsis' }, label), showValue && !ind && h('span', { class: 'dk-num' }, fmtPct(v, 0))), bar);
+  return h('div', { class: 'tn-progress-wrap' },
+    h('div', { class: 'tn-progress-head' }, label && h('span', { class: 'tn-ellipsis' }, label), showValue && !ind && h('span', { class: 'tn-num' }, fmtPct(v, 0))), bar);
 }
 
 /**
@@ -172,21 +172,21 @@ export function usageBar({ used, total, label, format = fmtBytes, warnAt = 0.8, 
   const r = total ? used / total : 0;
   const tone = r >= badAt ? 'bad' : r >= warnAt ? 'warn' : 'ok';
   const fill = segments
-    ? h('div', { class: 'dk-progress dk-usage-multi' }, segments.map((sg, i) => dataCard(
-      h('span', { class: `dk-usage-seg dk-c-${sg.color || ['blue', 'purple', 'orange', 'green', 'pink'][i % 5]}`, style: { width: `${Math.max(0, (sg.value / total) * 100).toFixed(2)}%` } }),
+    ? h('div', { class: 'tn-progress tn-usage-multi' }, segments.map((sg, i) => dataCard(
+      h('span', { class: `tn-usage-seg tn-c-${sg.color || ['blue', 'purple', 'orange', 'green', 'pink'][i % 5]}`, style: { width: `${Math.max(0, (sg.value / total) * 100).toFixed(2)}%` } }),
       () => tipRow(sg.color || ['blue', 'purple', 'orange', 'green', 'pink'][i % 5], sg.label, format(sg.value), i))))
     : progress({ value: r, tone });
-  return h('div', { class: 'dk-usage' },
-    h('div', { class: 'dk-progress-head' },
-      h('span', { class: 'dk-usage-label dk-ellipsis' }, label),
-      h('span', { class: 'dk-usage-val dk-num' }, t('usage.of', { used: format(used), total: format(total) }), h('span', { class: cls('dk-usage-pct', tone !== 'ok' && `dk-t-${tone}`) }, ` · ${fmtPct(r, 0)}`))),
-    fill, sub && h('div', { class: 'dk-usage-sub' }, sub));
+  return h('div', { class: 'tn-usage' },
+    h('div', { class: 'tn-progress-head' },
+      h('span', { class: 'tn-usage-label tn-ellipsis' }, label),
+      h('span', { class: 'tn-usage-val tn-num' }, t('usage.of', { used: format(used), total: format(total) }), h('span', { class: cls('tn-usage-pct', tone !== 'ok' && `tn-t-${tone}`) }, ` · ${fmtPct(r, 0)}`))),
+    fill, sub && h('div', { class: 'tn-usage-sub' }, sub));
 }
 
 /* ---- Hint (tooltip) ----
  * Two kinds of things appear on hover: the data card (datacard.js: content you can only see this way) and this
  * hint for text and controls: smaller, delayed, only on icon-only buttons (tooltip()) and
- * on truncated text (.dk-ellipsis with scrollWidth > clientWidth, automatic). Fully visible text
+ * on truncated text (.tn-ellipsis with scrollWidth > clientWidth, automatic). Fully visible text
  * gets no hint. No native title attributes in the kit.
  */
 const TIP_MOUSE_DELAY = 350, TIP_FOCUS_DELAY = 150, TIP_TOUCH_DELAY = 500; // delays (behavior, not animation)
@@ -233,7 +233,7 @@ function showTooltip(target, text) {
   if (!target.isConnected) return;
   const t = text ?? target.dataset.tip;
   if (!t) return;
-  if (!tipEl) tipEl = h('div', { class: 'dk-tooltip', role: 'tooltip', hidden: true });
+  if (!tipEl) tipEl = h('div', { class: 'tn-tooltip', role: 'tooltip', hidden: true });
   tipFor = target;
   tipEl.textContent = t;
   showOverlay(tipEl);
@@ -251,15 +251,15 @@ document.addEventListener('click', (e) => {                // do not trigger the
 }, true);
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && tipFor) hideTooltip(); }, true);
 
-/* Truncated text (.dk-ellipsis): hint with the full text, only if something is really missing. */
+/* Truncated text (.tn-ellipsis): hint with the full text, only if something is really missing. */
 /** @param {HTMLElement} el */
-const clipped = (el) => el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1; // .dk-clamp: truncated across multiple lines
+const clipped = (el) => el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1; // .tn-clamp: truncated across multiple lines
 /** @param {EventTarget | null} t @returns {HTMLElement | null} */
-const ellipsisOf = (t) => (t instanceof Element ? t.closest('.dk-ellipsis, .dk-clamp') : null);
+const ellipsisOf = (t) => (t instanceof Element ? t.closest('.tn-ellipsis, .tn-clamp') : null);
 document.addEventListener('pointerover', (e) => {
   if (e.pointerType !== 'mouse') return;
   const el = ellipsisOf(e.target);
-  if (!el || el.closest('[data-tip], [data-dk-card]')) return;
+  if (!el || el.closest('[data-tip], [data-tn-card]')) return;
   clearTimeout(tipTimer);
   tipTimer = setTimeout(() => { if (clipped(el)) showTooltip(el, el.textContent.trim()); }, TIP_MOUSE_DELAY);
 });
@@ -271,7 +271,7 @@ document.addEventListener('pointerout', (e) => {
 document.addEventListener('pointerdown', (e) => {
   if (e.pointerType === 'mouse') return;
   const el = ellipsisOf(e.target);
-  if (!el || el.closest('[data-tip], [data-dk-card]')) return;
+  if (!el || el.closest('[data-tip], [data-tn-card]')) return;
   clearTimeout(tipTimer);
   tipTimer = setTimeout(() => { if (clipped(el)) showTooltip(el, el.textContent.trim()); }, TIP_TOUCH_DELAY);
 }, { capture: true, passive: true });
@@ -318,14 +318,14 @@ export function menu(anchor, items, { align = 'end', label } = {}) {
     hideTooltip();
     const its = (typeof items === 'function' ? items() : items);
     const btns = [];
-    el = h('div', { class: 'dk-menu', role: 'menu', id: mid, 'aria-label': label || null, onkeydown: key },
+    el = h('div', { class: 'tn-menu', role: 'menu', id: mid, 'aria-label': label || null, onkeydown: key },
       its.map((it) => {
-        if (it === '-') return h('div', { class: 'dk-menu-sep', role: 'separator' });
+        if (it === '-') return h('div', { class: 'tn-menu-sep', role: 'separator' });
         const b = h('button', {
-          class: cls('dk-menu-item', it.danger && 'is-danger'), type: 'button', role: it.checked != null ? 'menuitemcheckbox' : 'menuitem',
+          class: cls('tn-menu-item', it.danger && 'is-danger'), type: 'button', role: it.checked != null ? 'menuitemcheckbox' : 'menuitem',
           'aria-checked': it.checked != null ? String(!!it.checked) : null, disabled: !!it.disabled,
           onclick: () => { close(true); it.onClick?.(); },
-        }, h('span', { class: 'dk-menu-ic' }, it.checked ? icon('check') : it.icon ? icon(it.icon) : null), h('span', { class: 'dk-ellipsis' }, it.label), it.hint && h('span', { class: 'dk-menu-hint' }, it.hint));
+        }, h('span', { class: 'tn-menu-ic' }, it.checked ? icon('check') : it.icon ? icon(it.icon) : null), h('span', { class: 'tn-ellipsis' }, it.label), it.hint && h('span', { class: 'tn-menu-hint' }, it.hint));
         if (!it.disabled) btns.push(b);
         return b;
       }));

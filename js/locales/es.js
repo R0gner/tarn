@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · kit texts (es). Same keys and placeholders as en.js (tests/i18n.test.mjs checks it).
+// tarn · kit texts (es). Same keys and placeholders as en.js (tests/i18n.test.mjs checks it).
 export default {
   "common.close": "Cerrar",
   "common.retry": "Reintentar",

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · icons: manage Lucide symbols (ISC) at a fixed version. Node ≥ 22, no npm packages.
+// tarn · icons: manage Lucide symbols (ISC) at a fixed version. Node ≥ 22, no npm packages.
 //
 //   node tools/icons.mjs add <lucide-name> [--as <kit-name>]   fetch the symbol at the fixed version, register it, rebuild
 //   node tools/icons.mjs build                                  regenerate icons/SOURCES.md and js/icons-data.js (offline)
@@ -68,7 +68,7 @@ ${lines.join('\n')}
 [Lucide](https://github.com/lucide-icons/lucide) **${manifest.version}** (ISC licence, some icons MIT/Feather: \`LICENSE.txt\`). Only the used symbols
 are in the repo. Fetch a new symbol: \`node tools/icons.mjs add <lucide-name> [--as <kit-name>]\` (uses the fixed version
 \`${manifest.version}\`, lists it here and rebuilds \`js/icons-data.js\`). \`node tools/icons.mjs check\` verifies that both match
-the files. \`logo.svg\` is the dashkit logo (own drawing, not Lucide).
+the files. \`logo.svg\` is the Tarn logo (own drawing, not Lucide).
 
 | Kit name | File | Source | sha256 |
 |---|---|---|---|

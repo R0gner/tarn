@@ -1,4 +1,4 @@
-# dashkit · publish the gallery, the sample board and the start page as a static site.
+# Tarn · publish the gallery, the sample board and the start page as a static site.
 # Manual only (workflow_dispatch). Switch it on at publication time: repository Settings → Pages → Source "GitHub Actions",
 # then run this workflow. Nothing here runs on push.
 name: pages

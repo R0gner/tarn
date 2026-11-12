@@ -1,4 +1,4 @@
-// dashkit · worker pool for verify: n pages, each a worker; tasks are pulled in order, results come back in task order
+// tarn · worker pool for verify: n pages, each a worker; tasks are pulled in order, results come back in task order
 // (so reports and snapshots do not depend on the number of workers).
 //
 // createPool({ attach, base, chrome, noSandbox, jobs, root, tmp, log }) → pool

@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "note": "Invented sample data for the dashkit sample board, no real host data. Times are relative to the fetch (agoSec/inSec).",
+ "note": "Invented sample data for the Tarn sample board, no real host data. Times are relative to the fetch (agoSec/inSec).",
  "ageSec": 95,
  "jobs": [
   {

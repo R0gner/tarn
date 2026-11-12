@@ -1,242 +1,242 @@
 # gallery #/rows · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x2060
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      div.dk-brand @16,12 128x24
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
-    nav.dk-nav "Views" @8,44 192x528
-      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
-      a.dk-nav-item @8,68 192x28
-        svg.dk-icon @16,76 16x16
-        span.dk-ellipsis "Foundations" @40,76 76x20
-      a.dk-nav-item @8,100 192x28
-        svg.dk-icon @16,104 16x16
-        span.dk-ellipsis "Light and dark" @40,104 88x20
-      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
-      a.dk-nav-item @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Buttons and status" @40,164 116x20
-      a.dk-nav-item @8,188 192x28
-        svg.dk-icon @16,196 16x16
-        span.dk-ellipsis "Controls" @40,196 52x20
-      a.dk-nav-item @8,220 192x28
-        svg.dk-icon @16,224 16x16
-        span.dk-ellipsis "Inputs" @40,224 40x20
-      div.dk-nav-group [presentation] "Components" @8,248 192x32
-      a.dk-nav-item @8,280 192x28
-        svg.dk-icon @16,288 16x16
-        span.dk-ellipsis "Cards and tiles" @40,284 92x20
-      a.dk-nav-item.is-active {current=page} @8,308 192x28
-        svg.dk-icon @16,316 16x16
-        span.dk-ellipsis "Rows and facts" @40,316 96x20
-      a.dk-nav-item @8,340 192x28
-        svg.dk-icon @16,344 16x16
-        span.dk-ellipsis "Table and filter" @40,344 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
-      a.dk-nav-item @8,368 192x28
-        svg.dk-icon @16,372 16x16
-        span.dk-ellipsis "Forms and actions" @40,372 116x20
-      a.dk-nav-item @8,396 192x28
-        svg.dk-icon @16,404 16x16
-        span.dk-ellipsis "Menus and feedback" @40,400 132x20
-      a.dk-nav-item @8,424 192x28
-        svg.dk-icon @16,432 16x16
-        span.dk-ellipsis "Charts" @40,432 40x20
-      a.dk-nav-item @8,456 192x28
-        svg.dk-icon @16,460 16x16
-        span.dk-ellipsis "Markdown" @40,460 64x20
-      a.dk-nav-item @8,484 192x28
-        svg.dk-icon @16,488 16x16
-        span.dk-ellipsis "States and sheets" @40,488 112x20
-      div.dk-nav-group [presentation] "Shell" @8,512 192x32
-      a.dk-nav-item @8,544 192x28
-        svg.dk-icon @16,552 16x16
-        span.dk-ellipsis "Shell and boards" @40,552 104x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x2060
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Rows and facts" @252,12 96x20
-      div.dk-toolbar-spacer @352,20 868x0
-      button.dk-fresh "Updated now" @1224,8 92x28
-      button.dk-iconbtn "Reload" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x2016
-      section.dk-card @224,60 1184x400
-        header.dk-card-head @224,60 1184x40
-          div.dk-card-heading @236,72 1160x20
-            h3.dk-card-title "metricRow() in list()" @236,72 1160x20
-        div.dk-card-body @224,100 1184x360
-          section.dk-card.dk-card-flush @236,112 1160x272
-            div.dk-card-body @240,116 1156x268
-              div.dk-list.dk-zebra [list] @240,116 1156x268
-                button.dk-row.dk-row-btn @240,116 1156x44
-                  span.dk-row-status @252,132 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,132 8x8
-                  span.dk-row-main @272,120 1020x36
-                    span.dk-row-title.dk-ellipsis "Photo backup" @272,120 1020x20
-                    span.dk-row-sub.dk-ellipsis "nas-a · daily 02:30" @272,136 1020x16
-                  span.dk-row-value @1300,120 56x36
-                    span.dk-num "4 hr. ago" @1300,120 56x20
-                    span.dk-row-sub "21 min" @1316,136 40x16
-                  span.dk-go @1368,128 16x16
-                    svg.dk-icon @1368,128 16x16
-                button.dk-row.dk-row-btn @240,160 1156x44
-                  span.dk-row-status @252,176 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,176 8x8
-                  span.dk-row-main @272,164 1020x36
-                    span.dk-row-title.dk-ellipsis "Document backup" @272,164 1020x20
-                    span.dk-row-sub.dk-ellipsis "nas-a · daily 03:00" @272,184 1020x16
-                  span.dk-row-value @1300,164 56x36
-                    span.dk-num "4 hr. ago" @1300,164 56x20
-                    span.dk-row-sub "3 min 4 s" @1304,184 52x16
-                  span.dk-go @1368,172 16x16
-                    svg.dk-icon @1368,172 16x16
-                button.dk-row.dk-row-btn @240,204 1156x44
-                  span.dk-row-status @252,224 8x8
-                    span.dk-dot.dk-s-bad [img] "Error" @252,224 8x8
-                  span.dk-row-main @272,208 1020x36
-                    span.dk-row-title.dk-ellipsis "Offsite archive sync" @272,208 1020x20
-                    span.dk-row-sub.dk-ellipsis "nas-b · daily 04:15" @272,228 1020x16
-                  span.dk-row-value @1300,208 56x36
-                    span.dk-num "3 hr. ago" @1300,208 56x20
-                    span.dk-row-sub "31 s" @1328,228 24x16
-                  span.dk-go @1368,220 16x16
-                    svg.dk-icon @1368,220 16x16
-                button.dk-row.dk-row-btn @240,248 1156x44
-                  span.dk-row-status @252,268 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,268 8x8
-                  span.dk-row-main @272,252 1012x36
-                    span.dk-row-title.dk-ellipsis "Certificate renewal" @272,252 1012x20
-                    span.dk-row-sub.dk-ellipsis "edge-1 · Sun 05:00" @272,272 1012x16
-                  span.dk-row-value @1296,252 60x36
-                    span.dk-num "yesterday" @1296,252 60x20
-                    span.dk-row-sub "12 s" @1328,272 24x16
-                  span.dk-go @1368,264 16x16
-                    svg.dk-icon @1368,264 16x16
-                button.dk-row.dk-row-btn @240,292 1156x44
-                  span.dk-row-status @252,312 8x8
-                    span.dk-dot.dk-s-warn [img] "Warning" @252,312 8x8
-                  span.dk-row-main @272,300 1000x36
-                    span.dk-row-title.dk-ellipsis "Media library scan" @272,300 1000x20
-                    span.dk-row-sub.dk-ellipsis "media-1 · every 2 h" @272,316 1000x16
-                  span.dk-row-value @1284,300 72x36
-                    span.dk-num "40 min. ago" @1284,300 72x20
-                    span.dk-row-sub "49 min 10 s" @1288,316 68x16
-                  span.dk-go @1368,308 16x16
-                    svg.dk-icon @1368,308 16x16
-                button.dk-row.dk-row-btn @240,340 1156x44
-                  span.dk-row-status @252,356 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,356 8x8
-                  span.dk-row-main @272,344 1020x36
-                    span.dk-row-title.dk-ellipsis "Log cleanup" @272,344 1020x20
-                    span.dk-row-sub.dk-ellipsis "app-2 · daily 00:10" @272,364 1020x16
-                  span.dk-row-value @1300,344 56x36
-                    span.dk-num "7 hr. ago" @1300,344 56x20
-                    span.dk-row-sub "4 s" @1336,364 16x16
-                  span.dk-go @1368,352 16x16
-                    svg.dk-icon @1368,352 16x16
-      section.dk-card @224,480 1184x388
-        header.dk-card-head @224,480 1184x40
-          div.dk-card-heading @236,492 1160x20
-            h3.dk-card-title "States" @236,492 1160x20
-        div.dk-card-body @224,520 1184x348
-          section.dk-card.dk-card-flush @236,532 1160x324
-            div.dk-card-body @240,536 1156x320
-              div.dk-list @240,536 1156x320
-                button.dk-row.dk-row-btn @240,536 1156x44
-                  span.dk-row-status @252,552 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,552 8x8
-                  span.dk-row-main @272,540 1056x36
-                    span.dk-row-title.dk-ellipsis "Normal" @272,540 1056x20
-                    span.dk-row-sub.dk-ellipsis "Subtitle" @272,560 1056x16
-                  span.dk-row-value @1340,548 16x20
-                    span.dk-num "12" @1340,548 16x20
-                  span.dk-go @1368,548 16x16
-                    svg.dk-icon @1368,548 16x16
-                button.dk-row.dk-row-btn.is-hover @240,580 1156x44
-                  span.dk-row-status @252,600 8x8
-                    span.dk-dot.dk-s-warn [img] "Warning" @252,600 8x8
-                  span.dk-row-main @272,584 1064x36
-                    span.dk-row-title.dk-ellipsis "Hover (forced)" @272,584 1064x20
-                    span.dk-row-sub.dk-ellipsis "Overlay" @272,604 1064x16
-                  span.dk-row-value @1348,596 8x20
-                    span.dk-num "3" @1348,596 8x20
-                  span.dk-go @1368,596 16x16
-                    svg.dk-icon @1368,596 16x16
-                button.dk-row.dk-row-btn.is-pressed @240,624 1156x44
-                  span.dk-row-status @252,644 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @252,644 8x8
-                  span.dk-row-main @272,632 1064x36
-                    span.dk-row-title.dk-ellipsis "Pressed (forced)" @272,632 1064x20
-                    span.dk-row-sub.dk-ellipsis "stronger overlay" @272,652 1064x16
-                  span.dk-row-value @1348,640 8x20
-                    span.dk-num "4" @1348,640 8x20
-                  span.dk-go @1368,640 16x16
-                    svg.dk-icon @1368,640 16x16
-                button.dk-row.dk-row-btn.is-selected {current=true} @240,672 1156x44
-                  span.dk-row-status @252,692 8x8
-                    span.dk-dot.dk-s-bad [img] "Error" @252,692 8x8
-                  span.dk-row-main @272,676 1064x36
-                    span.dk-row-title.dk-ellipsis "Selected (detail open)" @272,676 1064x20
-                    span.dk-row-sub.dk-ellipsis "Desktop: inspector" @272,696 1064x16
-                  span.dk-row-value @1348,688 8x20
-                    span.dk-num "1" @1348,688 8x20
-                  span.dk-go @1368,688 16x16
-                    svg.dk-icon @1368,688 16x16
-                div.dk-row @240,716 1156x44
-                  span.dk-row-status @252,736 8x8
-                    span.dk-dot.dk-s-unknown [img] "Unknown" @252,736 8x8
-                  span.dk-row-main @272,724 1060x36
-                    span.dk-row-title.dk-ellipsis "No action, no chevron" @272,724 1060x20
-                    span.dk-row-sub.dk-ellipsis "display only" @272,744 1060x16
-                  span.dk-row-value @1340,732 40x20
-                    span.dk-num "1.5 KB" @1340,732 40x20
-                button.dk-row.dk-row-btn @240,764 1156x44
-                  span.dk-row-status @252,784 8x8
-                    span.dk-dot.dk-s-pending [img] "Pending" @252,784 8x8
-                  span.dk-row-main @272,768 992x36
-                    span.dk-row-title.dk-ellipsis "A very long title that has to be truncated in a narrow colum" @272,768 992x20
-                    span.dk-row-sub.dk-ellipsis "a-very-long-hostname.example.internal · cron 15 3 * * 1-5" @272,788 992x16
-                  span.dk-row-value @1272,768 84x36
-                    span.dk-num "123,456,789" @1272,768 84x20
-                    span.dk-row-sub "2 d 7 h" @1316,788 40x16
-                  span.dk-go @1368,780 16x16
-                    svg.dk-icon @1368,780 16x16
-                button.dk-row.dk-row-btn @240,808 1156x44
-                  span.dk-row-status @252,828 8x8
-                    span.dk-dot.dk-s-off [img] "Off" @252,828 8x8
-                  span.dk-row-main @272,816 1052x36
-                    span.dk-row-title.dk-ellipsis.dk-mono "rsync-offsite" @272,816 1052x20
-                    span.dk-row-sub.dk-ellipsis "Monospace title" @272,836 1052x16
-                  span.dk-row-value @1336,824 20x20
-                    span.dk-num "0 B" @1336,824 20x20
-                  span.dk-go @1368,824 16x16
-                    svg.dk-icon @1368,824 16x16
-      section.dk-card @224,888 1184x172
-        header.dk-card-head @224,892 1184x40
-          div.dk-card-heading @236,900 1160x20
-            h3.dk-card-title "list() empty" @236,900 1160x20
-        div.dk-card-body @224,932 1184x132
-          section.dk-card.dk-card-flush @236,944 1160x60
-            div.dk-card-body @240,944 1156x60
-              div.dk-empty.dk-empty-compact @240,944 1156x60
-                div.dk-empty-title "No problems" @776,964 80x20
-      section.dk-card @224,1084 1184x248
-        header.dk-card-head @224,1084 1184x40
-          div.dk-card-heading @236,1092 1160x20
-            h3.dk-card-title "kv() and facts()" @236,1092 1160x20
-        div.dk-card-body @224,1124 1184x204
-          section.dk-facts @236,1136 380x136
-            h3.dk-facts-title "Run" @236,1136 380x16
-            dl.dk-kv @236,1160 380x112
+div.tn-app @0,0 1424x2060
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x528
+      div.tn-nav-group [presentation] "Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      div.tn-nav-group [presentation] "Components" @8,248 192x32
+      a.tn-nav-item @8,280 192x28
+        svg.tn-icon @16,288 16x16
+        span.tn-ellipsis "Cards and tiles" @40,284 92x20
+      a.tn-nav-item.is-active {current=page} @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Rows and facts" @40,316 96x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Table and filter" @40,344 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,344 24x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Forms and actions" @40,372 116x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Menus and feedback" @40,400 132x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Charts" @40,432 40x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Markdown" @40,460 64x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "States and sheets" @40,488 112x20
+      div.tn-nav-group [presentation] "Shell" @8,512 192x32
+      a.tn-nav-item @8,544 192x28
+        svg.tn-icon @16,552 16x16
+        span.tn-ellipsis "Shell and boards" @40,552 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x2060
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Rows and facts" @252,12 96x20
+      div.tn-toolbar-spacer @352,20 868x0
+      button.tn-fresh "Updated now" @1224,8 92x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x2016
+      section.tn-card @224,60 1184x400
+        header.tn-card-head @224,60 1184x40
+          div.tn-card-heading @236,72 1160x20
+            h3.tn-card-title "metricRow() in list()" @236,72 1160x20
+        div.tn-card-body @224,100 1184x360
+          section.tn-card.tn-card-flush @236,112 1160x272
+            div.tn-card-body @240,116 1156x268
+              div.tn-list.tn-zebra [list] @240,116 1156x268
+                button.tn-row.tn-row-btn @240,116 1156x44
+                  span.tn-row-status @252,132 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,132 8x8
+                  span.tn-row-main @272,120 1020x36
+                    span.tn-row-title.tn-ellipsis "Photo backup" @272,120 1020x20
+                    span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @272,136 1020x16
+                  span.tn-row-value @1300,120 56x36
+                    span.tn-num "4 hr. ago" @1300,120 56x20
+                    span.tn-row-sub "21 min" @1316,136 40x16
+                  span.tn-go @1368,128 16x16
+                    svg.tn-icon @1368,128 16x16
+                button.tn-row.tn-row-btn @240,160 1156x44
+                  span.tn-row-status @252,176 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,176 8x8
+                  span.tn-row-main @272,164 1020x36
+                    span.tn-row-title.tn-ellipsis "Document backup" @272,164 1020x20
+                    span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00" @272,184 1020x16
+                  span.tn-row-value @1300,164 56x36
+                    span.tn-num "4 hr. ago" @1300,164 56x20
+                    span.tn-row-sub "3 min 4 s" @1304,184 52x16
+                  span.tn-go @1368,172 16x16
+                    svg.tn-icon @1368,172 16x16
+                button.tn-row.tn-row-btn @240,204 1156x44
+                  span.tn-row-status @252,224 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @252,224 8x8
+                  span.tn-row-main @272,208 1020x36
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @272,208 1020x20
+                    span.tn-row-sub.tn-ellipsis "nas-b · daily 04:15" @272,228 1020x16
+                  span.tn-row-value @1300,208 56x36
+                    span.tn-num "3 hr. ago" @1300,208 56x20
+                    span.tn-row-sub "31 s" @1328,228 24x16
+                  span.tn-go @1368,220 16x16
+                    svg.tn-icon @1368,220 16x16
+                button.tn-row.tn-row-btn @240,248 1156x44
+                  span.tn-row-status @252,268 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,268 8x8
+                  span.tn-row-main @272,252 1012x36
+                    span.tn-row-title.tn-ellipsis "Certificate renewal" @272,252 1012x20
+                    span.tn-row-sub.tn-ellipsis "edge-1 · Sun 05:00" @272,272 1012x16
+                  span.tn-row-value @1296,252 60x36
+                    span.tn-num "yesterday" @1296,252 60x20
+                    span.tn-row-sub "12 s" @1328,272 24x16
+                  span.tn-go @1368,264 16x16
+                    svg.tn-icon @1368,264 16x16
+                button.tn-row.tn-row-btn @240,292 1156x44
+                  span.tn-row-status @252,312 8x8
+                    span.tn-dot.tn-s-warn [img] "Warning" @252,312 8x8
+                  span.tn-row-main @272,300 1000x36
+                    span.tn-row-title.tn-ellipsis "Media library scan" @272,300 1000x20
+                    span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @272,316 1000x16
+                  span.tn-row-value @1284,300 72x36
+                    span.tn-num "40 min. ago" @1284,300 72x20
+                    span.tn-row-sub "49 min 10 s" @1288,316 68x16
+                  span.tn-go @1368,308 16x16
+                    svg.tn-icon @1368,308 16x16
+                button.tn-row.tn-row-btn @240,340 1156x44
+                  span.tn-row-status @252,356 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,356 8x8
+                  span.tn-row-main @272,344 1020x36
+                    span.tn-row-title.tn-ellipsis "Log cleanup" @272,344 1020x20
+                    span.tn-row-sub.tn-ellipsis "app-2 · daily 00:10" @272,364 1020x16
+                  span.tn-row-value @1300,344 56x36
+                    span.tn-num "7 hr. ago" @1300,344 56x20
+                    span.tn-row-sub "4 s" @1336,364 16x16
+                  span.tn-go @1368,352 16x16
+                    svg.tn-icon @1368,352 16x16
+      section.tn-card @224,480 1184x388
+        header.tn-card-head @224,480 1184x40
+          div.tn-card-heading @236,492 1160x20
+            h3.tn-card-title "States" @236,492 1160x20
+        div.tn-card-body @224,520 1184x348
+          section.tn-card.tn-card-flush @236,532 1160x324
+            div.tn-card-body @240,536 1156x320
+              div.tn-list @240,536 1156x320
+                button.tn-row.tn-row-btn @240,536 1156x44
+                  span.tn-row-status @252,552 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,552 8x8
+                  span.tn-row-main @272,540 1056x36
+                    span.tn-row-title.tn-ellipsis "Normal" @272,540 1056x20
+                    span.tn-row-sub.tn-ellipsis "Subtitle" @272,560 1056x16
+                  span.tn-row-value @1340,548 16x20
+                    span.tn-num "12" @1340,548 16x20
+                  span.tn-go @1368,548 16x16
+                    svg.tn-icon @1368,548 16x16
+                button.tn-row.tn-row-btn.is-hover @240,580 1156x44
+                  span.tn-row-status @252,600 8x8
+                    span.tn-dot.tn-s-warn [img] "Warning" @252,600 8x8
+                  span.tn-row-main @272,584 1064x36
+                    span.tn-row-title.tn-ellipsis "Hover (forced)" @272,584 1064x20
+                    span.tn-row-sub.tn-ellipsis "Overlay" @272,604 1064x16
+                  span.tn-row-value @1348,596 8x20
+                    span.tn-num "3" @1348,596 8x20
+                  span.tn-go @1368,596 16x16
+                    svg.tn-icon @1368,596 16x16
+                button.tn-row.tn-row-btn.is-pressed @240,624 1156x44
+                  span.tn-row-status @252,644 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,644 8x8
+                  span.tn-row-main @272,632 1064x36
+                    span.tn-row-title.tn-ellipsis "Pressed (forced)" @272,632 1064x20
+                    span.tn-row-sub.tn-ellipsis "stronger overlay" @272,652 1064x16
+                  span.tn-row-value @1348,640 8x20
+                    span.tn-num "4" @1348,640 8x20
+                  span.tn-go @1368,640 16x16
+                    svg.tn-icon @1368,640 16x16
+                button.tn-row.tn-row-btn.is-selected {current=true} @240,672 1156x44
+                  span.tn-row-status @252,692 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @252,692 8x8
+                  span.tn-row-main @272,676 1064x36
+                    span.tn-row-title.tn-ellipsis "Selected (detail open)" @272,676 1064x20
+                    span.tn-row-sub.tn-ellipsis "Desktop: inspector" @272,696 1064x16
+                  span.tn-row-value @1348,688 8x20
+                    span.tn-num "1" @1348,688 8x20
+                  span.tn-go @1368,688 16x16
+                    svg.tn-icon @1368,688 16x16
+                div.tn-row @240,716 1156x44
+                  span.tn-row-status @252,736 8x8
+                    span.tn-dot.tn-s-unknown [img] "Unknown" @252,736 8x8
+                  span.tn-row-main @272,724 1060x36
+                    span.tn-row-title.tn-ellipsis "No action, no chevron" @272,724 1060x20
+                    span.tn-row-sub.tn-ellipsis "display only" @272,744 1060x16
+                  span.tn-row-value @1340,732 40x20
+                    span.tn-num "1.5 KB" @1340,732 40x20
+                button.tn-row.tn-row-btn @240,764 1156x44
+                  span.tn-row-status @252,784 8x8
+                    span.tn-dot.tn-s-pending [img] "Pending" @252,784 8x8
+                  span.tn-row-main @272,768 992x36
+                    span.tn-row-title.tn-ellipsis "A very long title that has to be truncated in a narrow colum" @272,768 992x20
+                    span.tn-row-sub.tn-ellipsis "a-very-long-hostname.example.internal · cron 15 3 * * 1-5" @272,788 992x16
+                  span.tn-row-value @1272,768 84x36
+                    span.tn-num "123,456,789" @1272,768 84x20
+                    span.tn-row-sub "2 d 7 h" @1316,788 40x16
+                  span.tn-go @1368,780 16x16
+                    svg.tn-icon @1368,780 16x16
+                button.tn-row.tn-row-btn @240,808 1156x44
+                  span.tn-row-status @252,828 8x8
+                    span.tn-dot.tn-s-off [img] "Off" @252,828 8x8
+                  span.tn-row-main @272,816 1052x36
+                    span.tn-row-title.tn-ellipsis.tn-mono "rsync-offsite" @272,816 1052x20
+                    span.tn-row-sub.tn-ellipsis "Monospace title" @272,836 1052x16
+                  span.tn-row-value @1336,824 20x20
+                    span.tn-num "0 B" @1336,824 20x20
+                  span.tn-go @1368,824 16x16
+                    svg.tn-icon @1368,824 16x16
+      section.tn-card @224,888 1184x172
+        header.tn-card-head @224,892 1184x40
+          div.tn-card-heading @236,900 1160x20
+            h3.tn-card-title "list() empty" @236,900 1160x20
+        div.tn-card-body @224,932 1184x132
+          section.tn-card.tn-card-flush @236,944 1160x60
+            div.tn-card-body @240,944 1156x60
+              div.tn-empty.tn-empty-compact @240,944 1156x60
+                div.tn-empty-title "No problems" @776,964 80x20
+      section.tn-card @224,1084 1184x248
+        header.tn-card-head @224,1084 1184x40
+          div.tn-card-heading @236,1092 1160x20
+            h3.tn-card-title "kv() and facts()" @236,1092 1160x20
+        div.tn-card-body @224,1124 1184x204
+          section.tn-facts @236,1136 380x136
+            h3.tn-facts-title "Run" @236,1136 380x16
+            dl.tn-kv @236,1160 380x112
               dt "Host" @236,1160 96x20
               dd "nas-b" @348,1160 268x20
               dt "Schedule" @236,1184 96x20
@@ -246,45 +246,45 @@ div.dk-app @0,0 1424x2060
               dt "Duration" @236,1228 96x20
               dd "31 s" @348,1228 268x20
               dt "Error" @236,1252 96x20
-              dd.dk-t-bad "rsync: connection unexpectedly closed" @348,1252 268x20
-      section.dk-card @224,1352 1184x680
-        header.dk-card-head @224,1352 1184x40
-          div.dk-card-heading @236,1360 1160x20
-            h3.dk-card-title "Long words" @236,1360 1160x20
-        div.dk-card-body @224,1392 1184x636
-          div.dk-stack @236,1404 300x548
-            div.dk-banner.dk-banner-warn [status] @236,1404 300x52
-              svg.dk-icon @252,1412 16x16
-              div.dk-banner-text "The collector reports: Medienbibliothek does not respond." @276,1412 252x32
-            section.dk-card.dk-card-flush @236,1472 300x48
-              div.dk-card-body @240,1472 300x44
-                div.dk-list [list] @240,1472 300x44
-                  button.dk-row.dk-row-btn @240,1472 300x44
-                    span.dk-row-status @252,1492 8x8
-                      span.dk-dot.dk-s-warn [img] "Warning" @252,1492 8x8
-                    span.dk-row-main @272,1476 92x36
-                      span.dk-row-title.dk-ellipsis "Occupational safety regulation" @272,1476 92x20
-                      span.dk-row-sub.dk-ellipsis "Donaudampfschifffahrtsgesellschaft" @272,1496 92x16
-                    span.dk-row-value @372,1484 124x20
-                      span.dk-num "Betriebssicherheitsverordnung" @372,1484 124x20
-                    span.dk-go @508,1488 16x16
-                      svg.dk-icon @508,1488 16x16
-            div.dk-tiles @236,1532 300x152
-              div.dk-stat @236,1532 300x72
-                div.dk-stat-label @252,1544 276x16
-                  span.dk-ellipsis "Datenschutzbeauftragtenbestellung" @252,1544 208x16
-                div.dk-stat-value.dk-num "3" @252,1560 276x24
-              div.dk-stat @236,1612 300x72
-                div.dk-stat-label @252,1624 276x16
-                  span.dk-ellipsis "Short" @252,1624 32x16
-                div.dk-stat-value.dk-num "4" @252,1640 276x24
-            section.dk-facts @236,1700 300x120
-              h3.dk-facts-title "Values" @236,1700 300x16
-              dl.dk-kv @236,1724 300x96
+              dd.tn-t-bad "rsync: connection unexpectedly closed" @348,1252 268x20
+      section.tn-card @224,1352 1184x680
+        header.tn-card-head @224,1352 1184x40
+          div.tn-card-heading @236,1360 1160x20
+            h3.tn-card-title "Long words" @236,1360 1160x20
+        div.tn-card-body @224,1392 1184x636
+          div.tn-stack @236,1404 300x548
+            div.tn-banner.tn-banner-warn [status] @236,1404 300x52
+              svg.tn-icon @252,1412 16x16
+              div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @276,1412 252x32
+            section.tn-card.tn-card-flush @236,1472 300x48
+              div.tn-card-body @240,1472 300x44
+                div.tn-list [list] @240,1472 300x44
+                  button.tn-row.tn-row-btn @240,1472 300x44
+                    span.tn-row-status @252,1492 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @252,1492 8x8
+                    span.tn-row-main @272,1476 92x36
+                      span.tn-row-title.tn-ellipsis "Occupational safety regulation" @272,1476 92x20
+                      span.tn-row-sub.tn-ellipsis "Donaudampfschifffahrtsgesellschaft" @272,1496 92x16
+                    span.tn-row-value @372,1484 124x20
+                      span.tn-num "Betriebssicherheitsverordnung" @372,1484 124x20
+                    span.tn-go @508,1488 16x16
+                      svg.tn-icon @508,1488 16x16
+            div.tn-tiles @236,1532 300x152
+              div.tn-stat @236,1532 300x72
+                div.tn-stat-label @252,1544 276x16
+                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @252,1544 208x16
+                div.tn-stat-value.tn-num "3" @252,1560 276x24
+              div.tn-stat @236,1612 300x72
+                div.tn-stat-label @252,1624 276x16
+                  span.tn-ellipsis "Short" @252,1624 32x16
+                div.tn-stat-value.tn-num "4" @252,1640 276x24
+            section.tn-facts @236,1700 300x120
+              h3.tn-facts-title "Values" @236,1700 300x16
+              dl.tn-kv @236,1724 300x96
                 dt "Administration" @236,1724 96x20
                 dd "Medienbibliotheksverwaltung" @348,1724 188x20
                 dt "Path" @236,1748 96x72
                 dd "/srv/stack/compose/services/media-library/config/filters/exc" @348,1748 188x72
-            div.dk-empty.dk-empty-compact @236,1836 300x116
-              div.dk-empty-title "No entries" @356,1856 64x20
-              div.dk-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,1880 276x52
+            div.tn-empty.tn-empty-compact @236,1836 300x116
+              div.tn-empty-title "No entries" @356,1856 64x20
+              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,1880 276x52

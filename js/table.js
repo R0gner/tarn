@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · table: sortable, sticky header, zebra, tappable rows.
+// tarn · table: sortable, sticky header, zebra, tappable rows.
 // Automatically a two-line list (class .is-list) when the container is narrower than 600 px or the columns
 // no longer fit (measured, without horizontal scrolling and without widening the page):
 //   Dot   | Title            Value | ›
@@ -54,7 +54,7 @@ export function table(opts) {
   /** @type {HTMLElement | null} */ let more = null;
   let drawn = 0;
 
-  const wrap = h('div', { class: cls('dk-table-wrap', opts.onRow && 'dk-table-click') });
+  const wrap = h('div', { class: cls('tn-table-wrap', opts.onRow && 'tn-table-click') });
   const LIST_BELOW = 600; // container width (px) below which the list always appears
   let list = false, natural = 0;
   /** @param {boolean} on */
@@ -76,11 +76,11 @@ export function table(opts) {
   function headCell(c) {
     const active = sort?.key === c.key;
     const label = c.sortable
-      ? h('button', { class: 'dk-th-btn', type: 'button', onclick: () => toggleSort(c) },
-        h('span', null, c.label), h('span', { class: 'dk-sort', 'aria-hidden': 'true' }, active && sort ? icon(sort.dir === 'desc' ? 'arrow-down' : 'arrow-up', { size: 12 }) : null))
+      ? h('button', { class: 'tn-th-btn', type: 'button', onclick: () => toggleSort(c) },
+        h('span', null, c.label), h('span', { class: 'tn-sort', 'aria-hidden': 'true' }, active && sort ? icon(sort.dir === 'desc' ? 'arrow-down' : 'arrow-up', { size: 12 }) : null))
       : c.label;
     return h('th', {
-      scope: 'col', class: cls(c.align === 'right' && 'dk-right', active && 'is-sorted'),
+      scope: 'col', class: cls(c.align === 'right' && 'tn-right', active && 'is-sorted'),
       'aria-sort': active && sort ? (sort.dir === 'desc' ? 'descending' : 'ascending') : null,
       style: c.width ? { width: typeof c.width === 'number' ? `${c.width}px` : c.width } : null,
     }, label);
@@ -103,12 +103,12 @@ export function table(opts) {
       onclick: onRow ? () => onRow(r) : null,
       onkeydown: onRow ? (/** @type {KeyboardEvent} */ e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onRow(r); } } : null,
     },
-    opts.status && h('td', { class: 'dk-td-status', 'data-m': 'status' }, statusDot(st || 'unknown')),
+    opts.status && h('td', { class: 'tn-td-status', 'data-m': 'status' }, statusDot(st || 'unknown')),
     cols.map((c) => h('td', {
-      class: cls(c.align === 'right' && 'dk-right', c.mono && 'dk-mono', c.wrap && 'dk-wrap', c.mobile === 'title' && 'dk-td-title'), 'data-m': c.mobile,
+      class: cls(c.align === 'right' && 'tn-right', c.mono && 'tn-mono', c.wrap && 'tn-wrap', c.mobile === 'title' && 'tn-td-title'), 'data-m': c.mobile,
     }, cell(c, r))),
-    h('td', { class: 'dk-td-m', 'data-m': 'subline', 'aria-hidden': 'true' }, subs.flatMap((x, i) => (i ? [h('span', { class: 'dk-sep-dot' }, ' · '), x] : [x]))),
-    opts.onRow && h('td', { class: 'dk-td-go', 'aria-hidden': 'true' }, icon('chevron-right')));
+    h('td', { class: 'tn-td-m', 'data-m': 'subline', 'aria-hidden': 'true' }, subs.flatMap((x, i) => (i ? [h('span', { class: 'tn-sep-dot' }, ' · '), x] : [x]))),
+    opts.onRow && h('td', { class: 'tn-td-go', 'aria-hidden': 'true' }, icon('chevron-right')));
     return tr;
   }
   function drawMore() {
@@ -118,7 +118,7 @@ export function table(opts) {
     drawn += next.length;
     const left = shown.length - drawn;
     more.hidden = left <= 0;
-    /** @type {HTMLElement} */ (more.querySelector('.dk-table-more-n')).textContent = t('table.shown', { shown: drawn, total: shown.length });
+    /** @type {HTMLElement} */ (more.querySelector('.tn-table-more-n')).textContent = t('table.shown', { shown: drawn, total: shown.length });
   }
   function render() {
     shown = rows;
@@ -126,12 +126,12 @@ export function table(opts) {
     drawn = 0;
     if (!shown.length) { wrap.replaceChildren(empty({ title: opts.empty || t('common.noEntries'), compact: true })); return; }
     tbody = h('tbody');
-    more = h('div', { class: 'dk-table-more', hidden: true },
-      h('span', { class: 'dk-table-more-n' }),
+    more = h('div', { class: 'tn-table-more', hidden: true },
+      h('span', { class: 'tn-table-more-n' }),
       button(t('table.more'), { variant: 'ghost', small: true, onClick: () => drawMore() }));
-    wrap.replaceChildren(h('table', { class: 'dk-table' },
-      opts.caption && h('caption', { class: 'dk-sr' }, opts.caption),
-      h('thead', null, h('tr', null, opts.status && h('th', { class: 'dk-td-status', 'aria-label': 'Status' }), cols.map(headCell), h('th', { class: 'dk-td-m' }), opts.onRow && h('th', { class: 'dk-td-go' }))),
+    wrap.replaceChildren(h('table', { class: 'tn-table' },
+      opts.caption && h('caption', { class: 'tn-sr' }, opts.caption),
+      h('thead', null, h('tr', null, opts.status && h('th', { class: 'tn-td-status', 'aria-label': 'Status' }), cols.map(headCell), h('th', { class: 'tn-td-m' }), opts.onRow && h('th', { class: 'tn-td-go' }))),
       tbody), more);
     drawMore();
     natural = 0; setList(false); fit();

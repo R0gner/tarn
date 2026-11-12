@@ -1,4 +1,4 @@
-// dashkit · verify check "geometry": DOM geometry per page × size × scheme × view, plus console errors.
+// tarn · verify check "geometry": DOM geometry per page × size × scheme × view, plus console errors.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,7 +22,7 @@ export async function settle(page, { max = 3000 } = {}) {
     // skeletons inside gallery demos (.g-demo) and in the gallery's example sheet are permanent examples of the loading state, not a load
     // in progress: they must not keep settle waiting until its time limit (3 s per call in every gallery view that shows one)
     const inGallery = location.pathname.includes('/gallery/');
-    const busy = () => [...document.querySelectorAll('[aria-busy="true"]')].some((e) => !e.closest('.g-demo') && !(inGallery && e.closest('dialog'))) || !document.querySelector('.dk-nav-item') ||
+    const busy = () => [...document.querySelectorAll('[aria-busy="true"]')].some((e) => !e.closest('.g-demo') && !(inGallery && e.closest('dialog'))) || !document.querySelector('.tn-nav-item') ||
       document.getAnimations().some((a) => a.playState === 'running' && a.effect?.getComputedTiming().iterations !== Infinity);
     const tick = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       calm = busy() ? 0 : calm + 1;
@@ -60,11 +60,11 @@ export function consoleCollector(page) {
   return { take: () => { const e = errs; errs = []; return [...new Set(e)]; }, push: (e) => errs.push(e) };
 }
 
-/** Read the navigation: view IDs from .dk-nav-item[href="#/id"]. */
-export const readViews = (page) => evaluate(page, `[...document.querySelectorAll('.dk-nav-item')].map((a) => (a.getAttribute('href') || '').replace(/^#\\//, '').split('?')[0]).filter(Boolean)`);
+/** Read the navigation: view IDs from .tn-nav-item[href="#/id"]. */
+export const readViews = (page) => evaluate(page, `[...document.querySelectorAll('.tn-nav-item')].map((a) => (a.getAttribute('href') || '').replace(/^#\\//, '').split('?')[0]).filter(Boolean)`);
 
 export async function goHash(page, hash) {
-  await evaluate(page, `(() => { location.hash = ${JSON.stringify('#/' + hash)}; window.scrollTo(0, 0); document.querySelector('.dk-content')?.scrollTo?.(0, 0); return true; })()`);
+  await evaluate(page, `(() => { location.hash = ${JSON.stringify('#/' + hash)}; window.scrollTo(0, 0); document.querySelector('.tn-content')?.scrollTo?.(0, 0); return true; })()`);
 }
 
 /** One task per page × size × scheme (the unit that one worker runs; results are merged in this order). */
@@ -109,7 +109,7 @@ export async function geometryTask(w, task, opts) {
     states++;
     const ctx = { page: pg.id, view, size: size.name, theme };
     // i18n: every key looked up in this view must exist in the active language
-    for (const k of await evaluate(page, '[...(window.__dkMissingKeys || [])]')) findings.push({ check: 'geometry', rule: 'i18n', ...ctx, sel: k, where: '', text: `missing translation: ${k}` });
+    for (const k of await evaluate(page, '[...(window.__tnMissingKeys || [])]')) findings.push({ check: 'geometry', rule: 'i18n', ...ctx, sel: k, where: '', text: `missing translation: ${k}` });
     for (const f of res.findings) findings.push({ check: 'geometry', ...ctx, ...f });
     for (const x of res.warnings) warnings.push({ check: 'geometry', ...ctx, ...x });
     for (const e of con.take()) findings.push({ check: 'geometry', rule: 'console', ...ctx, sel: 'console', where: '', text: e });

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · Board switcher: launcher grid for switching between boards (see boards-data.js for the data format).
+// tarn · Board switcher: launcher grid for switching between boards (see boards-data.js for the data format).
 //   boardGrid(data, { current })        the grid (tiles as real <a href>, small headings with categories)
 //   boardSwitcher(anchor, opts)         turns a button into the switcher: ≥ 700 px popover below the anchor (overlay layer),
 //                                       below that a bottom sheet. opts: { boards | URL, categories?, boardId? }
@@ -33,13 +33,13 @@ import { t } from './i18n.js';
  */
 export function boardIcon(spec, name, size = 44, { letter = true } = {}) {
   const ic = normalizeIcon(spec);
-  const box = h('span', { class: 'dk-bicon', style: { '--dk-bicon': `${size}px` }, 'aria-hidden': 'true' });
+  const box = h('span', { class: 'tn-bicon', style: { '--tn-bicon': `${size}px` }, 'aria-hidden': 'true' });
   const tile = () => {
-    box.classList.add('is-letter', `dk-c-${colorOf(name)}`);
-    box.replaceChildren(h('span', { class: 'dk-bicon-letter' }, letterOf(name)));
+    box.classList.add('is-letter', `tn-c-${colorOf(name)}`);
+    box.replaceChildren(h('span', { class: 'tn-bicon-letter' }, letterOf(name)));
   };
   if (!ic) { if (!letter) return null; tile(); return box; }
-  const img = h('img', { class: 'dk-bicon-img', src: 'url' in ic ? ic.url : faviconHref(ic), width: size, height: size, alt: '', decoding: 'async' });
+  const img = h('img', { class: 'tn-bicon-img', src: 'url' in ic ? ic.url : faviconHref(ic), width: size, height: size, alt: '', decoding: 'async' });
   img.addEventListener('error', () => { if (letter) tile(); else img.remove(); }, { once: true });
   box.append(img);
   return box;
@@ -52,13 +52,13 @@ export function boardIcon(spec, name, size = 44, { letter = true } = {}) {
  * @returns {HTMLElement}
  */
 export function boardGrid(data, { current } = {}) {
-  const grid = h('div', { class: 'dk-boards-body' });
+  const grid = h('div', { class: 'tn-boards-body' });
   for (const g of data.groups) {
-    if (g.label) grid.append(h('h3', { class: 'dk-boards-cat' }, g.label));
-    grid.append(h('div', { class: 'dk-boards-grid' }, g.boards.map((b) => h('a', {
-      class: 'dk-board', href: b.href, 'data-id': b.id, 'aria-current': b.id === current ? 'true' : null,
+    if (g.label) grid.append(h('h3', { class: 'tn-boards-cat' }, g.label));
+    grid.append(h('div', { class: 'tn-boards-grid' }, g.boards.map((b) => h('a', {
+      class: 'tn-board', href: b.href, 'data-id': b.id, 'aria-current': b.id === current ? 'true' : null,
     }, boardIcon(b.icon, b.name), // names wrap only at word boundaries: a single word gets an ellipsis + hint, multiple words at most 2 lines
-      h('span', { class: /\s/.test(b.name) ? 'dk-board-name dk-clamp' : 'dk-board-name dk-ellipsis' }, b.name)))));
+      h('span', { class: /\s/.test(b.name) ? 'tn-board-name tn-clamp' : 'tn-board-name tn-ellipsis' }, b.name)))));
   }
   grid.addEventListener('keydown', (e) => navigate(grid, e));
   return grid;
@@ -71,7 +71,7 @@ export function boardGrid(data, { current } = {}) {
  */
 function navigate(root, e) {
   const keys = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
-  const tiles = /** @type {HTMLElement[]} */ ([...root.querySelectorAll('a.dk-board')]);
+  const tiles = /** @type {HTMLElement[]} */ ([...root.querySelectorAll('a.tn-board')]);
   const i = tiles.indexOf(/** @type {HTMLElement} */ (document.activeElement));
   if (i < 0 || (!keys[e.key] && e.key !== 'Home' && e.key !== 'End')) return;
   e.preventDefault();
@@ -143,7 +143,7 @@ export function boardSwitcher(anchor, opts) {
   }
   function focusFirst() {
     if (!body) return;
-    const t = /** @type {HTMLElement | null} */ (body.querySelector('a[aria-current="true"]') || body.querySelector('a.dk-board'));
+    const t = /** @type {HTMLElement | null} */ (body.querySelector('a[aria-current="true"]') || body.querySelector('a.tn-board'));
     if (t) t.focus({ preventScroll: true });
   }
   function place() {
@@ -165,13 +165,13 @@ export function boardSwitcher(anchor, opts) {
   function open(byKeyboard = true) {
     if (el || sheet) return;
     anchor.setAttribute('aria-expanded', 'true');
-    body = h('div', { class: 'dk-boards-content' });
+    body = h('div', { class: 'tn-boards-content' });
     body.append(content());
     if (PHONE.matches) {
-      sheet = openSheet({ title: t('boards.title'), body, onClose: (reason) => { sheet = null; anchor.setAttribute('aria-expanded', 'false'); if (reason !== 'api') setTimeout(() => anchor.focus({ preventScroll: true }), tokenMs('--dk-t-close') + 60); } }); // only once the sheet is closed (before that the title is inert)
+      sheet = openSheet({ title: t('boards.title'), body, onClose: (reason) => { sheet = null; anchor.setAttribute('aria-expanded', 'false'); if (reason !== 'api') setTimeout(() => anchor.focus({ preventScroll: true }), tokenMs('--tn-t-close') + 60); } }); // only once the sheet is closed (before that the title is inert)
       if (byKeyboard) focusFirst();
     } else {
-      el = h('div', { class: 'dk-boards', role: 'dialog', 'aria-label': t('boards.title') }, body);
+      el = h('div', { class: 'tn-boards', role: 'dialog', 'aria-label': t('boards.title') }, body);
       showOverlay(el);
       place();
       width0 = document.documentElement.clientWidth;
@@ -184,7 +184,7 @@ export function boardSwitcher(anchor, opts) {
   }
   /** @param {boolean} [refocus] */
   function close(refocus) {
-    if (sheet) { const s = sheet; sheet = null; s.close('api'); anchor.setAttribute('aria-expanded', 'false'); if (refocus) setTimeout(() => anchor.focus({ preventScroll: true }), tokenMs('--dk-t-close') + 60); return; }
+    if (sheet) { const s = sheet; sheet = null; s.close('api'); anchor.setAttribute('aria-expanded', 'false'); if (refocus) setTimeout(() => anchor.focus({ preventScroll: true }), tokenMs('--tn-t-close') + 60); return; }
     if (!el) return;
     removeOverlay(el); el = null; anchor.setAttribute('aria-expanded', 'false');
     document.removeEventListener('pointerdown', outside, true);

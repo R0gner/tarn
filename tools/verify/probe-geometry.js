@@ -1,4 +1,4 @@
-// dashkit · geometry probe. Runs in the page context (injected via CDP Runtime.evaluate), not in the kit.
+// tarn · geometry probe. Runs in the page context (injected via CDP Runtime.evaluate), not in the kit.
 // Expression: (function …)(opts) → { findings: [...], warnings: [...], stats }
 // Rules (finding = error, warning = hint only):
 //   overflow   child sticks out of its container (parents with overflow: visible; scrolling/clipping ones excluded)
@@ -8,7 +8,7 @@
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
 //   contrast   text/background contrast below 4.5 (large 3) – warning
-(function dkGeometry(opts) {
+(function tnGeometry(opts) {
   const o = Object.assign({ tol: 1, alignTol: 1.5, minTouch: 40, touch: false, contrast: true, maxPerRule: 60 }, opts || {});
   const findings = [], warnings = [];
   const de = document.documentElement;
@@ -19,7 +19,7 @@
   /* ---- Helpers ---- */
   const pick = (el) => {
     const c = [...el.classList];
-    const pref = c.filter((x) => /^(dk|g)-/.test(x) && !/^(is|has)-/.test(x));
+    const pref = c.filter((x) => /^(tn|g)-/.test(x) && !/^(is|has)-/.test(x));
     return (pref.length ? pref : c).slice(0, 2);
   };
   const desc = (el) => {
@@ -30,8 +30,8 @@
   };
   const path = (el) => `${desc(el.parentElement)} > ${desc(el)}`;
   const where = (el) => {
-    const host = el.closest('.dk-card, .dk-section, dialog, .dk-inspector, .dk-toolbar, .dk-sidebar');
-    const head = host?.querySelector('.dk-card-title, .dk-section-title, .dk-sheet-title, h1, h2, h3');
+    const host = el.closest('.tn-card, .tn-section, dialog, .tn-inspector, .tn-toolbar, .tn-sidebar');
+    const head = host?.querySelector('.tn-card-title, .tn-section-title, .tn-sheet-title, h1, h2, h3');
     return (head?.textContent || '').trim().slice(0, 40) || desc(host || el.parentElement || el);
   };
   const snippet = (el) => (el.textContent || el.getAttribute('aria-label') || '').trim().replace(/\s+/g, ' ').slice(0, 50);
@@ -76,7 +76,7 @@
   if (!/\S.*·.*\S/.test(document.title)) push(findings, { rule: 'identity', sel: 'head > title', where: '', text: `title “${document.title}” is not “View · Board”` });
 
   /* ---- scroll-x: timeline adapts to the width, no sideways scrolling (except opt-in minPxPerHour) ---- */
-  for (const el of document.querySelectorAll('.dk-tl-scroll')) {
+  for (const el of document.querySelectorAll('.tn-tl-scroll')) {
     if (!el.checkVisibility() || el.firstElementChild?.style.width) continue;
     if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `timeline scrolls sideways (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
   }
@@ -152,7 +152,7 @@
     const rects = textRects.get(n);
     if (rects.length < 2 || n.nodeValue.length < 10) continue;
     const p = n.parentElement;
-    if (p.closest('pre, code, kbd, samp, svg, .dk-mono, .dk-log, [role="log"], .dk-sr')) continue;
+    if (p.closest('pre, code, kbd, samp, svg, .tn-mono, .tn-log, [role="log"], .tn-sr')) continue;
     for (const m of n.nodeValue.matchAll(/(?<![\p{L}\p{N}\/._-])\p{L}{10,}(?![\p{L}\p{N}\/._-])/gu)) {
       if (m[0].length > 26) continue; // absurdly long stress words may break (names get an ellipsis, checked by the clip rule)
       range.setStart(n, m.index); range.setEnd(n, m.index + m[0].length);
@@ -303,7 +303,7 @@
     const done = new Set();
     // resolve colour tokens (for the contrast list: which token on which background)
     const tokenNames = new Set();
-    for (const sh of document.styleSheets) { let rules; try { rules = sh.cssRules; } catch { continue; } for (const r of rules) if (r.style) for (const n of r.style) if (n.startsWith('--dk-')) tokenNames.add(n); }
+    for (const sh of document.styleSheets) { let rules; try { rules = sh.cssRules; } catch { continue; } for (const r of rules) if (r.style) for (const n of r.style) if (n.startsWith('--tn-')) tokenNames.add(n); }
     const probe = document.createElement('span'); document.body.append(probe);
     const tokenOf = new Map();
     for (const n of tokenNames) { probe.style.color = ''; probe.style.color = `var(${n})`; const v = getComputedStyle(probe).color; if (v && !tokenOf.has(v) && probe.style.color) tokenOf.set(v, n); }

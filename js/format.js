@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · pure formatting and sorting functions (no DOM, testable with node --test).
+// tarn · pure formatting and sorting functions (no DOM, testable with node --test).
 // Everything runs through Intl with the active locale and time zone from i18n.js (setLocale / setTimeZone);
 // without a call the locale is English and the time zone the browser's.
 import { getLocale, getTimeZone, t } from './i18n.js';
@@ -92,7 +92,7 @@ export function fmtAgo(sec) {
 }
 
 const toDate = (t) => (t instanceof Date ? t : new Date(t));
-const dayKey = (v) => fmt('dk', () => new Intl.DateTimeFormat('en-CA', { timeZone: getTimeZone(), year: 'numeric', month: '2-digit', day: '2-digit' }), '').format(toDate(v));
+const dayKey = (v) => fmt('tn', () => new Intl.DateTimeFormat('en-CA', { timeZone: getTimeZone(), year: 'numeric', month: '2-digit', day: '2-digit' }), '').format(toDate(v));
 /**
  * Time of day: "07:15" (de) / "7:15 AM" (en)
  * @param {number | Date | null | undefined} t epoch milliseconds or Date

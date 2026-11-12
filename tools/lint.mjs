@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · lint: check kit rules statically. Node ≥ 22, no npm packages.
+// tarn · lint: check kit rules statically. Node ≥ 22, no npm packages.
 //
 //   node tools/lint.mjs [-v] [--write-known]
 //
@@ -185,7 +185,7 @@ function moduleExports(file, seen = new Set()) {
   return names;
 }
 function lintGallery(add, allow) {
-  const entry = path.join(ROOT, 'js', 'dashkit.js');
+  const entry = path.join(ROOT, 'js', 'tarn.js');
   const exp = moduleExports(entry);
   const gal = walk(path.join(ROOT, 'gallery'), ['.js']).map((f) => stripComments(fs.readFileSync(f, 'utf8')).replace(/^\s*import[\s\S]*?from\s*['"][^'"]+['"];?/gm, '')).join('\n');
   const skipMods = new Set(allow.galleryModules || []);

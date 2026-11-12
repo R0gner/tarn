@@ -1,4 +1,4 @@
-/* dashkit · fonts (local, see fonts/SOURCES.md). Inter variabel 400–600, IBM Plex Mono 400/500, Latin-Subset.
+/* tarn · fonts (local, see fonts/SOURCES.md). Inter variabel 400–600, IBM Plex Mono 400/500, Latin-Subset.
    Paths are relative to this file. font-display: swap; the fallback stack in tokens.css stays. */
 @font-face {
   font-family: "Inter"; font-style: normal; font-weight: 400 600; font-display: swap;

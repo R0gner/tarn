@@ -1,260 +1,260 @@
 # gallery #/table · phone 390×844 · dunkel
-div.dk-app @0,0 392x1668
-  aside.dk-sidebar @-284,0 280x844
-    div.dk-sidebar-head @-276,0 264x48
-      div.dk-brand @-268,12 128x24
-        span.dk-bicon @-268,12 24x24
-          img.dk-bicon-img @-268,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
-    nav.dk-nav "Views" @-276,48 264x696
-      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
-      a.dk-nav-item @-276,72 264x40
-        svg.dk-icon @-268,84 16x16
-        span.dk-ellipsis "Foundations" @-244,84 76x20
-      a.dk-nav-item @-276,116 264x40
-        svg.dk-icon @-268,128 16x16
-        span.dk-ellipsis "Light and dark" @-244,124 88x20
-      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
-      a.dk-nav-item @-276,188 264x40
-        svg.dk-icon @-268,200 16x16
-        span.dk-ellipsis "Buttons and status" @-244,200 116x20
-      a.dk-nav-item @-276,228 264x40
-        svg.dk-icon @-268,240 16x16
-        span.dk-ellipsis "Controls" @-244,240 52x20
-      a.dk-nav-item @-276,272 264x40
-        svg.dk-icon @-268,284 16x16
-        span.dk-ellipsis "Inputs" @-244,280 40x20
-      div.dk-nav-group [presentation] "Components" @-276,312 264x32
-      a.dk-nav-item @-276,344 264x40
-        svg.dk-icon @-268,356 16x16
-        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
-      a.dk-nav-item @-276,384 264x40
-        svg.dk-icon @-268,396 16x16
-        span.dk-ellipsis "Rows and facts" @-244,396 96x20
-      a.dk-nav-item.is-active {current=page} @-276,428 264x40
-        svg.dk-icon @-268,440 16x16
-        span.dk-ellipsis "Table and filter" @-244,436 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
-      a.dk-nav-item @-276,468 264x40
-        svg.dk-icon @-268,480 16x16
-        span.dk-ellipsis "Forms and actions" @-244,480 116x20
-      a.dk-nav-item @-276,508 264x40
-        svg.dk-icon @-268,520 16x16
-        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
-      a.dk-nav-item @-276,548 264x40
-        svg.dk-icon @-268,560 16x16
-        span.dk-ellipsis "Charts" @-244,560 40x20
-      a.dk-nav-item @-276,592 264x40
-        svg.dk-icon @-268,604 16x16
-        span.dk-ellipsis "Markdown" @-244,600 64x20
-      a.dk-nav-item @-276,632 264x40
-        svg.dk-icon @-268,644 16x16
-        span.dk-ellipsis "States and sheets" @-244,644 112x20
-      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
-      a.dk-nav-item @-276,704 264x40
-        svg.dk-icon @-268,716 16x16
-        span.dk-ellipsis "Shell and boards" @-244,716 104x20
-  div.dk-scrim @0,0 392x844
-  div.dk-main @0,0 392x1668
-    header.dk-toolbar @0,0 392x48
-      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
-        svg.dk-icon @16,16 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Table and filter" @52,16 92x20
-      div.dk-toolbar-spacer @148,24 4x0
-      button.dk-fresh "Updated now" @160,4 92x40
-      button.dk-iconbtn "Reload" @256,4 40x40
-        svg.dk-icon @268,16 16x16
-      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
-        svg.dk-icon @312,16 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
-        svg.dk-icon @356,16 16x16
-    main.dk-content @0,48 392x1620
-      div.dk-filterbar @12,184 368x64
-        div.dk-filter-row @12,184 368x40
-          label.dk-search @12,184 280x40
-            svg.dk-icon @20,196 16x16
-            input.dk-input "Search jobs …" @12,184 280x40
-          button.dk-btn.dk-btn-default @300,184 76x40
-            svg.dk-icon @316,196 16x16
-        div.dk-filter-row2 @12,232 368x16
-          div.dk-filter-info "12 of 12" @328,232 48x16
-      section.dk-card.dk-card-flush @12,264 368x576
-        div.dk-card-body @12,268 364x576
-          div.dk-table-wrap.dk-table-click.is-list @12,268 364x576
-            table.dk-table @12,268 364x576
-              caption.dk-sr "Jobs" @12,268 0x0
-              td.dk-td-status @24,288 8x8
-                span.dk-dot.dk-s-bad [img] "Error" @24,288 8x8
-              td.dk-td-title "Offsite archive sync" @44,272 224x20
-              td.dk-right "3 hr. ago" @284,272 56x20
-              td.dk-td-m "nas-b Backup daily 04:15 –" @44,292 292x16
-                span.dk-sep-dot "·" @80,292 8x16
-                span.dk-sep-dot "·" @132,292 8x16
-                span.dk-sep-dot "·" @208,292 8x16
-              td.dk-td-go @348,284 16x16
-                svg.dk-icon @348,284 16x16
-              td.dk-td-status @24,336 8x8
-                span.dk-dot.dk-s-warn [img] "Warning" @24,336 8x8
-              td.dk-td-title "Media library scan" @44,320 208x20
-              td.dk-right "40 min. ago" @264,320 72x20
-              td.dk-td-m "media-1 Index every 2 h 1 TB" @44,340 292x16
-                span.dk-sep-dot "·" @96,340 8x16
-                span.dk-sep-dot "·" @136,340 8x16
-                span.dk-sep-dot "·" @200,340 8x16
-              td.dk-td-go @348,332 16x16
-                svg.dk-icon @348,332 16x16
-              td.dk-td-status @24,384 8x8
-                span.dk-dot.dk-s-pending [img] "Pending" @24,384 8x8
-              td.dk-td-title "Package update check" @44,368 272x20
-              td.dk-right "–" @332,368 8x20
-              td.dk-td-m "app-1 Check once, 11/10/2026, 09:00 –" @44,388 292x16
-                span.dk-sep-dot "·" @84,388 8x16
-                span.dk-sep-dot "·" @128,388 8x16
-                span.dk-sep-dot "·" @284,388 8x16
-              td.dk-td-go @348,380 16x16
-                svg.dk-icon @348,380 16x16
-              td.dk-td-status @24,432 8x8
-                span.dk-dot.dk-s-unknown [img] "Unknown" @24,432 8x8
-              td.dk-td-title "Wiki database dump" @44,416 212x20
-              td.dk-right "3 days ago" @268,416 68x20
-              td.dk-td-m "app-2 Backup daily 01:00 50 MB" @44,436 292x16
-                span.dk-sep-dot "·" @84,436 8x16
-                span.dk-sep-dot "·" @136,436 8x16
-                span.dk-sep-dot "·" @208,436 8x16
-              td.dk-td-go @348,428 16x16
-                svg.dk-icon @348,428 16x16
-              td.dk-td-status @24,480 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,480 8x8
-              td.dk-td-title "Photo backup" @44,464 224x20
-              td.dk-right "4 hr. ago" @284,464 56x20
-              td.dk-td-m "nas-a Backup daily 02:30 45 GB" @44,484 292x16
-                span.dk-sep-dot "·" @80,484 8x16
-                span.dk-sep-dot "·" @132,484 8x16
-                span.dk-sep-dot "·" @208,484 8x16
-              td.dk-td-go @348,476 16x16
-                svg.dk-icon @348,476 16x16
-              td.dk-td-status @24,528 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,528 8x8
-              td.dk-td-title "Document backup" @44,512 224x20
-              td.dk-right "4 hr. ago" @284,512 56x20
-              td.dk-td-m "nas-a Backup daily 03:00 2.1 GB" @44,532 292x16
-                span.dk-sep-dot "·" @80,532 8x16
-                span.dk-sep-dot "·" @132,532 8x16
-                span.dk-sep-dot "·" @208,532 8x16
-              td.dk-td-go @348,524 16x16
-                svg.dk-icon @348,524 16x16
-              td.dk-td-status @24,576 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,576 8x8
-              td.dk-td-title "Certificate renewal" @44,560 220x20
-              td.dk-right "yesterday" @276,560 60x20
-              td.dk-td-m "edge-1 Maintenance Sun 05:00 –" @44,580 292x16
-                span.dk-sep-dot "·" @88,580 8x16
-                span.dk-sep-dot "·" @172,580 8x16
-                span.dk-sep-dot "·" @240,580 8x16
-              td.dk-td-go @348,572 16x16
-                svg.dk-icon @348,572 16x16
-              td.dk-td-status @24,624 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,624 8x8
-              td.dk-td-title "Log cleanup" @44,608 224x20
-              td.dk-right "7 hr. ago" @284,608 56x20
-              td.dk-td-m "app-2 Maintenance daily 00:10 700 MB" @44,628 292x16
-                span.dk-sep-dot "·" @84,628 8x16
-                span.dk-sep-dot "·" @164,628 8x16
-                span.dk-sep-dot "·" @240,628 8x16
-              td.dk-td-go @348,620 16x16
-                svg.dk-icon @348,620 16x16
-              td.dk-td-status @24,672 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,672 8x8
-              td.dk-td-title "Disk SMART check" @44,656 224x20
-              td.dk-right "1 hr. ago" @284,656 56x20
-              td.dk-td-m "nas-a Check Mon 06:00 –" @44,676 292x16
-                span.dk-sep-dot "·" @80,676 8x16
-                span.dk-sep-dot "·" @124,676 8x16
-                span.dk-sep-dot "·" @200,676 8x16
-              td.dk-td-go @348,668 16x16
-                svg.dk-icon @348,668 16x16
-              td.dk-td-status @24,720 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,720 8x8
-              td.dk-td-title "Thumbnail generation" @44,704 208x20
-              td.dk-right "10 min. ago" @264,704 72x20
-              td.dk-td-m "media-1 Index every 30 min 150 MB" @44,724 292x16
-                span.dk-sep-dot "·" @96,724 8x16
-                span.dk-sep-dot "·" @136,724 8x16
-                span.dk-sep-dot "·" @220,724 8x16
-              td.dk-td-go @348,716 16x16
-                svg.dk-icon @348,716 16x16
-              td.dk-td-status @24,768 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,768 8x8
-              td.dk-td-title "A very long job name for testing overflow and truncation in " @44,752 216x20
-              td.dk-right "14 hr. ago" @276,752 64x20
-              td.dk-td-m "a-really-long-hostname-example Maintenance Cron 15 3 * * 1-5" @44,772 292x16
-                span.dk-sep-dot "·" @240,772 8x16
-                span.dk-sep-dot "·" @324,772 8x16
-                span.dk-sep-dot "·" @440,772 8x16
-              td.dk-td-go @348,764 16x16
-                svg.dk-icon @348,764 16x16
-              td.dk-td-status @24,816 8x8
-                span.dk-dot.dk-s-off [img] "Off" @24,816 8x8
-              td.dk-td-title "Mirror repos" @44,800 204x20
-              td.dk-right "21 days ago" @260,800 76x20
-              td.dk-td-m "edge-1 Index disabled 20 GB" @44,820 292x16
-                span.dk-sep-dot "·" @88,820 8x16
-                span.dk-sep-dot "·" @132,820 8x16
-                span.dk-sep-dot "·" @188,820 8x16
-              td.dk-td-go @348,812 16x16
-                svg.dk-icon @348,812 16x16
-      section.dk-section @12,1320 368x92
-        header.dk-section-head @12,1320 368x24
-          h2.dk-section-title "Empty" @16,1324 364x16
-        section.dk-card.dk-card-flush @12,1352 368x60
-          div.dk-card-body @12,1356 364x60
-            div.dk-table-wrap @12,1356 364x60
-              div.dk-empty.dk-empty-compact @12,1356 364x60
-                div.dk-empty-title "No jobs in this selection" @120,1376 148x20
-      section.dk-section @12,1428 368x224
-        header.dk-section-head @12,1428 368x24
-          h2.dk-section-title "Narrow container (list mode)" @16,1432 364x16
-        section.dk-card.dk-card-flush @12,1460 368x192
-          div.dk-card-body @12,1464 364x192
-            div.dk-table-wrap.dk-table-click.is-list @12,1464 364x192
-              table.dk-table @12,1464 364x192
-                td.dk-td-status @24,1484 8x8
-                  span.dk-dot.dk-s-ok [img] "OK" @24,1484 8x8
-                td.dk-td-title "Photo backup" @44,1468 224x20
-                td.dk-right "4 hr. ago" @284,1468 56x20
-                td.dk-td-m "nas-a Backup daily 02:30 45 GB" @44,1488 292x16
-                  span.dk-sep-dot "·" @80,1488 8x16
-                  span.dk-sep-dot "·" @132,1488 8x16
-                  span.dk-sep-dot "·" @208,1488 8x16
-                td.dk-td-go @348,1480 16x16
-                  svg.dk-icon @348,1480 16x16
-                td.dk-td-status @24,1532 8x8
-                  span.dk-dot.dk-s-ok [img] "OK" @24,1532 8x8
-                td.dk-td-title "Document backup" @44,1516 224x20
-                td.dk-right "4 hr. ago" @284,1516 56x20
-                td.dk-td-m "nas-a Backup daily 03:00 2.1 GB" @44,1536 292x16
-                  span.dk-sep-dot "·" @80,1536 8x16
-                  span.dk-sep-dot "·" @132,1536 8x16
-                  span.dk-sep-dot "·" @208,1536 8x16
-                td.dk-td-go @348,1528 16x16
-                  svg.dk-icon @348,1528 16x16
-                td.dk-td-status @24,1580 8x8
-                  span.dk-dot.dk-s-bad [img] "Error" @24,1580 8x8
-                td.dk-td-title "Offsite archive sync" @44,1564 224x20
-                td.dk-right "3 hr. ago" @284,1564 56x20
-                td.dk-td-m "nas-b Backup daily 04:15 –" @44,1584 292x16
-                  span.dk-sep-dot "·" @80,1584 8x16
-                  span.dk-sep-dot "·" @132,1584 8x16
-                  span.dk-sep-dot "·" @208,1584 8x16
-                td.dk-td-go @348,1576 16x16
-                  svg.dk-icon @348,1576 16x16
-                td.dk-td-status @24,1628 8x8
-                  span.dk-dot.dk-s-ok [img] "OK" @24,1628 8x8
-                td.dk-td-title "Certificate renewal" @44,1612 220x20
-                td.dk-right "yesterday" @276,1612 60x20
-                td.dk-td-m "edge-1 Maintenance Sun 05:00 –" @44,1632 292x16
-                  span.dk-sep-dot "·" @88,1632 8x16
-                  span.dk-sep-dot "·" @172,1632 8x16
-                  span.dk-sep-dot "·" @240,1632 8x16
-                td.dk-td-go @348,1624 16x16
-                  svg.dk-icon @348,1624 16x16
+div.tn-app @0,0 392x1668
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-276,0 264x48
+      div.tn-brand @-268,12 108x24
+        span.tn-bicon @-268,12 24x24
+          img.tn-bicon-img @-268,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @-236,16 76x20
+    nav.tn-nav "Views" @-276,48 264x696
+      div.tn-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.tn-nav-item @-276,72 264x40
+        svg.tn-icon @-268,84 16x16
+        span.tn-ellipsis "Foundations" @-244,84 76x20
+      a.tn-nav-item @-276,116 264x40
+        svg.tn-icon @-268,128 16x16
+        span.tn-ellipsis "Light and dark" @-244,124 88x20
+      div.tn-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.tn-nav-item @-276,188 264x40
+        svg.tn-icon @-268,200 16x16
+        span.tn-ellipsis "Buttons and status" @-244,200 116x20
+      a.tn-nav-item @-276,228 264x40
+        svg.tn-icon @-268,240 16x16
+        span.tn-ellipsis "Controls" @-244,240 52x20
+      a.tn-nav-item @-276,272 264x40
+        svg.tn-icon @-268,284 16x16
+        span.tn-ellipsis "Inputs" @-244,280 40x20
+      div.tn-nav-group [presentation] "Components" @-276,312 264x32
+      a.tn-nav-item @-276,344 264x40
+        svg.tn-icon @-268,356 16x16
+        span.tn-ellipsis "Cards and tiles" @-244,356 92x20
+      a.tn-nav-item @-276,384 264x40
+        svg.tn-icon @-268,396 16x16
+        span.tn-ellipsis "Rows and facts" @-244,396 96x20
+      a.tn-nav-item.is-active {current=page} @-276,428 264x40
+        svg.tn-icon @-268,440 16x16
+        span.tn-ellipsis "Table and filter" @-244,436 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,436 24x20
+      a.tn-nav-item @-276,468 264x40
+        svg.tn-icon @-268,480 16x16
+        span.tn-ellipsis "Forms and actions" @-244,480 116x20
+      a.tn-nav-item @-276,508 264x40
+        svg.tn-icon @-268,520 16x16
+        span.tn-ellipsis "Menus and feedback" @-244,520 132x20
+      a.tn-nav-item @-276,548 264x40
+        svg.tn-icon @-268,560 16x16
+        span.tn-ellipsis "Charts" @-244,560 40x20
+      a.tn-nav-item @-276,592 264x40
+        svg.tn-icon @-268,604 16x16
+        span.tn-ellipsis "Markdown" @-244,600 64x20
+      a.tn-nav-item @-276,632 264x40
+        svg.tn-icon @-268,644 16x16
+        span.tn-ellipsis "States and sheets" @-244,644 112x20
+      div.tn-nav-group [presentation] "Shell" @-276,672 264x32
+      a.tn-nav-item @-276,704 264x40
+        svg.tn-icon @-268,716 16x16
+        span.tn-ellipsis "Shell and boards" @-244,716 104x20
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x1668
+    header.tn-toolbar @0,0 392x48
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.tn-icon @16,16 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Table and filter" @52,16 92x20
+      div.tn-toolbar-spacer @148,24 4x0
+      button.tn-fresh "Updated now" @160,4 92x40
+      button.tn-iconbtn "Reload" @256,4 40x40
+        svg.tn-icon @268,16 16x16
+      button.tn-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.tn-icon @312,16 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.tn-icon @356,16 16x16
+    main.tn-content @0,48 392x1620
+      div.tn-filterbar @12,184 368x64
+        div.tn-filter-row @12,184 368x40
+          label.tn-search @12,184 280x40
+            svg.tn-icon @20,196 16x16
+            input.tn-input "Search jobs …" @12,184 280x40
+          button.tn-btn.tn-btn-default @300,184 76x40
+            svg.tn-icon @316,196 16x16
+        div.tn-filter-row2 @12,232 368x16
+          div.tn-filter-info "12 of 12" @328,232 48x16
+      section.tn-card.tn-card-flush @12,264 368x576
+        div.tn-card-body @12,268 364x576
+          div.tn-table-wrap.tn-table-click.is-list @12,268 364x576
+            table.tn-table @12,268 364x576
+              caption.tn-sr "Jobs" @12,268 0x0
+              td.tn-td-status @24,288 8x8
+                span.tn-dot.tn-s-bad [img] "Error" @24,288 8x8
+              td.tn-td-title "Offsite archive sync" @44,272 224x20
+              td.tn-right "3 hr. ago" @284,272 56x20
+              td.tn-td-m "nas-b Backup daily 04:15 –" @44,292 292x16
+                span.tn-sep-dot "·" @80,292 8x16
+                span.tn-sep-dot "·" @132,292 8x16
+                span.tn-sep-dot "·" @208,292 8x16
+              td.tn-td-go @348,284 16x16
+                svg.tn-icon @348,284 16x16
+              td.tn-td-status @24,336 8x8
+                span.tn-dot.tn-s-warn [img] "Warning" @24,336 8x8
+              td.tn-td-title "Media library scan" @44,320 208x20
+              td.tn-right "40 min. ago" @264,320 72x20
+              td.tn-td-m "media-1 Index every 2 h 1 TB" @44,340 292x16
+                span.tn-sep-dot "·" @96,340 8x16
+                span.tn-sep-dot "·" @136,340 8x16
+                span.tn-sep-dot "·" @200,340 8x16
+              td.tn-td-go @348,332 16x16
+                svg.tn-icon @348,332 16x16
+              td.tn-td-status @24,384 8x8
+                span.tn-dot.tn-s-pending [img] "Pending" @24,384 8x8
+              td.tn-td-title "Package update check" @44,368 272x20
+              td.tn-right "–" @332,368 8x20
+              td.tn-td-m "app-1 Check once, 11/10/2026, 09:00 –" @44,388 292x16
+                span.tn-sep-dot "·" @84,388 8x16
+                span.tn-sep-dot "·" @128,388 8x16
+                span.tn-sep-dot "·" @284,388 8x16
+              td.tn-td-go @348,380 16x16
+                svg.tn-icon @348,380 16x16
+              td.tn-td-status @24,432 8x8
+                span.tn-dot.tn-s-unknown [img] "Unknown" @24,432 8x8
+              td.tn-td-title "Wiki database dump" @44,416 212x20
+              td.tn-right "3 days ago" @268,416 68x20
+              td.tn-td-m "app-2 Backup daily 01:00 50 MB" @44,436 292x16
+                span.tn-sep-dot "·" @84,436 8x16
+                span.tn-sep-dot "·" @136,436 8x16
+                span.tn-sep-dot "·" @208,436 8x16
+              td.tn-td-go @348,428 16x16
+                svg.tn-icon @348,428 16x16
+              td.tn-td-status @24,480 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,480 8x8
+              td.tn-td-title "Photo backup" @44,464 224x20
+              td.tn-right "4 hr. ago" @284,464 56x20
+              td.tn-td-m "nas-a Backup daily 02:30 45 GB" @44,484 292x16
+                span.tn-sep-dot "·" @80,484 8x16
+                span.tn-sep-dot "·" @132,484 8x16
+                span.tn-sep-dot "·" @208,484 8x16
+              td.tn-td-go @348,476 16x16
+                svg.tn-icon @348,476 16x16
+              td.tn-td-status @24,528 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,528 8x8
+              td.tn-td-title "Document backup" @44,512 224x20
+              td.tn-right "4 hr. ago" @284,512 56x20
+              td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @44,532 292x16
+                span.tn-sep-dot "·" @80,532 8x16
+                span.tn-sep-dot "·" @132,532 8x16
+                span.tn-sep-dot "·" @208,532 8x16
+              td.tn-td-go @348,524 16x16
+                svg.tn-icon @348,524 16x16
+              td.tn-td-status @24,576 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,576 8x8
+              td.tn-td-title "Certificate renewal" @44,560 220x20
+              td.tn-right "yesterday" @276,560 60x20
+              td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @44,580 292x16
+                span.tn-sep-dot "·" @88,580 8x16
+                span.tn-sep-dot "·" @172,580 8x16
+                span.tn-sep-dot "·" @240,580 8x16
+              td.tn-td-go @348,572 16x16
+                svg.tn-icon @348,572 16x16
+              td.tn-td-status @24,624 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,624 8x8
+              td.tn-td-title "Log cleanup" @44,608 224x20
+              td.tn-right "7 hr. ago" @284,608 56x20
+              td.tn-td-m "app-2 Maintenance daily 00:10 700 MB" @44,628 292x16
+                span.tn-sep-dot "·" @84,628 8x16
+                span.tn-sep-dot "·" @164,628 8x16
+                span.tn-sep-dot "·" @240,628 8x16
+              td.tn-td-go @348,620 16x16
+                svg.tn-icon @348,620 16x16
+              td.tn-td-status @24,672 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,672 8x8
+              td.tn-td-title "Disk SMART check" @44,656 224x20
+              td.tn-right "1 hr. ago" @284,656 56x20
+              td.tn-td-m "nas-a Check Mon 06:00 –" @44,676 292x16
+                span.tn-sep-dot "·" @80,676 8x16
+                span.tn-sep-dot "·" @124,676 8x16
+                span.tn-sep-dot "·" @200,676 8x16
+              td.tn-td-go @348,668 16x16
+                svg.tn-icon @348,668 16x16
+              td.tn-td-status @24,720 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,720 8x8
+              td.tn-td-title "Thumbnail generation" @44,704 208x20
+              td.tn-right "10 min. ago" @264,704 72x20
+              td.tn-td-m "media-1 Index every 30 min 150 MB" @44,724 292x16
+                span.tn-sep-dot "·" @96,724 8x16
+                span.tn-sep-dot "·" @136,724 8x16
+                span.tn-sep-dot "·" @220,724 8x16
+              td.tn-td-go @348,716 16x16
+                svg.tn-icon @348,716 16x16
+              td.tn-td-status @24,768 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,768 8x8
+              td.tn-td-title "A very long job name for testing overflow and truncation in " @44,752 216x20
+              td.tn-right "14 hr. ago" @276,752 64x20
+              td.tn-td-m "a-really-long-hostname-example Maintenance Cron 15 3 * * 1-5" @44,772 292x16
+                span.tn-sep-dot "·" @240,772 8x16
+                span.tn-sep-dot "·" @324,772 8x16
+                span.tn-sep-dot "·" @440,772 8x16
+              td.tn-td-go @348,764 16x16
+                svg.tn-icon @348,764 16x16
+              td.tn-td-status @24,816 8x8
+                span.tn-dot.tn-s-off [img] "Off" @24,816 8x8
+              td.tn-td-title "Mirror repos" @44,800 204x20
+              td.tn-right "21 days ago" @260,800 76x20
+              td.tn-td-m "edge-1 Index disabled 20 GB" @44,820 292x16
+                span.tn-sep-dot "·" @88,820 8x16
+                span.tn-sep-dot "·" @132,820 8x16
+                span.tn-sep-dot "·" @188,820 8x16
+              td.tn-td-go @348,812 16x16
+                svg.tn-icon @348,812 16x16
+      section.tn-section @12,1320 368x92
+        header.tn-section-head @12,1320 368x24
+          h2.tn-section-title "Empty" @16,1324 364x16
+        section.tn-card.tn-card-flush @12,1352 368x60
+          div.tn-card-body @12,1356 364x60
+            div.tn-table-wrap @12,1356 364x60
+              div.tn-empty.tn-empty-compact @12,1356 364x60
+                div.tn-empty-title "No jobs in this selection" @120,1376 148x20
+      section.tn-section @12,1428 368x224
+        header.tn-section-head @12,1428 368x24
+          h2.tn-section-title "Narrow container (list mode)" @16,1432 364x16
+        section.tn-card.tn-card-flush @12,1460 368x192
+          div.tn-card-body @12,1464 364x192
+            div.tn-table-wrap.tn-table-click.is-list @12,1464 364x192
+              table.tn-table @12,1464 364x192
+                td.tn-td-status @24,1484 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,1484 8x8
+                td.tn-td-title "Photo backup" @44,1468 224x20
+                td.tn-right "4 hr. ago" @284,1468 56x20
+                td.tn-td-m "nas-a Backup daily 02:30 45 GB" @44,1488 292x16
+                  span.tn-sep-dot "·" @80,1488 8x16
+                  span.tn-sep-dot "·" @132,1488 8x16
+                  span.tn-sep-dot "·" @208,1488 8x16
+                td.tn-td-go @348,1480 16x16
+                  svg.tn-icon @348,1480 16x16
+                td.tn-td-status @24,1532 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,1532 8x8
+                td.tn-td-title "Document backup" @44,1516 224x20
+                td.tn-right "4 hr. ago" @284,1516 56x20
+                td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @44,1536 292x16
+                  span.tn-sep-dot "·" @80,1536 8x16
+                  span.tn-sep-dot "·" @132,1536 8x16
+                  span.tn-sep-dot "·" @208,1536 8x16
+                td.tn-td-go @348,1528 16x16
+                  svg.tn-icon @348,1528 16x16
+                td.tn-td-status @24,1580 8x8
+                  span.tn-dot.tn-s-bad [img] "Error" @24,1580 8x8
+                td.tn-td-title "Offsite archive sync" @44,1564 224x20
+                td.tn-right "3 hr. ago" @284,1564 56x20
+                td.tn-td-m "nas-b Backup daily 04:15 –" @44,1584 292x16
+                  span.tn-sep-dot "·" @80,1584 8x16
+                  span.tn-sep-dot "·" @132,1584 8x16
+                  span.tn-sep-dot "·" @208,1584 8x16
+                td.tn-td-go @348,1576 16x16
+                  svg.tn-icon @348,1576 16x16
+                td.tn-td-status @24,1628 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,1628 8x8
+                td.tn-td-title "Certificate renewal" @44,1612 220x20
+                td.tn-right "yesterday" @276,1612 60x20
+                td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @44,1632 292x16
+                  span.tn-sep-dot "·" @88,1632 8x16
+                  span.tn-sep-dot "·" @172,1632 8x16
+                  span.tn-sep-dot "·" @240,1632 8x16
+                td.tn-td-go @348,1624 16x16
+                  svg.tn-icon @348,1624 16x16

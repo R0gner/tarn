@@ -1,7 +1,7 @@
-dashkit
+Tarn
 Copyright (c) 2026 R0gner, MIT License (see LICENSE).
 
-dashkit bundles the following third-party works. Their licence texts are
+Tarn bundles the following third-party works. Their licence texts are
 kept next to the files and are copied along by tools/vendor.mjs.
 
 Lucide icons (icons/*.svg, js/icons-data.js)
@@ -9,7 +9,7 @@ Lucide icons (icons/*.svg, js/icons-data.js)
   ISC License, Copyright (c) 2026 Lucide Icons and Contributors; parts derived
   from Feather (MIT, Copyright (c) 2013-present Cole Bemis).
   Licence text: icons/LICENSE.txt. Used symbols and their sources: icons/SOURCES.md.
-  The dashkit logo (icons/logo.svg) is an own drawing, not part of Lucide.
+  The Tarn logo (icons/logo.svg) is an own drawing, not part of Lucide.
 
 Inter (fonts/inter-latin.woff2)
   https://github.com/rsms/inter

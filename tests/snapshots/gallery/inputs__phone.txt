@@ -1,284 +1,284 @@
 # gallery #/inputs · phone 390×844 · dunkel
-div.dk-app @0,0 392x3636
-  aside.dk-sidebar @-284,0 280x844
-    div.dk-sidebar-head @-276,0 264x48
-      div.dk-brand @-268,12 128x24
-        span.dk-bicon @-268,12 24x24
-          img.dk-bicon-img @-268,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
-    nav.dk-nav "Views" @-276,48 264x696
-      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
-      a.dk-nav-item @-276,72 264x40
-        svg.dk-icon @-268,84 16x16
-        span.dk-ellipsis "Foundations" @-244,84 76x20
-      a.dk-nav-item @-276,116 264x40
-        svg.dk-icon @-268,128 16x16
-        span.dk-ellipsis "Light and dark" @-244,124 88x20
-      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
-      a.dk-nav-item @-276,188 264x40
-        svg.dk-icon @-268,200 16x16
-        span.dk-ellipsis "Buttons and status" @-244,200 116x20
-      a.dk-nav-item @-276,228 264x40
-        svg.dk-icon @-268,240 16x16
-        span.dk-ellipsis "Controls" @-244,240 52x20
-      a.dk-nav-item.is-active {current=page} @-276,272 264x40
-        svg.dk-icon @-268,284 16x16
-        span.dk-ellipsis "Inputs" @-244,280 40x20
-      div.dk-nav-group [presentation] "Components" @-276,312 264x32
-      a.dk-nav-item @-276,344 264x40
-        svg.dk-icon @-268,356 16x16
-        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
-      a.dk-nav-item @-276,384 264x40
-        svg.dk-icon @-268,396 16x16
-        span.dk-ellipsis "Rows and facts" @-244,396 96x20
-      a.dk-nav-item @-276,428 264x40
-        svg.dk-icon @-268,440 16x16
-        span.dk-ellipsis "Table and filter" @-244,436 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
-      a.dk-nav-item @-276,468 264x40
-        svg.dk-icon @-268,480 16x16
-        span.dk-ellipsis "Forms and actions" @-244,480 116x20
-      a.dk-nav-item @-276,508 264x40
-        svg.dk-icon @-268,520 16x16
-        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
-      a.dk-nav-item @-276,548 264x40
-        svg.dk-icon @-268,560 16x16
-        span.dk-ellipsis "Charts" @-244,560 40x20
-      a.dk-nav-item @-276,592 264x40
-        svg.dk-icon @-268,604 16x16
-        span.dk-ellipsis "Markdown" @-244,600 64x20
-      a.dk-nav-item @-276,632 264x40
-        svg.dk-icon @-268,644 16x16
-        span.dk-ellipsis "States and sheets" @-244,644 112x20
-      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
-      a.dk-nav-item @-276,704 264x40
-        svg.dk-icon @-268,716 16x16
-        span.dk-ellipsis "Shell and boards" @-244,716 104x20
-  div.dk-scrim @0,0 392x844
-  div.dk-main @0,0 392x3636
-    header.dk-toolbar @0,0 392x48
-      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
-        svg.dk-icon @16,16 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Inputs" @52,16 40x20
-      div.dk-toolbar-spacer @96,24 60x0
-      button.dk-fresh "Updated now" @160,4 92x40
-      button.dk-iconbtn "Reload" @256,4 40x40
-        svg.dk-icon @268,16 16x16
-      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
-        svg.dk-icon @312,16 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
-        svg.dk-icon @356,16 16x16
-    main.dk-content @0,48 392x3588
-      section.dk-card @12,168 368x628
-        header.dk-card-head @12,168 364x40
-          div.dk-card-heading @24,180 340x20
-            h3.dk-card-title "textField()" @24,180 340x20
-        div.dk-card-body @12,208 364x588
-          div.dk-field @24,220 340x88
-            label.dk-field-label @24,220 340x16
-            div.dk-inputbox @24,240 340x44
-              input.dk-input-el @36,244 324x44
-            div.dk-field-help "Shown in the job list." @24,292 340x16
-          div.dk-field @24,320 340x64
-            label.dk-field-label @24,320 340x16
-              span.dk-field-req "*" @76,320 8x16
-            div.dk-inputbox @24,340 340x44
-              span.dk-input-affix "https://" @36,356 40x16
-              input.dk-input-el @84,344 272x44
-          div.dk-field @24,396 340x88
-            label.dk-field-label @24,396 340x16
-              span.dk-field-req "*" @76,396 8x16
-            div.dk-inputbox.is-invalid @24,420 340x44
-              input.dk-input-el @36,420 324x44
-            div.dk-field-error @24,468 340x16
-              svg.dk-icon @24,472 12x12
-          div.dk-field @24,496 340x64
-            label.dk-field-label @24,496 340x16
-            div.dk-inputbox.is-disabled @24,520 340x44
-              input.dk-input-el @36,520 324x44
-          div.dk-field @24,576 340x112
-            label.dk-field-label @24,576 340x16
-            div.dk-inputbox.is-multiline @24,596 340x92
-              textarea.dk-input-el @36,604 324x72
-      section.dk-card @12,812 368x520
-        header.dk-card-head @12,812 364x40
-          div.dk-card-heading @24,824 340x20
-            h3.dk-card-title "numberField()" @24,824 340x20
-        div.dk-card-body @12,852 364x480
-          div.dk-field @24,864 340x88
-            label.dk-field-label @24,864 340x16
-            div.dk-inputbox @24,888 340x44
-              input.dk-input-el.dk-num @36,888 292x44
-              span.dk-input-affix "min" @336,900 20x16
-            div.dk-field-help "Between 1 and 120." @24,936 340x16
-          div.dk-field @24,964 340x88
-            label.dk-field-label @24,964 340x16
-              span.dk-field-req "*" @84,964 8x16
-            div.dk-inputbox.is-invalid @24,984 340x44
-              input.dk-input-el.dk-num @36,988 296x44
-              span.dk-input-affix "GB" @340,1000 16x16
-            div.dk-field-error @24,1036 340x16
-              svg.dk-icon @24,1036 12x12
-          div.dk-field @24,1064 340x64
-            label.dk-field-label @24,1064 340x16
-            div.dk-inputbox @24,1084 340x44
-              input.dk-input-el.dk-num @36,1088 324x44
-          div.dk-field @24,1140 340x64
-            label.dk-field-label @24,1140 340x16
-            div.dk-inputbox.is-disabled @24,1164 340x44
-              input.dk-input-el.dk-num @36,1164 296x44
-              span.dk-input-affix "GB" @340,1176 16x16
-      section.dk-card @12,1348 368x388
-        header.dk-card-head @12,1348 364x40
-          div.dk-card-heading @24,1360 340x20
-            h3.dk-card-title "select()" @24,1360 340x20
-        div.dk-card-body @12,1388 364x348
-          div.dk-field @24,1400 340x64
-            label.dk-field-label @24,1400 340x16
-            div.dk-inputbox.dk-selectbox @24,1424 340x44
-              select.dk-select-el @36,1424 324x44
-              svg.dk-icon @340,1436 16x16
-          div.dk-field @24,1480 340x88
-            label.dk-field-label @24,1480 340x16
-              span.dk-field-req "*" @76,1480 8x16
-            div.dk-inputbox.dk-selectbox.is-invalid @24,1500 340x44
-              select.dk-select-el @36,1504 324x44
-              svg.dk-icon @340,1516 16x16
-            div.dk-field-error @24,1552 340x16
-              svg.dk-icon @24,1552 12x12
-          div.dk-field @24,1580 340x64
-            label.dk-field-label @24,1580 340x16
-            div.dk-inputbox.dk-selectbox.is-disabled @24,1600 340x44
-              select.dk-select-el @36,1600 324x44
-              svg.dk-icon @340,1616 16x16
-      section.dk-card @12,1752 368x556
-        header.dk-card-head @12,1756 364x40
-          div.dk-card-heading @24,1764 340x20
-            h3.dk-card-title "combobox()" @24,1764 340x20
-        div.dk-card-body @12,1796 364x512
-          div.dk-field @24,1808 340x64
-            label.dk-field-label @24,1808 340x16
-            div.dk-inputbox.dk-combobox @24,1828 340x44
-              button.dk-combo-btn {expanded=false} @36,1828 324x44
-                span.dk-combo-face.dk-ellipsis "delta" @36,1840 300x24
-                svg.dk-icon @340,1844 16x16
-          div.dk-field @24,1884 340x64
-            label.dk-field-label @24,1884 340x16
-            div.dk-inputbox.dk-combobox @24,1908 340x44
-              button.dk-combo-btn {expanded=false} @36,1908 324x44
-                span.dk-combo-face.dk-ellipsis "3 selected" @36,1916 300x24
-                svg.dk-icon @340,1920 16x16
-          div.dk-field @24,1964 340x64
-            label.dk-field-label @24,1964 340x16
-            div.dk-inputbox.dk-combobox @24,1984 340x44
-              button.dk-combo-btn {expanded=false} @36,1984 324x44
-                span.dk-combo-face.dk-ellipsis.is-placeholder "Any host" @36,1996 300x24
-                svg.dk-icon @340,1996 16x16
-          div.dk-field @24,2040 340x64
-            label.dk-field-label @24,2040 340x16
-            div.dk-inputbox.dk-combobox.is-disabled @24,2060 340x44
-              button.dk-combo-btn {expanded=false} @36,2064 324x44
-                span.dk-combo-face.dk-ellipsis "iris" @36,2072 300x24
-                svg.dk-icon @340,2076 16x16
-      section.dk-card @12,2324 368x544
-        header.dk-card-head @12,2324 364x40
-          div.dk-card-heading @24,2336 340x20
-            h3.dk-card-title "checkbox() and toggle()" @24,2336 340x20
-        div.dk-card-body @12,2364 364x504
-          label.dk-tick.dk-check @24,2376 340x44
-            input.dk-tick-input @24,2376 0x0
-            span.dk-check-box @24,2388 24x24
-              svg.dk-icon @32,2396 12x12
-              svg.dk-icon @32,2396 12x12
-            span.dk-tick-text @56,2384 240x36
-              span.dk-tick-label "Dry run" @56,2384 240x20
-              span.dk-tick-help "Simulate the deployment, change nothing." @56,2400 240x16
-          label.dk-tick.dk-check @24,2436 340x44
-            input.dk-tick-input @24,2436 0x0
-            span.dk-check-box @24,2448 24x24
-              svg.dk-icon @32,2452 12x12
-              svg.dk-icon @32,2452 12x12
-            span.dk-tick-text @56,2448 60x20
-              span.dk-tick-label "Notify me" @56,2448 60x20
-          label.dk-tick.dk-check.is-mixed @24,2492 340x44
-            input.dk-tick-input @24,2492 0x0
-            span.dk-check-box @24,2504 24x24
-              svg.dk-icon @32,2508 12x12
-              svg.dk-icon @32,2508 12x12
-            span.dk-tick-text @56,2504 72x20
-              span.dk-tick-label "Some hosts" @56,2504 72x20
-          label.dk-tick.dk-check.is-disabled @24,2548 340x44
-            input.dk-tick-input @24,2548 0x0
-            span.dk-check-box @24,2560 24x24
-              svg.dk-icon @32,2564 12x12
-              svg.dk-icon @32,2564 12x12
-            span.dk-tick-text @56,2560 52x20
-              span.dk-tick-label "Disabled" @56,2560 52x20
-          label.dk-tick.dk-toggle @24,2604 340x44
-            input.dk-tick-input [switch] @24,2604 0x0
-            span.dk-toggle-track @24,2616 36x24
-              span.dk-toggle-thumb @52,2616 16x16
-            span.dk-tick-text @68,2616 116x20
-              span.dk-tick-label "Maintenance mode" @68,2616 116x20
-          label.dk-tick.dk-toggle @24,2660 340x44
-            input.dk-tick-input [switch] @24,2660 0x0
-            span.dk-toggle-track @24,2672 36x24
-              span.dk-toggle-thumb @28,2676 16x16
-            span.dk-tick-text @68,2664 152x36
-              span.dk-tick-label "Alerts" @68,2664 152x20
-              span.dk-tick-help "Send a message on failure." @68,2684 152x16
-          label.dk-tick.dk-toggle.is-disabled @24,2716 340x44
-            input.dk-tick-input [switch] @24,2716 0x0
-            span.dk-toggle-track @24,2728 36x24
-              span.dk-toggle-thumb @28,2732 16x16
-            span.dk-tick-text @68,2728 52x20
-              span.dk-tick-label "Disabled" @68,2728 52x20
-      section.dk-card @12,2888 368x600
-        header.dk-card-head @12,2888 364x40
-          div.dk-card-heading @24,2896 340x20
-            h3.dk-card-title "dateField() and dateRange()" @24,2896 340x20
-        div.dk-card-body @12,2928 364x556
-          div.dk-field @24,2940 340x64
-            label.dk-field-label @24,2940 340x16
-            div.dk-inputbox.dk-datebox @24,2960 340x44
-              input.dk-input-el.dk-num @36,2960 324x44
-          div.dk-field @24,3016 340x88
-            label.dk-field-label @24,3016 340x16
-            div.dk-inputbox.dk-datebox @24,3040 340x44
-              input.dk-input-el.dk-num @36,3040 324x44
-            div.dk-field-help "Date and time." @24,3088 340x16
-          div.dk-field @24,3116 340x136
-            label.dk-field-label @24,3116 340x16
-            div.dk-daterange [group] @24,3140 340x112
-              div.dk-daterange-row @24,3140 340x64
-                label.dk-daterange-col @24,3140 168x64
-                  span.dk-field-label "From" @24,3140 168x16
-                  div.dk-inputbox.dk-datebox @24,3160 168x44
-                    input.dk-input-el.dk-num "From" @36,3160 148x44
-                label.dk-daterange-col @200,3140 168x64
-                  span.dk-field-label "To" @200,3140 168x16
-                  div.dk-inputbox.dk-datebox @200,3160 168x44
-                    input.dk-input-el.dk-num "To" @208,3160 148x44
-              div.dk-pills @24,3212 340x40
-                button.dk-pill "Today" @24,3212 60x40
-                button.dk-pill.is-on "7 days" @92,3212 64x40
-                button.dk-pill "30 days" @160,3212 72x40
-                button.dk-pill "This month" @240,3212 92x40
-          div.dk-field @24,3264 340x112
-            label.dk-field-label @24,3264 340x16
-            div.dk-daterange [group] @24,3284 340x92
-              div.dk-daterange-row @24,3284 340x64
-                label.dk-daterange-col @24,3284 168x64
-                  span.dk-field-label "From" @24,3284 168x16
-                  div.dk-inputbox.dk-datebox.is-invalid @24,3308 168x44
-                    input.dk-input-el.dk-num "From" @36,3308 148x44
-                label.dk-daterange-col @200,3284 168x64
-                  span.dk-field-label "To" @200,3284 168x16
-                  div.dk-inputbox.dk-datebox.is-invalid @200,3308 168x44
-                    input.dk-input-el.dk-num "To" @208,3308 148x44
-              div.dk-field-error @24,3360 340x16
-                svg.dk-icon @24,3364 12x12
-      section.dk-section @12,3500 368x124
-        header.dk-section-head @12,3500 368x24
-          h2.dk-section-title "In a sheet" @16,3504 364x16
-        button.dk-btn.dk-btn-default @12,3584 156x40
+div.tn-app @0,0 392x3636
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-276,0 264x48
+      div.tn-brand @-268,12 108x24
+        span.tn-bicon @-268,12 24x24
+          img.tn-bicon-img @-268,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @-236,16 76x20
+    nav.tn-nav "Views" @-276,48 264x696
+      div.tn-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.tn-nav-item @-276,72 264x40
+        svg.tn-icon @-268,84 16x16
+        span.tn-ellipsis "Foundations" @-244,84 76x20
+      a.tn-nav-item @-276,116 264x40
+        svg.tn-icon @-268,128 16x16
+        span.tn-ellipsis "Light and dark" @-244,124 88x20
+      div.tn-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.tn-nav-item @-276,188 264x40
+        svg.tn-icon @-268,200 16x16
+        span.tn-ellipsis "Buttons and status" @-244,200 116x20
+      a.tn-nav-item @-276,228 264x40
+        svg.tn-icon @-268,240 16x16
+        span.tn-ellipsis "Controls" @-244,240 52x20
+      a.tn-nav-item.is-active {current=page} @-276,272 264x40
+        svg.tn-icon @-268,284 16x16
+        span.tn-ellipsis "Inputs" @-244,280 40x20
+      div.tn-nav-group [presentation] "Components" @-276,312 264x32
+      a.tn-nav-item @-276,344 264x40
+        svg.tn-icon @-268,356 16x16
+        span.tn-ellipsis "Cards and tiles" @-244,356 92x20
+      a.tn-nav-item @-276,384 264x40
+        svg.tn-icon @-268,396 16x16
+        span.tn-ellipsis "Rows and facts" @-244,396 96x20
+      a.tn-nav-item @-276,428 264x40
+        svg.tn-icon @-268,440 16x16
+        span.tn-ellipsis "Table and filter" @-244,436 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,436 24x20
+      a.tn-nav-item @-276,468 264x40
+        svg.tn-icon @-268,480 16x16
+        span.tn-ellipsis "Forms and actions" @-244,480 116x20
+      a.tn-nav-item @-276,508 264x40
+        svg.tn-icon @-268,520 16x16
+        span.tn-ellipsis "Menus and feedback" @-244,520 132x20
+      a.tn-nav-item @-276,548 264x40
+        svg.tn-icon @-268,560 16x16
+        span.tn-ellipsis "Charts" @-244,560 40x20
+      a.tn-nav-item @-276,592 264x40
+        svg.tn-icon @-268,604 16x16
+        span.tn-ellipsis "Markdown" @-244,600 64x20
+      a.tn-nav-item @-276,632 264x40
+        svg.tn-icon @-268,644 16x16
+        span.tn-ellipsis "States and sheets" @-244,644 112x20
+      div.tn-nav-group [presentation] "Shell" @-276,672 264x32
+      a.tn-nav-item @-276,704 264x40
+        svg.tn-icon @-268,716 16x16
+        span.tn-ellipsis "Shell and boards" @-244,716 104x20
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x3636
+    header.tn-toolbar @0,0 392x48
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.tn-icon @16,16 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Inputs" @52,16 40x20
+      div.tn-toolbar-spacer @96,24 60x0
+      button.tn-fresh "Updated now" @160,4 92x40
+      button.tn-iconbtn "Reload" @256,4 40x40
+        svg.tn-icon @268,16 16x16
+      button.tn-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.tn-icon @312,16 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.tn-icon @356,16 16x16
+    main.tn-content @0,48 392x3588
+      section.tn-card @12,168 368x628
+        header.tn-card-head @12,168 364x40
+          div.tn-card-heading @24,180 340x20
+            h3.tn-card-title "textField()" @24,180 340x20
+        div.tn-card-body @12,208 364x588
+          div.tn-field @24,220 340x88
+            label.tn-field-label @24,220 340x16
+            div.tn-inputbox @24,240 340x44
+              input.tn-input-el @36,244 324x44
+            div.tn-field-help "Shown in the job list." @24,292 340x16
+          div.tn-field @24,320 340x64
+            label.tn-field-label @24,320 340x16
+              span.tn-field-req "*" @76,320 8x16
+            div.tn-inputbox @24,340 340x44
+              span.tn-input-affix "https://" @36,356 40x16
+              input.tn-input-el @84,344 272x44
+          div.tn-field @24,396 340x88
+            label.tn-field-label @24,396 340x16
+              span.tn-field-req "*" @76,396 8x16
+            div.tn-inputbox.is-invalid @24,420 340x44
+              input.tn-input-el @36,420 324x44
+            div.tn-field-error @24,468 340x16
+              svg.tn-icon @24,472 12x12
+          div.tn-field @24,496 340x64
+            label.tn-field-label @24,496 340x16
+            div.tn-inputbox.is-disabled @24,520 340x44
+              input.tn-input-el @36,520 324x44
+          div.tn-field @24,576 340x112
+            label.tn-field-label @24,576 340x16
+            div.tn-inputbox.is-multiline @24,596 340x92
+              textarea.tn-input-el @36,604 324x72
+      section.tn-card @12,812 368x520
+        header.tn-card-head @12,812 364x40
+          div.tn-card-heading @24,824 340x20
+            h3.tn-card-title "numberField()" @24,824 340x20
+        div.tn-card-body @12,852 364x480
+          div.tn-field @24,864 340x88
+            label.tn-field-label @24,864 340x16
+            div.tn-inputbox @24,888 340x44
+              input.tn-input-el.tn-num @36,888 292x44
+              span.tn-input-affix "min" @336,900 20x16
+            div.tn-field-help "Between 1 and 120." @24,936 340x16
+          div.tn-field @24,964 340x88
+            label.tn-field-label @24,964 340x16
+              span.tn-field-req "*" @84,964 8x16
+            div.tn-inputbox.is-invalid @24,984 340x44
+              input.tn-input-el.tn-num @36,988 296x44
+              span.tn-input-affix "GB" @340,1000 16x16
+            div.tn-field-error @24,1036 340x16
+              svg.tn-icon @24,1036 12x12
+          div.tn-field @24,1064 340x64
+            label.tn-field-label @24,1064 340x16
+            div.tn-inputbox @24,1084 340x44
+              input.tn-input-el.tn-num @36,1088 324x44
+          div.tn-field @24,1140 340x64
+            label.tn-field-label @24,1140 340x16
+            div.tn-inputbox.is-disabled @24,1164 340x44
+              input.tn-input-el.tn-num @36,1164 296x44
+              span.tn-input-affix "GB" @340,1176 16x16
+      section.tn-card @12,1348 368x388
+        header.tn-card-head @12,1348 364x40
+          div.tn-card-heading @24,1360 340x20
+            h3.tn-card-title "select()" @24,1360 340x20
+        div.tn-card-body @12,1388 364x348
+          div.tn-field @24,1400 340x64
+            label.tn-field-label @24,1400 340x16
+            div.tn-inputbox.tn-selectbox @24,1424 340x44
+              select.tn-select-el @36,1424 324x44
+              svg.tn-icon @340,1436 16x16
+          div.tn-field @24,1480 340x88
+            label.tn-field-label @24,1480 340x16
+              span.tn-field-req "*" @76,1480 8x16
+            div.tn-inputbox.tn-selectbox.is-invalid @24,1500 340x44
+              select.tn-select-el @36,1504 324x44
+              svg.tn-icon @340,1516 16x16
+            div.tn-field-error @24,1552 340x16
+              svg.tn-icon @24,1552 12x12
+          div.tn-field @24,1580 340x64
+            label.tn-field-label @24,1580 340x16
+            div.tn-inputbox.tn-selectbox.is-disabled @24,1600 340x44
+              select.tn-select-el @36,1600 324x44
+              svg.tn-icon @340,1616 16x16
+      section.tn-card @12,1752 368x556
+        header.tn-card-head @12,1756 364x40
+          div.tn-card-heading @24,1764 340x20
+            h3.tn-card-title "combobox()" @24,1764 340x20
+        div.tn-card-body @12,1796 364x512
+          div.tn-field @24,1808 340x64
+            label.tn-field-label @24,1808 340x16
+            div.tn-inputbox.tn-combobox @24,1828 340x44
+              button.tn-combo-btn {expanded=false} @36,1828 324x44
+                span.tn-combo-face.tn-ellipsis "delta" @36,1840 300x24
+                svg.tn-icon @340,1844 16x16
+          div.tn-field @24,1884 340x64
+            label.tn-field-label @24,1884 340x16
+            div.tn-inputbox.tn-combobox @24,1908 340x44
+              button.tn-combo-btn {expanded=false} @36,1908 324x44
+                span.tn-combo-face.tn-ellipsis "3 selected" @36,1916 300x24
+                svg.tn-icon @340,1920 16x16
+          div.tn-field @24,1964 340x64
+            label.tn-field-label @24,1964 340x16
+            div.tn-inputbox.tn-combobox @24,1984 340x44
+              button.tn-combo-btn {expanded=false} @36,1984 324x44
+                span.tn-combo-face.tn-ellipsis.is-placeholder "Any host" @36,1996 300x24
+                svg.tn-icon @340,1996 16x16
+          div.tn-field @24,2040 340x64
+            label.tn-field-label @24,2040 340x16
+            div.tn-inputbox.tn-combobox.is-disabled @24,2060 340x44
+              button.tn-combo-btn {expanded=false} @36,2064 324x44
+                span.tn-combo-face.tn-ellipsis "iris" @36,2072 300x24
+                svg.tn-icon @340,2076 16x16
+      section.tn-card @12,2324 368x544
+        header.tn-card-head @12,2324 364x40
+          div.tn-card-heading @24,2336 340x20
+            h3.tn-card-title "checkbox() and toggle()" @24,2336 340x20
+        div.tn-card-body @12,2364 364x504
+          label.tn-tick.tn-check @24,2376 340x44
+            input.tn-tick-input @24,2376 0x0
+            span.tn-check-box @24,2388 24x24
+              svg.tn-icon @32,2396 12x12
+              svg.tn-icon @32,2396 12x12
+            span.tn-tick-text @56,2384 240x36
+              span.tn-tick-label "Dry run" @56,2384 240x20
+              span.tn-tick-help "Simulate the deployment, change nothing." @56,2400 240x16
+          label.tn-tick.tn-check @24,2436 340x44
+            input.tn-tick-input @24,2436 0x0
+            span.tn-check-box @24,2448 24x24
+              svg.tn-icon @32,2452 12x12
+              svg.tn-icon @32,2452 12x12
+            span.tn-tick-text @56,2448 60x20
+              span.tn-tick-label "Notify me" @56,2448 60x20
+          label.tn-tick.tn-check.is-mixed @24,2492 340x44
+            input.tn-tick-input @24,2492 0x0
+            span.tn-check-box @24,2504 24x24
+              svg.tn-icon @32,2508 12x12
+              svg.tn-icon @32,2508 12x12
+            span.tn-tick-text @56,2504 72x20
+              span.tn-tick-label "Some hosts" @56,2504 72x20
+          label.tn-tick.tn-check.is-disabled @24,2548 340x44
+            input.tn-tick-input @24,2548 0x0
+            span.tn-check-box @24,2560 24x24
+              svg.tn-icon @32,2564 12x12
+              svg.tn-icon @32,2564 12x12
+            span.tn-tick-text @56,2560 52x20
+              span.tn-tick-label "Disabled" @56,2560 52x20
+          label.tn-tick.tn-toggle @24,2604 340x44
+            input.tn-tick-input [switch] @24,2604 0x0
+            span.tn-toggle-track @24,2616 36x24
+              span.tn-toggle-thumb @52,2616 16x16
+            span.tn-tick-text @68,2616 116x20
+              span.tn-tick-label "Maintenance mode" @68,2616 116x20
+          label.tn-tick.tn-toggle @24,2660 340x44
+            input.tn-tick-input [switch] @24,2660 0x0
+            span.tn-toggle-track @24,2672 36x24
+              span.tn-toggle-thumb @28,2676 16x16
+            span.tn-tick-text @68,2664 152x36
+              span.tn-tick-label "Alerts" @68,2664 152x20
+              span.tn-tick-help "Send a message on failure." @68,2684 152x16
+          label.tn-tick.tn-toggle.is-disabled @24,2716 340x44
+            input.tn-tick-input [switch] @24,2716 0x0
+            span.tn-toggle-track @24,2728 36x24
+              span.tn-toggle-thumb @28,2732 16x16
+            span.tn-tick-text @68,2728 52x20
+              span.tn-tick-label "Disabled" @68,2728 52x20
+      section.tn-card @12,2888 368x600
+        header.tn-card-head @12,2888 364x40
+          div.tn-card-heading @24,2896 340x20
+            h3.tn-card-title "dateField() and dateRange()" @24,2896 340x20
+        div.tn-card-body @12,2928 364x556
+          div.tn-field @24,2940 340x64
+            label.tn-field-label @24,2940 340x16
+            div.tn-inputbox.tn-datebox @24,2960 340x44
+              input.tn-input-el.tn-num @36,2960 324x44
+          div.tn-field @24,3016 340x88
+            label.tn-field-label @24,3016 340x16
+            div.tn-inputbox.tn-datebox @24,3040 340x44
+              input.tn-input-el.tn-num @36,3040 324x44
+            div.tn-field-help "Date and time." @24,3088 340x16
+          div.tn-field @24,3116 340x136
+            label.tn-field-label @24,3116 340x16
+            div.tn-daterange [group] @24,3140 340x112
+              div.tn-daterange-row @24,3140 340x64
+                label.tn-daterange-col @24,3140 168x64
+                  span.tn-field-label "From" @24,3140 168x16
+                  div.tn-inputbox.tn-datebox @24,3160 168x44
+                    input.tn-input-el.tn-num "From" @36,3160 148x44
+                label.tn-daterange-col @200,3140 168x64
+                  span.tn-field-label "To" @200,3140 168x16
+                  div.tn-inputbox.tn-datebox @200,3160 168x44
+                    input.tn-input-el.tn-num "To" @208,3160 148x44
+              div.tn-pills @24,3212 340x40
+                button.tn-pill "Today" @24,3212 60x40
+                button.tn-pill.is-on "7 days" @92,3212 64x40
+                button.tn-pill "30 days" @160,3212 72x40
+                button.tn-pill "This month" @240,3212 92x40
+          div.tn-field @24,3264 340x112
+            label.tn-field-label @24,3264 340x16
+            div.tn-daterange [group] @24,3284 340x92
+              div.tn-daterange-row @24,3284 340x64
+                label.tn-daterange-col @24,3284 168x64
+                  span.tn-field-label "From" @24,3284 168x16
+                  div.tn-inputbox.tn-datebox.is-invalid @24,3308 168x44
+                    input.tn-input-el.tn-num "From" @36,3308 148x44
+                label.tn-daterange-col @200,3284 168x64
+                  span.tn-field-label "To" @200,3284 168x16
+                  div.tn-inputbox.tn-datebox.is-invalid @200,3308 168x44
+                    input.tn-input-el.tn-num "To" @208,3308 148x44
+              div.tn-field-error @24,3360 340x16
+                svg.tn-icon @24,3364 12x12
+      section.tn-section @12,3500 368x124
+        header.tn-section-head @12,3500 368x24
+          h2.tn-section-title "In a sheet" @16,3504 364x16
+        button.tn-btn.tn-btn-default @12,3584 156x40

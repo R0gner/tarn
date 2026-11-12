@@ -1,4 +1,4 @@
-// dashkit · verify check "types": TypeScript as a pure type checker over the JSDoc types of js/ (jsconfig.json, checkJs, no emit).
+// tarn · verify check "types": TypeScript as a pure type checker over the JSDoc types of js/ (jsconfig.json, checkJs, no emit).
 // TypeScript is never part of the kit and never runs in the browser: this check fetches a pinned version with npx on demand
 // (the only npm package the tools ever use). Without network (and without a cached copy) the check is skipped with a note.
 import { spawnSync } from 'node:child_process';
@@ -45,7 +45,7 @@ export function typesFindings(root) {
  * Runs on a temp copy; the repository is not touched.
  */
 export function typesMutant(root) {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'dk-types-mutant-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-types-mutant-'));
   try {
     fs.cpSync(path.join(root, 'js'), path.join(tmp, 'js'), { recursive: true });
     fs.copyFileSync(path.join(root, 'jsconfig.json'), path.join(tmp, 'jsconfig.json'));

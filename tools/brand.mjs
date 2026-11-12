@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · brand: create a board identity (favicon, app icons, manifest). Node ≥ 22, no npm packages.
+// tarn · brand: create a board identity (favicon, app icons, manifest). Node ≥ 22, no npm packages.
 //
 //   node tools/brand.mjs --name "My board" --icon server --accent purple --out <folder> [options]
 //
@@ -48,10 +48,10 @@ if (o.icon && !ICONS[o.icon]) fail(`symbol “${o.icon}” is not in the kit (${
 const OUT = path.resolve(o.out);
 if (OUT === ROOT || (OUT.startsWith(ROOT + path.sep) && /^(css|js|fonts|icons|tools|tests)$/.test(path.relative(ROOT, OUT).split(path.sep)[0]))) fail('--out must not be a kit folder (css, js, fonts, icons, tools, tests)');
 
-/* ---- Colours from the tokens: --dk-<name>: light-dark(LIGHT, DARK) ---- */
+/* ---- Colours from the tokens: --tn-<name>: light-dark(LIGHT, DARK) ---- */
 const tokens = fs.readFileSync(path.join(ROOT, 'css', 'tokens.css'), 'utf8');
 function tokenPair(name) {
-  const m = new RegExp(`--dk-${name}:\\s*light-dark\\(([^;]+)\\);`).exec(tokens);
+  const m = new RegExp(`--tn-${name}:\\s*light-dark\\(([^;]+)\\);`).exec(tokens);
   if (!m) return null;
   let depth = 0, cut = -1;
   for (let i = 0; i < m[1].length; i++) { const c = m[1][i]; if (c === '(') depth++; else if (c === ')') depth--; else if (c === ',' && !depth) { cut = i; break; } }

@@ -11,16 +11,16 @@ import { collectSource, checkDir } from '../tools/vendor.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TOOL = path.join(ROOT, 'tools', 'vendor.mjs');
 const run = (...args) => { const r = spawnSync(process.execPath, [TOOL, ...args], { encoding: 'utf8' }); return { code: r.status, out: r.stdout + r.stderr }; };
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'dk-vendor-test-'));
+const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'tn-vendor-test-'));
 const withTmp = (fn) => { const d = tmp(); try { return fn(d); } finally { fs.rmSync(d, { recursive: true, force: true }); } };
 const walk = (base, d = base, o = []) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); e.isDirectory() ? walk(base, p, o) : o.push(path.relative(base, p).split(path.sep).join('/')); } return o; };
 
 test('vendor: copies only runtime files, writes SHA256SUMS in sha256sum format', () => withTmp((d) => {
-  const to = path.join(d, 'board', 'vendor', 'dashkit');
+  const to = path.join(d, 'board', 'vendor', 'tarn');
   const r = run('--to', to);
   assert.equal(r.code, 0, r.out);
   const files = walk(to);
-  assert.ok(files.includes('js/dashkit.js') && files.includes('css/tokens.css') && files.includes('VERSION') && files.includes('SHA256SUMS'));
+  assert.ok(files.includes('js/tarn.js') && files.includes('css/tokens.css') && files.includes('VERSION') && files.includes('SHA256SUMS'));
   assert.ok(files.some((f) => f.startsWith('fonts/') && f.endsWith('.woff2')));
   for (const f of files) assert.ok(!/^(tests|tools|gallery|example|\.git)\//.test(f) && !f.endsWith('.svg') && !f.endsWith('.png'), `unexpected file ${f}`);
   const lines = fs.readFileSync(path.join(to, 'SHA256SUMS'), 'utf8').trim().split('\n');
@@ -39,7 +39,7 @@ test('vendor --check: intact copy → 0; changed, missing and foreign files → 
   assert.equal(run('--to', to).code, 0);
   let r = run('--to', to, '--check');
   assert.equal(r.code, 0, r.out);
-  assert.match(r.out, /dashkit \d+\.\d+\.\d+ in /);
+  assert.match(r.out, /tarn \d+\.\d+\.\d+ in /);
   assert.match(r.out, /up to date/);
   fs.appendFileSync(path.join(to, 'css', 'base.css'), '\n/* local tweak */\n');
   fs.rmSync(path.join(to, 'js', 'dom.js'));
@@ -86,10 +86,10 @@ test('vendor update: refuses over local changes, --force overwrites, stale files
 test('vendor: refuses non-empty foreign folders, the repository itself and bad usage (exit 2)', () => withTmp((d) => {
   const foreign = path.join(d, 'x'); fs.mkdirSync(foreign); fs.writeFileSync(path.join(foreign, 'a.txt'), 'a');
   let r = run('--to', foreign);
-  assert.equal(r.code, 2); assert.match(r.out, /not a vendored dashkit copy/);
+  assert.equal(r.code, 2); assert.match(r.out, /not a vendored tarn copy/);
   assert.ok(!fs.existsSync(path.join(foreign, 'js')));
   r = run('--to', path.join(ROOT, 'vendor-test'));
-  assert.equal(r.code, 2); assert.match(r.out, /inside the dashkit repository/);
+  assert.equal(r.code, 2); assert.match(r.out, /inside the Tarn repository/);
   assert.ok(!fs.existsSync(path.join(ROOT, 'vendor-test')));
   const link = path.join(d, 'link'); fs.symlinkSync(ROOT, link);
   r = run('--to', path.join(link, 'sub'));

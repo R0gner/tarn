@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// dashkit · vendor: copy a fixed version of the kit into a board (`<board>/vendor/dashkit/`), Node ≥ 22, no npm packages.
+// tarn · vendor: copy a fixed version of the kit into a board (`<board>/vendor/tarn/`), Node ≥ 22, no npm packages.
 //
-//   node tools/vendor.mjs --to <board>/vendor/dashkit            copy (first time) or update
-//   node tools/vendor.mjs --to <board>/vendor/dashkit --check    report local changes and the version, change nothing
+//   node tools/vendor.mjs --to <board>/vendor/tarn            copy (first time) or update
+//   node tools/vendor.mjs --to <board>/vendor/tarn --check    report local changes and the version, change nothing
 //
 // Copies only what the browser loads: css/*.css, js/**/*.js, fonts/ (woff2, OFL texts, SOURCES.md), icons/ (LICENSE.txt,
 // SOURCES.md), plus VERSION, LICENSE and NOTICE. Not copied: tests, tools, gallery, example, icon sources.
@@ -10,7 +10,7 @@
 //
 // An update is a deliberate step: it refuses when files of the copy were changed locally (compared with SHA256SUMS) or when the
 // folder is not a vendored copy; `--force` overwrites anyway. Files that left the kit since the last copy are removed; files that
-// are not part of the copy are reported and left alone. The tool never writes into the dashkit repository itself.
+// are not part of the copy are reported and left alone. The tool never writes into the Tarn repository itself.
 //
 // Options: --to DIR (required) · --check · --force · --dry-run (copy mode: report only) · -h/--help
 // Exit codes: 0 done / copy intact · 1 local changes, missing or foreign files (check) or update refused · 2 usage or environment error.
@@ -37,7 +37,7 @@ const rel = (p) => p.split(path.sep).join('/');
 function usage(code, msg) {
   if (msg) console.error(`vendor: ${msg}`);
   const out = code ? console.error : console.log;
-  out('usage: node tools/vendor.mjs --to <board>/vendor/dashkit [--check] [--force] [--dry-run]');
+  out('usage: node tools/vendor.mjs --to <board>/vendor/tarn [--check] [--force] [--dry-run]');
   process.exit(code);
 }
 
@@ -131,7 +131,7 @@ function resolveTarget(p) {
 function main() {
   const o = parseArgs(process.argv.slice(2));
   const dest = resolveTarget(o.to);
-  if (inside(dest, fs.realpathSync(ROOT))) { console.error('vendor: the target is inside the dashkit repository; the tool never writes there'); process.exit(2); }
+  if (inside(dest, fs.realpathSync(ROOT))) { console.error('vendor: the target is inside the Tarn repository; the tool never writes there'); process.exit(2); }
 
   let src;
   try { src = collectSource(); } catch (e) { console.error(`vendor: ${e.message}`); process.exit(2); }
@@ -140,9 +140,9 @@ function main() {
   if (o.check) {
     if (!fs.existsSync(dest)) { console.error(`vendor: ${o.to} does not exist`); process.exit(2); }
     const c = checkDir(dest);
-    if (!c) { console.error(`vendor: ${o.to} has no ${MANIFEST}; not a vendored dashkit copy`); process.exit(2); }
+    if (!c) { console.error(`vendor: ${o.to} has no ${MANIFEST}; not a vendored tarn copy`); process.exit(2); }
     const v = versionOf(dest);
-    const lines = [`vendor: dashkit ${v} in ${o.to} · ${c.count} files · kit source ${srcVersion}`];
+    const lines = [`vendor: tarn ${v} in ${o.to} · ${c.count} files · kit source ${srcVersion}`];
     const bad = c.modified.length + c.missing.length + c.extra.length;
     if (c.modified.length) lines.push(`CHANGED locally (${c.modified.length}): ${brief(c.modified)}`);
     if (c.missing.length) lines.push(`MISSING (${c.missing.length}): ${brief(c.missing)}`);
@@ -161,7 +161,7 @@ function main() {
     if (!fs.statSync(dest).isDirectory()) { console.error(`vendor: ${o.to} is not a folder`); process.exit(2); }
     const entries = fs.readdirSync(dest);
     old = checkDir(dest);
-    if (!old && entries.length && !o.force) { console.error(`vendor: ${o.to} is not empty and not a vendored dashkit copy (no ${MANIFEST}); use an empty folder or --force`); process.exit(2); }
+    if (!old && entries.length && !o.force) { console.error(`vendor: ${o.to} is not empty and not a vendored tarn copy (no ${MANIFEST}); use an empty folder or --force`); process.exit(2); }
     if (old && (old.modified.length || old.missing.length) && !o.force) {
       console.log([`vendor: update refused, the copy in ${o.to} was changed locally (compare with --check):`,
         old.modified.length ? `CHANGED (${old.modified.length}): ${brief(old.modified)}` : null, old.missing.length ? `MISSING (${old.missing.length}): ${brief(old.missing)}` : null,

@@ -1,7 +1,7 @@
-// dashkit · verify check "snapshots": text outline of the DOM per page × view × size (dark) against
-// tests/snapshots/. Per line: element with role, important classes (dk-*, is-*), text or name and the box rounded to 4 px.
+// tarn · verify check "snapshots": text outline of the DOM per page × view × size (dark) against
+// tests/snapshots/. Per line: element with role, important classes (tn-*, is-*), text or name and the box rounded to 4 px.
 // The clock is fixed (2026-11-09 10:00 Europe/Berlin) so that relative times stay stable.
-// Excluded: .dk-sidebar-foot (install button; appears only when the browser fires beforeinstallprompt – depends on
+// Excluded: .tn-sidebar-foot (install button; appears only when the browser fires beforeinstallprompt – depends on
 // Chrome, not on the kit; the behaviour is checked by the overlay scenario "install").
 // --update rewrites the files (deliberately only, reason in the commit).
 import fs from 'node:fs';
@@ -27,13 +27,13 @@ const OUTLINE = `(() => {
   const lines = [];
   const own = (el) => [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.nodeValue).join(' ').replace(/\\s+/g, ' ').trim();
   const walk = (el, depth) => {
-    if (el.nodeType !== 1 || el.matches('script, style, template, [data-verify-ignore], .dk-sidebar-foot')) return;
+    if (el.nodeType !== 1 || el.matches('script, style, template, [data-verify-ignore], .tn-sidebar-foot')) return;
     if (el.checkVisibility && !el.checkVisibility()) return;
     const svg = el.tagName.toLowerCase() === 'svg';
     const role = el.getAttribute('role') || IMPLICIT[el.tagName] || (svg && el.getAttribute('aria-label') ? 'img' : '');
-    const classes = [...el.classList].filter((c) => /^dk-/.test(c) || /^is-/.test(c));
+    const classes = [...el.classList].filter((c) => /^tn-/.test(c) || /^is-/.test(c));
     const text = own(el);
-    const keep = role || (classes.length && (text || /^dk-/.test(classes[0])));
+    const keep = role || (classes.length && (text || /^tn-/.test(classes[0])));
     let d = depth;
     if (keep) {
       const b = el.getBoundingClientRect();

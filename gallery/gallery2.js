@@ -1,10 +1,10 @@
-// dashkit · gallery part 2: controls (primitives), feedback and overlays, charts, light/dark side by side, shell demos.
+// tarn · gallery part 2: controls (primitives), feedback and overlays, charts, light/dark side by side, shell demos.
 import {
   h, icon, card, section, button, iconButton, statTile, tiles, metricRow, list, kv, facts, statusDot, badge, empty, banner,
   segmented, tabs, log, toast, progress, usageBar, tooltip, menu, dataCard, boardSwitcher, boardGrid, boardIcon, normalizeBoards,
   lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtAgo, fmtPct,
   STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES,
-} from '../js/dashkit.js';
+} from '../js/tarn.js';
 
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
 const demo = (title, usage, ...stage) => card({ title }, h('div', { class: 'g-demo' }, stage, usage && code(usage)));
@@ -51,11 +51,11 @@ export function viewControls() {
         h('div', { class: 'g-stage-col' }, state('normal', seg), out,
           state('small', segmented({ small: true, options: [{ value: 'a', label: 'All' }, { value: 'f', label: 'Errors' }, { value: 'w', label: 'Warnings' }], value: 'f' })),
           state('with icons', segmented({ options: [{ value: 'l', icon: 'list', title: 'List' }, { value: 'g', icon: 'grid', title: 'Tiles' }], value: 'l', label: 'Layout' })))),
-      demo('tooltip() and hint', `iconButton('info', { label: 'Info', hint: 'Longer explanation' })   // icon-only buttons have the hint built in; tooltip(el, text) for others\n// mouse: hover 350 ms · keyboard: focus · touch: long press, stays after release\n// truncated text (.dk-ellipsis) shows its full text automatically; fully visible text gets no hint`,
+      demo('tooltip() and hint', `iconButton('info', { label: 'Info', hint: 'Longer explanation' })   // icon-only buttons have the hint built in; tooltip(el, text) for others\n// mouse: hover 350 ms · keyboard: focus · touch: long press, stays after release\n// truncated text (.tn-ellipsis) shows its full text automatically; fully visible text gets no hint`,
         stage(state('icon button', iconButton('info', { label: 'Info', hint: 'Runs daily at 04:15, takes about 30 s' })),
-          state('tooltip() on any element', tooltip(h('button', { class: 'dk-iconbtn', type: 'button', 'aria-label': 'More' }, icon('more')), 'Any element with a hint')),
-          state('truncated', h('span', { class: 'dk-ellipsis g-clip' }, 'offsite-sync-archive-nas-b-daily-04-15')),
-          state('fully visible (no hint)', h('span', { class: 'dk-ellipsis g-clip' }, 'Short'))))),
+          state('tooltip() on any element', tooltip(h('button', { class: 'tn-iconbtn', type: 'button', 'aria-label': 'More' }, icon('more')), 'Any element with a hint')),
+          state('truncated', h('span', { class: 'tn-ellipsis g-clip' }, 'offsite-sync-archive-nas-b-daily-04-15')),
+          state('fully visible (no hint)', h('span', { class: 'tn-ellipsis g-clip' }, 'Short'))))),
     demo('tabs()', `tabs({ tabs: [{ id: 'runs', label: 'Runs', count: 7, render: () => … }, …], value, onChange })`,
       tabs({ tabs: [
         { id: 'runs', label: 'Runs', count: 7, render: () => heatRow({ items: runsFor(30, 3), size: 'lg' }) },
@@ -101,9 +101,9 @@ export function viewFeedback() {
         stage(button('ok', { onClick: () => toast('Run started', { tone: 'ok' }) }),
           button('error', { onClick: () => toast('Restart failed: timeout after 30 s', { tone: 'bad' }) }),
           button('with action', { onClick: () => toast('Job removed', { tone: 'warn', action: { label: 'Undo', onClick: () => toast('Restored', { tone: 'ok' }) } }) }))),
-      demo('dataCard()', `dataCard(element, () => [h('div', { class: 'dk-tip-head' }, 'Title'), …], { onItem })\n// For elements whose content is only visible on hover (heatRow, timeline, usageBar bring it along).\n// Mouse: instantly, gone on leave · touch: tap shows, drag scrubs, tap elsewhere closes · onItem: click or second tap`,
-        stage(state('own element', dataCard(h('button', { class: 'dk-btn dk-btn-ghost', type: 'button' }, 'Card'), () => [h('div', { class: 'dk-tip-head' }, 'Example'), h('div', null, 'Content only while hovering')])),
-          state('with action', dataCard(h('button', { class: 'dk-btn dk-btn-default', type: 'button' }, 'Action'), () => [h('div', { class: 'dk-tip-head' }, 'Second tap'), h('div', null, 'triggers the action')], { onItem: () => toast('Action triggered', { tone: 'ok' }) })))),
+      demo('dataCard()', `dataCard(element, () => [h('div', { class: 'tn-tip-head' }, 'Title'), …], { onItem })\n// For elements whose content is only visible on hover (heatRow, timeline, usageBar bring it along).\n// Mouse: instantly, gone on leave · touch: tap shows, drag scrubs, tap elsewhere closes · onItem: click or second tap`,
+        stage(state('own element', dataCard(h('button', { class: 'tn-btn tn-btn-ghost', type: 'button' }, 'Card'), () => [h('div', { class: 'tn-tip-head' }, 'Example'), h('div', null, 'Content only while hovering')])),
+          state('with action', dataCard(h('button', { class: 'tn-btn tn-btn-default', type: 'button' }, 'Action'), () => [h('div', { class: 'tn-tip-head' }, 'Second tap'), h('div', null, 'triggers the action')], { onItem: () => toast('Action triggered', { tone: 'ok' }) })))),
       demo('usageBar()', `usageBar({ used, total, label: '/srv', warnAt: .8, badAt: .9 })   // tone from thresholds\nusageBar({ used, total, label, segments: [{ label, value, color }] })`,
         h('div', { class: 'g-stage-col' },
           usageBar({ used: 412e9, total: 1e12, label: 'nas-a /srv' }),
@@ -143,7 +143,7 @@ boardSwitcher(button, { boards, categories, boardId })   // or on your own butto
 // Without a file:  favicon({ icon: 'server', color: 'purple' })   // or createApp({ icon: { icon, color } })
 // Language: createApp({ locale?, locales?, messages? }); the language menu appears when more than one language is offered`,
       stage(
-        state('Kit logo (icons/logo.svg)', h('img', { src: '../icons/logo.svg', width: 32, height: 32, alt: 'dashkit logo' })),
+        state('Kit logo (icons/logo.svg)', h('img', { src: '../icons/logo.svg', width: 32, height: 32, alt: 'Tarn logo' })),
         state('Sample board', h('img', { src: '../example/favicon.svg', width: 32, height: 32, alt: 'Sample board icon' })),
         ['grid:blue', 'server:purple', 'chart:green', 'box:orange'].map((x) => { const [ic, co] = x.split(':'); return state(`favicon(${ic}, ${co})`, button('Try as tab icon', { small: true, onClick: () => favicon({ icon: ic, color: co }) })); }))),
     demo('Language and formats', `// ${KIT_LOCALES.map((l) => LOCALE_NAMES[l]).join(' · ')}   (active: ${getLocale()}, time zone ${getTimeZone()})\n// fmt*() use Intl with the active locale and time zone; kit texts come from js/locales/*.js via t(key, vars)`,
@@ -215,7 +215,7 @@ export function viewCharts() {
           lineChart({ x: [], series: [], height: 70, empty: 'No measurements yet' })))),
     h('div', { class: 'g-grid2' },
       demo('barChart() vertical, stacked', `barChart({ labels: ['Mon', …], series: [{ label: 'ok', values, color: 'ok' }, { label: 'Error', values, color: 'bad' }],\n  stacked: true, onBar: (i) => … })`,
-        barChart({ labels: days, stacked: true, height: 160, series: [{ label: 'successful', values: [14, 15, 12, 16, 15, 9, 8], color: 'ok' }, { label: 'warning', values: [1, 0, 2, 0, 1, 0, 0], color: 'warn' }, { label: 'error', values: [0, 1, 3, 0, 0, 0, 1], color: 'bad' }], yFormat: (v) => fmtNum(v, 0), onBar: (i) => openSheet({ title: days[i], sub: 'Runs on this day', body: facts('Result', kv([['Successful', fmtNum([14, 15, 12, 16, 15, 9, 8][i], 0)], ['Warning', fmtNum([1, 0, 2, 0, 1, 0, 0][i], 0)], ['Error', fmtNum([0, 1, 3, 0, 0, 0, 1][i], 0), [0, 1, 3, 0, 0, 0, 1][i] ? 'dk-t-bad' : null]])) }) })),
+        barChart({ labels: days, stacked: true, height: 160, series: [{ label: 'successful', values: [14, 15, 12, 16, 15, 9, 8], color: 'ok' }, { label: 'warning', values: [1, 0, 2, 0, 1, 0, 0], color: 'warn' }, { label: 'error', values: [0, 1, 3, 0, 0, 0, 1], color: 'bad' }], yFormat: (v) => fmtNum(v, 0), onBar: (i) => openSheet({ title: days[i], sub: 'Runs on this day', body: facts('Result', kv([['Successful', fmtNum([14, 15, 12, 16, 15, 9, 8][i], 0)], ['Warning', fmtNum([1, 0, 2, 0, 1, 0, 0][i], 0)], ['Error', fmtNum([0, 1, 3, 0, 0, 0, 1][i], 0), [0, 1, 3, 0, 0, 0, 1][i] ? 'tn-t-bad' : null]])) }) })),
       demo('barChart() horizontal', `barChart({ horizontal: true, labels: hosts, series: [{ values: bytes }], yFormat: fmtBytes })`,
         barChart({ horizontal: true, labels: ['nas-a', 'nas-b', 'media-1', 'app-2', 'a-really-long-hostname-example', 'edge-1'], series: [{ label: 'Used', values: [412e9, 852e9, 1.2e12, 236e9, 54e9, 8e9], color: 'blue' }], yFormat: fmtBytes })),
       demo('barChart() grouped', `barChart({ labels, series: [a, b] })   // side by side without stacked`,
@@ -251,7 +251,7 @@ export function viewThemes() {
   return [
     h('p', { class: 'g-intro' }, 'The same building blocks in the light and the dark scheme side by side (color-scheme per container, tokens via light-dark()).'),
     h('div', { class: 'g-grid2' },
-      h('div', { class: 'g-scheme g-scheme-dark' }, h('div', { class: 'dk-section-title' }, 'Dark'), sample()),
-      h('div', { class: 'g-scheme g-scheme-light' }, h('div', { class: 'dk-section-title' }, 'Light'), sample())),
+      h('div', { class: 'g-scheme g-scheme-dark' }, h('div', { class: 'tn-section-title' }, 'Dark'), sample()),
+      h('div', { class: 'g-scheme g-scheme-light' }, h('div', { class: 'tn-section-title' }, 'Light'), sample())),
   ];
 }

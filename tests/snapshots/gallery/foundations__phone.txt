@@ -1,141 +1,141 @@
 # gallery #/foundations · phone 390×844 · dunkel
-div.dk-app @0,0 392x2176
-  aside.dk-sidebar @-284,0 280x844
-    div.dk-sidebar-head @-276,0 264x48
-      div.dk-brand @-268,12 128x24
-        span.dk-bicon @-268,12 24x24
-          img.dk-bicon-img @-268,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
-    nav.dk-nav "Views" @-276,48 264x696
-      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
-      a.dk-nav-item.is-active {current=page} @-276,72 264x40
-        svg.dk-icon @-268,84 16x16
-        span.dk-ellipsis "Foundations" @-244,84 76x20
-      a.dk-nav-item @-276,116 264x40
-        svg.dk-icon @-268,128 16x16
-        span.dk-ellipsis "Light and dark" @-244,124 88x20
-      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
-      a.dk-nav-item @-276,188 264x40
-        svg.dk-icon @-268,200 16x16
-        span.dk-ellipsis "Buttons and status" @-244,200 116x20
-      a.dk-nav-item @-276,228 264x40
-        svg.dk-icon @-268,240 16x16
-        span.dk-ellipsis "Controls" @-244,240 52x20
-      a.dk-nav-item @-276,272 264x40
-        svg.dk-icon @-268,284 16x16
-        span.dk-ellipsis "Inputs" @-244,280 40x20
-      div.dk-nav-group [presentation] "Components" @-276,312 264x32
-      a.dk-nav-item @-276,344 264x40
-        svg.dk-icon @-268,356 16x16
-        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
-      a.dk-nav-item @-276,384 264x40
-        svg.dk-icon @-268,396 16x16
-        span.dk-ellipsis "Rows and facts" @-244,396 96x20
-      a.dk-nav-item @-276,428 264x40
-        svg.dk-icon @-268,440 16x16
-        span.dk-ellipsis "Table and filter" @-244,436 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
-      a.dk-nav-item @-276,468 264x40
-        svg.dk-icon @-268,480 16x16
-        span.dk-ellipsis "Forms and actions" @-244,480 116x20
-      a.dk-nav-item @-276,508 264x40
-        svg.dk-icon @-268,520 16x16
-        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
-      a.dk-nav-item @-276,548 264x40
-        svg.dk-icon @-268,560 16x16
-        span.dk-ellipsis "Charts" @-244,560 40x20
-      a.dk-nav-item @-276,592 264x40
-        svg.dk-icon @-268,604 16x16
-        span.dk-ellipsis "Markdown" @-244,600 64x20
-      a.dk-nav-item @-276,632 264x40
-        svg.dk-icon @-268,644 16x16
-        span.dk-ellipsis "States and sheets" @-244,644 112x20
-      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
-      a.dk-nav-item @-276,704 264x40
-        svg.dk-icon @-268,716 16x16
-        span.dk-ellipsis "Shell and boards" @-244,716 104x20
-  div.dk-scrim @0,0 392x844
-  div.dk-main @0,0 392x2176
-    header.dk-toolbar @0,0 392x48
-      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
-        svg.dk-icon @16,16 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Foundations" @52,16 76x20
-      div.dk-toolbar-spacer @132,24 20x0
-      button.dk-fresh "Updated now" @160,4 92x40
-      button.dk-iconbtn "Reload" @256,4 40x40
-        svg.dk-icon @268,16 16x16
-      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
-        svg.dk-icon @312,16 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
-        svg.dk-icon @356,16 16x16
-    main.dk-content @0,48 392x2128
-      section.dk-section @12,168 368x280
-        header.dk-section-head @12,168 368x24
-          h2.dk-section-title "Status" @16,172 364x16
-        section.dk-card @12,200 368x248
-          div.dk-card-body @12,200 364x244
-      section.dk-section @12,460 368x280
-        header.dk-section-head @12,460 368x24
-          h2.dk-section-title "Status as text and primary button" @16,464 364x16
-        section.dk-card @12,492 368x248
-          div.dk-card-body @12,496 364x244
-      section.dk-section @12,756 368x280
-        header.dk-section-head @12,756 368x24
-          h2.dk-section-title "Accents" @16,760 364x16
-        section.dk-card @12,788 368x248
-          div.dk-card-body @12,788 364x244
-      section.dk-section @12,1052 368x356
-        header.dk-section-head @12,1052 368x24
-          h2.dk-section-title "Surfaces and text" @16,1056 364x16
-        section.dk-card @12,1084 368x324
-          div.dk-card-body @12,1084 364x320
-      section.dk-section @12,1420 368x276
-        header.dk-section-head @12,1420 368x24
-          h2.dk-section-title "Typography" @16,1424 364x16
-        section.dk-card @12,1452 368x244
-          div.dk-card-body @12,1456 364x240
-            span.dk-stat-value.dk-num "12,345.6" @156,1468 88x24
-            span.dk-sheet-title "Title in the detail" @156,1500 120x20
-            span.dk-stat-label "Label, subtitle" @156,1616 80x16
-            span.dk-section-title "Section" @156,1644 208x16
-            span.dk-mono "rsync exit 12 · 02:30:00" @156,1668 172x16
-      section.dk-section @12,1712 368x452
-        header.dk-section-head @12,1712 368x24
-          h2.dk-section-title "Icons" @16,1716 364x16
-            span.dk-section-count "34" @52,1716 16x16
-        section.dk-card @12,1744 368x420
-          div.dk-card-body @12,1744 364x420
-            svg.dk-icon @32,1764 16x16
-            svg.dk-icon @144,1764 16x16
-            svg.dk-icon @260,1764 16x16
-            svg.dk-icon @32,1796 16x16
-            svg.dk-icon @144,1796 16x16
-            svg.dk-icon @260,1796 16x16
-            svg.dk-icon @32,1836 16x16
-            svg.dk-icon @144,1836 16x16
-            svg.dk-icon @260,1836 16x16
-            svg.dk-icon @32,1876 16x16
-            svg.dk-icon @144,1876 16x16
-            svg.dk-icon @260,1876 16x16
-            svg.dk-icon @32,1908 16x16
-            svg.dk-icon @144,1908 16x16
-            svg.dk-icon @260,1908 16x16
-            svg.dk-icon @32,1940 16x16
-            svg.dk-icon @144,1940 16x16
-            svg.dk-icon @260,1940 16x16
-            svg.dk-icon @32,1972 16x16
-            svg.dk-icon @144,1972 16x16
-            svg.dk-icon @260,1972 16x16
-            svg.dk-icon @32,2004 16x16
-            svg.dk-icon @144,2004 16x16
-            svg.dk-icon @260,2004 16x16
-            svg.dk-icon @32,2036 16x16
-            svg.dk-icon @144,2036 16x16
-            svg.dk-icon @260,2036 16x16
-            svg.dk-icon @32,2068 16x16
-            svg.dk-icon @144,2068 16x16
-            svg.dk-icon @260,2068 16x16
-            svg.dk-icon @32,2100 16x16
-            svg.dk-icon @144,2100 16x16
-            svg.dk-icon @260,2100 16x16
-            svg.dk-icon @32,2132 16x16
+div.tn-app @0,0 392x2176
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-276,0 264x48
+      div.tn-brand @-268,12 108x24
+        span.tn-bicon @-268,12 24x24
+          img.tn-bicon-img @-268,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @-236,16 76x20
+    nav.tn-nav "Views" @-276,48 264x696
+      div.tn-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.tn-nav-item.is-active {current=page} @-276,72 264x40
+        svg.tn-icon @-268,84 16x16
+        span.tn-ellipsis "Foundations" @-244,84 76x20
+      a.tn-nav-item @-276,116 264x40
+        svg.tn-icon @-268,128 16x16
+        span.tn-ellipsis "Light and dark" @-244,124 88x20
+      div.tn-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.tn-nav-item @-276,188 264x40
+        svg.tn-icon @-268,200 16x16
+        span.tn-ellipsis "Buttons and status" @-244,200 116x20
+      a.tn-nav-item @-276,228 264x40
+        svg.tn-icon @-268,240 16x16
+        span.tn-ellipsis "Controls" @-244,240 52x20
+      a.tn-nav-item @-276,272 264x40
+        svg.tn-icon @-268,284 16x16
+        span.tn-ellipsis "Inputs" @-244,280 40x20
+      div.tn-nav-group [presentation] "Components" @-276,312 264x32
+      a.tn-nav-item @-276,344 264x40
+        svg.tn-icon @-268,356 16x16
+        span.tn-ellipsis "Cards and tiles" @-244,356 92x20
+      a.tn-nav-item @-276,384 264x40
+        svg.tn-icon @-268,396 16x16
+        span.tn-ellipsis "Rows and facts" @-244,396 96x20
+      a.tn-nav-item @-276,428 264x40
+        svg.tn-icon @-268,440 16x16
+        span.tn-ellipsis "Table and filter" @-244,436 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,436 24x20
+      a.tn-nav-item @-276,468 264x40
+        svg.tn-icon @-268,480 16x16
+        span.tn-ellipsis "Forms and actions" @-244,480 116x20
+      a.tn-nav-item @-276,508 264x40
+        svg.tn-icon @-268,520 16x16
+        span.tn-ellipsis "Menus and feedback" @-244,520 132x20
+      a.tn-nav-item @-276,548 264x40
+        svg.tn-icon @-268,560 16x16
+        span.tn-ellipsis "Charts" @-244,560 40x20
+      a.tn-nav-item @-276,592 264x40
+        svg.tn-icon @-268,604 16x16
+        span.tn-ellipsis "Markdown" @-244,600 64x20
+      a.tn-nav-item @-276,632 264x40
+        svg.tn-icon @-268,644 16x16
+        span.tn-ellipsis "States and sheets" @-244,644 112x20
+      div.tn-nav-group [presentation] "Shell" @-276,672 264x32
+      a.tn-nav-item @-276,704 264x40
+        svg.tn-icon @-268,716 16x16
+        span.tn-ellipsis "Shell and boards" @-244,716 104x20
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x2176
+    header.tn-toolbar @0,0 392x48
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.tn-icon @16,16 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Foundations" @52,16 76x20
+      div.tn-toolbar-spacer @132,24 20x0
+      button.tn-fresh "Updated now" @160,4 92x40
+      button.tn-iconbtn "Reload" @256,4 40x40
+        svg.tn-icon @268,16 16x16
+      button.tn-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.tn-icon @312,16 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.tn-icon @356,16 16x16
+    main.tn-content @0,48 392x2128
+      section.tn-section @12,168 368x280
+        header.tn-section-head @12,168 368x24
+          h2.tn-section-title "Status" @16,172 364x16
+        section.tn-card @12,200 368x248
+          div.tn-card-body @12,200 364x244
+      section.tn-section @12,460 368x280
+        header.tn-section-head @12,460 368x24
+          h2.tn-section-title "Status as text and primary button" @16,464 364x16
+        section.tn-card @12,492 368x248
+          div.tn-card-body @12,496 364x244
+      section.tn-section @12,756 368x280
+        header.tn-section-head @12,756 368x24
+          h2.tn-section-title "Accents" @16,760 364x16
+        section.tn-card @12,788 368x248
+          div.tn-card-body @12,788 364x244
+      section.tn-section @12,1052 368x356
+        header.tn-section-head @12,1052 368x24
+          h2.tn-section-title "Surfaces and text" @16,1056 364x16
+        section.tn-card @12,1084 368x324
+          div.tn-card-body @12,1084 364x320
+      section.tn-section @12,1420 368x276
+        header.tn-section-head @12,1420 368x24
+          h2.tn-section-title "Typography" @16,1424 364x16
+        section.tn-card @12,1452 368x244
+          div.tn-card-body @12,1456 364x240
+            span.tn-stat-value.tn-num "12,345.6" @156,1468 88x24
+            span.tn-sheet-title "Title in the detail" @156,1500 120x20
+            span.tn-stat-label "Label, subtitle" @156,1616 80x16
+            span.tn-section-title "Section" @156,1644 208x16
+            span.tn-mono "rsync exit 12 · 02:30:00" @156,1668 172x16
+      section.tn-section @12,1712 368x452
+        header.tn-section-head @12,1712 368x24
+          h2.tn-section-title "Icons" @16,1716 364x16
+            span.tn-section-count "34" @52,1716 16x16
+        section.tn-card @12,1744 368x420
+          div.tn-card-body @12,1744 364x420
+            svg.tn-icon @32,1764 16x16
+            svg.tn-icon @144,1764 16x16
+            svg.tn-icon @260,1764 16x16
+            svg.tn-icon @32,1796 16x16
+            svg.tn-icon @144,1796 16x16
+            svg.tn-icon @260,1796 16x16
+            svg.tn-icon @32,1836 16x16
+            svg.tn-icon @144,1836 16x16
+            svg.tn-icon @260,1836 16x16
+            svg.tn-icon @32,1876 16x16
+            svg.tn-icon @144,1876 16x16
+            svg.tn-icon @260,1876 16x16
+            svg.tn-icon @32,1908 16x16
+            svg.tn-icon @144,1908 16x16
+            svg.tn-icon @260,1908 16x16
+            svg.tn-icon @32,1940 16x16
+            svg.tn-icon @144,1940 16x16
+            svg.tn-icon @260,1940 16x16
+            svg.tn-icon @32,1972 16x16
+            svg.tn-icon @144,1972 16x16
+            svg.tn-icon @260,1972 16x16
+            svg.tn-icon @32,2004 16x16
+            svg.tn-icon @144,2004 16x16
+            svg.tn-icon @260,2004 16x16
+            svg.tn-icon @32,2036 16x16
+            svg.tn-icon @144,2036 16x16
+            svg.tn-icon @260,2036 16x16
+            svg.tn-icon @32,2068 16x16
+            svg.tn-icon @144,2068 16x16
+            svg.tn-icon @260,2068 16x16
+            svg.tn-icon @32,2100 16x16
+            svg.tn-icon @144,2100 16x16
+            svg.tn-icon @260,2100 16x16
+            svg.tn-icon @32,2132 16x16

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · screenshots and self-check via headless Chrome (CDP), Node ≥ 22, no npm packages.
+// tarn · screenshots and self-check via headless Chrome (CDP), Node ≥ 22, no npm packages.
 //
 //   node tools/shoot.mjs --out /path/outside/the/repo [options] URL [URL …]
 //

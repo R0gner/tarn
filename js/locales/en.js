@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · kit texts (English, the source). Other languages: de.js, es.js, fr.js with the same keys and placeholders.
+// tarn · kit texts (English, the source). Other languages: de.js, es.js, fr.js with the same keys and placeholders.
 export default {
   "common.close": "Close",
   "common.retry": "Try again",

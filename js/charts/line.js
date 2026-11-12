@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · line/area chart with multiple series and scrubbing (mouse and touch).
+// tarn · line/area chart with multiple series and scrubbing (mouse and touch).
 import { h, s } from '../dom.js';
 import { fmtNum, fmtWhen, fmtShort, fmtTime, fmtDate } from '../format.js';
 import { linear, extent, niceDomain, ticks, timeTicks, nearestIndex, linePath, areaPath, stack } from './scale.js';
@@ -27,9 +27,9 @@ export function lineChart(o) {
   const hasData = x.length > 1 && series.some((r) => r.values.some((v) => v != null));
   const stacks = stacked ? stack(series.map((r) => r.values)) : [];
 
-  const frame = chartFrame({ className: 'dk-chart-line', label: o.label, height, draw });
+  const frame = chartFrame({ className: 'tn-chart-line', label: o.label, height, draw });
   function draw(W) {
-    if (!hasData) return h('div', { class: 'dk-chart-empty' }, o.empty || t('chart.noData'));
+    if (!hasData) return h('div', { class: 'tn-chart-empty' }, o.empty || t('chart.noData'));
     const yVals = stacked ? stacks.flat().map((p) => p[1]) : series.flatMap((r) => r.values);
     let dom = extent(yVals);
     if (o.yMin != null) dom[0] = o.yMin;
@@ -42,8 +42,8 @@ export function lineChart(o) {
     const g = [];
     // Grid + y axis
     for (const v of yt) {
-      g.push(s('line', { class: 'dk-grid', x1: padL, x2: W - padR, y1: Math.round(ys(v)) + 0.5, y2: Math.round(ys(v)) + 0.5 }));
-      g.push(s('text', { class: 'dk-axis', x: padL - 6, y: ys(v) + 3.5, 'text-anchor': 'end' }, yFmt(v)));
+      g.push(s('line', { class: 'tn-grid', x1: padL, x2: W - padR, y1: Math.round(ys(v)) + 0.5, y2: Math.round(ys(v)) + 0.5 }));
+      g.push(s('text', { class: 'tn-axis', x: padL - 6, y: ys(v) + 3.5, 'text-anchor': 'end' }, yFmt(v)));
     }
     // x axis
     const [x0, x1] = extent(x);
@@ -52,7 +52,7 @@ export function lineChart(o) {
     const tFmt = time ? (xt.unit === 'day' ? (t) => fmtDate(t).slice(0, 6) : xt.unit === 'hour' && x1 - x0 > 864e5 ? fmtShort : fmtTime) : (v) => fmtNum(v);
     for (const t of xt.ticks) {
       const px = xs(t), anchor = px < padL + 20 ? 'start' : px > W - padR - 20 ? 'end' : 'middle';
-      g.push(s('text', { class: 'dk-axis', x: px, y: height - 6, 'text-anchor': anchor }, tFmt(t)));
+      g.push(s('text', { class: 'tn-axis', x: px, y: height - 6, 'text-anchor': anchor }, tFmt(t)));
     }
     // Series (area first, then line)
     series.forEach((r, i) => {
@@ -61,14 +61,14 @@ export function lineChart(o) {
       if (stacked) {
         const lower = x.map((t, k) => [xs(t), ys(stacks[i][k][0])]);
         const top = pts.filter((p) => p[1] != null);
-        if (top.length) g.push(s('path', { class: `dk-area ${cc}`, d: `M${top.map((p) => p.join(',')).join('L')}L${lower.reverse().map((p) => p.join(',')).join('L')}Z` }));
-      } else if (r.area ?? area) g.push(s('path', { class: `dk-area ${cc}`, d: areaPath(pts, ys(Math.max(dom[0], 0))) }));
-      g.push(s('path', { class: `dk-line ${cc}`, d: linePath(pts) }));
+        if (top.length) g.push(s('path', { class: `tn-area ${cc}`, d: `M${top.map((p) => p.join(',')).join('L')}L${lower.reverse().map((p) => p.join(',')).join('L')}Z` }));
+      } else if (r.area ?? area) g.push(s('path', { class: `tn-area ${cc}`, d: areaPath(pts, ys(Math.max(dom[0], 0))) }));
+      g.push(s('path', { class: `tn-line ${cc}`, d: linePath(pts) }));
     });
     // Scrub layer
-    const cursor = s('line', { class: 'dk-cursor', y1: padT, y2: height - padB, x1: 0, x2: 0, visibility: 'hidden' });
+    const cursor = s('line', { class: 'tn-cursor', y1: padT, y2: height - padB, x1: 0, x2: 0, visibility: 'hidden' });
     const dots = s('g');
-    const hit = s('rect', { class: 'dk-hit', x: padL, y: 0, width: Math.max(0, W - padL - padR), height });
+    const hit = s('rect', { class: 'tn-hit', x: padL, y: 0, width: Math.max(0, W - padL - padR), height });
     const sx = x.map(xs);
     scrub(hit, {
       onMove(px) {
@@ -79,10 +79,10 @@ export function lineChart(o) {
         dots.replaceChildren(...series.map((r, i) => {
           const v = r.values[k];
           if (v == null) return null;
-          return s('circle', { class: `dk-dot-pt ${colorClass(r.color, i)}`, cx, cy: ys(stacked ? stacks[i][k][1] : v), r: 3 });
+          return s('circle', { class: `tn-dot-pt ${colorClass(r.color, i)}`, cx, cy: ys(stacked ? stacks[i][k][1] : v), r: 3 });
         }).filter((/** @type {SVGElement | null} */ c) => c != null));
         const rows = series.map((r, i) => tipRow(r.color, r.label || '', r.values[k] == null ? '–' : yFmt(r.values[k]), i));
-        showTip(frame, cx, padT + 4, [h('div', { class: 'dk-tip-head' }, xFmt(x[k])), ...rows]);
+        showTip(frame, cx, padT + 4, [h('div', { class: 'tn-tip-head' }, xFmt(x[k])), ...rows]);
       },
       onEnd() { cursor.setAttribute('visibility', 'hidden'); dots.replaceChildren(); hideTip(frame); },
     });

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · chart math without DOM (testable with node --test): scales, ticks, stacks, conflicts.
+// tarn · chart math without DOM (testable with node --test): scales, ticks, stacks, conflicts.
 import { getTimeZone } from '../i18n.js';
 
 /** @typedef {number[]} Pair Two numbers [from, to]. */

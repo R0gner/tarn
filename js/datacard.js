@@ -1,12 +1,12 @@
 // @ts-check
-// dashkit · data card: one style for everything whose content is only visible on hover
+// tarn · data card: one style for everything whose content is only visible on hover
 // (heatmap cells, timeline bars, usage segments; line/bar charts use the same card style).
 //   Mouse    immediately in the first frame, disappears on leave.
 //   Touch    tap shows it, dragging across cells scrubs, tapping elsewhere or scrolling closes it.
 //   Keyboard focus shows it.
 //   Action   If the element has onItem, on touch only the second tap on the same element triggers it,
 //            otherwise (mouse, keyboard) the click.
-// Groups (heatmap row, attribute data-dk-cards): a touch anywhere in the row selects the nearest cell.
+// Groups (heatmap row, attribute data-tn-cards): a touch anywhere in the row selects the nearest cell.
 import { h } from './dom.js';
 import { showOverlay, hideOverlay, placeAbove } from './overlay.js';
 
@@ -31,7 +31,7 @@ let lastTouchUp = 0, installed = false;
  */
 export function dataCard(el, content, { onItem } = {}) {
   reg.set(el, { content, onItem });
-  el.setAttribute('data-dk-card', '');
+  el.setAttribute('data-tn-card', '');
   install();
   el.addEventListener('pointerenter', (e) => { if (/** @type {PointerEvent} */ (e).pointerType === 'mouse') showCard(el); });
   el.addEventListener('pointerleave', (e) => { if (/** @type {PointerEvent} */ (e).pointerType === 'mouse' && current === el) hideCard(); });
@@ -48,7 +48,7 @@ export function dataCard(el, content, { onItem } = {}) {
   return el;
 }
 
-// Group (heatmap row): container with attribute data-dk-cards; a touch anywhere inside selects the nearest cell.
+// Group (heatmap row): container with attribute data-tn-cards; a touch anywhere inside selects the nearest cell.
 
 /**
  * @param {EventTarget | null} target
@@ -57,14 +57,14 @@ export function dataCard(el, content, { onItem } = {}) {
  */
 function cardAt(target, x) {
   if (!(target instanceof Element)) return null;
-  const el = /** @type {HTMLElement | null} */ (target.closest('[data-dk-card]'));
+  const el = /** @type {HTMLElement | null} */ (target.closest('[data-tn-card]'));
   if (el) return el;
-  const grp = target.closest('[data-dk-cards]');
+  const grp = target.closest('[data-tn-cards]');
   if (!grp || x == null) return null;
   /** @type {HTMLElement | null} */
   let best = null;
   let bd = Infinity;
-  for (const c of /** @type {NodeListOf<HTMLElement>} */ (grp.querySelectorAll('[data-dk-card]'))) {
+  for (const c of /** @type {NodeListOf<HTMLElement>} */ (grp.querySelectorAll('[data-tn-card]'))) {
     const r = c.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - x);
     if (d < bd) { bd = d; best = c; }
   }
@@ -72,7 +72,7 @@ function cardAt(target, x) {
 }
 
 function ensureCard() {
-  if (!card) card = h('div', { class: 'dk-datacard', role: 'tooltip', hidden: true });
+  if (!card) card = h('div', { class: 'tn-datacard', role: 'tooltip', hidden: true });
   return card;
 }
 

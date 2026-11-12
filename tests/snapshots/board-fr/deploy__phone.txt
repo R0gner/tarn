@@ -1,82 +1,82 @@
 # board-fr #/deploy · phone 390×844 · dunkel
-div.dk-app @0,0 392x844
-  aside.dk-sidebar @-284,0 280x844
-    div.dk-sidebar-head @-276,0 264x48
-      button.dk-brand.dk-brand-btn {expanded=false} "Tableau démo : changer de tableau" @-276,4 248x40
-        span.dk-bicon @-268,12 24x24
-          img.dk-bicon-img @-268,12 24x24
-        span.dk-ellipsis "Tableau démo" @-236,16 88x20
-        svg.dk-icon @-140,16 16x16
-    nav.dk-nav "Vues" @-276,48 264x204
-      a.dk-nav-item @-276,48 264x40
-        svg.dk-icon @-268,60 16x16
-        span.dk-ellipsis "Aperçu" @-244,60 44x20
-      a.dk-nav-item @-276,88 264x40
-        svg.dk-icon @-268,100 16x16
-        span.dk-ellipsis "Tâches" @-244,100 44x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,100 24x20
-      a.dk-nav-item @-276,132 264x40
-        svg.dk-icon @-268,144 16x16
-        span.dk-ellipsis "Hôtes" @-244,140 36x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,140 24x20
-      a.dk-nav-item @-276,172 264x40
-        svg.dk-icon @-268,184 16x16
-        span.dk-ellipsis "Historique" @-244,180 64x20
-      a.dk-nav-item.is-active {current=page} @-276,212 264x40
-        svg.dk-icon @-268,224 16x16
-        span.dk-ellipsis "Déploiement" @-244,224 80x20
-  div.dk-scrim @0,0 392x844
-  div.dk-main @0,0 392x844
-    header.dk-toolbar @0,0 392x48
-      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Afficher ou masquer la barre latérale" @4,4 40x40
-        svg.dk-icon @16,16 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Déploiement" @52,16 56x20
-      div.dk-toolbar-spacer @112,24 0x0
-      button.dk-fresh "Mis à jour il y a 2 min" @116,4 136x40
-      button.dk-iconbtn "Recharger" @256,4 40x40
-        svg.dk-icon @268,16 16x16
-      button.dk-iconbtn {expanded=false} "Langue" @300,4 40x40
-        svg.dk-icon @312,16 16x16
-      button.dk-iconbtn "Apparence : système (changer)" @344,4 40x40
-        svg.dk-icon @356,16 16x16
-    main.dk-content @0,48 392x548
-      section.dk-section @12,60 368x344
-        header.dk-section-head @12,60 368x24
-          h2.dk-section-title "Nouveau déploiement" @16,64 364x16
-        section.dk-card @12,92 368x312
-          div.dk-card-body @12,92 364x312
-            form.dk-form @24,104 340x288
-              div.dk-field @24,104 340x64
-                label.dk-field-label @24,104 340x16
-                  span.dk-field-req "*" @84,104 8x16
-                div.dk-inputbox.dk-combobox @24,128 340x44
-                  button.dk-combo-btn {expanded=false} @36,128 324x44
-                    span.dk-combo-face.dk-ellipsis.is-placeholder "Choisir un hôte" @36,136 300x24
-                    svg.dk-icon @340,140 16x16
-              div.dk-field @24,188 340x88
-                label.dk-field-label @24,188 340x16
-                  span.dk-field-req "*" @72,188 8x16
-                div.dk-inputbox @24,208 340x44
-                  input.dk-input-el.dk-mono @36,208 324x44
-                div.dk-field-help "Par exemple 2.4.1" @24,256 340x16
-              div.dk-field @24,292 340x44
-                label.dk-tick.dk-check @24,292 340x44
-                  input.dk-tick-input @24,292 0x0
-                  span.dk-check-box @24,304 24x24
-                    svg.dk-icon @32,308 12x12
-                    svg.dk-icon @32,308 12x12
-                  span.dk-tick-text @56,296 236x36
-                    span.dk-tick-label "Simulation" @56,296 236x20
-                    span.dk-tick-help "Simuler le déploiement sans rien modifier." @56,316 236x16
-              div.dk-form-actions @24,352 340x40
-                button.dk-btn.dk-btn-primary @212,352 152x40
-      section.dk-section @12,420 368x160
-        header.dk-section-head @12,420 368x24
-          h2.dk-section-title "Dernière exécution" @16,424 364x16
-        section.dk-card @12,452 368x128
-          div.dk-card-body @12,456 364x128
-            div.dk-empty.dk-empty-compact @24,468 340x104
-              span.dk-empty-icon @188,488 16x16
-                svg.dk-icon @188,488 16x16
-              div.dk-empty-title "Aucun déploiement lancé pour l’instant" @72,508 244x20
-              div.dk-empty-text "Remplissez le formulaire pour en lancer un." @72,532 244x16
+div.tn-app @0,0 392x844
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-276,0 264x48
+      button.tn-brand.tn-brand-btn {expanded=false} "Tableau démo : changer de tableau" @-276,4 248x40
+        span.tn-bicon @-268,12 24x24
+          img.tn-bicon-img @-268,12 24x24
+        span.tn-ellipsis "Tableau démo" @-236,16 88x20
+        svg.tn-icon @-140,16 16x16
+    nav.tn-nav "Vues" @-276,48 264x204
+      a.tn-nav-item @-276,48 264x40
+        svg.tn-icon @-268,60 16x16
+        span.tn-ellipsis "Aperçu" @-244,60 44x20
+      a.tn-nav-item @-276,88 264x40
+        svg.tn-icon @-268,100 16x16
+        span.tn-ellipsis "Tâches" @-244,100 44x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,100 24x20
+      a.tn-nav-item @-276,132 264x40
+        svg.tn-icon @-268,144 16x16
+        span.tn-ellipsis "Hôtes" @-244,140 36x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,140 24x20
+      a.tn-nav-item @-276,172 264x40
+        svg.tn-icon @-268,184 16x16
+        span.tn-ellipsis "Historique" @-244,180 64x20
+      a.tn-nav-item.is-active {current=page} @-276,212 264x40
+        svg.tn-icon @-268,224 16x16
+        span.tn-ellipsis "Déploiement" @-244,224 80x20
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x844
+    header.tn-toolbar @0,0 392x48
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Afficher ou masquer la barre latérale" @4,4 40x40
+        svg.tn-icon @16,16 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Déploiement" @52,16 56x20
+      div.tn-toolbar-spacer @112,24 0x0
+      button.tn-fresh "Mis à jour il y a 2 min" @116,4 136x40
+      button.tn-iconbtn "Recharger" @256,4 40x40
+        svg.tn-icon @268,16 16x16
+      button.tn-iconbtn {expanded=false} "Langue" @300,4 40x40
+        svg.tn-icon @312,16 16x16
+      button.tn-iconbtn "Apparence : système (changer)" @344,4 40x40
+        svg.tn-icon @356,16 16x16
+    main.tn-content @0,48 392x548
+      section.tn-section @12,60 368x344
+        header.tn-section-head @12,60 368x24
+          h2.tn-section-title "Nouveau déploiement" @16,64 364x16
+        section.tn-card @12,92 368x312
+          div.tn-card-body @12,92 364x312
+            form.tn-form @24,104 340x288
+              div.tn-field @24,104 340x64
+                label.tn-field-label @24,104 340x16
+                  span.tn-field-req "*" @84,104 8x16
+                div.tn-inputbox.tn-combobox @24,128 340x44
+                  button.tn-combo-btn {expanded=false} @36,128 324x44
+                    span.tn-combo-face.tn-ellipsis.is-placeholder "Choisir un hôte" @36,136 300x24
+                    svg.tn-icon @340,140 16x16
+              div.tn-field @24,188 340x88
+                label.tn-field-label @24,188 340x16
+                  span.tn-field-req "*" @72,188 8x16
+                div.tn-inputbox @24,208 340x44
+                  input.tn-input-el.tn-mono @36,208 324x44
+                div.tn-field-help "Par exemple 2.4.1" @24,256 340x16
+              div.tn-field @24,292 340x44
+                label.tn-tick.tn-check @24,292 340x44
+                  input.tn-tick-input @24,292 0x0
+                  span.tn-check-box @24,304 24x24
+                    svg.tn-icon @32,308 12x12
+                    svg.tn-icon @32,308 12x12
+                  span.tn-tick-text @56,296 236x36
+                    span.tn-tick-label "Simulation" @56,296 236x20
+                    span.tn-tick-help "Simuler le déploiement sans rien modifier." @56,316 236x16
+              div.tn-form-actions @24,352 340x40
+                button.tn-btn.tn-btn-primary @212,352 152x40
+      section.tn-section @12,420 368x160
+        header.tn-section-head @12,420 368x24
+          h2.tn-section-title "Dernière exécution" @16,424 364x16
+        section.tn-card @12,452 368x128
+          div.tn-card-body @12,456 364x128
+            div.tn-empty.tn-empty-compact @24,468 340x104
+              span.tn-empty-icon @188,488 16x16
+                svg.tn-icon @188,488 16x16
+              div.tn-empty-title "Aucun déploiement lancé pour l’instant" @72,508 244x20
+              div.tn-empty-text "Remplissez le formulaire pour en lancer un." @72,532 244x16

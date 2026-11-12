@@ -1,5 +1,5 @@
-// dashkit · gallery: forms and actions (form.js, actionrun.js): form(), confirm(), actionRun() in all states.
-import { h, card, section, button, form, confirm, actionRun, openSheet, toast } from '../js/dashkit.js';
+// tarn · gallery: forms and actions (form.js, actionrun.js): form(), confirm(), actionRun() in all states.
+import { h, card, section, button, form, confirm, actionRun, openSheet, toast } from '../js/tarn.js';
 import { HOSTS } from './gallery-inputs.js';
 
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());

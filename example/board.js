@@ -1,12 +1,12 @@
-// dashkit · sample board. Template for new boards: copy it, replace the fixture with a real API, adapt the views.
-// Use only building blocks from /dashkit/js/dashkit.js (see AGENTS.md). All texts go through t() (messages.js).
+// tarn · sample board. Template for new boards: copy it, replace the fixture with a real API, adapt the views.
+// Use only building blocks from /tarn/js/tarn.js (see AGENTS.md). All texts go through t() (messages.js).
 import {
   h, createApp, dataSource, card, section, statTile, tiles, metricRow, list, table, filterBar, matchFilters, matchQuery,
   kv, facts, banner, cols, stack, statusDot, button, iconButton, toolbarRow, empty, error, loading, menu, toast, tabs, log,
   form, confirm, actionRun,
   segmented, usageBar, markdown, lineChart, barChart, sparkline, heatRow, timeline, donut,
   fmtAgo, fmtWhen, fmtBytes, fmtDuration, fmtNum, fmtPct, STATUS_TEXT, STATUS_RANK, t, getLocale, getTimeZone,
-} from '../js/dashkit.js';
+} from '../js/tarn.js';
 import messages from './messages.js';
 
 /* ---- Data ---- */
@@ -160,7 +160,7 @@ function jobDetail(id, ctx) {
         [t('board.d.duration'), j.durSec != null && `~${fmtDuration(j.durSec)}`], [t('board.d.size'), j.bytes != null && fmtBytes(j.bytes)],
       ])),
       nRuns > 0 && facts(t('board.d.lastRuns', { n: nRuns }), heatRow({ items: j.runs.map((s, i) => ({ status: s, label: t('board.d.runN', { n: i + 1 }) })), max: 30, size: 'lg' }),
-        kv([[t('board.d.successRate'), fmtPct((nRuns - nBad) / nRuns)], [t('board.d.failures'), String(nBad), nBad ? 'dk-t-bad' : null]])),
+        kv([[t('board.d.successRate'), fmtPct((nRuns - nBad) / nRuns)], [t('board.d.failures'), String(nBad), nBad ? 'tn-t-bad' : null]])),
       j.report && facts(t('board.d.report'), markdown(j.report, { compact: true })),
       facts(t('board.d.events'), log(evs, { wrap: true, empty: t('board.d.noEvents') })),
       facts(t('board.d.technical'), kv([[t('board.d.id'), j.id], [t('board.col.host'), j.host]], { mono: true })),
@@ -322,4 +322,4 @@ const app = createApp({
   ],
 });
 src.start();
-window.dkApp = app;
+window.tnApp = app;

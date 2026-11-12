@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · Overlay layer for menu, toast, tooltip and data card.
+// tarn · Overlay layer for menu, toast, tooltip and data card.
 //
 // Problem: A modal sheet (dialog.showModal) sits in the top layer and makes everything outside inert. A menu attached to
 // <body> would lie underneath and be unusable; inside the transformed sheet, position: fixed would also

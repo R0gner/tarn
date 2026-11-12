@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · small charts: sparkline, donut/ring, heatmap row (runs ok/fail as small boxes).
+// tarn · small charts: sparkline, donut/ring, heatmap row (runs ok/fail as small boxes).
 import { h, s } from '../dom.js';
 import { fmtNum, fmtPct, fmtWhen } from '../format.js';
 import { STATUS_TEXT } from '../components.js';
@@ -24,7 +24,7 @@ import { t } from '../i18n.js';
 export function sparkline({ values = [], color = 'blue', height = 24, width, area = true, last = true, label, min, max } = {}) {
   const draw = (W) => {
     const vs = values.map((v) => (v == null ? null : +v));
-    if (vs.filter((v) => v != null).length < 2) return svg(W, height, s('line', { class: 'dk-grid', x1: 0, x2: W, y1: height / 2, y2: height / 2 }));
+    if (vs.filter((v) => v != null).length < 2) return svg(W, height, s('line', { class: 'tn-grid', x1: 0, x2: W, y1: height / 2, y2: height / 2 }));
     let [lo, hi] = extent(vs);
     if (min != null) lo = min; if (max != null) hi = max;
     const xs = linear([0, vs.length - 1], [1.5, W - 2.5]), ys = linear([lo, hi], [height - 2, 2]);
@@ -32,12 +32,12 @@ export function sparkline({ values = [], color = 'blue', height = 24, width, are
     const cc = colorClass(color);
     const li = vs.length - 1;
     return svg(W, height,
-      area && s('path', { class: `dk-area ${cc}`, d: areaPath(pts, height) }),
-      s('path', { class: `dk-line ${cc}`, d: linePath(pts) }),
-      last && vs[li] != null && s('circle', { class: `dk-dot-pt ${cc}`, cx: pts[li][0], cy: pts[li][1], r: 2 }));
+      area && s('path', { class: `tn-area ${cc}`, d: areaPath(pts, height) }),
+      s('path', { class: `tn-line ${cc}`, d: linePath(pts) }),
+      last && vs[li] != null && s('circle', { class: `tn-dot-pt ${cc}`, cx: pts[li][0], cy: pts[li][1], r: 2 }));
   };
-  if (width) { const el = h('span', { class: 'dk-spark', role: 'img', 'aria-label': label || null }, draw(width)); return el; }
-  const f = chartFrame({ className: 'dk-spark', label, height, draw });
+  if (width) { const el = h('span', { class: 'tn-spark', role: 'img', 'aria-label': label || null }, draw(width)); return el; }
+  const f = chartFrame({ className: 'tn-spark', label, height, draw });
   return f.el;
 }
 
@@ -52,26 +52,26 @@ export function donut(o = {}) {
   let segs = o.segments;
   if (!segs) segs = [{ label: o.label || '', value: o.value ?? 0, color: o.color || 'blue' }];
   const total = o.max ?? segs.reduce((a, x) => a + Math.max(0, x.value || 0), 0);
-  const r = size / 2, kids = [s('circle', { class: 'dk-ring-track', cx: r, cy: r, r: r - th / 2, 'stroke-width': th })];
+  const r = size / 2, kids = [s('circle', { class: 'tn-ring-track', cx: r, cy: r, r: r - th / 2, 'stroke-width': th })];
   let a = 0;
   segs.forEach((x, i) => {
     const v = Math.max(0, x.value || 0);
     if (!total || !v) return;
     const a1 = a + (v / total) * Math.PI * 2;
     const gap = segs.length > 1 ? 0.025 : 0;
-    kids.push(s('path', { class: `dk-ring-seg ${colorClass(x.status || x.color, i)}`, d: arcPath(r, r, r, r - th, a + gap / 2, Math.max(a + gap / 2 + 0.001, a1 - gap / 2)) }));
+    kids.push(s('path', { class: `tn-ring-seg ${colorClass(x.status || x.color, i)}`, d: arcPath(r, r, r, r - th, a + gap / 2, Math.max(a + gap / 2 + 0.001, a1 - gap / 2)) }));
     a = a1;
   });
   const center = o.center ?? (o.segments ? fmtNum(total, 0) : fmtPct(total ? (o.value ?? 0) / total : 0, 0));
-  const ring = h('div', { class: 'dk-donut-ring', style: { width: `${size}px`, height: `${size}px` } },
-    s('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, class: 'dk-svg', 'aria-hidden': 'true' }, ...kids),
-    h('div', { class: 'dk-donut-center' }, h('span', { class: cls2(size) }, center), o.sub && h('span', { class: 'dk-donut-sub' }, o.sub)));
-  const lg = o.segments && o.legend !== false ? h('div', { class: 'dk-donut-legend' }, segs.map((x, i) => h('div', { class: 'dk-tip-row' },
-    h('span', { class: `dk-tip-sw ${colorClass(x.status || x.color, i)}` }), h('span', { class: 'dk-tip-name' }, x.label), h('span', { class: 'dk-tip-val dk-num' }, fmtNum(x.value))))) : null;
+  const ring = h('div', { class: 'tn-donut-ring', style: { width: `${size}px`, height: `${size}px` } },
+    s('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, class: 'tn-svg', 'aria-hidden': 'true' }, ...kids),
+    h('div', { class: 'tn-donut-center' }, h('span', { class: cls2(size) }, center), o.sub && h('span', { class: 'tn-donut-sub' }, o.sub)));
+  const lg = o.segments && o.legend !== false ? h('div', { class: 'tn-donut-legend' }, segs.map((x, i) => h('div', { class: 'tn-tip-row' },
+    h('span', { class: `tn-tip-sw ${colorClass(x.status || x.color, i)}` }), h('span', { class: 'tn-tip-name' }, x.label), h('span', { class: 'tn-tip-val tn-num' }, fmtNum(x.value))))) : null;
   const aria = o.ariaLabel || segs.map((x) => `${x.label} ${fmtNum(x.value)}`).join(', ');
-  return h('div', { class: 'dk-donut', role: 'img', 'aria-label': aria }, ring, lg);
+  return h('div', { class: 'tn-donut', role: 'img', 'aria-label': aria }, ring, lg);
 }
-const cls2 = (size) => `dk-donut-val${size < 60 ? ' is-small' : ''}`;
+const cls2 = (size) => `tn-donut-val${size < 60 ? ' is-small' : ''}`;
 
 /**
  * heatRow({ items: [{ status, t?, label?, id? }], max = 30, onItem?(item), label? })
@@ -83,16 +83,16 @@ export function heatRow({ items = [], max = 30, onItem, label, size } = {}) {
   const shown = items.slice(-max);
   const pad = Math.max(0, max - shown.length);
   const cells = [
-    ...Array.from({ length: pad }, () => h('span', { class: 'dk-heat-cell dk-heat-none' })),
+    ...Array.from({ length: pad }, () => h('span', { class: 'tn-heat-cell tn-heat-none' })),
     ...shown.map((it) => {
       const text = [it.t != null && fmtWhen(it.t), it.label, STATUS_TEXT[it.status] || it.status].filter(Boolean).join(' · ');
       const el = onItem
-        ? h('button', { class: `dk-heat-cell dk-s-${it.status}`, type: 'button', 'aria-label': text })
-        : h('span', { class: `dk-heat-cell dk-s-${it.status}` });
+        ? h('button', { class: `tn-heat-cell tn-s-${it.status}`, type: 'button', 'aria-label': text })
+        : h('span', { class: `tn-heat-cell tn-s-${it.status}` });
       // Data card: time, status, run; with onItem the click (on touch the second tap) triggers the action
-      return dataCard(el, () => [it.t != null && h('div', { class: 'dk-tip-head' }, fmtWhen(it.t)), tipRow(it.status, STATUS_TEXT[it.status] || it.status, it.label || '')], { onItem: onItem ? () => onItem(it) : undefined });
+      return dataCard(el, () => [it.t != null && h('div', { class: 'tn-tip-head' }, fmtWhen(it.t)), tipRow(it.status, STATUS_TEXT[it.status] || it.status, it.label || '')], { onItem: onItem ? () => onItem(it) : undefined });
     }),
   ];
   const nBad = shown.filter((x) => x.status === 'bad').length;
-  return h('div', { class: `dk-heat${size === 'lg' ? ' is-lg' : ''}`, role: onItem ? 'group' : 'img', 'aria-label': label || t('chart.runs', { count: shown.length, bad: nBad }), 'data-dk-cards': '' }, cells);
+  return h('div', { class: `tn-heat${size === 'lg' ? ' is-lg' : ''}`, role: onItem ? 'group' : 'img', 'aria-label': label || t('chart.runs', { count: shown.length, bad: nBad }), 'data-tn-cards': '' }, cells);
 }

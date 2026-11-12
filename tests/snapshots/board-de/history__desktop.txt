@@ -1,299 +1,299 @@
 # board-de #/history · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x1192
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      button.dk-brand.dk-brand-btn {expanded=false} "Muster-Board: Board wechseln" @8,8 176x28
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "Muster-Board" @48,12 88x20
-        svg.dk-icon @144,16 16x16
-    nav.dk-nav "Ansichten" @8,44 192x144
-      a.dk-nav-item @8,44 192x28
-        svg.dk-icon @16,52 16x16
-        span.dk-ellipsis "Übersicht" @40,48 60x20
-      a.dk-nav-item @8,72 192x28
-        svg.dk-icon @16,80 16x16
-        span.dk-ellipsis "Jobs" @40,76 32x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,80 24x20
-      a.dk-nav-item @8,104 192x28
-        svg.dk-icon @16,108 16x16
-        span.dk-ellipsis "Hosts" @40,108 36x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,108 24x20
-      a.dk-nav-item.is-active {current=page} @8,132 192x28
-        svg.dk-icon @16,136 16x16
-        span.dk-ellipsis "Verlauf" @40,136 44x20
-      a.dk-nav-item @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Deploy" @40,164 44x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x1192
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Seitenleiste umschalten" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Verlauf" @252,12 44x20
-      div.dk-toolbar-spacer @300,20 904x0
-      button.dk-fresh "Stand vor 2 Min." @1208,8 108x28
-      button.dk-iconbtn "Neu laden" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Sprache" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Darstellung: System (umschalten)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x1148
-      section.dk-card @224,60 1184x276
-        header.dk-card-head @224,60 1184x44
-          div.dk-card-heading @236,72 1028x20
-            h3.dk-card-title "CPU-Auslastung" @236,72 1028x20
-          div.dk-card-actions @1272,68 124x28
-            div.dk-seg.dk-seg-sm [radiogroup] "Zeitraum" @1272,68 124x28
-              button.dk-seg-btn [radio] {checked=true} @1276,72 56x24
-              button.dk-seg-btn [radio] {checked=false} @1336,72 56x24
-        div.dk-card-body @224,108 1184x228
-          div.dk-chart.dk-chart-line [img] @236,120 1160x204
-            div.dk-chart-plot @236,120 1160x180
-              svg.dk-svg @236,120 1160x180
-            div.dk-legend @236,308 1160x16
-              span.dk-legend-item "nas-a" @236,308 48x16
-                span.dk-tip-sw.dk-c-blue @236,312 8x8
-              span.dk-legend-item "media-1" @296,308 60x16
-                span.dk-tip-sw.dk-c-orange @296,312 8x8
-              span.dk-legend-item "app-2" @368,308 48x16
-                span.dk-tip-sw.dk-c-purple @368,312 8x8
-      div.dk-cols @224,356 1184x272
-        section.dk-card @224,356 584x272
-          header.dk-card-head @224,356 584x52
-            div.dk-card-heading @236,364 560x36
-              h3.dk-card-title "Läufe je Tag" @236,364 560x20
-              div.dk-card-sub "7 Tage" @236,384 560x16
-          div.dk-card-body @224,408 584x220
-            div.dk-chart.dk-chart-bar [img] @236,420 560x196
-              div.dk-chart-plot @236,420 560x172
-                svg.dk-svg @236,420 560x172
-              div.dk-legend @236,600 560x16
-                span.dk-legend-item "erfolgreich" @236,600 76x16
-                  span.dk-tip-sw.dk-c-ok @236,604 8x8
-                span.dk-legend-item "Warnung" @324,600 64x16
-                  span.dk-tip-sw.dk-c-warn @324,604 8x8
-                span.dk-legend-item "Fehler" @400,600 48x16
-                  span.dk-tip-sw.dk-c-bad @400,604 8x8
-        section.dk-card @824,356 584x200
-          header.dk-card-head @824,356 584x40
-            div.dk-card-heading @836,368 560x20
-              h3.dk-card-title "Speicher je Host" @836,368 560x20
-          div.dk-card-body @824,396 584x160
-            div.dk-chart.dk-chart-bar.is-h [img] @836,408 560x136
-              div.dk-chart-plot @836,408 560x136
-                svg.dk-svg @836,408 560x136
-      section.dk-section @224,648 1184x512
-        header.dk-section-head @224,648 1184x24
-          h2.dk-section-title "Zeitplan heute" @228,652 1180x16
-        div.dk-tl @224,680 1184x480
-          div.dk-tl-scroll @224,680 1184x476
-            div.dk-tl-grid @224,680 1184x476
-              div.dk-tl-row.dk-tl-head @224,680 1184x28
-                div.dk-tl-name @224,680 180x28
-                div.dk-tl-track.dk-tl-axis @404,680 1004x28
-                  span.dk-tl-tick "00:00" @404,688 36x16
-                  span.dk-tl-tick "02:00" @472,688 32x16
-                  span.dk-tl-tick "04:00" @556,688 32x16
-                  span.dk-tl-tick "06:00" @640,688 32x16
-                  span.dk-tl-tick "08:00" @724,688 32x16
-                  span.dk-tl-tick "10:00" @808,688 32x16
-                  span.dk-tl-tick "12:00" @892,688 32x16
-                  span.dk-tl-tick "14:00" @976,688 32x16
-                  span.dk-tl-tick "16:00" @1056,688 32x16
-                  span.dk-tl-tick "18:00" @1140,688 32x16
-                  span.dk-tl-tick "20:00" @1224,688 32x16
-                  span.dk-tl-tick "22:00" @1308,688 32x16
-                  span.dk-tl-tick.is-end "00:00" @1372,688 36x16
-              div.dk-tl-bg @404,708 1004x452
-                span.dk-tl-win.dk-tl-win-info @488,708 168x452
-                span.dk-tl-vline @404,708 0x452
-                span.dk-tl-vline @488,708 0x452
-                span.dk-tl-vline @572,708 0x452
-                span.dk-tl-vline @656,708 0x452
-                span.dk-tl-vline @740,708 0x452
-                span.dk-tl-vline @820,708 0x452
-                span.dk-tl-vline @904,708 0x452
-                span.dk-tl-vline @988,708 0x452
-                span.dk-tl-vline @1072,708 0x452
-                span.dk-tl-vline @1156,708 0x452
-                span.dk-tl-vline @1240,708 0x452
-                span.dk-tl-vline @1324,708 0x452
-                span.dk-tl-now @820,708 4x452
-              div.dk-tl-row.dk-tl-group @224,708 1184x28
-                div.dk-tl-name "Backup" @224,708 180x24
-                  span.dk-tl-count "4" @284,712 8x16
-                div.dk-tl-track @404,708 1004x24
-              div.dk-tl-row.is-hot @224,732 1184x40
-                button.dk-tl-name @224,736 180x36
-                  span.dk-tl-title.dk-ellipsis "Photo backup" @236,736 156x20
-                  span.dk-tl-sub.dk-ellipsis "täglich 02:30 · ~21 min" @236,756 156x16
-                div.dk-tl-track @404,736 1004x36
-                  button.dk-tl-bar.is-heavy.is-hot "Photo backup: 02:30–02:51 (21 min) · Überlappung" @508,748 16x12
-              div.dk-tl-row.is-hot @224,772 1184x40
-                button.dk-tl-name @224,772 180x36
-                  span.dk-tl-title.dk-ellipsis "Document backup" @236,776 156x20
-                  span.dk-tl-sub.dk-ellipsis "täglich 03:00 · ~9 min" @236,792 156x16
-                div.dk-tl-track @404,772 1004x36
-                  button.dk-tl-bar.is-heavy.is-hot "Document backup: 03:00–03:09 (9 min) · Überlappung" @532,784 8x12
-              div.dk-tl-row.is-hot @224,812 1184x40
-                button.dk-tl-name @224,812 180x36
-                  span.dk-tl-title.dk-ellipsis "Offsite archive sync" @236,812 156x20
-                  span.dk-tl-sub.dk-ellipsis "täglich 04:15 · ~45 min" @236,832 156x16
-                div.dk-tl-track @404,812 1004x36
-                  button.dk-tl-bar.is-heavy.is-hot "Offsite archive sync: 04:15–05:00 (45 min) · Überlappung" @584,824 32x12
-              div.dk-tl-row @224,848 1184x40
-                button.dk-tl-name @224,852 180x36
-                  span.dk-tl-title.dk-ellipsis "Wiki database dump" @236,852 156x20
-                  span.dk-tl-sub.dk-ellipsis "täglich 01:00 · ~1 min 35 s" @236,872 156x16
-                div.dk-tl-track @404,852 1004x36
-                  button.dk-tl-bar "Wiki database dump: 01:00–01:01 (1 min 35 s)" @448,864 4x12
-              div.dk-tl-row.dk-tl-group @224,888 1184x28
-                div.dk-tl-name "Index" @224,888 180x24
-                  span.dk-tl-count "2" @272,892 8x16
-                div.dk-tl-track @404,888 1004x24
-              div.dk-tl-row.is-hot @224,912 1184x40
-                button.dk-tl-name @224,916 180x36
-                  span.dk-tl-title.dk-ellipsis "Media library scan" @236,916 156x20
-                  span.dk-tl-sub.dk-ellipsis "alle 2 Std. · ~25 min" @236,936 156x16
-                div.dk-tl-track @404,916 1004x36
-                  button.dk-tl-bar.is-heavy "Media library scan: 00:40–01:05 (25 min)" @432,928 16x12
-                  button.dk-tl-bar.is-heavy.is-hot "Media library scan: 02:40–03:05 (25 min) · Überlappung" @516,928 16x12
-                  button.dk-tl-bar.is-heavy.is-hot "Media library scan: 04:40–05:05 (25 min) · Überlappung" @600,928 16x12
-                  button.dk-tl-bar.is-heavy.is-hot "Media library scan: 06:40–07:05 (25 min) · Überlappung" @684,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 08:40–09:05 (25 min)" @768,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 10:40–11:05 (25 min)" @852,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 12:40–13:05 (25 min)" @936,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 14:40–15:05 (25 min)" @1016,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 16:40–17:05 (25 min)" @1100,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 18:40–19:05 (25 min)" @1184,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 20:40–21:05 (25 min)" @1268,928 16x12
-                  button.dk-tl-bar.is-heavy "Media library scan: 22:40–23:05 (25 min)" @1352,928 16x12
-              div.dk-tl-row @224,952 1184x40
-                button.dk-tl-name @224,952 180x36
-                  span.dk-tl-title.dk-ellipsis "Thumbnail generation" @236,956 156x20
-                  span.dk-tl-sub.dk-ellipsis "alle 5 min" @236,972 156x16
-                div.dk-tl-track @404,952 1004x36
-                  span.dk-tl-band @404,968 1004x8
-              div.dk-tl-row.dk-tl-group @224,992 1184x28
-                div.dk-tl-name "Prüfung" @224,992 180x24
-                  span.dk-tl-count "2" @288,996 8x16
-                div.dk-tl-track @404,992 1004x24
-              div.dk-tl-row.is-hot @224,1016 1184x40
-                button.dk-tl-name @224,1020 180x36
-                  span.dk-tl-title.dk-ellipsis "Disk SMART check" @236,1020 156x20
-                  span.dk-tl-sub.dk-ellipsis "Mo 06:00 · ~1 Std." @236,1040 156x16
-                div.dk-tl-track @404,1020 1004x36
-                  button.dk-tl-bar.is-heavy.is-hot "Disk SMART check: 06:00–07:00 (1 Std.) · Überlappung" @656,1032 40x12
-              div.dk-tl-row @224,1056 1184x40
-                button.dk-tl-name @224,1056 180x36
-                  span.dk-tl-title.dk-ellipsis "DNS reachability" @236,1060 156x20
-                  span.dk-tl-sub.dk-ellipsis "alle 15 min · ~5 s" @236,1076 156x16
-                div.dk-tl-track @404,1056 1004x36
-                  button.dk-tl-bar "DNS reachability: 00:00–00:00 (5 s)" @404,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 00:15–00:15 (5 s)" @416,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 00:30–00:30 (5 s)" @424,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 00:45–00:45 (5 s)" @436,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 01:00–01:00 (5 s)" @448,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 01:15–01:15 (5 s)" @456,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 01:30–01:30 (5 s)" @468,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 01:45–01:45 (5 s)" @480,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 02:00–02:00 (5 s)" @488,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 02:15–02:15 (5 s)" @500,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 02:30–02:30 (5 s)" @508,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 02:45–02:45 (5 s)" @520,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 03:00–03:00 (5 s)" @532,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 03:15–03:15 (5 s)" @540,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 03:30–03:30 (5 s)" @552,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 03:45–03:45 (5 s)" @560,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 04:00–04:00 (5 s)" @572,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 04:15–04:15 (5 s)" @584,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 04:30–04:30 (5 s)" @592,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 04:45–04:45 (5 s)" @604,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 05:00–05:00 (5 s)" @612,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 05:15–05:15 (5 s)" @624,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 05:30–05:30 (5 s)" @636,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 05:45–05:45 (5 s)" @644,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 06:00–06:00 (5 s)" @656,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 06:15–06:15 (5 s)" @668,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 06:30–06:30 (5 s)" @676,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 06:45–06:45 (5 s)" @688,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 07:00–07:00 (5 s)" @696,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 07:15–07:15 (5 s)" @708,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 07:30–07:30 (5 s)" @720,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 07:45–07:45 (5 s)" @728,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 08:00–08:00 (5 s)" @740,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 08:15–08:15 (5 s)" @748,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 08:30–08:30 (5 s)" @760,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 08:45–08:45 (5 s)" @772,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 09:00–09:00 (5 s)" @780,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 09:15–09:15 (5 s)" @792,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 09:30–09:30 (5 s)" @804,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 09:45–09:45 (5 s)" @812,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 10:00–10:00 (5 s)" @824,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 10:15–10:15 (5 s)" @832,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 10:30–10:30 (5 s)" @844,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 10:45–10:45 (5 s)" @856,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 11:00–11:00 (5 s)" @864,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 11:15–11:15 (5 s)" @876,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 11:30–11:30 (5 s)" @884,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 11:45–11:45 (5 s)" @896,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 12:00–12:00 (5 s)" @908,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 12:15–12:15 (5 s)" @916,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 12:30–12:30 (5 s)" @928,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 12:45–12:45 (5 s)" @936,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 13:00–13:00 (5 s)" @948,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 13:15–13:15 (5 s)" @960,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 13:30–13:30 (5 s)" @968,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 13:45–13:45 (5 s)" @980,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 14:00–14:00 (5 s)" @992,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 14:15–14:15 (5 s)" @1000,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 14:30–14:30 (5 s)" @1012,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 14:45–14:45 (5 s)" @1020,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 15:00–15:00 (5 s)" @1032,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 15:15–15:15 (5 s)" @1044,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 15:30–15:30 (5 s)" @1052,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 15:45–15:45 (5 s)" @1064,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 16:00–16:00 (5 s)" @1072,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 16:15–16:15 (5 s)" @1084,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 16:30–16:30 (5 s)" @1096,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 16:45–16:45 (5 s)" @1104,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 17:00–17:00 (5 s)" @1116,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 17:15–17:15 (5 s)" @1124,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 17:30–17:30 (5 s)" @1136,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 17:45–17:45 (5 s)" @1148,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 18:00–18:00 (5 s)" @1156,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 18:15–18:15 (5 s)" @1168,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 18:30–18:30 (5 s)" @1180,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 18:45–18:45 (5 s)" @1188,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 19:00–19:00 (5 s)" @1200,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 19:15–19:15 (5 s)" @1208,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 19:30–19:30 (5 s)" @1220,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 19:45–19:45 (5 s)" @1232,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 20:00–20:00 (5 s)" @1240,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 20:15–20:15 (5 s)" @1252,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 20:30–20:30 (5 s)" @1260,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 20:45–20:45 (5 s)" @1272,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 21:00–21:00 (5 s)" @1284,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 21:15–21:15 (5 s)" @1292,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 21:30–21:30 (5 s)" @1304,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 21:45–21:45 (5 s)" @1312,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 22:00–22:00 (5 s)" @1324,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 22:15–22:15 (5 s)" @1336,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 22:30–22:30 (5 s)" @1344,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 22:45–22:45 (5 s)" @1356,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 23:00–23:00 (5 s)" @1368,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 23:15–23:15 (5 s)" @1376,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 23:30–23:30 (5 s)" @1388,1068 4x12
-                  button.dk-tl-bar "DNS reachability: 23:45–23:45 (5 s)" @1396,1068 4x12
-              div.dk-tl-row.dk-tl-group @224,1096 1184x28
-                div.dk-tl-name "Wartung" @224,1096 180x24
-                  span.dk-tl-count "1" @292,1100 4x16
-                div.dk-tl-track @404,1096 1004x24
-              div.dk-tl-row @224,1120 1184x40
-                button.dk-tl-name @224,1120 180x36
-                  span.dk-tl-title.dk-ellipsis "Log cleanup" @236,1124 156x20
-                  span.dk-tl-sub.dk-ellipsis "täglich 00:10 · ~40 s" @236,1140 156x16
-                div.dk-tl-track @404,1120 1004x36
-                  button.dk-tl-bar "Log cleanup: 00:10–00:10 (40 s)" @412,1132 4x12
+div.tn-app @0,0 1424x1192
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      button.tn-brand.tn-brand-btn {expanded=false} "Muster-Board: Board wechseln" @8,8 176x28
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Muster-Board" @48,12 88x20
+        svg.tn-icon @144,16 16x16
+    nav.tn-nav "Ansichten" @8,44 192x144
+      a.tn-nav-item @8,44 192x28
+        svg.tn-icon @16,52 16x16
+        span.tn-ellipsis "Übersicht" @40,48 60x20
+      a.tn-nav-item @8,72 192x28
+        svg.tn-icon @16,80 16x16
+        span.tn-ellipsis "Jobs" @40,76 32x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,80 24x20
+      a.tn-nav-item @8,104 192x28
+        svg.tn-icon @16,108 16x16
+        span.tn-ellipsis "Hosts" @40,108 36x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,108 24x20
+      a.tn-nav-item.is-active {current=page} @8,132 192x28
+        svg.tn-icon @16,136 16x16
+        span.tn-ellipsis "Verlauf" @40,136 44x20
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Deploy" @40,164 44x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x1192
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Seitenleiste umschalten" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Verlauf" @252,12 44x20
+      div.tn-toolbar-spacer @300,20 904x0
+      button.tn-fresh "Stand vor 2 Min." @1208,8 108x28
+      button.tn-iconbtn "Neu laden" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Sprache" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Darstellung: System (umschalten)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x1148
+      section.tn-card @224,60 1184x276
+        header.tn-card-head @224,60 1184x44
+          div.tn-card-heading @236,72 1028x20
+            h3.tn-card-title "CPU-Auslastung" @236,72 1028x20
+          div.tn-card-actions @1272,68 124x28
+            div.tn-seg.tn-seg-sm [radiogroup] "Zeitraum" @1272,68 124x28
+              button.tn-seg-btn [radio] {checked=true} @1276,72 56x24
+              button.tn-seg-btn [radio] {checked=false} @1336,72 56x24
+        div.tn-card-body @224,108 1184x228
+          div.tn-chart.tn-chart-line [img] @236,120 1160x204
+            div.tn-chart-plot @236,120 1160x180
+              svg.tn-svg @236,120 1160x180
+            div.tn-legend @236,308 1160x16
+              span.tn-legend-item "nas-a" @236,308 48x16
+                span.tn-tip-sw.tn-c-blue @236,312 8x8
+              span.tn-legend-item "media-1" @296,308 60x16
+                span.tn-tip-sw.tn-c-orange @296,312 8x8
+              span.tn-legend-item "app-2" @368,308 48x16
+                span.tn-tip-sw.tn-c-purple @368,312 8x8
+      div.tn-cols @224,356 1184x272
+        section.tn-card @224,356 584x272
+          header.tn-card-head @224,356 584x52
+            div.tn-card-heading @236,364 560x36
+              h3.tn-card-title "Läufe je Tag" @236,364 560x20
+              div.tn-card-sub "7 Tage" @236,384 560x16
+          div.tn-card-body @224,408 584x220
+            div.tn-chart.tn-chart-bar [img] @236,420 560x196
+              div.tn-chart-plot @236,420 560x172
+                svg.tn-svg @236,420 560x172
+              div.tn-legend @236,600 560x16
+                span.tn-legend-item "erfolgreich" @236,600 76x16
+                  span.tn-tip-sw.tn-c-ok @236,604 8x8
+                span.tn-legend-item "Warnung" @324,600 64x16
+                  span.tn-tip-sw.tn-c-warn @324,604 8x8
+                span.tn-legend-item "Fehler" @400,600 48x16
+                  span.tn-tip-sw.tn-c-bad @400,604 8x8
+        section.tn-card @824,356 584x200
+          header.tn-card-head @824,356 584x40
+            div.tn-card-heading @836,368 560x20
+              h3.tn-card-title "Speicher je Host" @836,368 560x20
+          div.tn-card-body @824,396 584x160
+            div.tn-chart.tn-chart-bar.is-h [img] @836,408 560x136
+              div.tn-chart-plot @836,408 560x136
+                svg.tn-svg @836,408 560x136
+      section.tn-section @224,648 1184x512
+        header.tn-section-head @224,648 1184x24
+          h2.tn-section-title "Zeitplan heute" @228,652 1180x16
+        div.tn-tl @224,680 1184x480
+          div.tn-tl-scroll @224,680 1184x476
+            div.tn-tl-grid @224,680 1184x476
+              div.tn-tl-row.tn-tl-head @224,680 1184x28
+                div.tn-tl-name @224,680 180x28
+                div.tn-tl-track.tn-tl-axis @404,680 1004x28
+                  span.tn-tl-tick "00:00" @404,688 36x16
+                  span.tn-tl-tick "02:00" @472,688 32x16
+                  span.tn-tl-tick "04:00" @556,688 32x16
+                  span.tn-tl-tick "06:00" @640,688 32x16
+                  span.tn-tl-tick "08:00" @724,688 32x16
+                  span.tn-tl-tick "10:00" @808,688 32x16
+                  span.tn-tl-tick "12:00" @892,688 32x16
+                  span.tn-tl-tick "14:00" @976,688 32x16
+                  span.tn-tl-tick "16:00" @1056,688 32x16
+                  span.tn-tl-tick "18:00" @1140,688 32x16
+                  span.tn-tl-tick "20:00" @1224,688 32x16
+                  span.tn-tl-tick "22:00" @1308,688 32x16
+                  span.tn-tl-tick.is-end "00:00" @1372,688 36x16
+              div.tn-tl-bg @404,708 1004x452
+                span.tn-tl-win.tn-tl-win-info @488,708 168x452
+                span.tn-tl-vline @404,708 0x452
+                span.tn-tl-vline @488,708 0x452
+                span.tn-tl-vline @572,708 0x452
+                span.tn-tl-vline @656,708 0x452
+                span.tn-tl-vline @740,708 0x452
+                span.tn-tl-vline @820,708 0x452
+                span.tn-tl-vline @904,708 0x452
+                span.tn-tl-vline @988,708 0x452
+                span.tn-tl-vline @1072,708 0x452
+                span.tn-tl-vline @1156,708 0x452
+                span.tn-tl-vline @1240,708 0x452
+                span.tn-tl-vline @1324,708 0x452
+                span.tn-tl-now @820,708 4x452
+              div.tn-tl-row.tn-tl-group @224,708 1184x28
+                div.tn-tl-name "Backup" @224,708 180x24
+                  span.tn-tl-count "4" @284,712 8x16
+                div.tn-tl-track @404,708 1004x24
+              div.tn-tl-row.is-hot @224,732 1184x40
+                button.tn-tl-name @224,736 180x36
+                  span.tn-tl-title.tn-ellipsis "Photo backup" @236,736 156x20
+                  span.tn-tl-sub.tn-ellipsis "täglich 02:30 · ~21 min" @236,756 156x16
+                div.tn-tl-track @404,736 1004x36
+                  button.tn-tl-bar.is-heavy.is-hot "Photo backup: 02:30–02:51 (21 min) · Überlappung" @508,748 16x12
+              div.tn-tl-row.is-hot @224,772 1184x40
+                button.tn-tl-name @224,772 180x36
+                  span.tn-tl-title.tn-ellipsis "Document backup" @236,776 156x20
+                  span.tn-tl-sub.tn-ellipsis "täglich 03:00 · ~9 min" @236,792 156x16
+                div.tn-tl-track @404,772 1004x36
+                  button.tn-tl-bar.is-heavy.is-hot "Document backup: 03:00–03:09 (9 min) · Überlappung" @532,784 8x12
+              div.tn-tl-row.is-hot @224,812 1184x40
+                button.tn-tl-name @224,812 180x36
+                  span.tn-tl-title.tn-ellipsis "Offsite archive sync" @236,812 156x20
+                  span.tn-tl-sub.tn-ellipsis "täglich 04:15 · ~45 min" @236,832 156x16
+                div.tn-tl-track @404,812 1004x36
+                  button.tn-tl-bar.is-heavy.is-hot "Offsite archive sync: 04:15–05:00 (45 min) · Überlappung" @584,824 32x12
+              div.tn-tl-row @224,848 1184x40
+                button.tn-tl-name @224,852 180x36
+                  span.tn-tl-title.tn-ellipsis "Wiki database dump" @236,852 156x20
+                  span.tn-tl-sub.tn-ellipsis "täglich 01:00 · ~1 min 35 s" @236,872 156x16
+                div.tn-tl-track @404,852 1004x36
+                  button.tn-tl-bar "Wiki database dump: 01:00–01:01 (1 min 35 s)" @448,864 4x12
+              div.tn-tl-row.tn-tl-group @224,888 1184x28
+                div.tn-tl-name "Index" @224,888 180x24
+                  span.tn-tl-count "2" @272,892 8x16
+                div.tn-tl-track @404,888 1004x24
+              div.tn-tl-row.is-hot @224,912 1184x40
+                button.tn-tl-name @224,916 180x36
+                  span.tn-tl-title.tn-ellipsis "Media library scan" @236,916 156x20
+                  span.tn-tl-sub.tn-ellipsis "alle 2 Std. · ~25 min" @236,936 156x16
+                div.tn-tl-track @404,916 1004x36
+                  button.tn-tl-bar.is-heavy "Media library scan: 00:40–01:05 (25 min)" @432,928 16x12
+                  button.tn-tl-bar.is-heavy.is-hot "Media library scan: 02:40–03:05 (25 min) · Überlappung" @516,928 16x12
+                  button.tn-tl-bar.is-heavy.is-hot "Media library scan: 04:40–05:05 (25 min) · Überlappung" @600,928 16x12
+                  button.tn-tl-bar.is-heavy.is-hot "Media library scan: 06:40–07:05 (25 min) · Überlappung" @684,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 08:40–09:05 (25 min)" @768,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 10:40–11:05 (25 min)" @852,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 12:40–13:05 (25 min)" @936,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 14:40–15:05 (25 min)" @1016,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 16:40–17:05 (25 min)" @1100,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 18:40–19:05 (25 min)" @1184,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 20:40–21:05 (25 min)" @1268,928 16x12
+                  button.tn-tl-bar.is-heavy "Media library scan: 22:40–23:05 (25 min)" @1352,928 16x12
+              div.tn-tl-row @224,952 1184x40
+                button.tn-tl-name @224,952 180x36
+                  span.tn-tl-title.tn-ellipsis "Thumbnail generation" @236,956 156x20
+                  span.tn-tl-sub.tn-ellipsis "alle 5 min" @236,972 156x16
+                div.tn-tl-track @404,952 1004x36
+                  span.tn-tl-band @404,968 1004x8
+              div.tn-tl-row.tn-tl-group @224,992 1184x28
+                div.tn-tl-name "Prüfung" @224,992 180x24
+                  span.tn-tl-count "2" @288,996 8x16
+                div.tn-tl-track @404,992 1004x24
+              div.tn-tl-row.is-hot @224,1016 1184x40
+                button.tn-tl-name @224,1020 180x36
+                  span.tn-tl-title.tn-ellipsis "Disk SMART check" @236,1020 156x20
+                  span.tn-tl-sub.tn-ellipsis "Mo 06:00 · ~1 Std." @236,1040 156x16
+                div.tn-tl-track @404,1020 1004x36
+                  button.tn-tl-bar.is-heavy.is-hot "Disk SMART check: 06:00–07:00 (1 Std.) · Überlappung" @656,1032 40x12
+              div.tn-tl-row @224,1056 1184x40
+                button.tn-tl-name @224,1056 180x36
+                  span.tn-tl-title.tn-ellipsis "DNS reachability" @236,1060 156x20
+                  span.tn-tl-sub.tn-ellipsis "alle 15 min · ~5 s" @236,1076 156x16
+                div.tn-tl-track @404,1056 1004x36
+                  button.tn-tl-bar "DNS reachability: 00:00–00:00 (5 s)" @404,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 00:15–00:15 (5 s)" @416,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 00:30–00:30 (5 s)" @424,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 00:45–00:45 (5 s)" @436,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 01:00–01:00 (5 s)" @448,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 01:15–01:15 (5 s)" @456,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 01:30–01:30 (5 s)" @468,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 01:45–01:45 (5 s)" @480,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 02:00–02:00 (5 s)" @488,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 02:15–02:15 (5 s)" @500,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 02:30–02:30 (5 s)" @508,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 02:45–02:45 (5 s)" @520,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 03:00–03:00 (5 s)" @532,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 03:15–03:15 (5 s)" @540,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 03:30–03:30 (5 s)" @552,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 03:45–03:45 (5 s)" @560,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 04:00–04:00 (5 s)" @572,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 04:15–04:15 (5 s)" @584,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 04:30–04:30 (5 s)" @592,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 04:45–04:45 (5 s)" @604,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 05:00–05:00 (5 s)" @612,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 05:15–05:15 (5 s)" @624,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 05:30–05:30 (5 s)" @636,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 05:45–05:45 (5 s)" @644,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 06:00–06:00 (5 s)" @656,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 06:15–06:15 (5 s)" @668,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 06:30–06:30 (5 s)" @676,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 06:45–06:45 (5 s)" @688,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 07:00–07:00 (5 s)" @696,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 07:15–07:15 (5 s)" @708,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 07:30–07:30 (5 s)" @720,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 07:45–07:45 (5 s)" @728,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 08:00–08:00 (5 s)" @740,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 08:15–08:15 (5 s)" @748,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 08:30–08:30 (5 s)" @760,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 08:45–08:45 (5 s)" @772,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 09:00–09:00 (5 s)" @780,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 09:15–09:15 (5 s)" @792,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 09:30–09:30 (5 s)" @804,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 09:45–09:45 (5 s)" @812,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 10:00–10:00 (5 s)" @824,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 10:15–10:15 (5 s)" @832,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 10:30–10:30 (5 s)" @844,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 10:45–10:45 (5 s)" @856,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 11:00–11:00 (5 s)" @864,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 11:15–11:15 (5 s)" @876,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 11:30–11:30 (5 s)" @884,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 11:45–11:45 (5 s)" @896,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 12:00–12:00 (5 s)" @908,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 12:15–12:15 (5 s)" @916,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 12:30–12:30 (5 s)" @928,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 12:45–12:45 (5 s)" @936,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 13:00–13:00 (5 s)" @948,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 13:15–13:15 (5 s)" @960,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 13:30–13:30 (5 s)" @968,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 13:45–13:45 (5 s)" @980,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 14:00–14:00 (5 s)" @992,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 14:15–14:15 (5 s)" @1000,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 14:30–14:30 (5 s)" @1012,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 14:45–14:45 (5 s)" @1020,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 15:00–15:00 (5 s)" @1032,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 15:15–15:15 (5 s)" @1044,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 15:30–15:30 (5 s)" @1052,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 15:45–15:45 (5 s)" @1064,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 16:00–16:00 (5 s)" @1072,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 16:15–16:15 (5 s)" @1084,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 16:30–16:30 (5 s)" @1096,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 16:45–16:45 (5 s)" @1104,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 17:00–17:00 (5 s)" @1116,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 17:15–17:15 (5 s)" @1124,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 17:30–17:30 (5 s)" @1136,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 17:45–17:45 (5 s)" @1148,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 18:00–18:00 (5 s)" @1156,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 18:15–18:15 (5 s)" @1168,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 18:30–18:30 (5 s)" @1180,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 18:45–18:45 (5 s)" @1188,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 19:00–19:00 (5 s)" @1200,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 19:15–19:15 (5 s)" @1208,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 19:30–19:30 (5 s)" @1220,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 19:45–19:45 (5 s)" @1232,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 20:00–20:00 (5 s)" @1240,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 20:15–20:15 (5 s)" @1252,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 20:30–20:30 (5 s)" @1260,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 20:45–20:45 (5 s)" @1272,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 21:00–21:00 (5 s)" @1284,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 21:15–21:15 (5 s)" @1292,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 21:30–21:30 (5 s)" @1304,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 21:45–21:45 (5 s)" @1312,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 22:00–22:00 (5 s)" @1324,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 22:15–22:15 (5 s)" @1336,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 22:30–22:30 (5 s)" @1344,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 22:45–22:45 (5 s)" @1356,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 23:00–23:00 (5 s)" @1368,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 23:15–23:15 (5 s)" @1376,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 23:30–23:30 (5 s)" @1388,1068 4x12
+                  button.tn-tl-bar "DNS reachability: 23:45–23:45 (5 s)" @1396,1068 4x12
+              div.tn-tl-row.tn-tl-group @224,1096 1184x28
+                div.tn-tl-name "Wartung" @224,1096 180x24
+                  span.tn-tl-count "1" @292,1100 4x16
+                div.tn-tl-track @404,1096 1004x24
+              div.tn-tl-row @224,1120 1184x40
+                button.tn-tl-name @224,1120 180x36
+                  span.tn-tl-title.tn-ellipsis "Log cleanup" @236,1124 156x20
+                  span.tn-tl-sub.tn-ellipsis "täglich 00:10 · ~40 s" @236,1140 156x16
+                div.tn-tl-track @404,1120 1004x36
+                  button.tn-tl-bar "Log cleanup: 00:10–00:10 (40 s)" @412,1132 4x12

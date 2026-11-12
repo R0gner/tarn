@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · tempo-markdown: render time of a 50 KB report with markdown(), 4× CPU throttled. Node ≥ 22, no npm packages.
+// tarn · tempo-markdown: render time of a 50 KB report with markdown(), 4× CPU throttled. Node ≥ 22, no npm packages.
 //
 //   node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port> [--kb 50] [--runs 7] [--cpu 4] [--budget 50] [--base URL]
 //
@@ -36,7 +36,7 @@ try {
   if (page.kind === 'attach') await page.send('Page.bringToFront');
   const vis = await evaluate(page, 'document.visibilityState');
   if (vis !== 'visible') { console.log(`tempo-markdown: tab not in front (${vis}) – measurement refused`); process.exitCode = 2; throw new Error('refused'); }
-  const SAMPLE = `const m = await import(new URL('../js/dashkit.js', location.href).href); const s = await import(new URL('../gallery/markdown-sample.js', location.href).href);
+  const SAMPLE = `const m = await import(new URL('../js/tarn.js', location.href).href); const s = await import(new URL('../gallery/markdown-sample.js', location.href).href);
     let text = ''; let n = 0; while (text.length < ${o.kb * 1024}) text += s.REPORT.replace('Lauf 412', 'Lauf ' + (400 + n++)) + '\\n\\n';
     window.__md = { m, text, run() { const host = document.createElement('div'); document.body.append(host);
       const t0 = performance.now(); const el = m.markdown(text, { compact: true }); const t1 = performance.now();

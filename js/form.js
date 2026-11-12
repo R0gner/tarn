@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · form() and confirm(): forms with validation and a submit state, and confirmation of dangerous actions.
+// tarn · form() and confirm(): forms with validation and a submit state, and confirmation of dangerous actions.
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';
@@ -79,20 +79,20 @@ export function form({ fields = [], value = {}, submitLabel, runningLabel, cance
   const rows = fields.map((spec) => {
     const ctl = controlOf(spec, spec.value ?? value[spec.name]);
     specs.set(spec.name, spec);
-    const standalone = ctl.classList?.contains('dk-tick');     // checkbox/toggle carry their own label
+    const standalone = ctl.classList?.contains('tn-tick');     // checkbox/toggle carry their own label
     const f = field({ label: standalone ? undefined : spec.label, help: standalone ? undefined : spec.help, required: spec.required, rules: spec.rules, className: spec.className }, ctl);
     if (standalone && spec.required) ctl.focusEl.setAttribute('aria-required', 'true');
     wrapped.set(spec.name, f);
     return f;
   });
-  const formErr = h('div', { class: 'dk-form-error', id: `${id}-err`, role: 'alert', hidden: true });
+  const formErr = h('div', { class: 'tn-form-error', id: `${id}-err`, role: 'alert', hidden: true });
   const submitBtn = button(submitLabel ?? t('form.submit'), { variant: danger ? 'danger' : 'primary', type: 'submit' });
   const submitText = submitBtn.querySelector('span');
   submitBtn.setAttribute('form', id);
   const cancelBtn = onCancel ? button(cancelLabel ?? t('common.cancel'), { variant: 'ghost', onClick: () => onCancel() }) : null;
   cancelBtn?.setAttribute('form', id);
-  const bar = actions ? h('div', { class: 'dk-form-actions' }, cancelBtn, submitBtn) : null;
-  const el = h('form', { class: cls('dk-form', className), id, novalidate: true, 'aria-describedby': `${id}-err` }, rows, formErr, bar);
+  const bar = actions ? h('div', { class: 'tn-form-actions' }, cancelBtn, submitBtn) : null;
+  const el = h('form', { class: cls('tn-form', className), id, novalidate: true, 'aria-describedby': `${id}-err` }, rows, formErr, bar);
 
   let pending = false;
   const fieldOf = (/** @type {string} */ name) => /** @type {FieldElement} */ (wrapped.get(name));
@@ -117,7 +117,7 @@ export function form({ fields = [], value = {}, submitLabel, runningLabel, cance
     submitBtn.setAttribute('aria-busy', String(on));
     submitBtn.setAttribute('aria-disabled', String(on));
     const spin = icon('spinner', { size: 14 });
-    spin.classList.add('dk-spin');
+    spin.classList.add('tn-spin');
     submitBtn.replaceChildren(...(on ? [spin, h('span', null, runningLabel ?? t('form.running'))] : [/** @type {HTMLElement} */ (submitText)]));
     if (on) lockedBefore = new Set([...wrapped].filter(([, f]) => f.input.classList?.contains('is-disabled')).map(([n]) => n));
     for (const [name, f] of wrapped) /** @type {Control} */ (f.input).setDisabled?.(on || lockedBefore.has(name));
@@ -172,11 +172,11 @@ export function confirm({ title, text, confirmLabel, cancelLabel, danger, typeTo
     const no = button(cancelLabel ?? t('common.cancel'), { variant: 'default', onClick: () => done(false) });
     const typed = typeToConfirm ? textField({ mono: true, autocomplete: 'off', onInput: (v) => { ok.disabled = !confirmMatches(v, typeToConfirm); } }) : null;
     if (typed) ok.disabled = true;
-    const d = h('dialog', { class: cls('dk-confirm', danger && 'is-danger'), role: danger ? 'alertdialog' : 'dialog', 'aria-labelledby': `${id}-t`, 'aria-describedby': text ? `${id}-d` : null },
-      h('h2', { class: 'dk-confirm-title', id: `${id}-t` }, danger && icon('alert', { size: 16 }), h('span', null, title)),
-      text && h('div', { class: 'dk-confirm-text', id: `${id}-d` }, text),
+    const d = h('dialog', { class: cls('tn-confirm', danger && 'is-danger'), role: danger ? 'alertdialog' : 'dialog', 'aria-labelledby': `${id}-t`, 'aria-describedby': text ? `${id}-d` : null },
+      h('h2', { class: 'tn-confirm-title', id: `${id}-t` }, danger && icon('alert', { size: 16 }), h('span', null, title)),
+      text && h('div', { class: 'tn-confirm-text', id: `${id}-d` }, text),
       typed && field({ label: t('confirm.type', { text: String(typeToConfirm) }) }, typed),
-      h('div', { class: 'dk-confirm-actions' }, no, ok));
+      h('div', { class: 'tn-confirm-actions' }, no, ok));
     typed?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (!ok.disabled) done(true); } });
     d.addEventListener('click', (e) => { if (e.target === d) done(false); });
     d.addEventListener('close', () => { lockScroll(false); d.remove(); resolve(answer); });

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// dashkit · tempo: response times and animation inventory via CDP. Node ≥ 22, no npm packages.
+// tarn · tempo: response times and animation inventory via CDP. Node ≥ 22, no npm packages.
 //
 //   node tools/tempo.mjs --attach http://127.0.0.1:<port> [options]      frame measurement (visible Chrome)
 //   node tools/tempo.mjs --inventory [--attach URL]                       animation inventory only (also headless/CI)
@@ -10,7 +10,7 @@
 //   handler processing and input → next frame (Event Timing; a missing entry means < 16 ms)
 //   long animation frames (the longest in the window)
 // Inventory: document.getAnimations() during the interaction: property, duration, repetition against tokens
-//   (--dk-t-open/-close/-loop-*) and budget class; plus endless animations of static views.
+//   (--tn-t-open/-close/-loop-*) and budget class; plus endless animations of static views.
 //
 // Exit: 0 within budget · 1 budget exceeded or inventory finding · 2 measurement refused (tab not in front,
 // spread of the first change > 2 frames even after a retry, environment broken).
@@ -84,7 +84,7 @@ const HARNESS = `(() => {
   tp.end = () => { tp.run = false; return { marks: tp.marks, samples: tp.samples, ev: tp.ev, loaf: tp.loaf, anims: tp.anims }; };
   tp.fps = () => new Promise((res) => { let n = 0; const t0 = performance.now(); const f = () => { n++; if (performance.now() - t0 < 300) requestAnimationFrame(f); else res({ fps: n / ((performance.now() - t0) / 1000), vis: document.visibilityState }); }; requestAnimationFrame(f); });
   tp.tokens = () => { const cs = getComputedStyle(document.documentElement); const ms = (v) => { v = v.trim(); return v.endsWith('ms') ? parseFloat(v) : parseFloat(v) * 1000; };
-    return { open: ms(cs.getPropertyValue('--dk-t-open')), close: ms(cs.getPropertyValue('--dk-t-close')), pulse: ms(cs.getPropertyValue('--dk-t-loop-pulse')), indet: ms(cs.getPropertyValue('--dk-t-loop-indet')) }; };
+    return { open: ms(cs.getPropertyValue('--tn-t-open')), close: ms(cs.getPropertyValue('--tn-t-close')), pulse: ms(cs.getPropertyValue('--tn-t-loop-pulse')), indet: ms(cs.getPropertyValue('--tn-t-loop-indet')) }; };
   return true;
 })()`;
 
@@ -267,7 +267,7 @@ export async function inventoryUnit(page, base, unit) {
   }
   const { c, sn } = unit;
   const size = { name: sn, ...SIZES[sn] };
-  if (process.env.DK_DEBUG) console.error(`tempo: inventory ${c.id} ${sn}`);
+  if (process.env.TN_DEBUG) console.error(`tempo: inventory ${c.id} ${sn}`);
   const r = await runCase(page, base, c, size, 1, { runs: 1, warmup: 0, inventoryOnly: true });
   if (r.refused) throw Object.assign(new Error(r.refused), { env: true });
   const tokens = await evaluate(page, 'window.__tp.tokens()');
@@ -327,7 +327,7 @@ function table(rows, compare) {
 async function main() {
   const o = parseArgs(process.argv.slice(2));
   // output folder only for the frame measurement (the inventory writes nothing)
-  const outDir = o.inventory ? null : path.resolve(o.out || fs.mkdtempSync(path.join(os.tmpdir(), 'dk-tempo-')));
+  const outDir = o.inventory ? null : path.resolve(o.out || fs.mkdtempSync(path.join(os.tmpdir(), 'tn-tempo-')));
   if (outDir) fs.mkdirSync(outDir, { recursive: true });
   let server, page;
   const rows = [], inv = [];

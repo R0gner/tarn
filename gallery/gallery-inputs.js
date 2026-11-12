@@ -1,7 +1,7 @@
-// dashkit · gallery: input primitives (inputs.js) in all states.
+// tarn · gallery: input primitives (inputs.js) in all states.
 import {
   h, card, section, openSheet, field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange, button, toast, t, getTimeZone, rangeFromPreset,
-} from '../js/dashkit.js';
+} from '../js/tarn.js';
 
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
 const demo = (title, usage, ...stage) => card({ title }, h('div', { class: 'g-demo' }, stage, usage && code(usage)));

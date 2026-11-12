@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · Board switcher: data validation (pure, no DOM, testable in Node).
+// tarn · Board switcher: data validation (pure, no DOM, testable in Node).
 //
 // boards: [{ id, name, href, icon?, category? }] or { boards, categories }; categories: [{ id, label }] (order).
 //   icon: URL (relative/http/https) or { icon, color } like favicon(); if missing, the switcher shows a letter tile.

@@ -7,7 +7,7 @@ import path from 'node:path';
 import { lintCss, lintJs, lintHtml } from '../tools/lint.mjs';
 
 function run(fn, name, src, opts) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dk-lint-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-lint-'));
   const file = path.join(dir, name);
   fs.writeFileSync(file, src);
   const out = [];
@@ -17,8 +17,8 @@ function run(fn, name, src, opts) {
 
 test('CSS: literals, transitions, keyframes', () => {
   const r = run(lintCss, 'x.css', `/* 9px in a comment */
-@media (max-width: 599px) { .a { gap: var(--dk-s2); } }
-.b { color: #fff; padding: 6px 0; border-radius: 3px; transition: opacity var(--dk-t), height 90ms; }
+@media (max-width: 599px) { .a { gap: var(--tn-s2); } }
+.b { color: #fff; padding: 6px 0; border-radius: 3px; transition: opacity var(--tn-t), height 90ms; }
 .c { animation: spin 1s infinite; } @keyframes spin { to { width: 10%; transform: none; } }`);
   assert.deepEqual(r.sort(), ['color color: #fff', 'duration transition: 90ms', 'duration animation: 1s', 'keyframes @keyframes spin: width', 'radius border-radius: 3px', 'size padding: 6px', 'transition transition: height'].sort());
 });
@@ -47,6 +47,6 @@ test('HTML: favicon and title are required', () => {
 
 test('JS: visible text must come from t()', () => {
   const r = run(lintJs, 'x.js', `h('button', { 'aria-label': 'Close panel' }, 'Save changes'); const o = { label: 'Müll', title: t('x.title'), sub: \`\${a}\` }; toast('Done now');
-const ok = { label: 'x', class: 'dk-btn', value: 'a-b' };`, { i18n: true });
+const ok = { label: 'x', class: 'tn-btn', value: 'a-b' };`, { i18n: true });
   assert.deepEqual(r.filter((x) => x.startsWith('i18n')).sort(), ["i18n 'aria-label': „Close panel“", 'i18n label: „Müll“', 'i18n „Done now“', 'i18n „Müll“', 'i18n „Save changes“'].sort());
 });

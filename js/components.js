@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · core components. Every function returns a DOM element. Status only via
+// tarn · core components. Every function returns a DOM element. Status only via
 // 'ok' | 'warn' | 'bad' | 'unknown' | 'pending' | 'info' | 'off'.
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
@@ -36,8 +36,8 @@ export const STATUS_TEXT = /** @type {Record<Status, string>} */ (Object.defineP
  * @returns {HTMLElement}
  */
 export function statusDot(status = 'unknown', { label, title } = {}) {
-  const dot = h('span', { class: `dk-dot dk-s-${status}`, role: label ? null : 'img', 'aria-label': label ? null : (title || STATUS_TEXT[status] || status) });
-  return label ? h('span', { class: 'dk-dotlabel' }, dot, h('span', null, label)) : dot;
+  const dot = h('span', { class: `tn-dot tn-s-${status}`, role: label ? null : 'img', 'aria-label': label ? null : (title || STATUS_TEXT[status] || status) });
+  return label ? h('span', { class: 'tn-dotlabel' }, dot, h('span', null, label)) : dot;
 }
 
 /**
@@ -47,7 +47,7 @@ export function statusDot(status = 'unknown', { label, title } = {}) {
  * @returns {HTMLElement}
  */
 export function badge(text, { tone = 'neutral', count = false } = {}) {
-  return h('span', { class: cls('dk-badge', `dk-badge-${tone}`, count && 'dk-badge-count') }, text);
+  return h('span', { class: cls('tn-badge', `tn-badge-${tone}`, count && 'tn-badge-count') }, text);
 }
 
 /**
@@ -58,7 +58,7 @@ export function badge(text, { tone = 'neutral', count = false } = {}) {
  */
 export function button(label, { variant = 'default', icon: ic, iconAfter, onClick, disabled, type = 'button', title, small, className } = {}) {
   const b = h('button', {
-    class: cls('dk-btn', `dk-btn-${variant}`, small && 'dk-btn-sm', !label && 'dk-btn-icononly', className),
+    class: cls('tn-btn', `tn-btn-${variant}`, small && 'tn-btn-sm', !label && 'tn-btn-icononly', className),
     type, disabled: !!disabled, 'aria-label': !label ? (title || null) : null, onclick: onClick || null,
   }, ic && icon(ic), label && h('span', null, label), iconAfter && icon(iconAfter));
   return label ? b : tooltip(b, title); // icon-only button: tooltip (title = name)
@@ -72,7 +72,7 @@ export function button(label, { variant = 'default', icon: ic, iconAfter, onClic
  */
 export function iconButton(name, { label, hint, onClick, disabled, pressed, className }) {
   return tooltip(h('button', {
-    class: cls('dk-iconbtn', className), type: 'button', 'aria-label': label, disabled: !!disabled,
+    class: cls('tn-iconbtn', className), type: 'button', 'aria-label': label, disabled: !!disabled,
     'aria-pressed': pressed == null ? null : String(!!pressed), onclick: onClick || null,
   }, icon(name)), hint || label);
 }
@@ -84,10 +84,10 @@ export function iconButton(name, { label, hint, onClick, disabled, pressed, clas
  * @returns {HTMLElement}
  */
 export function card({ title, sub, actions, flush, className } = {}, ...kids) {
-  const head = title || actions ? h('header', { class: 'dk-card-head' },
-    h('div', { class: 'dk-card-heading' }, title && h('h3', { class: 'dk-card-title' }, title), sub && h('div', { class: 'dk-card-sub' }, sub)),
-    actions && h('div', { class: 'dk-card-actions' }, actions)) : null;
-  return h('section', { class: cls('dk-card', flush && 'dk-card-flush', className) }, head, h('div', { class: 'dk-card-body' }, kids));
+  const head = title || actions ? h('header', { class: 'tn-card-head' },
+    h('div', { class: 'tn-card-heading' }, title && h('h3', { class: 'tn-card-title' }, title), sub && h('div', { class: 'tn-card-sub' }, sub)),
+    actions && h('div', { class: 'tn-card-actions' }, actions)) : null;
+  return h('section', { class: cls('tn-card', flush && 'tn-card-flush', className) }, head, h('div', { class: 'tn-card-body' }, kids));
 }
 
 /**
@@ -98,10 +98,10 @@ export function card({ title, sub, actions, flush, className } = {}, ...kids) {
  * @returns {HTMLElement}
  */
 export function section(title, { count, actions, className } = {}, ...kids) {
-  return h('section', { class: cls('dk-section', className) },
-    h('header', { class: 'dk-section-head' },
-      h('h2', { class: 'dk-section-title' }, title, count != null && h('span', { class: 'dk-section-count' }, count)),
-      actions && h('div', { class: 'dk-section-actions' }, actions)),
+  return h('section', { class: cls('tn-section', className) },
+    h('header', { class: 'tn-section-head' },
+      h('h2', { class: 'tn-section-title' }, title, count != null && h('span', { class: 'tn-section-count' }, count)),
+      actions && h('div', { class: 'tn-section-actions' }, actions)),
     kids);
 }
 
@@ -112,13 +112,13 @@ export function section(title, { count, actions, className } = {}, ...kids) {
  */
 export function statTile({ label, value, unit, sub, status, onClick, className } = {}) {
   const inner = [
-    h('div', { class: 'dk-stat-label' }, status && statusDot(status), h('span', { class: 'dk-ellipsis' }, label)),
-    h('div', { class: 'dk-stat-value dk-num' }, value ?? '–', unit && h('span', { class: 'dk-stat-unit' }, unit)),
-    sub && h('div', { class: cls('dk-stat-sub', status && status !== 'ok' && `dk-t-${status}`) }, sub),
+    h('div', { class: 'tn-stat-label' }, status && statusDot(status), h('span', { class: 'tn-ellipsis' }, label)),
+    h('div', { class: 'tn-stat-value tn-num' }, value ?? '–', unit && h('span', { class: 'tn-stat-unit' }, unit)),
+    sub && h('div', { class: cls('tn-stat-sub', status && status !== 'ok' && `tn-t-${status}`) }, sub),
   ];
   return onClick
-    ? h('button', { class: cls('dk-stat dk-stat-btn', className), type: 'button', onclick: onClick }, inner, h('span', { class: 'dk-go', 'aria-hidden': 'true' }, icon('chevron-right')))
-    : h('div', { class: cls('dk-stat', className) }, inner);
+    ? h('button', { class: cls('tn-stat tn-stat-btn', className), type: 'button', onclick: onClick }, inner, h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon('chevron-right')))
+    : h('div', { class: cls('tn-stat', className) }, inner);
 }
 
 /**
@@ -130,16 +130,16 @@ export function statTile({ label, value, unit, sub, status, onClick, className }
 export function metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, className } = {}) {
   const tag = onClick ? 'button' : 'div';
   return h(tag, {
-    class: cls('dk-row', onClick && 'dk-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
+    class: cls('tn-row', onClick && 'tn-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
     onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null,
   },
-  status && h('span', { class: 'dk-row-status' }, statusDot(status)),
-  h('span', { class: 'dk-row-main' },
-    h('span', { class: cls('dk-row-title dk-ellipsis', mono && 'dk-mono') }, title),
-    sub && h('span', { class: 'dk-row-sub dk-ellipsis' }, sub)),
-  value != null && h('span', { class: 'dk-row-value' },
-    h('span', { class: 'dk-num' }, value), valueSub && h('span', { class: 'dk-row-sub' }, valueSub)),
-  (chevron ?? !!onClick) && h('span', { class: 'dk-go', 'aria-hidden': 'true' }, icon('chevron-right')));
+  status && h('span', { class: 'tn-row-status' }, statusDot(status)),
+  h('span', { class: 'tn-row-main' },
+    h('span', { class: cls('tn-row-title tn-ellipsis', mono && 'tn-mono') }, title),
+    sub && h('span', { class: 'tn-row-sub tn-ellipsis' }, sub)),
+  value != null && h('span', { class: 'tn-row-value' },
+    h('span', { class: 'tn-num' }, value), valueSub && h('span', { class: 'tn-row-sub' }, valueSub)),
+  (chevron ?? !!onClick) && h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon('chevron-right')));
 }
 
 /**
@@ -152,7 +152,7 @@ export function metricRow({ title, sub, value, valueSub, status, onClick, chevro
  */
 export function list(items, render, { empty: emptyText, zebra = false } = {}) {
   if (!items?.length) return empty({ title: emptyText ?? t('common.noEntries'), compact: true });
-  return h('div', { class: cls('dk-list', zebra && 'dk-zebra'), role: 'list' }, items.map((it, i) => {
+  return h('div', { class: cls('tn-list', zebra && 'tn-zebra'), role: 'list' }, items.map((it, i) => {
     const el = render(it, i);
     el.setAttribute('role', el.tagName === 'BUTTON' ? 'button' : 'listitem');
     return el;
@@ -160,13 +160,13 @@ export function list(items, render, { empty: emptyText, zebra = false } = {}) {
 }
 
 /**
- * Facts: kv([['Host', 'nas'], ['Uptime', '3 d', 'dk-t-warn'], null]) – empty values are dropped.
+ * Facts: kv([['Host', 'nas'], ['Uptime', '3 d', 'tn-t-warn'], null]) – empty values are dropped.
  * @param {Array<KvPair | null | undefined | false>} pairs
  * @param {KvOptions} [o]
  * @returns {HTMLElement | null}
  */
 export function kv(pairs, { mono = false } = {}) {
-  const dl = h('dl', { class: cls('dk-kv', mono && 'dk-kv-mono') });
+  const dl = h('dl', { class: cls('tn-kv', mono && 'tn-kv-mono') });
   for (const p of pairs || []) {
     if (!p) continue;
     const [k, v, ddCls] = p;
@@ -184,7 +184,7 @@ export function kv(pairs, { mono = false } = {}) {
  */
 export function facts(title, ...kids) {
   const body = kids.flat().filter(Boolean);
-  return body.length ? h('section', { class: 'dk-facts' }, title && h('h3', { class: 'dk-facts-title' }, title), body) : null;
+  return body.length ? h('section', { class: 'tn-facts' }, title && h('h3', { class: 'tn-facts-title' }, title), body) : null;
 }
 
 /**
@@ -195,8 +195,8 @@ export function facts(title, ...kids) {
  */
 export function banner(text, { tone = 'info', action } = {}) {
   const ic = tone === 'bad' || tone === 'warn' ? 'alert' : 'info';
-  return h('div', { class: `dk-banner dk-banner-${tone}`, role: tone === 'bad' ? 'alert' : 'status' },
-    icon(ic), h('div', { class: 'dk-banner-text' }, text), action);
+  return h('div', { class: `tn-banner tn-banner-${tone}`, role: tone === 'bad' ? 'alert' : 'status' },
+    icon(ic), h('div', { class: 'tn-banner-text' }, text), action);
 }
 
 /**
@@ -205,9 +205,9 @@ export function banner(text, { tone = 'info', action } = {}) {
  * @returns {HTMLElement}
  */
 export function empty({ title = t('common.noEntries'), text, action, compact, icon: ic } = {}) {
-  return h('div', { class: cls('dk-empty', compact && 'dk-empty-compact') },
-    ic && h('span', { class: 'dk-empty-icon' }, icon(ic)),
-    h('div', { class: 'dk-empty-title' }, title), text && h('div', { class: 'dk-empty-text' }, text), action);
+  return h('div', { class: cls('tn-empty', compact && 'tn-empty-compact') },
+    ic && h('span', { class: 'tn-empty-icon' }, icon(ic)),
+    h('div', { class: 'tn-empty-title' }, title), text && h('div', { class: 'tn-empty-text' }, text), action);
 }
 
 /**
@@ -216,9 +216,9 @@ export function empty({ title = t('common.noEntries'), text, action, compact, ic
  * @returns {HTMLElement}
  */
 export function errorState({ title = t('common.loadFailed'), text, onRetry, compact } = {}) {
-  return h('div', { class: cls('dk-empty dk-error', compact && 'dk-empty-compact'), role: 'alert' },
-    h('span', { class: 'dk-empty-icon' }, icon('alert')),
-    h('div', { class: 'dk-empty-title' }, title), text && h('div', { class: 'dk-empty-text dk-mono' }, text),
+  return h('div', { class: cls('tn-empty tn-error', compact && 'tn-empty-compact'), role: 'alert' },
+    h('span', { class: 'tn-empty-icon' }, icon('alert')),
+    h('div', { class: 'tn-empty-title' }, title), text && h('div', { class: 'tn-empty-text tn-mono' }, text),
     onRetry && button(t('common.retry'), { icon: 'refresh', onClick: onRetry, small: true }));
 }
 export { errorState as error };
@@ -229,11 +229,11 @@ export { errorState as error };
  * @returns {HTMLElement}
  */
 export function loading({ rows = 3, tiles = 0, label = t('common.loading') } = {}) {
-  if (tiles) return h('div', { class: 'dk-tiles', 'aria-busy': 'true', 'aria-label': label },
-    Array.from({ length: tiles }, () => h('div', { class: 'dk-stat dk-skel-tile' }, h('span', { class: 'dk-skel dk-skel-s' }), h('span', { class: 'dk-skel dk-skel-l' }))));
-  return h('div', { class: 'dk-skel-rows', 'aria-busy': 'true', 'aria-label': label },
-    Array.from({ length: rows }, (_, i) => h('div', { class: 'dk-skel-row' },
-      h('span', { class: 'dk-skel dk-skel-dot' }), h('span', { class: 'dk-skel', style: { width: `${[62, 48, 70, 55, 40][i % 5]}%` } }), h('span', { class: 'dk-skel dk-skel-v' }))));
+  if (tiles) return h('div', { class: 'tn-tiles', 'aria-busy': 'true', 'aria-label': label },
+    Array.from({ length: tiles }, () => h('div', { class: 'tn-stat tn-skel-tile' }, h('span', { class: 'tn-skel tn-skel-s' }), h('span', { class: 'tn-skel tn-skel-l' }))));
+  return h('div', { class: 'tn-skel-rows', 'aria-busy': 'true', 'aria-label': label },
+    Array.from({ length: rows }, (_, i) => h('div', { class: 'tn-skel-row' },
+      h('span', { class: 'tn-skel tn-skel-dot' }), h('span', { class: 'tn-skel', style: { width: `${[62, 48, 70, 55, 40][i % 5]}%` } }), h('span', { class: 'tn-skel tn-skel-v' }))));
 }
 
 /**
@@ -241,14 +241,14 @@ export function loading({ rows = 3, tiles = 0, label = t('common.loading') } = {
  * @param {...Child} kids
  * @returns {HTMLElement}
  */
-export function tiles(...kids) { return h('div', { class: 'dk-tiles' }, kids); }
+export function tiles(...kids) { return h('div', { class: 'tn-tiles' }, kids); }
 
 /**
  * Button group/toolbar inside cards.
  * @param {...Child} kids
  * @returns {HTMLElement}
  */
-export function toolbarRow(...kids) { return h('div', { class: 'dk-toolrow' }, kids); }
+export function toolbarRow(...kids) { return h('div', { class: 'tn-toolrow' }, kids); }
 
 /**
  * Layout: columns (side by side from 1000 px content width, stacked otherwise). cols(a, b) · cols({ min: 280 }, a, b, c)
@@ -257,11 +257,11 @@ export function toolbarRow(...kids) { return h('div', { class: 'dk-toolrow' }, k
  */
 export function cols(...kids) {
   const opt = /** @type {{ min?: number }} */ (kids[0] && !(kids[0] instanceof Node) && !Array.isArray(kids[0]) && typeof kids[0] === 'object' ? kids.shift() : {});
-  return h('div', { class: 'dk-cols', style: opt.min ? { '--dk-col-min': `${opt.min}px` } : null }, kids);
+  return h('div', { class: 'tn-cols', style: opt.min ? { '--tn-col-min': `${opt.min}px` } : null }, kids);
 }
 /**
  * Layout: vertical stack with default spacing.
  * @param {...Child} kids
  * @returns {HTMLElement}
  */
-export function stack(...kids) { return h('div', { class: 'dk-stack' }, kids); }
+export function stack(...kids) { return h('div', { class: 'tn-stack' }, kids); }

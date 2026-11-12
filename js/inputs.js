@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · input primitives: textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange and the field() shell
+// tarn · input primitives: textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange and the field() shell
 // (label, help text, error text).
 //
 // Common contract of all controls (the root element returned):
@@ -82,10 +82,10 @@ export function field({ label, help, error, required, rules, className } = {}, c
   const ctl = control.focusEl || control;
   if (!ctl.id) ctl.id = `${id}-c`;
   const all = () => ({ ...(control.rules || {}), ...(rules || {}), required: !!(required || rules?.required) });
-  const labelEl = label ? h('label', { class: 'dk-field-label', for: ctl.id }, h('span', null, label), required && h('span', { class: 'dk-field-req', 'aria-hidden': 'true' }, '*')) : null;
-  const helpEl = h('div', { class: 'dk-field-help', id: `${id}-h` });
-  const errEl = h('div', { class: 'dk-field-error', id: `${id}-e`, 'aria-live': 'polite' });
-  const el = h('div', { class: cls('dk-field', className) }, labelEl, control, helpEl, errEl);
+  const labelEl = label ? h('label', { class: 'tn-field-label', for: ctl.id }, h('span', null, label), required && h('span', { class: 'tn-field-req', 'aria-hidden': 'true' }, '*')) : null;
+  const helpEl = h('div', { class: 'tn-field-help', id: `${id}-h` });
+  const errEl = h('div', { class: 'tn-field-error', id: `${id}-e`, 'aria-live': 'polite' });
+  const el = h('div', { class: cls('tn-field', className) }, labelEl, control, helpEl, errEl);
   const describe = () => {
     const ids = [!helpEl.hidden && helpEl.id, !errEl.hidden && errEl.id].filter(Boolean).join(' ');
     if (ids) ctl.setAttribute('aria-describedby', ids); else ctl.removeAttribute('aria-describedby');
@@ -121,13 +121,13 @@ export function field({ label, help, error, required, rules, className } = {}, c
  */
 export function textField({ value = '', type = 'text', rows, placeholder, name, label, disabled, invalid, maxlength, autocomplete = 'off', inputmode, mono, prefix, suffix, onInput, onChange, className } = {}) {
   const attrs = {
-    class: cls('dk-input-el', mono && 'dk-mono'), name, placeholder, maxlength, autocomplete, inputmode, 'aria-label': label || null, spellcheck: 'false',
+    class: cls('tn-input-el', mono && 'tn-mono'), name, placeholder, maxlength, autocomplete, inputmode, 'aria-label': label || null, spellcheck: 'false',
     oninput: () => onInput?.(input.value), onchange: () => onChange?.(input.value),
   };
   const input = rows ? h('textarea', { ...attrs, rows }) : h('input', { ...attrs, type });
   input.value = value ?? '';
-  const root = h('div', { class: cls('dk-inputbox', rows && 'is-multiline', className) },
-    prefix && h('span', { class: 'dk-input-affix' }, prefix), input, suffix && h('span', { class: 'dk-input-affix' }, suffix));
+  const root = h('div', { class: cls('tn-inputbox', rows && 'is-multiline', className) },
+    prefix && h('span', { class: 'tn-input-affix' }, prefix), input, suffix && h('span', { class: 'tn-input-affix' }, suffix));
   wire(root, input, { get: () => input.value, set: (v) => { input.value = v ?? ''; } });
   root.setDisabled(!!disabled);
   root.setInvalid(!!invalid);
@@ -143,11 +143,11 @@ export function textField({ value = '', type = 'text', rows, placeholder, name, 
 export function numberField({ value, unit, min, max, step = 1, placeholder, name, label, disabled, invalid, onInput, onChange, className } = {}) {
   const val = () => (input.validity.badInput ? NaN : parseNumber(input.value));
   const input = h('input', {
-    class: 'dk-input-el dk-num', type: 'number', inputmode: 'decimal', name, placeholder, min, max, step, 'aria-label': label || null, autocomplete: 'off',
+    class: 'tn-input-el tn-num', type: 'number', inputmode: 'decimal', name, placeholder, min, max, step, 'aria-label': label || null, autocomplete: 'off',
     oninput: () => onInput?.(val()), onchange: () => onChange?.(val()),
   });
   if (value != null) input.value = String(value);
-  const root = h('div', { class: cls('dk-inputbox', className) }, input, unit && h('span', { class: 'dk-input-affix' }, unit));
+  const root = h('div', { class: cls('tn-inputbox', className) }, input, unit && h('span', { class: 'tn-input-affix' }, unit));
   wire(root, input, { get: val, set: (v) => { input.value = v == null ? '' : String(roundTo(Number(v), step)); } });
   root.rules = { number: true, min, max };
   root.setDisabled(!!disabled);
@@ -163,14 +163,14 @@ export function numberField({ value, unit, min, max, step = 1, placeholder, name
  * @returns {Control}
  */
 export function select({ options = [], value, placeholder, name, label, disabled, invalid, onChange, className } = {}) {
-  const sel = h('select', { class: 'dk-select-el', name, 'aria-label': label || null, onchange: () => { onChange?.(get()); } },
+  const sel = h('select', { class: 'tn-select-el', name, 'aria-label': label || null, onchange: () => { onChange?.(get()); } },
     placeholder != null && h('option', { value: '' }, placeholder),
     options.map((o, i) => h('option', { value: String(i), disabled: o.disabled || null }, o.label)));
   const idx = (v) => options.findIndex((o) => o.value === v);
   const get = () => (sel.value === '' ? null : options[Number(sel.value)]?.value ?? null);
   const set = (v) => { const i = idx(v); sel.value = i < 0 ? '' : String(i); };
   set(value);
-  const root = h('div', { class: cls('dk-inputbox dk-selectbox', className) }, sel, icon('chevron-down'));
+  const root = h('div', { class: cls('tn-inputbox tn-selectbox', className) }, sel, icon('chevron-down'));
   wire(root, sel, { get, set });
   root.setDisabled(!!disabled);
   root.setInvalid(!!invalid);
@@ -184,12 +184,12 @@ export function select({ options = [], value, placeholder, name, label, disabled
  * @returns {Control}
  */
 function tick(kind, { checked, indeterminate, label, help, disabled, name, onChange, className }) {
-  const input = h('input', { class: 'dk-tick-input', type: 'checkbox', role: kind === 'toggle' ? 'switch' : null, name, onchange: () => { input.indeterminate = false; root.classList.remove('is-mixed'); onChange?.(input.checked); } });
+  const input = h('input', { class: 'tn-tick-input', type: 'checkbox', role: kind === 'toggle' ? 'switch' : null, name, onchange: () => { input.indeterminate = false; root.classList.remove('is-mixed'); onChange?.(input.checked); } });
   input.checked = !!checked;
-  const mark = kind === 'toggle' ? h('span', { class: 'dk-toggle-track', 'aria-hidden': 'true' }, h('span', { class: 'dk-toggle-thumb' }))
-    : h('span', { class: 'dk-check-box', 'aria-hidden': 'true' }, icon('check', { size: 12 }), icon('minus', { size: 12 }));
-  const root = h('label', { class: cls('dk-tick', `dk-${kind}`, className) }, input, mark,
-    h('span', { class: 'dk-tick-text' }, h('span', { class: 'dk-tick-label' }, label), help && h('span', { class: 'dk-tick-help' }, help)));
+  const mark = kind === 'toggle' ? h('span', { class: 'tn-toggle-track', 'aria-hidden': 'true' }, h('span', { class: 'tn-toggle-thumb' }))
+    : h('span', { class: 'tn-check-box', 'aria-hidden': 'true' }, icon('check', { size: 12 }), icon('minus', { size: 12 }));
+  const root = h('label', { class: cls('tn-tick', `tn-${kind}`, className) }, input, mark,
+    h('span', { class: 'tn-tick-text' }, h('span', { class: 'tn-tick-label' }, label), help && h('span', { class: 'tn-tick-help' }, help)));
   if (indeterminate) { input.indeterminate = true; root.classList.add('is-mixed'); }
   wire(root, input, { get: () => input.checked, set: (v) => { input.checked = !!v; input.indeterminate = false; root.classList.remove('is-mixed'); } });
   root.setDisabled(!!disabled);
@@ -214,9 +214,9 @@ export const toggle = (o = {}) => tick('toggle', o);
  * @returns {Control}
  */
 export function dateField({ value, min, max, time, name, label, disabled, invalid, onChange, className } = {}) {
-  const input = h('input', { class: 'dk-input-el dk-num', type: time ? 'datetime-local' : 'date', name, min, max, 'aria-label': label || null, onchange: () => onChange?.(input.value || null) });
+  const input = h('input', { class: 'tn-input-el tn-num', type: time ? 'datetime-local' : 'date', name, min, max, 'aria-label': label || null, onchange: () => onChange?.(input.value || null) });
   input.value = value || '';
-  const root = h('div', { class: cls('dk-inputbox dk-datebox', className) }, input);
+  const root = h('div', { class: cls('tn-inputbox tn-datebox', className) }, input);
   wire(root, input, { get: () => input.value || null, set: (v) => { input.value = v || ''; } });
   root.setDisabled(!!disabled);
   root.setInvalid(!!invalid);
@@ -236,13 +236,13 @@ export function dateRange({ from = null, to = null, presets = ['today', '7d', '3
   const inv = () => !!(cur.from && cur.to && cur.from > cur.to);
   const a = dateField({ value: from, min, max, label: t('range.from'), onChange: (v) => commit({ from: v, to: cur.to }) });
   const b = dateField({ value: to, min, max, label: t('range.to'), onChange: (v) => commit({ from: cur.from, to: v }) });
-  const err = h('div', { class: 'dk-field-error', 'aria-live': 'polite', hidden: true });
-  const pills = presets.map((id) => h('button', { class: 'dk-pill', type: 'button', 'aria-pressed': 'false', 'data-preset': id, onclick: () => { const r = rangeFromPreset(id, now(), getTimeZone()); if (!r) return; a.setValue(r.from); b.setValue(r.to); commit(r); } }, t(`range.${id}`)));
-  const root = h('div', { class: cls('dk-daterange', className), role: 'group' },
-    h('div', { class: 'dk-daterange-row' },
-      h('label', { class: 'dk-daterange-col' }, h('span', { class: 'dk-field-label' }, t('range.from')), a),
-      h('label', { class: 'dk-daterange-col' }, h('span', { class: 'dk-field-label' }, t('range.to')), b)),
-    presets.length > 0 && h('div', { class: 'dk-pills' }, pills), err);
+  const err = h('div', { class: 'tn-field-error', 'aria-live': 'polite', hidden: true });
+  const pills = presets.map((id) => h('button', { class: 'tn-pill', type: 'button', 'aria-pressed': 'false', 'data-preset': id, onclick: () => { const r = rangeFromPreset(id, now(), getTimeZone()); if (!r) return; a.setValue(r.from); b.setValue(r.to); commit(r); } }, t(`range.${id}`)));
+  const root = h('div', { class: cls('tn-daterange', className), role: 'group' },
+    h('div', { class: 'tn-daterange-row' },
+      h('label', { class: 'tn-daterange-col' }, h('span', { class: 'tn-field-label' }, t('range.from')), a),
+      h('label', { class: 'tn-daterange-col' }, h('span', { class: 'tn-field-label' }, t('range.to')), b)),
+    presets.length > 0 && h('div', { class: 'tn-pills' }, pills), err);
   function sync() {
     const bad = inv();
     a.setInvalid(bad); b.setInvalid(bad);
@@ -276,13 +276,13 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
   /** @type {any} */
   let sel = multiple ? new Set(Array.isArray(value) ? value : value != null ? [value] : []) : (value ?? null);
   const labelOf = (v) => options.find((o) => o.value === v)?.label ?? String(v);
-  const face = h('span', { class: 'dk-combo-face dk-ellipsis' });
+  const face = h('span', { class: 'tn-combo-face tn-ellipsis' });
   const btn = h('button', {
-    class: 'dk-combo-btn', type: 'button', name, 'aria-haspopup': 'listbox', 'aria-expanded': 'false', 'aria-controls': pid, 'aria-label': label || null,
+    class: 'tn-combo-btn', type: 'button', name, 'aria-haspopup': 'listbox', 'aria-expanded': 'false', 'aria-controls': pid, 'aria-label': label || null,
     onclick: () => (pop ? close(true) : open()),
     onkeydown: (e) => { if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !pop) { e.preventDefault(); open(); } },
   }, face, icon('chevron-down'));
-  const root = h('div', { class: cls('dk-inputbox dk-combobox', className) }, btn);
+  const root = h('div', { class: cls('tn-inputbox tn-combobox', className) }, btn);
   const has = () => (multiple ? sel.size > 0 : sel != null);
   function paint() {
     let text;
@@ -312,13 +312,13 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
     list.replaceChildren(...rows.map((o, i) => {
       const on = multiple ? sel.has(o.value) : sel === o.value;
       return h('div', {
-        class: cls('dk-combo-opt', on && 'is-on', o.disabled && 'is-disabled'), role: 'option', id: `${pid}-o${i}`, 'aria-selected': String(on), 'aria-disabled': o.disabled ? 'true' : null,
+        class: cls('tn-combo-opt', on && 'is-on', o.disabled && 'is-disabled'), role: 'option', id: `${pid}-o${i}`, 'aria-selected': String(on), 'aria-disabled': o.disabled ? 'true' : null,
         onclick: () => choose(i), onpointermove: () => setActive(i, false),
-      }, h('span', { class: 'dk-combo-tick', 'aria-hidden': 'true' }, on && icon('check', { size: 14 })),
-      h('span', { class: 'dk-combo-opt-label dk-ellipsis' }, o.label), o.hint && h('span', { class: 'dk-combo-opt-hint dk-ellipsis' }, o.hint));
+      }, h('span', { class: 'tn-combo-tick', 'aria-hidden': 'true' }, on && icon('check', { size: 14 })),
+      h('span', { class: 'tn-combo-opt-label tn-ellipsis' }, o.label), o.hint && h('span', { class: 'tn-combo-opt-hint tn-ellipsis' }, o.hint));
     }));
-    if (!shown.length) list.append(h('div', { class: 'dk-combo-empty' }, t('input.noMatches')));
-    if (more) list.append(h('div', { class: 'dk-combo-more' }, t('input.moreResults', { count: more })));
+    if (!shown.length) list.append(h('div', { class: 'tn-combo-empty' }, t('input.noMatches')));
+    if (more) list.append(h('div', { class: 'tn-combo-more' }, t('input.moreResults', { count: more })));
     active = shown.length ? Math.max(0, Math.min(active, rows.length - 1)) : -1;
     if (active < 0 && rows.length) active = Math.max(0, rows.findIndex((o) => (multiple ? sel.has(o.value) : sel === o.value)));
     setActive(active, true);
@@ -326,7 +326,7 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
   function setActive(i, scroll) {
     active = i;
     if (!list) return;
-    const items = list.querySelectorAll('.dk-combo-opt');
+    const items = list.querySelectorAll('.tn-combo-opt');
     items.forEach((el, k) => el.classList.toggle('is-active', k === i));
     const cur = items[i];
     (input || /** @type {HTMLElement} */ (list)).setAttribute('aria-activedescendant', cur ? cur.id : '');
@@ -364,16 +364,16 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
     if (root.classList.contains('is-disabled')) return;
     hideTooltip();
     q = '';
-    list = h('div', { class: 'dk-combo-list', role: 'listbox', id: pid, 'aria-multiselectable': multiple ? 'true' : null, 'aria-label': label || null, tabindex: withSearch ? null : '0' });
+    list = h('div', { class: 'tn-combo-list', role: 'listbox', id: pid, 'aria-multiselectable': multiple ? 'true' : null, 'aria-label': label || null, tabindex: withSearch ? null : '0' });
     input = withSearch ? h('input', {
-      class: 'dk-combo-q', type: 'search', role: 'combobox', 'aria-expanded': 'true', 'aria-controls': pid, 'aria-autocomplete': 'list', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'enter',
+      class: 'tn-combo-q', type: 'search', role: 'combobox', 'aria-expanded': 'true', 'aria-controls': pid, 'aria-autocomplete': 'list', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'enter',
       placeholder: searchPlaceholder ?? t('input.search'), 'aria-label': searchPlaceholder ?? t('input.search'), oninput: () => { q = input?.value ?? ''; active = 0; renderList(); },
     }) : null;
-    pop = h('div', { class: 'dk-combo-pop', onkeydown: key },
-      input && h('label', { class: 'dk-combo-search' }, icon('search'), input), list,
-      multiple && h('div', { class: 'dk-combo-foot' },
-        h('button', { class: 'dk-btn dk-btn-ghost dk-btn-sm', type: 'button', onclick: () => { sel.clear(); paint(); renderList(); changed(); } }, t('common.reset')),
-        h('button', { class: 'dk-btn dk-btn-default dk-btn-sm', type: 'button', onclick: () => close(true) }, t('common.done'))));
+    pop = h('div', { class: 'tn-combo-pop', onkeydown: key },
+      input && h('label', { class: 'tn-combo-search' }, icon('search'), input), list,
+      multiple && h('div', { class: 'tn-combo-foot' },
+        h('button', { class: 'tn-btn tn-btn-ghost tn-btn-sm', type: 'button', onclick: () => { sel.clear(); paint(); renderList(); changed(); } }, t('common.reset')),
+        h('button', { class: 'tn-btn tn-btn-default tn-btn-sm', type: 'button', onclick: () => close(true) }, t('common.done'))));
     showOverlay(pop);
     renderList();
     const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · logic of forms and actions without a DOM (testable in Node): validating fields, type-to-confirm, run state.
+// tarn · logic of forms and actions without a DOM (testable in Node): validating fields, type-to-confirm, run state.
 import { validateValue, validationText } from './inputs-data.js';
 
 /**

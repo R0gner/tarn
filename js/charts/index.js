@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · charts (SVG or HTML, no libraries). Import via js/dashkit.js.
+// tarn · charts (SVG or HTML, no libraries). Import via js/tarn.js.
 export { lineChart } from './line.js';
 export { barChart } from './bar.js';
 export { sparkline, donut, heatRow } from './small.js';

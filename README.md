@@ -1,10 +1,10 @@
-# dashkit
+# Tarn
 
 > **Information over decoration. Dense, calm, unambiguous, instant.**
 > Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
 > If a building block is missing, it goes into the kit, not into the board.
 
-dashkit is a small design system and component kit for **personal operations interfaces** – the kind of screens you let a coding
+Tarn is a small design system and component kit for **personal operations interfaces** – the kind of screens you let a coding
 agent build for you instead of running big tools (Jenkins, Jira, Grafana) of which you use ten percent: monitoring, starting
 pipelines and deployments, evaluations, logs, files, tickets. Dense, unambiguous, always the same look, and automatically
 checkable (`verify`). Agents assemble a board from a few known parts; if a part is missing, it is added to the kit.
@@ -35,16 +35,16 @@ Requirements: Node.js 22 or newer and Python 3 (for the local server) and a Chro
 screenshot tool). No `npm install`; there is nothing to install.
 
 ```sh
-git clone <this repository> dashkit && cd dashkit
+git clone <this repository> tarn && cd tarn
 python3 tools/serve.py --port 18810          # gallery: /gallery/, sample board: /example/
 TZ=Europe/Berlin node --test tests/*.test.mjs                         # unit tests, no browser
 node tools/verify.mjs --types                # type check, about a second
 node tools/verify.mjs                        # the full check, about five minutes
 ```
 
-**Start a board:** copy `example/` as the template, copy the kit into it with `node tools/vendor.mjs --to <board>/vendor/dashkit`
+**Start a board:** copy `example/` as the template, copy the kit into it with `node tools/vendor.mjs --to <board>/vendor/tarn`
 (see “Include in a board”), and give your coding agent [AGENTS.md](AGENTS.md) together with the gallery. A board is a folder
-with an `index.html`, an `app.js` that imports `/dashkit/js/dashkit.js`, a data source and its texts.
+with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source and its texts.
 
 **Tools at a glance**
 
@@ -65,7 +65,7 @@ with an `index.html`, an `app.js` that imports `/dashkit/js/dashkit.js`, a data 
 | `css/base.css`, `fonts.css`, `components.css`, `charts.css` | reset, focus, scrollbars · fonts · components and shell · controls and charts |
 | `fonts/` | Inter and IBM Plex Mono (woff2, OFL), sources and sha256 in `fonts/SOURCES.md` |
 | `icons/`, `js/icons.js`, `js/icons-data.js` | Lucide icons (fixed version, used ones only), `tools/icons.mjs` manages them |
-| `js/dashkit.js`, `js/version.js`, `VERSION`, `CHANGELOG.md` | **the only import for boards** (barrel export, includes `VERSION`) · version · changes per version |
+| `js/tarn.js`, `js/version.js`, `VERSION`, `CHANGELOG.md` | **the only import for boards** (barrel export, includes `VERSION`) · version · changes per version |
 | `js/theme-init.js` | classic script in `<head>`, prevents a flash of the wrong scheme |
 | `js/shell.js`, `router.js` | app shell (sidebar, toolbar, inspector/panel/bottom sheet), hash router |
 | `js/components.js`, `table.js`, `filterbar.js`, `sheet.js`, `controls.js`, `data.js` | components, data source |
@@ -83,7 +83,7 @@ with an `index.html`, an `app.js` that imports `/dashkit/js/dashkit.js`, a data 
 | `tools/lint.mjs`, `tools/lint/` | static kit rules (tokens, transitions, no innerHTML, timers, gallery coverage, emoji, visible texts via `t()`) |
 | `tools/tempo.mjs`, `tools/tempo/` | response times (Event Timing, long animation frames, visibility) against budgets |
 | `tools/brand.mjs`, `tools/icons.mjs` | board identity (favicon, PNG icons, manifest) · Lucide icons |
-| `tools/vendor.mjs` | copies a fixed kit version into a board (`vendor/dashkit/`), `--check` reports local changes and the version |
+| `tools/vendor.mjs` | copies a fixed kit version into a board (`vendor/tarn/`), `--check` reports local changes and the version |
 | `tools/serve.py`, `tools/shoot.mjs`, `tools/lib/` | local server with board CSP · screenshots via CDP · shared CDP client and test server |
 | `tests/` | `node --test tests/*.test.mjs`; `tests/snapshots/` holds the expected DOM outlines for verify |
 
@@ -98,39 +98,39 @@ node --test tests/*.test.mjs
 
 ## Include in a board
 
-**Every board carries a fixed copy of one kit version in `vendor/dashkit/` and serves it under `/dashkit/`.** No live mount: a kit
+**Every board carries a fixed copy of one kit version in `vendor/tarn/` and serves it under `/tarn/`.** No live mount: a kit
 change never reaches a board unnoticed; an update is a deliberate step with a check.
 
 ```sh
-# first copy and every update, run from a dashkit checkout
-node tools/vendor.mjs --to <board>/vendor/dashkit
+# first copy and every update, run from a Tarn checkout
+node tools/vendor.mjs --to <board>/vendor/tarn
 # later: has anyone changed the copy? which version is it?
-node tools/vendor.mjs --to <board>/vendor/dashkit --check
+node tools/vendor.mjs --to <board>/vendor/tarn --check
 ```
 
 `tools/vendor.mjs` copies only what the browser loads (`css/`, `js/`, `fonts/` with the font licences, `icons/` licence and sources
 list) plus `VERSION`, `LICENSE` and `NOTICE`, and writes `SHA256SUMS` (the record of what was copied; `sha256sum -c SHA256SUMS` works
-inside the folder). It never writes into the dashkit repository and leaves files it does not know alone.
+inside the folder). It never writes into the Tarn repository and leaves files it does not know alone.
 Exit codes: 0 done or copy intact · 1 local changes (check) or update refused · 2 usage or environment error.
 
 **Update:** the tool refuses to overwrite a copy whose files were changed locally (compare with `--check`; `--force` overwrites anyway,
 `--dry-run` shows what would change). Then: read `CHANGELOG.md` for the versions in between, run the update, run the board's own
 checks (`node <kit>/tools/verify.mjs` against the board, see “Check: verify”), review the snapshot diff, commit the copy together with
-the board changes it needs. Never edit files in `vendor/dashkit/`; a missing building block goes into the kit and arrives with the next copy.
-The pinned version is also available at runtime: `import { VERSION } from '/dashkit/js/dashkit.js'`.
+the board changes it needs. Never edit files in `vendor/tarn/`; a missing building block goes into the kit and arrives with the next copy.
+The pinned version is also available at runtime: `import { VERSION } from '/tarn/js/tarn.js'`.
 
-The board server serves `GET /dashkit/<path>` from `vendor/dashkit/` (same path check as for its own static files,
+The board server serves `GET /tarn/<path>` from `vendor/tarn/` (same path check as for its own static files,
 `Cache-Control: no-cache`). The board then imports only:
 
 ```html
-<script src="/dashkit/js/theme-init.js"></script>
-<link rel="stylesheet" href="/dashkit/css/tokens.css">
-<link rel="stylesheet" href="/dashkit/css/fonts.css">
-<link rel="stylesheet" href="/dashkit/css/base.css">
-<link rel="stylesheet" href="/dashkit/css/components.css">
-<link rel="stylesheet" href="/dashkit/css/charts.css">
+<script src="/tarn/js/theme-init.js"></script>
+<link rel="stylesheet" href="/tarn/css/tokens.css">
+<link rel="stylesheet" href="/tarn/css/fonts.css">
+<link rel="stylesheet" href="/tarn/css/base.css">
+<link rel="stylesheet" href="/tarn/css/components.css">
+<link rel="stylesheet" href="/tarn/css/charts.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<script type="module" src="app.js"></script>   <!-- import { … } from '/dashkit/js/dashkit.js' -->
+<script type="module" src="app.js"></script>   <!-- import { … } from '/tarn/js/tarn.js' -->
 ```
 
 Reason for serving it from the board itself: same origin, so a CSP with `'self'` fits without exceptions and without CORS.
@@ -209,7 +209,7 @@ node tools/verify.mjs --attach http://127.0.0.1:<port>   # use a running Chrome 
   `transform`/`opacity` (`background-color` on hover); no `innerHTML`/`outerHTML`/`insertAdjacentHTML`; no native `title` tooltips;
   JS timers without number literals; every exported block has a gallery entry; no emoji; **visible texts via `t()`**; every HTML
   page has an icon and a title. Exceptions: `tools/lint/allow.json`.
-- **snapshots**: per page × view (plus open details) × `phone`/`desktop` a text outline (element, role, `dk-*`/`is-*` classes,
+- **snapshots**: per page × view (plus open details) × `phone`/`desktop` a text outline (element, role, `tn-*`/`is-*` classes,
   text, box rounded to 4 px) under `tests/snapshots/`, clock fixed to 2026-11-09 10:00. A difference is a finding with a diff
   file. `--update` rewrites (deliberately only, reason in the commit). All declared fonts are loaded before measuring, otherwise
   boxes would depend on which view was opened first.
@@ -285,17 +285,17 @@ name sits above the track.
 - **Hover concept**, two kinds in the same card style: the **data card** (`dataCard()`: line/area, bars, heat map, timeline bars,
   usage segments) shows content you only see by pointing – mouse instantly and gone on leave; touch: tap shows, drag scrubs, tap
   elsewhere or scrolling closes; if the element has an action, on touch the second tap triggers it. The **hint** (`tooltip()`,
-  automatic for `.dk-ellipsis`) is smaller and delayed (mouse 350 ms, focus 150 ms, touch long press 500 ms, then stays 1.5 s):
+  automatic for `.tn-ellipsis`) is smaller and delayed (mouse 350 ms, focus 150 ms, touch long press 500 ms, then stays 1.5 s):
   only for icon-only buttons (`iconButton`, `button` without text bring it along) and for truncated text. Fully visible text
   gets no hint. No native `title` attributes in the kit (name via `aria-label`). Sparkline and donut have no hover.
-- **Lead** `--dk-t-lead` (−16 ms): panels, sheets and the sidebar start with a negative transition delay so that the first painted
+- **Lead** `--tn-t-lead` (−16 ms): panels, sheets and the sidebar start with a negative transition delay so that the first painted
   frame already shows motion (otherwise “first change” exceeds the 50 ms budget on phones).
 - **Scrollbar space** (`html { scrollbar-gutter: stable }`): when the background is locked the layout would otherwise jump by the
   scrollbar width and the whole page be recomputed (panel on desktop: 104 → 56 ms to the frame).
 - **Motion**: hover and press are instant (on touch `js/press.js` marks the pressed element with `.is-down`), menu, toast, tooltip
   and data card show in the first frame (no `requestAnimationFrame`). Only panels, sheets and the sidebar animate, only
-  `transform`/`opacity`: `--dk-t-open` 150 ms, `--dk-t-close` 120 ms (JS reads the same tokens, `prefers-reduced-motion`: 0 ms),
-  plus the endless animations `--dk-t-loop-*`.
+  `transform`/`opacity`: `--tn-t-open` 150 ms, `--tn-t-close` 120 ms (JS reads the same tokens, `prefers-reduced-motion`: 0 ms),
+  plus the endless animations `--tn-t-loop-*`.
 
 ## Fonts
 
@@ -318,11 +318,11 @@ text), external ones with `rel="noopener noreferrer"`; images are off (alt text)
 
 All inputs share one contract (the root element is returned): `el.focusEl` (the focusable element), `el.getValue()`, `el.setValue(v)` (no
 `onChange`), `el.setInvalid(bool)`, `el.setDisabled(bool)`; the bubbling `input` and `change` events fire as usual. Touch targets are
-44 px on the phone (`--dk-input-h`), numbers and dates use the native `<input>` (right keyboard and picker), only the combobox has its
+44 px on the phone (`--tn-input-h`), numbers and dates use the native `<input>` (right keyboard and picker), only the combobox has its
 own popover (overlay layer, so it also works inside a sheet).
 
 ```js
-import { field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange } from '/dashkit/js/dashkit.js';
+import { field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange } from '/tarn/js/tarn.js';
 
 field({ label: t('job.name'), help: t('job.nameHelp'), required: true }, textField({ value: job.name, placeholder: 'offsite-sync' }));
 field({ label: t('job.timeout') }, numberField({ value: 30, unit: 'min', min: 1, max: 120 }));        // min/max validated on change
@@ -375,7 +375,7 @@ rows, not filtering, is what costs time (1,000 rows filtered and drawn: ≈ 560 
 ## Forms and actions
 
 ```js
-import { form, confirm, actionRun, openSheet, toast } from '/dashkit/js/dashkit.js';
+import { form, confirm, actionRun, openSheet, toast } from '/tarn/js/tarn.js';
 
 const f = form({
   fields: [
@@ -442,7 +442,7 @@ createApp({
 ```
 
 - **When it makes sense:** from two boards in the same host group. Without `boards` (or with a single entry) the title stays
-  static, with `icon` alone only the icon precedes it. Entries may also point to pages without dashkit (plain link).
+  static, with `icon` alone only the icon precedes it. Entries may also point to pages without tarn (plain link).
 - **`icon`**: a URL shows the file (the `<link rel="icon">` stays in the HTML), an object `{ icon, color }` also sets the favicon
   (`favicon()`): one way for tab and header. Boards without an icon in the list get a letter tile in a fixed colour from the name.
 - **Data format:** `boards` is an array or `{ boards, categories }`. A string is a JSON file of the **same origin**, loaded on first
@@ -459,5 +459,5 @@ createApp({
 
 ## Licence
 
-dashkit is released under the [MIT licence](LICENSE), copyright (c) 2026 R0gner. The bundled Lucide icons (ISC), Inter and IBM Plex
+Tarn is released under the [MIT licence](LICENSE), copyright (c) 2026 R0gner. The bundled Lucide icons (ISC), Inter and IBM Plex
 Mono (SIL Open Font License 1.1) keep their own licences; see [NOTICE](NOTICE) and the licence texts in `fonts/` and `icons/`.

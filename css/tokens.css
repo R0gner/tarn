@@ -1,4 +1,4 @@
-/* dashkit · Tokens
+/* tarn · Tokens
    Single source for colours, sizes, spacing and motion. Boards use only these variables,
    no colour or pixel values of their own. Values follow a dense ops-console look (dark default).
 
@@ -14,190 +14,190 @@
   color-scheme: dark;
 
   /* Surfaces */
-  --dk-bg:            light-dark(oklch(0.958 0.004 265), oklch(0.185 0.004 265));
-  --dk-bg-sunken:     light-dark(oklch(0.935 0.005 265), oklch(0.165 0.004 265));
-  --dk-card:          light-dark(#fff,                   oklch(0.232 0.005 265));
-  --dk-card-2:        light-dark(oklch(0.975 0.003 265), oklch(0.255 0.005 265)); /* zebra, input fields */
-  --dk-popover:       light-dark(#fff,                   oklch(0.262 0.006 265));
-  --dk-border:        light-dark(rgb(0 0 0 / .10),       rgb(255 255 255 / .09));
-  --dk-sep:           light-dark(rgb(0 0 0 / .08),       rgb(255 255 255 / .065));
-  --dk-hover:         light-dark(oklch(0.2 0.01 265 / .055), rgb(255 255 255 / .04));
-  --dk-press:         light-dark(oklch(0.2 0.01 265 / .10),  rgb(255 255 255 / .075));
-  --dk-selected:      light-dark(oklch(0.2 0.01 265 / .08),  rgb(255 255 255 / .065));
-  --dk-indicator:     light-dark(oklch(0.70 0.006 265),  oklch(0.43 0.006 265));
-  --dk-scrim:         light-dark(rgb(20 22 28 / .32),    rgb(0 0 0 / .5));
-  --dk-skeleton:      light-dark(oklch(0.2 0.01 265 / .07), rgb(255 255 255 / .06));
+  --tn-bg:            light-dark(oklch(0.958 0.004 265), oklch(0.185 0.004 265));
+  --tn-bg-sunken:     light-dark(oklch(0.935 0.005 265), oklch(0.165 0.004 265));
+  --tn-card:          light-dark(#fff,                   oklch(0.232 0.005 265));
+  --tn-card-2:        light-dark(oklch(0.975 0.003 265), oklch(0.255 0.005 265)); /* zebra, input fields */
+  --tn-popover:       light-dark(#fff,                   oklch(0.262 0.006 265));
+  --tn-border:        light-dark(rgb(0 0 0 / .10),       rgb(255 255 255 / .09));
+  --tn-sep:           light-dark(rgb(0 0 0 / .08),       rgb(255 255 255 / .065));
+  --tn-hover:         light-dark(oklch(0.2 0.01 265 / .055), rgb(255 255 255 / .04));
+  --tn-press:         light-dark(oklch(0.2 0.01 265 / .10),  rgb(255 255 255 / .075));
+  --tn-selected:      light-dark(oklch(0.2 0.01 265 / .08),  rgb(255 255 255 / .065));
+  --tn-indicator:     light-dark(oklch(0.70 0.006 265),  oklch(0.43 0.006 265));
+  --tn-scrim:         light-dark(rgb(20 22 28 / .32),    rgb(0 0 0 / .5));
+  --tn-skeleton:      light-dark(oklch(0.2 0.01 265 / .07), rgb(255 255 255 / .06));
 
   /* Text */
-  --dk-text:          light-dark(oklch(0.225 0.006 265), oklch(0.955 0.003 265));
-  --dk-text-2:        light-dark(oklch(0.50 0.010 265),  oklch(0.72 0.008 265));
-  --dk-text-3:        light-dark(oklch(0.55 0.008 265),  oklch(0.56 0.008 265));
+  --tn-text:          light-dark(oklch(0.225 0.006 265), oklch(0.955 0.003 265));
+  --tn-text-2:        light-dark(oklch(0.50 0.010 265),  oklch(0.72 0.008 265));
+  --tn-text-3:        light-dark(oklch(0.55 0.008 265),  oklch(0.56 0.008 265));
   /* text-3 on tinted surfaces (page background, log, zebra): slightly darker in light for ≥ 4.5:1, dark = text-3 */
-  --dk-text-3-tint:   light-dark(oklch(0.49 0.009 265),  var(--dk-text-3));
+  --tn-text-3-tint:   light-dark(oklch(0.49 0.009 265),  var(--tn-text-3));
   /* placeholder text in input fields (card-2, popover): ≥ 4.5:1 in both modes; text-3 reaches only 3.4:1 on dark input fields */
-  --dk-placeholder:   light-dark(oklch(0.52 0.009 265),  oklch(0.66 0.008 265));
-  --dk-text-on-accent: #fff;
+  --tn-placeholder:   light-dark(oklch(0.52 0.009 265),  oklch(0.66 0.008 265));
+  --tn-text-on-accent: #fff;
 
   /* Accents (dark L=.66, light L=.60) */
-  --dk-blue:          light-dark(oklch(0.60 0.17 256),  oklch(0.66 0.17 256));
-  --dk-purple:        light-dark(oklch(0.60 0.18 300),  oklch(0.66 0.18 300));
-  --dk-pink:          light-dark(oklch(0.62 0.19 357),  oklch(0.68 0.19 357));
-  --dk-orange:        light-dark(oklch(0.68 0.16 58),   oklch(0.74 0.16 58));
-  --dk-green:         light-dark(oklch(0.64 0.16 152),  oklch(0.70 0.16 152));
-  --dk-graphite:      light-dark(oklch(0.58 0.012 265), oklch(0.64 0.012 265));
-  --dk-accent:        var(--dk-blue);
+  --tn-blue:          light-dark(oklch(0.60 0.17 256),  oklch(0.66 0.17 256));
+  --tn-purple:        light-dark(oklch(0.60 0.18 300),  oklch(0.66 0.18 300));
+  --tn-pink:          light-dark(oklch(0.62 0.19 357),  oklch(0.68 0.19 357));
+  --tn-orange:        light-dark(oklch(0.68 0.16 58),   oklch(0.74 0.16 58));
+  --tn-green:         light-dark(oklch(0.64 0.16 152),  oklch(0.70 0.16 152));
+  --tn-graphite:      light-dark(oklch(0.58 0.012 265), oklch(0.64 0.012 265));
+  --tn-accent:        var(--tn-blue);
 
   /* Status – traffic light. Use only these variables for states. */
-  --dk-ok:            var(--dk-green);
-  --dk-warn:          light-dark(oklch(0.70 0.15 75),  oklch(0.80 0.15 80));
-  --dk-bad:           light-dark(oklch(0.58 0.20 25),  oklch(0.66 0.20 25));
-  --dk-unknown:       var(--dk-indicator);
-  --dk-pending:       var(--dk-purple);
-  --dk-info:          var(--dk-blue);
+  --tn-ok:            var(--tn-green);
+  --tn-warn:          light-dark(oklch(0.70 0.15 75),  oklch(0.80 0.15 80));
+  --tn-bad:           light-dark(oklch(0.58 0.20 25),  oklch(0.66 0.20 25));
+  --tn-unknown:       var(--tn-indicator);
+  --tn-pending:       var(--tn-purple);
+  --tn-info:          var(--tn-blue);
   /* Status as text (badges, status text, danger button): tinted darker in light for ≥ 4.5:1, dark = status value.
-     Status dots, surfaces (--dk-*-bg) and chart colours keep the status values above. */
-  --dk-ok-text:       light-dark(oklch(0.50 0.13 152), var(--dk-ok));
-  --dk-warn-text:     light-dark(oklch(0.52 0.12 70),  var(--dk-warn));
-  --dk-bad-text:      light-dark(oklch(0.52 0.19 25),  var(--dk-bad));
-  --dk-info-text:     light-dark(oklch(0.50 0.16 256), var(--dk-info));
-  --dk-pending-text:  light-dark(oklch(0.50 0.17 300), var(--dk-pending));
+     Status dots, surfaces (--tn-*-bg) and chart colours keep the status values above. */
+  --tn-ok-text:       light-dark(oklch(0.50 0.13 152), var(--tn-ok));
+  --tn-warn-text:     light-dark(oklch(0.52 0.12 70),  var(--tn-warn));
+  --tn-bad-text:      light-dark(oklch(0.52 0.19 25),  var(--tn-bad));
+  --tn-info-text:     light-dark(oklch(0.50 0.16 256), var(--tn-info));
+  --tn-pending-text:  light-dark(oklch(0.50 0.17 300), var(--tn-pending));
   /* Primary button background (white text): darker in light for ≥ 5:1, dark = accent */
-  --dk-primary:       light-dark(oklch(0.53 0.17 256), var(--dk-accent));
+  --tn-primary:       light-dark(oklch(0.53 0.17 256), var(--tn-accent));
   /* Status as surface (badges, banners): colour with low opacity */
-  --dk-ok-bg:         color-mix(in oklch, var(--dk-ok) 14%, transparent);
-  --dk-warn-bg:       color-mix(in oklch, var(--dk-warn) 16%, transparent);
-  --dk-bad-bg:        color-mix(in oklch, var(--dk-bad) 15%, transparent);
-  --dk-info-bg:       color-mix(in oklch, var(--dk-info) 14%, transparent);
-  --dk-pending-bg:    color-mix(in oklch, var(--dk-pending) 14%, transparent);
-  --dk-unknown-bg:    var(--dk-hover);
+  --tn-ok-bg:         color-mix(in oklch, var(--tn-ok) 14%, transparent);
+  --tn-warn-bg:       color-mix(in oklch, var(--tn-warn) 16%, transparent);
+  --tn-bad-bg:        color-mix(in oklch, var(--tn-bad) 15%, transparent);
+  --tn-info-bg:       color-mix(in oklch, var(--tn-info) 14%, transparent);
+  --tn-pending-bg:    color-mix(in oklch, var(--tn-pending) 14%, transparent);
+  --tn-unknown-bg:    var(--tn-hover);
 
   /* Focus */
-  --dk-focus:         light-dark(oklch(0.55 0.01 265), oklch(0.68 0.01 265));
+  --tn-focus:         light-dark(oklch(0.55 0.01 265), oklch(0.68 0.01 265));
 
   /* Type */
-  --dk-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --dk-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
-  --dk-fs-xs: 11px;      /* axes, footnotes */
-  --dk-fs-section: 11.5px; /* section titles (600) */
-  --dk-fs-label: 12px;   /* labels, subtitles (500) */
-  --dk-fs-body: 13px;    /* running text, rows (400), titles (600) */
-  --dk-fs-lg: 15px;      /* page title, sheet title */
-  --dk-fs-stat: 20px;    /* key figure in tiles */
-  --dk-lh: 1.4;
-  --dk-fw-label: 500;
-  --dk-fw-strong: 600;
+  --tn-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tn-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --tn-fs-xs: 11px;      /* axes, footnotes */
+  --tn-fs-section: 11.5px; /* section titles (600) */
+  --tn-fs-label: 12px;   /* labels, subtitles (500) */
+  --tn-fs-body: 13px;    /* running text, rows (400), titles (600) */
+  --tn-fs-lg: 15px;      /* page title, sheet title */
+  --tn-fs-stat: 20px;    /* key figure in tiles */
+  --tn-lh: 1.4;
+  --tn-fw-label: 500;
+  --tn-fw-strong: 600;
 
   /* Spacing – 4 px grid */
-  --dk-s1: 4px;
-  --dk-s2: 8px;
-  --dk-s3: 12px;
-  --dk-s4: 16px;
-  --dk-s5: 20px;
-  --dk-s6: 24px;
-  --dk-s8: 32px;
+  --tn-s1: 4px;
+  --tn-s2: 8px;
+  --tn-s3: 12px;
+  --tn-s4: 16px;
+  --tn-s5: 20px;
+  --tn-s6: 24px;
+  --tn-s8: 32px;
 
   /* Radii – small */
-  --dk-r-1: 1px;
-  --dk-r-xs: 2px;
-  --dk-r-3: 3px;
-  --dk-r-sm: 4px;
-  --dk-r: 6px;
-  --dk-r-lg: 10px;      /* top of the bottom sheet */
+  --tn-r-1: 1px;
+  --tn-r-xs: 2px;
+  --tn-r-3: 3px;
+  --tn-r-sm: 4px;
+  --tn-r: 6px;
+  --tn-r-lg: 10px;      /* top of the bottom sheet */
 
   /* Shadows, lines, type */
-  --dk-black: #000;
-  --dk-shadow-sheet: 0 16px 48px rgb(0 0 0 / .28);
-  --dk-shadow-toast: 0 6px 24px rgb(0 0 0 / .28);
-  --dk-shadow-menu: 0 8px 28px rgb(0 0 0 / .3);
-  --dk-shadow-card: 0 4px 16px rgb(0 0 0 / .25);
-  --dk-stroke: 1.5px;     /* ring lines (status pending/off) */
-  --dk-ring: 2px;         /* focus ring, marker */
-  --dk-fs-input: 16px;    /* touch inputs (no auto-zoom) */
-  --dk-ls-tight: -.01em;  /* key figures */
+  --tn-black: #000;
+  --tn-shadow-sheet: 0 16px 48px rgb(0 0 0 / .28);
+  --tn-shadow-toast: 0 6px 24px rgb(0 0 0 / .28);
+  --tn-shadow-menu: 0 8px 28px rgb(0 0 0 / .3);
+  --tn-shadow-card: 0 4px 16px rgb(0 0 0 / .25);
+  --tn-stroke: 1.5px;     /* ring lines (status pending/off) */
+  --tn-ring: 2px;         /* focus ring, marker */
+  --tn-fs-input: 16px;    /* touch inputs (no auto-zoom) */
+  --tn-ls-tight: -.01em;  /* key figures */
 
   /* Sizes */
-  --dk-row-h: 32px;      /* row height (mouse) */
-  --dk-hit: 28px;        /* minimum control size (mouse) */
-  --dk-toolbar-h: 44px;
-  --dk-input-h: var(--dk-hit);   /* inputs: mouse = control size, touch ≥ 44 px (see the coarse block) */
-  --dk-sidebar-w: 208px;
-  --dk-inspector-w: 380px;
-  --dk-icon: 16px;
-  --dk-dot: 7px;
+  --tn-row-h: 32px;      /* row height (mouse) */
+  --tn-hit: 28px;        /* minimum control size (mouse) */
+  --tn-toolbar-h: 44px;
+  --tn-input-h: var(--tn-hit);   /* inputs: mouse = control size, touch ≥ 44 px (see the coarse block) */
+  --tn-sidebar-w: 208px;
+  --tn-inspector-w: 380px;
+  --tn-icon: 16px;
+  --tn-dot: 7px;
 
   /* Fine grid for intermediate sizes (spacing between the 4 px steps) – name = value in px */
-  --dk-sp-1: 1px;
-  --dk-sp-2: 2px;
-  --dk-sp-3: 3px;
-  --dk-sp-5: 5px;
-  --dk-sp-6: 6px;
-  --dk-sp-9: 9px;
-  --dk-sp-10: 10px;
+  --tn-sp-1: 1px;
+  --tn-sp-2: 2px;
+  --tn-sp-3: 3px;
+  --tn-sp-5: 5px;
+  --tn-sp-6: 6px;
+  --tn-sp-9: 9px;
+  --tn-sp-10: 10px;
 
   /* Size table: fixed component dimensions (heights, widths, limits), named after the value. Literals only here. */
-  --dk-sz-3ch: 3ch;
-  --dk-sz-24ch: 24ch;
-  --dk-sz-46ch: 46ch;
-  --dk-sz-45dvh: 45dvh;
-  --dk-sz-70dvh: 70dvh;
-  --dk-sz-88dvh: 88dvh;
-  --dk-sz-6em: 6em;
-  --dk-sz-8em: 8em;
-  --dk-sz-10em: 10em;
-  --dk-sz-1: 1px;
-  --dk-sz-2: 2px;
-  --dk-sz-6: 6px;
-  --dk-sz-10: 10px;
-  --dk-sz-16: 16px;
-  --dk-sz-18: 18px;
-  --dk-sz-22: 22px;
-  --dk-sz-24: 24px;
-  --dk-sz-20: 20px;
-  --dk-sz-26: 26px;
-  --dk-sz-28: 28px;
-  --dk-sz-30: 30px;
-  --dk-sz-34: 34px;
-  --dk-sz-36: 36px;
-  --dk-sz-40: 40px;
-  --dk-sz-44: 44px;
-  --dk-sz-48: 48px;
-  --dk-sz-72: 72px;
-  --dk-sz-96: 96px;
-  --dk-sz-108: 108px;
-  --dk-sz-120: 120px;
-  --dk-sz-150: 150px;
-  --dk-sz-180: 180px;
-  --dk-sz-260: 260px;
-  --dk-sz-280: 280px;
-  --dk-sz-320: 320px;
-  --dk-sz-340: 340px;
-  --dk-sz-420: 420px;
-  --dk-sz-440: 440px;
-  --dk-sz-480: 480px;
-  --dk-sz-84vw: 84vw;
+  --tn-sz-3ch: 3ch;
+  --tn-sz-24ch: 24ch;
+  --tn-sz-46ch: 46ch;
+  --tn-sz-45dvh: 45dvh;
+  --tn-sz-70dvh: 70dvh;
+  --tn-sz-88dvh: 88dvh;
+  --tn-sz-6em: 6em;
+  --tn-sz-8em: 8em;
+  --tn-sz-10em: 10em;
+  --tn-sz-1: 1px;
+  --tn-sz-2: 2px;
+  --tn-sz-6: 6px;
+  --tn-sz-10: 10px;
+  --tn-sz-16: 16px;
+  --tn-sz-18: 18px;
+  --tn-sz-22: 22px;
+  --tn-sz-24: 24px;
+  --tn-sz-20: 20px;
+  --tn-sz-26: 26px;
+  --tn-sz-28: 28px;
+  --tn-sz-30: 30px;
+  --tn-sz-34: 34px;
+  --tn-sz-36: 36px;
+  --tn-sz-40: 40px;
+  --tn-sz-44: 44px;
+  --tn-sz-48: 48px;
+  --tn-sz-72: 72px;
+  --tn-sz-96: 96px;
+  --tn-sz-108: 108px;
+  --tn-sz-120: 120px;
+  --tn-sz-150: 150px;
+  --tn-sz-180: 180px;
+  --tn-sz-260: 260px;
+  --tn-sz-280: 280px;
+  --tn-sz-320: 320px;
+  --tn-sz-340: 340px;
+  --tn-sz-420: 420px;
+  --tn-sz-440: 440px;
+  --tn-sz-480: 480px;
+  --tn-sz-84vw: 84vw;
 
   /* Motion: hover, press, menus, tooltips and toasts are instant (no duration). Only panels, sheets and the
      sidebar animate, only transform/opacity: 150 ms open, 120 ms close. JS reads these tokens too. */
-  --dk-t-open: 150ms;
-  --dk-t-close: 120ms;
-  --dk-t-lead: -16ms;          /* lead-in on open: the first painted frame already shows motion (negative delay) */
-  --dk-t-loop-pulse: 1400ms;   /* loading skeleton */
-  --dk-t-loop-indet: 1300ms;   /* indeterminate progress */
-  --dk-t-loop-spin: 900ms;     /* spinner on a running button */
-  --dk-ease: cubic-bezier(.2, .7, .2, 1);
+  --tn-t-open: 150ms;
+  --tn-t-close: 120ms;
+  --tn-t-lead: -16ms;          /* lead-in on open: the first painted frame already shows motion (negative delay) */
+  --tn-t-loop-pulse: 1400ms;   /* loading skeleton */
+  --tn-t-loop-indet: 1300ms;   /* indeterminate progress */
+  --tn-t-loop-spin: 900ms;     /* spinner on a running button */
+  --tn-ease: cubic-bezier(.2, .7, .2, 1);
 
-  --dk-z-sticky: 10;
-  --dk-z-drawer: 40;
-  --dk-z-toast: 60;
+  --tn-z-sticky: 10;
+  --tn-z-drawer: 40;
+  --tn-z-toast: 60;
 }
 
 /* Touch: controls ≥ 40 px, rows slightly taller. Look stays compact (type unchanged). */
 @media (pointer: coarse) {
   :root {
-    --dk-row-h: 44px;
-    --dk-hit: 40px;
-    --dk-toolbar-h: 48px;
-    --dk-input-h: var(--dk-sz-44);
+    --tn-row-h: 44px;
+    --tn-hit: 40px;
+    --tn-toolbar-h: 48px;
+    --tn-input-h: var(--tn-sz-44);
   }
 }
 
@@ -208,5 +208,5 @@
 :root[data-theme="dark"]  { color-scheme: dark; }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --dk-t-open: 0ms; --dk-t-close: 0ms; --dk-t-lead: 0ms; }
+  :root { --tn-t-open: 0ms; --tn-t-close: 0ms; --tn-t-lead: 0ms; }
 }

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · shared chart frame: width via ResizeObserver, tooltip, legend, color classes.
+// tarn · shared chart frame: width via ResizeObserver, tooltip, legend, color classes.
 import { h, s } from '../dom.js';
 
 /** @typedef {import('../dom.js').Child} Child */
@@ -13,7 +13,7 @@ export const COLORS = new Set([...PALETTE, 'ok', 'warn', 'bad', 'unknown', 'pend
  * @param {string | undefined} c
  * @param {number} [i]
  */
-export const colorClass = (c, i = 0) => `dk-c-${c && COLORS.has(c) ? c : PALETTE[i % PALETTE.length]}`;
+export const colorClass = (c, i = 0) => `tn-c-${c && COLORS.has(c) ? c : PALETTE[i % PALETTE.length]}`;
 
 /**
  * Frame that redraws when the width changes. draw(width) → SVG/Node. Returns { el, tip, redraw }.
@@ -22,9 +22,9 @@ export const colorClass = (c, i = 0) => `dk-c-${c && COLORS.has(c) ? c : PALETTE
  * @returns {ChartFrame}
  */
 export function chartFrame({ className, label, height, draw }) {
-  const tip = h('div', { class: 'dk-chart-tip', 'aria-hidden': 'true', hidden: true });
-  const plot = h('div', { class: 'dk-chart-plot', style: height ? { height: `${height}px` } : null });
-  const el = h('div', { class: `dk-chart ${className || ''}`.trim(), role: 'img', 'aria-label': label || null }, plot, tip);
+  const tip = h('div', { class: 'tn-chart-tip', 'aria-hidden': 'true', hidden: true });
+  const plot = h('div', { class: 'tn-chart-plot', style: height ? { height: `${height}px` } : null });
+  const el = h('div', { class: `tn-chart ${className || ''}`.trim(), role: 'img', 'aria-label': label || null }, plot, tip);
   let w = 0, raf = 0;
   /** @param {boolean} [force] */
   const redraw = (force) => {
@@ -67,7 +67,7 @@ export const hideTip = (frame) => { frame.tip.hidden = true; };
  * @returns {HTMLElement}
  */
 export function tipRow(color, name, value, i) {
-  return h('div', { class: 'dk-tip-row' }, h('span', { class: `dk-tip-sw ${colorClass(color, i)}` }), h('span', { class: 'dk-tip-name' }, name), h('span', { class: 'dk-tip-val dk-num' }, value));
+  return h('div', { class: 'tn-tip-row' }, h('span', { class: `tn-tip-sw ${colorClass(color, i)}` }), h('span', { class: 'tn-tip-name' }, name), h('span', { class: 'tn-tip-val tn-num' }, value));
 }
 
 /**
@@ -77,7 +77,7 @@ export function tipRow(color, name, value, i) {
  */
 export function legend(series) {
   if (!series || series.length < 2) return null;
-  return h('div', { class: 'dk-legend' }, series.map((r, i) => h('span', { class: 'dk-legend-item' }, h('span', { class: `dk-tip-sw ${colorClass(r.color, i)}` }), r.label)));
+  return h('div', { class: 'tn-legend' }, series.map((r, i) => h('span', { class: 'tn-legend-item' }, h('span', { class: `tn-tip-sw ${colorClass(r.color, i)}` }), r.label)));
 }
 
 /**
@@ -86,7 +86,7 @@ export function legend(series) {
  * @param {...Child} kids
  * @returns {SVGElement}
  */
-export const svg = (w, hgt, ...kids) => s('svg', { width: w, height: hgt, viewBox: `0 0 ${w} ${hgt}`, class: 'dk-svg', 'aria-hidden': 'true' }, ...kids);
+export const svg = (w, hgt, ...kids) => s('svg', { width: w, height: hgt, viewBox: `0 0 ${w} ${hgt}`, class: 'tn-svg', 'aria-hidden': 'true' }, ...kids);
 
 /**
  * Pointer scrubbing: calls onMove(xPx, yPx) (relative to the SVG) / onEnd(). Mouse: moving shows, leaving closes.

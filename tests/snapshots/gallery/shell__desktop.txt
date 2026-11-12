@@ -1,181 +1,181 @@
 # gallery #/shell · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x2160
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      div.dk-brand @16,12 128x24
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
-    nav.dk-nav "Views" @8,44 192x528
-      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
-      a.dk-nav-item @8,68 192x28
-        svg.dk-icon @16,76 16x16
-        span.dk-ellipsis "Foundations" @40,76 76x20
-      a.dk-nav-item @8,100 192x28
-        svg.dk-icon @16,104 16x16
-        span.dk-ellipsis "Light and dark" @40,104 88x20
-      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
-      a.dk-nav-item @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Buttons and status" @40,164 116x20
-      a.dk-nav-item @8,188 192x28
-        svg.dk-icon @16,196 16x16
-        span.dk-ellipsis "Controls" @40,196 52x20
-      a.dk-nav-item @8,220 192x28
-        svg.dk-icon @16,224 16x16
-        span.dk-ellipsis "Inputs" @40,224 40x20
-      div.dk-nav-group [presentation] "Components" @8,248 192x32
-      a.dk-nav-item @8,280 192x28
-        svg.dk-icon @16,288 16x16
-        span.dk-ellipsis "Cards and tiles" @40,284 92x20
-      a.dk-nav-item @8,308 192x28
-        svg.dk-icon @16,316 16x16
-        span.dk-ellipsis "Rows and facts" @40,316 96x20
-      a.dk-nav-item @8,340 192x28
-        svg.dk-icon @16,344 16x16
-        span.dk-ellipsis "Table and filter" @40,344 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
-      a.dk-nav-item @8,368 192x28
-        svg.dk-icon @16,372 16x16
-        span.dk-ellipsis "Forms and actions" @40,372 116x20
-      a.dk-nav-item @8,396 192x28
-        svg.dk-icon @16,404 16x16
-        span.dk-ellipsis "Menus and feedback" @40,400 132x20
-      a.dk-nav-item @8,424 192x28
-        svg.dk-icon @16,432 16x16
-        span.dk-ellipsis "Charts" @40,432 40x20
-      a.dk-nav-item @8,456 192x28
-        svg.dk-icon @16,460 16x16
-        span.dk-ellipsis "Markdown" @40,460 64x20
-      a.dk-nav-item @8,484 192x28
-        svg.dk-icon @16,488 16x16
-        span.dk-ellipsis "States and sheets" @40,488 112x20
-      div.dk-nav-group [presentation] "Shell" @8,512 192x32
-      a.dk-nav-item.is-active {current=page} @8,544 192x28
-        svg.dk-icon @16,552 16x16
-        span.dk-ellipsis "Shell and boards" @40,552 104x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x2160
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Shell and boards" @252,12 104x20
-      div.dk-toolbar-spacer @360,20 860x0
-      button.dk-fresh "Updated now" @1224,8 92x28
-      button.dk-iconbtn "Reload" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x2116
-      section.dk-card @224,116 1184x1112
-        header.dk-card-head @224,116 1184x40
-          div.dk-card-heading @236,128 1160x20
-            h3.dk-card-title "boardSwitcher() and boardGrid()" @236,128 1160x20
-        div.dk-card-body @224,156 1184x1072
-          button.dk-btn.dk-btn-default {expanded=false} @236,168 112x28
-            svg.dk-icon @252,176 16x16
-            svg.dk-icon @320,176 16x16
-          button.dk-btn.dk-btn-default {expanded=false} @360,168 184x28
-            svg.dk-icon @372,176 16x16
-            svg.dk-icon @512,176 16x16
-          button.dk-btn.dk-btn-default {expanded=false} @552,168 116x28
-            svg.dk-icon @568,176 16x16
-          span.dk-bicon @236,236 44x44
-            img.dk-bicon-img @236,236 44x44
-          span.dk-bicon @380,236 44x44
-            img.dk-bicon-img @380,236 44x44
-          span.dk-bicon.is-letter.dk-c-pink @480,236 44x44
-            span.dk-bicon-letter "W" @492,248 20x20
-          span.dk-bicon.is-letter.dk-c-orange @560,236 44x44
-            span.dk-bicon-letter "P" @576,248 12x20
-          span.dk-bicon @636,244 24x24
-            img.dk-bicon-img @636,244 24x24
-          section.dk-card @236,316 204x660
-            div.dk-card-body @240,316 204x656
-              div.dk-boards-body @252,328 180x632
-                div.dk-boards-grid @252,328 180x632
-                  a.dk-board @252,328 180x88
-                    span.dk-bicon @316,336 44x44
-                      img.dk-bicon-img @316,336 44x44
-                    span.dk-board-name.dk-ellipsis "Maintenance" @304,388 76x16
-                  a.dk-board {current=true} @252,420 180x88
-                    span.dk-bicon @316,428 44x44
-                      img.dk-bicon-img @316,428 44x44
-                    span.dk-board-name.dk-clamp "Network and access" @280,480 116x16
-                  a.dk-board @252,512 180x88
-                    span.dk-bicon @316,520 44x44
-                      img.dk-bicon-img @316,520 44x44
-                    span.dk-board-name.dk-ellipsis "Backups" @316,572 48x16
-                  a.dk-board @252,604 180x88
-                    span.dk-bicon @316,612 44x44
-                      img.dk-bicon-img @316,612 44x44
-                    span.dk-board-name.dk-clamp "Media library" @304,664 76x16
-                  a.dk-board @252,692 180x88
-                    span.dk-bicon.is-letter.dk-c-orange @316,700 44x44
-                      span.dk-bicon-letter "P" @332,712 12x20
-                    span.dk-board-name.dk-ellipsis "Power" @320,752 36x16
-                  a.dk-board @252,784 180x88
-                    span.dk-bicon.is-letter.dk-c-pink @316,792 44x44
-                      span.dk-bicon-letter "W" @328,804 20x20
-                    span.dk-board-name.dk-ellipsis "Wiki" @328,844 24x16
-                  a.dk-board @252,876 180x88
-                    span.dk-bicon.is-letter.dk-c-green @316,884 44x44
-                      span.dk-bicon-letter "O" @332,896 16x20
-                    span.dk-board-name.dk-clamp "Occupational safety regulation" @252,936 176x16
-          section.dk-card @824,316 204x768
-            div.dk-card-body @824,316 204x764
-              div.dk-boards-body @836,328 180x740
-                h3.dk-boards-cat "Operations" @836,328 180x16
-                div.dk-boards-grid @836,356 180x268
-                  a.dk-board @836,356 180x88
-                    span.dk-bicon @904,364 44x44
-                      img.dk-bicon-img @904,364 44x44
-                    span.dk-board-name.dk-ellipsis "Maintenance" @892,416 76x16
-                  a.dk-board @836,448 180x88
-                    span.dk-bicon @904,456 44x44
-                      img.dk-bicon-img @904,456 44x44
-                    span.dk-board-name.dk-clamp "Network and access" @868,508 116x16
-                  a.dk-board @836,540 180x88
-                    span.dk-bicon @904,548 44x44
-                      img.dk-bicon-img @904,548 44x44
-                    span.dk-board-name.dk-ellipsis "Backups" @904,600 48x16
-                h3.dk-boards-cat "Home" @836,644 180x16
-                div.dk-boards-grid @836,672 180x180
-                  a.dk-board {current=true} @836,672 180x88
-                    span.dk-bicon @904,680 44x44
-                      img.dk-bicon-img @904,680 44x44
-                    span.dk-board-name.dk-clamp "Media library" @888,732 76x16
-                  a.dk-board @836,760 180x88
-                    span.dk-bicon.is-letter.dk-c-orange @904,768 44x44
-                      span.dk-bicon-letter "P" @920,780 12x20
-                    span.dk-board-name.dk-ellipsis "Power" @908,820 36x16
-                h3.dk-boards-cat "Other" @836,864 180x16
-                div.dk-boards-grid @836,892 180x180
-                  a.dk-board @836,892 180x88
-                    span.dk-bicon.is-letter.dk-c-pink @904,900 44x44
-                      span.dk-bicon-letter "W" @916,912 20x20
-                    span.dk-board-name.dk-ellipsis "Wiki" @916,952 24x16
-                  a.dk-board @836,984 180x88
-                    span.dk-bicon.is-letter.dk-c-green @904,992 44x44
-                      span.dk-bicon-letter "O" @920,1004 16x20
-                    span.dk-board-name.dk-clamp "Occupational safety regulation" @840,1044 176x16
-      section.dk-card @224,1252 1184x216
-        header.dk-card-head @224,1252 1184x40
-          div.dk-card-heading @236,1260 1160x20
-            h3.dk-card-title "Board identity: favicon() and language" @236,1260 1160x20
-        div.dk-card-body @224,1292 1184x172
-          button.dk-btn.dk-btn-default.dk-btn-sm @460,1308 104x24
-          button.dk-btn.dk-btn-default.dk-btn-sm @576,1308 104x24
-          button.dk-btn.dk-btn-default.dk-btn-sm @704,1308 104x24
-          button.dk-btn.dk-btn-default.dk-btn-sm @824,1308 104x24
-      section.dk-card @224,1484 1184x352
-        header.dk-card-head @224,1488 1184x40
-          div.dk-card-heading @236,1496 1160x20
-            h3.dk-card-title "Language and formats" @236,1496 1160x20
-        div.dk-card-body @224,1528 1184x308
-          dl.dk-kv @236,1540 380x220
+div.tn-app @0,0 1424x2160
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x528
+      div.tn-nav-group [presentation] "Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      div.tn-nav-group [presentation] "Components" @8,248 192x32
+      a.tn-nav-item @8,280 192x28
+        svg.tn-icon @16,288 16x16
+        span.tn-ellipsis "Cards and tiles" @40,284 92x20
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Rows and facts" @40,316 96x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Table and filter" @40,344 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,344 24x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Forms and actions" @40,372 116x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Menus and feedback" @40,400 132x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Charts" @40,432 40x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Markdown" @40,460 64x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "States and sheets" @40,488 112x20
+      div.tn-nav-group [presentation] "Shell" @8,512 192x32
+      a.tn-nav-item.is-active {current=page} @8,544 192x28
+        svg.tn-icon @16,552 16x16
+        span.tn-ellipsis "Shell and boards" @40,552 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x2160
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Shell and boards" @252,12 104x20
+      div.tn-toolbar-spacer @360,20 860x0
+      button.tn-fresh "Updated now" @1224,8 92x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x2116
+      section.tn-card @224,116 1184x1112
+        header.tn-card-head @224,116 1184x40
+          div.tn-card-heading @236,128 1160x20
+            h3.tn-card-title "boardSwitcher() and boardGrid()" @236,128 1160x20
+        div.tn-card-body @224,156 1184x1072
+          button.tn-btn.tn-btn-default {expanded=false} @236,168 112x28
+            svg.tn-icon @252,176 16x16
+            svg.tn-icon @320,176 16x16
+          button.tn-btn.tn-btn-default {expanded=false} @360,168 184x28
+            svg.tn-icon @372,176 16x16
+            svg.tn-icon @512,176 16x16
+          button.tn-btn.tn-btn-default {expanded=false} @552,168 116x28
+            svg.tn-icon @568,176 16x16
+          span.tn-bicon @236,236 44x44
+            img.tn-bicon-img @236,236 44x44
+          span.tn-bicon @380,236 44x44
+            img.tn-bicon-img @380,236 44x44
+          span.tn-bicon.is-letter.tn-c-pink @480,236 44x44
+            span.tn-bicon-letter "W" @492,248 20x20
+          span.tn-bicon.is-letter.tn-c-orange @560,236 44x44
+            span.tn-bicon-letter "P" @576,248 12x20
+          span.tn-bicon @636,244 24x24
+            img.tn-bicon-img @636,244 24x24
+          section.tn-card @236,316 204x660
+            div.tn-card-body @240,316 204x656
+              div.tn-boards-body @252,328 180x632
+                div.tn-boards-grid @252,328 180x632
+                  a.tn-board @252,328 180x88
+                    span.tn-bicon @316,336 44x44
+                      img.tn-bicon-img @316,336 44x44
+                    span.tn-board-name.tn-ellipsis "Maintenance" @304,388 76x16
+                  a.tn-board {current=true} @252,420 180x88
+                    span.tn-bicon @316,428 44x44
+                      img.tn-bicon-img @316,428 44x44
+                    span.tn-board-name.tn-clamp "Network and access" @280,480 116x16
+                  a.tn-board @252,512 180x88
+                    span.tn-bicon @316,520 44x44
+                      img.tn-bicon-img @316,520 44x44
+                    span.tn-board-name.tn-ellipsis "Backups" @316,572 48x16
+                  a.tn-board @252,604 180x88
+                    span.tn-bicon @316,612 44x44
+                      img.tn-bicon-img @316,612 44x44
+                    span.tn-board-name.tn-clamp "Media library" @304,664 76x16
+                  a.tn-board @252,692 180x88
+                    span.tn-bicon.is-letter.tn-c-orange @316,700 44x44
+                      span.tn-bicon-letter "P" @332,712 12x20
+                    span.tn-board-name.tn-ellipsis "Power" @320,752 36x16
+                  a.tn-board @252,784 180x88
+                    span.tn-bicon.is-letter.tn-c-pink @316,792 44x44
+                      span.tn-bicon-letter "W" @328,804 20x20
+                    span.tn-board-name.tn-ellipsis "Wiki" @328,844 24x16
+                  a.tn-board @252,876 180x88
+                    span.tn-bicon.is-letter.tn-c-green @316,884 44x44
+                      span.tn-bicon-letter "O" @332,896 16x20
+                    span.tn-board-name.tn-clamp "Occupational safety regulation" @252,936 176x16
+          section.tn-card @824,316 204x768
+            div.tn-card-body @824,316 204x764
+              div.tn-boards-body @836,328 180x740
+                h3.tn-boards-cat "Operations" @836,328 180x16
+                div.tn-boards-grid @836,356 180x268
+                  a.tn-board @836,356 180x88
+                    span.tn-bicon @904,364 44x44
+                      img.tn-bicon-img @904,364 44x44
+                    span.tn-board-name.tn-ellipsis "Maintenance" @892,416 76x16
+                  a.tn-board @836,448 180x88
+                    span.tn-bicon @904,456 44x44
+                      img.tn-bicon-img @904,456 44x44
+                    span.tn-board-name.tn-clamp "Network and access" @868,508 116x16
+                  a.tn-board @836,540 180x88
+                    span.tn-bicon @904,548 44x44
+                      img.tn-bicon-img @904,548 44x44
+                    span.tn-board-name.tn-ellipsis "Backups" @904,600 48x16
+                h3.tn-boards-cat "Home" @836,644 180x16
+                div.tn-boards-grid @836,672 180x180
+                  a.tn-board {current=true} @836,672 180x88
+                    span.tn-bicon @904,680 44x44
+                      img.tn-bicon-img @904,680 44x44
+                    span.tn-board-name.tn-clamp "Media library" @888,732 76x16
+                  a.tn-board @836,760 180x88
+                    span.tn-bicon.is-letter.tn-c-orange @904,768 44x44
+                      span.tn-bicon-letter "P" @920,780 12x20
+                    span.tn-board-name.tn-ellipsis "Power" @908,820 36x16
+                h3.tn-boards-cat "Other" @836,864 180x16
+                div.tn-boards-grid @836,892 180x180
+                  a.tn-board @836,892 180x88
+                    span.tn-bicon.is-letter.tn-c-pink @904,900 44x44
+                      span.tn-bicon-letter "W" @916,912 20x20
+                    span.tn-board-name.tn-ellipsis "Wiki" @916,952 24x16
+                  a.tn-board @836,984 180x88
+                    span.tn-bicon.is-letter.tn-c-green @904,992 44x44
+                      span.tn-bicon-letter "O" @920,1004 16x20
+                    span.tn-board-name.tn-clamp "Occupational safety regulation" @840,1044 176x16
+      section.tn-card @224,1252 1184x216
+        header.tn-card-head @224,1252 1184x40
+          div.tn-card-heading @236,1260 1160x20
+            h3.tn-card-title "Board identity: favicon() and language" @236,1260 1160x20
+        div.tn-card-body @224,1292 1184x172
+          button.tn-btn.tn-btn-default.tn-btn-sm @460,1308 104x24
+          button.tn-btn.tn-btn-default.tn-btn-sm @576,1308 104x24
+          button.tn-btn.tn-btn-default.tn-btn-sm @704,1308 104x24
+          button.tn-btn.tn-btn-default.tn-btn-sm @824,1308 104x24
+      section.tn-card @224,1484 1184x352
+        header.tn-card-head @224,1488 1184x40
+          div.tn-card-heading @236,1496 1160x20
+            h3.tn-card-title "Language and formats" @236,1496 1160x20
+        div.tn-card-body @224,1528 1184x308
+          dl.tn-kv @236,1540 380x220
             dt "Number" @236,1540 96x20
             dd "12,345.68" @352,1540 268x20
             dt "Percent" @236,1560 96x20
@@ -194,12 +194,12 @@ div.dk-app @0,0 1424x2160
             dd "yesterday 10:00 AM" @352,1700 268x20
             dt "Status" @236,1724 96x36
             dd "OK · Warning · Error · Unknown · Pending · Note · Off" @352,1724 268x36
-      section.dk-card @224,1856 1184x272
-        header.dk-card-head @224,1856 1184x40
-          div.dk-card-heading @236,1868 1160x20
-            h3.dk-card-title "dataSource()" @236,1868 1160x20
-        div.dk-card-body @224,1896 1184x232
-          dl.dk-kv @236,1908 380x112
+      section.tn-card @224,1856 1184x272
+        header.tn-card-head @224,1856 1184x40
+          div.tn-card-heading @236,1868 1160x20
+            h3.tn-card-title "dataSource()" @236,1868 1160x20
+        div.tn-card-body @224,1896 1184x232
+          dl.tn-kv @236,1908 380x112
             dt "URL" @236,1908 96x20
             dd "./fixture.json" @348,1908 268x20
             dt "State" @236,1932 96x20

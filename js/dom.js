@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · DOM helpers. No dependencies, CSP-friendly (no innerHTML, no style attribute).
+// tarn · DOM helpers. No dependencies, CSP-friendly (no innerHTML, no style attribute).
 
 /** @typedef {Node | string | number | boolean | null | undefined | any[]} Child Anything h() accepts as a child; null, undefined and booleans are ignored. */
 /** @typedef {Record<string, any>} Attrs Attributes and `on*` listeners for h(); `style` and `dataset` take objects, `class` a string or an array for cls(). */
@@ -104,7 +104,7 @@ export function mount(el, ...kids) {
 }
 
 /**
- * Duration of a token (e.g. '--dk-t-close') in ms. JS timers for transitions read their duration here, not as a literal.
+ * Duration of a token (e.g. '--tn-t-close') in ms. JS timers for transitions read their duration here, not as a literal.
  * @param {string} name
  * @returns {number}
  */
@@ -115,4 +115,4 @@ export function tokenMs(name) {
 
 let uid = 0;
 /** Unique element id with a prefix. @param {string} [p] */
-export const nextId = (p = 'dk') => `${p}-${++uid}`;
+export const nextId = (p = 'tn') => `${p}-${++uid}`;

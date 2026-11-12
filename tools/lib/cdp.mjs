@@ -1,11 +1,11 @@
-// dashkit · minimal CDP client and Chrome launcher for the tools (Node ≥ 22, no npm packages).
+// tarn · minimal CDP client and Chrome launcher for the tools (Node ≥ 22, no npm packages).
 //
 // openBrowser({ attach, chrome, port, tmp, noSandbox }) → { send(method, params), on(fn), waitFor(pred, ms), close() }
 //   attach: URL of a running Chrome (e.g. http://127.0.0.1:<port>): own tab via /json/new, at the end only
 //           this tab is closed. The browser, profile and other tabs are never touched.
 //           scrollbars: true leaves them visible (verify: same boxes as in the headed browser); the tools that take screenshots hide them.
 //   else:   own headless Chrome with a throw-away profile, own port and own PID; at the end exactly this process.
-//           noSandbox (or DK_NO_SANDBOX=1) adds --no-sandbox for CI containers whose kernel forbids the sandbox.
+//           noSandbox (or TN_NO_SANDBOX=1) adds --no-sandbox for CI containers whose kernel forbids the sandbox.
 //
 // openHeadlessPages({ chrome, noSandbox, tmp, n, root, origin }) → { pages, close() }: one own headless Chrome with n pages, each in its
 //   own browser context. The pages get the kit files straight from the repo via CDP (Fetch.fulfillRequest) for every request to
@@ -108,12 +108,12 @@ async function launchHeadless({ chrome, port, tmp, log, noSandbox, scrollbars })
   const exe = findChrome(chrome);
   if (!exe) throw Object.assign(new Error('no Chrome found (--chrome PATH or CHROME=…)'), { env: true });
   const dport = port || await freePort();
-  const profile = fs.mkdtempSync(path.join(tmp || os.tmpdir(), 'dk-chrome-profile-'));
+  const profile = fs.mkdtempSync(path.join(tmp || os.tmpdir(), 'tn-chrome-profile-'));
   const proc = spawn(exe, [
     '--headless=new', '--remote-debugging-address=127.0.0.1', `--remote-debugging-port=${dport}`, `--user-data-dir=${profile}`,
     '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--disable-background-networking', '--disable-sync',
     '--disable-component-update', ...(scrollbars ? [] : ['--hide-scrollbars']), '--mute-audio', '--lang=de-DE', '--no-proxy-server', '--font-render-hinting=none',
-    ...(noSandbox || process.env.DK_NO_SANDBOX === '1' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []), 'about:blank',
+    ...(noSandbox || process.env.TN_NO_SANDBOX === '1' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []), 'about:blank',
   ], { stdio: 'ignore', env: { ...process.env, TZ: 'Europe/Berlin' } });
   log?.(`Chrome pid ${proc.pid}, port ${dport}`);
   const cleanup = async () => {

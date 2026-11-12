@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · Markdown for agent reports: markdown(text, { compact, images }) → element.
+// tarn · Markdown for agent reports: markdown(text, { compact, images }) → element.
 //
 // Own parser, no library. Two stages: parseMarkdown(text) returns an AST (pure function, testable in Node),
 // renderMarkdown(ast) builds DOM nodes from it. HTML is never created from strings: text always goes through
@@ -374,19 +374,19 @@ function inline(nodes, parent) {
       case 'em': inline(n.c, E('em', null, parent)); break;
       case 'strong': inline(n.c, E('strong', null, parent)); break;
       case 'del': inline(n.c, E('del', null, parent)); break;
-      case 'code': T(n.v, E('code', 'dk-md-code', parent)); break;
+      case 'code': T(n.v, E('code', 'tn-md-code', parent)); break;
       case 'br': E('br', null, parent); break;
       case 'a': {
-        const a = E('a', 'dk-md-link', parent);
+        const a = E('a', 'tn-md-link', parent);
         a.setAttribute('href', n.href);
         if (n.ext) { a.setAttribute('rel', 'noopener noreferrer'); a.setAttribute('target', '_blank'); }
         inline(n.c, a); break;
       }
       case 'img': {
-        const im = E('img', 'dk-md-img', parent);
+        const im = E('img', 'tn-md-img', parent);
         im.setAttribute('src', n.src); im.setAttribute('alt', n.alt); im.setAttribute('loading', 'lazy'); im.setAttribute('decoding', 'async'); break;
       }
-      case 'imgoff': T(n.alt || t('md.image'), E('span', 'dk-md-imgoff', parent)); break;
+      case 'imgoff': T(n.alt || t('md.image'), E('span', 'tn-md-imgoff', parent)); break;
       default: break;
     }
   }
@@ -399,20 +399,20 @@ function cell(tag, c, align, parent) {
 }
 function block(n, parent) {
   switch (n.t) {
-    case 'h': inline(n.c, E(`h${n.n}`, `dk-md-h dk-md-h${n.n}`, parent)); break;
+    case 'h': inline(n.c, E(`h${n.n}`, `tn-md-h tn-md-h${n.n}`, parent)); break;
     case 'p': inline(n.c, E('p', null, parent)); break;
-    case 'hr': E('hr', 'dk-md-hr', parent); break;
-    case 'quote': { const q = E('blockquote', 'dk-md-quote', parent); for (const k of n.c) block(k, q); break; }
+    case 'hr': E('hr', 'tn-md-hr', parent); break;
+    case 'quote': { const q = E('blockquote', 'tn-md-quote', parent); for (const k of n.c) block(k, q); break; }
     case 'pre': {
-      const pre = E('pre', 'dk-md-pre', parent); pre.setAttribute('tabindex', '0');
+      const pre = E('pre', 'tn-md-pre', parent); pre.setAttribute('tabindex', '0');
       const code = E('code', n.lang ? `language-${n.lang.replace(/[^\w-]/g, '')}` : null, pre); T(n.v, code); break;
     }
     case 'list': {
       const tasks = n.items.some((x) => x.task != null);
-      const list = E(n.ordered ? 'ol' : 'ul', tasks ? 'dk-md-list is-tasks' : 'dk-md-list', parent);
+      const list = E(n.ordered ? 'ol' : 'ul', tasks ? 'tn-md-list is-tasks' : 'tn-md-list', parent);
       if (n.start != null) list.setAttribute('start', String(n.start));
       for (const it of n.items) {
-        const li = E('li', it.task != null ? 'dk-md-task' : null, list);
+        const li = E('li', it.task != null ? 'tn-md-task' : null, list);
         if (it.task != null) {
           const cb = E('input', null, li); cb.type = 'checkbox'; cb.checked = it.task; cb.disabled = true; cb.setAttribute('aria-label', it.task ? t('md.done') : t('md.open'));
         }
@@ -423,7 +423,7 @@ function block(n, parent) {
       break;
     }
     case 'table': {
-      const wrap = E('div', 'dk-md-table', parent); wrap.setAttribute('role', 'region'); wrap.setAttribute('tabindex', '0');
+      const wrap = E('div', 'tn-md-table', parent); wrap.setAttribute('role', 'region'); wrap.setAttribute('tabindex', '0');
       const table = E('table', null, wrap);
       const hr = E('tr', null, E('thead', null, table));
       n.head.forEach((c, k) => cell('th', c, n.align[k], hr));
@@ -443,7 +443,7 @@ export function renderMarkdown(ast) {
 }
 
 /**
- * Markdown text → element (div.dk-md). opts: { compact = false (sheets/inspector), images = false (relative paths only) }.
+ * Markdown text → element (div.tn-md). opts: { compact = false (sheets/inspector), images = false (relative paths only) }.
  * Raw HTML in the text is shown as text, never interpreted as HTML.
  */
 export const LONG_CHARS = 20000; // above this the report gets .is-long (layout only for visible content)
@@ -453,7 +453,7 @@ export const LONG_CHARS = 20000; // above this the report gets .is-long (layout 
  * @returns {HTMLElement}
  */
 export function markdown(src, { compact = false, images = false, className } = {}) {
-  const root = h('div', { class: cls('dk-md', compact && 'dk-md-compact', String(src ?? '').length > LONG_CHARS && 'is-long', className) });
+  const root = h('div', { class: cls('tn-md', compact && 'tn-md-compact', String(src ?? '').length > LONG_CHARS && 'is-long', className) });
   for (const n of parseMarkdown(src, { images })) block(n, root);
   return root;
 }

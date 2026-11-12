@@ -1,6 +1,6 @@
 // @ts-check
-// dashkit · Barrel export. Boards import only from here:
-//   import { createApp, dataSource, card, table, … } from '/dashkit/js/dashkit.js';
+// tarn · Barrel export. Boards import only from here:
+//   import { createApp, dataSource, card, table, … } from '/tarn/js/tarn.js';
 import './press.js';
 export { VERSION } from './version.js';
 export { h, s, cls, mount, $, $$, tokenMs } from './dom.js';

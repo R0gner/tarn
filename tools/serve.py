@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""dashkit · tiny static server for local checks (stdlib only).
+"""tarn · tiny static server for local checks (stdlib only).
 
     python3 tools/serve.py [--root .] [--port 18810] [--bind 127.0.0.1]
 
@@ -35,7 +35,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
     def log_message(self, fmt, *args):
-        if os.environ.get('DK_SERVE_QUIET'):
+        if os.environ.get('TN_SERVE_QUIET'):
             return
         super().log_message(fmt, *args)
 
@@ -49,7 +49,7 @@ def main():
     a = ap.parse_args()
     handler = functools.partial(Handler, directory=os.path.abspath(a.root))
     srv = http.server.ThreadingHTTPServer((a.bind, a.port), handler)
-    print(f'dashkit serve: http://{a.bind}:{a.port}/  (root {os.path.abspath(a.root)}, pid {os.getpid()})', flush=True)
+    print(f'Tarn serve: http://{a.bind}:{a.port}/  (root {os.path.abspath(a.root)}, pid {os.getpid()})', flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

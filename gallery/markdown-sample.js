@@ -1,4 +1,4 @@
-// dashkit · sample report for the gallery (invented): roughly how an agent writes a run report.
+// tarn · sample report for the gallery (invented): roughly how an agent writes a run report.
 export const REPORT = `## Run 412 · Offsite archive sync
 
 **Result:** failed after 31 s, *exit code 12* (\`rsync\`: protocol error in the data stream).

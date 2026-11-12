@@ -1,68 +1,68 @@
-/* dashkit · base: reset, type, scrollbars, focus. Requires tokens.css. */
+/* tarn · base: reset, type, scrollbars, focus. Requires tokens.css. */
 
 *, *::before, *::after { box-sizing: border-box; }
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
-  background: var(--dk-bg);
-  scrollbar-color: var(--dk-indicator) transparent;
+  background: var(--tn-bg);
+  scrollbar-color: var(--tn-indicator) transparent;
 }
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--dk-bg);
-  color: var(--dk-text);
-  font: 400 var(--dk-fs-body) / var(--dk-lh) var(--dk-font);
+  background: var(--tn-bg);
+  color: var(--tn-text);
+  font: 400 var(--tn-fs-body) / var(--tn-lh) var(--tn-font);
   font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 h1, h2, h3, h4, p, dl, dd, ul, ol, figure, pre { margin: 0; }
-h1, h2, h3, h4 { font-size: inherit; font-weight: var(--dk-fw-strong); }
+h1, h2, h3, h4 { font-size: inherit; font-weight: var(--tn-fw-strong); }
 ul, ol { padding: 0; list-style: none; }
-a { color: var(--dk-info-text); text-decoration: none; }
+a { color: var(--tn-info-text); text-decoration: none; }
 a:hover { text-decoration: underline; }
 img, svg { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
 button:disabled { cursor: default; }
-input::placeholder, textarea::placeholder { color: var(--dk-placeholder); opacity: 1; }
-code, kbd, pre, samp { font-family: var(--dk-mono); font-size: var(--dk-fs-label); }
+input::placeholder, textarea::placeholder { color: var(--tn-placeholder); opacity: 1; }
+code, kbd, pre, samp { font-family: var(--tn-mono); font-size: var(--tn-fs-label); }
 [hidden] { display: none !important; }
 
 /* digits in tables/tiles always the same width */
-.dk-num, td, .dk-tabular { font-variant-numeric: tabular-nums; }
+.tn-num, td, .tn-tabular { font-variant-numeric: tabular-nums; }
 
 /* focus ring only for keyboard focus */
 :focus { outline: none; }
 [tabindex="-1"]:focus-visible { outline: none; } /* programmatic focus (sheet content) without a ring */
 :focus-visible {
-  outline: var(--dk-ring) solid var(--dk-focus);
-  outline-offset: var(--dk-sp-1);
-  border-radius: var(--dk-r-sm);
+  outline: var(--tn-ring) solid var(--tn-focus);
+  outline-offset: var(--tn-sp-1);
+  border-radius: var(--tn-r-sm);
 }
 
 /* subtle scrollbars (WebKit/Blink desktop; on mobile the system overlay scrollbars) */
-::-webkit-scrollbar { width: var(--dk-sz-10); height: var(--dk-sz-10); }
+::-webkit-scrollbar { width: var(--tn-sz-10); height: var(--tn-sz-10); }
 ::-webkit-scrollbar-thumb {
-  background: var(--dk-indicator);
-  border: var(--dk-sp-3) solid transparent;
+  background: var(--tn-indicator);
+  border: var(--tn-sp-3) solid transparent;
   background-clip: padding-box;
-  border-radius: var(--dk-r);
+  border-radius: var(--tn-r);
 }
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
 
-::selection { background: color-mix(in oklch, var(--dk-accent) 35%, transparent); }
+::selection { background: color-mix(in oklch, var(--tn-accent) 35%, transparent); }
 
 /* Background locked while a modal sheet is open. */
 /* Always reserve the scrollbar gutter: otherwise locking the background (sheet/panel) shifts the layout and the whole page
    is laid out again (desktop: panel at 4× CPU 104 → 56 ms to the frame). */
 html { scrollbar-gutter: stable; }
-html.dk-locked, html.dk-locked body { overflow: hidden; overscroll-behavior: none; }
+html.tn-locked, html.tn-locked body { overflow: hidden; overscroll-behavior: none; }
 
 /* helper classes */
-.dk-sr { position: absolute; width: var(--dk-sz-1); height: var(--dk-sz-1); overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.dk-muted { color: var(--dk-text-2); }
-.dk-mono { font-family: var(--dk-mono); font-size: var(--dk-fs-label); }
-.dk-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.tn-sr { position: absolute; width: var(--tn-sz-1); height: var(--tn-sz-1); overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tn-muted { color: var(--tn-text-2); }
+.tn-mono { font-family: var(--tn-mono); font-size: var(--tn-fs-label); }
+.tn-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }

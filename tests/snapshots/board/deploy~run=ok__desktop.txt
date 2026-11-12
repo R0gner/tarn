@@ -1,115 +1,115 @@
 # board #/deploy?run=ok · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x900
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      button.dk-brand.dk-brand-btn {expanded=false} "Sample board: switch board" @8,8 176x28
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "Sample board" @48,12 88x20
-        svg.dk-icon @144,16 16x16
-    nav.dk-nav "Views" @8,44 192x144
-      a.dk-nav-item @8,44 192x28
-        svg.dk-icon @16,52 16x16
-        span.dk-ellipsis "Overview" @40,48 60x20
-      a.dk-nav-item @8,72 192x28
-        svg.dk-icon @16,80 16x16
-        span.dk-ellipsis "Jobs" @40,76 32x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,80 24x20
-      a.dk-nav-item @8,104 192x28
-        svg.dk-icon @16,108 16x16
-        span.dk-ellipsis "Hosts" @40,108 36x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,108 24x20
-      a.dk-nav-item @8,132 192x28
-        svg.dk-icon @16,136 16x16
-        span.dk-ellipsis "History" @40,136 44x20
-      a.dk-nav-item.is-active {current=page} @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Deploy" @40,164 44x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x900
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Deploy" @252,12 44x20
-      div.dk-toolbar-spacer @300,20 888x0
-      button.dk-fresh "Updated 2 min. ago" @1192,8 128x28
-      button.dk-iconbtn "Reload" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x564
-      section.dk-section @224,60 1184x300
-        header.dk-section-head @224,60 1184x24
-          h2.dk-section-title "New deployment" @228,64 1180x16
-        section.dk-card @224,92 1184x268
-          div.dk-card-body @224,92 1184x268
-            form.dk-form @236,104 1160x244
-              div.dk-field @236,104 1160x48
-                label.dk-field-label @236,104 1160x16
-                  span.dk-field-req "*" @304,104 8x16
-                div.dk-inputbox.dk-combobox @236,128 1160x28
-                  button.dk-combo-btn {expanded=false} @248,128 1140x28
-                    span.dk-combo-face.dk-ellipsis.is-placeholder "Choose a host" @248,132 1116x20
-                    svg.dk-icon @1372,132 16x16
-              div.dk-field @236,172 1160x72
-                label.dk-field-label @236,172 1160x16
-                  span.dk-field-req "*" @284,172 8x16
-                div.dk-inputbox @236,192 1160x28
-                  input.dk-input-el.dk-mono @248,192 1140x28
-                div.dk-field-help "For example 2.4.1" @236,224 1160x16
-              div.dk-field @236,260 1160x44
-                label.dk-tick.dk-check @236,260 1160x44
-                  input.dk-tick-input @236,260 0x0
-                  span.dk-check-box @236,272 20x20
-                    svg.dk-icon @240,276 12x12
-                    svg.dk-icon @240,276 12x12
-                  span.dk-tick-text @264,264 240x36
-                    span.dk-tick-label "Dry run" @264,264 240x20
-                    span.dk-tick-help "Simulate the deployment, change nothing." @264,284 240x16
-              div.dk-form-actions @236,320 1160x28
-                button.dk-btn.dk-btn-primary @1272,320 124x28
-      section.dk-section @224,380 1184x196
-        header.dk-section-head @224,380 1184x24
-          h2.dk-section-title "Latest run" @228,384 1180x16
-        section.dk-card @224,412 1184x164
-          div.dk-card-body @224,416 1184x160
-            div.dk-run @236,428 1160x136
-              div.dk-run-head @236,428 1160x20
-                div.dk-run-status @236,428 80x20
-                  span.dk-run-dot @236,432 8x8
-                    span.dk-dot.dk-s-ok [img] "OK" @236,432 8x8
-                  span.dk-run-state @252,428 40x20
-                    span.dk-badge.dk-badge-ok "Done" @252,428 40x20
-                  span.dk-run-time.dk-num "8 s" @300,428 16x16
-                div.dk-run-title.dk-ellipsis "Deploy 2.4.1 → app-1" @324,428 1072x20
-              div.dk-run-log "Log" @236,452 1160x112
-                div.dk-log.dk-log-wrap [log] @236,452 1160x112
-                  div.dk-log-line.dk-log-info @240,460 1156x20
-                    span.dk-log-t "09:59 AM" @252,460 56x20
-                    span.dk-log-lv "INF" @316,460 20x20
-                    span.dk-log-msg "Connecting to app-1" @344,460 136x20
-                  div.dk-log-line.dk-log-info @240,480 1156x20
-                    span.dk-log-t "09:59 AM" @252,480 56x20
-                    span.dk-log-lv "INF" @316,480 20x20
-                    span.dk-log-msg "Pulling registry.example.com/app:2.4.1" @344,480 272x20
-                  div.dk-log-line.dk-log-ok @240,500 1156x20
-                    span.dk-log-t "09:59 AM" @252,500 56x20
-                    span.dk-log-lv "OK" @316,500 20x20
-                    span.dk-log-msg "Image pulled (212 MB)" @344,500 152x20
-                  div.dk-log-line.dk-log-info @240,520 1156x20
-                    span.dk-log-t "09:59 AM" @252,520 56x20
-                    span.dk-log-lv "INF" @316,520 20x20
-                    span.dk-log-msg "Restarting app-1" @344,520 116x20
-                  div.dk-log-line.dk-log-ok @240,540 1156x20
-                    span.dk-log-t "09:59 AM" @252,540 56x20
-                    span.dk-log-lv "OK" @316,540 20x20
-                    span.dk-log-msg "Health check passed" @344,540 136x20
-div.dk-toasts [status] @1200,844 208x44
-  div.dk-toast.dk-toast-ok @1200,844 208x44
-    span.dk-toast-ic.dk-t-ok @1212,856 16x16
-      svg.dk-icon @1212,856 16x16
-    span.dk-toast-text "Deployment finished" @1236,852 128x20
-    button.dk-toast-x "Close" @1372,848 32x32
-      svg.dk-icon @1380,856 16x16
+div.tn-app @0,0 1424x900
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      button.tn-brand.tn-brand-btn {expanded=false} "Sample board: switch board" @8,8 176x28
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Sample board" @48,12 88x20
+        svg.tn-icon @144,16 16x16
+    nav.tn-nav "Views" @8,44 192x144
+      a.tn-nav-item @8,44 192x28
+        svg.tn-icon @16,52 16x16
+        span.tn-ellipsis "Overview" @40,48 60x20
+      a.tn-nav-item @8,72 192x28
+        svg.tn-icon @16,80 16x16
+        span.tn-ellipsis "Jobs" @40,76 32x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,80 24x20
+      a.tn-nav-item @8,104 192x28
+        svg.tn-icon @16,108 16x16
+        span.tn-ellipsis "Hosts" @40,108 36x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,108 24x20
+      a.tn-nav-item @8,132 192x28
+        svg.tn-icon @16,136 16x16
+        span.tn-ellipsis "History" @40,136 44x20
+      a.tn-nav-item.is-active {current=page} @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Deploy" @40,164 44x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x900
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Deploy" @252,12 44x20
+      div.tn-toolbar-spacer @300,20 888x0
+      button.tn-fresh "Updated 2 min. ago" @1192,8 128x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x564
+      section.tn-section @224,60 1184x300
+        header.tn-section-head @224,60 1184x24
+          h2.tn-section-title "New deployment" @228,64 1180x16
+        section.tn-card @224,92 1184x268
+          div.tn-card-body @224,92 1184x268
+            form.tn-form @236,104 1160x244
+              div.tn-field @236,104 1160x48
+                label.tn-field-label @236,104 1160x16
+                  span.tn-field-req "*" @304,104 8x16
+                div.tn-inputbox.tn-combobox @236,128 1160x28
+                  button.tn-combo-btn {expanded=false} @248,128 1140x28
+                    span.tn-combo-face.tn-ellipsis.is-placeholder "Choose a host" @248,132 1116x20
+                    svg.tn-icon @1372,132 16x16
+              div.tn-field @236,172 1160x72
+                label.tn-field-label @236,172 1160x16
+                  span.tn-field-req "*" @284,172 8x16
+                div.tn-inputbox @236,192 1160x28
+                  input.tn-input-el.tn-mono @248,192 1140x28
+                div.tn-field-help "For example 2.4.1" @236,224 1160x16
+              div.tn-field @236,260 1160x44
+                label.tn-tick.tn-check @236,260 1160x44
+                  input.tn-tick-input @236,260 0x0
+                  span.tn-check-box @236,272 20x20
+                    svg.tn-icon @240,276 12x12
+                    svg.tn-icon @240,276 12x12
+                  span.tn-tick-text @264,264 240x36
+                    span.tn-tick-label "Dry run" @264,264 240x20
+                    span.tn-tick-help "Simulate the deployment, change nothing." @264,284 240x16
+              div.tn-form-actions @236,320 1160x28
+                button.tn-btn.tn-btn-primary @1272,320 124x28
+      section.tn-section @224,380 1184x196
+        header.tn-section-head @224,380 1184x24
+          h2.tn-section-title "Latest run" @228,384 1180x16
+        section.tn-card @224,412 1184x164
+          div.tn-card-body @224,416 1184x160
+            div.tn-run @236,428 1160x136
+              div.tn-run-head @236,428 1160x20
+                div.tn-run-status @236,428 80x20
+                  span.tn-run-dot @236,432 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @236,432 8x8
+                  span.tn-run-state @252,428 40x20
+                    span.tn-badge.tn-badge-ok "Done" @252,428 40x20
+                  span.tn-run-time.tn-num "8 s" @300,428 16x16
+                div.tn-run-title.tn-ellipsis "Deploy 2.4.1 → app-1" @324,428 1072x20
+              div.tn-run-log "Log" @236,452 1160x112
+                div.tn-log.tn-log-wrap [log] @236,452 1160x112
+                  div.tn-log-line.tn-log-info @240,460 1156x20
+                    span.tn-log-t "09:59 AM" @252,460 56x20
+                    span.tn-log-lv "INF" @316,460 20x20
+                    span.tn-log-msg "Connecting to app-1" @344,460 136x20
+                  div.tn-log-line.tn-log-info @240,480 1156x20
+                    span.tn-log-t "09:59 AM" @252,480 56x20
+                    span.tn-log-lv "INF" @316,480 20x20
+                    span.tn-log-msg "Pulling registry.example.com/app:2.4.1" @344,480 272x20
+                  div.tn-log-line.tn-log-ok @240,500 1156x20
+                    span.tn-log-t "09:59 AM" @252,500 56x20
+                    span.tn-log-lv "OK" @316,500 20x20
+                    span.tn-log-msg "Image pulled (212 MB)" @344,500 152x20
+                  div.tn-log-line.tn-log-info @240,520 1156x20
+                    span.tn-log-t "09:59 AM" @252,520 56x20
+                    span.tn-log-lv "INF" @316,520 20x20
+                    span.tn-log-msg "Restarting app-1" @344,520 116x20
+                  div.tn-log-line.tn-log-ok @240,540 1156x20
+                    span.tn-log-t "09:59 AM" @252,540 56x20
+                    span.tn-log-lv "OK" @316,540 20x20
+                    span.tn-log-msg "Health check passed" @344,540 136x20
+div.tn-toasts [status] @1200,844 208x44
+  div.tn-toast.tn-toast-ok @1200,844 208x44
+    span.tn-toast-ic.tn-t-ok @1212,856 16x16
+      svg.tn-icon @1212,856 16x16
+    span.tn-toast-text "Deployment finished" @1236,852 128x20
+    button.tn-toast-x "Close" @1372,848 32x32
+      svg.tn-icon @1380,856 16x16

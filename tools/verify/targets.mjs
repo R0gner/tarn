@@ -1,4 +1,4 @@
-// dashkit · verify targets: pages, sizes, schemes. Views are read from the navigation.
+// tarn · verify targets: pages, sizes, schemes. Views are read from the navigation.
 export const PAGES = [
   // details: additionally checked states with an open detail (hash without #/)
   // ?lang= pins the language (the host browser's language must not decide); `only` limits sizes/themes of extra language runs

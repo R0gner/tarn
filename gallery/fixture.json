@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "note": "Invented sample data for the dashkit gallery, no real host data.",
+ "note": "Invented sample data for the Tarn gallery, no real host data.",
  "jobs": [
   {
    "id": "backup-fotos",

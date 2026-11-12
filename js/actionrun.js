@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · actionRun(): “action running” – status, elapsed time, progress (if known), live log and an optional cancel button.
+// tarn · actionRun(): “action running” – status, elapsed time, progress (if known), live log and an optional cancel button.
 // The data comes from a board function or a URL (polling); no WebSocket required.
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
@@ -42,18 +42,18 @@ export function actionRun({ source, title, intervalMs = POLL_MS, maxLog = 300, o
     ? async (/** @type {AbortSignal} */ signal) => { const r = await fetch(source, { signal, cache: 'no-store', credentials: 'same-origin' }); if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }
     : source;
 
-  const dot = h('span', { class: 'dk-run-dot' });
-  const state = h('span', { class: 'dk-run-state' });
-  const elapsed = h('span', { class: 'dk-run-time dk-num' });
-  const msg = h('div', { class: 'dk-run-msg', hidden: true });
-  const bar = h('div', { class: 'dk-run-bar' });
-  const logBox = h('div', { class: 'dk-run-log', tabindex: '0', 'aria-label': t('action.log'), onscroll: () => { stickBottom = logBox.scrollHeight - logBox.scrollTop - logBox.clientHeight < 24; } });
-  const warn = h('div', { class: 'dk-run-warn', role: 'status', hidden: true });
+  const dot = h('span', { class: 'tn-run-dot' });
+  const state = h('span', { class: 'tn-run-state' });
+  const elapsed = h('span', { class: 'tn-run-time tn-num' });
+  const msg = h('div', { class: 'tn-run-msg', hidden: true });
+  const bar = h('div', { class: 'tn-run-bar' });
+  const logBox = h('div', { class: 'tn-run-log', tabindex: '0', 'aria-label': t('action.log'), onscroll: () => { stickBottom = logBox.scrollHeight - logBox.scrollTop - logBox.clientHeight < 24; } });
+  const warn = h('div', { class: 'tn-run-warn', role: 'status', hidden: true });
   const cancelBtn = onCancel ? button(t('action.cancel'), { small: true, onClick: cancel }) : null;
-  const head = h('div', { class: 'dk-run-head' },
-    h('div', { class: 'dk-run-status', 'aria-live': 'polite' }, dot, state, elapsed),
-    title && h('div', { class: 'dk-run-title dk-ellipsis' }, title), cancelBtn);
-  const el = h('div', { class: cls('dk-run', className) }, head, bar, msg, warn, logBox);
+  const head = h('div', { class: 'tn-run-head' },
+    h('div', { class: 'tn-run-status', 'aria-live': 'polite' }, dot, state, elapsed),
+    title && h('div', { class: 'tn-run-title tn-ellipsis' }, title), cancelBtn);
+  const el = h('div', { class: cls('tn-run', className) }, head, bar, msg, warn, logBox);
 
   function paint() {
     const tone = runTone(run.status);

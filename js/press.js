@@ -1,8 +1,8 @@
 // @ts-check
-// dashkit · Press feedback immediately, on touch too.
+// tarn · Press feedback immediately, on touch too.
 // Chrome only sets :active on touch with a delay (or on release). This file marks the pressed
 // control with .is-down on pointerdown; the CSS treats :active and .is-down the same.
-const PRESSABLE = '.dk-btn, .dk-iconbtn, .dk-row-btn, .dk-stat-btn, .dk-seg-btn, .dk-tab, .dk-pill, .dk-chip, .dk-nav-item, .dk-th-btn, .dk-fresh, .dk-menu-item, .dk-toast-act, .dk-toast-x, .dk-tl-name, tr[tabindex]';
+const PRESSABLE = '.tn-btn, .tn-iconbtn, .tn-row-btn, .tn-stat-btn, .tn-seg-btn, .tn-tab, .tn-pill, .tn-chip, .tn-nav-item, .tn-th-btn, .tn-fresh, .tn-menu-item, .tn-toast-act, .tn-toast-x, .tn-tl-name, tr[tabindex]';
 /** @type {Element | null} */
 let down = null;
 

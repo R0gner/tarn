@@ -1,4 +1,4 @@
-// dashkit · verify --changed [<rev>]: which pages and views must be checked after a change?
+// tarn · verify --changed [<rev>]: which pages and views must be checked after a change?
 // Maps the changed files (git diff against <rev>, default HEAD, plus untracked files) to page → views. null = all views of the page.
 // Conservative: a file that is not listed here counts as "everything". Tokens, CSS and shell files always mean everything.
 // Sizes and themes are never narrowed. The full run stays mandatory at the end of a stage and in CI.

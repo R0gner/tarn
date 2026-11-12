@@ -1,146 +1,146 @@
 # gallery #/buttons · desktop 1440×900 · dunkel
-div.dk-app @0,0 1424x1028
-  aside.dk-sidebar @0,0 208x900
-    div.dk-sidebar-head @8,0 192x44
-      div.dk-brand @16,12 128x24
-        span.dk-bicon @16,12 24x24
-          img.dk-bicon-img @16,12 24x24
-        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
-    nav.dk-nav "Views" @8,44 192x528
-      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
-      a.dk-nav-item @8,68 192x28
-        svg.dk-icon @16,76 16x16
-        span.dk-ellipsis "Foundations" @40,76 76x20
-      a.dk-nav-item @8,100 192x28
-        svg.dk-icon @16,104 16x16
-        span.dk-ellipsis "Light and dark" @40,104 88x20
-      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
-      a.dk-nav-item.is-active {current=page} @8,160 192x28
-        svg.dk-icon @16,168 16x16
-        span.dk-ellipsis "Buttons and status" @40,164 116x20
-      a.dk-nav-item @8,188 192x28
-        svg.dk-icon @16,196 16x16
-        span.dk-ellipsis "Controls" @40,196 52x20
-      a.dk-nav-item @8,220 192x28
-        svg.dk-icon @16,224 16x16
-        span.dk-ellipsis "Inputs" @40,224 40x20
-      div.dk-nav-group [presentation] "Components" @8,248 192x32
-      a.dk-nav-item @8,280 192x28
-        svg.dk-icon @16,288 16x16
-        span.dk-ellipsis "Cards and tiles" @40,284 92x20
-      a.dk-nav-item @8,308 192x28
-        svg.dk-icon @16,316 16x16
-        span.dk-ellipsis "Rows and facts" @40,316 96x20
-      a.dk-nav-item @8,340 192x28
-        svg.dk-icon @16,344 16x16
-        span.dk-ellipsis "Table and filter" @40,344 92x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
-      a.dk-nav-item @8,368 192x28
-        svg.dk-icon @16,372 16x16
-        span.dk-ellipsis "Forms and actions" @40,372 116x20
-      a.dk-nav-item @8,396 192x28
-        svg.dk-icon @16,404 16x16
-        span.dk-ellipsis "Menus and feedback" @40,400 132x20
-      a.dk-nav-item @8,424 192x28
-        svg.dk-icon @16,432 16x16
-        span.dk-ellipsis "Charts" @40,432 40x20
-      a.dk-nav-item @8,456 192x28
-        svg.dk-icon @16,460 16x16
-        span.dk-ellipsis "Markdown" @40,460 64x20
-      a.dk-nav-item @8,484 192x28
-        svg.dk-icon @16,488 16x16
-        span.dk-ellipsis "States and sheets" @40,488 112x20
-      div.dk-nav-group [presentation] "Shell" @8,512 192x32
-      a.dk-nav-item @8,544 192x28
-        svg.dk-icon @16,552 16x16
-        span.dk-ellipsis "Shell and boards" @40,552 104x20
-  div.dk-scrim @0,0 1424x900
-  div.dk-main @208,0 1216x1028
-    header.dk-toolbar @208,0 1216x44
-      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
-        svg.dk-icon @224,12 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Buttons and status" @252,12 116x20
-      div.dk-toolbar-spacer @372,20 848x0
-      button.dk-fresh "Updated now" @1224,8 92x28
-      button.dk-iconbtn "Reload" @1320,8 28x28
-        svg.dk-icon @1328,12 16x16
-      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
-        svg.dk-icon @1360,12 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
-        svg.dk-icon @1392,12 16x16
-    main.dk-content @208,44 1216x984
-      section.dk-card @224,60 1184x364
-        header.dk-card-head @224,60 1184x40
-          div.dk-card-heading @236,72 1160x20
-            h3.dk-card-title "button()" @236,72 1160x20
-        div.dk-card-body @224,100 1184x320
-          button.dk-btn.dk-btn-default @236,112 88x28
-            svg.dk-icon @252,120 16x16
-          button.dk-btn.dk-btn-default.is-hover @336,112 60x28
-          button.dk-btn.dk-btn-default.is-pressed @408,112 72x28
-          button.dk-btn.dk-btn-default @492,112 76x28
-          button.dk-btn.dk-btn-default.dk-btn-sm @580,116 48x24
-          button.dk-btn.dk-btn-primary @236,176 84x28
-            svg.dk-icon @248,180 16x16
-          button.dk-btn.dk-btn-primary.is-hover @336,176 60x28
-          button.dk-btn.dk-btn-primary.is-pressed @404,176 72x28
-          button.dk-btn.dk-btn-primary @488,176 72x28
-          button.dk-btn.dk-btn-primary.dk-btn-sm @572,176 48x24
-          button.dk-btn.dk-btn-ghost @236,236 84x28
-            svg.dk-icon @248,240 16x16
-          button.dk-btn.dk-btn-ghost.is-hover @336,236 60x28
-          button.dk-btn.dk-btn-ghost.is-pressed @404,236 72x28
-          button.dk-btn.dk-btn-ghost @488,236 72x28
-          button.dk-btn.dk-btn-ghost.dk-btn-sm @572,236 48x24
-          button.dk-btn.dk-btn-danger @236,296 64x28
-          button.dk-btn.dk-btn-danger.is-hover @312,296 60x28
-          button.dk-btn.dk-btn-danger.is-pressed @384,296 72x28
-          button.dk-btn.dk-btn-danger @468,296 76x28
-          button.dk-btn.dk-btn-danger.dk-btn-sm @556,300 48x24
-      section.dk-card @224,444 1184x180
-        header.dk-card-head @224,444 1184x40
-          div.dk-card-heading @236,452 1160x20
-            h3.dk-card-title "iconButton()" @236,452 1160x20
-        div.dk-card-body @224,484 1184x136
-          button.dk-iconbtn "Reload" @236,496 28x28
-            svg.dk-icon @244,500 16x16
-          button.dk-iconbtn.is-hover "More" @284,496 28x28
-            svg.dk-icon @292,500 16x16
-          button.dk-iconbtn.is-pressed "Filter" @328,496 28x28
-            svg.dk-icon @332,500 16x16
-          button.dk-iconbtn "Sidebar" @380,496 28x28
-            svg.dk-icon @388,500 16x16
-          button.dk-iconbtn "Close" @460,496 28x28
-            svg.dk-icon @464,500 16x16
-      section.dk-card @224,640 1184x168
-        header.dk-card-head @224,640 1184x40
-          div.dk-card-heading @236,652 1160x20
-            h3.dk-card-title "statusDot()" @236,652 1160x20
-        div.dk-card-body @224,680 1184x128
-          span.dk-dotlabel @236,692 32x20
-            span.dk-dot.dk-s-ok @236,700 8x8
-          span.dk-dotlabel @280,692 64x20
-            span.dk-dot.dk-s-warn @280,700 8x8
-          span.dk-dotlabel @356,692 44x20
-            span.dk-dot.dk-s-bad @356,700 8x8
-          span.dk-dotlabel @412,692 72x20
-            span.dk-dot.dk-s-unknown @412,700 8x8
-          span.dk-dotlabel @496,692 64x20
-            span.dk-dot.dk-s-pending @496,700 8x8
-          span.dk-dotlabel @572,692 44x20
-            span.dk-dot.dk-s-info @572,700 8x8
-          span.dk-dotlabel @624,692 32x20
-            span.dk-dot.dk-s-off @624,700 8x8
-      section.dk-card @224,828 1184x168
-        header.dk-card-head @224,832 1184x40
-          div.dk-card-heading @236,840 1160x20
-            h3.dk-card-title "badge()" @236,840 1160x20
-        div.dk-card-body @224,872 1184x128
-          span.dk-badge.dk-badge-neutral "Backup" @236,884 52x20
-          span.dk-badge.dk-badge-ok "OK" @300,884 28x20
-          span.dk-badge.dk-badge-warn "Warning" @340,884 56x20
-          span.dk-badge.dk-badge-bad "Error" @408,884 36x20
-          span.dk-badge.dk-badge-info "Note" @460,884 36x20
-          span.dk-badge.dk-badge-pending "Pending" @508,884 56x20
-          span.dk-badge.dk-badge-neutral.dk-badge-count "94" @576,884 28x20
-          span.dk-badge.dk-badge-bad.dk-badge-count "3" @628,884 24x20
+div.tn-app @0,0 1424x1028
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x528
+      div.tn-nav-group [presentation] "Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Primitives" @8,128 192x32
+      a.tn-nav-item.is-active {current=page} @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      div.tn-nav-group [presentation] "Components" @8,248 192x32
+      a.tn-nav-item @8,280 192x28
+        svg.tn-icon @16,288 16x16
+        span.tn-ellipsis "Cards and tiles" @40,284 92x20
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Rows and facts" @40,316 96x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Table and filter" @40,344 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,344 24x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Forms and actions" @40,372 116x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Menus and feedback" @40,400 132x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Charts" @40,432 40x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Markdown" @40,460 64x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "States and sheets" @40,488 112x20
+      div.tn-nav-group [presentation] "Shell" @8,512 192x32
+      a.tn-nav-item @8,544 192x28
+        svg.tn-icon @16,552 16x16
+        span.tn-ellipsis "Shell and boards" @40,552 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x1028
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Buttons and status" @252,12 116x20
+      div.tn-toolbar-spacer @372,20 848x0
+      button.tn-fresh "Updated now" @1224,8 92x28
+      button.tn-iconbtn "Reload" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x984
+      section.tn-card @224,60 1184x364
+        header.tn-card-head @224,60 1184x40
+          div.tn-card-heading @236,72 1160x20
+            h3.tn-card-title "button()" @236,72 1160x20
+        div.tn-card-body @224,100 1184x320
+          button.tn-btn.tn-btn-default @236,112 88x28
+            svg.tn-icon @252,120 16x16
+          button.tn-btn.tn-btn-default.is-hover @336,112 60x28
+          button.tn-btn.tn-btn-default.is-pressed @408,112 72x28
+          button.tn-btn.tn-btn-default @492,112 76x28
+          button.tn-btn.tn-btn-default.tn-btn-sm @580,116 48x24
+          button.tn-btn.tn-btn-primary @236,176 84x28
+            svg.tn-icon @248,180 16x16
+          button.tn-btn.tn-btn-primary.is-hover @336,176 60x28
+          button.tn-btn.tn-btn-primary.is-pressed @404,176 72x28
+          button.tn-btn.tn-btn-primary @488,176 72x28
+          button.tn-btn.tn-btn-primary.tn-btn-sm @572,176 48x24
+          button.tn-btn.tn-btn-ghost @236,236 84x28
+            svg.tn-icon @248,240 16x16
+          button.tn-btn.tn-btn-ghost.is-hover @336,236 60x28
+          button.tn-btn.tn-btn-ghost.is-pressed @404,236 72x28
+          button.tn-btn.tn-btn-ghost @488,236 72x28
+          button.tn-btn.tn-btn-ghost.tn-btn-sm @572,236 48x24
+          button.tn-btn.tn-btn-danger @236,296 64x28
+          button.tn-btn.tn-btn-danger.is-hover @312,296 60x28
+          button.tn-btn.tn-btn-danger.is-pressed @384,296 72x28
+          button.tn-btn.tn-btn-danger @468,296 76x28
+          button.tn-btn.tn-btn-danger.tn-btn-sm @556,300 48x24
+      section.tn-card @224,444 1184x180
+        header.tn-card-head @224,444 1184x40
+          div.tn-card-heading @236,452 1160x20
+            h3.tn-card-title "iconButton()" @236,452 1160x20
+        div.tn-card-body @224,484 1184x136
+          button.tn-iconbtn "Reload" @236,496 28x28
+            svg.tn-icon @244,500 16x16
+          button.tn-iconbtn.is-hover "More" @284,496 28x28
+            svg.tn-icon @292,500 16x16
+          button.tn-iconbtn.is-pressed "Filter" @328,496 28x28
+            svg.tn-icon @332,500 16x16
+          button.tn-iconbtn "Sidebar" @380,496 28x28
+            svg.tn-icon @388,500 16x16
+          button.tn-iconbtn "Close" @460,496 28x28
+            svg.tn-icon @464,500 16x16
+      section.tn-card @224,640 1184x168
+        header.tn-card-head @224,640 1184x40
+          div.tn-card-heading @236,652 1160x20
+            h3.tn-card-title "statusDot()" @236,652 1160x20
+        div.tn-card-body @224,680 1184x128
+          span.tn-dotlabel @236,692 32x20
+            span.tn-dot.tn-s-ok @236,700 8x8
+          span.tn-dotlabel @280,692 64x20
+            span.tn-dot.tn-s-warn @280,700 8x8
+          span.tn-dotlabel @356,692 44x20
+            span.tn-dot.tn-s-bad @356,700 8x8
+          span.tn-dotlabel @412,692 72x20
+            span.tn-dot.tn-s-unknown @412,700 8x8
+          span.tn-dotlabel @496,692 64x20
+            span.tn-dot.tn-s-pending @496,700 8x8
+          span.tn-dotlabel @572,692 44x20
+            span.tn-dot.tn-s-info @572,700 8x8
+          span.tn-dotlabel @624,692 32x20
+            span.tn-dot.tn-s-off @624,700 8x8
+      section.tn-card @224,828 1184x168
+        header.tn-card-head @224,832 1184x40
+          div.tn-card-heading @236,840 1160x20
+            h3.tn-card-title "badge()" @236,840 1160x20
+        div.tn-card-body @224,872 1184x128
+          span.tn-badge.tn-badge-neutral "Backup" @236,884 52x20
+          span.tn-badge.tn-badge-ok "OK" @300,884 28x20
+          span.tn-badge.tn-badge-warn "Warning" @340,884 56x20
+          span.tn-badge.tn-badge-bad "Error" @408,884 36x20
+          span.tn-badge.tn-badge-info "Note" @460,884 36x20
+          span.tn-badge.tn-badge-pending "Pending" @508,884 56x20
+          span.tn-badge.tn-badge-neutral.tn-badge-count "94" @576,884 28x20
+          span.tn-badge.tn-badge-bad.tn-badge-count "3" @628,884 24x20

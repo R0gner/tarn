@@ -1,4 +1,4 @@
-# dashkit – guide for agents that build or change a board
+# Tarn – guide for agents that build or change a board
 
 > **Information over decoration. Dense, calm, unambiguous, instant.**
 > Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
@@ -77,10 +77,10 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 ## Create a new board
 
 1. Copy `example/` as the template (`index.html`, `board.js`, `messages.js`, `favicon.svg`, `manifest.webmanifest`, icons), switch the
-   paths to `/dashkit/…`; set title, favicon (`node tools/brand.mjs --name … --icon … --accent … --out …` creates favicon.svg,
+   paths to `/tarn/…`; set title, favicon (`node tools/brand.mjs --name … --icon … --accent … --out …` creates favicon.svg,
    PNGs and manifest; or `favicon()`) and the board name.
-2. Copy a fixed kit version into `vendor/dashkit/` with `node <kit>/tools/vendor.mjs --to <board>/vendor/dashkit` and serve that folder under
-   `/dashkit/` (see README, “Include in a board”). Never edit the copy; update it with the same command and run the checks afterwards.
+2. Copy a fixed kit version into `vendor/tarn/` with `node <kit>/tools/vendor.mjs --to <board>/vendor/tarn` and serve that folder under
+   `/tarn/` (see README, “Include in a board”). Never edit the copy; update it with the same command and run the checks afterwards.
 3. `dataSource({ url: '/api/snapshot', ageOf: (d) => d.ageSec })`; prepare raw data once in `parse` (points in time, problems,
    sorting) – views do not calculate themselves.
 4. Views as `views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }]`; the sidebar counter comes from
@@ -118,7 +118,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 
 ## Checklist before handing in
 
-- [ ] Imports only from `/dashkit/js/dashkit.js`; no own CSS with colours/sizes; no new components in the board.
+- [ ] Imports only from `/tarn/js/tarn.js`; no own CSS with colours/sizes; no new components in the board.
 - [ ] No visible text in the code (only `t()` and `messages`); a catalog per offered language with the same keys.
 - [ ] `node --test tests/*.test.mjs` green (for kit changes also new tests for pure functions).
 - [ ] Kit code: `// @ts-check` at the top, options as `@typedef`, `node tools/verify.mjs --types` green; no `@ts-ignore`, no `any` except where a comment says why.

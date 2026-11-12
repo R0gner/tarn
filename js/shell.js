@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · App shell: sidebar + toolbar + content + inspector, hash router, detail logic, theme.
+// tarn · App shell: sidebar + toolbar + content + inspector, hash router, detail logic, theme.
 //   ≥ 1000 px  fixed sidebar (collapsible, remembered), detail in the inspector on the right (non-modal)
 //   700–999    sidebar as overlay (burger), detail as a panel from the right over the list (modal, scrim; Back, Esc,
 //              swipe right close it)
@@ -85,7 +85,7 @@ export function createApp(cfg0) {
   const offered = cfg0.locales || (cfg0.messages ? [...new Set(['en', ...Object.keys(cfg0.messages)])] : KIT_LOCALES);
   /** @type {string | null} */
   let stored = null;
-  try { stored = localStorage.getItem('dk-locale'); } catch {}
+  try { stored = localStorage.getItem('tn-locale'); } catch {}
   const queryLang = new URLSearchParams(location.search).get('lang'); // test/preview aid: ?lang=de
   const loc = resolveLocale({ locale: cfg0.locale || queryLang, locales: offered, stored, languages: navigator.languages });
   setLocale(loc.locale);
@@ -108,33 +108,33 @@ export function createApp(cfg0) {
   let pushedOpen = false, closing = false;
 
   /* ---- Scaffold ---- */
-  const navEl = h('nav', { class: 'dk-nav', 'aria-label': t('shell.views') });
+  const navEl = h('nav', { class: 'tn-nav', 'aria-label': t('shell.views') });
   /* Sidebar head: board icon + title; with ≥ 2 boards (or a board list via URL) it becomes the switcher. */
   function brand() {
     const ic = cfg.icon ? boardIcon(cfg.icon, cfg.title || '', 24, { letter: false }) : null;
-    const title = h('span', { class: 'dk-ellipsis' }, cfg.title || '');
+    const title = h('span', { class: 'tn-ellipsis' }, cfg.title || '');
     const norm = cfg.boards && typeof cfg.boards !== 'string' ? normalizeBoards(cfg.boards, cfg.categories) : null;
-    if (norm?.problems.length) console.warn(`dashkit boards: ${norm.problems.join('; ')}`);
+    if (norm?.problems.length) console.warn(`tarn boards: ${norm.problems.join('; ')}`);
     const many = typeof cfg.boards === 'string' || (norm && norm.boards.length > 1);
-    if (!many) return h('div', { class: 'dk-brand' }, ic, title);
-    const btn = h('button', { class: 'dk-brand dk-brand-btn', type: 'button', 'aria-label': t('shell.switchBoard', { board: cfg.title || 'Board' }) }, ic, title, icon('chevron-down', { size: 14 }));
+    if (!many) return h('div', { class: 'tn-brand' }, ic, title);
+    const btn = h('button', { class: 'tn-brand tn-brand-btn', type: 'button', 'aria-label': t('shell.switchBoard', { board: cfg.title || 'Board' }) }, ic, title, icon('chevron-down', { size: 14 }));
     boardSwitcher(btn, { boards: /** @type {BoardList | string} */ (cfg.boards), categories: cfg.categories, boardId: cfg.boardId });
     return btn;
   }
-  const installBtn = button(t('shell.install'), { variant: 'ghost', icon: 'download', className: 'dk-install', onClick: async () => {
+  const installBtn = button(t('shell.install'), { variant: 'ghost', icon: 'download', className: 'tn-install', onClick: async () => {
     const ev = installEvent; if (!ev) return;
     installEvent = null; syncInstall();               // the event can only be used once
     try { await ev.prompt(); await ev.userChoice; } catch {}
   } });
   const syncInstall = () => { installBtn.hidden = !installEvent || isStandalone(); };
   installWatchers.add(syncInstall); syncInstall();
-  const sidebar = h('aside', { class: 'dk-sidebar', id: 'dk-sidebar' },
-    h('div', { class: 'dk-sidebar-head' }, brand()), navEl,
-    h('div', { class: 'dk-sidebar-foot' }, installBtn));
-  const scrim = h('div', { class: 'dk-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
-  const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'dk-sb-toggle' });
-  const viewTitle = h('h1', { class: 'dk-toolbar-title dk-ellipsis' });
-  const fresh = h('button', { class: 'dk-fresh', type: 'button', onclick: () => cfg.source?.reload(), hidden: !cfg.source });
+  const sidebar = h('aside', { class: 'tn-sidebar', id: 'tn-sidebar' },
+    h('div', { class: 'tn-sidebar-head' }, brand()), navEl,
+    h('div', { class: 'tn-sidebar-foot' }, installBtn));
+  const scrim = h('div', { class: 'tn-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
+  const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'tn-sb-toggle' });
+  const viewTitle = h('h1', { class: 'tn-toolbar-title tn-ellipsis' });
+  const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => cfg.source?.reload(), hidden: !cfg.source });
   const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => cfg.source?.reload() });
   reloadBtn.hidden = !cfg.source;
   const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme });
@@ -144,20 +144,20 @@ export function createApp(cfg0) {
     ...offered.map((l) => ({ label: LOCALE_NAMES[l] || l, checked: stored === l, onClick: () => chooseLocale(l) })),
   ]) : null;
   /** @param {string} l */
-  function chooseLocale(l) { try { localStorage.setItem('dk-locale', l); } catch {} const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href; if (u.href === location.href) location.reload(); }
-  const toolbar = h('header', { class: 'dk-toolbar' }, sbBtn, viewTitle, h('div', { class: 'dk-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, themeBtn);
-  const banners = h('div', { class: 'dk-banners' });
-  const content = h('main', { class: 'dk-content', id: 'dk-content', tabindex: '-1' });
-  const inspTitle = h('h2', { class: 'dk-sheet-title dk-ellipsis' });
-  const inspSub = h('div', { class: 'dk-sheet-sub' });
-  const inspBody = h('div', { class: 'dk-inspector-body' });
-  const inspector = h('aside', { class: 'dk-inspector', 'aria-label': t('shell.details'), hidden: true },
-    h('header', { class: 'dk-sheet-head' }, h('div', { class: 'dk-sheet-heading' }, inspTitle, inspSub),
+  function chooseLocale(l) { try { localStorage.setItem('tn-locale', l); } catch {} const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href; if (u.href === location.href) location.reload(); }
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, themeBtn);
+  const banners = h('div', { class: 'tn-banners' });
+  const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
+  const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
+  const inspSub = h('div', { class: 'tn-sheet-sub' });
+  const inspBody = h('div', { class: 'tn-inspector-body' });
+  const inspector = h('aside', { class: 'tn-inspector', 'aria-label': t('shell.details'), hidden: true },
+    h('header', { class: 'tn-sheet-head' }, h('div', { class: 'tn-sheet-heading' }, inspTitle, inspSub),
       iconButton('x', { label: t('shell.detailsClose'), onClick: () => closeDetail() })), inspBody);
-  const appEl = h('div', { class: 'dk-app' }, sidebar, scrim, h('div', { class: 'dk-main' }, toolbar, banners, content), inspector);
+  const appEl = h('div', { class: 'tn-app' }, sidebar, scrim, h('div', { class: 'tn-main' }, toolbar, banners, content), inspector);
 
   let sbCollapsed = false;
-  try { sbCollapsed = localStorage.getItem('dk-sb') === 'closed'; } catch {}
+  try { sbCollapsed = localStorage.getItem('tn-sb') === 'closed'; } catch {}
   appEl.dataset.sb = sbCollapsed ? 'closed' : 'open';
 
   /* ---- Sidebar ---- */
@@ -167,10 +167,10 @@ export function createApp(cfg0) {
     mount(navEl, cfg.views.filter((v) => !v.hidden).flatMap((v) => {
       const c = counts.get(v.id) ?? (typeof v.count === 'function' ? v.count(ctx(v)) : v.count);
       const n = c && typeof c === 'object' ? c : { n: c };
-      const head = v.group && v.group !== lastGroup ? h('div', { class: 'dk-nav-group', role: 'presentation' }, v.group) : null; // optional heading (view.group)
+      const head = v.group && v.group !== lastGroup ? h('div', { class: 'tn-nav-group', role: 'presentation' }, v.group) : null; // optional heading (view.group)
       lastGroup = v.group ?? lastGroup;
-      return [head, h('a', { class: cls('dk-nav-item', v.id === cur.view && 'is-active'), href: buildHash(v.id), 'aria-current': v.id === cur.view ? 'page' : null },
-        v.icon && icon(v.icon), h('span', { class: 'dk-ellipsis' }, v.label),
+      return [head, h('a', { class: cls('tn-nav-item', v.id === cur.view && 'is-active'), href: buildHash(v.id), 'aria-current': v.id === cur.view ? 'page' : null },
+        v.icon && icon(v.icon), h('span', { class: 'tn-ellipsis' }, v.label),
         n.n != null && n.n !== '' && badge(String(n.n), { tone: n.tone || 'neutral', count: true }))];
     }));
   }
@@ -187,7 +187,7 @@ export function createApp(cfg0) {
     if (DESKTOP.matches) {
       sbCollapsed = !sbCollapsed;
       appEl.dataset.sb = sbCollapsed ? 'closed' : 'open';
-      try { localStorage.setItem('dk-sb', sbCollapsed ? 'closed' : 'open'); } catch {}
+      try { localStorage.setItem('tn-sb', sbCollapsed ? 'closed' : 'open'); } catch {}
       syncSidebarA11y();
     } else setDrawer(appEl.dataset.drawer !== 'open');
   }
@@ -216,14 +216,14 @@ export function createApp(cfg0) {
       g.x = t.clientX;
       const off = Math.min(0, dx);
       sidebar.style.transform = `translateX(${off}px)`;
-      scrim.style.setProperty('--dk-drawer-p', String(Math.max(0, 1 + off / g.w)));
+      scrim.style.setProperty('--tn-drawer-p', String(Math.max(0, 1 + off / g.w)));
     }, { passive: false });
     const end = () => {
       if (!g) return;
       const drag = g.drag, dx = g.x - g.x0, w = g.w; g = null;
       if (!drag) return;
       appEl.classList.remove('is-drawer-drag');
-      sidebar.style.transform = ''; scrim.style.removeProperty('--dk-drawer-p');
+      sidebar.style.transform = ''; scrim.style.removeProperty('--tn-drawer-p');
       if (dx < -w * 0.3) setDrawer(false);
     };
     sidebar.addEventListener('touchend', end);
@@ -236,7 +236,7 @@ export function createApp(cfg0) {
   function cycleTheme() {
     const next = { system: 'light', light: 'dark', dark: 'system' }[themeNow()];
     if (next === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = next;
-    try { next === 'system' ? localStorage.removeItem('dk-theme') : localStorage.setItem('dk-theme', next); } catch {}
+    try { next === 'system' ? localStorage.removeItem('tn-theme') : localStorage.setItem('tn-theme', next); } catch {}
     syncTheme();
   }
   function syncTheme() {

@@ -1,4 +1,4 @@
-// dashkit · static test server for the tools (node:http only), same strict CSP as tools/serve.py.
+// tarn · static test server for the tools (node:http only), same strict CSP as tools/serve.py.
 // startServer({ root, port = 0, rewrite? }) → { url, port, close() }; binds to 127.0.0.1 only.
 // rewrite(urlPath, buffer) → buffer: optional, changes a served file (used by the verify mutants that patch the kit source).
 import fs from 'node:fs';

@@ -3,7 +3,7 @@
 [Lucide](https://github.com/lucide-icons/lucide) **1.70.0** (ISC licence, some icons MIT/Feather: `LICENSE.txt`). Only the used symbols
 are in the repo. Fetch a new symbol: `node tools/icons.mjs add <lucide-name> [--as <kit-name>]` (uses the fixed version
 `1.70.0`, lists it here and rebuilds `js/icons-data.js`). `node tools/icons.mjs check` verifies that both match
-the files. `logo.svg` is the dashkit logo (own drawing, not Lucide).
+the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 
 | Kit name | File | Source | sha256 |
 |---|---|---|---|

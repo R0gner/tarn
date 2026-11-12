@@ -1,8 +1,8 @@
 // @ts-check
-// dashkit · modal sheet in two variants: panel from the right (≥ 700 px, swipe right, scrim, Esc and Back
+// tarn · modal sheet in two variants: panel from the right (≥ 700 px, swipe right, scrim, Esc and Back
 // close it) and bottom sheet (< 700 px, swipe down). There is no popup. From 1000 px the detail lives
 // in the inspector instead (js/shell.js).
-// Background locked (html.dk-locked), content with overscroll-behavior: contain, safe-area at the bottom.
+// Background locked (html.tn-locked), content with overscroll-behavior: contain, safe-area at the bottom.
 // Proven pattern (openSheet + gestures), new look.
 import { h, mount, tokenMs } from './dom.js';
 import { icon } from './icons.js';
@@ -27,7 +27,7 @@ export function lockScroll(on) { lock(on); }
  */
 function lock(on) {
   locks = Math.max(0, locks + (on ? 1 : -1));
-  document.documentElement.classList.toggle('dk-locked', locks > 0);
+  document.documentElement.classList.toggle('tn-locked', locks > 0);
 }
 
 /**
@@ -37,14 +37,14 @@ function lock(on) {
  * @returns {Sheet}
  */
 export function openSheet(opts = {}) {
-  const titleEl = h('h2', { class: 'dk-sheet-title dk-ellipsis' });
-  const subEl = h('div', { class: 'dk-sheet-sub' });
-  const bodyEl = h('div', { class: 'dk-sheet-body', tabindex: '-1' });
-  const footEl = h('div', { class: 'dk-sheet-foot' });
-  const closeBtn = h('button', { class: 'dk-iconbtn', type: 'button', 'aria-label': t('common.close'), onclick: () => close('x') }, icon('x'));
-  const d = h('dialog', { class: 'dk-sheet', 'aria-labelledby': null },
-    h('div', { class: 'dk-sheet-grip', 'aria-hidden': 'true' }),
-    h('header', { class: 'dk-sheet-head' }, h('div', { class: 'dk-sheet-heading' }, titleEl, subEl), closeBtn),
+  const titleEl = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
+  const subEl = h('div', { class: 'tn-sheet-sub' });
+  const bodyEl = h('div', { class: 'tn-sheet-body', tabindex: '-1' });
+  const footEl = h('div', { class: 'tn-sheet-foot' });
+  const closeBtn = h('button', { class: 'tn-iconbtn', type: 'button', 'aria-label': t('common.close'), onclick: () => close('x') }, icon('x'));
+  const d = h('dialog', { class: 'tn-sheet', 'aria-labelledby': null },
+    h('div', { class: 'tn-sheet-grip', 'aria-hidden': 'true' }),
+    h('header', { class: 'tn-sheet-head' }, h('div', { class: 'tn-sheet-heading' }, titleEl, subEl), closeBtn),
     bodyEl, footEl);
   if (opts.kind) d.dataset.kind = opts.kind;
 
@@ -63,7 +63,7 @@ export function openSheet(opts = {}) {
     d.classList.remove('is-open');
     lock(false);
     const done = () => { d.close(); d.remove(); };
-    const ms = tokenMs('--dk-t-close'); // duration comes from the token (reduced-motion: 0 ms → immediate)
+    const ms = tokenMs('--tn-t-close'); // duration comes from the token (reduced-motion: 0 ms → immediate)
     if (ms <= 0) done(); else setTimeout(done, ms + 30);
     opts.onClose?.(/** @type {'x' | 'esc' | 'scrim' | 'swipe' | 'api'} */ (reason));
   }
@@ -94,7 +94,7 @@ function initSwipe(d, bodyEl, onClose) {
   d.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1) { g = null; return; }
     const t = e.touches[0];
-    const grip = !!/** @type {Element} */ (e.target).closest('.dk-sheet-grip, .dk-sheet-head');
+    const grip = !!/** @type {Element} */ (e.target).closest('.tn-sheet-grip, .tn-sheet-head');
     g = { panel: !PHONE.matches, x0: t.clientX, y0: t.clientY, last: 0, lastT: e.timeStamp, samples: [{ v: 0, t: e.timeStamp }], drag: false, canDrag: grip || bodyEl.scrollTop <= 0 };
   }, { passive: true });
   d.addEventListener('touchmove', (e) => {
@@ -112,7 +112,7 @@ function initSwipe(d, bodyEl, onClose) {
     const size = g.size || (g.size = g.panel ? d.getBoundingClientRect().width : d.getBoundingClientRect().height);
     const off = dist >= 0 ? dist : -Math.sqrt(-dist) * 2; // damped against the closing direction
     d.style.transform = g.panel ? `translateX(${off}px)` : `translateY(${off}px)`;
-    d.style.setProperty('--dk-sheet-p', String(Math.max(0, 1 - Math.max(0, dist) / size)));
+    d.style.setProperty('--tn-sheet-p', String(Math.max(0, 1 - Math.max(0, dist) / size)));
   }, { passive: false });
   const end = () => {
     if (!g || !g.drag) { g = null; return; }
@@ -124,7 +124,7 @@ function initSwipe(d, bodyEl, onClose) {
     g = null;
     d.classList.remove('is-dragging');
     d.style.transform = '';
-    d.style.removeProperty('--dk-sheet-p');
+    d.style.removeProperty('--tn-sheet-p');
     if (dist > 0.3 * size || (fast && dist > 24)) onClose();
   };
   d.addEventListener('touchend', end);

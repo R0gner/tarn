@@ -1,173 +1,173 @@
 # board #/jobs?open=offsite-sync · phone 390×844 · dunkel
-div.dk-app @0,0 392x844
-  aside.dk-sidebar @-284,0 280x844
-    div.dk-sidebar-head @-276,0 264x48
-      button.dk-brand.dk-brand-btn {expanded=false} "Sample board: switch board" @-276,4 248x40
-        span.dk-bicon @-268,12 24x24
-          img.dk-bicon-img @-268,12 24x24
-        span.dk-ellipsis "Sample board" @-236,16 88x20
-        svg.dk-icon @-144,16 16x16
-    nav.dk-nav "Views" @-276,48 264x204
-      a.dk-nav-item @-276,48 264x40
-        svg.dk-icon @-268,60 16x16
-        span.dk-ellipsis "Overview" @-244,60 60x20
-      a.dk-nav-item.is-active {current=page} @-276,88 264x40
-        svg.dk-icon @-268,100 16x16
-        span.dk-ellipsis "Jobs" @-244,100 32x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,100 24x20
-      a.dk-nav-item @-276,132 264x40
-        svg.dk-icon @-268,144 16x16
-        span.dk-ellipsis "Hosts" @-244,140 36x20
-        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,140 24x20
-      a.dk-nav-item @-276,172 264x40
-        svg.dk-icon @-268,184 16x16
-        span.dk-ellipsis "History" @-244,180 44x20
-      a.dk-nav-item @-276,212 264x40
-        svg.dk-icon @-268,224 16x16
-        span.dk-ellipsis "Deploy" @-244,224 44x20
-  div.dk-scrim @0,0 392x844
-  div.dk-main @0,0 392x844
-    header.dk-toolbar @0,0 392x48
-      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
-        svg.dk-icon @16,16 16x16
-      h1.dk-toolbar-title.dk-ellipsis "Jobs" @52,16 32x20
-      div.dk-toolbar-spacer @88,24 32x0
-      button.dk-fresh "Updated 2 min. ago" @124,4 128x40
-      button.dk-iconbtn "Reload" @256,4 40x40
-        svg.dk-icon @268,16 16x16
-      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
-        svg.dk-icon @312,16 16x16
-      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
-        svg.dk-icon @356,16 16x16
-    main.dk-content @0,48 392x680
-      div.dk-filterbar @12,60 368x64
-        div.dk-filter-row @12,60 368x40
-          label.dk-search @12,60 280x40
-            svg.dk-icon @20,72 16x16
-            input.dk-input "Search jobs …" @12,60 280x40
-          button.dk-btn.dk-btn-default @300,60 76x40
-            svg.dk-icon @316,72 16x16
-        div.dk-filter-row2 @12,108 368x16
-          div.dk-filter-info "12 of 12" @328,108 48x16
-      section.dk-card.dk-card-flush @12,140 368x576
-        div.dk-card-body @12,140 364x576
-          div.dk-table-wrap.dk-table-click.is-list @12,140 364x576
-            table.dk-table @12,140 364x576
-              td.dk-td-status @24,160 8x8
-                span.dk-dot.dk-s-bad [img] "Error" @24,160 8x8
-              td.dk-td-title "Offsite archive sync" @44,148 224x20
-              td.dk-right "4 hr. ago" @284,148 56x20
-              td.dk-td-m "nas-b daily 04:15 AM" @44,164 292x16
-                span.dk-sep-dot "·" @80,164 8x16
-              td.dk-td-go @348,156 16x16
-                svg.dk-icon @348,156 16x16
-              td.dk-td-status @24,208 8x8
-                span.dk-dot.dk-s-warn [img] "Warning" @24,208 8x8
-              td.dk-td-title "Media library scan" @44,196 208x20
-              td.dk-right "40 min. ago" @264,196 72x20
-              td.dk-td-m "media-1 every 2 h" @44,212 292x16
-                span.dk-sep-dot "·" @96,212 8x16
-              td.dk-td-go @348,204 16x16
-                svg.dk-icon @348,204 16x16
-              td.dk-td-status @24,256 8x8
-                span.dk-dot.dk-s-pending [img] "Pending" @24,256 8x8
-              td.dk-td-title "Package update check" @44,244 272x20
-              td.dk-right "–" @332,244 8x20
-              td.dk-td-m "app-1 once, 11/10, 12:00 PM" @44,260 292x16
-                span.dk-sep-dot "·" @84,260 8x16
-              td.dk-td-go @348,252 16x16
-                svg.dk-icon @348,252 16x16
-              td.dk-td-status @24,304 8x8
-                span.dk-dot.dk-s-unknown [img] "Unknown" @24,304 8x8
-              td.dk-td-title "DNS reachability" @44,292 224x20
-              td.dk-right "3 hr. ago" @284,292 56x20
-              td.dk-td-m "edge-1 every 15 min" @44,308 292x16
-                span.dk-sep-dot "·" @88,308 8x16
-              td.dk-td-go @348,300 16x16
-                svg.dk-icon @348,300 16x16
-              td.dk-td-status @24,352 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,352 8x8
-              td.dk-td-title "Photo backup" @44,340 224x20
-              td.dk-right "6 hr. ago" @284,340 56x20
-              td.dk-td-m "nas-a daily 02:30 AM" @44,356 292x16
-                span.dk-sep-dot "·" @80,356 8x16
-              td.dk-td-go @348,348 16x16
-                svg.dk-icon @348,348 16x16
-              td.dk-td-status @24,400 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,400 8x8
-              td.dk-td-title "Document backup" @44,388 224x20
-              td.dk-right "6 hr. ago" @284,388 56x20
-              td.dk-td-m "nas-a daily 03:00 AM" @44,404 292x16
-                span.dk-sep-dot "·" @80,404 8x16
-              td.dk-td-go @348,396 16x16
-                svg.dk-icon @348,396 16x16
-              td.dk-td-status @24,448 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,448 8x8
-              td.dk-td-title "Wiki database dump" @44,436 224x20
-              td.dk-right "8 hr. ago" @284,436 56x20
-              td.dk-td-m "app-2 daily 01:00 AM" @44,452 292x16
-                span.dk-sep-dot "·" @84,452 8x16
-              td.dk-td-go @348,444 16x16
-                svg.dk-icon @348,444 16x16
-              td.dk-td-status @24,496 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,496 8x8
-              td.dk-td-title "Thumbnail generation" @44,484 216x20
-              td.dk-right "2 min. ago" @272,484 64x20
-              td.dk-td-m "media-1 every 5 min" @44,500 292x16
-                span.dk-sep-dot "·" @96,500 8x16
-              td.dk-td-go @348,492 16x16
-                svg.dk-icon @348,492 16x16
-              td.dk-td-status @24,544 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,544 8x8
-              td.dk-td-title "Certificate renewal" @44,532 220x20
-              td.dk-right "yesterday" @276,532 60x20
-              td.dk-td-m "edge-1 Sun 05:00 AM" @44,548 292x16
-                span.dk-sep-dot "·" @88,548 8x16
-              td.dk-td-go @348,540 16x16
-                svg.dk-icon @348,540 16x16
-              td.dk-td-status @24,592 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,592 8x8
-              td.dk-td-title "Log cleanup" @44,580 224x20
-              td.dk-right "9 hr. ago" @284,580 56x20
-              td.dk-td-m "app-2 daily 12:10 AM" @44,596 292x16
-                span.dk-sep-dot "·" @84,596 8x16
-              td.dk-td-go @348,588 16x16
-                svg.dk-icon @348,588 16x16
-              td.dk-td-status @24,640 8x8
-                span.dk-dot.dk-s-ok [img] "OK" @24,640 8x8
-              td.dk-td-title "Disk SMART check" @44,628 212x20
-              td.dk-right "5 days ago" @268,628 68x20
-              td.dk-td-m "nas-a Mon 06:00 AM" @44,644 292x16
-                span.dk-sep-dot "·" @80,644 8x16
-              td.dk-td-go @348,636 16x16
-                svg.dk-icon @348,636 16x16
-              td.dk-td-status @24,688 8x8
-                span.dk-dot.dk-s-off [img] "Off" @24,688 8x8
-              td.dk-td-title "Mirror repos" @44,676 204x20
-              td.dk-right "21 days ago" @260,676 76x20
-              td.dk-td-m "edge-1 Disabled" @44,692 292x16
-                span.dk-sep-dot "·" @88,692 8x16
-              td.dk-td-go @348,684 16x16
-                svg.dk-icon @348,684 16x16
-dialog.dk-sheet.is-open @0,100 392x744
-  div.dk-sheet-grip @0,100 392x16
-  header.dk-sheet-head @0,116 392x48
-    div.dk-sheet-heading @16,120 320x36
-      h2.dk-sheet-title.dk-ellipsis "Offsite archive sync" @16,120 320x20
-      div.dk-sheet-sub "nas-b · backup" @16,140 320x16
-    button.dk-iconbtn "Close" @344,116 40x40
-      svg.dk-icon @356,128 16x16
-  div.dk-sheet-body @0,168 392x676
-    div.dk-banner.dk-banner-bad [alert] @16,180 360x52
-      svg.dk-icon @28,188 16x16
-      div.dk-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @52,188 308x32
-    section.dk-facts @16,244 360x136
-      h3.dk-facts-title "Status" @16,244 360x16
-      dl.dk-kv @16,268 360x112
+div.tn-app @0,0 392x844
+  aside.tn-sidebar @-284,0 280x844
+    div.tn-sidebar-head @-276,0 264x48
+      button.tn-brand.tn-brand-btn {expanded=false} "Sample board: switch board" @-276,4 248x40
+        span.tn-bicon @-268,12 24x24
+          img.tn-bicon-img @-268,12 24x24
+        span.tn-ellipsis "Sample board" @-236,16 88x20
+        svg.tn-icon @-144,16 16x16
+    nav.tn-nav "Views" @-276,48 264x204
+      a.tn-nav-item @-276,48 264x40
+        svg.tn-icon @-268,60 16x16
+        span.tn-ellipsis "Overview" @-244,60 60x20
+      a.tn-nav-item.is-active {current=page} @-276,88 264x40
+        svg.tn-icon @-268,100 16x16
+        span.tn-ellipsis "Jobs" @-244,100 32x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,100 24x20
+      a.tn-nav-item @-276,132 264x40
+        svg.tn-icon @-268,144 16x16
+        span.tn-ellipsis "Hosts" @-244,140 36x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-44,140 24x20
+      a.tn-nav-item @-276,172 264x40
+        svg.tn-icon @-268,184 16x16
+        span.tn-ellipsis "History" @-244,180 44x20
+      a.tn-nav-item @-276,212 264x40
+        svg.tn-icon @-268,224 16x16
+        span.tn-ellipsis "Deploy" @-244,224 44x20
+  div.tn-scrim @0,0 392x844
+  div.tn-main @0,0 392x844
+    header.tn-toolbar @0,0 392x48
+      button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.tn-icon @16,16 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Jobs" @52,16 32x20
+      div.tn-toolbar-spacer @88,24 32x0
+      button.tn-fresh "Updated 2 min. ago" @124,4 128x40
+      button.tn-iconbtn "Reload" @256,4 40x40
+        svg.tn-icon @268,16 16x16
+      button.tn-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.tn-icon @312,16 16x16
+      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.tn-icon @356,16 16x16
+    main.tn-content @0,48 392x680
+      div.tn-filterbar @12,60 368x64
+        div.tn-filter-row @12,60 368x40
+          label.tn-search @12,60 280x40
+            svg.tn-icon @20,72 16x16
+            input.tn-input "Search jobs …" @12,60 280x40
+          button.tn-btn.tn-btn-default @300,60 76x40
+            svg.tn-icon @316,72 16x16
+        div.tn-filter-row2 @12,108 368x16
+          div.tn-filter-info "12 of 12" @328,108 48x16
+      section.tn-card.tn-card-flush @12,140 368x576
+        div.tn-card-body @12,140 364x576
+          div.tn-table-wrap.tn-table-click.is-list @12,140 364x576
+            table.tn-table @12,140 364x576
+              td.tn-td-status @24,160 8x8
+                span.tn-dot.tn-s-bad [img] "Error" @24,160 8x8
+              td.tn-td-title "Offsite archive sync" @44,148 224x20
+              td.tn-right "4 hr. ago" @284,148 56x20
+              td.tn-td-m "nas-b daily 04:15 AM" @44,164 292x16
+                span.tn-sep-dot "·" @80,164 8x16
+              td.tn-td-go @348,156 16x16
+                svg.tn-icon @348,156 16x16
+              td.tn-td-status @24,208 8x8
+                span.tn-dot.tn-s-warn [img] "Warning" @24,208 8x8
+              td.tn-td-title "Media library scan" @44,196 208x20
+              td.tn-right "40 min. ago" @264,196 72x20
+              td.tn-td-m "media-1 every 2 h" @44,212 292x16
+                span.tn-sep-dot "·" @96,212 8x16
+              td.tn-td-go @348,204 16x16
+                svg.tn-icon @348,204 16x16
+              td.tn-td-status @24,256 8x8
+                span.tn-dot.tn-s-pending [img] "Pending" @24,256 8x8
+              td.tn-td-title "Package update check" @44,244 272x20
+              td.tn-right "–" @332,244 8x20
+              td.tn-td-m "app-1 once, 11/10, 12:00 PM" @44,260 292x16
+                span.tn-sep-dot "·" @84,260 8x16
+              td.tn-td-go @348,252 16x16
+                svg.tn-icon @348,252 16x16
+              td.tn-td-status @24,304 8x8
+                span.tn-dot.tn-s-unknown [img] "Unknown" @24,304 8x8
+              td.tn-td-title "DNS reachability" @44,292 224x20
+              td.tn-right "3 hr. ago" @284,292 56x20
+              td.tn-td-m "edge-1 every 15 min" @44,308 292x16
+                span.tn-sep-dot "·" @88,308 8x16
+              td.tn-td-go @348,300 16x16
+                svg.tn-icon @348,300 16x16
+              td.tn-td-status @24,352 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,352 8x8
+              td.tn-td-title "Photo backup" @44,340 224x20
+              td.tn-right "6 hr. ago" @284,340 56x20
+              td.tn-td-m "nas-a daily 02:30 AM" @44,356 292x16
+                span.tn-sep-dot "·" @80,356 8x16
+              td.tn-td-go @348,348 16x16
+                svg.tn-icon @348,348 16x16
+              td.tn-td-status @24,400 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,400 8x8
+              td.tn-td-title "Document backup" @44,388 224x20
+              td.tn-right "6 hr. ago" @284,388 56x20
+              td.tn-td-m "nas-a daily 03:00 AM" @44,404 292x16
+                span.tn-sep-dot "·" @80,404 8x16
+              td.tn-td-go @348,396 16x16
+                svg.tn-icon @348,396 16x16
+              td.tn-td-status @24,448 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,448 8x8
+              td.tn-td-title "Wiki database dump" @44,436 224x20
+              td.tn-right "8 hr. ago" @284,436 56x20
+              td.tn-td-m "app-2 daily 01:00 AM" @44,452 292x16
+                span.tn-sep-dot "·" @84,452 8x16
+              td.tn-td-go @348,444 16x16
+                svg.tn-icon @348,444 16x16
+              td.tn-td-status @24,496 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,496 8x8
+              td.tn-td-title "Thumbnail generation" @44,484 216x20
+              td.tn-right "2 min. ago" @272,484 64x20
+              td.tn-td-m "media-1 every 5 min" @44,500 292x16
+                span.tn-sep-dot "·" @96,500 8x16
+              td.tn-td-go @348,492 16x16
+                svg.tn-icon @348,492 16x16
+              td.tn-td-status @24,544 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,544 8x8
+              td.tn-td-title "Certificate renewal" @44,532 220x20
+              td.tn-right "yesterday" @276,532 60x20
+              td.tn-td-m "edge-1 Sun 05:00 AM" @44,548 292x16
+                span.tn-sep-dot "·" @88,548 8x16
+              td.tn-td-go @348,540 16x16
+                svg.tn-icon @348,540 16x16
+              td.tn-td-status @24,592 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,592 8x8
+              td.tn-td-title "Log cleanup" @44,580 224x20
+              td.tn-right "9 hr. ago" @284,580 56x20
+              td.tn-td-m "app-2 daily 12:10 AM" @44,596 292x16
+                span.tn-sep-dot "·" @84,596 8x16
+              td.tn-td-go @348,588 16x16
+                svg.tn-icon @348,588 16x16
+              td.tn-td-status @24,640 8x8
+                span.tn-dot.tn-s-ok [img] "OK" @24,640 8x8
+              td.tn-td-title "Disk SMART check" @44,628 212x20
+              td.tn-right "5 days ago" @268,628 68x20
+              td.tn-td-m "nas-a Mon 06:00 AM" @44,644 292x16
+                span.tn-sep-dot "·" @80,644 8x16
+              td.tn-td-go @348,636 16x16
+                svg.tn-icon @348,636 16x16
+              td.tn-td-status @24,688 8x8
+                span.tn-dot.tn-s-off [img] "Off" @24,688 8x8
+              td.tn-td-title "Mirror repos" @44,676 204x20
+              td.tn-right "21 days ago" @260,676 76x20
+              td.tn-td-m "edge-1 Disabled" @44,692 292x16
+                span.tn-sep-dot "·" @88,692 8x16
+              td.tn-td-go @348,684 16x16
+                svg.tn-icon @348,684 16x16
+dialog.tn-sheet.is-open @0,100 392x744
+  div.tn-sheet-grip @0,100 392x16
+  header.tn-sheet-head @0,116 392x48
+    div.tn-sheet-heading @16,120 320x36
+      h2.tn-sheet-title.tn-ellipsis "Offsite archive sync" @16,120 320x20
+      div.tn-sheet-sub "nas-b · backup" @16,140 320x16
+    button.tn-iconbtn "Close" @344,116 40x40
+      svg.tn-icon @356,128 16x16
+  div.tn-sheet-body @0,168 392x676
+    div.tn-banner.tn-banner-bad [alert] @16,180 360x52
+      svg.tn-icon @28,188 16x16
+      div.tn-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @52,188 308x32
+    section.tn-facts @16,244 360x136
+      h3.tn-facts-title "Status" @16,244 360x16
+      dl.tn-kv @16,268 360x112
         dt "State" @16,268 96x20
         dd @128,268 248x20
-          span.dk-dotlabel @128,272 44x20
-            span.dk-dot.dk-s-bad @128,276 8x8
+          span.tn-dotlabel @128,272 44x20
+            span.tn-dot.tn-s-bad @128,276 8x8
         dt "Schedule" @16,296 96x20
         dd "daily 04:15 AM" @128,296 248x20
         dt "Last run" @16,316 96x20
@@ -176,55 +176,55 @@ dialog.dk-sheet.is-open @0,100 392x744
         dd "11/10, 04:15 AM" @128,340 248x20
         dt "Duration" @16,364 96x20
         dd "~45 min" @128,364 248x20
-    section.dk-facts @16,400 360x92
-      h3.dk-facts-title "Last 30 runs" @16,400 360x16
-      div.dk-heat.is-lg [img] "30 runs, 12 failed" @16,424 360x20
-        span.dk-heat-cell.dk-s-ok @16,424 8x20
-        span.dk-heat-cell.dk-s-ok @28,424 8x20
-        span.dk-heat-cell.dk-s-ok @40,424 8x20
-        span.dk-heat-cell.dk-s-ok @52,424 8x20
-        span.dk-heat-cell.dk-s-ok @64,424 8x20
-        span.dk-heat-cell.dk-s-ok @76,424 8x20
-        span.dk-heat-cell.dk-s-bad @88,424 8x20
-        span.dk-heat-cell.dk-s-bad @100,424 8x20
-        span.dk-heat-cell.dk-s-bad @112,424 8x20
-        span.dk-heat-cell.dk-s-bad @124,424 8x20
-        span.dk-heat-cell.dk-s-bad @136,424 8x20
-        span.dk-heat-cell.dk-s-ok @148,424 8x20
-        span.dk-heat-cell.dk-s-ok @160,424 8x20
-        span.dk-heat-cell.dk-s-bad @172,424 8x20
-        span.dk-heat-cell.dk-s-ok @184,424 8x20
-        span.dk-heat-cell.dk-s-warn @196,424 8x20
-        span.dk-heat-cell.dk-s-ok @208,424 8x20
-        span.dk-heat-cell.dk-s-ok @220,424 8x20
-        span.dk-heat-cell.dk-s-bad @232,424 8x20
-        span.dk-heat-cell.dk-s-bad @244,424 8x20
-        span.dk-heat-cell.dk-s-ok @256,424 8x20
-        span.dk-heat-cell.dk-s-bad @268,424 8x20
-        span.dk-heat-cell.dk-s-ok @280,424 8x20
-        span.dk-heat-cell.dk-s-ok @292,424 8x20
-        span.dk-heat-cell.dk-s-warn @304,424 8x20
-        span.dk-heat-cell.dk-s-bad @316,424 8x20
-        span.dk-heat-cell.dk-s-ok @328,424 8x20
-        span.dk-heat-cell.dk-s-ok @340,424 8x20
-        span.dk-heat-cell.dk-s-bad @352,424 8x20
-        span.dk-heat-cell.dk-s-bad @364,424 8x20
-      dl.dk-kv @16,452 360x40
+    section.tn-facts @16,400 360x92
+      h3.tn-facts-title "Last 30 runs" @16,400 360x16
+      div.tn-heat.is-lg [img] "30 runs, 12 failed" @16,424 360x20
+        span.tn-heat-cell.tn-s-ok @16,424 8x20
+        span.tn-heat-cell.tn-s-ok @28,424 8x20
+        span.tn-heat-cell.tn-s-ok @40,424 8x20
+        span.tn-heat-cell.tn-s-ok @52,424 8x20
+        span.tn-heat-cell.tn-s-ok @64,424 8x20
+        span.tn-heat-cell.tn-s-ok @76,424 8x20
+        span.tn-heat-cell.tn-s-bad @88,424 8x20
+        span.tn-heat-cell.tn-s-bad @100,424 8x20
+        span.tn-heat-cell.tn-s-bad @112,424 8x20
+        span.tn-heat-cell.tn-s-bad @124,424 8x20
+        span.tn-heat-cell.tn-s-bad @136,424 8x20
+        span.tn-heat-cell.tn-s-ok @148,424 8x20
+        span.tn-heat-cell.tn-s-ok @160,424 8x20
+        span.tn-heat-cell.tn-s-bad @172,424 8x20
+        span.tn-heat-cell.tn-s-ok @184,424 8x20
+        span.tn-heat-cell.tn-s-warn @196,424 8x20
+        span.tn-heat-cell.tn-s-ok @208,424 8x20
+        span.tn-heat-cell.tn-s-ok @220,424 8x20
+        span.tn-heat-cell.tn-s-bad @232,424 8x20
+        span.tn-heat-cell.tn-s-bad @244,424 8x20
+        span.tn-heat-cell.tn-s-ok @256,424 8x20
+        span.tn-heat-cell.tn-s-bad @268,424 8x20
+        span.tn-heat-cell.tn-s-ok @280,424 8x20
+        span.tn-heat-cell.tn-s-ok @292,424 8x20
+        span.tn-heat-cell.tn-s-warn @304,424 8x20
+        span.tn-heat-cell.tn-s-bad @316,424 8x20
+        span.tn-heat-cell.tn-s-ok @328,424 8x20
+        span.tn-heat-cell.tn-s-ok @340,424 8x20
+        span.tn-heat-cell.tn-s-bad @352,424 8x20
+        span.tn-heat-cell.tn-s-bad @364,424 8x20
+      dl.tn-kv @16,452 360x40
         dt "Success rate" @16,452 96x20
         dd "60%" @128,452 248x20
         dt "Failures" @16,472 96x20
-        dd.dk-t-bad "12" @128,472 248x20
-    section.dk-facts @16,508 360x408
-      h3.dk-facts-title "Run report" @16,508 360x16
-      div.dk-md.dk-md-compact @16,532 360x384
-        h2.dk-md-h.dk-md-h2 "Run 412" @16,532 360x16
-        code.dk-md-code "rsync" @228,556 36x16
-        ol.dk-md-list @16,580 360x100
-          code.dk-md-code "nas-b" @116,580 36x16
-          ul.dk-md-list @36,644 340x36
-            code.dk-md-code "No space left on device" @112,644 156x16
-            code.dk-md-code "/archive" @112,664 56x16
-        div.dk-md-table [region] @16,688 360x76
+        dd.tn-t-bad "12" @128,472 248x20
+    section.tn-facts @16,508 360x408
+      h3.tn-facts-title "Run report" @16,508 360x16
+      div.tn-md.tn-md-compact @16,532 360x384
+        h2.tn-md-h.tn-md-h2 "Run 412" @16,532 360x16
+        code.tn-md-code "rsync" @228,556 36x16
+        ol.tn-md-list @16,580 360x100
+          code.tn-md-code "nas-b" @116,580 36x16
+          ul.tn-md-list @36,644 340x36
+            code.tn-md-code "No space left on device" @112,644 156x16
+            code.tn-md-code "/archive" @112,664 56x16
+        div.tn-md-table [region] @16,688 360x76
           table @16,688 356x76
             th "Target" @16,688 156x24
             th.is-right "Used" @172,688 96x24
@@ -233,39 +233,39 @@ dialog.dk-sheet.is-open @0,100 392x744
             td.is-center "Warning" @272,716 104x24
             td.is-right "412 GB" @172,740 96x24
             td.is-center "ok" @272,740 104x24
-        ul.dk-md-list.is-tasks @16,772 360x72
-          li.dk-md-task @16,772 360x20
+        ul.tn-md-list.is-tasks @16,772 360x72
+          li.tn-md-task @16,772 360x20
             input "done" @16,776 12x12
-          li.dk-md-task @16,800 360x20
+          li.tn-md-task @16,800 360x20
             input "open" @16,804 12x12
-          li.dk-md-task @16,824 360x20
+          li.tn-md-task @16,824 360x20
             input "open" @16,828 12x12
-        pre.dk-md-pre @16,852 360x40
-        a.dk-md-link "https://example.com/runbooks/offsite-sync" @60,900 248x16
-    section.dk-facts @16,932 360x168
-      h3.dk-facts-title "Events" @16,932 360x16
-      div.dk-log.dk-log-wrap [log] @16,956 360x144
-        div.dk-log-line.dk-log-bad @16,960 356x56
-          span.dk-log-t "06:00 AM" @28,964 56x20
-          span.dk-log-src "offsite-sync" @96,964 268x20
-          span.dk-log-msg "rsync error: error in rsync protocol data stream (code 12) a" @28,980 332x36
-        div.dk-log-line.dk-log-warn @16,1016 356x40
-          span.dk-log-t "05:59 AM" @28,1020 56x20
-          span.dk-log-src "offsite-sync" @96,1020 268x20
-          span.dk-log-msg "Connection slow: 1.2 MB/s" @28,1036 332x20
-        div.dk-log-line.dk-log-info @16,1056 356x40
-          span.dk-log-t "05:15 AM" @28,1056 56x20
-          span.dk-log-src "offsite-sync" @96,1056 268x20
-          span.dk-log-msg "Start rsync to nas-b:/archive" @28,1076 332x20
-    section.dk-facts @16,1116 360x64
-      h3.dk-facts-title "Technical" @16,1116 360x16
-      dl.dk-kv.dk-kv-mono @16,1140 360x40
+        pre.tn-md-pre @16,852 360x40
+        a.tn-md-link "https://example.com/runbooks/offsite-sync" @60,900 248x16
+    section.tn-facts @16,932 360x168
+      h3.tn-facts-title "Events" @16,932 360x16
+      div.tn-log.tn-log-wrap [log] @16,956 360x144
+        div.tn-log-line.tn-log-bad @16,960 356x56
+          span.tn-log-t "06:00 AM" @28,964 56x20
+          span.tn-log-src "offsite-sync" @96,964 268x20
+          span.tn-log-msg "rsync error: error in rsync protocol data stream (code 12) a" @28,980 332x36
+        div.tn-log-line.tn-log-warn @16,1016 356x40
+          span.tn-log-t "05:59 AM" @28,1020 56x20
+          span.tn-log-src "offsite-sync" @96,1020 268x20
+          span.tn-log-msg "Connection slow: 1.2 MB/s" @28,1036 332x20
+        div.tn-log-line.tn-log-info @16,1056 356x40
+          span.tn-log-t "05:15 AM" @28,1056 56x20
+          span.tn-log-src "offsite-sync" @96,1056 268x20
+          span.tn-log-msg "Start rsync to nas-b:/archive" @28,1076 332x20
+    section.tn-facts @16,1116 360x64
+      h3.tn-facts-title "Technical" @16,1116 360x16
+      dl.tn-kv.tn-kv-mono @16,1140 360x40
         dt "ID" @16,1140 96x20
         dd "offsite-sync" @128,1140 248x20
         dt "Host" @16,1164 96x20
         dd "nas-b" @128,1164 248x20
-    div.dk-toolrow @16,1196 360x40
-      button.dk-btn.dk-btn-default @16,1196 96x40
-        svg.dk-icon @28,1208 16x16
-      button.dk-iconbtn {expanded=false} "More actions" @120,1196 40x40
-        svg.dk-icon @132,1208 16x16
+    div.tn-toolrow @16,1196 360x40
+      button.tn-btn.tn-btn-default @16,1196 96x40
+        svg.tn-icon @28,1208 16x16
+      button.tn-iconbtn {expanded=false} "More actions" @120,1196 40x40
+        svg.tn-icon @132,1208 16x16

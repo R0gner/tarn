@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · dataSource: fetch JSON with interval, age, error state.
+// tarn · dataSource: fetch JSON with interval, age, error state.
 // The browser handles gzip (Content-Encoding). Pauses while the tab is hidden,
 // and reloads immediately on return if the interval has elapsed.
 

@@ -1,10 +1,10 @@
-// dashkit · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell).
+// tarn · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell).
 // Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
   metricRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
   cols, stack, openSheet, markdown, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
-} from '../js/dashkit.js';
+} from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
 import { viewForms } from './gallery-forms.js';
@@ -28,21 +28,21 @@ function viewBasics() {
   return [
     h('p', { class: 'g-intro' }, 'Quiet, dark-grey desktop look in a dense ops-console style: small type, hairlines instead of shadows, status dots, small radii. Switch between system, light and dark at the top right. All values live in css/tokens.css; boards use only these variables.'),
     section('Status', {}, card({}, h('div', { class: 'g-swatches' },
-      ['ok', 'warn', 'bad', 'unknown', 'pending', 'info'].map((k) => sw(`${k} · ${STATUS_TEXT[k]}`, `--dk-${k}`))))),
+      ['ok', 'warn', 'bad', 'unknown', 'pending', 'info'].map((k) => sw(`${k} · ${STATUS_TEXT[k]}`, `--tn-${k}`))))),
     section('Status as text and primary button', {}, card({}, h('div', { class: 'g-swatches' },
-      [['ok-text', '--dk-ok-text'], ['warn-text', '--dk-warn-text'], ['bad-text', '--dk-bad-text'], ['info-text', '--dk-info-text'], ['primary', '--dk-primary']].map(([n, v]) => sw(n, v))))),
+      [['ok-text', '--tn-ok-text'], ['warn-text', '--tn-warn-text'], ['bad-text', '--tn-bad-text'], ['info-text', '--tn-info-text'], ['primary', '--tn-primary']].map(([n, v]) => sw(n, v))))),
     section('Accents', {}, card({}, h('div', { class: 'g-swatches' },
-      ['blue', 'purple', 'pink', 'orange', 'green', 'graphite'].map((k) => sw(k, `--dk-${k}`))))),
+      ['blue', 'purple', 'pink', 'orange', 'green', 'graphite'].map((k) => sw(k, `--tn-${k}`))))),
     section('Surfaces and text', {}, card({}, h('div', { class: 'g-swatches' },
-      [['Background', '--dk-bg'], ['Card', '--dk-card'], ['Zebra', '--dk-card-2'], ['Popover', '--dk-popover'], ['Hairline', '--dk-border'], ['Text', '--dk-text'], ['Text 2', '--dk-text-2'], ['Text 3', '--dk-text-3']].map(([n, v]) => sw(n, v))))),
+      [['Background', '--tn-bg'], ['Card', '--tn-card'], ['Zebra', '--tn-card-2'], ['Popover', '--tn-popover'], ['Hairline', '--tn-border'], ['Text', '--tn-text'], ['Text 2', '--tn-text-2'], ['Text 3', '--tn-text-3']].map(([n, v]) => sw(n, v))))),
     section('Typography', {}, card({}, h('div', { class: 'g-type' },
-      h('div', null, h('small', null, 'stat 20/600'), h('span', { class: 'dk-stat-value dk-num' }, fmtNum(12345.6, 1))),
-      h('div', null, h('small', null, 'lg 15/600'), h('span', { class: 'dk-sheet-title' }, 'Title in the detail')),
+      h('div', null, h('small', null, 'stat 20/600'), h('span', { class: 'tn-stat-value tn-num' }, fmtNum(12345.6, 1))),
+      h('div', null, h('small', null, 'lg 15/600'), h('span', { class: 'tn-sheet-title' }, 'Title in the detail')),
       h('div', null, h('small', null, 'body 13/400'), h('span', null, 'Running text and rows, formatted for the language: ', fmtBytes(48318382080), ' · ', fmtDuration(2950))),
       h('div', null, h('small', null, 'title 13/600'), h('strong', null, 'Card title')),
-      h('div', null, h('small', null, 'label 12/500'), h('span', { class: 'dk-stat-label' }, 'Label, subtitle')),
-      h('div', null, h('small', null, 'section 11.5/600'), h('span', { class: 'dk-section-title' }, 'Section')),
-      h('div', null, h('small', null, 'mono 12/500'), h('span', { class: 'dk-mono' }, 'rsync exit 12 · 02:30:00'))))),
+      h('div', null, h('small', null, 'label 12/500'), h('span', { class: 'tn-stat-label' }, 'Label, subtitle')),
+      h('div', null, h('small', null, 'section 11.5/600'), h('span', { class: 'tn-section-title' }, 'Section')),
+      h('div', null, h('small', null, 'mono 12/500'), h('span', { class: 'tn-mono' }, 'rsync exit 12 · 02:30:00'))))),
     section('Icons', { count: ICON_NAMES.length }, card({}, h('div', { class: 'g-icons' }, ICON_NAMES.map((n) => h('div', { class: 'g-icon' }, icon(n), n))))),
   ];
 }
@@ -80,7 +80,7 @@ function viewButtons() {
 function viewCards(ctx) {
   const jobs = jobsOf(ctx);
   const bad = jobs.filter((j) => j.status === 'bad').length, warn = jobs.filter((j) => j.status === 'warn').length;
-  const box = (txt) => card({}, h('span', { class: 'dk-muted' }, txt));
+  const box = (txt) => card({}, h('span', { class: 'tn-muted' }, txt));
   return [
     demo('statTile()', `statTile({ label: 'Jobs', value: 12, sub: '1 error', status: 'bad', onClick: () => app.go('table') })\ntiles(tile, tile, …)   // grid, two columns on phones`,
       tiles(
@@ -97,7 +97,7 @@ function viewCards(ctx) {
         section('Problems', { count: 2, actions: button('All', { variant: 'ghost', small: true, iconAfter: 'chevron-right' }) },
           card({ flush: true }, list(jobs.filter((j) => ['bad', 'warn'].includes(j.status)), (j) => jobRow(j, ctx)))),
         card({ title: 'Card title', sub: 'Subtitle with context', actions: [iconButton('refresh', { label: 'Reload' }), iconButton('more', { label: 'More' })] },
-          h('p', { class: 'dk-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
+          h('p', { class: 'tn-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
     demo('cols() and stack()', `cols(a, b)                    // columns, side by side from 340 px content width, else stacked\ncols({ min: 280 }, a, b, c)   // smaller minimum width per column\nstack(a, b)                   // vertical stack with the standard gap`,
       cols(stack(box('stack: first'), box('stack: second')), box('cols: second column'), cols({ min: 160 }, box('small 1'), box('small 2')))),
   ];
@@ -116,7 +116,7 @@ function viewRows(ctx) {
   return [
     demo('metricRow() in list()', `list(items, (j) => metricRow({ title, sub, value, valueSub, status, key: j.id,\n  onClick: () => app.open(j.id) }), { zebra: true })   // whole row tappable, chevron on the right`,
       card({ flush: true }, list(jobs.slice(0, 6), (j) => jobRow(j, ctx), { zebra: true }))),
-    demo('States', null, card({ flush: true }, h('div', { class: 'dk-list' },
+    demo('States', null, card({ flush: true }, h('div', { class: 'tn-list' },
       metricRow({ title: 'Normal', sub: 'Subtitle', value: '12', status: 'ok', onClick: noop }),
       metricRow({ title: 'Hover (forced)', sub: 'Overlay', value: '3', status: 'warn', onClick: noop, className: 'is-hover' }),
       metricRow({ title: 'Pressed (forced)', sub: 'stronger overlay', value: '4', status: 'ok', onClick: noop, className: 'is-pressed' }),
@@ -125,8 +125,8 @@ function viewRows(ctx) {
       metricRow({ title: 'A very long title that has to be truncated in a narrow column instead of wrapping', sub: 'a-very-long-hostname.example.internal · cron 15 3 * * 1-5', value: fmtNum(123456789, 0), valueSub: fmtDuration(200000), status: 'pending', onClick: noop }),
       metricRow({ title: 'rsync-offsite', sub: 'Monospace title', mono: true, value: '0 B', status: 'off', onClick: noop })))),
     demo('list() empty', `list([], render, { empty: 'No problems' })`, card({ flush: true }, list([], noop, { empty: 'No problems' }))),
-    demo('kv() and facts()', `facts('Run', kv([['Host', 'nas-a'], ['Duration', '21 min'], ['Error', text, 'dk-t-bad']]))  // empty values are dropped`,
-      h('div', { class: 'g-narrow' }, facts('Run', kv([['Host', 'nas-b'], ['Schedule', 'daily 04:15'], ['Last run', fmtWhen(now() - 11100e3)], ['Duration', fmtDuration(31)], ['Empty', null], ['Error', 'rsync: connection unexpectedly closed', 'dk-t-bad']])))),
+    demo('kv() and facts()', `facts('Run', kv([['Host', 'nas-a'], ['Duration', '21 min'], ['Error', text, 'tn-t-bad']]))  // empty values are dropped`,
+      h('div', { class: 'g-narrow' }, facts('Run', kv([['Host', 'nas-b'], ['Schedule', 'daily 04:15'], ['Last run', fmtWhen(now() - 11100e3)], ['Duration', fmtDuration(31)], ['Empty', null], ['Error', 'rsync: connection unexpectedly closed', 'tn-t-bad']])))),
     demo('Long words', `// No building block breaks a word letter by letter: names/titles use an ellipsis plus hint, running text wraps at word boundaries.
 // verify (rule wordbreak) checks letter-only words of 10+ characters; paths, IDs and URLs may break anywhere.`,
       h('div', { class: 'g-narrow-s' }, stack(
@@ -206,7 +206,7 @@ function jobDetail(id, ctx) {
       j.status === 'bad' && banner(j.error || 'Last run failed', { tone: 'bad' }),
       j.hint && banner(j.hint, { tone: j.status === 'unknown' ? 'info' : 'warn' }),
       facts('Status', kv([['State', statusDot(j.status, { label: STATUS_TEXT[j.status] })], ['Schedule', j.schedule], ['Last run', lastAt(j) && `${fmtWhen(lastAt(j))} (${fmtAgo(j.lastAgoSec)})`], ['Duration', j.durationSec != null && fmtDuration(j.durationSec)]])),
-      facts('Result', kv([['Size', j.bytes != null && fmtBytes(j.bytes)], ['Runs, 7 days', fmtNum(j.runs7, 0)], ['Errors, 7 days', j.fails7 ? fmtNum(j.fails7, 0) : '0', j.fails7 ? 'dk-t-bad' : null], ['Success rate', j.runs7 ? fmtPct((j.runs7 - j.fails7) / j.runs7) : null]])),
+      facts('Result', kv([['Size', j.bytes != null && fmtBytes(j.bytes)], ['Runs, 7 days', fmtNum(j.runs7, 0)], ['Errors, 7 days', j.fails7 ? fmtNum(j.fails7, 0) : '0', j.fails7 ? 'tn-t-bad' : null], ['Success rate', j.runs7 ? fmtPct((j.runs7 - j.fails7) / j.runs7) : null]])),
       facts('Technical', kv([['ID', j.id], ['Host', j.host]], { mono: true })),
       toolbarRow(button('Run now', { icon: 'refresh', onClick: () => {} }), button('Open log', { variant: 'ghost', iconAfter: 'external' })),
     ],
@@ -249,7 +249,7 @@ function viewStates() {
 
 /* ================= App ================= */
 const app = createApp({
-  title: 'dashkit Gallery',
+  title: 'Tarn Gallery',
   icon: './favicon.svg',
   locales: ['en', 'de'],
   source: src,
@@ -278,4 +278,4 @@ function tableCount(ctx) {
   return { n: bad || jobs.length, tone: bad ? 'bad' : null };
 }
 src.start();
-window.dkApp = app; // for scripts/console
+window.tnApp = app; // for scripts/console

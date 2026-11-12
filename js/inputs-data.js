@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · input logic without a DOM (testable in Node): number parsing, validation, option search, day presets.
+// tarn · input logic without a DOM (testable in Node): number parsing, validation, option search, day presets.
 // The controls in inputs.js, form() and the filters (filters-data.js) build on this.
 import { t } from './i18n.js';
 import { matchQuery } from './format.js';

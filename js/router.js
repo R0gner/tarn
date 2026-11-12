@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · Hash router, pure functions (no DOM). Format: #/view?open=id&more=values
+// tarn · Hash router, pure functions (no DOM). Format: #/view?open=id&more=values
 
 /**
  * '#/automations?open=ct%3Aweb&q=x' → { view: 'automations', params: { open: 'ct:web', q: 'x' } }

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · i18n: a small catalog layer without a library.
+// tarn · i18n: a small catalog layer without a library.
 //
 //   t(key, vars)          translated text; {name} placeholders; plural via { one, other, … } values and vars.count
 //   setLocale(code)       active locale (BCP 47, e.g. 'de', 'en-GB'); setTimeZone(zone) overrides the browser time zone
@@ -32,7 +32,7 @@ const board = {};
 const listeners = new Set();
 /** Keys that were not found in the active locale (deduplicated); verify reads this. */
 export const missingKeys = new Set();
-if (typeof window !== 'undefined') /** @type {any} */ (window).__dkMissingKeys = missingKeys;
+if (typeof window !== 'undefined') /** @type {any} */ (window).__tnMissingKeys = missingKeys;
 
 /**
  * @param {unknown} code
@@ -96,11 +96,11 @@ function lookup(key) {
   if (own) return own.v;
   if (baseLang(locale) !== 'en') {
     missingKeys.add(`${locale}:${key}`);
-    if (!warned.has(`${locale}:${key}`)) { warned.add(`${locale}:${key}`); console.warn(`dashkit i18n: missing key "${key}" for "${locale}" (showing English)`); }
+    if (!warned.has(`${locale}:${key}`)) { warned.add(`${locale}:${key}`); console.warn(`tarn i18n: missing key "${key}" for "${locale}" (showing English)`); }
   }
   for (const src of [board.en, KIT_CATALOGS.en]) if (src && key in src) return src[key];
   missingKeys.add(`en:${key}`);
-  if (!warned.has(`en:${key}`)) { warned.add(`en:${key}`); console.warn(`dashkit i18n: unknown key "${key}"`); }
+  if (!warned.has(`en:${key}`)) { warned.add(`en:${key}`); console.warn(`tarn i18n: unknown key "${key}"`); }
   return key;
 }
 const warned = new Set();

@@ -1,5 +1,5 @@
 // @ts-check
-// dashkit · filter logic without a DOM (testable in Node): matching per data type and readable chip texts.
+// tarn · filter logic without a DOM (testable in Node): matching per data type and readable chip texts.
 //
 // A filter state is { q, f } where f maps a filter key to a value; the type follows from the value:
 //   options  string[]                        row value (or array of values) must be one of them
