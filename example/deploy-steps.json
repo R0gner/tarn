@@ -1,0 +1,14 @@
+{
+  "note": "Invented deployment run for the sample board (nothing is deployed). A real board gets this from its API: status, progress and the log so far.",
+  "durationSec": 8,
+  "steps": [
+    { "at": 0, "level": "info", "text": "Connecting to {host}" },
+    { "at": 1.5, "level": "info", "text": "Pulling registry.example.com/app:{version}" },
+    { "at": 3.5, "level": "ok", "text": "Image pulled (212 MB)" },
+    { "at": 5, "level": "info", "text": "Restarting app-1", "dryText": "Dry run: would restart app-1 (no changes made)" },
+    { "at": 7, "level": "ok", "text": "Health check passed" }
+  ],
+  "failures": {
+    "app-2": { "at": 6, "level": "bad", "text": "Health check failed: HTTP 503", "message": "Health check failed after 60 s; the previous version was restored." }
+  }
+}

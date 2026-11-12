@@ -1,0 +1,413 @@
+# gallery #/charts · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x2128
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      div.dk-brand @16,12 128x24
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
+    nav.dk-nav "Views" @8,44 192x528
+      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
+      a.dk-nav-item @8,68 192x28
+        svg.dk-icon @16,76 16x16
+        span.dk-ellipsis "Foundations" @40,76 76x20
+      a.dk-nav-item @8,100 192x28
+        svg.dk-icon @16,104 16x16
+        span.dk-ellipsis "Light and dark" @40,104 88x20
+      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Buttons and status" @40,164 116x20
+      a.dk-nav-item @8,188 192x28
+        svg.dk-icon @16,196 16x16
+        span.dk-ellipsis "Controls" @40,196 52x20
+      a.dk-nav-item @8,220 192x28
+        svg.dk-icon @16,224 16x16
+        span.dk-ellipsis "Inputs" @40,224 40x20
+      div.dk-nav-group [presentation] "Components" @8,248 192x32
+      a.dk-nav-item @8,280 192x28
+        svg.dk-icon @16,288 16x16
+        span.dk-ellipsis "Cards and tiles" @40,284 92x20
+      a.dk-nav-item @8,308 192x28
+        svg.dk-icon @16,316 16x16
+        span.dk-ellipsis "Rows and facts" @40,316 96x20
+      a.dk-nav-item @8,340 192x28
+        svg.dk-icon @16,344 16x16
+        span.dk-ellipsis "Table and filter" @40,344 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
+      a.dk-nav-item @8,368 192x28
+        svg.dk-icon @16,372 16x16
+        span.dk-ellipsis "Forms and actions" @40,372 116x20
+      a.dk-nav-item @8,396 192x28
+        svg.dk-icon @16,404 16x16
+        span.dk-ellipsis "Menus and feedback" @40,400 132x20
+      a.dk-nav-item.is-active {current=page} @8,424 192x28
+        svg.dk-icon @16,432 16x16
+        span.dk-ellipsis "Charts" @40,432 40x20
+      a.dk-nav-item @8,456 192x28
+        svg.dk-icon @16,460 16x16
+        span.dk-ellipsis "Markdown" @40,460 64x20
+      a.dk-nav-item @8,484 192x28
+        svg.dk-icon @16,488 16x16
+        span.dk-ellipsis "States and sheets" @40,488 112x20
+      div.dk-nav-group [presentation] "Shell" @8,512 192x32
+      a.dk-nav-item @8,544 192x28
+        svg.dk-icon @16,552 16x16
+        span.dk-ellipsis "Shell and boards" @40,552 104x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 1216x2128
+    header.dk-toolbar @208,0 1216x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Charts" @252,12 44x20
+      div.dk-toolbar-spacer @300,20 924x0
+      button.dk-fresh "Updated now" @1224,8 92x28
+      button.dk-iconbtn "Reload" @1320,8 28x28
+        svg.dk-icon @1328,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.dk-icon @1360,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.dk-icon @1392,12 16x16
+    main.dk-content @208,44 1216x2084
+      section.dk-card @224,136 1184x332
+        header.dk-card-head @224,136 1184x40
+          div.dk-card-heading @236,144 1160x20
+            h3.dk-card-title "lineChart()" @236,144 1160x20
+        div.dk-card-body @224,176 1184x292
+          div.dk-chart.dk-chart-line [img] "CPU and I/O over the last 48 hours" @236,188 1160x204
+            div.dk-chart-plot @236,188 1160x180
+              svg.dk-svg @236,188 1160x180
+            div.dk-legend @236,376 1160x16
+              span.dk-legend-item "CPU nas-a" @236,376 76x16
+                span.dk-tip-sw.dk-c-blue @236,380 8x8
+              span.dk-legend-item "I/O wait" @324,376 56x16
+                span.dk-tip-sw.dk-c-orange @324,380 8x8
+      section.dk-card @224,488 584x288
+        header.dk-card-head @224,488 584x40
+          div.dk-card-heading @236,500 560x20
+            h3.dk-card-title "Stacked area" @236,500 560x20
+        div.dk-card-body @224,528 584x244
+          div.dk-chart.dk-chart-line [img] @236,540 560x176
+            div.dk-chart-plot @236,540 560x152
+              svg.dk-svg @236,540 560x152
+            div.dk-legend @236,700 560x16
+              span.dk-legend-item "Photos" @236,700 52x16
+                span.dk-tip-sw.dk-c-blue @236,704 8x8
+              span.dk-legend-item "Documents" @304,700 80x16
+                span.dk-tip-sw.dk-c-purple @304,704 8x8
+      section.dk-card @824,488 584x304
+        header.dk-card-head @824,488 584x40
+          div.dk-card-heading @836,500 560x20
+            h3.dk-card-title "Gaps and empty" @836,500 560x20
+        div.dk-card-body @824,528 584x264
+          div.dk-chart.dk-chart-line [img] @836,540 560x112
+            div.dk-chart-plot @836,540 560x112
+              svg.dk-svg @836,540 560x112
+          div.dk-chart.dk-chart-line [img] @836,664 560x72
+            div.dk-chart-plot @836,664 560x72
+              div.dk-chart-empty "No measurements yet" @836,664 560x72
+      section.dk-card @224,812 384x348
+        header.dk-card-head @224,812 384x40
+          div.dk-card-heading @236,824 360x20
+            h3.dk-card-title "barChart() vertical, stacked" @236,824 360x20
+        div.dk-card-body @224,852 384x304
+          div.dk-chart.dk-chart-bar [img] @236,864 360x184
+            div.dk-chart-plot @236,864 360x160
+              svg.dk-svg @236,864 360x160
+            div.dk-legend @236,1032 360x16
+              span.dk-legend-item "successful" @236,1032 76x16
+                span.dk-tip-sw.dk-c-ok @236,1040 8x8
+              span.dk-legend-item "warning" @324,1032 60x16
+                span.dk-tip-sw.dk-c-warn @324,1040 8x8
+              span.dk-legend-item "error" @396,1032 40x16
+                span.dk-tip-sw.dk-c-bad @396,1040 8x8
+      section.dk-card @624,812 384x264
+        header.dk-card-head @624,812 384x40
+          div.dk-card-heading @636,824 360x20
+            h3.dk-card-title "barChart() horizontal" @636,824 360x20
+        div.dk-card-body @624,852 384x220
+          div.dk-chart.dk-chart-bar.is-h [img] @636,864 360x136
+            div.dk-chart-plot @636,864 360x136
+              svg.dk-svg @636,864 360x136
+      section.dk-card @1024,812 384x292
+        header.dk-card-head @1024,812 384x40
+          div.dk-card-heading @1036,824 360x20
+            h3.dk-card-title "barChart() grouped" @1036,824 360x20
+        div.dk-card-body @1024,852 384x252
+          div.dk-chart.dk-chart-bar [img] @1036,864 360x164
+            div.dk-chart-plot @1036,864 360x140
+              svg.dk-svg @1036,864 360x140
+            div.dk-legend @1036,1012 360x16
+              span.dk-legend-item "last week" @1036,1012 68x16
+                span.dk-tip-sw.dk-c-graphite @1036,1020 8x8
+              span.dk-legend-item "this week" @1116,1012 68x16
+                span.dk-tip-sw.dk-c-blue @1116,1020 8x8
+      section.dk-section @224,1180 1184x364
+        header.dk-section-head @224,1180 1184x24
+          h2.dk-section-title "Small charts" @228,1184 1180x16
+        section.dk-card @224,1212 384x280
+          header.dk-card-head @224,1212 384x40
+            div.dk-card-heading @236,1224 360x20
+              h3.dk-card-title "sparkline()" @236,1224 360x20
+          div.dk-card-body @224,1252 384x240
+            div.dk-tiles @236,1264 360x92
+              div.dk-stat @236,1264 176x92
+                div.dk-stat-label @252,1272 148x16
+                  span.dk-ellipsis "CPU nas-a" @252,1272 60x16
+                div.dk-stat-value.dk-num "78" @252,1292 148x24
+                  span.dk-stat-unit "%" @280,1300 12x16
+                div.dk-stat-sub @252,1320 148x28
+                  div.dk-chart.dk-spark [img] @252,1320 148x24
+                    div.dk-chart-plot @252,1320 148x24
+                      svg.dk-svg @252,1320 148x24
+              div.dk-stat @420,1264 176x92
+                div.dk-stat-label @432,1272 148x16
+                  span.dk-dot.dk-s-bad [img] "Error" @432,1280 8x8
+                  span.dk-ellipsis "Errors 7 d" @448,1272 56x16
+                div.dk-stat-value.dk-num "5" @432,1292 148x24
+                div.dk-stat-sub.dk-t-bad @432,1320 148x28
+                  div.dk-chart.dk-spark [img] @432,1320 148x24
+                    div.dk-chart-plot @432,1320 148x24
+                      svg.dk-svg @432,1320 148x24
+            span.dk-spark [img] @236,1372 80x24
+              svg.dk-svg @236,1372 80x24
+            span.dk-spark [img] @328,1372 80x24
+              svg.dk-svg @328,1372 80x24
+        section.dk-card @624,1212 384x332
+          header.dk-card-head @624,1212 384x40
+            div.dk-card-heading @636,1224 360x20
+              h3.dk-card-title "donut()" @636,1224 360x20
+          div.dk-card-body @624,1252 384x288
+            div.dk-donut [img] "OK 9, Warning 1, Error 1, Off 1" @636,1264 164x80
+              div.dk-donut-ring @636,1268 72x72
+                svg.dk-svg @636,1268 72x72
+                div.dk-donut-center @636,1268 72x72
+                  span.dk-donut-val "12" @660,1288 24x16
+                  span.dk-donut-sub "Jobs" @660,1308 24x12
+              div.dk-donut-legend @724,1264 76x80
+                div.dk-tip-row @724,1264 76x16
+                  span.dk-tip-sw.dk-c-ok @724,1268 8x8
+                  span.dk-tip-name "OK" @740,1264 48x16
+                  span.dk-tip-val.dk-num "9" @792,1264 8x16
+                div.dk-tip-row @724,1284 76x16
+                  span.dk-tip-sw.dk-c-warn @724,1288 8x8
+                  span.dk-tip-name "Warning" @740,1284 48x16
+                  span.dk-tip-val.dk-num "1" @792,1284 8x16
+                div.dk-tip-row @724,1308 76x16
+                  span.dk-tip-sw.dk-c-bad @724,1312 8x8
+                  span.dk-tip-name "Error" @740,1308 48x16
+                  span.dk-tip-val.dk-num "1" @792,1308 8x16
+                div.dk-tip-row @724,1328 76x16
+                  span.dk-tip-sw.dk-c-unknown @724,1332 8x8
+                  span.dk-tip-name "Off" @740,1328 48x16
+                  span.dk-tip-val.dk-num "1" @792,1328 8x16
+            div.dk-donut [img] " 0.82" @812,1264 56x56
+              div.dk-donut-ring @812,1264 56x56
+                svg.dk-svg @812,1264 56x56
+                div.dk-donut-center @812,1264 56x56
+                  span.dk-donut-val.is-small "82%" @828,1288 28x12
+            div.dk-donut [img] " 0.31" @880,1272 40x40
+              div.dk-donut-ring @880,1272 40x40
+                svg.dk-svg @880,1272 40x40
+                div.dk-donut-center @880,1272 40x40
+                  span.dk-donut-val.is-small "31%" @888,1288 28x12
+            div.dk-donut [img] @636,1356 72x56
+              div.dk-donut-ring @636,1356 56x56
+                svg.dk-svg @636,1356 56x56
+                div.dk-donut-center @636,1356 56x56
+                  span.dk-donut-val.is-small "0" @660,1376 8x12
+              div.dk-donut-legend @708,1384 0x0
+        section.dk-card @1024,1212 384x260
+          header.dk-card-head @1024,1212 384x40
+            div.dk-card-heading @1036,1224 360x20
+              h3.dk-card-title "heatRow()" @1036,1224 360x20
+          div.dk-card-body @1024,1252 384x220
+            div.dk-heat [group] "30 runs, 3 failed" @1036,1264 360x12
+              button.dk-heat-cell.dk-s-ok "11/01, 10:00 PM · Run 1 · OK" @1036,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/02, 04:00 AM · Run 2 · OK" @1048,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/02, 10:00 AM · Run 3 · OK" @1060,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/02, 04:00 PM · Run 4 · OK" @1072,1264 12x12
+              button.dk-heat-cell.dk-s-bad "11/02, 10:00 PM · Run 5 · Error" @1084,1264 12x12
+              button.dk-heat-cell.dk-s-warn "11/03, 04:00 AM · Run 6 · Warning" @1096,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/03, 10:00 AM · Run 7 · OK" @1108,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/03, 04:00 PM · Run 8 · OK" @1120,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/03, 10:00 PM · Run 9 · OK" @1132,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/04, 04:00 AM · Run 10 · OK" @1144,1264 12x12
+              button.dk-heat-cell.dk-s-bad "11/04, 10:00 AM · Run 11 · Error" @1156,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/04, 04:00 PM · Run 12 · OK" @1168,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/04, 10:00 PM · Run 13 · OK" @1180,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/05, 04:00 AM · Run 14 · OK" @1192,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/05, 10:00 AM · Run 15 · OK" @1204,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/05, 04:00 PM · Run 16 · OK" @1216,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/05, 10:00 PM · Run 17 · OK" @1228,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/06, 04:00 AM · Run 18 · OK" @1240,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/06, 10:00 AM · Run 19 · OK" @1252,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/06, 04:00 PM · Run 20 · OK" @1264,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/06, 10:00 PM · Run 21 · OK" @1276,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/07, 04:00 AM · Run 22 · OK" @1288,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/07, 10:00 AM · Run 23 · OK" @1300,1264 12x12
+              button.dk-heat-cell.dk-s-ok "11/07, 04:00 PM · Run 24 · OK" @1312,1264 12x12
+              button.dk-heat-cell.dk-s-bad "11/07, 10:00 PM · Run 25 · Error" @1324,1264 12x12
+              button.dk-heat-cell.dk-s-ok "yesterday 04:00 AM · Run 26 · OK" @1336,1264 12x12
+              button.dk-heat-cell.dk-s-warn "yesterday 10:00 AM · Run 27 · Warning" @1348,1264 12x12
+              button.dk-heat-cell.dk-s-ok "yesterday 04:00 PM · Run 28 · OK" @1360,1264 12x12
+              button.dk-heat-cell.dk-s-warn "yesterday 10:00 PM · Run 29 · Warning" @1372,1264 12x12
+              button.dk-heat-cell.dk-s-ok "04:00 AM · Run 30 · OK" @1384,1264 12x12
+            div.dk-heat [img] "6 runs, 2 failed" @1036,1312 360x12
+              span.dk-heat-cell.dk-heat-none @1036,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1048,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1060,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1072,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1084,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1096,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1108,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1120,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1132,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1144,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1156,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1168,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1180,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1192,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1204,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1216,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1228,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1240,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1252,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1264,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1276,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1288,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1300,1312 12x12
+              span.dk-heat-cell.dk-heat-none @1312,1312 12x12
+              span.dk-heat-cell.dk-s-warn @1324,1312 12x12
+              span.dk-heat-cell.dk-s-warn @1336,1312 12x12
+              span.dk-heat-cell.dk-s-bad @1348,1312 12x12
+              span.dk-heat-cell.dk-s-ok @1360,1312 12x12
+              span.dk-heat-cell.dk-s-ok @1372,1312 12x12
+              span.dk-heat-cell.dk-s-bad @1384,1312 12x12
+            div.dk-heat.is-lg [img] "20 runs, 1 failed" @1036,1356 360x20
+              span.dk-heat-cell.dk-s-ok @1036,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1056,1356 16x20
+              span.dk-heat-cell.dk-s-warn @1072,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1092,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1108,1356 16x20
+              span.dk-heat-cell.dk-s-warn @1128,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1148,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1164,1356 16x20
+              span.dk-heat-cell.dk-s-bad @1184,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1200,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1220,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1236,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1256,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1272,1356 16x20
+              span.dk-heat-cell.dk-s-warn @1292,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1308,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1328,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1344,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1364,1356 16x20
+              span.dk-heat-cell.dk-s-ok @1380,1356 16x20
+      section.dk-card @224,1564 1184x536
+        header.dk-card-head @224,1564 1184x40
+          div.dk-card-heading @236,1572 1160x20
+            h3.dk-card-title "timeline()" @236,1572 1160x20
+        div.dk-card-body @224,1604 1184x492
+          div.dk-tl @236,1616 1160x388
+            div.dk-tl-scroll @240,1616 1156x388
+              div.dk-tl-grid @240,1616 1156x388
+                div.dk-tl-row.dk-tl-head @240,1616 1156x28
+                  div.dk-tl-name @240,1616 180x28
+                  div.dk-tl-track.dk-tl-axis @420,1616 976x28
+                    span.dk-tl-tick "12:00 AM" @420,1624 56x16
+                    span.dk-tl-tick "02:00 AM" @472,1624 52x16
+                    span.dk-tl-tick "04:00 AM" @556,1624 52x16
+                    span.dk-tl-tick "06:00 AM" @636,1624 52x16
+                    span.dk-tl-tick "08:00 AM" @716,1624 52x16
+                    span.dk-tl-tick "10:00 AM" @800,1624 52x16
+                    span.dk-tl-tick "12:00 PM" @880,1624 52x16
+                    span.dk-tl-tick "02:00 PM" @964,1624 52x16
+                    span.dk-tl-tick "04:00 PM" @1044,1624 52x16
+                    span.dk-tl-tick "06:00 PM" @1124,1624 52x16
+                    span.dk-tl-tick "08:00 PM" @1208,1624 52x16
+                    span.dk-tl-tick "10:00 PM" @1288,1624 52x16
+                    span.dk-tl-tick.is-end "12:00 AM" @1340,1624 56x16
+                div.dk-tl-bg @420,1644 976x360
+                  span.dk-tl-win.dk-tl-win-info @500,1644 164x360
+                  span.dk-tl-vline @416,1644 0x360
+                  span.dk-tl-vline @500,1644 0x360
+                  span.dk-tl-vline @580,1644 0x360
+                  span.dk-tl-vline @660,1644 0x360
+                  span.dk-tl-vline @744,1644 0x360
+                  span.dk-tl-vline @824,1644 0x360
+                  span.dk-tl-vline @904,1644 0x360
+                  span.dk-tl-vline @988,1644 0x360
+                  span.dk-tl-vline @1068,1644 0x360
+                  span.dk-tl-vline @1148,1644 0x360
+                  span.dk-tl-vline @1232,1644 0x360
+                  span.dk-tl-vline @1312,1644 0x360
+                  span.dk-tl-now @824,1644 4x360
+                div.dk-tl-row.dk-tl-group @240,1644 1156x28
+                  div.dk-tl-name "Backups" @240,1644 180x24
+                    span.dk-tl-count "4" @304,1648 8x16
+                  div.dk-tl-track @420,1644 976x24
+                div.dk-tl-row.is-hot @240,1668 1156x40
+                  button.dk-tl-name @240,1668 180x36
+                    span.dk-tl-title.dk-ellipsis "Photo backup" @252,1672 156x20
+                    span.dk-tl-sub.dk-ellipsis "~21 min" @252,1688 156x16
+                  div.dk-tl-track @420,1668 976x36
+                    button.dk-tl-bar.is-heavy.is-hot "Photo backup: 02:30 AM–02:51 AM (21 min) · Overlap" @520,1684 16x12
+                div.dk-tl-row.is-hot @240,1708 1156x40
+                  button.dk-tl-name @240,1708 180x36
+                    span.dk-tl-title.dk-ellipsis "Document backup" @252,1708 156x20
+                    span.dk-tl-sub.dk-ellipsis "~9 min" @252,1728 156x16
+                  div.dk-tl-track @420,1708 976x36
+                    button.dk-tl-bar.is-heavy.is-hot "Document backup: 03:00 AM–03:09 AM (9 min) · Overlap" @540,1720 8x12
+                div.dk-tl-row.is-hot @240,1744 1156x40
+                  button.dk-tl-name @240,1748 180x36
+                    span.dk-tl-title.dk-ellipsis "Offsite archive sync" @252,1748 156x20
+                    span.dk-tl-sub.dk-ellipsis "~45 min" @252,1768 156x16
+                  div.dk-tl-track @420,1748 976x36
+                    button.dk-tl-bar.is-heavy.is-hot "Offsite archive sync: 04:15 AM–05:00 AM (45 min) · Overlap" @592,1760 32x12
+                div.dk-tl-row @240,1784 1156x40
+                  button.dk-tl-name @240,1784 180x36
+                    span.dk-tl-title.dk-ellipsis "Wiki database dump" @252,1788 156x20
+                    span.dk-tl-sub.dk-ellipsis "~2 min" @252,1804 156x16
+                  div.dk-tl-track @420,1784 976x36
+                    button.dk-tl-bar "Wiki database dump: 01:00 AM–01:02 AM (2 min)" @460,1796 4x12
+                div.dk-tl-row.dk-tl-group @240,1824 1156x28
+                  div.dk-tl-name "Maintenance" @240,1824 180x24
+                    span.dk-tl-count "4" @328,1828 8x16
+                  div.dk-tl-track @420,1824 976x24
+                div.dk-tl-row.is-hot @240,1848 1156x40
+                  button.dk-tl-name @240,1848 180x36
+                    span.dk-tl-title.dk-ellipsis "Media library scan" @252,1852 156x20
+                    span.dk-tl-sub.dk-ellipsis "every 2 h, ~25 min" @252,1868 156x16
+                  div.dk-tl-track @420,1848 976x36
+                    button.dk-tl-bar.is-heavy "Media library scan: 12:40 AM–01:05 AM (25 min)" @444,1864 16x12
+                    button.dk-tl-bar.is-heavy.is-hot "Media library scan: 02:40 AM–03:05 AM (25 min) · Overlap" @528,1864 16x12
+                    button.dk-tl-bar.is-heavy.is-hot "Media library scan: 04:40 AM–05:05 AM (25 min) · Overlap" @608,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 06:40 AM–07:05 AM (25 min)" @688,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 08:40 AM–09:05 AM (25 min)" @772,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 10:40 AM–11:05 AM (25 min)" @852,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 12:40 PM–01:05 PM (25 min)" @932,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 02:40 PM–03:05 PM (25 min)" @1016,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 04:40 PM–05:05 PM (25 min)" @1096,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 06:40 PM–07:05 PM (25 min)" @1176,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 08:40 PM–09:05 PM (25 min)" @1260,1864 16x12
+                    button.dk-tl-bar.is-heavy "Media library scan: 10:40 PM–11:05 PM (25 min)" @1340,1864 16x12
+                div.dk-tl-row @240,1888 1156x40
+                  button.dk-tl-name @240,1888 180x36
+                    span.dk-tl-title.dk-ellipsis "Thumbnail generation" @252,1892 156x20
+                    span.dk-tl-sub.dk-ellipsis "every 5 min" @252,1908 156x16
+                  div.dk-tl-track @420,1888 976x36
+                    span.dk-tl-band @420,1904 976x8
+                div.dk-tl-row @240,1924 1156x40
+                  button.dk-tl-name @240,1928 180x36
+                    span.dk-tl-title.dk-ellipsis "Log cleanup" @252,1928 156x20
+                    span.dk-tl-sub.dk-ellipsis "< 1 min" @252,1948 156x16
+                  div.dk-tl-track @420,1928 976x36
+                    button.dk-tl-bar "Log cleanup: 12:10 AM–12:11 AM (1 min)" @424,1940 4x12
+                div.dk-tl-row @240,1964 1156x40
+                  button.dk-tl-name @240,1964 180x36
+                    span.dk-tl-title.dk-ellipsis "Certificate renewal with a long name" @252,1968 156x20
+                    span.dk-tl-sub.dk-ellipsis "Sun 05:00" @252,1984 156x16
+                  div.dk-tl-track @420,1964 976x36
+                    button.dk-tl-bar "Certificate renewal with a long name: 05:00 AM–05:03 AM (3 m" @620,1980 4x12

@@ -1,0 +1,273 @@
+# board-fr #/jobs?open=offsite-sync · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x900
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      button.dk-brand.dk-brand-btn {expanded=false} "Tableau démo : changer de tableau" @8,8 176x28
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "Tableau démo" @48,12 88x20
+        svg.dk-icon @144,16 16x16
+    nav.dk-nav "Vues" @8,44 192x144
+      a.dk-nav-item @8,44 192x28
+        svg.dk-icon @16,52 16x16
+        span.dk-ellipsis "Aperçu" @40,48 44x20
+      a.dk-nav-item.is-active {current=page} @8,72 192x28
+        svg.dk-icon @16,80 16x16
+        span.dk-ellipsis "Tâches" @40,76 44x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,80 24x20
+      a.dk-nav-item @8,104 192x28
+        svg.dk-icon @16,108 16x16
+        span.dk-ellipsis "Hôtes" @40,108 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,108 24x20
+      a.dk-nav-item @8,132 192x28
+        svg.dk-icon @16,136 16x16
+        span.dk-ellipsis "Historique" @40,136 64x20
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Déploiement" @40,164 80x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 836x900
+    header.dk-toolbar @208,0 836x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Afficher ou masquer la barre latérale" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Tâches" @252,12 44x20
+      div.dk-toolbar-spacer @300,20 496x0
+      button.dk-fresh "Mis à jour il y a 2 min" @804,8 136x28
+      button.dk-iconbtn "Recharger" @940,8 28x28
+        svg.dk-icon @948,12 16x16
+      button.dk-iconbtn {expanded=false} "Langue" @972,8 28x28
+        svg.dk-icon @980,12 16x16
+      button.dk-iconbtn "Apparence : système (changer)" @1004,8 28x28
+        svg.dk-icon @1012,12 16x16
+    main.dk-content @208,44 836x696
+      div.dk-filterbar @224,60 804x52
+        div.dk-filter-row @224,60 804x28
+          label.dk-search @224,60 720x28
+            svg.dk-icon @232,68 16x16
+            input.dk-input "Rechercher des tâches …" @224,60 720x28
+          button.dk-btn.dk-btn-default @952,60 76x28
+            svg.dk-icon @964,68 16x16
+        div.dk-filter-row2 @224,96 804x16
+          div.dk-filter-info "12 sur 12" @972,96 56x16
+      section.dk-card.dk-card-flush @224,132 804x576
+        div.dk-card-body @224,132 804x576
+          div.dk-table-wrap.dk-table-click.is-list @224,132 804x576
+            table.dk-table @224,132 804x576
+              td.dk-td-status @236,152 8x8
+                span.dk-dot.dk-s-bad [img] "Erreur" @236,152 8x8
+              td.dk-td-title "Offsite archive sync" @256,140 668x20
+              td.dk-right "il y a 4 h" @936,140 52x20
+              td.dk-td-m "nas-b chaque jour 04:15" @256,156 732x16
+                span.dk-sep-dot "·" @292,156 8x16
+              td.dk-td-go @1000,148 16x16
+                svg.dk-icon @1000,148 16x16
+              td.dk-td-status @236,200 8x8
+                span.dk-dot.dk-s-warn [img] "Avertissement" @236,200 8x8
+              td.dk-td-title "Media library scan" @256,188 644x20
+              td.dk-right "il y a 40 min" @916,188 72x20
+              td.dk-td-m "media-1 toutes les 2 h" @256,204 732x16
+                span.dk-sep-dot "·" @308,204 8x16
+              td.dk-td-go @1000,196 16x16
+                svg.dk-icon @1000,196 16x16
+              td.dk-td-status @236,248 8x8
+                span.dk-dot.dk-s-pending [img] "En attente" @236,248 8x8
+              td.dk-td-title "Package update check" @256,236 712x20
+              td.dk-right "–" @980,236 8x20
+              td.dk-td-m "app-1 une fois, 10/11 12:00" @256,252 732x16
+                span.dk-sep-dot "·" @296,252 8x16
+              td.dk-td-go @1000,244 16x16
+                svg.dk-icon @1000,244 16x16
+              td.dk-td-status @236,296 8x8
+                span.dk-dot.dk-s-unknown [img] "Inconnu" @236,296 8x8
+              td.dk-td-title "DNS reachability" @256,284 668x20
+              td.dk-right "il y a 3 h" @936,284 52x20
+              td.dk-td-m "edge-1 toutes les 15 min" @256,300 732x16
+                span.dk-sep-dot "·" @300,300 8x16
+              td.dk-td-go @1000,292 16x16
+                svg.dk-icon @1000,292 16x16
+              td.dk-td-status @236,344 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,344 8x8
+              td.dk-td-title "Photo backup" @256,332 668x20
+              td.dk-right "il y a 6 h" @936,332 52x20
+              td.dk-td-m "nas-a chaque jour 02:30" @256,348 732x16
+                span.dk-sep-dot "·" @292,348 8x16
+              td.dk-td-go @1000,340 16x16
+                svg.dk-icon @1000,340 16x16
+              td.dk-td-status @236,392 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,392 8x8
+              td.dk-td-title "Document backup" @256,380 668x20
+              td.dk-right "il y a 6 h" @936,380 52x20
+              td.dk-td-m "nas-a chaque jour 03:00" @256,396 732x16
+                span.dk-sep-dot "·" @292,396 8x16
+              td.dk-td-go @1000,388 16x16
+                svg.dk-icon @1000,388 16x16
+              td.dk-td-status @236,440 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,440 8x8
+              td.dk-td-title "Wiki database dump" @256,428 668x20
+              td.dk-right "il y a 8 h" @936,428 52x20
+              td.dk-td-m "app-2 chaque jour 01:00" @256,444 732x16
+                span.dk-sep-dot "·" @296,444 8x16
+              td.dk-td-go @1000,436 16x16
+                svg.dk-icon @1000,436 16x16
+              td.dk-td-status @236,488 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,488 8x8
+              td.dk-td-title "Thumbnail generation" @256,476 652x20
+              td.dk-right "il y a 2 min" @924,476 64x20
+              td.dk-td-m "media-1 toutes les 5 min" @256,492 732x16
+                span.dk-sep-dot "·" @308,492 8x16
+              td.dk-td-go @1000,484 16x16
+                svg.dk-icon @1000,484 16x16
+              td.dk-td-status @236,536 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,536 8x8
+              td.dk-td-title "Certificate renewal" @256,524 696x20
+              td.dk-right "hier" @964,524 24x20
+              td.dk-td-m "edge-1 dim. 05:00" @256,540 732x16
+                span.dk-sep-dot "·" @300,540 8x16
+              td.dk-td-go @1000,532 16x16
+                svg.dk-icon @1000,532 16x16
+              td.dk-td-status @236,584 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,584 8x8
+              td.dk-td-title "Log cleanup" @256,572 668x20
+              td.dk-right "il y a 9 h" @936,572 52x20
+              td.dk-td-m "app-2 chaque jour 00:10" @256,588 732x16
+                span.dk-sep-dot "·" @296,588 8x16
+              td.dk-td-go @1000,580 16x16
+                svg.dk-icon @1000,580 16x16
+              td.dk-td-status @236,632 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,632 8x8
+              td.dk-td-title "Disk SMART check" @256,620 672x20
+              td.dk-right "il y a 5 j" @940,620 48x20
+              td.dk-td-m "nas-a lun. 06:00" @256,636 732x16
+                span.dk-sep-dot "·" @292,636 8x16
+              td.dk-td-go @1000,628 16x16
+                svg.dk-icon @1000,628 16x16
+              td.dk-td-status @236,680 8x8
+                span.dk-dot.dk-s-off [img] "Désactivé" @236,680 8x8
+              td.dk-td-title "Mirror repos" @256,668 664x20
+              td.dk-right "il y a 21 j" @932,668 56x20
+              td.dk-td-m "edge-1 Désactivé" @256,684 732x16
+                span.dk-sep-dot "·" @300,684 8x16
+              td.dk-td-go @1000,676 16x16
+                svg.dk-icon @1000,676 16x16
+  aside.dk-inspector "Détails" @1044,0 380x900
+    header.dk-sheet-head @1048,0 380x44
+      div.dk-sheet-heading @1064,4 320x36
+        h2.dk-sheet-title.dk-ellipsis "Offsite archive sync" @1064,4 320x20
+        div.dk-sheet-sub "nas-b · backup" @1064,24 320x16
+      button.dk-iconbtn "Fermer les détails" @1388,8 28x28
+        svg.dk-icon @1396,12 16x16
+    div.dk-inspector-body @1048,44 380x856
+      div.dk-banner.dk-banner-bad [alert] @1064,60 332x52
+        svg.dk-icon @1076,72 16x16
+        div.dk-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @1100,68 284x32
+      section.dk-facts @1064,128 332x136
+        h3.dk-facts-title "Statut" @1064,128 332x16
+        dl.dk-kv @1064,152 332x112
+          dt "État" @1064,152 124x20
+          dd @1204,152 192x20
+            span.dk-dotlabel @1204,152 52x20
+              span.dk-dot.dk-s-bad @1204,160 8x8
+          dt "Planification" @1064,176 124x20
+          dd "chaque jour 04:15" @1204,176 192x20
+          dt "Dernière exécution" @1064,200 124x20
+          dd "05:15 (il y a 4 h)" @1204,200 192x20
+          dt "Prochaine exécution" @1064,224 124x20
+          dd "10/11 04:15" @1204,224 192x20
+          dt "Durée" @1064,244 124x20
+          dd "~45 min" @1204,244 192x20
+      section.dk-facts @1064,280 332x92
+        h3.dk-facts-title "30 dernières exécutions" @1064,280 332x16
+        div.dk-heat.is-lg [img] "30 exécutions, 12 en échec" @1064,304 332x20
+          span.dk-heat-cell.dk-s-ok @1064,304 8x20
+          span.dk-heat-cell.dk-s-ok @1072,304 8x20
+          span.dk-heat-cell.dk-s-ok @1084,304 8x20
+          span.dk-heat-cell.dk-s-ok @1096,304 8x20
+          span.dk-heat-cell.dk-s-ok @1108,304 8x20
+          span.dk-heat-cell.dk-s-ok @1116,304 8x20
+          span.dk-heat-cell.dk-s-bad @1128,304 8x20
+          span.dk-heat-cell.dk-s-bad @1140,304 8x20
+          span.dk-heat-cell.dk-s-bad @1152,304 8x20
+          span.dk-heat-cell.dk-s-bad @1164,304 8x20
+          span.dk-heat-cell.dk-s-bad @1172,304 8x20
+          span.dk-heat-cell.dk-s-ok @1184,304 8x20
+          span.dk-heat-cell.dk-s-ok @1196,304 8x20
+          span.dk-heat-cell.dk-s-bad @1208,304 8x20
+          span.dk-heat-cell.dk-s-ok @1220,304 8x20
+          span.dk-heat-cell.dk-s-warn @1228,304 8x20
+          span.dk-heat-cell.dk-s-ok @1240,304 8x20
+          span.dk-heat-cell.dk-s-ok @1252,304 8x20
+          span.dk-heat-cell.dk-s-bad @1264,304 8x20
+          span.dk-heat-cell.dk-s-bad @1276,304 8x20
+          span.dk-heat-cell.dk-s-ok @1284,304 8x20
+          span.dk-heat-cell.dk-s-bad @1296,304 8x20
+          span.dk-heat-cell.dk-s-ok @1308,304 8x20
+          span.dk-heat-cell.dk-s-ok @1320,304 8x20
+          span.dk-heat-cell.dk-s-warn @1328,304 8x20
+          span.dk-heat-cell.dk-s-bad @1340,304 8x20
+          span.dk-heat-cell.dk-s-ok @1352,304 8x20
+          span.dk-heat-cell.dk-s-ok @1364,304 8x20
+          span.dk-heat-cell.dk-s-bad @1376,304 8x20
+          span.dk-heat-cell.dk-s-bad @1384,304 8x20
+        dl.dk-kv @1064,332 332x40
+          dt "Taux de réussite" @1064,332 100x20
+          dd "60 %" @1180,332 216x20
+          dt "Échecs" @1064,356 100x20
+          dd.dk-t-bad "12" @1180,356 216x20
+      section.dk-facts @1064,388 332x436
+        h3.dk-facts-title "Rapport d’exécution" @1064,388 332x16
+        div.dk-md.dk-md-compact @1064,412 332x412
+          h2.dk-md-h.dk-md-h2 "Run 412" @1064,412 332x16
+          code.dk-md-code "rsync" @1272,440 36x16
+          ol.dk-md-list @1064,480 332x100
+            code.dk-md-code "nas-b" @1160,480 36x16
+            ul.dk-md-list @1084,540 312x36
+              code.dk-md-code "No space left on device" @1160,544 156x16
+              code.dk-md-code "/archive" @1156,564 56x16
+          div.dk-md-table [region] @1064,588 332x76
+            table @1064,588 332x76
+              th "Target" @1064,588 144x24
+              th.is-right "Used" @1208,588 88x24
+              th.is-center "Status" @1300,588 96x24
+              td.is-right "868 GB" @1208,612 88x24
+              td.is-center "Warning" @1300,612 96x24
+              td.is-right "412 GB" @1208,640 88x24
+              td.is-center "ok" @1300,640 96x24
+          ul.dk-md-list.is-tasks @1064,672 332x72
+            li.dk-md-task @1064,672 332x20
+              input "fait" @1064,676 12x12
+            li.dk-md-task @1064,696 332x20
+              input "ouvert" @1064,700 12x12
+            li.dk-md-task @1064,720 332x20
+              input "ouvert" @1064,724 12x12
+          pre.dk-md-pre @1064,752 332x52
+          a.dk-md-link "https://example.com/runbooks/offsite-sync" @1108,808 248x16
+      section.dk-facts @1064,844 332x184
+        h3.dk-facts-title "Événements" @1064,844 332x16
+        div.dk-log.dk-log-wrap [log] @1064,868 332x160
+          div.dk-log-line.dk-log-bad @1064,872 332x76
+            span.dk-log-t "06:00" @1076,872 36x72
+            span.dk-log-lv "ERR" @1120,872 20x72
+            span.dk-log-src "offsite-sync" @1148,872 88x72
+            span.dk-log-msg "rsync error: error in rsync protocol data stream (code 12) a" @1244,872 136x72
+          div.dk-log-line.dk-log-warn @1064,944 332x40
+            span.dk-log-t "05:59" @1076,948 36x36
+            span.dk-log-lv "WRN" @1120,948 20x36
+            span.dk-log-src "offsite-sync" @1148,948 88x36
+            span.dk-log-msg "Connection slow: 1.2 MB/s" @1244,948 136x36
+          div.dk-log-line.dk-log-info @1064,984 332x40
+            span.dk-log-t "05:15" @1076,984 36x36
+            span.dk-log-lv "INF" @1120,984 20x36
+            span.dk-log-src "offsite-sync" @1148,984 88x36
+            span.dk-log-msg "Start rsync to nas-b:/archive" @1244,984 136x36
+      section.dk-facts @1064,1044 332x64
+        h3.dk-facts-title "Technique" @1064,1044 332x16
+        dl.dk-kv.dk-kv-mono @1064,1068 332x40
+          dt "ID" @1064,1068 96x20
+          dd "offsite-sync" @1176,1068 220x20
+          dt "Hôte" @1064,1088 96x20
+          dd "nas-b" @1176,1088 220x20
+      div.dk-toolrow @1064,1124 332x28
+        button.dk-btn.dk-btn-default @1064,1124 164x28
+          svg.dk-icon @1076,1128 16x16
+        button.dk-iconbtn {expanded=false} "Plus d’actions" @1236,1124 28x28
+          svg.dk-icon @1240,1128 16x16

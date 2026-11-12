@@ -1,0 +1,201 @@
+# gallery #/themes · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x900
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      div.dk-brand @16,12 128x24
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
+    nav.dk-nav "Views" @8,44 192x528
+      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
+      a.dk-nav-item @8,68 192x28
+        svg.dk-icon @16,76 16x16
+        span.dk-ellipsis "Foundations" @40,76 76x20
+      a.dk-nav-item.is-active {current=page} @8,100 192x28
+        svg.dk-icon @16,104 16x16
+        span.dk-ellipsis "Light and dark" @40,104 88x20
+      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Buttons and status" @40,164 116x20
+      a.dk-nav-item @8,188 192x28
+        svg.dk-icon @16,196 16x16
+        span.dk-ellipsis "Controls" @40,196 52x20
+      a.dk-nav-item @8,220 192x28
+        svg.dk-icon @16,224 16x16
+        span.dk-ellipsis "Inputs" @40,224 40x20
+      div.dk-nav-group [presentation] "Components" @8,248 192x32
+      a.dk-nav-item @8,280 192x28
+        svg.dk-icon @16,288 16x16
+        span.dk-ellipsis "Cards and tiles" @40,284 92x20
+      a.dk-nav-item @8,308 192x28
+        svg.dk-icon @16,316 16x16
+        span.dk-ellipsis "Rows and facts" @40,316 96x20
+      a.dk-nav-item @8,340 192x28
+        svg.dk-icon @16,344 16x16
+        span.dk-ellipsis "Table and filter" @40,344 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
+      a.dk-nav-item @8,368 192x28
+        svg.dk-icon @16,372 16x16
+        span.dk-ellipsis "Forms and actions" @40,372 116x20
+      a.dk-nav-item @8,396 192x28
+        svg.dk-icon @16,404 16x16
+        span.dk-ellipsis "Menus and feedback" @40,400 132x20
+      a.dk-nav-item @8,424 192x28
+        svg.dk-icon @16,432 16x16
+        span.dk-ellipsis "Charts" @40,432 40x20
+      a.dk-nav-item @8,456 192x28
+        svg.dk-icon @16,460 16x16
+        span.dk-ellipsis "Markdown" @40,460 64x20
+      a.dk-nav-item @8,484 192x28
+        svg.dk-icon @16,488 16x16
+        span.dk-ellipsis "States and sheets" @40,488 112x20
+      div.dk-nav-group [presentation] "Shell" @8,512 192x32
+      a.dk-nav-item @8,544 192x28
+        svg.dk-icon @16,552 16x16
+        span.dk-ellipsis "Shell and boards" @40,552 104x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 1216x900
+    header.dk-toolbar @208,0 1216x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Light and dark" @252,12 88x20
+      div.dk-toolbar-spacer @344,20 876x0
+      button.dk-fresh "Updated now" @1224,8 92x28
+      button.dk-iconbtn "Reload" @1320,8 28x28
+        svg.dk-icon @1328,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.dk-icon @1360,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.dk-icon @1392,12 16x16
+    main.dk-content @208,44 1216x560
+      div.dk-section-title "Dark" @240,132 552x16
+      div.dk-tiles @240,160 552x92
+        div.dk-stat @240,160 180x92
+          div.dk-stat-label @256,172 152x16
+            span.dk-dot.dk-s-bad [img] "Error" @256,176 8x8
+            span.dk-ellipsis "Jobs" @268,172 28x16
+          div.dk-stat-value.dk-num "12" @256,188 152x24
+          div.dk-stat-sub.dk-t-bad "1 error" @256,216 152x16
+        div.dk-stat @428,160 180x92
+          div.dk-stat-label @440,172 152x16
+            span.dk-ellipsis "Storage" @440,172 44x16
+          div.dk-stat-value.dk-num "1.9" @440,188 152x24
+            span.dk-stat-unit "TB" @472,196 16x16
+          div.dk-stat-sub @440,216 152x28
+            div.dk-chart.dk-spark [img] @440,220 152x24
+              div.dk-chart-plot @440,220 152x24
+                svg.dk-svg @440,220 152x24
+      section.dk-card.dk-card-flush @240,268 552x144
+        header.dk-card-head @244,268 548x52
+          div.dk-card-heading @256,276 524x36
+            h3.dk-card-title "Problems" @256,276 524x20
+            div.dk-card-sub "2 current" @256,296 524x16
+        div.dk-card-body @244,320 548x92
+          div.dk-list [list] @244,320 548x92
+            button.dk-row.dk-row-btn @244,320 548x44
+              span.dk-row-status @256,340 8x8
+                span.dk-dot.dk-s-bad [img] "Error" @256,340 8x8
+              span.dk-row-main @276,324 420x36
+                span.dk-row-title.dk-ellipsis "Offsite archive sync" @276,324 420x20
+                span.dk-row-sub.dk-ellipsis "nas-b · rsync exit 12" @276,344 420x16
+              span.dk-row-value @704,332 48x20
+                span.dk-num "3 h ago" @704,332 48x20
+              span.dk-go @764,336 16x16
+                svg.dk-icon @764,336 16x16
+            button.dk-row.dk-row-btn @244,364 548x44
+              span.dk-row-status @256,384 8x8
+                span.dk-dot.dk-s-warn [img] "Warning" @256,384 8x8
+              span.dk-row-main @276,372 396x36
+                span.dk-row-title.dk-ellipsis "Media library scan" @276,372 396x20
+                span.dk-row-sub.dk-ellipsis "media-1 · takes longer than usual" @276,388 396x16
+              span.dk-row-value @680,380 68x20
+                span.dk-num "40 min ago" @680,380 68x20
+              span.dk-go @764,380 16x16
+                svg.dk-icon @764,380 16x16
+      section.dk-card @240,424 552x84
+        div.dk-card-body @244,424 548x80
+          button.dk-btn.dk-btn-default @256,436 88x28
+            svg.dk-icon @268,444 16x16
+          button.dk-btn.dk-btn-primary @352,436 52x28
+          div.dk-seg.dk-seg-sm [radiogroup] @416,436 96x28
+            button.dk-seg-btn [radio] {checked=true} @420,440 40x24
+            button.dk-seg-btn [radio] {checked=false} @460,440 48x24
+          span.dk-badge.dk-badge-bad "3" @524,444 20x20
+          span.dk-dotlabel @556,444 60x20
+            span.dk-dot.dk-s-ok @556,448 8x8
+          div.dk-usage @256,464 524x28
+            div.dk-progress-head @256,464 524x16
+              span.dk-usage-label.dk-ellipsis "nas-b /archive" @256,464 376x16
+              span.dk-usage-val.dk-num "793 GB of 931 GB" @636,464 144x16
+                span.dk-usage-pct.dk-t-warn "· 85%" @740,464 36x16
+            div.dk-progress.dk-tone-warn [progressbar] @256,488 524x8
+              span.dk-progress-fill @256,488 448x8
+      div.dk-banner.dk-banner-bad [alert] @240,520 552x36
+        svg.dk-icon @256,528 16x16
+        div.dk-banner-text "Data is stale: updated 2 h ago" @280,528 500x16
+      div.dk-section-title "Light" @840,132 552x16
+      div.dk-tiles @840,160 552x92
+        div.dk-stat @840,160 180x92
+          div.dk-stat-label @856,172 152x16
+            span.dk-dot.dk-s-bad [img] "Error" @856,176 8x8
+            span.dk-ellipsis "Jobs" @868,172 28x16
+          div.dk-stat-value.dk-num "12" @856,188 152x24
+          div.dk-stat-sub.dk-t-bad "1 error" @856,216 152x16
+        div.dk-stat @1028,160 180x92
+          div.dk-stat-label @1040,172 152x16
+            span.dk-ellipsis "Storage" @1040,172 44x16
+          div.dk-stat-value.dk-num "1.9" @1040,188 152x24
+            span.dk-stat-unit "TB" @1076,196 16x16
+          div.dk-stat-sub @1040,216 152x28
+            div.dk-chart.dk-spark [img] @1040,220 152x24
+              div.dk-chart-plot @1040,220 152x24
+                svg.dk-svg @1040,220 152x24
+      section.dk-card.dk-card-flush @840,268 552x144
+        header.dk-card-head @844,268 548x52
+          div.dk-card-heading @856,276 524x36
+            h3.dk-card-title "Problems" @856,276 524x20
+            div.dk-card-sub "2 current" @856,296 524x16
+        div.dk-card-body @844,320 548x92
+          div.dk-list [list] @844,320 548x92
+            button.dk-row.dk-row-btn @844,320 548x44
+              span.dk-row-status @856,340 8x8
+                span.dk-dot.dk-s-bad [img] "Error" @856,340 8x8
+              span.dk-row-main @876,324 420x36
+                span.dk-row-title.dk-ellipsis "Offsite archive sync" @876,324 420x20
+                span.dk-row-sub.dk-ellipsis "nas-b · rsync exit 12" @876,344 420x16
+              span.dk-row-value @1304,332 48x20
+                span.dk-num "3 h ago" @1304,332 48x20
+              span.dk-go @1364,336 16x16
+                svg.dk-icon @1364,336 16x16
+            button.dk-row.dk-row-btn @844,364 548x44
+              span.dk-row-status @856,384 8x8
+                span.dk-dot.dk-s-warn [img] "Warning" @856,384 8x8
+              span.dk-row-main @876,372 396x36
+                span.dk-row-title.dk-ellipsis "Media library scan" @876,372 396x20
+                span.dk-row-sub.dk-ellipsis "media-1 · takes longer than usual" @876,388 396x16
+              span.dk-row-value @1280,380 68x20
+                span.dk-num "40 min ago" @1280,380 68x20
+              span.dk-go @1364,380 16x16
+                svg.dk-icon @1364,380 16x16
+      section.dk-card @840,424 552x84
+        div.dk-card-body @844,424 548x80
+          button.dk-btn.dk-btn-default @856,436 88x28
+            svg.dk-icon @868,444 16x16
+          button.dk-btn.dk-btn-primary @952,436 52x28
+          div.dk-seg.dk-seg-sm [radiogroup] @1016,436 96x28
+            button.dk-seg-btn [radio] {checked=true} @1020,440 40x24
+            button.dk-seg-btn [radio] {checked=false} @1060,440 48x24
+          span.dk-badge.dk-badge-bad "3" @1124,444 20x20
+          span.dk-dotlabel @1156,444 60x20
+            span.dk-dot.dk-s-ok @1156,448 8x8
+          div.dk-usage @856,464 524x28
+            div.dk-progress-head @856,464 524x16
+              span.dk-usage-label.dk-ellipsis "nas-b /archive" @856,464 376x16
+              span.dk-usage-val.dk-num "793 GB of 931 GB" @1236,464 144x16
+                span.dk-usage-pct.dk-t-warn "· 85%" @1340,464 36x16
+            div.dk-progress.dk-tone-warn [progressbar] @856,488 524x8
+              span.dk-progress-fill @856,488 448x8
+      div.dk-banner.dk-banner-bad [alert] @840,520 552x36
+        svg.dk-icon @856,528 16x16
+        div.dk-banner-text "Data is stale: updated 2 h ago" @880,528 500x16

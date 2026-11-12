@@ -1,0 +1,32 @@
+/* Gallery only: demo frames and code hints. Do not use in boards. */
+.g-intro { color: var(--dk-text-2); max-width: 72ch; font-size: var(--dk-fs-body); }
+.g-demo { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--dk-s3); }
+.g-stage { display: flex; flex-wrap: wrap; gap: var(--dk-s3); align-items: center; }
+.g-stage-col { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--dk-s3); }
+.g-state { display: grid; gap: 6px; justify-items: start; }
+.g-state-l { font-size: var(--dk-fs-xs); color: var(--dk-text-3); }
+.g-code {
+  margin: 0; padding: var(--dk-s2) var(--dk-s3);
+  background: var(--dk-bg-sunken); border: 1px solid var(--dk-sep); border-radius: var(--dk-r-sm);
+  font-family: var(--dk-mono); font-size: var(--dk-fs-xs); line-height: 1.5; color: var(--dk-text-2);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.g-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: var(--dk-s4); align-items: start; }
+.g-narrow { max-width: 380px; }
+.g-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: var(--dk-s2); }
+.g-swatch { display: grid; gap: 4px; font-size: var(--dk-fs-xs); color: var(--dk-text-2); }
+.g-swatch-c { height: 28px; border-radius: var(--dk-r-sm); border: 1px solid var(--dk-border); background: var(--g-c); }
+.g-type { display: grid; gap: var(--dk-s2); }
+.g-type > div { display: flex; gap: var(--dk-s3); align-items: baseline; }
+.g-type small { width: 120px; flex: none; color: var(--dk-text-3); font-size: var(--dk-fs-xs); font-family: var(--dk-mono); }
+.g-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--dk-s1); }
+.g-icon { display: flex; align-items: center; gap: var(--dk-s2); font-size: var(--dk-fs-xs); color: var(--dk-text-2); padding: 6px; }
+.g-icon .dk-icon { color: var(--dk-text); }
+.g-scheme { display: grid; gap: var(--dk-s3); padding: var(--dk-s4); border-radius: var(--dk-r); background: var(--dk-bg); color: var(--dk-text); border: 1px solid var(--dk-border); align-content: start; }
+.g-scheme-dark { color-scheme: dark; }
+.g-scheme-light { color-scheme: light; }
+
+.g-clip { display: block; max-width: 140px; }
+.g-detail-list { border: 1px solid var(--dk-border); border-radius: var(--dk-r); }
+.g-stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--dk-s4); min-width: 0; }
+.g-narrow-s { max-width: 300px; display: grid; grid-template-columns: minmax(0, 1fr); }

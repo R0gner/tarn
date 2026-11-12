@@ -1,0 +1,30 @@
+dashkit
+Copyright (c) 2026 R0gner, MIT License (see LICENSE).
+
+dashkit bundles the following third-party works. Their licence texts are
+kept next to the files and are copied along by tools/vendor.mjs.
+
+Lucide icons (icons/*.svg, js/icons-data.js)
+  Version 1.70.0, https://github.com/lucide-icons/lucide
+  ISC License, Copyright (c) 2026 Lucide Icons and Contributors; parts derived
+  from Feather (MIT, Copyright (c) 2013-present Cole Bemis).
+  Licence text: icons/LICENSE.txt. Used symbols and their sources: icons/SOURCES.md.
+  The dashkit logo (icons/logo.svg) is an own drawing, not part of Lucide.
+
+Inter (fonts/inter-latin.woff2)
+  https://github.com/rsms/inter
+  SIL Open Font License 1.1, Copyright (c) 2016 The Inter Project Authors.
+  Licence text: fonts/OFL-Inter.txt.
+
+IBM Plex Mono (fonts/plexmono-400-latin.woff2, fonts/plexmono-500-latin.woff2)
+  https://github.com/IBM/plex
+  SIL Open Font License 1.1, Copyright (c) 2017 IBM Corp.
+  Licence text: fonts/OFL-IBM-Plex.txt.
+
+The fonts are Latin subsets in woff2 format as served by Google Fonts; the
+origin and checksums are listed in fonts/SOURCES.md. The OFL permits
+redistribution with the licence text; the fonts are not sold on their own.
+
+No other third-party code is included: the kit has no npm packages and no
+frontend libraries. Development tools use the Node.js standard library and a
+Chrome/Chromium browser that is not part of this repository.

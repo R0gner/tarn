@@ -1,0 +1,40 @@
+# dashkit · all checks on every push and pull request: tests, lint, types, geometry, overlays, snapshots, animation inventory.
+# Uses the Chrome that is preinstalled on ubuntu-latest; `--ci` makes verify start its own headless Chrome (no --attach).
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Show tool versions
+        run: |
+          node --version
+          google-chrome --version
+      - name: verify
+        env:
+          CHROME: /usr/bin/google-chrome
+        run: node tools/verify.mjs --ci --out "$RUNNER_TEMP/dashkit-verify"
+      - name: Keep images and report on findings
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashkit-verify-report
+          path: ${{ runner.temp }}/dashkit-verify
+          if-no-files-found: ignore
+          retention-days: 7

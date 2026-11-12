@@ -1,0 +1,246 @@
+# board #/overview · phone 390×844 · dunkel
+div.dk-app @0,0 392x1048
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      button.dk-brand.dk-brand-btn {expanded=false} "Sample board: switch board" @-276,4 248x40
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "Sample board" @-236,16 88x20
+        svg.dk-icon @-144,16 16x16
+    nav.dk-nav "Views" @-276,48 264x204
+      a.dk-nav-item.is-active {current=page} @-276,48 264x40
+        svg.dk-icon @-268,60 16x16
+        span.dk-ellipsis "Overview" @-244,60 60x20
+      a.dk-nav-item @-276,88 264x40
+        svg.dk-icon @-268,100 16x16
+        span.dk-ellipsis "Jobs" @-244,100 32x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,100 24x20
+      a.dk-nav-item @-276,132 264x40
+        svg.dk-icon @-268,144 16x16
+        span.dk-ellipsis "Hosts" @-244,140 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,140 24x20
+      a.dk-nav-item @-276,172 264x40
+        svg.dk-icon @-268,184 16x16
+        span.dk-ellipsis "History" @-244,180 44x20
+      a.dk-nav-item @-276,212 264x40
+        svg.dk-icon @-268,224 16x16
+        span.dk-ellipsis "Deploy" @-244,224 44x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x1048
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Overview" @52,16 60x20
+      div.dk-toolbar-spacer @116,24 4x0
+      button.dk-fresh "Updated 2 min. ago" @124,4 128x40
+      button.dk-iconbtn "Reload" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x1000
+      div.dk-tiles @12,60 368x188
+        button.dk-stat.dk-stat-btn @12,60 180x84
+          div.dk-stat-label @24,68 140x16
+            span.dk-dot.dk-s-bad [img] "Error" @24,72 8x8
+            span.dk-ellipsis "Jobs" @40,68 28x16
+          div.dk-stat-value.dk-num "12" @24,88 140x24
+          div.dk-stat-sub.dk-t-bad "1 error · 1 warning" @24,116 140x16
+          span.dk-go @168,68 16x16
+            svg.dk-icon @168,68 16x16
+        button.dk-stat.dk-stat-btn @200,60 180x84
+          div.dk-stat-label @212,68 140x16
+            span.dk-dot.dk-s-bad [img] "Error" @212,72 8x8
+            span.dk-ellipsis "Hosts" @224,68 32x16
+          div.dk-stat-value.dk-num "6" @212,88 140x24
+          div.dk-stat-sub.dk-t-bad "4 OK" @212,116 140x16
+          span.dk-go @352,68 16x16
+            svg.dk-icon @352,68 16x16
+        button.dk-stat.dk-stat-btn @12,152 180x92
+          div.dk-stat-label @24,160 140x16
+            span.dk-dot.dk-s-bad [img] "Error" @24,168 8x8
+            span.dk-ellipsis "Storage" @40,160 44x16
+          div.dk-stat-value.dk-num "2.54" @24,180 140x24
+            span.dk-stat-unit "TB" @72,188 16x16
+          div.dk-stat-sub.dk-t-bad "app-2 is 94% full" @24,208 140x16
+          span.dk-go @168,160 16x16
+            svg.dk-icon @168,160 16x16
+        button.dk-stat.dk-stat-btn @200,152 180x92
+          div.dk-stat-label @212,160 140x16
+            span.dk-ellipsis "Runs, 7 days" @212,160 72x16
+          div.dk-stat-value.dk-num "104" @212,180 140x24
+          div.dk-stat-sub @212,208 140x28
+            div.dk-chart.dk-spark [img] @212,208 140x24
+              div.dk-chart-plot @212,208 140x24
+                svg.dk-svg @212,208 140x24
+          span.dk-go @352,160 16x16
+            svg.dk-icon @352,160 16x16
+      div.dk-cols @12,264 368x776
+        section.dk-section @12,264 368x264
+          header.dk-section-head @12,264 368x24
+            h2.dk-section-title "Problems" @16,268 364x16
+              span.dk-section-count "5" @76,268 8x16
+          section.dk-card.dk-card-flush @12,296 368x232
+            div.dk-card-body @12,296 364x228
+              div.dk-list [list] @12,296 364x228
+                button.dk-row.dk-row-btn @12,296 364x44
+                  span.dk-row-status @24,316 8x8
+                    span.dk-dot.dk-s-bad [img] "Error" @24,316 8x8
+                  span.dk-row-main @44,300 224x36
+                    span.dk-row-title.dk-ellipsis "Offsite archive sync" @44,300 224x20
+                    span.dk-row-sub.dk-ellipsis "nas-b · rsync: connection unexpectedly closed (0 bytes recei" @44,320 224x16
+                  span.dk-row-value @284,308 56x20
+                    span.dk-num "4 hr. ago" @284,308 56x20
+                  span.dk-go @348,308 16x16
+                    svg.dk-icon @348,308 16x16
+                button.dk-row.dk-row-btn @12,340 364x44
+                  span.dk-row-status @24,360 8x8
+                    span.dk-dot.dk-s-bad [img] "Error" @24,360 8x8
+                  span.dk-row-main @44,348 292x36
+                    span.dk-row-title.dk-ellipsis "app-2" @44,348 292x20
+                    span.dk-row-sub.dk-ellipsis "Storage 94% full" @44,364 292x16
+                  span.dk-go @348,356 16x16
+                    svg.dk-icon @348,356 16x16
+                button.dk-row.dk-row-btn @12,388 364x44
+                  span.dk-row-status @24,408 8x8
+                    span.dk-dot.dk-s-warn [img] "Warning" @24,408 8x8
+                  span.dk-row-main @44,392 208x36
+                    span.dk-row-title.dk-ellipsis "Media library scan" @44,392 208x20
+                    span.dk-row-sub.dk-ellipsis "media-1 · Takes longer than usual (25 instead of 12 min)." @44,412 208x16
+                  span.dk-row-value @264,400 72x20
+                    span.dk-num "40 min. ago" @264,400 72x20
+                  span.dk-go @348,400 16x16
+                    svg.dk-icon @348,400 16x16
+                button.dk-row.dk-row-btn @12,432 364x44
+                  span.dk-row-status @24,452 8x8
+                    span.dk-dot.dk-s-warn [img] "Warning" @24,452 8x8
+                  span.dk-row-main @44,440 292x36
+                    span.dk-row-title.dk-ellipsis "nas-b" @44,440 292x20
+                    span.dk-row-sub.dk-ellipsis "Restarted 3 days ago" @44,456 292x16
+                  span.dk-go @348,448 16x16
+                    svg.dk-icon @348,448 16x16
+                button.dk-row.dk-row-btn @12,480 364x44
+                  span.dk-row-status @24,500 8x8
+                    span.dk-dot.dk-s-unknown [img] "Unknown" @24,500 8x8
+                  span.dk-row-main @44,484 224x36
+                    span.dk-row-title.dk-ellipsis "DNS reachability" @44,484 224x20
+                    span.dk-row-sub.dk-ellipsis "edge-1 · No response from the agent for 3 h." @44,504 224x16
+                  span.dk-row-value @284,492 56x20
+                    span.dk-num "3 hr. ago" @284,492 56x20
+                  span.dk-go @348,492 16x16
+                    svg.dk-icon @348,492 16x16
+        div.dk-stack @12,540 368x496
+          section.dk-section @12,540 368x264
+            header.dk-section-head @12,540 368x24
+              h2.dk-section-title "Up next" @16,544 364x16
+                span.dk-section-count "5" @64,544 8x16
+            section.dk-card.dk-card-flush @12,572 368x232
+              div.dk-card-body @12,576 364x228
+                div.dk-list [list] @12,576 364x228
+                  button.dk-row.dk-row-btn @12,576 364x44
+                    span.dk-row-status @24,592 8x8
+                      span.dk-dot.dk-s-warn [img] "Warning" @24,592 8x8
+                    span.dk-row-main @44,580 208x36
+                      span.dk-row-title.dk-ellipsis "Media library scan" @44,580 208x20
+                      span.dk-row-sub.dk-ellipsis "media-1 · every 2 h" @44,596 208x16
+                    span.dk-row-value @264,580 72x36
+                      span.dk-num "11:40 AM" @276,580 60x20
+                      span.dk-row-sub "in 1 h 40 min" @264,596 72x16
+                    span.dk-go @348,588 16x16
+                      svg.dk-icon @348,588 16x16
+                  button.dk-row.dk-row-btn @12,620 364x44
+                    span.dk-row-status @24,640 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,640 8x8
+                    span.dk-row-main @44,624 172x36
+                      span.dk-row-title.dk-ellipsis "Log cleanup" @44,624 172x20
+                      span.dk-row-sub.dk-ellipsis "app-2 · daily 12:10 AM" @44,644 172x16
+                    span.dk-row-value @232,624 108x36
+                      span.dk-num "11/10, 12:10 AM" @232,624 108x20
+                      span.dk-row-sub "in 14 h 10 min" @256,644 80x16
+                    span.dk-go @348,636 16x16
+                      svg.dk-icon @348,636 16x16
+                  button.dk-row.dk-row-btn @12,664 364x44
+                    span.dk-row-status @24,684 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,684 8x8
+                    span.dk-row-main @44,672 172x36
+                      span.dk-row-title.dk-ellipsis "Wiki database dump" @44,672 172x20
+                      span.dk-row-sub.dk-ellipsis "app-2 · daily 01:00 AM" @44,688 172x16
+                    span.dk-row-value @232,672 108x36
+                      span.dk-num "11/10, 01:00 AM" @232,672 108x20
+                      span.dk-row-sub "in 15 h" @296,688 40x16
+                    span.dk-go @348,680 16x16
+                      svg.dk-icon @348,680 16x16
+                  button.dk-row.dk-row-btn @12,712 364x44
+                    span.dk-row-status @24,732 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,732 8x8
+                    span.dk-row-main @44,716 172x36
+                      span.dk-row-title.dk-ellipsis "Photo backup" @44,716 172x20
+                      span.dk-row-sub.dk-ellipsis "nas-a · daily 02:30 AM" @44,736 172x16
+                    span.dk-row-value @232,716 108x36
+                      span.dk-num "11/10, 02:30 AM" @232,716 108x20
+                      span.dk-row-sub "in 16 h 30 min" @256,736 80x16
+                    span.dk-go @348,728 16x16
+                      svg.dk-icon @348,728 16x16
+                  button.dk-row.dk-row-btn @12,756 364x44
+                    span.dk-row-status @24,776 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,776 8x8
+                    span.dk-row-main @44,764 172x36
+                      span.dk-row-title.dk-ellipsis "Document backup" @44,764 172x20
+                      span.dk-row-sub.dk-ellipsis "nas-a · daily 03:00 AM" @44,780 172x16
+                    span.dk-row-value @232,764 108x36
+                      span.dk-num "11/10, 03:00 AM" @232,764 108x20
+                      span.dk-row-sub "in 17 h" @296,780 40x16
+                    span.dk-go @348,772 16x16
+                      svg.dk-icon @348,772 16x16
+          section.dk-section @12,820 368x216
+            header.dk-section-head @12,820 368x24
+              h2.dk-section-title "Recently failed" @16,824 364x16
+                span.dk-section-count "4" @104,824 8x16
+            section.dk-card.dk-card-flush @12,852 368x184
+              div.dk-card-body @12,852 364x184
+                div.dk-list [list] @12,852 364x184
+                  button.dk-row.dk-row-btn @12,852 364x44
+                    span.dk-row-status @24,872 8x8
+                      span.dk-dot.dk-s-warn [img] "Warning" @24,872 8x8
+                    span.dk-row-main @44,860 224x36
+                      span.dk-row-title.dk-ellipsis "Media library scan" @44,860 224x20
+                      span.dk-row-sub.dk-ellipsis "media-1 · every 2 h" @44,876 224x16
+                    span.dk-row-value @280,860 56x36
+                      span.dk-num "5×" @320,860 16x20
+                      span.dk-row-sub "in 30 runs" @280,876 56x16
+                    span.dk-go @348,868 16x16
+                      svg.dk-icon @348,868 16x16
+                  button.dk-row.dk-row-btn @12,900 364x44
+                    span.dk-row-status @24,920 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,920 8x8
+                    span.dk-row-main @44,904 224x36
+                      span.dk-row-title.dk-ellipsis "Photo backup" @44,904 224x20
+                      span.dk-row-sub.dk-ellipsis "nas-a · daily 02:30 AM" @44,924 224x16
+                    span.dk-row-value @280,904 56x36
+                      span.dk-num "4×" @320,904 16x20
+                      span.dk-row-sub "in 30 runs" @280,924 56x16
+                    span.dk-go @348,912 16x16
+                      svg.dk-icon @348,912 16x16
+                  button.dk-row.dk-row-btn @12,944 364x44
+                    span.dk-row-status @24,964 8x8
+                      span.dk-dot.dk-s-off [img] "Off" @24,964 8x8
+                    span.dk-row-main @44,952 224x36
+                      span.dk-row-title.dk-ellipsis "Mirror repos" @44,952 224x20
+                      span.dk-row-sub.dk-ellipsis "edge-1 · Disabled" @44,968 224x16
+                    span.dk-row-value @280,952 56x36
+                      span.dk-num "2×" @320,952 16x20
+                      span.dk-row-sub "in 30 runs" @280,968 56x16
+                    span.dk-go @348,960 16x16
+                      svg.dk-icon @348,960 16x16
+                  button.dk-row.dk-row-btn @12,992 364x44
+                    span.dk-row-status @24,1012 8x8
+                      span.dk-dot.dk-s-ok [img] "OK" @24,1012 8x8
+                    span.dk-row-main @44,996 224x36
+                      span.dk-row-title.dk-ellipsis "Wiki database dump" @44,996 224x20
+                      span.dk-row-sub.dk-ellipsis "app-2 · daily 01:00 AM" @44,1016 224x16
+                    span.dk-row-value @280,996 56x36
+                      span.dk-num "1×" @320,996 16x20
+                      span.dk-row-sub "in 30 runs" @280,1016 56x16
+                    span.dk-go @348,1004 16x16
+                      svg.dk-icon @348,1004 16x16

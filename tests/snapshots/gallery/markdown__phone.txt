@@ -1,0 +1,202 @@
+# gallery #/markdown · phone 390×844 · dunkel
+div.dk-app @0,0 392x2976
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      div.dk-brand @-268,12 128x24
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
+    nav.dk-nav "Views" @-276,48 264x696
+      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.dk-nav-item @-276,72 264x40
+        svg.dk-icon @-268,84 16x16
+        span.dk-ellipsis "Foundations" @-244,84 76x20
+      a.dk-nav-item @-276,116 264x40
+        svg.dk-icon @-268,128 16x16
+        span.dk-ellipsis "Light and dark" @-244,124 88x20
+      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.dk-nav-item @-276,188 264x40
+        svg.dk-icon @-268,200 16x16
+        span.dk-ellipsis "Buttons and status" @-244,200 116x20
+      a.dk-nav-item @-276,228 264x40
+        svg.dk-icon @-268,240 16x16
+        span.dk-ellipsis "Controls" @-244,240 52x20
+      a.dk-nav-item @-276,272 264x40
+        svg.dk-icon @-268,284 16x16
+        span.dk-ellipsis "Inputs" @-244,280 40x20
+      div.dk-nav-group [presentation] "Components" @-276,312 264x32
+      a.dk-nav-item @-276,344 264x40
+        svg.dk-icon @-268,356 16x16
+        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
+      a.dk-nav-item @-276,384 264x40
+        svg.dk-icon @-268,396 16x16
+        span.dk-ellipsis "Rows and facts" @-244,396 96x20
+      a.dk-nav-item @-276,428 264x40
+        svg.dk-icon @-268,440 16x16
+        span.dk-ellipsis "Table and filter" @-244,436 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
+      a.dk-nav-item @-276,468 264x40
+        svg.dk-icon @-268,480 16x16
+        span.dk-ellipsis "Forms and actions" @-244,480 116x20
+      a.dk-nav-item @-276,508 264x40
+        svg.dk-icon @-268,520 16x16
+        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
+      a.dk-nav-item @-276,548 264x40
+        svg.dk-icon @-268,560 16x16
+        span.dk-ellipsis "Charts" @-244,560 40x20
+      a.dk-nav-item.is-active {current=page} @-276,592 264x40
+        svg.dk-icon @-268,604 16x16
+        span.dk-ellipsis "Markdown" @-244,600 64x20
+      a.dk-nav-item @-276,632 264x40
+        svg.dk-icon @-268,644 16x16
+        span.dk-ellipsis "States and sheets" @-244,644 112x20
+      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
+      a.dk-nav-item @-276,704 264x40
+        svg.dk-icon @-268,716 16x16
+        span.dk-ellipsis "Shell and boards" @-244,716 104x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x2976
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Markdown" @52,16 68x20
+      div.dk-toolbar-spacer @124,24 32x0
+      button.dk-fresh "Updated now" @160,4 92x40
+      button.dk-iconbtn "Reload" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x2928
+      section.dk-card @12,168 368x1216
+        header.dk-card-head @12,168 364x40
+          div.dk-card-heading @24,180 340x20
+            h3.dk-card-title "markdown()" @24,180 340x20
+        div.dk-card-body @12,208 364x1172
+          section.dk-card @24,220 340x1020
+            div.dk-card-body @28,220 340x1016
+              div.dk-md @40,232 316x992
+                h2.dk-md-h.dk-md-h2 "Run 412 · Offsite archive sync" @40,232 316x16
+                code.dk-md-code "rsync" @268,264 40x16
+                h3.dk-md-h.dk-md-h3 "What happened" @40,352 316x16
+                ol.dk-md-list @40,380 316x184
+                  code.dk-md-code "nas-b" @144,380 40x16
+                  code.dk-md-code "connection unexpectedly closed" @64,460 220x16
+                  ul.dk-md-list @60,484 296x80
+                    code.dk-md-code "No space left on device" @80,484 252x32
+                    code.dk-md-code "/archive/.rsync-partial" @148,504 168x16
+                    code.dk-md-code "/archive" @136,544 60x16
+                blockquote.dk-md-quote @40,572 316x36
+                h3.dk-md-h.dk-md-h3 "Check" @40,624 316x16
+                div.dk-md-table [region] @40,652 316x108
+                  table @40,652 332x104
+                    th "Target" @40,652 116x28
+                    th.is-right "Used" @156,652 72x28
+                    th.is-right "Free" @228,652 72x28
+                    th.is-center "Status" @296,652 76x28
+                    td.is-right "868 GB" @156,680 72x28
+                    td.is-right "63 GB" @228,680 72x28
+                    td.is-center "Warning" @296,680 76x28
+                    td.is-right "412 GB" @156,708 72x28
+                    td.is-right "520 GB" @228,708 72x28
+                    td.is-center "OK" @296,708 76x28
+                    td.is-right "1.2 TB" @156,732 72x28
+                    td.is-right "800 GB" @228,732 72x28
+                    td.is-center "OK" @296,732 76x28
+                h3.dk-md-h.dk-md-h3 "Recommendation" @40,776 316x16
+                ul.dk-md-list.is-tasks @40,804 316x168
+                  li.dk-md-task @40,804 316x40
+                    input "done" @40,816 12x12
+                    code.dk-md-code "/var/log/offsite-sync/2026-11-09.log" @60,808 288x32
+                  li.dk-md-task @40,848 316x24
+                    input "done" @40,852 12x12
+                  li.dk-md-task @40,876 316x40
+                    input "open" @40,888 12x12
+                    code.dk-md-code "rsync --delete-excluded --partial-dir=.rsync-partial" @60,880 288x32
+                  li.dk-md-task @40,920 316x24
+                    input "open" @40,924 12x12
+                    code.dk-md-code "/archive" @204,928 60x16
+                  li.dk-md-task @40,948 316x24
+                    input "open" @40,952 12x12
+                pre.dk-md-pre @40,980 316x72
+                a.dk-md-link "https://example.com/runbooks/offsite-sync" @40,1084 268x16
+                a.dk-md-link "backup concept" @40,1104 100x16
+                hr.dk-md-hr @40,1192 316x0
+                code.dk-md-code "a41f-9c02-77d1" @244,1208 104x16
+      section.dk-card @12,1396 368x996
+        header.dk-card-head @12,1400 364x40
+          div.dk-card-heading @24,1408 340x20
+            h3.dk-card-title "compact (detail width)" @24,1408 340x20
+        div.dk-card-body @12,1440 364x952
+          section.dk-card @24,1452 340x868
+            div.dk-card-body @28,1452 340x864
+              div.dk-md.dk-md-compact @40,1464 316x840
+                h2.dk-md-h.dk-md-h2 "Run 412 · Offsite archive sync" @40,1464 316x16
+                code.dk-md-code "rsync" @248,1488 36x16
+                h3.dk-md-h.dk-md-h3 "What happened" @40,1564 316x16
+                ol.dk-md-list @40,1588 316x152
+                  code.dk-md-code "nas-b" @136,1588 36x16
+                  code.dk-md-code "connection unexpectedly closed" @60,1632 284x32
+                  ul.dk-md-list @60,1668 296x72
+                    code.dk-md-code "No space left on device" @80,1668 232x32
+                    code.dk-md-code "/archive/.rsync-partial" @144,1684 156x16
+                    code.dk-md-code "/archive" @132,1724 56x16
+                blockquote.dk-md-quote @40,1748 316x32
+                h3.dk-md-h.dk-md-h3 "Check" @40,1792 316x16
+                div.dk-md-table [region] @40,1816 316x104
+                  table @40,1816 316x100
+                    th "Target" @40,1816 108x24
+                    th.is-right "Used" @148,1816 68x24
+                    th.is-right "Free" @216,1816 68x24
+                    th.is-center "Status" @284,1816 72x24
+                    td.is-right "868 GB" @148,1844 68x24
+                    td.is-right "63 GB" @216,1844 68x24
+                    td.is-center "Warning" @284,1844 72x24
+                    td.is-right "412 GB" @148,1868 68x24
+                    td.is-right "520 GB" @216,1868 68x24
+                    td.is-center "OK" @284,1868 72x24
+                    td.is-right "1.2 TB" @148,1892 68x24
+                    td.is-right "800 GB" @216,1892 68x24
+                    td.is-center "OK" @284,1892 72x24
+                h3.dk-md-h.dk-md-h3 "Recommendation" @40,1928 316x16
+                ul.dk-md-list.is-tasks @40,1952 316x152
+                  li.dk-md-task @40,1952 316x36
+                    input "done" @40,1964 12x12
+                    code.dk-md-code "/var/log/offsite-sync/2026-11-09.log" @60,1956 284x32
+                  li.dk-md-task @40,1996 316x20
+                    input "done" @40,2000 12x12
+                  li.dk-md-task @40,2020 316x36
+                    input "open" @40,2032 12x12
+                    code.dk-md-code "rsync --delete-excluded --partial-dir=.rsync-partial" @60,2024 268x32
+                  li.dk-md-task @40,2060 316x20
+                    input "open" @40,2064 12x12
+                    code.dk-md-code "/archive" @196,2064 56x16
+                  li.dk-md-task @40,2084 316x20
+                    input "open" @40,2088 12x12
+                pre.dk-md-pre @40,2116 316x72
+                a.dk-md-link "https://example.com/runbooks/offsite-sync" @40,2196 292x32
+                a.dk-md-link "backup concept" @92,2212 92x16
+                hr.dk-md-hr @40,2272 316x0
+                code.dk-md-code "a41f-9c02-77d1" @228,2288 96x16
+      section.dk-card @12,2408 368x552
+        header.dk-card-head @12,2408 364x40
+          div.dk-card-heading @24,2420 340x20
+            h3.dk-card-title "Security" @24,2420 340x20
+        div.dk-card-body @12,2448 364x512
+          section.dk-card @24,2460 296x44
+            div.dk-card-body @28,2464 292x44
+              div.dk-md @40,2476 268x20
+          section.dk-card @24,2544 80x44
+            div.dk-card-body @28,2544 76x44
+              div.dk-md @40,2556 52x20
+          section.dk-card @24,2624 76x44
+            div.dk-card-body @28,2624 72x44
+              div.dk-md @40,2636 48x20
+          section.dk-card @24,2708 76x44
+            div.dk-card-body @28,2708 76x44
+              div.dk-md @40,2720 52x20
+                span.dk-md-imgoff "Diagram" @40,2720 52x16
+          section.dk-card @24,2788 260x44
+            div.dk-card-body @28,2788 256x44
+              div.dk-md @40,2800 232x20

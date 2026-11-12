@@ -1,0 +1,314 @@
+# gallery #/forms · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x1824
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      div.dk-brand @16,12 128x24
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
+    nav.dk-nav "Views" @8,44 192x528
+      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
+      a.dk-nav-item @8,68 192x28
+        svg.dk-icon @16,76 16x16
+        span.dk-ellipsis "Foundations" @40,76 76x20
+      a.dk-nav-item @8,100 192x28
+        svg.dk-icon @16,104 16x16
+        span.dk-ellipsis "Light and dark" @40,104 88x20
+      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Buttons and status" @40,164 116x20
+      a.dk-nav-item @8,188 192x28
+        svg.dk-icon @16,196 16x16
+        span.dk-ellipsis "Controls" @40,196 52x20
+      a.dk-nav-item @8,220 192x28
+        svg.dk-icon @16,224 16x16
+        span.dk-ellipsis "Inputs" @40,224 40x20
+      div.dk-nav-group [presentation] "Components" @8,248 192x32
+      a.dk-nav-item @8,280 192x28
+        svg.dk-icon @16,288 16x16
+        span.dk-ellipsis "Cards and tiles" @40,284 92x20
+      a.dk-nav-item @8,308 192x28
+        svg.dk-icon @16,316 16x16
+        span.dk-ellipsis "Rows and facts" @40,316 96x20
+      a.dk-nav-item @8,340 192x28
+        svg.dk-icon @16,344 16x16
+        span.dk-ellipsis "Table and filter" @40,344 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
+      a.dk-nav-item.is-active {current=page} @8,368 192x28
+        svg.dk-icon @16,372 16x16
+        span.dk-ellipsis "Forms and actions" @40,372 116x20
+      a.dk-nav-item @8,396 192x28
+        svg.dk-icon @16,404 16x16
+        span.dk-ellipsis "Menus and feedback" @40,400 132x20
+      a.dk-nav-item @8,424 192x28
+        svg.dk-icon @16,432 16x16
+        span.dk-ellipsis "Charts" @40,432 40x20
+      a.dk-nav-item @8,456 192x28
+        svg.dk-icon @16,460 16x16
+        span.dk-ellipsis "Markdown" @40,460 64x20
+      a.dk-nav-item @8,484 192x28
+        svg.dk-icon @16,488 16x16
+        span.dk-ellipsis "States and sheets" @40,488 112x20
+      div.dk-nav-group [presentation] "Shell" @8,512 192x32
+      a.dk-nav-item @8,544 192x28
+        svg.dk-icon @16,552 16x16
+        span.dk-ellipsis "Shell and boards" @40,552 104x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 1216x1824
+    header.dk-toolbar @208,0 1216x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Forms and actions" @252,12 116x20
+      div.dk-toolbar-spacer @372,20 848x0
+      button.dk-fresh "Updated now" @1224,8 92x28
+      button.dk-iconbtn "Reload" @1320,8 28x28
+        svg.dk-icon @1328,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.dk-icon @1360,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.dk-icon @1392,12 16x16
+    main.dk-content @208,44 1216x1780
+      section.dk-card @224,136 584x564
+        header.dk-card-head @224,136 584x40
+          div.dk-card-heading @236,144 560x20
+            h3.dk-card-title "form()" @236,144 560x20
+        div.dk-card-body @224,176 584x524
+          form.dk-form @236,188 560x308
+            div.dk-field @236,188 560x48
+              label.dk-field-label @236,188 560x16
+                span.dk-field-req "*" @304,188 8x16
+              div.dk-inputbox.dk-combobox @236,208 560x28
+                button.dk-combo-btn {expanded=false} @248,212 540x28
+                  span.dk-combo-face.dk-ellipsis.is-placeholder "Select …" @248,216 516x20
+                  svg.dk-icon @772,216 16x16
+            div.dk-field @236,252 560x72
+              label.dk-field-label @236,252 560x16
+                span.dk-field-req "*" @284,252 8x16
+              div.dk-inputbox @236,276 560x28
+                input.dk-input-el.dk-mono @248,276 540x28
+              div.dk-field-help "For example 2.4.1" @236,308 560x16
+            div.dk-field @236,340 560x48
+              label.dk-field-label @236,340 560x16
+              div.dk-inputbox.dk-selectbox @236,364 560x28
+                select.dk-select-el @248,364 540x28
+                svg.dk-icon @772,368 16x16
+            div.dk-field @236,408 560x44
+              label.dk-tick.dk-check @236,408 560x44
+                input.dk-tick-input @236,408 0x0
+                span.dk-check-box @236,420 20x20
+                  svg.dk-icon @240,424 12x12
+                  svg.dk-icon @240,424 12x12
+                span.dk-tick-text @264,412 240x36
+                  span.dk-tick-label "Dry run" @264,412 240x20
+                  span.dk-tick-help "Simulate the deployment, change nothing." @264,432 240x16
+            div.dk-form-actions @236,468 560x28
+              button.dk-btn.dk-btn-primary @672,468 124x28
+      section.dk-card @824,136 584x272
+        header.dk-card-head @824,136 584x40
+          div.dk-card-heading @836,144 560x20
+            h3.dk-card-title "confirm()" @836,144 560x20
+        div.dk-card-body @824,176 584x228
+          button.dk-btn.dk-btn-danger @836,188 560x28
+          button.dk-btn.dk-btn-default @836,228 560x28
+          button.dk-btn.dk-btn-default @836,268 560x28
+      section.dk-section @224,720 1184x1072
+        header.dk-section-head @224,720 1184x24
+          h2.dk-section-title "actionRun()" @228,724 1180x16
+        section.dk-card @224,752 584x308
+          header.dk-card-head @224,752 584x40
+            div.dk-card-heading @236,764 560x20
+              h3.dk-card-title "Running, progress known" @236,764 560x20
+          div.dk-card-body @224,792 584x264
+            div.dk-run @236,804 560x180
+              div.dk-run-head @236,804 560x24
+                div.dk-run-status @236,808 132x20
+                  span.dk-run-dot @236,812 8x8
+                    span.dk-dot.dk-s-info [img] "Note" @236,812 8x8
+                  span.dk-run-state @252,808 56x20
+                    span.dk-badge.dk-badge-info "Running" @252,808 56x20
+                  span.dk-run-time.dk-num "2 min 5 s" @316,808 52x16
+                div.dk-run-title.dk-ellipsis "Deploy app 2.4.1 → delta" @376,808 332x20
+                button.dk-btn.dk-btn-default.dk-btn-sm @716,804 80x24
+              div.dk-run-bar @236,836 560x28
+                div.dk-progress-wrap @236,836 560x28
+                  div.dk-progress-head @236,836 560x16
+                    span.dk-num "40%" @236,836 28x16
+                  div.dk-progress [progressbar] @236,860 560x8
+                    span.dk-progress-fill @236,860 224x8
+              div.dk-run-log "Log" @236,872 560x112
+                div.dk-log.dk-log-wrap [log] @236,872 560x112
+                  div.dk-log-line.dk-log-info @240,876 556x20
+                    span.dk-log-t "09:57 AM" @252,880 56x20
+                    span.dk-log-lv "INF" @316,880 20x20
+                    span.dk-log-msg "Connecting to delta …" @344,880 152x20
+                  div.dk-log-line.dk-log-info @240,896 556x20
+                    span.dk-log-t "09:57 AM" @252,900 56x20
+                    span.dk-log-lv "INF" @316,900 20x20
+                    span.dk-log-msg "Pulling image registry.example.com/app:2.4.1" @344,900 316x20
+                  div.dk-log-line.dk-log-ok @240,916 556x20
+                    span.dk-log-t "09:57 AM" @252,920 56x20
+                    span.dk-log-lv "OK" @316,920 20x20
+                    span.dk-log-msg "Image pulled (212 MB)" @344,920 152x20
+                  div.dk-log-line.dk-log-warn @240,936 556x20
+                    span.dk-log-t "09:57 AM" @252,940 56x20
+                    span.dk-log-lv "WRN" @316,940 20x20
+                    span.dk-log-msg "Container app-1 still has open connections" @344,940 304x20
+                  div.dk-log-line.dk-log-info @240,956 556x20
+                    span.dk-log-t "09:57 AM" @252,960 56x20
+                    span.dk-log-lv "INF" @316,960 20x20
+                    span.dk-log-msg "Restarting app-1" @344,960 116x20
+        section.dk-card @824,752 584x204
+          header.dk-card-head @824,752 584x40
+            div.dk-card-heading @836,764 560x20
+              h3.dk-card-title "Running, progress unknown" @836,764 560x20
+          div.dk-card-body @824,792 584x164
+            div.dk-run @836,804 560x92
+              div.dk-run-head @836,804 560x20
+                div.dk-run-status @836,804 132x20
+                  span.dk-run-dot @836,812 8x8
+                    span.dk-dot.dk-s-info [img] "Note" @836,812 8x8
+                  span.dk-run-state @852,804 56x20
+                    span.dk-badge.dk-badge-info "Running" @852,804 56x20
+                  span.dk-run-time.dk-num "2 min 5 s" @916,804 52x16
+                div.dk-run-title.dk-ellipsis "Index rebuild" @976,804 420x20
+              div.dk-run-bar @836,832 560x8
+                div.dk-progress.is-indeterminate [progressbar] @836,832 560x8
+                  span.dk-progress-fill @280,832 168x8
+              div.dk-run-log "Log" @836,844 560x52
+                div.dk-log.dk-log-wrap [log] @836,844 560x52
+                  div.dk-log-line.dk-log-info @840,852 556x20
+                    span.dk-log-t "09:57 AM" @852,852 56x20
+                    span.dk-log-lv "INF" @916,852 20x20
+                    span.dk-log-msg "Connecting to delta …" @944,852 152x20
+                  div.dk-log-line.dk-log-info @840,872 556x20
+                    span.dk-log-t "09:57 AM" @852,872 56x20
+                    span.dk-log-lv "INF" @916,872 20x20
+                    span.dk-log-msg "Pulling image registry.example.com/app:2.4.1" @944,872 316x20
+        section.dk-card @224,1076 584x224
+          header.dk-card-head @224,1076 584x40
+            div.dk-card-heading @236,1088 560x20
+              h3.dk-card-title "Done" @236,1088 560x20
+          div.dk-card-body @224,1116 584x180
+            div.dk-run @236,1128 560x156
+              div.dk-run-head @236,1128 560x20
+                div.dk-run-status @236,1128 96x20
+                  span.dk-run-dot @236,1136 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @236,1136 8x8
+                  span.dk-run-state @252,1128 40x20
+                    span.dk-badge.dk-badge-ok "Done" @252,1128 40x20
+                  span.dk-run-time.dk-num "2 min" @300,1128 32x16
+                div.dk-run-title.dk-ellipsis "Deploy app 2.4.1 → delta" @340,1128 456x20
+              div.dk-run-log "Log" @236,1156 560x132
+                div.dk-log.dk-log-wrap [log] @236,1156 560x132
+                  div.dk-log-line.dk-log-info @240,1160 556x20
+                    span.dk-log-t "09:57 AM" @252,1160 56x20
+                    span.dk-log-lv "INF" @316,1160 20x20
+                    span.dk-log-msg "Connecting to delta …" @344,1160 152x20
+                  div.dk-log-line.dk-log-info @240,1180 556x20
+                    span.dk-log-t "09:57 AM" @252,1180 56x20
+                    span.dk-log-lv "INF" @316,1180 20x20
+                    span.dk-log-msg "Pulling image registry.example.com/app:2.4.1" @344,1180 316x20
+                  div.dk-log-line.dk-log-ok @240,1200 556x20
+                    span.dk-log-t "09:57 AM" @252,1200 56x20
+                    span.dk-log-lv "OK" @316,1200 20x20
+                    span.dk-log-msg "Image pulled (212 MB)" @344,1200 152x20
+                  div.dk-log-line.dk-log-warn @240,1220 556x20
+                    span.dk-log-t "09:57 AM" @252,1220 56x20
+                    span.dk-log-lv "WRN" @316,1220 20x20
+                    span.dk-log-msg "Container app-1 still has open connections" @344,1220 304x20
+                  div.dk-log-line.dk-log-info @240,1240 556x20
+                    span.dk-log-t "09:57 AM" @252,1240 56x20
+                    span.dk-log-lv "INF" @316,1240 20x20
+                    span.dk-log-msg "Restarting app-1" @344,1240 116x20
+                  div.dk-log-line.dk-log-ok @240,1260 556x20
+                    span.dk-log-t "09:57 AM" @252,1260 56x20
+                    span.dk-log-lv "OK" @316,1260 20x20
+                    span.dk-log-msg "Health check passed" @344,1260 136x20
+        section.dk-card @824,1076 584x208
+          header.dk-card-head @824,1076 584x40
+            div.dk-card-heading @836,1088 560x20
+              h3.dk-card-title "Failed" @836,1088 560x20
+          div.dk-card-body @824,1116 584x168
+            div.dk-run @836,1128 560x144
+              div.dk-run-head @836,1128 560x20
+                div.dk-run-status @836,1128 96x20
+                  span.dk-run-dot @836,1136 8x8
+                    span.dk-dot.dk-s-bad [img] "Error" @836,1136 8x8
+                  span.dk-run-state @852,1128 44x20
+                    span.dk-badge.dk-badge-bad "Failed" @852,1128 44x20
+                  span.dk-run-time.dk-num "2 min" @904,1128 32x16
+                div.dk-run-title.dk-ellipsis "Deploy app 2.4.2 → delta" @944,1128 452x20
+              div.dk-run-msg "Health check failed after 60 s; rolled back." @836,1156 560x20
+              div.dk-run-log "Log" @836,1180 560x92
+                div.dk-log.dk-log-wrap [log] @836,1180 560x92
+                  div.dk-log-line.dk-log-info @840,1188 556x20
+                    span.dk-log-t "09:57 AM" @852,1188 56x20
+                    span.dk-log-lv "INF" @916,1188 20x20
+                    span.dk-log-msg "Connecting to delta …" @944,1188 152x20
+                  div.dk-log-line.dk-log-info @840,1208 556x20
+                    span.dk-log-t "09:57 AM" @852,1208 56x20
+                    span.dk-log-lv "INF" @916,1208 20x20
+                    span.dk-log-msg "Pulling image registry.example.com/app:2.4.1" @944,1208 316x20
+                  div.dk-log-line.dk-log-ok @840,1228 556x20
+                    span.dk-log-t "09:57 AM" @852,1228 56x20
+                    span.dk-log-lv "OK" @916,1228 20x20
+                    span.dk-log-msg "Image pulled (212 MB)" @944,1228 152x20
+                  div.dk-log-line.dk-log-bad @840,1248 556x20
+                    span.dk-log-t "09:57 AM" @852,1248 56x20
+                    span.dk-log-lv "ERR" @916,1248 20x20
+                    span.dk-log-msg "Health check failed: HTTP 503" @944,1248 208x20
+        section.dk-card @224,1316 584x144
+          header.dk-card-head @224,1316 584x40
+            div.dk-card-heading @236,1324 560x20
+              h3.dk-card-title "Cancelled" @236,1324 560x20
+          div.dk-card-body @224,1356 584x100
+            div.dk-run @236,1368 560x76
+              div.dk-run-head @236,1368 560x20
+                div.dk-run-status @236,1368 120x20
+                  span.dk-run-dot @236,1372 8x8
+                    span.dk-dot.dk-s-warn [img] "Warning" @236,1372 8x8
+                  span.dk-run-state @252,1368 64x20
+                    span.dk-badge.dk-badge-warn "Cancelled" @252,1368 64x20
+                  span.dk-run-time.dk-num "2 min" @324,1368 32x16
+                div.dk-run-title.dk-ellipsis "Media scan" @364,1368 432x20
+              div.dk-run-log "Log" @236,1396 560x52
+                div.dk-log.dk-log-wrap [log] @236,1396 560x52
+                  div.dk-log-line.dk-log-info @240,1400 556x20
+                    span.dk-log-t "09:57 AM" @252,1400 56x20
+                    span.dk-log-lv "INF" @316,1400 20x20
+                    span.dk-log-msg "Connecting to delta …" @344,1400 152x20
+                  div.dk-log-line.dk-log-info @240,1420 556x20
+                    span.dk-log-t "09:57 AM" @252,1420 56x20
+                    span.dk-log-lv "INF" @316,1420 20x20
+                    span.dk-log-msg "Pulling image registry.example.com/app:2.4.1" @344,1420 316x20
+        section.dk-card @824,1316 584x152
+          header.dk-card-head @824,1316 584x40
+            div.dk-card-heading @836,1324 560x20
+              h3.dk-card-title "Waiting and empty log" @836,1324 560x20
+          div.dk-card-body @824,1356 584x108
+            div.dk-run @836,1368 560x84
+              div.dk-run-head @836,1368 560x20
+                div.dk-run-status @836,1368 68x20
+                  span.dk-run-dot @836,1372 8x8
+                    span.dk-dot.dk-s-pending [img] "Pending" @836,1372 8x8
+                  span.dk-run-state @852,1368 52x20
+                    span.dk-badge.dk-badge-pending "Waiting" @852,1368 52x20
+                div.dk-run-title.dk-ellipsis "Nightly backup" @912,1368 484x20
+              div.dk-run-bar @836,1396 560x8
+                div.dk-progress [progressbar] @836,1396 560x8
+                  span.dk-progress-fill @836,1396 0x8
+              div.dk-run-log "Log" @836,1408 560x44
+                div.dk-log.dk-log-empty "No output yet" @836,1408 560x44
+        section.dk-card @224,1480 1184x152
+          header.dk-card-head @224,1484 1184x40
+            div.dk-card-heading @236,1492 1160x20
+              h3.dk-card-title "Live (simulated)" @236,1492 1160x20
+          div.dk-card-body @224,1524 1184x112
+            button.dk-btn.dk-btn-primary @236,1536 108x28
+        section.dk-card @224,1652 1184x140
+          header.dk-card-head @224,1652 1184x40
+            div.dk-card-heading @236,1660 1160x20
+              h3.dk-card-title "In a sheet" @236,1660 1160x20
+          div.dk-card-body @224,1692 1184x100
+            button.dk-btn.dk-btn-default @236,1704 212x28

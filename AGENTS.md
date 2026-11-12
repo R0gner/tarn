@@ -1,0 +1,134 @@
+# dashkit – guide for agents that build or change a board
+
+> **Information over decoration. Dense, calm, unambiguous, instant.**
+> Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
+> If a building block is missing, it goes into the kit, not into the board.
+
+Goal: every board looks the same and works the same. You build **from kit building blocks**, not your own UI. The kit has four
+levels – tokens, primitives, components, shell (see README); the gallery shows them in that order.
+
+## Principles
+
+1. **Overview first.** Start view = status tiles (`tiles(statTile…)`), below them “Problems” (everything red/yellow, worst
+   first), “Up next”, “Recently failed”. Tiles with their own view jump there.
+2. **Tap a row = detail.** The whole row is the button (`metricRow({ onClick })`, `table({ onRow })`), a chevron on the right.
+   Detail through `view.detail(id, ctx)` → `{ title, sub, body }`; the shell chooses inspector/panel/bottom sheet. From
+   elsewhere: `app.go('view', { open: id })`. No expanding in lists.
+3. **Detail layout:** `banner()` for error/notice on top → `facts('Status', kv(…))` → history (`heatRow`, chart) →
+   `facts('Events', log(…))` → `facts('Technical', kv(…, { mono: true }))` → actions (`toolbarRow`, `menu`).
+4. **Status only through status tokens** (`ok warn bad unknown pending info off`): `statusDot`, `badge({ tone })`,
+   `banner({ tone })`, chart colour `'bad'`. Never colour as the only information – always text/aria as well (the kit does it).
+5. **No own colours, sizes, shadows, radii, fonts.** No `style` with pixel or colour values, no own CSS except pure placement that
+   `cols()`/`stack()`/`tiles()` do not cover (and then only with tokens).
+6. **No new components in a board.** If something is missing, it goes into the kit **plus** a gallery entry with all states, then
+   into the board. No copying and tweaking of kit code.
+7. **Texts only through `t()`.** Never put visible text into the code: board texts go into `messages` (per language, same fallback
+   rule as the kit), numbers/bytes/times only through `fmt*` (Intl, active locale and time zone). No emoji, icons only from
+   `icon()` (Lucide, fixed version; if one is missing: `node tools/icons.mjs add <lucide-name> [--as <name>]`, then check the
+   gallery). Data (job names, agent reports) is not translated. Lint rule `i18n` and the catalog test enforce it.
+8. **Data through `dataSource`**: the toolbar shows “Updated … ago” (red from `staleAfter`), a banner on error/stale data; the last
+   state stays visible. Every view handles `!ctx.data` with `loading()` or `error({ onRetry })`.
+9. **Mobile first**: everything must work at 390 px without sideways scrolling (also `timeline`: the axis fits the width).
+10. **Hover, hints, overlays only through the kit:** content you only see by pointing (heat map, timeline bars, chart points) is a
+    data card (`dataCard()`); text and icon buttons get the small hint (`iconButton`, `tooltip()`; truncated text automatically). No
+    `title` attributes, no own popups: menus, toasts and tooltips automatically sit above open sheets (overlay layer, see README).
+11. **Every board has its own favicon (SVG) and a descriptive title.** Title `View · Board` (the shell sets it:
+    `createApp({ title: 'My board' })`; a static `<title>` in the HTML is also “Name · Context”). Favicon: your own file via
+    `<link rel="icon" type="image/svg+xml" href="icon.svg">` (template `example/favicon.svg`) or without a graphic file
+    `createApp({ icon: { icon: 'server', color: 'purple' } })` / `favicon({ icon, color })`. Lint (`page`) and verify (`identity`)
+    check both; never take the icon of another board or the kit logo. With several boards: the same icon in the header
+    (`createApp({ icon })`) and optionally the switcher (`boards`, see README “Multiple boards”); do not build your own navigation.
+12. **Language and time zone belong to the shell:** `createApp({ locale?, locales?, messages?, timeZone? })`. Without `locale` the
+    browser languages are matched against `locales`, fallback English; `locale: 'de'` forces one language (then there is no
+    language menu). Do not hard-wire a time zone or a number format anywhere.
+13. **Inputs, filters and actions only through the kit.** Fields: `field({ label, help, required, rules }, textField | numberField | select | combobox |
+    checkbox | toggle | dateField | dateRange)` – never a bare `<input>`; `select` up to about 8 options, above that `combobox`. Several fields that are
+    sent together: `form({ fields, onSubmit })` (validation, “Running …”, no double submit). Filters by data type: `filterBar({ filters: [{ type:
+    'options' | 'bool' | 'range' | 'time' }] })` + `matchFilters()`. **Every action gives feedback** (`toast` or `actionRun`), **every dangerous action
+    asks first** with `confirm({ danger: true })` (`typeToConfirm` when a name or data is at stake, e.g. a host). Never `window.confirm`, `alert`
+    or `prompt`.
+
+## Verification
+
+1. **Name the check before the code:** command and expected output (e.g. `node tools/verify.mjs --quick --views jobs` → “GREEN ·
+   exit 0”). If there is no check for the change, build one first (new rule, new case, new mutant), then the code.
+2. **Hand in only with a green verify:** `node tools/verify.mjs` (tests, lint, types, geometry in en/de/fr, overlays, snapshots,
+   animation inventory) ends with exit 0, or – while known faults are open – only with the findings listed as KNOWN
+   (`tools/verify/exceptions.json`, `tools/lint/allow.json`), never with new ones. When changing check tools also run
+   `node tools/verify.mjs --full --selftest` (exit 0). While developing use `node tools/verify.mjs --changed` (only the pages/views
+   the changed files can affect); the full run stays mandatory before handing in.
+3. **Evidence as command plus path**, not as a claim: e.g. “`node tools/verify.mjs` → exit 0, report `<out>/report.json`”, tempo
+   “`node tools/tempo.mjs --attach … --out <dir>` → `<dir>/tempo.md`”.
+4. **Do not loosen or delete without an explicit assignment:** check tools (`tools/verify*`, `tools/lint*`, `tools/tempo*`),
+   budgets (`tools/tempo/cases.mjs`), exceptions and inventory lists, mutants and snapshots (`tests/snapshots/`). Rewrite
+   snapshots with `--update` only when the change is intended, and put the reason into the commit message. Removing a fixed known
+   fault from the list is allowed and welcome.
+5. What a script can check lives as a script in `tools/`, not here as a rule.
+
+| Tool | Purpose | Duration |
+|---|---|---|
+| `node tools/verify.mjs [--quick]` | everything except frame measurement; ≤ 10 lines, exit 0/1/2 | ≈ 5 min (quick ≈ 1 min) |
+| `node tools/verify.mjs --types` | JSDoc types of `js/` through `tsc` (pinned version via npx; skipped offline) | ≈ 1 s |
+| `node tools/lint.mjs [-v]` | tokens, transitions, no innerHTML, timers, gallery coverage, emoji, texts via `t()` | < 1 s |
+| `node tools/tempo.mjs --attach http://127.0.0.1:<port>` | response times against budgets (visible Chrome) | ≈ 10 min |
+| `node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port>` | 50 KB report with `markdown()` under 4× CPU (budget 50 ms) | ≈ 20 s |
+| `node tools/verify.mjs --update` | deliberately rewrite snapshots | ≈ 30 s |
+
+## Create a new board
+
+1. Copy `example/` as the template (`index.html`, `board.js`, `messages.js`, `favicon.svg`, `manifest.webmanifest`, icons), switch the
+   paths to `/dashkit/…`; set title, favicon (`node tools/brand.mjs --name … --icon … --accent … --out …` creates favicon.svg,
+   PNGs and manifest; or `favicon()`) and the board name.
+2. Copy a fixed kit version into `vendor/dashkit/` with `node <kit>/tools/vendor.mjs --to <board>/vendor/dashkit` and serve that folder under
+   `/dashkit/` (see README, “Include in a board”). Never edit the copy; update it with the same command and run the checks afterwards.
+3. `dataSource({ url: '/api/snapshot', ageOf: (d) => d.ageSec })`; prepare raw data once in `parse` (points in time, problems,
+   sorting) – views do not calculate themselves.
+4. Views as `views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }]`; the sidebar counter comes from
+   `count(ctx)` (returns `n` or `{ n, tone }` derived from the data, never as a side effect of `render()`). `app.setCount(id, n,
+   tone)` only for counters that cannot be derived from `ctx.data` (live events). `title`, `boards`, `categories` and `label`
+   may be functions so that they can call `t()` after the language is set.
+5. Texts: one catalog per language (`messages: { en: {…}, de: {…} }`), keys prefixed with the board name.
+6. Server with a strict CSP like `tools/serve.py` (`default-src 'self'`, no inline scripts/styles).
+
+## Choosing building blocks
+
+| You want … | use |
+|---|---|
+| a key figure with a goal | `statTile({ label, value, unit, sub, status, onClick })`, trend as `sub: sparkline({ values })` |
+| a list of things | `card({ flush: true }, list(items, (x) => metricRow({ … })))` |
+| many columns, sorting | `table({ columns, rows, status, onRow })` + `filterBar()`; long texts `wrap: true`, phone role `mobile` |
+| facts in the detail | `facts('Title', kv([[k, v, class?], …]))` |
+| a switch of 2–5 options | `segmented()`; sub-areas in the detail `tabs()` |
+| secondary actions | `menu(iconButton('more', { label }), items)` |
+| feedback after an action | `toast(text, { tone, action })` |
+| usage, progress | `usageBar({ used, total, label })`, `progress({ value })` |
+| a time series | `lineChart({ x, series })` (scrubbing built in), runs per day `barChart({ stacked: true })` |
+| a ranking with names | `barChart({ horizontal: true })` |
+| last runs ok/fail | `heatRow({ items })` |
+| a schedule, overlaps | `timeline({ rows, conflicts: 'auto' })` (heavy runs `heavy: true`) |
+| a small share/fill level | `donut()` |
+| a log | `log(entries)` |
+| several boards, switching between them | `createApp({ icon, boards, categories, boardId })`; `boards` as an array or the URL of a shared JSON file (same origin), entries `{ id, name, href, icon?, category? }`, only invented or your own addresses |
+| a field with label, help, validation | `field({ label, help, required, rules }, textField(…) \| numberField({ unit, min, max }) \| select(…) \| combobox({ options, multiple }) \| dateField(…))`; `checkbox()` / `toggle()` carry their own label |
+| a form (several fields, send) | `form({ fields: [{ name, type, label, … }], onSubmit })` – in a sheet `openSheet({ body: f, footer: f.buttons() })` |
+| filters by data type | `filterBar({ filters: [{ key, label, type: 'options' \| 'bool' \| 'range' \| 'time', … }] })` + `matchFilters(row, state.f, get, { now })` |
+| ask before a dangerous action | `await confirm({ title, text, danger: true, typeToConfirm?: name })` |
+| an action that takes time (status, progress, live log) | `actionRun({ source: fn \| url, title, onCancel, onDone })` |
+| a report, running text of an agent | `markdown(text, { compact: true })` (in the detail: `facts('Run report', markdown(…, { compact: true }))`); raw HTML becomes text, links only http(s)/mailto/relative, images off |
+
+## Checklist before handing in
+
+- [ ] Imports only from `/dashkit/js/dashkit.js`; no own CSS with colours/sizes; no new components in the board.
+- [ ] No visible text in the code (only `t()` and `messages`); a catalog per offered language with the same keys.
+- [ ] `node --test tests/*.test.mjs` green (for kit changes also new tests for pure functions).
+- [ ] Kit code: `// @ts-check` at the top, options as `@typedef`, `node tools/verify.mjs --types` green; no `@ts-ignore`, no `any` except where a comment says why.
+- [ ] For kit changes `node tools/verify.mjs` green (see “Verification”), for timing changes additionally `tools/tempo.mjs` with a
+      before/after table.
+- [ ] `tools/shoot.mjs --out <folder-outside-the-repo>` (if needed `--attach http://127.0.0.1:<port>`) for the overview, a list, an
+      open detail (`?open=…`), in two languages – **no** console/CSP errors, **no** overflow, phone and desktop, light and dark.
+      Look at a few images yourself, dark first.
+- [ ] Every action gives feedback (toast or `actionRun`); every dangerous one goes through `confirm()`; forms show errors on the fields and cannot be submitted twice.
+- [ ] Empty, loading and error state of every view checked (e.g. empty the fixture, wrong URL).
+- [ ] Long names/paths wrap or are truncated (`…`), nothing makes the page wider; long words are never broken letter by letter.
+- [ ] Back closes the detail; `#/view?open=id` opened directly shows it.
+- [ ] For kit changes: gallery entry added and gallery + sample board re-checked (it affects all boards).

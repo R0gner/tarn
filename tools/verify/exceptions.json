@@ -1,0 +1,24 @@
+{
+  "_doc": "verify: known faults (the lint backlog lives in tools/lint/allow.json) (stay red, are marked KNOWN) and deliberate exceptions (not reported). match: field → RegExp against the finding (check, rule, page, view, size, theme, sel, text). Every exception needs a reason; known faults name the stage in which they get fixed. Change entries only on request.",
+  "known": [],
+  "exceptions": [
+    {
+      "id": "timeline-bars-touch",
+      "match": {
+        "check": "^geometry$",
+        "rule": "^touch$",
+        "sel": "button\\.dk-tl-bar"
+      },
+      "reason": "Timeline bars are dense data points on the time axis (12 px high). Large fallback on touch: tapping the row (name, ≥ 40 px high) opens the detail with the individual runs (onRow); a tap on the bar shows the data card, the second tap opens the detail (onItem)."
+    },
+    {
+      "id": "heat-cells-touch",
+      "match": {
+        "check": "^geometry$",
+        "rule": "^touch$",
+        "sel": "(button|span)\\.dk-heat-cell"
+      },
+      "reason": "Heatmap cells (10×12 px) are dense data points. Large fallback on touch: the row is a 40 px high hit area (selects the nearest cell, dragging scrubs, the second tap triggers onItem) and the row/entry opens the detail with the individual runs."
+    }
+  ]
+}

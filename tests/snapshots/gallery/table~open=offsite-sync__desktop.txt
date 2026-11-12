@@ -1,0 +1,315 @@
+# gallery #/table?open=offsite-sync · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x1340
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      div.dk-brand @16,12 128x24
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
+    nav.dk-nav "Views" @8,44 192x528
+      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
+      a.dk-nav-item @8,68 192x28
+        svg.dk-icon @16,76 16x16
+        span.dk-ellipsis "Foundations" @40,76 76x20
+      a.dk-nav-item @8,100 192x28
+        svg.dk-icon @16,104 16x16
+        span.dk-ellipsis "Light and dark" @40,104 88x20
+      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Buttons and status" @40,164 116x20
+      a.dk-nav-item @8,188 192x28
+        svg.dk-icon @16,196 16x16
+        span.dk-ellipsis "Controls" @40,196 52x20
+      a.dk-nav-item @8,220 192x28
+        svg.dk-icon @16,224 16x16
+        span.dk-ellipsis "Inputs" @40,224 40x20
+      div.dk-nav-group [presentation] "Components" @8,248 192x32
+      a.dk-nav-item @8,280 192x28
+        svg.dk-icon @16,288 16x16
+        span.dk-ellipsis "Cards and tiles" @40,284 92x20
+      a.dk-nav-item @8,308 192x28
+        svg.dk-icon @16,316 16x16
+        span.dk-ellipsis "Rows and facts" @40,316 96x20
+      a.dk-nav-item.is-active {current=page} @8,340 192x28
+        svg.dk-icon @16,344 16x16
+        span.dk-ellipsis "Table and filter" @40,344 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
+      a.dk-nav-item @8,368 192x28
+        svg.dk-icon @16,372 16x16
+        span.dk-ellipsis "Forms and actions" @40,372 116x20
+      a.dk-nav-item @8,396 192x28
+        svg.dk-icon @16,404 16x16
+        span.dk-ellipsis "Menus and feedback" @40,400 132x20
+      a.dk-nav-item @8,424 192x28
+        svg.dk-icon @16,432 16x16
+        span.dk-ellipsis "Charts" @40,432 40x20
+      a.dk-nav-item @8,456 192x28
+        svg.dk-icon @16,460 16x16
+        span.dk-ellipsis "Markdown" @40,460 64x20
+      a.dk-nav-item @8,484 192x28
+        svg.dk-icon @16,488 16x16
+        span.dk-ellipsis "States and sheets" @40,488 112x20
+      div.dk-nav-group [presentation] "Shell" @8,512 192x32
+      a.dk-nav-item @8,544 192x28
+        svg.dk-icon @16,552 16x16
+        span.dk-ellipsis "Shell and boards" @40,552 104x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 836x1340
+    header.dk-toolbar @208,0 836x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Table and filter" @252,12 92x20
+      div.dk-toolbar-spacer @348,20 492x0
+      button.dk-fresh "Updated now" @844,8 92x28
+      button.dk-iconbtn "Reload" @940,8 28x28
+        svg.dk-icon @948,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @972,8 28x28
+        svg.dk-icon @980,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1004,8 28x28
+        svg.dk-icon @1012,12 16x16
+    main.dk-content @208,44 836x1296
+      div.dk-filterbar @224,152 804x52
+        div.dk-filter-row @224,152 804x28
+          label.dk-search @224,152 720x28
+            svg.dk-icon @232,160 16x16
+            input.dk-input "Search jobs …" @224,152 720x28
+          button.dk-btn.dk-btn-default @952,152 76x28
+            svg.dk-icon @964,160 16x16
+        div.dk-filter-row2 @224,188 804x16
+          div.dk-filter-info "12 of 12" @980,188 48x16
+      section.dk-card.dk-card-flush @224,224 804x600
+        div.dk-card-body @224,228 804x600
+          div.dk-table-wrap.dk-table-click @224,228 804x600
+            table.dk-table @224,228 804x600
+              caption.dk-sr "Jobs" @224,256 0x0
+              th.dk-td-status "Status" @224,228 20x32
+              th @248,228 132x32
+                button.dk-th-btn @260,228 48x32
+                  span.dk-sort @296,240 12x0
+              th @376,228 172x32
+                button.dk-th-btn @388,228 44x32
+                  span.dk-sort @420,240 12x0
+              th @548,228 104x32
+                button.dk-th-btn @560,228 44x32
+                  span.dk-sort @592,240 12x0
+              th "Schedule" @652,228 104x32
+              th.is-sorted {sort=ascending} @756,228 84x32
+                button.dk-th-btn @768,228 52x32
+                  span.dk-sort @808,236 12x12
+                    svg.dk-icon @808,236 12x12
+              th.dk-right @840,228 100x32
+                button.dk-th-btn @864,228 64x32
+                  span.dk-sort @864,240 12x0
+              th.dk-right @940,228 72x32
+                button.dk-th-btn @960,228 40x32
+                  span.dk-sort @960,240 12x0
+              th.dk-td-go @1012,228 16x32
+              td.dk-td-status @224,256 20x44
+                span.dk-dot.dk-s-bad [img] "Error" @236,276 8x8
+              td.dk-td-title "Offsite archive sync" @248,256 132x44
+              td.dk-mono "nas-b" @376,256 172x44
+              td.dk-wrap "daily 04:15" @652,256 104x44
+              td.dk-right "3 hr. ago" @840,256 100x44
+              td.dk-right "–" @940,256 72x44
+              td.dk-td-go @1012,256 16x44
+                svg.dk-icon @1012,272 4x16
+              td.dk-td-status @224,300 20x44
+                span.dk-dot.dk-s-warn [img] "Warning" @236,324 8x8
+              td.dk-td-title "Media library scan" @248,300 132x44
+              td.dk-mono "media-1" @376,300 172x44
+              td.dk-wrap "every 2 h" @652,300 104x44
+              td.dk-right "40 min. ago" @840,300 100x44
+              td.dk-right "1 TB" @940,300 72x44
+              td.dk-td-go @1012,300 16x44
+                svg.dk-icon @1012,316 4x16
+              td.dk-td-status @224,348 20x64
+                span.dk-dot.dk-s-pending [img] "Pending" @236,376 8x8
+              td.dk-td-title "Package update check" @248,348 132x64
+              td.dk-mono "app-1" @376,348 172x64
+              td.dk-wrap "once, 11/10/2026, 09:00" @652,348 104x64
+              td.dk-right "–" @840,348 100x64
+              td.dk-right "–" @940,348 72x64
+              td.dk-td-go @1012,348 16x64
+                svg.dk-icon @1012,368 4x16
+              td.dk-td-status @224,408 20x44
+                span.dk-dot.dk-s-unknown [img] "Unknown" @236,428 8x8
+              td.dk-td-title "Wiki database dump" @248,408 132x44
+              td.dk-mono "app-2" @376,408 172x44
+              td.dk-wrap "daily 01:00" @652,408 104x44
+              td.dk-right "3 days ago" @840,408 100x44
+              td.dk-right "50 MB" @940,408 72x44
+              td.dk-td-go @1012,408 16x44
+                svg.dk-icon @1012,424 4x16
+              td.dk-td-status @224,452 20x32
+                span.dk-dot.dk-s-ok [img] "OK" @236,468 8x8
+              td.dk-td-title "Photo backup" @248,452 132x32
+              td.dk-mono "nas-a" @376,452 172x32
+              td.dk-wrap "daily 02:30" @652,452 104x32
+              td.dk-right "4 hr. ago" @840,452 100x32
+              td.dk-right "45 GB" @940,452 72x32
+              td.dk-td-go @1012,452 16x32
+                svg.dk-icon @1012,460 4x16
+              td.dk-td-status @224,484 20x44
+                span.dk-dot.dk-s-ok [img] "OK" @236,504 8x8
+              td.dk-td-title "Document backup" @248,484 132x44
+              td.dk-mono "nas-a" @376,484 172x44
+              td.dk-wrap "daily 03:00" @652,484 104x44
+              td.dk-right "4 hr. ago" @840,484 100x44
+              td.dk-right "2.1 GB" @940,484 72x44
+              td.dk-td-go @1012,484 16x44
+                svg.dk-icon @1012,500 4x16
+              td.dk-td-status @224,528 20x44
+                span.dk-dot.dk-s-ok [img] "OK" @236,548 8x8
+              td.dk-td-title "Certificate renewal" @248,528 132x44
+              td.dk-mono "edge-1" @376,528 172x44
+              td.dk-wrap "Sun 05:00" @652,528 104x44
+              td.dk-right "yesterday" @840,528 100x44
+              td.dk-right "–" @940,528 72x44
+              td.dk-td-go @1012,528 16x44
+                svg.dk-icon @1012,544 4x16
+              td.dk-td-status @224,572 20x32
+                span.dk-dot.dk-s-ok [img] "OK" @236,588 8x8
+              td.dk-td-title "Log cleanup" @248,572 132x32
+              td.dk-mono "app-2" @376,572 172x32
+              td.dk-wrap "daily 00:10" @652,572 104x32
+              td.dk-right "7 hr. ago" @840,572 100x32
+              td.dk-right "700 MB" @940,572 72x32
+              td.dk-td-go @1012,572 16x32
+                svg.dk-icon @1012,580 4x16
+              td.dk-td-status @224,604 20x44
+                span.dk-dot.dk-s-ok [img] "OK" @236,628 8x8
+              td.dk-td-title "Disk SMART check" @248,604 132x44
+              td.dk-mono "nas-a" @376,604 172x44
+              td.dk-wrap "Mon 06:00" @652,604 104x44
+              td.dk-right "1 hr. ago" @840,604 100x44
+              td.dk-right "–" @940,604 72x44
+              td.dk-td-go @1012,604 16x44
+                svg.dk-icon @1012,620 4x16
+              td.dk-td-status @224,652 20x44
+                span.dk-dot.dk-s-ok [img] "OK" @236,672 8x8
+              td.dk-td-title "Thumbnail generation" @248,652 132x44
+              td.dk-mono "media-1" @376,652 172x44
+              td.dk-wrap "every 30 min" @652,652 104x44
+              td.dk-right "10 min. ago" @840,652 100x44
+              td.dk-right "150 MB" @940,652 72x44
+              td.dk-td-go @1012,652 16x44
+                svg.dk-icon @1012,664 4x16
+              td.dk-td-status @224,696 20x100
+                span.dk-dot.dk-s-ok [img] "OK" @236,744 8x8
+              td.dk-td-title "A very long job name for testing overflow and truncation in " @248,696 132x100
+              td.dk-mono "a-really-long-hostname-example" @376,696 172x100
+              td.dk-wrap "Cron 15 3 * * 1-5" @652,696 104x100
+              td.dk-right "14 hr. ago" @840,696 100x100
+              td.dk-right "5 GB" @940,696 72x100
+              td.dk-td-go @1012,696 16x100
+                svg.dk-icon @1012,736 4x16
+              td.dk-td-status @224,792 20x32
+                span.dk-dot.dk-s-off [img] "Off" @236,808 8x8
+              td.dk-td-title "Mirror repos" @248,792 132x32
+              td.dk-mono "edge-1" @376,792 172x32
+              td.dk-wrap "disabled" @652,792 104x32
+              td.dk-right "21 days ago" @840,792 100x32
+              td.dk-right "20 GB" @940,792 72x32
+              td.dk-td-go @1012,792 16x32
+                svg.dk-icon @1012,800 4x16
+      section.dk-section @224,1084 396x92
+        header.dk-section-head @224,1084 396x24
+          h2.dk-section-title "Empty" @228,1088 392x16
+        section.dk-card.dk-card-flush @224,1116 396x60
+          div.dk-card-body @224,1116 392x60
+            div.dk-table-wrap @224,1116 392x60
+              div.dk-empty.dk-empty-compact @224,1116 392x60
+                div.dk-empty-title "No jobs in this selection" @348,1136 148x20
+      section.dk-section @636,1084 396x224
+        header.dk-section-head @636,1084 396x24
+          h2.dk-section-title "Narrow container (list mode)" @636,1088 392x16
+        section.dk-card.dk-card-flush @636,1116 380x192
+          div.dk-card-body @636,1116 380x192
+            div.dk-table-wrap.dk-table-click.is-list @636,1116 380x192
+              table.dk-table @636,1116 380x192
+                td.dk-td-status @648,1136 8x8
+                  span.dk-dot.dk-s-ok [img] "OK" @648,1136 8x8
+                td.dk-td-title "Photo backup" @668,1120 240x20
+                td.dk-right "4 hr. ago" @920,1120 56x20
+                td.dk-td-m "nas-a Backup daily 02:30 45 GB" @668,1140 308x16
+                  span.dk-sep-dot "·" @704,1140 8x16
+                  span.dk-sep-dot "·" @756,1140 8x16
+                  span.dk-sep-dot "·" @828,1140 8x16
+                td.dk-td-go @984,1132 16x16
+                  svg.dk-icon @984,1132 16x16
+                td.dk-td-status @648,1184 8x8
+                  span.dk-dot.dk-s-ok [img] "OK" @648,1184 8x8
+                td.dk-td-title "Document backup" @668,1168 240x20
+                td.dk-right "4 hr. ago" @920,1168 56x20
+                td.dk-td-m "nas-a Backup daily 03:00 2.1 GB" @668,1188 308x16
+                  span.dk-sep-dot "·" @704,1188 8x16
+                  span.dk-sep-dot "·" @756,1188 8x16
+                  span.dk-sep-dot "·" @828,1188 8x16
+                td.dk-td-go @984,1180 16x16
+                  svg.dk-icon @984,1180 16x16
+                td.dk-td-status @648,1232 8x8
+                  span.dk-dot.dk-s-bad [img] "Error" @648,1232 8x8
+                td.dk-td-title "Offsite archive sync" @668,1216 240x20
+                td.dk-right "3 hr. ago" @920,1216 56x20
+                td.dk-td-m "nas-b Backup daily 04:15 –" @668,1236 308x16
+                  span.dk-sep-dot "·" @704,1236 8x16
+                  span.dk-sep-dot "·" @756,1236 8x16
+                  span.dk-sep-dot "·" @828,1236 8x16
+                td.dk-td-go @984,1228 16x16
+                  svg.dk-icon @984,1228 16x16
+                td.dk-td-status @648,1280 8x8
+                  span.dk-dot.dk-s-ok [img] "OK" @648,1280 8x8
+                td.dk-td-title "Certificate renewal" @668,1264 232x20
+                td.dk-right "yesterday" @912,1264 60x20
+                td.dk-td-m "edge-1 Maintenance Sun 05:00 –" @668,1284 308x16
+                  span.dk-sep-dot "·" @712,1284 8x16
+                  span.dk-sep-dot "·" @796,1284 8x16
+                  span.dk-sep-dot "·" @864,1284 8x16
+                td.dk-td-go @984,1276 16x16
+                  svg.dk-icon @984,1276 16x16
+  aside.dk-inspector "Details" @1044,0 380x900
+    header.dk-sheet-head @1048,0 380x44
+      div.dk-sheet-heading @1064,4 320x36
+        h2.dk-sheet-title.dk-ellipsis "Offsite archive sync" @1064,4 320x20
+        div.dk-sheet-sub "nas-b · Backup" @1064,24 320x16
+      button.dk-iconbtn "Close details" @1388,8 28x28
+        svg.dk-icon @1396,12 16x16
+    div.dk-inspector-body @1048,44 380x856
+      div.dk-banner.dk-banner-bad [alert] @1064,60 348x52
+        svg.dk-icon @1076,72 16x16
+        div.dk-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @1100,68 296x32
+      section.dk-facts @1064,128 348x112
+        h3.dk-facts-title "Status" @1064,128 348x16
+        dl.dk-kv @1064,152 348x88
+          dt "State" @1064,152 96x20
+          dd @1176,152 236x20
+            span.dk-dotlabel @1176,152 44x20
+              span.dk-dot.dk-s-bad @1176,160 8x8
+          dt "Schedule" @1064,176 96x20
+          dd "daily 04:15" @1176,176 236x20
+          dt "Last run" @1064,200 96x20
+          dd "06:55 AM (3 hr. ago)" @1176,200 236x20
+          dt "Duration" @1064,224 96x20
+          dd "31 s" @1176,224 236x20
+      section.dk-facts @1064,256 348x88
+        h3.dk-facts-title "Result" @1064,256 348x16
+        dl.dk-kv @1064,280 348x64
+          dt "Runs, 7 days" @1064,280 96x20
+          dd "7" @1176,280 236x20
+          dt "Errors, 7 days" @1064,304 96x20
+          dd.dk-t-bad "3" @1176,304 236x20
+          dt "Success rate" @1064,328 96x20
+          dd "57.1%" @1176,328 236x20
+      section.dk-facts @1064,360 348x64
+        h3.dk-facts-title "Technical" @1064,360 348x16
+        dl.dk-kv.dk-kv-mono @1064,384 348x40
+          dt "ID" @1064,384 96x20
+          dd "offsite-sync" @1176,384 236x20
+          dt "Host" @1064,408 96x20
+          dd "nas-b" @1176,408 236x20
+      div.dk-toolrow @1064,444 348x28
+        button.dk-btn.dk-btn-default @1064,444 96x28
+          svg.dk-icon @1076,448 16x16
+        button.dk-btn.dk-btn-ghost @1168,444 96x28
+          svg.dk-icon @1236,448 16x16

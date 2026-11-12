@@ -1,0 +1,146 @@
+# gallery #/buttons · phone 390×844 · dunkel
+div.dk-app @0,0 392x1552
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      div.dk-brand @-268,12 128x24
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
+    nav.dk-nav "Views" @-276,48 264x696
+      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.dk-nav-item @-276,72 264x40
+        svg.dk-icon @-268,84 16x16
+        span.dk-ellipsis "Foundations" @-244,84 76x20
+      a.dk-nav-item @-276,116 264x40
+        svg.dk-icon @-268,128 16x16
+        span.dk-ellipsis "Light and dark" @-244,124 88x20
+      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.dk-nav-item.is-active {current=page} @-276,188 264x40
+        svg.dk-icon @-268,200 16x16
+        span.dk-ellipsis "Buttons and status" @-244,200 116x20
+      a.dk-nav-item @-276,228 264x40
+        svg.dk-icon @-268,240 16x16
+        span.dk-ellipsis "Controls" @-244,240 52x20
+      a.dk-nav-item @-276,272 264x40
+        svg.dk-icon @-268,284 16x16
+        span.dk-ellipsis "Inputs" @-244,280 40x20
+      div.dk-nav-group [presentation] "Components" @-276,312 264x32
+      a.dk-nav-item @-276,344 264x40
+        svg.dk-icon @-268,356 16x16
+        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
+      a.dk-nav-item @-276,384 264x40
+        svg.dk-icon @-268,396 16x16
+        span.dk-ellipsis "Rows and facts" @-244,396 96x20
+      a.dk-nav-item @-276,428 264x40
+        svg.dk-icon @-268,440 16x16
+        span.dk-ellipsis "Table and filter" @-244,436 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
+      a.dk-nav-item @-276,468 264x40
+        svg.dk-icon @-268,480 16x16
+        span.dk-ellipsis "Forms and actions" @-244,480 116x20
+      a.dk-nav-item @-276,508 264x40
+        svg.dk-icon @-268,520 16x16
+        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
+      a.dk-nav-item @-276,548 264x40
+        svg.dk-icon @-268,560 16x16
+        span.dk-ellipsis "Charts" @-244,560 40x20
+      a.dk-nav-item @-276,592 264x40
+        svg.dk-icon @-268,604 16x16
+        span.dk-ellipsis "Markdown" @-244,600 64x20
+      a.dk-nav-item @-276,632 264x40
+        svg.dk-icon @-268,644 16x16
+        span.dk-ellipsis "States and sheets" @-244,644 112x20
+      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
+      a.dk-nav-item @-276,704 264x40
+        svg.dk-icon @-268,716 16x16
+        span.dk-ellipsis "Shell and boards" @-244,716 104x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x1552
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Buttons and status" @52,16 100x20
+      div.dk-toolbar-spacer @156,24 0x0
+      button.dk-fresh "Updated now" @160,4 92x40
+      button.dk-iconbtn "Reload" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x1504
+      section.dk-card @12,60 368x720
+        header.dk-card-head @12,60 364x40
+          div.dk-card-heading @24,72 340x20
+            h3.dk-card-title "button()" @24,72 340x20
+        div.dk-card-body @12,100 364x680
+          button.dk-btn.dk-btn-default @24,112 88x40
+            svg.dk-icon @40,124 16x16
+          button.dk-btn.dk-btn-default.is-hover @124,112 60x40
+          button.dk-btn.dk-btn-default.is-pressed @196,112 72x40
+          button.dk-btn.dk-btn-default @280,112 76x40
+          button.dk-btn.dk-btn-default.dk-btn-sm @24,188 48x36
+          button.dk-btn.dk-btn-primary @24,256 84x40
+            svg.dk-icon @36,268 16x16
+          button.dk-btn.dk-btn-primary.is-hover @124,256 60x40
+          button.dk-btn.dk-btn-primary.is-pressed @192,256 72x40
+          button.dk-btn.dk-btn-primary @276,256 72x40
+          button.dk-btn.dk-btn-primary.dk-btn-sm @24,328 48x36
+          button.dk-btn.dk-btn-ghost @24,400 84x40
+            svg.dk-icon @36,412 16x16
+          button.dk-btn.dk-btn-ghost.is-hover @124,400 60x40
+          button.dk-btn.dk-btn-ghost.is-pressed @192,400 72x40
+          button.dk-btn.dk-btn-ghost @276,400 72x40
+          button.dk-btn.dk-btn-ghost.dk-btn-sm @24,472 48x36
+          button.dk-btn.dk-btn-danger @24,540 64x40
+          button.dk-btn.dk-btn-danger.is-hover @100,540 60x40
+          button.dk-btn.dk-btn-danger.is-pressed @172,540 72x40
+          button.dk-btn.dk-btn-danger @256,540 76x40
+          button.dk-btn.dk-btn-danger.dk-btn-sm @24,616 48x36
+      section.dk-card @12,796 368x224
+        header.dk-card-head @12,800 364x40
+          div.dk-card-heading @24,808 340x20
+            h3.dk-card-title "iconButton()" @24,808 340x20
+        div.dk-card-body @12,840 364x180
+          button.dk-iconbtn "Reload" @24,852 40x40
+            svg.dk-icon @36,864 16x16
+          button.dk-iconbtn.is-hover "More" @76,852 40x40
+            svg.dk-icon @88,864 16x16
+          button.dk-iconbtn.is-pressed "Filter" @128,852 40x40
+            svg.dk-icon @140,864 16x16
+          button.dk-iconbtn "Sidebar" @184,852 40x40
+            svg.dk-icon @196,864 16x16
+          button.dk-iconbtn "Close" @260,852 40x40
+            svg.dk-icon @272,864 16x16
+      section.dk-card @12,1036 368x252
+        header.dk-card-head @12,1036 364x40
+          div.dk-card-heading @24,1048 340x20
+            h3.dk-card-title "statusDot()" @24,1048 340x20
+        div.dk-card-body @12,1076 364x212
+          span.dk-dotlabel @24,1088 32x20
+            span.dk-dot.dk-s-ok @24,1096 8x8
+          span.dk-dotlabel @68,1088 64x20
+            span.dk-dot.dk-s-warn @68,1096 8x8
+          span.dk-dotlabel @144,1088 44x20
+            span.dk-dot.dk-s-bad @144,1096 8x8
+          span.dk-dotlabel @200,1088 72x20
+            span.dk-dot.dk-s-unknown @200,1096 8x8
+          span.dk-dotlabel @284,1088 64x20
+            span.dk-dot.dk-s-pending @284,1096 8x8
+          span.dk-dotlabel @24,1140 44x20
+            span.dk-dot.dk-s-info @24,1148 8x8
+          span.dk-dotlabel @80,1140 32x20
+            span.dk-dot.dk-s-off @80,1148 8x8
+      section.dk-card @12,1304 368x236
+        header.dk-card-head @12,1308 364x40
+          div.dk-card-heading @24,1316 340x20
+            h3.dk-card-title "badge()" @24,1316 340x20
+        div.dk-card-body @12,1348 364x196
+          span.dk-badge.dk-badge-neutral "Backup" @24,1360 52x20
+          span.dk-badge.dk-badge-ok "OK" @88,1360 28x20
+          span.dk-badge.dk-badge-warn "Warning" @128,1360 56x20
+          span.dk-badge.dk-badge-bad "Error" @196,1360 36x20
+          span.dk-badge.dk-badge-info "Note" @248,1360 36x20
+          span.dk-badge.dk-badge-pending "Pending" @296,1360 56x20
+          span.dk-badge.dk-badge-neutral.dk-badge-count "94" @24,1412 28x20
+          span.dk-badge.dk-badge-bad.dk-badge-count "3" @76,1412 24x20

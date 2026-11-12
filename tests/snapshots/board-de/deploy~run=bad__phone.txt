@@ -1,0 +1,111 @@
+# board-de #/deploy?run=bad · phone 390×844 · dunkel
+div.dk-app @0,0 392x844
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      button.dk-brand.dk-brand-btn {expanded=false} "Muster-Board: Board wechseln" @-276,4 248x40
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "Muster-Board" @-236,16 88x20
+        svg.dk-icon @-144,16 16x16
+    nav.dk-nav "Ansichten" @-276,48 264x204
+      a.dk-nav-item @-276,48 264x40
+        svg.dk-icon @-268,60 16x16
+        span.dk-ellipsis "Übersicht" @-244,60 60x20
+      a.dk-nav-item @-276,88 264x40
+        svg.dk-icon @-268,100 16x16
+        span.dk-ellipsis "Jobs" @-244,100 32x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,100 24x20
+      a.dk-nav-item @-276,132 264x40
+        svg.dk-icon @-268,144 16x16
+        span.dk-ellipsis "Hosts" @-244,140 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,140 24x20
+      a.dk-nav-item @-276,172 264x40
+        svg.dk-icon @-268,184 16x16
+        span.dk-ellipsis "Verlauf" @-244,180 44x20
+      a.dk-nav-item.is-active {current=page} @-276,212 264x40
+        svg.dk-icon @-268,224 16x16
+        span.dk-ellipsis "Deploy" @-244,224 44x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x844
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Seitenleiste umschalten" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Deploy" @52,16 44x20
+      div.dk-toolbar-spacer @100,24 36x0
+      button.dk-fresh "Stand vor 2 Min." @140,4 108x40
+      button.dk-iconbtn "Neu laden" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Sprache" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Darstellung: System (umschalten)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x716
+      section.dk-section @12,60 368x344
+        header.dk-section-head @12,60 368x24
+          h2.dk-section-title "Neues Deployment" @16,64 364x16
+        section.dk-card @12,92 368x312
+          div.dk-card-body @12,92 364x312
+            form.dk-form @24,104 340x288
+              div.dk-field @24,104 340x64
+                label.dk-field-label @24,104 340x16
+                  span.dk-field-req "*" @72,104 8x16
+                div.dk-inputbox.dk-combobox @24,128 340x44
+                  button.dk-combo-btn {expanded=false} @36,128 324x44
+                    span.dk-combo-face.dk-ellipsis.is-placeholder "Host wählen" @36,136 300x24
+                    svg.dk-icon @340,140 16x16
+              div.dk-field @24,188 340x88
+                label.dk-field-label @24,188 340x16
+                  span.dk-field-req "*" @72,188 8x16
+                div.dk-inputbox @24,208 340x44
+                  input.dk-input-el.dk-mono @36,208 324x44
+                div.dk-field-help "Zum Beispiel 2.4.1" @24,256 340x16
+              div.dk-field @24,292 340x44
+                label.dk-tick.dk-check @24,292 340x44
+                  input.dk-tick-input @24,292 0x0
+                  span.dk-check-box @24,304 24x24
+                    svg.dk-icon @32,308 12x12
+                    svg.dk-icon @32,308 12x12
+                  span.dk-tick-text @56,296 244x36
+                    span.dk-tick-label "Testlauf" @56,296 244x20
+                    span.dk-tick-help "Das Deployment simulieren, nichts ändern." @56,316 244x16
+              div.dk-form-actions @24,352 340x40
+                button.dk-btn.dk-btn-primary @228,352 136x40
+      section.dk-section @12,420 368x328
+        header.dk-section-head @12,420 368x24
+          h2.dk-section-title "Letzter Lauf" @16,424 364x16
+        section.dk-card @12,452 368x296
+          div.dk-card-body @12,456 364x296
+            div.dk-run @24,468 340x272
+              div.dk-run-head @24,468 340x20
+                div.dk-run-status @24,468 136x20
+                  span.dk-run-dot @24,472 8x8
+                    span.dk-dot.dk-s-bad [img] "Fehler" @24,472 8x8
+                  span.dk-run-state @40,468 96x20
+                    span.dk-badge.dk-badge-bad "Fehlgeschlagen" @40,468 96x20
+                  span.dk-run-time.dk-num "6 s" @144,468 16x16
+                div.dk-run-title.dk-ellipsis "2.4.1 → app-2 deployen" @168,468 196x20
+              div.dk-run-msg "Health check failed after 60 s; the previous version was res" @24,492 340x36
+              div.dk-run-log "Protokoll" @24,540 340x200
+                div.dk-log.dk-log-wrap [log] @24,540 340x200
+                  div.dk-log-line.dk-log-info @28,544 340x40
+                    span.dk-log-t "09:59" @40,544 36x20
+                    span.dk-log-msg "Connecting to app-2" @40,564 316x20
+                  div.dk-log-line.dk-log-info @28,580 340x40
+                    span.dk-log-t "09:59" @40,584 36x20
+                    span.dk-log-msg "Pulling registry.example.com/app:2.4.1" @40,600 316x20
+                  div.dk-log-line.dk-log-ok @28,620 340x40
+                    span.dk-log-t "09:59" @40,620 36x20
+                    span.dk-log-msg "Image pulled (212 MB)" @40,640 316x20
+                  div.dk-log-line.dk-log-info @28,656 340x40
+                    span.dk-log-t "09:59" @40,660 36x20
+                    span.dk-log-msg "Restarting app-1" @40,676 316x20
+                  div.dk-log-line.dk-log-bad @28,696 340x40
+                    span.dk-log-t "09:59" @40,696 36x20
+                    span.dk-log-msg "Health check failed: HTTP 503" @40,716 316x20
+div.dk-toasts [status] @12,784 368x52
+  div.dk-toast.dk-toast-bad @12,784 368x52
+    span.dk-toast-ic.dk-t-bad @24,800 16x16
+      svg.dk-icon @24,800 16x16
+    span.dk-toast-text "Deployment fehlgeschlagen" @48,796 276x20
+    button.dk-toast-x "Schließen" @332,788 40x40
+      svg.dk-icon @348,800 16x16

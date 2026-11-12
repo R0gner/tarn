@@ -1,0 +1,290 @@
+# gallery #/rows · phone 390×844 · dunkel
+div.dk-app @0,0 392x2112
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      div.dk-brand @-268,12 128x24
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @-236,16 96x20
+    nav.dk-nav "Views" @-276,48 264x696
+      div.dk-nav-group [presentation] "Tokens" @-276,48 264x24
+      a.dk-nav-item @-276,72 264x40
+        svg.dk-icon @-268,84 16x16
+        span.dk-ellipsis "Foundations" @-244,84 76x20
+      a.dk-nav-item @-276,116 264x40
+        svg.dk-icon @-268,128 16x16
+        span.dk-ellipsis "Light and dark" @-244,124 88x20
+      div.dk-nav-group [presentation] "Primitives" @-276,156 264x32
+      a.dk-nav-item @-276,188 264x40
+        svg.dk-icon @-268,200 16x16
+        span.dk-ellipsis "Buttons and status" @-244,200 116x20
+      a.dk-nav-item @-276,228 264x40
+        svg.dk-icon @-268,240 16x16
+        span.dk-ellipsis "Controls" @-244,240 52x20
+      a.dk-nav-item @-276,272 264x40
+        svg.dk-icon @-268,284 16x16
+        span.dk-ellipsis "Inputs" @-244,280 40x20
+      div.dk-nav-group [presentation] "Components" @-276,312 264x32
+      a.dk-nav-item @-276,344 264x40
+        svg.dk-icon @-268,356 16x16
+        span.dk-ellipsis "Cards and tiles" @-244,356 92x20
+      a.dk-nav-item.is-active {current=page} @-276,384 264x40
+        svg.dk-icon @-268,396 16x16
+        span.dk-ellipsis "Rows and facts" @-244,396 96x20
+      a.dk-nav-item @-276,428 264x40
+        svg.dk-icon @-268,440 16x16
+        span.dk-ellipsis "Table and filter" @-244,436 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,436 24x20
+      a.dk-nav-item @-276,468 264x40
+        svg.dk-icon @-268,480 16x16
+        span.dk-ellipsis "Forms and actions" @-244,480 116x20
+      a.dk-nav-item @-276,508 264x40
+        svg.dk-icon @-268,520 16x16
+        span.dk-ellipsis "Menus and feedback" @-244,520 132x20
+      a.dk-nav-item @-276,548 264x40
+        svg.dk-icon @-268,560 16x16
+        span.dk-ellipsis "Charts" @-244,560 40x20
+      a.dk-nav-item @-276,592 264x40
+        svg.dk-icon @-268,604 16x16
+        span.dk-ellipsis "Markdown" @-244,600 64x20
+      a.dk-nav-item @-276,632 264x40
+        svg.dk-icon @-268,644 16x16
+        span.dk-ellipsis "States and sheets" @-244,644 112x20
+      div.dk-nav-group [presentation] "Shell" @-276,672 264x32
+      a.dk-nav-item @-276,704 264x40
+        svg.dk-icon @-268,716 16x16
+        span.dk-ellipsis "Shell and boards" @-244,716 104x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x2112
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Rows and facts" @52,16 96x20
+      div.dk-toolbar-spacer @152,24 4x0
+      button.dk-fresh "Updated now" @160,4 92x40
+      button.dk-iconbtn "Reload" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Language" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x2064
+      section.dk-card @12,60 368x452
+        header.dk-card-head @12,60 364x40
+          div.dk-card-heading @24,72 340x20
+            h3.dk-card-title "metricRow() in list()" @24,72 340x20
+        div.dk-card-body @12,100 364x408
+          section.dk-card.dk-card-flush @24,112 340x272
+            div.dk-card-body @28,116 340x268
+              div.dk-list.dk-zebra [list] @28,116 340x268
+                button.dk-row.dk-row-btn @28,116 340x44
+                  span.dk-row-status @40,132 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,132 8x8
+                  span.dk-row-main @60,120 200x36
+                    span.dk-row-title.dk-ellipsis "Photo backup" @60,120 200x20
+                    span.dk-row-sub.dk-ellipsis "nas-a · daily 02:30" @60,136 200x16
+                  span.dk-row-value @268,120 56x36
+                    span.dk-num "4 hr. ago" @268,120 56x20
+                    span.dk-row-sub "21 min" @284,136 40x16
+                  span.dk-go @336,128 16x16
+                    svg.dk-icon @336,128 16x16
+                button.dk-row.dk-row-btn @28,160 340x44
+                  span.dk-row-status @40,176 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,176 8x8
+                  span.dk-row-main @60,164 200x36
+                    span.dk-row-title.dk-ellipsis "Document backup" @60,164 200x20
+                    span.dk-row-sub.dk-ellipsis "nas-a · daily 03:00" @60,184 200x16
+                  span.dk-row-value @268,164 56x36
+                    span.dk-num "4 hr. ago" @268,164 56x20
+                    span.dk-row-sub "3 min 4 s" @272,184 52x16
+                  span.dk-go @336,172 16x16
+                    svg.dk-icon @336,172 16x16
+                button.dk-row.dk-row-btn @28,204 340x44
+                  span.dk-row-status @40,224 8x8
+                    span.dk-dot.dk-s-bad [img] "Error" @40,224 8x8
+                  span.dk-row-main @60,208 200x36
+                    span.dk-row-title.dk-ellipsis "Offsite archive sync" @60,208 200x20
+                    span.dk-row-sub.dk-ellipsis "nas-b · daily 04:15" @60,228 200x16
+                  span.dk-row-value @268,208 56x36
+                    span.dk-num "3 hr. ago" @268,208 56x20
+                    span.dk-row-sub "31 s" @300,228 24x16
+                  span.dk-go @336,220 16x16
+                    svg.dk-icon @336,220 16x16
+                button.dk-row.dk-row-btn @28,248 340x44
+                  span.dk-row-status @40,268 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,268 8x8
+                  span.dk-row-main @60,252 192x36
+                    span.dk-row-title.dk-ellipsis "Certificate renewal" @60,252 192x20
+                    span.dk-row-sub.dk-ellipsis "edge-1 · Sun 05:00" @60,272 192x16
+                  span.dk-row-value @264,252 60x36
+                    span.dk-num "yesterday" @264,252 60x20
+                    span.dk-row-sub "12 s" @300,272 24x16
+                  span.dk-go @336,264 16x16
+                    svg.dk-icon @336,264 16x16
+                button.dk-row.dk-row-btn @28,292 340x44
+                  span.dk-row-status @40,312 8x8
+                    span.dk-dot.dk-s-warn [img] "Warning" @40,312 8x8
+                  span.dk-row-main @60,300 180x36
+                    span.dk-row-title.dk-ellipsis "Media library scan" @60,300 180x20
+                    span.dk-row-sub.dk-ellipsis "media-1 · every 2 h" @60,316 180x16
+                  span.dk-row-value @252,300 72x36
+                    span.dk-num "40 min. ago" @252,300 72x20
+                    span.dk-row-sub "49 min 10 s" @256,316 68x16
+                  span.dk-go @336,308 16x16
+                    svg.dk-icon @336,308 16x16
+                button.dk-row.dk-row-btn @28,340 340x44
+                  span.dk-row-status @40,356 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,356 8x8
+                  span.dk-row-main @60,344 200x36
+                    span.dk-row-title.dk-ellipsis "Log cleanup" @60,344 200x20
+                    span.dk-row-sub.dk-ellipsis "app-2 · daily 00:10" @60,364 200x16
+                  span.dk-row-value @268,344 56x36
+                    span.dk-num "7 hr. ago" @268,344 56x20
+                    span.dk-row-sub "4 s" @308,364 16x16
+                  span.dk-go @336,352 16x16
+                    svg.dk-icon @336,352 16x16
+      section.dk-card @12,528 368x388
+        header.dk-card-head @12,528 364x40
+          div.dk-card-heading @24,536 340x20
+            h3.dk-card-title "States" @24,536 340x20
+        div.dk-card-body @12,568 364x348
+          section.dk-card.dk-card-flush @24,580 340x324
+            div.dk-card-body @28,580 340x320
+              div.dk-list @28,580 340x320
+                button.dk-row.dk-row-btn @28,580 340x44
+                  span.dk-row-status @40,600 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,600 8x8
+                  span.dk-row-main @60,584 236x36
+                    span.dk-row-title.dk-ellipsis "Normal" @60,584 236x20
+                    span.dk-row-sub.dk-ellipsis "Subtitle" @60,604 236x16
+                  span.dk-row-value @308,592 16x20
+                    span.dk-num "12" @308,592 16x20
+                  span.dk-go @336,596 16x16
+                    svg.dk-icon @336,596 16x16
+                button.dk-row.dk-row-btn.is-hover @28,624 340x44
+                  span.dk-row-status @40,644 8x8
+                    span.dk-dot.dk-s-warn [img] "Warning" @40,644 8x8
+                  span.dk-row-main @60,632 244x36
+                    span.dk-row-title.dk-ellipsis "Hover (forced)" @60,632 244x20
+                    span.dk-row-sub.dk-ellipsis "Overlay" @60,648 244x16
+                  span.dk-row-value @316,640 8x20
+                    span.dk-num "3" @316,640 8x20
+                  span.dk-go @336,640 16x16
+                    svg.dk-icon @336,640 16x16
+                button.dk-row.dk-row-btn.is-pressed @28,672 340x44
+                  span.dk-row-status @40,692 8x8
+                    span.dk-dot.dk-s-ok [img] "OK" @40,692 8x8
+                  span.dk-row-main @60,676 244x36
+                    span.dk-row-title.dk-ellipsis "Pressed (forced)" @60,676 244x20
+                    span.dk-row-sub.dk-ellipsis "stronger overlay" @60,696 244x16
+                  span.dk-row-value @316,684 8x20
+                    span.dk-num "4" @316,684 8x20
+                  span.dk-go @336,688 16x16
+                    svg.dk-icon @336,688 16x16
+                button.dk-row.dk-row-btn.is-selected {current=true} @28,716 340x44
+                  span.dk-row-status @40,736 8x8
+                    span.dk-dot.dk-s-bad [img] "Error" @40,736 8x8
+                  span.dk-row-main @60,724 244x36
+                    span.dk-row-title.dk-ellipsis "Selected (detail open)" @60,724 244x20
+                    span.dk-row-sub.dk-ellipsis "Desktop: inspector" @60,740 244x16
+                  span.dk-row-value @316,732 8x20
+                    span.dk-num "1" @316,732 8x20
+                  span.dk-go @336,732 16x16
+                    svg.dk-icon @336,732 16x16
+                div.dk-row @28,764 340x44
+                  span.dk-row-status @40,784 8x8
+                    span.dk-dot.dk-s-unknown [img] "Unknown" @40,784 8x8
+                  span.dk-row-main @60,768 240x36
+                    span.dk-row-title.dk-ellipsis "No action, no chevron" @60,768 240x20
+                    span.dk-row-sub.dk-ellipsis "display only" @60,788 240x16
+                  span.dk-row-value @312,776 40x20
+                    span.dk-num "1.5 KB" @312,776 40x20
+                button.dk-row.dk-row-btn @28,808 340x44
+                  span.dk-row-status @40,828 8x8
+                    span.dk-dot.dk-s-pending [img] "Pending" @40,828 8x8
+                  span.dk-row-main @60,816 172x36
+                    span.dk-row-title.dk-ellipsis "A very long title that has to be truncated in a narrow colum" @60,816 172x20
+                    span.dk-row-sub.dk-ellipsis "a-very-long-hostname.example.internal · cron 15 3 * * 1-5" @60,832 172x16
+                  span.dk-row-value @240,816 84x36
+                    span.dk-num "123,456,789" @240,816 84x20
+                    span.dk-row-sub "2 d 7 h" @284,832 40x16
+                  span.dk-go @336,824 16x16
+                    svg.dk-icon @336,824 16x16
+                button.dk-row.dk-row-btn @28,856 340x44
+                  span.dk-row-status @40,876 8x8
+                    span.dk-dot.dk-s-off [img] "Off" @40,876 8x8
+                  span.dk-row-main @60,860 232x36
+                    span.dk-row-title.dk-ellipsis.dk-mono "rsync-offsite" @60,860 232x20
+                    span.dk-row-sub.dk-ellipsis "Monospace title" @60,880 232x16
+                  span.dk-row-value @304,868 20x20
+                    span.dk-num "0 B" @304,868 20x20
+                  span.dk-go @336,872 16x16
+                    svg.dk-icon @336,872 16x16
+      section.dk-card @12,932 368x172
+        header.dk-card-head @12,932 364x40
+          div.dk-card-heading @24,944 340x20
+            h3.dk-card-title "list() empty" @24,944 340x20
+        div.dk-card-body @12,972 364x132
+          section.dk-card.dk-card-flush @24,984 340x60
+            div.dk-card-body @28,984 340x60
+              div.dk-empty.dk-empty-compact @28,984 340x60
+                div.dk-empty-title "No problems" @156,1004 80x20
+      section.dk-card @12,1120 368x300
+        header.dk-card-head @12,1120 364x40
+          div.dk-card-heading @24,1132 340x20
+            h3.dk-card-title "kv() and facts()" @24,1132 340x20
+        div.dk-card-body @12,1160 364x256
+          section.dk-facts @24,1172 340x152
+            h3.dk-facts-title "Run" @24,1172 340x16
+            dl.dk-kv @24,1196 340x128
+              dt "Host" @24,1196 96x20
+              dd "nas-b" @136,1196 228x20
+              dt "Schedule" @24,1220 96x20
+              dd "daily 04:15" @136,1220 228x20
+              dt "Last run" @24,1244 96x20
+              dd "06:55 AM" @136,1244 228x20
+              dt "Duration" @24,1268 96x20
+              dd "31 s" @136,1268 228x20
+              dt "Error" @24,1288 96x36
+              dd.dk-t-bad "rsync: connection unexpectedly closed" @136,1288 228x36
+      section.dk-card @12,1436 368x664
+        header.dk-card-head @12,1436 364x40
+          div.dk-card-heading @24,1448 340x20
+            h3.dk-card-title "Long words" @24,1448 340x20
+        div.dk-card-body @12,1476 364x624
+          div.dk-stack @24,1488 300x468
+            div.dk-banner.dk-banner-warn [status] @24,1488 300x52
+              svg.dk-icon @40,1496 16x16
+              div.dk-banner-text "The collector reports: Medienbibliothek does not respond." @64,1496 252x32
+            section.dk-card.dk-card-flush @24,1556 300x48
+              div.dk-card-body @28,1556 300x44
+                div.dk-list [list] @28,1556 300x44
+                  button.dk-row.dk-row-btn @28,1556 300x44
+                    span.dk-row-status @40,1576 8x8
+                      span.dk-dot.dk-s-warn [img] "Warning" @40,1576 8x8
+                    span.dk-row-main @60,1560 92x36
+                      span.dk-row-title.dk-ellipsis "Occupational safety regulation" @60,1560 92x20
+                      span.dk-row-sub.dk-ellipsis "Donaudampfschifffahrtsgesellschaft" @60,1580 92x16
+                    span.dk-row-value @160,1568 124x20
+                      span.dk-num "Betriebssicherheitsverordnung" @160,1568 124x20
+                    span.dk-go @296,1572 16x16
+                      svg.dk-icon @296,1572 16x16
+            div.dk-tiles @24,1620 300x72
+              div.dk-stat @24,1620 148x72
+                div.dk-stat-label @40,1628 120x16
+                  span.dk-ellipsis "Datenschutzbeauftragtenbestellung" @40,1628 120x16
+                div.dk-stat-value.dk-num "3" @40,1648 120x24
+              div.dk-stat @180,1620 148x72
+                div.dk-stat-label @192,1628 120x16
+                  span.dk-ellipsis "Short" @192,1628 32x16
+                div.dk-stat-value.dk-num "4" @192,1648 120x24
+            section.dk-facts @24,1708 300x120
+              h3.dk-facts-title "Values" @24,1708 300x16
+              dl.dk-kv @24,1732 300x96
+                dt "Administration" @24,1732 96x20
+                dd "Medienbibliotheksverwaltung" @136,1732 188x20
+                dt "Path" @24,1752 96x72
+                dd "/srv/stack/compose/services/media-library/config/filters/exc" @136,1752 188x72
+            div.dk-empty.dk-empty-compact @24,1844 300x116
+              div.dk-empty-title "No entries" @144,1864 64x20
+              div.dk-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @36,1888 276x52

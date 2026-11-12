@@ -1,0 +1,19 @@
+{
+  // Type check of the kit's JSDoc types: `node tools/verify.mjs --types` (TypeScript as a pure checker, pinned in tools/verify/types.mjs).
+  // strict, except noImplicitAny: the public API (options, results, elements) is fully typed; parameters of private closures are
+  // inferred and may stay implicit. Real type errors are fixed, not silenced (no @ts-ignore; `any` only with a comment).
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "types": []
+  },
+  "include": ["js/**/*.js"]
+}

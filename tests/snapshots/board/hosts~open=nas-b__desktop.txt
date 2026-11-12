@@ -1,0 +1,212 @@
+# board #/hosts?open=nas-b · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x900
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      button.dk-brand.dk-brand-btn {expanded=false} "Sample board: switch board" @8,8 176x28
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "Sample board" @48,12 88x20
+        svg.dk-icon @144,16 16x16
+    nav.dk-nav "Views" @8,44 192x144
+      a.dk-nav-item @8,44 192x28
+        svg.dk-icon @16,52 16x16
+        span.dk-ellipsis "Overview" @40,48 60x20
+      a.dk-nav-item @8,72 192x28
+        svg.dk-icon @16,80 16x16
+        span.dk-ellipsis "Jobs" @40,76 32x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,80 24x20
+      a.dk-nav-item.is-active {current=page} @8,104 192x28
+        svg.dk-icon @16,108 16x16
+        span.dk-ellipsis "Hosts" @40,108 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,108 24x20
+      a.dk-nav-item @8,132 192x28
+        svg.dk-icon @16,136 16x16
+        span.dk-ellipsis "History" @40,136 44x20
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Deploy" @40,164 44x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 836x900
+    header.dk-toolbar @208,0 836x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Hosts" @252,12 36x20
+      div.dk-toolbar-spacer @292,20 512x0
+      button.dk-fresh "Updated 2 min. ago" @812,8 128x28
+      button.dk-iconbtn "Reload" @940,8 28x28
+        svg.dk-icon @948,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @972,8 28x28
+        svg.dk-icon @980,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1004,8 28x28
+        svg.dk-icon @1012,12 16x16
+    main.dk-content @208,44 836x656
+      section.dk-card.dk-card-flush @224,60 804x276
+        div.dk-card-body @224,60 804x276
+          div.dk-list [list] @224,60 804x276
+            button.dk-row.dk-row-btn @224,60 804x44
+              span.dk-row-status @236,80 8x8
+                span.dk-dot.dk-s-bad [img] "Error" @236,80 8x8
+              span.dk-row-main @256,68 660x36
+                span.dk-row-title.dk-ellipsis "app-2" @256,68 660x20
+                span.dk-row-sub.dk-ellipsis "Wiki, database" @256,84 660x16
+              span.dk-row-value @928,68 60x36
+                span.dk-num "94%" @960,68 28x20
+                span.dk-row-sub "CPU 41 %" @928,84 60x16
+              span.dk-go @1000,76 16x16
+                svg.dk-icon @1000,76 16x16
+            button.dk-row.dk-row-btn.is-selected @224,104 804x44
+              span.dk-row-status @236,124 8x8
+                span.dk-dot.dk-s-warn [img] "Warning" @236,124 8x8
+              span.dk-row-main @256,112 668x36
+                span.dk-row-title.dk-ellipsis "nas-b" @256,112 668x20
+                span.dk-row-sub.dk-ellipsis "Offsite archive" @256,132 668x16
+              span.dk-row-value @936,112 52x36
+                span.dk-num "85%" @960,112 28x20
+                span.dk-row-sub "CPU 1 %" @936,132 52x16
+              span.dk-go @1000,120 16x16
+                svg.dk-icon @1000,120 16x16
+            button.dk-row.dk-row-btn @224,152 804x44
+              span.dk-row-status @236,172 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,172 8x8
+              span.dk-row-main @256,156 660x36
+                span.dk-row-title.dk-ellipsis "nas-a" @256,156 660x20
+                span.dk-row-sub.dk-ellipsis "NAS, backups" @256,176 660x16
+              span.dk-row-value @928,156 60x36
+                span.dk-num "41%" @960,156 28x20
+                span.dk-row-sub "CPU 30 %" @928,176 60x16
+              span.dk-go @1000,168 16x16
+                svg.dk-icon @1000,168 16x16
+            button.dk-row.dk-row-btn @224,196 804x44
+              span.dk-row-status @236,216 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,216 8x8
+              span.dk-row-main @256,204 660x36
+                span.dk-row-title.dk-ellipsis "media-1" @256,204 660x20
+                span.dk-row-sub.dk-ellipsis "Media, index" @256,224 660x16
+              span.dk-row-value @928,204 60x36
+                span.dk-num "60%" @960,204 28x20
+                span.dk-row-sub "CPU 44 %" @928,224 60x16
+              span.dk-go @1000,212 16x16
+                svg.dk-icon @1000,212 16x16
+            button.dk-row.dk-row-btn @224,244 804x44
+              span.dk-row-status @236,264 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,264 8x8
+              span.dk-row-main @256,248 668x36
+                span.dk-row-title.dk-ellipsis "app-1" @256,248 668x20
+                span.dk-row-sub.dk-ellipsis "Services" @256,268 668x16
+              span.dk-row-value @936,248 52x36
+                span.dk-num "35%" @960,248 28x20
+                span.dk-row-sub "CPU 5 %" @936,268 52x16
+              span.dk-go @1000,260 16x16
+                svg.dk-icon @1000,260 16x16
+            button.dk-row.dk-row-btn @224,288 804x44
+              span.dk-row-status @236,308 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @236,308 8x8
+              span.dk-row-main @256,296 668x36
+                span.dk-row-title.dk-ellipsis "edge-1" @256,296 668x20
+                span.dk-row-sub.dk-ellipsis "Proxy, DNS" @256,316 668x16
+              span.dk-row-value @936,296 52x36
+                span.dk-num "25%" @960,296 28x20
+                span.dk-row-sub "CPU 9 %" @936,316 52x16
+              span.dk-go @1000,304 16x16
+                svg.dk-icon @1000,304 16x16
+      section.dk-section @224,356 804x312
+        header.dk-section-head @224,356 804x24
+          h2.dk-section-title "Storage" @228,360 800x16
+        section.dk-card @224,388 804x280
+          div.dk-card-body @224,388 804x276
+            div.dk-stack @236,400 780x252
+              div.dk-usage @236,400 780x28
+                div.dk-progress-head @236,400 780x16
+                  span.dk-usage-label.dk-ellipsis "nas-a" @236,400 628x16
+                  span.dk-usage-val.dk-num "384 GB of 931 GB" @872,400 144x16
+                    span.dk-usage-pct "· 41%" @980,400 36x16
+                div.dk-progress.dk-tone-ok [progressbar] @236,424 780x8
+                  span.dk-progress-fill @236,424 320x8
+              div.dk-usage @236,448 780x28
+                div.dk-progress-head @236,448 780x16
+                  span.dk-usage-label.dk-ellipsis "nas-b" @236,448 628x16
+                  span.dk-usage-val.dk-num "793 GB of 931 GB" @872,448 144x16
+                    span.dk-usage-pct.dk-t-warn "· 85%" @980,448 36x16
+                div.dk-progress.dk-tone-warn [progressbar] @236,468 780x8
+                  span.dk-progress-fill @236,468 664x8
+              div.dk-usage @236,492 780x28
+                div.dk-progress-head @236,492 780x16
+                  span.dk-usage-label.dk-ellipsis "media-1" @236,492 624x16
+                  span.dk-usage-val.dk-num "1.09 TB of 1.82 TB" @868,492 148x16
+                    span.dk-usage-pct "· 60%" @980,492 36x16
+                div.dk-progress.dk-tone-ok [progressbar] @236,516 780x8
+                  span.dk-progress-fill @236,516 468x8
+              div.dk-usage @236,536 780x28
+                div.dk-progress-head @236,536 780x16
+                  span.dk-usage-label.dk-ellipsis "app-1" @236,536 636x16
+                  span.dk-usage-val.dk-num "82 GB of 233 GB" @880,536 136x16
+                    span.dk-usage-pct "· 35%" @980,536 36x16
+                div.dk-progress.dk-tone-ok [progressbar] @236,560 780x8
+                  span.dk-progress-fill @236,560 276x8
+              div.dk-usage @236,580 780x28
+                div.dk-progress-head @236,580 780x16
+                  span.dk-usage-label.dk-ellipsis "app-2" @236,580 628x16
+                  span.dk-usage-val.dk-num "220 GB of 233 GB" @872,580 144x16
+                    span.dk-usage-pct.dk-t-bad "· 94%" @980,580 36x16
+                div.dk-progress.dk-tone-bad [progressbar] @236,604 780x8
+                  span.dk-progress-fill @236,604 736x8
+              div.dk-usage @236,624 780x28
+                div.dk-progress-head @236,624 780x16
+                  span.dk-usage-label.dk-ellipsis "edge-1" @236,624 624x16
+                  span.dk-usage-val.dk-num "7.45 GB of 29.8 GB" @868,624 148x16
+                    span.dk-usage-pct "· 25%" @980,624 36x16
+                div.dk-progress.dk-tone-ok [progressbar] @236,648 780x8
+                  span.dk-progress-fill @236,648 196x8
+  aside.dk-inspector "Details" @1044,0 380x900
+    header.dk-sheet-head @1048,0 380x44
+      div.dk-sheet-heading @1064,4 320x36
+        h2.dk-sheet-title.dk-ellipsis "nas-b" @1064,4 320x20
+        div.dk-sheet-sub "Offsite archive" @1064,24 320x16
+      button.dk-iconbtn "Close details" @1388,8 28x28
+        svg.dk-icon @1396,12 16x16
+    div.dk-inspector-body @1048,44 380x856
+      div.dk-banner.dk-banner-warn [status] @1064,60 348x36
+        svg.dk-icon @1076,72 16x16
+        div.dk-banner-text "Restarted 3 days ago" @1100,68 296x16
+      section.dk-facts @1064,112 348x80
+        h3.dk-facts-title "Load" @1064,112 348x16
+        div.dk-cols @1064,136 348x56
+          div.dk-donut [img] " 0.34" @1064,136 164x56
+            div.dk-donut-ring @1064,136 56x56
+              svg.dk-svg @1064,136 56x56
+              div.dk-donut-center @1064,136 56x56
+                span.dk-donut-val.is-small "34%" @1076,152 28x12
+                span.dk-donut-sub "RAM" @1076,164 28x12
+          div.dk-usage @1244,136 164x44
+            div.dk-progress-head @1244,136 164x32
+              span.dk-usage-label.dk-ellipsis "Disk" @1244,136 164x16
+              span.dk-usage-val.dk-num "793 GB of 931 GB" @1268,152 144x16
+                span.dk-usage-pct.dk-t-warn "· 85%" @1372,152 36x16
+            div.dk-progress.dk-tone-warn [progressbar] @1244,176 164x8
+              span.dk-progress-fill @1244,176 140x8
+      section.dk-facts @1064,208 348x156
+        h3.dk-facts-title "CPU, 48 h" @1064,208 348x16
+        div.dk-chart.dk-chart-line [img] @1064,232 348x132
+          div.dk-chart-plot @1064,232 348x132
+            svg.dk-svg @1064,232 348x132
+      section.dk-facts @1064,376 348x64
+        h3.dk-facts-title "Facts" @1064,376 348x16
+        dl.dk-kv @1064,400 348x40
+          dt "Uptime" @1064,400 96x20
+          dd "3 d" @1176,400 236x20
+          dt "Jobs" @1064,424 96x20
+          dd "1" @1176,424 236x20
+      section.dk-facts @1064,460 348x68
+        h3.dk-facts-title "Jobs" @1064,460 348x16
+        div.dk-list [list] @1064,484 348x44
+          button.dk-row.dk-row-btn @1064,484 348x44
+            span.dk-row-status @1076,500 8x8
+              span.dk-dot.dk-s-bad [img] "Error" @1076,500 8x8
+            span.dk-row-main @1096,488 208x36
+              span.dk-row-title.dk-ellipsis "Offsite archive sync" @1096,488 208x20
+              span.dk-row-sub.dk-ellipsis "nas-b · daily 04:15 AM" @1096,504 208x16
+            span.dk-row-value @1316,488 56x36
+              span.dk-num "4 hr. ago" @1316,488 56x20
+              span.dk-row-sub "45 min" @1328,504 40x16
+            span.dk-go @1380,496 16x16
+              svg.dk-icon @1380,496 16x16

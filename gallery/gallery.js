@@ -1,0 +1,281 @@
+// dashkit · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell).
+// Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
+import {
+  h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
+  metricRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
+  cols, stack, openSheet, markdown, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
+} from '../js/dashkit.js';
+import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
+import { viewInputs } from './gallery-inputs.js';
+import { viewForms } from './gallery-forms.js';
+import { REPORT, SECURITY_CASES } from './markdown-sample.js';
+
+/* ---- helpers ---- */
+const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
+const demo = (title, usage, ...stage) => card({ title }, h('div', { class: 'g-demo' }, stage, usage && code(usage)));
+const state = (label, el) => h('div', { class: 'g-state' }, el, h('span', { class: 'g-state-l' }, label));
+const stage = (...k) => h('div', { class: 'g-stage' }, k);
+const noop = () => {};
+
+const src = dataSource({ url: './fixture.json', interval: 60_000, staleAfter: 900 });
+const jobsOf = (ctx) => ctx.data?.jobs || [];
+const now = () => Date.now();
+const lastAt = (j) => (j.lastAgoSec == null ? null : now() - j.lastAgoSec * 1000);
+
+/* ================= Tokens: foundations ================= */
+function viewBasics() {
+  const sw = (name, v) => h('div', { class: 'g-swatch' }, h('div', { class: 'g-swatch-c', style: { '--g-c': `var(${v})` } }), h('span', null, name), h('code', null, v));
+  return [
+    h('p', { class: 'g-intro' }, 'Quiet, dark-grey desktop look in a dense ops-console style: small type, hairlines instead of shadows, status dots, small radii. Switch between system, light and dark at the top right. All values live in css/tokens.css; boards use only these variables.'),
+    section('Status', {}, card({}, h('div', { class: 'g-swatches' },
+      ['ok', 'warn', 'bad', 'unknown', 'pending', 'info'].map((k) => sw(`${k} · ${STATUS_TEXT[k]}`, `--dk-${k}`))))),
+    section('Status as text and primary button', {}, card({}, h('div', { class: 'g-swatches' },
+      [['ok-text', '--dk-ok-text'], ['warn-text', '--dk-warn-text'], ['bad-text', '--dk-bad-text'], ['info-text', '--dk-info-text'], ['primary', '--dk-primary']].map(([n, v]) => sw(n, v))))),
+    section('Accents', {}, card({}, h('div', { class: 'g-swatches' },
+      ['blue', 'purple', 'pink', 'orange', 'green', 'graphite'].map((k) => sw(k, `--dk-${k}`))))),
+    section('Surfaces and text', {}, card({}, h('div', { class: 'g-swatches' },
+      [['Background', '--dk-bg'], ['Card', '--dk-card'], ['Zebra', '--dk-card-2'], ['Popover', '--dk-popover'], ['Hairline', '--dk-border'], ['Text', '--dk-text'], ['Text 2', '--dk-text-2'], ['Text 3', '--dk-text-3']].map(([n, v]) => sw(n, v))))),
+    section('Typography', {}, card({}, h('div', { class: 'g-type' },
+      h('div', null, h('small', null, 'stat 20/600'), h('span', { class: 'dk-stat-value dk-num' }, fmtNum(12345.6, 1))),
+      h('div', null, h('small', null, 'lg 15/600'), h('span', { class: 'dk-sheet-title' }, 'Title in the detail')),
+      h('div', null, h('small', null, 'body 13/400'), h('span', null, 'Running text and rows, formatted for the language: ', fmtBytes(48318382080), ' · ', fmtDuration(2950))),
+      h('div', null, h('small', null, 'title 13/600'), h('strong', null, 'Card title')),
+      h('div', null, h('small', null, 'label 12/500'), h('span', { class: 'dk-stat-label' }, 'Label, subtitle')),
+      h('div', null, h('small', null, 'section 11.5/600'), h('span', { class: 'dk-section-title' }, 'Section')),
+      h('div', null, h('small', null, 'mono 12/500'), h('span', { class: 'dk-mono' }, 'rsync exit 12 · 02:30:00'))))),
+    section('Icons', { count: ICON_NAMES.length }, card({}, h('div', { class: 'g-icons' }, ICON_NAMES.map((n) => h('div', { class: 'g-icon' }, icon(n), n))))),
+  ];
+}
+
+/* ================= Primitives: buttons and status ================= */
+function viewButtons() {
+  const variants = ['default', 'primary', 'ghost', 'danger'];
+  return [
+    demo('button()', `button('Save', { variant: 'primary', icon: 'check', onClick })\nvariant: default | primary | ghost | danger · small · disabled`,
+      variants.map((v) => stage(
+        state(v, button(v === 'danger' ? 'Delete' : 'Reload', { variant: v, icon: v === 'danger' ? null : 'refresh', onClick: noop })),
+        state('hover', button('Hover', { variant: v, className: 'is-hover' })),
+        state('pressed', button('Pressed', { variant: v, className: 'is-pressed' })),
+        state('disabled', button('Disabled', { variant: v, disabled: true })),
+        state('small', button('Small', { variant: v, small: true })),
+      ))),
+    demo('iconButton()', `iconButton('refresh', { label: 'Reload', onClick })  // label is required\niconButton('sidebar', { label: 'Sidebar', pressed: true })`,
+      stage(
+        state('normal', iconButton('refresh', { label: 'Reload' })),
+        state('hover', iconButton('more', { label: 'More', className: 'is-hover' })),
+        state('pressed', iconButton('filter', { label: 'Filter', className: 'is-pressed' })),
+        state('aria-pressed', iconButton('sidebar', { label: 'Sidebar', pressed: true })),
+        state('disabled', iconButton('x', { label: 'Close', disabled: true })))),
+    demo('statusDot()', `statusDot('bad')                       // dot only, aria-label = status text\nstatusDot('ok', { label: 'running' })   // dot plus text`,
+      stage(Object.keys(STATUS_TEXT).map((k) => state(k, statusDot(k, { label: STATUS_TEXT[k] }))))),
+    demo('badge()', `badge('3 errors', { tone: 'bad' })\nbadge('94', { count: true })   // counter in the sidebar`,
+      stage(
+        ['neutral', 'ok', 'warn', 'bad', 'info', 'pending'].map((tone) => state(tone, badge(tone === 'neutral' ? 'Backup' : STATUS_TEXT[tone], { tone }))),
+        state('counter', badge('94', { count: true })),
+        state('counter bad', badge('3', { count: true, tone: 'bad' })))),
+  ];
+}
+
+/* ================= Components: cards and tiles ================= */
+function viewCards(ctx) {
+  const jobs = jobsOf(ctx);
+  const bad = jobs.filter((j) => j.status === 'bad').length, warn = jobs.filter((j) => j.status === 'warn').length;
+  const box = (txt) => card({}, h('span', { class: 'dk-muted' }, txt));
+  return [
+    demo('statTile()', `statTile({ label: 'Jobs', value: 12, sub: '1 error', status: 'bad', onClick: () => app.go('table') })\ntiles(tile, tile, …)   // grid, two columns on phones`,
+      tiles(
+        statTile({ label: 'Jobs', value: jobs.length, sub: `${bad} ${bad === 1 ? 'error' : 'errors'} · ${warn} ${warn === 1 ? 'warning' : 'warnings'}`, status: bad ? 'bad' : 'ok', onClick: () => ctx.app.go('table') }),
+        statTile({ label: 'Storage used', value: fmtNum(7.3, 1), unit: 'TB', sub: `of 12 TB · ${fmtPct(0.61, 0)}`, status: 'ok' }),
+        statTile({ label: 'Media scan', value: fmtDuration(2950), sub: 'above threshold', status: 'warn', onClick: () => ctx.app.go('table', { open: 'media-scan' }) }),
+        statTile({ label: 'Next run', value: '09:00', sub: 'Update check', status: 'pending' }),
+        statTile({ label: 'A very long label of a tile that gets truncated', value: fmtNum(123456789.12), sub: 'equally long subtitle with overflow', status: 'unknown' }),
+        statTile({ label: 'Hover', value: 42, sub: 'state forced', onClick: noop, className: 'is-hover' }),
+      ),
+      loading({ tiles: 3 })),
+    demo('card() and section()', `section('Problems', { count: 2, actions: button(…) },\n  card({ title: 'Backups', sub: 'nas-a, nas-b', actions: iconButton(…), flush: true }, content))`,
+      h('div', { class: 'g-grid2' },
+        section('Problems', { count: 2, actions: button('All', { variant: 'ghost', small: true, iconAfter: 'chevron-right' }) },
+          card({ flush: true }, list(jobs.filter((j) => ['bad', 'warn'].includes(j.status)), (j) => jobRow(j, ctx)))),
+        card({ title: 'Card title', sub: 'Subtitle with context', actions: [iconButton('refresh', { label: 'Reload' }), iconButton('more', { label: 'More' })] },
+          h('p', { class: 'dk-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
+    demo('cols() and stack()', `cols(a, b)                    // columns, side by side from 340 px content width, else stacked\ncols({ min: 280 }, a, b, c)   // smaller minimum width per column\nstack(a, b)                   // vertical stack with the standard gap`,
+      cols(stack(box('stack: first'), box('stack: second')), box('cols: second column'), cols({ min: 160 }, box('small 1'), box('small 2')))),
+  ];
+}
+
+/* ================= Components: rows, lists, facts ================= */
+function jobRow(j, ctx, extra = {}) {
+  return metricRow({
+    key: j.id, title: j.name, sub: `${j.host} · ${j.schedule}`, status: j.status,
+    value: j.lastAgoSec == null ? '–' : fmtAgo(j.lastAgoSec), valueSub: j.durationSec != null ? fmtDuration(j.durationSec) : null,
+    onClick: () => ctx.app.open(j.id), ...extra,
+  });
+}
+function viewRows(ctx) {
+  const jobs = jobsOf(ctx);
+  return [
+    demo('metricRow() in list()', `list(items, (j) => metricRow({ title, sub, value, valueSub, status, key: j.id,\n  onClick: () => app.open(j.id) }), { zebra: true })   // whole row tappable, chevron on the right`,
+      card({ flush: true }, list(jobs.slice(0, 6), (j) => jobRow(j, ctx), { zebra: true }))),
+    demo('States', null, card({ flush: true }, h('div', { class: 'dk-list' },
+      metricRow({ title: 'Normal', sub: 'Subtitle', value: '12', status: 'ok', onClick: noop }),
+      metricRow({ title: 'Hover (forced)', sub: 'Overlay', value: '3', status: 'warn', onClick: noop, className: 'is-hover' }),
+      metricRow({ title: 'Pressed (forced)', sub: 'stronger overlay', value: '4', status: 'ok', onClick: noop, className: 'is-pressed' }),
+      metricRow({ title: 'Selected (detail open)', sub: 'Desktop: inspector', value: '1', status: 'bad', onClick: noop, selected: true }),
+      metricRow({ title: 'No action, no chevron', sub: 'display only', value: fmtBytes(1536), status: 'unknown' }),
+      metricRow({ title: 'A very long title that has to be truncated in a narrow column instead of wrapping', sub: 'a-very-long-hostname.example.internal · cron 15 3 * * 1-5', value: fmtNum(123456789, 0), valueSub: fmtDuration(200000), status: 'pending', onClick: noop }),
+      metricRow({ title: 'rsync-offsite', sub: 'Monospace title', mono: true, value: '0 B', status: 'off', onClick: noop })))),
+    demo('list() empty', `list([], render, { empty: 'No problems' })`, card({ flush: true }, list([], noop, { empty: 'No problems' }))),
+    demo('kv() and facts()', `facts('Run', kv([['Host', 'nas-a'], ['Duration', '21 min'], ['Error', text, 'dk-t-bad']]))  // empty values are dropped`,
+      h('div', { class: 'g-narrow' }, facts('Run', kv([['Host', 'nas-b'], ['Schedule', 'daily 04:15'], ['Last run', fmtWhen(now() - 11100e3)], ['Duration', fmtDuration(31)], ['Empty', null], ['Error', 'rsync: connection unexpectedly closed', 'dk-t-bad']])))),
+    demo('Long words', `// No building block breaks a word letter by letter: names/titles use an ellipsis plus hint, running text wraps at word boundaries.
+// verify (rule wordbreak) checks letter-only words of 10+ characters; paths, IDs and URLs may break anywhere.`,
+      h('div', { class: 'g-narrow-s' }, stack(
+        banner('The collector reports: Medienbibliothek does not respond.', { tone: 'warn' }),
+        card({ flush: true }, list([{ title: 'Occupational safety regulation', sub: 'Donaudampfschifffahrtsgesellschaft', value: 'Betriebssicherheitsverordnung', status: 'warn' }], (r) => metricRow({ ...r, onClick: noop }))),
+        tiles(statTile({ label: 'Datenschutzbeauftragtenbestellung', value: '3' }), statTile({ label: 'Short', value: '4' })),
+        facts('Values', kv([['Administration', 'Medienbibliotheksverwaltung'], ['Path', '/srv/stack/compose/services/media-library/config/filters/exclude.list']])),
+        empty({ title: 'No entries', text: 'There were no Geschwindigkeitsbegrenzungsüberschreitungen in the period.', compact: true })))),
+  ];
+}
+
+/* ================= Components: table, filter, detail ================= */
+const tableState = { q: '', f: {}, sort: { key: 'status', dir: 'asc' } };
+const RANK = { bad: 0, warn: 1, pending: 2, unknown: 3, ok: 4, off: 5 };
+function jobColumns() {
+  return [
+    { key: 'name', label: 'Name', mobile: 'title' },
+    { key: 'host', label: 'Host', mono: true },
+    { key: 'kind', label: 'Type' },
+    { key: 'schedule', label: 'Schedule', sortable: false, wrap: true },
+    { key: 'status', label: 'Status', get: (j) => RANK[j.status], render: (j) => STATUS_TEXT[j.status], mobile: 'hide' },
+    { key: 'last', label: 'Last run', align: 'right', get: (j) => (j.lastAgoSec == null ? null : -j.lastAgoSec), render: (j) => (j.lastAgoSec == null ? '–' : fmtAgo(j.lastAgoSec)), mobile: 'value' },
+    { key: 'bytes', label: 'Size', align: 'right', get: (j) => j.bytes, render: (j) => fmtBytes(j.bytes) },
+  ];
+}
+function viewTable(ctx) {
+  if (!ctx.data) return ctx.src?.error ? error({ text: ctx.src.error, onRetry: () => src.reload() }) : loading({ rows: 6 });
+  // ?rows=1000 repeats the jobs (tempo case: apply a filter to many rows)
+  const many = Math.min(5000, Number(ctx.params?.rows) || 0);
+  const base = jobsOf(ctx);
+  const jobs = many ? Array.from({ length: many }, (_, i) => ({ ...base[i % base.length], id: `${base[i % base.length].id}-${i}`, name: `${base[i % base.length].name} ${i + 1}` })) : base;
+  const rowValue = (j, k) => ({ failing: j.fails7 > 0, duration: j.durationSec == null ? null : j.durationSec / 60, last: lastAt(j) })[k] ?? j[k];
+  const filtered = () => jobs.filter((j) => matchQuery(`${j.name} ${j.host} ${j.kind}`, tableState.q) && matchFilters(j, tableState.f, rowValue));
+  const count = (k, v) => jobs.filter((j) => j[k] === v).length;
+  const tbl = table({
+    columns: jobColumns(), rows: filtered(), status: (j) => j.status, rowKey: (j) => j.id, onRow: (j) => ctx.app.open(j.id),
+    sort: tableState.sort, onSort: (s) => { tableState.sort = s; }, selected: ctx.open, empty: 'No matches', caption: 'Jobs',
+  });
+  const fb = filterBar({
+    placeholder: 'Search jobs …', value: tableState,
+    filters: [
+      { key: 'status', label: 'Status', options: ['bad', 'warn', 'pending', 'unknown', 'ok', 'off'].map((k) => ({ value: k, label: STATUS_TEXT[k], count: count('status', k) })) },
+      { key: 'kind', label: 'Type', options: [...new Set(jobs.map((j) => j.kind))].map((k) => ({ value: k, label: k, count: count('kind', k) })) },
+      { key: 'host', label: 'Host', pills: 6, options: [...new Set(jobs.map((j) => j.host))].sort().map((k) => ({ value: k, label: k, count: count('host', k) })) },
+      { key: 'failing', label: 'Failed in 7 days', type: 'bool' },
+      { key: 'duration', label: 'Duration', type: 'range', unit: 'min', min: 0 },
+      { key: 'last', label: 'Last run', type: 'time', presets: ['1h', '24h', '7d'] },
+    ],
+    count: () => `${filtered().length} of ${jobs.length}`,
+    onChange: (s) => { tableState.q = s.q; tableState.f = s.f; tbl.update({ rows: filtered() }); fb.refresh(); },
+  });
+  return [
+    h('p', { class: 'g-intro' }, 'table() with filterBar(): sortable columns, sticky header, tap a row for the detail (desktop in the inspector on the right, tablet as a panel from the right, phone as a bottom sheet; Back closes). Below 600 px container width (or when the columns do not fit) the table becomes a two-line list – shown bottom right in a narrow container.'),
+    fb,
+    card({ flush: true }, tbl),
+    code(`table({ columns: [{ key, label, get?, render?, align: 'right', mono?, mobile: 'title'|'value'|'sub'|'hide' }],
+  rows, status: (r) => r.status, rowKey: (r) => r.id, onRow: (r) => app.open(r.id), sort: { key, dir } })
+filterBar({ placeholder, onChange, count: (state) => '5 of 12', filters: [
+  { key: 'status', label: 'Status', options: [{ value, label, count }] },            // type 'options' (default): pills, from 9 values a combobox
+  { key: 'failing', label: 'Failed', type: 'bool' },                                 // All · Yes · No
+  { key: 'duration', label: 'Duration', type: 'range', unit: 'min' },               // from/to → chip 'Duration ≥ 10 min'
+  { key: 'last', label: 'Last run', type: 'time', presets: ['1h', '24h', '7d'] },   // presets + own period
+] })
+rows.filter((row) => matchFilters(row, state.f, (row, key) => row[key], { now }))   // every type
+// Detail: view.detail(id, ctx) → { title, sub, body } – the shell decides inspector/panel/sheet`),
+    h('div', { class: 'g-grid2' },
+      section('Empty', {}, card({ flush: true }, table({ columns: jobColumns(), rows: [], empty: 'No jobs in this selection' }))),
+      section('Narrow container (list mode)', {}, h('div', { class: 'g-narrow' }, card({ flush: true }, table({ columns: jobColumns(), rows: jobs.slice(0, 4), status: (j) => j.status, onRow: (j) => ctx.app.open(j.id), rowKey: (j) => j.id }))))),
+  ];
+}
+function jobDetail(id, ctx) {
+  const j = jobsOf(ctx).find((x) => x.id === id);
+  if (!j) return null;
+  return {
+    title: j.name, sub: `${j.host} · ${j.kind}`,
+    body: [
+      j.status === 'bad' && banner(j.error || 'Last run failed', { tone: 'bad' }),
+      j.hint && banner(j.hint, { tone: j.status === 'unknown' ? 'info' : 'warn' }),
+      facts('Status', kv([['State', statusDot(j.status, { label: STATUS_TEXT[j.status] })], ['Schedule', j.schedule], ['Last run', lastAt(j) && `${fmtWhen(lastAt(j))} (${fmtAgo(j.lastAgoSec)})`], ['Duration', j.durationSec != null && fmtDuration(j.durationSec)]])),
+      facts('Result', kv([['Size', j.bytes != null && fmtBytes(j.bytes)], ['Runs, 7 days', fmtNum(j.runs7, 0)], ['Errors, 7 days', j.fails7 ? fmtNum(j.fails7, 0) : '0', j.fails7 ? 'dk-t-bad' : null], ['Success rate', j.runs7 ? fmtPct((j.runs7 - j.fails7) / j.runs7) : null]])),
+      facts('Technical', kv([['ID', j.id], ['Host', j.host]], { mono: true })),
+      toolbarRow(button('Run now', { icon: 'refresh', onClick: () => {} }), button('Open log', { variant: 'ghost', iconAfter: 'external' })),
+    ],
+  };
+}
+
+/* ================= Components: markdown ================= */
+function viewMarkdown() {
+  return [
+    h('p', { class: 'g-intro' }, 'markdown(text, opts) for agent reports, e.g. in the detail. Own parser, no library; the text becomes DOM nodes, raw HTML appears as text. Links only http(s), mailto and relative (external ones with rel="noopener noreferrer"), images off by default.'),
+    demo('markdown()', `markdown(report)                        // full variant\nmarkdown(report, { compact: true })     // denser, for sheets and the inspector\nmarkdown(text, { images: true })        // images only for relative paths`,
+      card({}, markdown(REPORT))),
+    demo('compact (detail width)', `facts('Run report', markdown(job.report, { compact: true }))`,
+      h('div', { class: 'g-narrow' }, card({}, markdown(REPORT, { compact: true })))),
+    demo('Security', `markdown('<script>alert(1)</script>')   // text, never HTML\nmarkdown('[x](javascript:alert(1))')   // link becomes text`,
+      h('div', { class: 'g-grid2' }, SECURITY_CASES.map(([label, txt]) => state(label, card({}, markdown(txt)))))),
+  ];
+}
+
+/* ================= Components: states, sheets ================= */
+function viewStates() {
+  return [
+    h('div', { class: 'g-grid2' },
+      demo('empty()', `empty({ title: 'No problems', text: 'All jobs ran without errors recently.', icon: 'check' })`,
+        card({}, empty({ title: 'No problems', text: 'All jobs ran without errors recently.', icon: 'check' }))),
+      demo('error()', `error({ title: 'Loading failed', text: e.message, onRetry: () => src.reload() })`,
+        card({}, error({ text: 'HTTP 502 · /api/snapshot', onRetry: noop }))),
+      demo('loading()', `loading({ rows: 4 })   // skeleton, pulses via opacity only\nloading({ tiles: 4 })`,
+        card({ flush: true }, loading({ rows: 4 }))),
+      demo('banner()', `banner('Data is stale: updated 2 h ago', { tone: 'bad' })   // the shell shows data-age banners itself`,
+        h('div', { class: 'g-stage-col' },
+          banner('Data is stale: updated 2 h ago. The collector is probably not running.', { tone: 'bad' }),
+          banner('Update failed, showing the last data.', { tone: 'warn' }),
+          banner('New data format, display may be incomplete.', { tone: 'info' }),
+          banner('A very long notice with an-unbreakable-path/opt/stack/compose/services/something/backup.yml that has to wrap.', { tone: 'warn' })))),
+    demo('openSheet() directly', `openSheet({ title, sub, body, footer: [button(…)], onClose })   // for non-detail dialogs (e.g. filter)`,
+      stage(button('Open sheet', { onClick: () => { const sh = openSheet({ title: 'Example sheet', sub: 'Phone: swipe down closes; wider: panel from the right', body: [kv([['Width', '< 700 px bottom sheet'], ['otherwise', 'panel from the right']]), loading({ rows: 8 })], footer: [button('Close', { variant: 'primary', onClick: () => sh.close() })] }); } }))),
+  ];
+}
+
+/* ================= App ================= */
+const app = createApp({
+  title: 'dashkit Gallery',
+  icon: './favicon.svg',
+  locales: ['en', 'de'],
+  source: src,
+  views: [
+    { id: 'foundations', group: 'Tokens', label: 'Foundations', icon: 'grid', render: viewBasics },
+    { id: 'themes', label: 'Light and dark', icon: 'contrast', render: viewThemes },
+    { id: 'buttons', group: 'Primitives', label: 'Buttons and status', icon: 'check', render: viewButtons },
+    { id: 'controls', label: 'Controls', icon: 'more', render: viewControls },
+    { id: 'inputs', label: 'Inputs', icon: 'edit', render: viewInputs },
+    { id: 'cards', group: 'Components', label: 'Cards and tiles', icon: 'box', render: viewCards, detail: jobDetail },
+    { id: 'rows', label: 'Rows and facts', icon: 'list', render: viewRows, detail: jobDetail },
+    { id: 'table', label: 'Table and filter', icon: 'server', render: viewTable, detail: jobDetail, count: tableCount },
+    { id: 'forms', label: 'Forms and actions', icon: 'rocket', render: viewForms },
+    { id: 'feedback', label: 'Menus and feedback', icon: 'info', render: viewFeedback },
+    { id: 'charts', label: 'Charts', icon: 'chart', render: viewCharts },
+    { id: 'markdown', label: 'Markdown', icon: 'list', render: viewMarkdown },
+    { id: 'states', label: 'States and sheets', icon: 'alert', render: viewStates },
+    { id: 'shell', group: 'Shell', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
+  ],
+});
+/* The sidebar counter comes from the data, not from whether the view was already drawn (that would depend on the order). */
+function tableCount(ctx) {
+  const jobs = jobsOf(ctx);
+  if (!jobs.length) return null;
+  const bad = jobs.filter((j) => j.status === 'bad').length;
+  return { n: bad || jobs.length, tone: bad ? 'bad' : null };
+}
+src.start();
+window.dkApp = app; // for scripts/console

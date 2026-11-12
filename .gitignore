@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+
+# Node (the kit has no dependencies; keep stray installs out)
+node_modules/
+npm-debug.log*
+
+# Output of the check tools (verify --out, screenshots, tempo raw data, reports)
+.verify-out/
+verify-out/
+out/
+*.log
+
+# Local browser profiles and temporary files
+.chrome-profile/
+chrome-profile/
+tmp/
+.tmp/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# A board's vendored copy lives in the board repository, not here
+vendor/

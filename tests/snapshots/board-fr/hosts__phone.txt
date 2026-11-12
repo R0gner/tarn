@@ -1,0 +1,159 @@
+# board-fr #/hosts · phone 390×844 · dunkel
+div.dk-app @0,0 392x844
+  aside.dk-sidebar @-284,0 280x844
+    div.dk-sidebar-head @-276,0 264x48
+      button.dk-brand.dk-brand-btn {expanded=false} "Tableau démo : changer de tableau" @-276,4 248x40
+        span.dk-bicon @-268,12 24x24
+          img.dk-bicon-img @-268,12 24x24
+        span.dk-ellipsis "Tableau démo" @-236,16 88x20
+        svg.dk-icon @-140,16 16x16
+    nav.dk-nav "Vues" @-276,48 264x204
+      a.dk-nav-item @-276,48 264x40
+        svg.dk-icon @-268,60 16x16
+        span.dk-ellipsis "Aperçu" @-244,60 44x20
+      a.dk-nav-item @-276,88 264x40
+        svg.dk-icon @-268,100 16x16
+        span.dk-ellipsis "Tâches" @-244,100 44x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,100 24x20
+      a.dk-nav-item.is-active {current=page} @-276,132 264x40
+        svg.dk-icon @-268,144 16x16
+        span.dk-ellipsis "Hôtes" @-244,140 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @-44,140 24x20
+      a.dk-nav-item @-276,172 264x40
+        svg.dk-icon @-268,184 16x16
+        span.dk-ellipsis "Historique" @-244,180 64x20
+      a.dk-nav-item @-276,212 264x40
+        svg.dk-icon @-268,224 16x16
+        span.dk-ellipsis "Déploiement" @-244,224 80x20
+  div.dk-scrim @0,0 392x844
+  div.dk-main @0,0 392x844
+    header.dk-toolbar @0,0 392x48
+      button.dk-iconbtn.dk-sb-toggle {expanded=false} "Afficher ou masquer la barre latérale" @4,4 40x40
+        svg.dk-icon @16,16 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Hôtes" @52,16 36x20
+      div.dk-toolbar-spacer @92,24 20x0
+      button.dk-fresh "Mis à jour il y a 2 min" @116,4 136x40
+      button.dk-iconbtn "Recharger" @256,4 40x40
+        svg.dk-icon @268,16 16x16
+      button.dk-iconbtn {expanded=false} "Langue" @300,4 40x40
+        svg.dk-icon @312,16 16x16
+      button.dk-iconbtn "Apparence : système (changer)" @344,4 40x40
+        svg.dk-icon @356,16 16x16
+    main.dk-content @0,48 392x628
+      section.dk-card.dk-card-flush @12,60 368x276
+        div.dk-card-body @12,60 364x276
+          div.dk-list [list] @12,60 364x276
+            button.dk-row.dk-row-btn @12,60 364x44
+              span.dk-row-status @24,80 8x8
+                span.dk-dot.dk-s-bad [img] "Erreur" @24,80 8x8
+              span.dk-row-main @44,68 220x36
+                span.dk-row-title.dk-ellipsis "app-2" @44,68 220x20
+                span.dk-row-sub.dk-ellipsis "Wiki, database" @44,84 220x16
+              span.dk-row-value @276,68 60x36
+                span.dk-num "94 %" @304,68 32x20
+                span.dk-row-sub "CPU 41 %" @276,84 60x16
+              span.dk-go @348,76 16x16
+                svg.dk-icon @348,76 16x16
+            button.dk-row.dk-row-btn @12,104 364x44
+              span.dk-row-status @24,124 8x8
+                span.dk-dot.dk-s-warn [img] "Avertissement" @24,124 8x8
+              span.dk-row-main @44,112 228x36
+                span.dk-row-title.dk-ellipsis "nas-b" @44,112 228x20
+                span.dk-row-sub.dk-ellipsis "Offsite archive" @44,132 228x16
+              span.dk-row-value @284,112 52x36
+                span.dk-num "85 %" @304,112 32x20
+                span.dk-row-sub "CPU 1 %" @284,132 52x16
+              span.dk-go @348,120 16x16
+                svg.dk-icon @348,120 16x16
+            button.dk-row.dk-row-btn @12,152 364x44
+              span.dk-row-status @24,172 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @24,172 8x8
+              span.dk-row-main @44,156 220x36
+                span.dk-row-title.dk-ellipsis "nas-a" @44,156 220x20
+                span.dk-row-sub.dk-ellipsis "NAS, backups" @44,176 220x16
+              span.dk-row-value @276,156 60x36
+                span.dk-num "41 %" @304,156 32x20
+                span.dk-row-sub "CPU 30 %" @276,176 60x16
+              span.dk-go @348,168 16x16
+                svg.dk-icon @348,168 16x16
+            button.dk-row.dk-row-btn @12,196 364x44
+              span.dk-row-status @24,216 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @24,216 8x8
+              span.dk-row-main @44,204 220x36
+                span.dk-row-title.dk-ellipsis "media-1" @44,204 220x20
+                span.dk-row-sub.dk-ellipsis "Media, index" @44,224 220x16
+              span.dk-row-value @276,204 60x36
+                span.dk-num "60 %" @304,204 32x20
+                span.dk-row-sub "CPU 44 %" @276,224 60x16
+              span.dk-go @348,212 16x16
+                svg.dk-icon @348,212 16x16
+            button.dk-row.dk-row-btn @12,244 364x44
+              span.dk-row-status @24,264 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @24,264 8x8
+              span.dk-row-main @44,248 228x36
+                span.dk-row-title.dk-ellipsis "app-1" @44,248 228x20
+                span.dk-row-sub.dk-ellipsis "Services" @44,268 228x16
+              span.dk-row-value @284,248 52x36
+                span.dk-num "35 %" @304,248 32x20
+                span.dk-row-sub "CPU 5 %" @284,268 52x16
+              span.dk-go @348,260 16x16
+                svg.dk-icon @348,260 16x16
+            button.dk-row.dk-row-btn @12,288 364x44
+              span.dk-row-status @24,308 8x8
+                span.dk-dot.dk-s-ok [img] "OK" @24,308 8x8
+              span.dk-row-main @44,296 228x36
+                span.dk-row-title.dk-ellipsis "edge-1" @44,296 228x20
+                span.dk-row-sub.dk-ellipsis "Proxy, DNS" @44,316 228x16
+              span.dk-row-value @284,296 52x36
+                span.dk-num "25 %" @304,296 32x20
+                span.dk-row-sub "CPU 9 %" @284,316 52x16
+              span.dk-go @348,304 16x16
+                svg.dk-icon @348,304 16x16
+      section.dk-section @12,352 368x312
+        header.dk-section-head @12,352 368x24
+          h2.dk-section-title "Stockage" @16,356 364x16
+        section.dk-card @12,384 368x280
+          div.dk-card-body @12,384 364x276
+            div.dk-stack @24,396 340x252
+              div.dk-usage @24,396 340x28
+                div.dk-progress-head @24,396 340x16
+                  span.dk-usage-label.dk-ellipsis "nas-a" @24,396 180x16
+                  span.dk-usage-val.dk-num "384 GB sur 931 GB" @212,396 152x16
+                    span.dk-usage-pct "· 41 %" @324,396 40x16
+                div.dk-progress.dk-tone-ok [progressbar] @24,420 340x8
+                  span.dk-progress-fill @24,420 140x8
+              div.dk-usage @24,444 340x28
+                div.dk-progress-head @24,444 340x16
+                  span.dk-usage-label.dk-ellipsis "nas-b" @24,444 180x16
+                  span.dk-usage-val.dk-num "793 GB sur 931 GB" @212,444 152x16
+                    span.dk-usage-pct.dk-t-warn "· 85 %" @324,444 40x16
+                div.dk-progress.dk-tone-warn [progressbar] @24,464 340x8
+                  span.dk-progress-fill @24,464 288x8
+              div.dk-usage @24,488 340x28
+                div.dk-progress-head @24,488 340x16
+                  span.dk-usage-label.dk-ellipsis "media-1" @24,488 176x16
+                  span.dk-usage-val.dk-num "1,09 TB sur 1,82 TB" @208,488 156x16
+                    span.dk-usage-pct "· 60 %" @324,488 40x16
+                div.dk-progress.dk-tone-ok [progressbar] @24,512 340x8
+                  span.dk-progress-fill @24,512 204x8
+              div.dk-usage @24,532 340x28
+                div.dk-progress-head @24,532 340x16
+                  span.dk-usage-label.dk-ellipsis "app-1" @24,532 188x16
+                  span.dk-usage-val.dk-num "82 GB sur 233 GB" @220,532 144x16
+                    span.dk-usage-pct "· 35 %" @324,532 40x16
+                div.dk-progress.dk-tone-ok [progressbar] @24,556 340x8
+                  span.dk-progress-fill @24,556 120x8
+              div.dk-usage @24,576 340x28
+                div.dk-progress-head @24,576 340x16
+                  span.dk-usage-label.dk-ellipsis "app-2" @24,576 180x16
+                  span.dk-usage-val.dk-num "220 GB sur 233 GB" @212,576 152x16
+                    span.dk-usage-pct.dk-t-bad "· 94 %" @324,576 40x16
+                div.dk-progress.dk-tone-bad [progressbar] @24,600 340x8
+                  span.dk-progress-fill @24,600 320x8
+              div.dk-usage @24,620 340x28
+                div.dk-progress-head @24,620 340x16
+                  span.dk-usage-label.dk-ellipsis "edge-1" @24,620 172x16
+                  span.dk-usage-val.dk-num "7,45 GB sur 29,8 GB" @208,620 160x16
+                    span.dk-usage-pct "· 25 %" @324,620 40x16
+                div.dk-progress.dk-tone-ok [progressbar] @24,644 340x8
+                  span.dk-progress-fill @24,644 84x8

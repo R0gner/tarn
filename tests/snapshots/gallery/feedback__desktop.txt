@@ -1,0 +1,179 @@
+# gallery #/feedback · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x1156
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      div.dk-brand @16,12 128x24
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "dashkit Gallery" @48,12 96x20
+    nav.dk-nav "Views" @8,44 192x528
+      div.dk-nav-group [presentation] "Tokens" @8,44 192x24
+      a.dk-nav-item @8,68 192x28
+        svg.dk-icon @16,76 16x16
+        span.dk-ellipsis "Foundations" @40,76 76x20
+      a.dk-nav-item @8,100 192x28
+        svg.dk-icon @16,104 16x16
+        span.dk-ellipsis "Light and dark" @40,104 88x20
+      div.dk-nav-group [presentation] "Primitives" @8,128 192x32
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Buttons and status" @40,164 116x20
+      a.dk-nav-item @8,188 192x28
+        svg.dk-icon @16,196 16x16
+        span.dk-ellipsis "Controls" @40,196 52x20
+      a.dk-nav-item @8,220 192x28
+        svg.dk-icon @16,224 16x16
+        span.dk-ellipsis "Inputs" @40,224 40x20
+      div.dk-nav-group [presentation] "Components" @8,248 192x32
+      a.dk-nav-item @8,280 192x28
+        svg.dk-icon @16,288 16x16
+        span.dk-ellipsis "Cards and tiles" @40,284 92x20
+      a.dk-nav-item @8,308 192x28
+        svg.dk-icon @16,316 16x16
+        span.dk-ellipsis "Rows and facts" @40,316 96x20
+      a.dk-nav-item @8,340 192x28
+        svg.dk-icon @16,344 16x16
+        span.dk-ellipsis "Table and filter" @40,344 92x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,344 24x20
+      a.dk-nav-item @8,368 192x28
+        svg.dk-icon @16,372 16x16
+        span.dk-ellipsis "Forms and actions" @40,372 116x20
+      a.dk-nav-item.is-active {current=page} @8,396 192x28
+        svg.dk-icon @16,404 16x16
+        span.dk-ellipsis "Menus and feedback" @40,400 132x20
+      a.dk-nav-item @8,424 192x28
+        svg.dk-icon @16,432 16x16
+        span.dk-ellipsis "Charts" @40,432 40x20
+      a.dk-nav-item @8,456 192x28
+        svg.dk-icon @16,460 16x16
+        span.dk-ellipsis "Markdown" @40,460 64x20
+      a.dk-nav-item @8,484 192x28
+        svg.dk-icon @16,488 16x16
+        span.dk-ellipsis "States and sheets" @40,488 112x20
+      div.dk-nav-group [presentation] "Shell" @8,512 192x32
+      a.dk-nav-item @8,544 192x28
+        svg.dk-icon @16,552 16x16
+        span.dk-ellipsis "Shell and boards" @40,552 104x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 1216x1156
+    header.dk-toolbar @208,0 1216x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Menus and feedback" @252,12 132x20
+      div.dk-toolbar-spacer @388,20 832x0
+      button.dk-fresh "Updated now" @1224,8 92x28
+      button.dk-iconbtn "Reload" @1320,8 28x28
+        svg.dk-icon @1328,12 16x16
+      button.dk-iconbtn {expanded=false} "Language" @1352,8 28x28
+        svg.dk-icon @1360,12 16x16
+      button.dk-iconbtn "Appearance: System (switch)" @1384,8 28x28
+        svg.dk-icon @1392,12 16x16
+    main.dk-content @208,44 1216x1112
+      section.dk-card @224,116 384x228
+        header.dk-card-head @224,116 384x40
+          div.dk-card-heading @236,128 360x20
+            h3.dk-card-title "menu()" @236,128 360x20
+        div.dk-card-body @224,156 384x184
+          button.dk-iconbtn {expanded=false} "Actions" @236,168 28x28
+            svg.dk-icon @244,176 16x16
+          button.dk-btn.dk-btn-default {expanded=false} @308,168 72x28
+            svg.dk-icon @352,176 16x16
+      section.dk-card @624,116 384x172
+        header.dk-card-head @624,116 384x40
+          div.dk-card-heading @636,128 360x20
+            h3.dk-card-title "toast()" @636,128 360x20
+        div.dk-card-body @624,156 384x132
+          button.dk-btn.dk-btn-default @636,168 40x28
+          button.dk-btn.dk-btn-default @688,168 56x28
+          button.dk-btn.dk-btn-default @756,168 88x28
+      section.dk-card @1024,116 384x276
+        header.dk-card-head @1024,116 384x40
+          div.dk-card-heading @1036,128 360x20
+            h3.dk-card-title "dataCard()" @1036,128 360x20
+        div.dk-card-body @1024,156 384x236
+          button.dk-btn.dk-btn-ghost "Card" @1036,168 52x28
+          button.dk-btn.dk-btn-default "Action" @1116,168 64x28
+      section.dk-card @224,408 384x352
+        header.dk-card-head @224,412 384x40
+          div.dk-card-heading @236,420 360x20
+            h3.dk-card-title "usageBar()" @236,420 360x20
+        div.dk-card-body @224,452 384x308
+          div.dk-usage @236,464 360x28
+            div.dk-progress-head @236,464 360x16
+              span.dk-usage-label.dk-ellipsis "nas-a /srv" @236,464 208x16
+              span.dk-usage-val.dk-num "384 GB of 931 GB" @452,464 144x16
+                span.dk-usage-pct "· 41%" @560,464 36x16
+            div.dk-progress.dk-tone-ok [progressbar] @236,484 360x8
+              span.dk-progress-fill @236,484 148x8
+          div.dk-usage @236,504 360x52
+            div.dk-progress-head @236,504 360x16
+              span.dk-usage-label.dk-ellipsis "nas-b /archive" @236,504 208x16
+              span.dk-usage-val.dk-num "793 GB of 931 GB" @452,504 144x16
+                span.dk-usage-pct.dk-t-warn "· 85%" @560,504 36x16
+            div.dk-progress.dk-tone-warn [progressbar] @236,528 360x8
+              span.dk-progress-fill @236,528 304x8
+            div.dk-usage-sub "grows about 4 GB/day, full in ~37 days" @236,540 360x16
+          div.dk-usage @236,564 360x44
+            div.dk-progress-head @236,564 360x32
+              span.dk-usage-label.dk-ellipsis "app-2 / (system, Docker, logs with a very long name)" @236,564 360x16
+              span.dk-usage-val.dk-num "220 GB of 233 GB" @452,584 144x16
+                span.dk-usage-pct.dk-t-bad "· 94%" @560,584 36x16
+            div.dk-progress.dk-tone-bad [progressbar] @236,604 360x8
+              span.dk-progress-fill @236,604 340x8
+          div.dk-usage @236,624 360x28
+            div.dk-progress-head @236,624 360x16
+              span.dk-usage-label.dk-ellipsis "Breakdown" @236,624 208x16
+              span.dk-usage-val.dk-num "568 GB of 931 GB" @452,624 144x16
+                span.dk-usage-pct "· 61%" @560,624 36x16
+            div.dk-progress.dk-usage-multi @236,648 360x8
+              span.dk-usage-seg.dk-c-blue @236,648 116x8
+              span.dk-usage-seg.dk-c-purple @352,648 32x8
+              span.dk-usage-seg.dk-c-orange @384,648 72x8
+      section.dk-card @224,780 1184x344
+        header.dk-card-head @224,784 1184x40
+          div.dk-card-heading @236,792 1160x20
+            h3.dk-card-title "log()" @236,792 1160x20
+        div.dk-card-body @224,824 1184x304
+          div.dk-log [log] @236,836 376x132
+            div.dk-log-line.dk-log-info @240,840 372x20
+              span.dk-log-t "09:59 AM" @252,840 56x20
+              span.dk-log-lv "INF" @316,840 20x20
+              span.dk-log-src "scheduler" @344,840 64x20
+              span.dk-log-msg "Next attempt in 15 min" @420,840 180x20
+            div.dk-log-line.dk-log-bad @240,860 372x20
+              span.dk-log-t "09:59 AM" @252,860 56x20
+              span.dk-log-lv "ERR" @316,860 20x20
+              span.dk-log-src "offsite-sync" @344,860 88x20
+              span.dk-log-msg "rsync: connection unexpectedly closed (0 bytes received so f" @440,860 160x20
+            div.dk-log-line.dk-log-warn @240,880 372x20
+              span.dk-log-t "09:59 AM" @252,880 56x20
+              span.dk-log-lv "WRN" @316,880 20x20
+              span.dk-log-src "offsite-sync" @344,880 88x20
+              span.dk-log-msg "Connection slow: 1.2 MB/s (threshold 5 MB/s)" @440,880 160x20
+            div.dk-log-line.dk-log-debug @240,900 372x20
+              span.dk-log-t "09:59 AM" @252,900 56x20
+              span.dk-log-lv "DBG" @316,900 20x20
+              span.dk-log-src "offsite-sync" @344,900 88x20
+              span.dk-log-msg "sending incremental file list" @440,900 160x20
+            div.dk-log-line.dk-log-info @240,920 372x20
+              span.dk-log-t "09:59 AM" @252,920 56x20
+              span.dk-log-lv "INF" @316,920 20x20
+              span.dk-log-src "offsite-sync" @344,920 88x20
+              span.dk-log-msg "Start rsync to nas-b:/archive (3 targets)" @440,920 160x20
+            div.dk-log-line.dk-log-ok @240,940 372x20
+              span.dk-log-t "07:00 AM" @252,940 56x20
+              span.dk-log-lv "OK" @316,940 20x20
+              span.dk-log-src "photo-backup" @344,940 88x20
+              span.dk-log-msg "finished in 21 min, 45 GB" @440,940 160x20
+          div.dk-log.dk-log-wrap [log] @628,836 376x196
+            div.dk-log-line.dk-log-bad @628,840 372x128
+              span.dk-log-t "09:59 AM" @640,840 56x128
+              span.dk-log-lv "ERR" @708,840 20x128
+              span.dk-log-src "offsite-sync" @736,840 88x128
+              span.dk-log-msg "rsync: connection unexpectedly closed (0 bytes received so f" @832,840 160x128
+            div.dk-log-line.dk-log-warn @628,968 372x56
+              span.dk-log-t "09:59 AM" @640,968 56x56
+              span.dk-log-lv "WRN" @708,968 20x56
+              span.dk-log-src "offsite-sync" @736,968 88x56
+              span.dk-log-msg "Connection slow: 1.2 MB/s (threshold 5 MB/s)" @832,968 160x56
+          div.dk-log.dk-log-empty "No runs yet" @1020,836 92x44

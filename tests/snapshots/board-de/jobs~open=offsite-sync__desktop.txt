@@ -1,0 +1,437 @@
+# board-de #/jobs?open=offsite-sync · desktop 1440×900 · dunkel
+div.dk-app @0,0 1424x900
+  aside.dk-sidebar @0,0 208x900
+    div.dk-sidebar-head @8,0 192x44
+      button.dk-brand.dk-brand-btn {expanded=false} "Muster-Board: Board wechseln" @8,8 176x28
+        span.dk-bicon @16,12 24x24
+          img.dk-bicon-img @16,12 24x24
+        span.dk-ellipsis "Muster-Board" @48,12 88x20
+        svg.dk-icon @144,16 16x16
+    nav.dk-nav "Ansichten" @8,44 192x144
+      a.dk-nav-item @8,44 192x28
+        svg.dk-icon @16,52 16x16
+        span.dk-ellipsis "Übersicht" @40,48 60x20
+      a.dk-nav-item.is-active {current=page} @8,72 192x28
+        svg.dk-icon @16,80 16x16
+        span.dk-ellipsis "Jobs" @40,76 32x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,80 24x20
+      a.dk-nav-item @8,104 192x28
+        svg.dk-icon @16,108 16x16
+        span.dk-ellipsis "Hosts" @40,108 36x20
+        span.dk-badge.dk-badge-bad.dk-badge-count "1" @172,108 24x20
+      a.dk-nav-item @8,132 192x28
+        svg.dk-icon @16,136 16x16
+        span.dk-ellipsis "Verlauf" @40,136 44x20
+      a.dk-nav-item @8,160 192x28
+        svg.dk-icon @16,168 16x16
+        span.dk-ellipsis "Deploy" @40,164 44x20
+  div.dk-scrim @0,0 1424x900
+  div.dk-main @208,0 836x900
+    header.dk-toolbar @208,0 836x44
+      button.dk-iconbtn.dk-sb-toggle {expanded=true} "Seitenleiste umschalten" @216,8 28x28
+        svg.dk-icon @224,12 16x16
+      h1.dk-toolbar-title.dk-ellipsis "Jobs" @252,12 32x20
+      div.dk-toolbar-spacer @288,20 536x0
+      button.dk-fresh "Stand vor 2 Min." @828,8 108x28
+      button.dk-iconbtn "Neu laden" @940,8 28x28
+        svg.dk-icon @948,12 16x16
+      button.dk-iconbtn {expanded=false} "Sprache" @972,8 28x28
+        svg.dk-icon @980,12 16x16
+      button.dk-iconbtn "Darstellung: System (umschalten)" @1004,8 28x28
+        svg.dk-icon @1012,12 16x16
+    main.dk-content @208,44 836x588
+      div.dk-filterbar @224,60 804x52
+        div.dk-filter-row @224,60 804x28
+          label.dk-search @224,60 720x28
+            svg.dk-icon @232,68 16x16
+            input.dk-input "Jobs durchsuchen …" @224,60 720x28
+          button.dk-btn.dk-btn-default @952,60 76x28
+            svg.dk-icon @964,68 16x16
+        div.dk-filter-row2 @224,96 804x16
+          div.dk-filter-info "12 von 12" @972,96 60x16
+      section.dk-card.dk-card-flush @224,132 804x468
+        div.dk-card-body @224,132 804x464
+          div.dk-table-wrap.dk-table-click @224,132 804x464
+            table.dk-table @224,132 804x464
+              th.dk-td-status "Status" @224,132 28x32
+              th @252,132 140x32
+                button.dk-th-btn @264,132 48x32
+                  span.dk-sort @304,148 12x0
+              th @396,132 80x32
+                button.dk-th-btn @408,132 44x32
+                  span.dk-sort @436,148 12x0
+              th @472,132 76x32
+                button.dk-th-btn @484,132 32x32
+                  span.dk-sort @508,148 12x0
+              th "Zeitplan" @548,132 124x32
+              th.is-sorted {sort=ascending} @676,132 96x32
+                button.dk-th-btn @688,132 52x32
+                  span.dk-sort @728,144 12x12
+                    svg.dk-icon @728,144 12x12
+              th "Letzte Läufe" @772,132 120x32
+              th.dk-right @892,132 108x32
+                button.dk-th-btn @904,132 84x32
+                  span.dk-sort @904,148 12x0
+              th.dk-td-go @1000,132 28x32
+              td.dk-td-status @224,164 28x44
+                span.dk-dot.dk-s-bad [img] "Fehler" @236,184 8x8
+              td.dk-td-title "Offsite archive sync" @252,164 140x44
+              td.dk-wrap "täglich 04:15" @548,164 124x44
+              div.dk-heat [img] "12 Läufe, 6 fehlgeschlagen" @784,180 96x12
+                span.dk-heat-cell.dk-s-bad @784,180 8x12
+                span.dk-heat-cell.dk-s-bad @792,180 8x12
+                span.dk-heat-cell.dk-s-ok @800,180 8x12
+                span.dk-heat-cell.dk-s-bad @808,180 8x12
+                span.dk-heat-cell.dk-s-ok @816,180 8x12
+                span.dk-heat-cell.dk-s-ok @824,180 8x12
+                span.dk-heat-cell.dk-s-warn @832,180 8x12
+                span.dk-heat-cell.dk-s-bad @840,180 8x12
+                span.dk-heat-cell.dk-s-ok @848,180 8x12
+                span.dk-heat-cell.dk-s-ok @856,180 8x12
+                span.dk-heat-cell.dk-s-bad @864,180 8x12
+                span.dk-heat-cell.dk-s-bad @872,180 8x12
+              td.dk-right "vor 4 Std." @892,164 108x44
+              td.dk-td-go @1000,164 28x44
+                svg.dk-icon @1000,180 16x16
+              td.dk-td-status @224,208 28x32
+                span.dk-dot.dk-s-warn [img] "Warnung" @236,224 8x8
+              td.dk-td-title "Media library scan" @252,208 140x32
+              td.dk-wrap "alle 2 Std." @548,208 124x32
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,220 96x12
+                span.dk-heat-cell.dk-s-ok @784,220 8x12
+                span.dk-heat-cell.dk-s-warn @792,220 8x12
+                span.dk-heat-cell.dk-s-ok @800,220 8x12
+                span.dk-heat-cell.dk-s-ok @808,220 8x12
+                span.dk-heat-cell.dk-s-ok @816,220 8x12
+                span.dk-heat-cell.dk-s-ok @824,220 8x12
+                span.dk-heat-cell.dk-s-ok @832,220 8x12
+                span.dk-heat-cell.dk-s-ok @840,220 8x12
+                span.dk-heat-cell.dk-s-ok @848,220 8x12
+                span.dk-heat-cell.dk-s-ok @856,220 8x12
+                span.dk-heat-cell.dk-s-ok @864,220 8x12
+                span.dk-heat-cell.dk-s-warn @872,220 8x12
+              td.dk-right "vor 40 Min." @892,208 108x32
+              td.dk-td-go @1000,208 28x32
+                svg.dk-icon @1000,216 16x16
+              td.dk-td-status @224,240 28x44
+                span.dk-dot.dk-s-pending [img] "Ausstehend" @236,260 8x8
+              td.dk-td-title "Package update check" @252,240 140x44
+              td.dk-wrap "einmalig 10.11., 12:00" @548,240 124x44
+              div.dk-heat [img] "0 Läufe, 0 fehlgeschlagen" @784,256 96x12
+                span.dk-heat-cell.dk-heat-none @784,256 8x12
+                span.dk-heat-cell.dk-heat-none @792,256 8x12
+                span.dk-heat-cell.dk-heat-none @800,256 8x12
+                span.dk-heat-cell.dk-heat-none @808,256 8x12
+                span.dk-heat-cell.dk-heat-none @816,256 8x12
+                span.dk-heat-cell.dk-heat-none @824,256 8x12
+                span.dk-heat-cell.dk-heat-none @832,256 8x12
+                span.dk-heat-cell.dk-heat-none @840,256 8x12
+                span.dk-heat-cell.dk-heat-none @848,256 8x12
+                span.dk-heat-cell.dk-heat-none @856,256 8x12
+                span.dk-heat-cell.dk-heat-none @864,256 8x12
+                span.dk-heat-cell.dk-heat-none @872,256 8x12
+              td.dk-right "–" @892,240 108x44
+              td.dk-td-go @1000,240 28x44
+                svg.dk-icon @1000,256 16x16
+              td.dk-td-status @224,284 28x32
+                span.dk-dot.dk-s-unknown [img] "Unbekannt" @236,300 8x8
+              td.dk-td-title "DNS reachability" @252,284 140x32
+              td.dk-wrap "alle 15 min" @548,284 124x32
+              div.dk-heat [img] "12 Läufe, 1 fehlgeschlagen" @784,296 96x12
+                span.dk-heat-cell.dk-s-ok @784,296 8x12
+                span.dk-heat-cell.dk-s-ok @792,296 8x12
+                span.dk-heat-cell.dk-s-ok @800,296 8x12
+                span.dk-heat-cell.dk-s-ok @808,296 8x12
+                span.dk-heat-cell.dk-s-ok @816,296 8x12
+                span.dk-heat-cell.dk-s-ok @824,296 8x12
+                span.dk-heat-cell.dk-s-bad @832,296 8x12
+                span.dk-heat-cell.dk-s-ok @840,296 8x12
+                span.dk-heat-cell.dk-s-ok @848,296 8x12
+                span.dk-heat-cell.dk-s-ok @856,296 8x12
+                span.dk-heat-cell.dk-s-ok @864,296 8x12
+                span.dk-heat-cell.dk-s-ok @872,296 8x12
+              td.dk-right "vor 3 Std." @892,284 108x32
+              td.dk-td-go @1000,284 28x32
+                svg.dk-icon @1000,292 16x16
+              td.dk-td-status @224,316 28x32
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,332 8x8
+              td.dk-td-title "Photo backup" @252,316 140x32
+              td.dk-wrap "täglich 02:30" @548,316 124x32
+              div.dk-heat [img] "12 Läufe, 1 fehlgeschlagen" @784,328 96x12
+                span.dk-heat-cell.dk-s-ok @784,328 8x12
+                span.dk-heat-cell.dk-s-bad @792,328 8x12
+                span.dk-heat-cell.dk-s-ok @800,328 8x12
+                span.dk-heat-cell.dk-s-ok @808,328 8x12
+                span.dk-heat-cell.dk-s-ok @816,328 8x12
+                span.dk-heat-cell.dk-s-ok @824,328 8x12
+                span.dk-heat-cell.dk-s-ok @832,328 8x12
+                span.dk-heat-cell.dk-s-ok @840,328 8x12
+                span.dk-heat-cell.dk-s-ok @848,328 8x12
+                span.dk-heat-cell.dk-s-ok @856,328 8x12
+                span.dk-heat-cell.dk-s-ok @864,328 8x12
+                span.dk-heat-cell.dk-s-ok @872,328 8x12
+              td.dk-right "vor 6 Std." @892,316 108x32
+              td.dk-td-go @1000,316 28x32
+                svg.dk-icon @1000,324 16x16
+              td.dk-td-status @224,348 28x32
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,364 8x8
+              td.dk-td-title "Document backup" @252,348 140x32
+              td.dk-wrap "täglich 03:00" @548,348 124x32
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,360 96x12
+                span.dk-heat-cell.dk-s-ok @784,360 8x12
+                span.dk-heat-cell.dk-s-ok @792,360 8x12
+                span.dk-heat-cell.dk-s-ok @800,360 8x12
+                span.dk-heat-cell.dk-s-ok @808,360 8x12
+                span.dk-heat-cell.dk-s-ok @816,360 8x12
+                span.dk-heat-cell.dk-s-ok @824,360 8x12
+                span.dk-heat-cell.dk-s-ok @832,360 8x12
+                span.dk-heat-cell.dk-s-ok @840,360 8x12
+                span.dk-heat-cell.dk-s-ok @848,360 8x12
+                span.dk-heat-cell.dk-s-ok @856,360 8x12
+                span.dk-heat-cell.dk-s-ok @864,360 8x12
+                span.dk-heat-cell.dk-s-ok @872,360 8x12
+              td.dk-right "vor 6 Std." @892,348 108x32
+              td.dk-td-go @1000,348 28x32
+                svg.dk-icon @1000,356 16x16
+              td.dk-td-status @224,380 28x44
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,400 8x8
+              td.dk-td-title "Wiki database dump" @252,380 140x44
+              td.dk-wrap "täglich 01:00" @548,380 124x44
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,396 96x12
+                span.dk-heat-cell.dk-s-ok @784,396 8x12
+                span.dk-heat-cell.dk-s-ok @792,396 8x12
+                span.dk-heat-cell.dk-s-ok @800,396 8x12
+                span.dk-heat-cell.dk-s-ok @808,396 8x12
+                span.dk-heat-cell.dk-s-ok @816,396 8x12
+                span.dk-heat-cell.dk-s-ok @824,396 8x12
+                span.dk-heat-cell.dk-s-ok @832,396 8x12
+                span.dk-heat-cell.dk-s-ok @840,396 8x12
+                span.dk-heat-cell.dk-s-ok @848,396 8x12
+                span.dk-heat-cell.dk-s-ok @856,396 8x12
+                span.dk-heat-cell.dk-s-ok @864,396 8x12
+                span.dk-heat-cell.dk-s-ok @872,396 8x12
+              td.dk-right "vor 8 Std." @892,380 108x44
+              td.dk-td-go @1000,380 28x44
+                svg.dk-icon @1000,396 16x16
+              td.dk-td-status @224,424 28x44
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,448 8x8
+              td.dk-td-title "Thumbnail generation" @252,424 140x44
+              td.dk-wrap "alle 5 min" @548,424 124x44
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,444 96x12
+                span.dk-heat-cell.dk-s-ok @784,444 8x12
+                span.dk-heat-cell.dk-s-ok @792,444 8x12
+                span.dk-heat-cell.dk-s-ok @800,444 8x12
+                span.dk-heat-cell.dk-s-ok @808,444 8x12
+                span.dk-heat-cell.dk-s-ok @816,444 8x12
+                span.dk-heat-cell.dk-s-ok @824,444 8x12
+                span.dk-heat-cell.dk-s-ok @832,444 8x12
+                span.dk-heat-cell.dk-s-ok @840,444 8x12
+                span.dk-heat-cell.dk-s-ok @848,444 8x12
+                span.dk-heat-cell.dk-s-ok @856,444 8x12
+                span.dk-heat-cell.dk-s-ok @864,444 8x12
+                span.dk-heat-cell.dk-s-ok @872,444 8x12
+              td.dk-right "vor 2 Min." @892,424 108x44
+              td.dk-td-go @1000,424 28x44
+                svg.dk-icon @1000,440 16x16
+              td.dk-td-status @224,472 28x32
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,484 8x8
+              td.dk-td-title "Certificate renewal" @252,472 140x32
+              td.dk-wrap "So 05:00" @548,472 124x32
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,480 96x12
+                span.dk-heat-cell.dk-s-ok @784,480 8x12
+                span.dk-heat-cell.dk-s-ok @792,480 8x12
+                span.dk-heat-cell.dk-s-ok @800,480 8x12
+                span.dk-heat-cell.dk-s-ok @808,480 8x12
+                span.dk-heat-cell.dk-s-ok @816,480 8x12
+                span.dk-heat-cell.dk-s-ok @824,480 8x12
+                span.dk-heat-cell.dk-s-ok @832,480 8x12
+                span.dk-heat-cell.dk-s-ok @840,480 8x12
+                span.dk-heat-cell.dk-s-ok @848,480 8x12
+                span.dk-heat-cell.dk-s-warn @856,480 8x12
+                span.dk-heat-cell.dk-s-ok @864,480 8x12
+                span.dk-heat-cell.dk-s-ok @872,480 8x12
+              td.dk-right "gestern" @892,472 108x32
+              td.dk-td-go @1000,472 28x32
+                svg.dk-icon @1000,480 16x16
+              td.dk-td-status @224,504 28x32
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,516 8x8
+              td.dk-td-title "Log cleanup" @252,504 140x32
+              td.dk-wrap "täglich 00:10" @548,504 124x32
+              div.dk-heat [img] "12 Läufe, 0 fehlgeschlagen" @784,512 96x12
+                span.dk-heat-cell.dk-s-ok @784,512 8x12
+                span.dk-heat-cell.dk-s-ok @792,512 8x12
+                span.dk-heat-cell.dk-s-ok @800,512 8x12
+                span.dk-heat-cell.dk-s-ok @808,512 8x12
+                span.dk-heat-cell.dk-s-ok @816,512 8x12
+                span.dk-heat-cell.dk-s-ok @824,512 8x12
+                span.dk-heat-cell.dk-s-ok @832,512 8x12
+                span.dk-heat-cell.dk-s-ok @840,512 8x12
+                span.dk-heat-cell.dk-s-ok @848,512 8x12
+                span.dk-heat-cell.dk-s-ok @856,512 8x12
+                span.dk-heat-cell.dk-s-ok @864,512 8x12
+                span.dk-heat-cell.dk-s-ok @872,512 8x12
+              td.dk-right "vor 9 Std." @892,504 108x32
+              td.dk-td-go @1000,504 28x32
+                svg.dk-icon @1000,512 16x16
+              td.dk-td-status @224,536 28x32
+                span.dk-dot.dk-s-ok [img] "In Ordnung" @236,548 8x8
+              td.dk-td-title "Disk SMART check" @252,536 140x32
+              td.dk-wrap "Mo 06:00" @548,536 124x32
+              div.dk-heat [img] "12 Läufe, 1 fehlgeschlagen" @784,544 96x12
+                span.dk-heat-cell.dk-s-ok @784,544 8x12
+                span.dk-heat-cell.dk-s-ok @792,544 8x12
+                span.dk-heat-cell.dk-s-ok @800,544 8x12
+                span.dk-heat-cell.dk-s-ok @808,544 8x12
+                span.dk-heat-cell.dk-s-ok @816,544 8x12
+                span.dk-heat-cell.dk-s-ok @824,544 8x12
+                span.dk-heat-cell.dk-s-ok @832,544 8x12
+                span.dk-heat-cell.dk-s-ok @840,544 8x12
+                span.dk-heat-cell.dk-s-ok @848,544 8x12
+                span.dk-heat-cell.dk-s-ok @856,544 8x12
+                span.dk-heat-cell.dk-s-ok @864,544 8x12
+                span.dk-heat-cell.dk-s-bad @872,544 8x12
+              td.dk-right "vor 5 Tagen" @892,536 108x32
+              td.dk-td-go @1000,536 28x32
+                svg.dk-icon @1000,544 16x16
+              td.dk-td-status @224,568 28x32
+                span.dk-dot.dk-s-off [img] "Aus" @236,580 8x8
+              td.dk-td-title "Mirror repos" @252,568 140x32
+              td.dk-wrap "Deaktiviert" @548,568 124x32
+              div.dk-heat [img] "12 Läufe, 2 fehlgeschlagen" @784,576 96x12
+                span.dk-heat-cell.dk-s-ok @784,576 8x12
+                span.dk-heat-cell.dk-s-ok @792,576 8x12
+                span.dk-heat-cell.dk-s-bad @800,576 8x12
+                span.dk-heat-cell.dk-s-ok @808,576 8x12
+                span.dk-heat-cell.dk-s-ok @816,576 8x12
+                span.dk-heat-cell.dk-s-ok @824,576 8x12
+                span.dk-heat-cell.dk-s-ok @832,576 8x12
+                span.dk-heat-cell.dk-s-ok @840,576 8x12
+                span.dk-heat-cell.dk-s-ok @848,576 8x12
+                span.dk-heat-cell.dk-s-bad @856,576 8x12
+                span.dk-heat-cell.dk-s-warn @864,576 8x12
+                span.dk-heat-cell.dk-s-ok @872,576 8x12
+              td.dk-right "vor 21 Tagen" @892,568 108x32
+              td.dk-td-go @1000,568 28x32
+                svg.dk-icon @1000,576 16x16
+  aside.dk-inspector "Details" @1044,0 380x900
+    header.dk-sheet-head @1048,0 380x44
+      div.dk-sheet-heading @1064,4 320x36
+        h2.dk-sheet-title.dk-ellipsis "Offsite archive sync" @1064,4 320x20
+        div.dk-sheet-sub "nas-b · backup" @1064,24 320x16
+      button.dk-iconbtn "Details schließen" @1388,8 28x28
+        svg.dk-icon @1396,12 16x16
+    div.dk-inspector-body @1048,44 380x856
+      div.dk-banner.dk-banner-bad [alert] @1064,60 332x52
+        svg.dk-icon @1076,72 16x16
+        div.dk-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @1100,68 284x32
+      section.dk-facts @1064,128 332x136
+        h3.dk-facts-title "Status" @1064,128 332x16
+        dl.dk-kv @1064,152 332x112
+          dt "Zustand" @1064,152 96x20
+          dd @1176,152 220x20
+            span.dk-dotlabel @1176,152 52x20
+              span.dk-dot.dk-s-bad @1176,160 8x8
+          dt "Zeitplan" @1064,176 96x20
+          dd "täglich 04:15" @1176,176 220x20
+          dt "Letzter Lauf" @1064,200 96x20
+          dd "05:15 (vor 4 Std.)" @1176,200 220x20
+          dt "Nächster Lauf" @1064,224 96x20
+          dd "10.11., 04:15" @1176,224 220x20
+          dt "Dauer" @1064,244 96x20
+          dd "~45 min" @1176,244 220x20
+      section.dk-facts @1064,280 332x92
+        h3.dk-facts-title "Letzte 30 Läufe" @1064,280 332x16
+        div.dk-heat.is-lg [img] "30 Läufe, 12 fehlgeschlagen" @1064,304 332x20
+          span.dk-heat-cell.dk-s-ok @1064,304 8x20
+          span.dk-heat-cell.dk-s-ok @1072,304 8x20
+          span.dk-heat-cell.dk-s-ok @1084,304 8x20
+          span.dk-heat-cell.dk-s-ok @1096,304 8x20
+          span.dk-heat-cell.dk-s-ok @1108,304 8x20
+          span.dk-heat-cell.dk-s-ok @1116,304 8x20
+          span.dk-heat-cell.dk-s-bad @1128,304 8x20
+          span.dk-heat-cell.dk-s-bad @1140,304 8x20
+          span.dk-heat-cell.dk-s-bad @1152,304 8x20
+          span.dk-heat-cell.dk-s-bad @1164,304 8x20
+          span.dk-heat-cell.dk-s-bad @1172,304 8x20
+          span.dk-heat-cell.dk-s-ok @1184,304 8x20
+          span.dk-heat-cell.dk-s-ok @1196,304 8x20
+          span.dk-heat-cell.dk-s-bad @1208,304 8x20
+          span.dk-heat-cell.dk-s-ok @1220,304 8x20
+          span.dk-heat-cell.dk-s-warn @1228,304 8x20
+          span.dk-heat-cell.dk-s-ok @1240,304 8x20
+          span.dk-heat-cell.dk-s-ok @1252,304 8x20
+          span.dk-heat-cell.dk-s-bad @1264,304 8x20
+          span.dk-heat-cell.dk-s-bad @1276,304 8x20
+          span.dk-heat-cell.dk-s-ok @1284,304 8x20
+          span.dk-heat-cell.dk-s-bad @1296,304 8x20
+          span.dk-heat-cell.dk-s-ok @1308,304 8x20
+          span.dk-heat-cell.dk-s-ok @1320,304 8x20
+          span.dk-heat-cell.dk-s-warn @1328,304 8x20
+          span.dk-heat-cell.dk-s-bad @1340,304 8x20
+          span.dk-heat-cell.dk-s-ok @1352,304 8x20
+          span.dk-heat-cell.dk-s-ok @1364,304 8x20
+          span.dk-heat-cell.dk-s-bad @1376,304 8x20
+          span.dk-heat-cell.dk-s-bad @1384,304 8x20
+        dl.dk-kv @1064,332 332x40
+          dt "Erfolgsquote" @1064,332 96x20
+          dd "60 %" @1176,332 220x20
+          dt "Fehler" @1064,356 96x20
+          dd.dk-t-bad "12" @1176,356 220x20
+      section.dk-facts @1064,388 332x436
+        h3.dk-facts-title "Laufbericht" @1064,388 332x16
+        div.dk-md.dk-md-compact @1064,412 332x412
+          h2.dk-md-h.dk-md-h2 "Run 412" @1064,412 332x16
+          code.dk-md-code "rsync" @1272,440 36x16
+          ol.dk-md-list @1064,480 332x100
+            code.dk-md-code "nas-b" @1160,480 36x16
+            ul.dk-md-list @1084,540 312x36
+              code.dk-md-code "No space left on device" @1160,544 156x16
+              code.dk-md-code "/archive" @1156,564 56x16
+          div.dk-md-table [region] @1064,588 332x76
+            table @1064,588 332x76
+              th "Target" @1064,588 144x24
+              th.is-right "Used" @1208,588 88x24
+              th.is-center "Status" @1300,588 96x24
+              td.is-right "868 GB" @1208,612 88x24
+              td.is-center "Warning" @1300,612 96x24
+              td.is-right "412 GB" @1208,640 88x24
+              td.is-center "ok" @1300,640 96x24
+          ul.dk-md-list.is-tasks @1064,672 332x72
+            li.dk-md-task @1064,672 332x20
+              input "erledigt" @1064,676 12x12
+            li.dk-md-task @1064,696 332x20
+              input "offen" @1064,700 12x12
+            li.dk-md-task @1064,720 332x20
+              input "offen" @1064,724 12x12
+          pre.dk-md-pre @1064,752 332x52
+          a.dk-md-link "https://example.com/runbooks/offsite-sync" @1108,808 248x16
+      section.dk-facts @1064,844 332x184
+        h3.dk-facts-title "Ereignisse" @1064,844 332x16
+        div.dk-log.dk-log-wrap [log] @1064,868 332x160
+          div.dk-log-line.dk-log-bad @1064,872 332x76
+            span.dk-log-t "06:00" @1076,872 36x72
+            span.dk-log-lv "ERR" @1120,872 20x72
+            span.dk-log-src "offsite-sync" @1148,872 88x72
+            span.dk-log-msg "rsync error: error in rsync protocol data stream (code 12) a" @1244,872 136x72
+          div.dk-log-line.dk-log-warn @1064,944 332x40
+            span.dk-log-t "05:59" @1076,948 36x36
+            span.dk-log-lv "WRN" @1120,948 20x36
+            span.dk-log-src "offsite-sync" @1148,948 88x36
+            span.dk-log-msg "Connection slow: 1.2 MB/s" @1244,948 136x36
+          div.dk-log-line.dk-log-info @1064,984 332x40
+            span.dk-log-t "05:15" @1076,984 36x36
+            span.dk-log-lv "INF" @1120,984 20x36
+            span.dk-log-src "offsite-sync" @1148,984 88x36
+            span.dk-log-msg "Start rsync to nas-b:/archive" @1244,984 136x36
+      section.dk-facts @1064,1044 332x64
+        h3.dk-facts-title "Technisch" @1064,1044 332x16
+        dl.dk-kv.dk-kv-mono @1064,1068 332x40
+          dt "ID" @1064,1068 96x20
+          dd "offsite-sync" @1176,1068 220x20
+          dt "Host" @1064,1088 96x20
+          dd "nas-b" @1176,1088 220x20
+      div.dk-toolrow @1064,1124 332x28
+        button.dk-btn.dk-btn-default @1064,1124 140x28
+          svg.dk-icon @1076,1128 16x16
+        button.dk-iconbtn {expanded=false} "Weitere Aktionen" @1208,1124 28x28
+          svg.dk-icon @1216,1128 16x16

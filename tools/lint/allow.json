@@ -1,0 +1,66 @@
+{
+ "_doc": "lint exceptions (each with a reason) and backlog before A2 (known, fixed in B1). match: field → RegExp against rule, file, text. Change known only via --write-known and with a reason in the commit.",
+ "galleryModules": [
+  "js/dom.js",
+  "js/router.js",
+  "js/format.js",
+  "js/overlay.js",
+  "js/i18n.js",
+  "js/inputs-data.js",
+  "js/filters-data.js",
+  "js/version.js"
+ ],
+ "_galleryModules": "Helpers, not UI building blocks: pure input and filter logic (validation, number parsing, day presets, filter matching and chip texts; the controls that use it are in the gallery), DOM helpers, hash router, overlay layer (internal, used by menu/toast/tooltip/dataCard), i18n layer (t, setLocale …, visible in the gallery as the language switcher), formatting (formatting is described in the gallery under “Data source”, but not per function). js/version.js only exports the version string (no UI).",
+ "exceptions": [
+  {
+   "id": "haarlinie",
+   "match": {
+    "rule": "^size$",
+    "text": "^(border(-[a-z]+)*|outline|box-shadow): -?1px$"
+   },
+   "reason": "The 1 px hairline is part of the look and not worth a size token."
+  },
+  {
+   "id": "viewport",
+   "match": {
+    "rule": "^size$",
+    "text": ": 100(vw|vh|dvh|svh|lvh)$"
+   },
+   "reason": "Full viewport size is not a design size."
+  },
+  {
+   "id": "scrim-sichtbarkeit",
+   "match": {
+    "rule": "^transition$",
+    "file": "^css/components\\.css$",
+    "text": "^transition: visibility$"
+   },
+   "reason": "visibility is discrete (no intermediate frame); the 0 s transition only delays hiding until after the opacity fade."
+  },
+  {
+   "id": "fehler-alias",
+   "match": {
+    "rule": "^gallery$",
+    "text": "^errorState$"
+   },
+   "reason": "Exported as error() and shown that way in the gallery."
+  },
+  {
+   "id": "tooltip-intern",
+   "match": {
+    "rule": "^gallery$",
+    "text": "^(hideTooltip|scale)$"
+   },
+   "reason": "hideTooltip is a helper for tooltip(), scale is chart math (tests in tests/charts.test.mjs)."
+  },
+  {
+   "id": "timer-verhalten",
+   "match": {
+    "rule": "^timer$",
+    "text": "15_000\\)$"
+   },
+   "reason": "Behaviour, not animation: refresh the data-age display every 15 s (shell.js)."
+  }
+ ],
+ "known": []
+}
