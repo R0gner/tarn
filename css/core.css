@@ -179,10 +179,16 @@ input[type="number"].tn-input-el { appearance: textfield; }
 .tn-tick-input:checked + .tn-check-box > .tn-icon:nth-child(1) { opacity: 1; }
 .tn-tick.is-mixed .tn-check-box > .tn-icon:nth-child(1) { opacity: 0; }
 .tn-tick.is-mixed .tn-check-box > .tn-icon:nth-child(2) { opacity: 1; }
-.tn-toggle-track { position: relative; width: var(--tn-toggle-w); height: var(--tn-toggle-h); border-radius: var(--tn-toggle-h); }
-.tn-toggle-thumb { position: absolute; left: var(--tn-sp-2); top: var(--tn-sp-2); width: var(--tn-toggle-thumb); height: var(--tn-toggle-thumb); border-radius: 50%; background: var(--tn-text-2); }
+.tn-toggle-track {
+  /* geometry derived from the tokens: the thumb keeps the same inset on all four sides, unchecked and checked (verify rule "contained") */
+  --tn-tg-b: var(--tn-sz-1);                                                                       /* border of the track */
+  --tn-tg-in: calc((var(--tn-toggle-h) - 2 * var(--tn-tg-b) - var(--tn-toggle-thumb)) / 2);        /* inset of the thumb */
+  --tn-tg-go: calc(var(--tn-toggle-w) - 2 * var(--tn-tg-b) - var(--tn-toggle-thumb) - 2 * var(--tn-tg-in)); /* travel */
+  position: relative; width: var(--tn-toggle-w); height: var(--tn-toggle-h); border-radius: var(--tn-toggle-h);
+}
+.tn-toggle-thumb { position: absolute; left: var(--tn-tg-in); top: var(--tn-tg-in); width: var(--tn-toggle-thumb); height: var(--tn-toggle-thumb); border-radius: 50%; background: var(--tn-text-2); }
 .tn-tick-input:checked + .tn-toggle-track { background: var(--tn-primary); border-color: var(--tn-primary); }
-.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(var(--tn-toggle-go)); background: var(--tn-text-on-accent); }
+.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(var(--tn-tg-go)); background: var(--tn-text-on-accent); }
 .tn-tick-input:focus-visible + .tn-check-box, .tn-tick-input:focus-visible + .tn-toggle-track { outline: var(--tn-ring) solid var(--tn-focus); outline-offset: var(--tn-sp-1); }
 
 /* combobox */

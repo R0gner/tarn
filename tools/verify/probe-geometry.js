@@ -7,6 +7,7 @@
 //   overlap    text boxes overlap; siblings in flex/grid overlap
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
+//   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
 (function tnGeometry(opts) {
@@ -383,6 +384,18 @@
       const r = el.getBoundingClientRect();
       if (r.width >= MIN - 0.5 && r.height >= MIN - 0.5) continue;
       push(findings, { rule: 'touch48', sel: path(el), where: where(el), px: Math.round(Math.min(r.width, r.height)), text: `target ${Math.round(r.width)}×${Math.round(r.height)} px < ${MIN} (“${snippet(el).slice(0, 24)}”)`, rect: R(r), el });
+    }
+  }
+
+  /* ---- contained: the moving part of a control lies inside its track (toggle thumb, determinate progress fill), in the state shown ----
+     The gallery shows checked and unchecked toggles, so both states are measured. Rects in px; tolerance 0.5 px. */
+  for (const [partSel, trackSel] of [['.tn-toggle-thumb', '.tn-toggle-track'], ['.tn-progress:not(.is-indeterminate) > .tn-progress-fill', '.tn-progress']]) {
+    for (const part of document.querySelectorAll(partSel)) {
+      const track = part.closest(trackSel);
+      if (!track || ignored(part) || !visible(part)) continue;
+      const a = part.getBoundingClientRect(), b = track.getBoundingClientRect();
+      const over = Math.max(b.left - a.left, a.right - b.right, b.top - a.top, a.bottom - b.bottom);
+      if (over > 0.5) push(findings, { rule: 'contained', sel: path(part), where: where(part), px: Math.round(over), text: `${partSel.replace(/:not\(.*?\)/, '').replace(/ > .*/, '')} sticks out ${Math.round(over * 10) / 10} px of its track (${track.closest('.tn-tick')?.querySelector('input')?.checked ? 'on' : 'off'})`, rect: R(a), el: part });
     }
   }
 

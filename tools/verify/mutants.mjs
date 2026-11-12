@@ -100,6 +100,12 @@ export const MUTANTS = [
     css: ':root[data-density="comfortable"] { --tn-hit: 40px; --tn-input-h: 40px; --tn-btn-sm-h: 30px; }',
   },
   {
+    // earlier toggle fault: the checked thumb travels a fixed 24 px and leaves its track (phone: 8 px outside, touching the label)
+    id: 'toggle-thumb-leaves-track',
+    page: 'gallery', views: ['inputs'], sizes: ['phone', 'desktop'], expect: ['contained'],
+    css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
+  },
+  {
     // a second submit while the first one runs is not ignored: the action is sent twice
     id: 'double-submit',
     check: 'overlay', scenarios: ['form-submit'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

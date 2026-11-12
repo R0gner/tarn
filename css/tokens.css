@@ -133,8 +133,7 @@
   --tn-check: var(--tn-sz-18);   /* checkbox box */
   --tn-toggle-w: var(--tn-sz-28);
   --tn-toggle-h: var(--tn-sz-16);
-  --tn-toggle-thumb: var(--tn-s3);
-  --tn-toggle-go: var(--tn-s3);  /* thumb travel */
+  --tn-toggle-thumb: var(--tn-sz-10);   /* inset and travel are derived in css/core.css */
   --tn-sidebar-w: 208px;
   --tn-inspector-w: 380px;
   --tn-icon: 16px;
@@ -223,7 +222,6 @@
     --tn-toggle-w: var(--tn-sz-36);
     --tn-toggle-h: var(--tn-sz-22);
     --tn-toggle-thumb: var(--tn-sz-16);
-    --tn-toggle-go: var(--tn-sz-24);
   }
 }
 
@@ -282,7 +280,6 @@
   --tn-toggle-w: var(--tn-sz-48);
   --tn-toggle-h: var(--tn-sz-28);
   --tn-toggle-thumb: var(--tn-sz-20);
-  --tn-toggle-go: var(--tn-sz-20);
   /* High contrast: stronger secondary text, borders and separators */
   --tn-text-2:        light-dark(oklch(0.40 0.010 265),  oklch(0.82 0.008 265));
   --tn-text-3:        light-dark(oklch(0.45 0.008 265),  oklch(0.70 0.008 265));

@@ -222,7 +222,7 @@ div.tn-app @0,0 392x3636
           label.tn-tick.tn-toggle @24,2604 340x44
             input.tn-tick-input [switch] @24,2604 0x0
             span.tn-toggle-track @24,2616 36x24
-              span.tn-toggle-thumb @52,2616 16x16
+              span.tn-toggle-thumb @44,2616 16x16
             span.tn-tick-text @68,2616 116x20
               span.tn-tick-label "Maintenance mode" @68,2616 116x20
           label.tn-tick.tn-toggle @24,2660 340x44
