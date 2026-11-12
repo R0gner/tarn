@@ -1,58 +1,58 @@
 # starter-de #/errors · phone 390×844 · dunkel
 header @0,0 392x68
+  button.tn-iconbtn "Hilfe" @192,12 40x40
+    svg.tn-icon @204,24 16x16
   div.tn-seg.tn-seg-sm [radiogroup] "Sprache" @244,12 128x44
     button.tn-seg-btn [radio] {checked=false} @248,16 56x36
     button.tn-seg-btn [radio] {checked=true} @308,16 64x36
-main @0,68 392x1052
+main @0,68 392x1004
   h1 "Eine einfache Seite aus dem Tarn-Kern" @16,92 360x52
   p [status] @16,212 360x20
     span.tn-dot.tn-s-ok [img] "In Ordnung" @16,220 8x8
     span.tn-badge.tn-badge-info "nur Kern" @164,212 56x20
-  button.tn-btn.tn-btn-primary @16,248 100x40
-    svg.tn-icon @28,260 16x16
-  button.tn-btn.tn-btn-default @124,248 148x40
-  button.tn-btn.tn-btn-ghost @276,248 60x40
-  button.tn-iconbtn "Hilfe" @16,296 40x40
-    svg.tn-icon @28,308 16x16
-  h2 "Kontakt" @32,376 324x20
-  form.tn-form @32,412 324x608
-    div.tn-field @32,412 324x88
-      label.tn-field-label @32,412 324x16
-        span.tn-field-req "*" @88,412 8x16
-      div.tn-inputbox.is-invalid @32,432 324x44
-        input.tn-input-el @44,436 308x44
-      div.tn-field-error @32,484 324x16
-        svg.tn-icon @32,484 12x12
-    div.tn-field @32,516 324x108
-      label.tn-field-label @32,516 324x16
-        span.tn-field-req "*" @124,516 8x16
-      div.tn-inputbox.is-invalid @32,536 324x44
-        input.tn-input-el @44,540 308x44
-      div.tn-field-help "Wir nutzen sie nur für die Antwort." @32,588 324x16
-      div.tn-field-error @32,608 324x16
-        svg.tn-icon @32,612 12x12
-    div.tn-field @32,640 324x64
-      label.tn-field-label @32,640 324x16
-      div.tn-inputbox.tn-selectbox @32,664 324x44
-        select.tn-select-el @44,664 308x44
-        svg.tn-icon @332,676 16x16
-    div.tn-field @32,724 324x132
-      label.tn-field-label @32,724 324x16
-        span.tn-field-req "*" @92,724 8x16
-      div.tn-inputbox.is-multiline.is-invalid @32,744 324x92
-        textarea.tn-input-el @44,752 308x72
-      div.tn-field-error @32,840 324x16
-        svg.tn-icon @32,840 12x12
-    div.tn-field @32,872 324x44
-      label.tn-tick.tn-check @32,872 324x44
-        input.tn-tick-input @32,872 0x0
-        span.tn-check-box @32,884 24x24
-          svg.tn-icon @40,888 12x12
-          svg.tn-icon @40,888 12x12
-        span.tn-tick-text @64,884 136x20
-          span.tn-tick-label "Kopie an mich senden" @64,884 136x20
-    div.tn-form-error [alert] @32,932 324x32
-      svg.tn-icon @44,940 16x16
-    div.tn-form-actions @32,980 324x40
-      button.tn-btn.tn-btn-primary @232,980 124x40
-  button.tn-btn.tn-btn-danger @32,1036 132x40
+  button.tn-btn.tn-btn-primary @16,248 116x40
+    svg.tn-icon @36,260 16x16
+  button.tn-btn.tn-btn-default @140,248 116x40
+  button.tn-btn.tn-btn-ghost @260,248 116x40
+  h2 "Kontakt" @32,328 324x20
+  form.tn-form @32,364 324x608
+    div.tn-field @32,364 324x88
+      label.tn-field-label @32,364 324x16
+        span.tn-field-req "*" @88,364 8x16
+      div.tn-inputbox.is-invalid @32,384 324x44
+        input.tn-input-el @44,388 308x44
+      div.tn-field-error @32,436 324x16
+        svg.tn-icon @32,436 12x12
+    div.tn-field @32,468 324x108
+      label.tn-field-label @32,468 324x16
+        span.tn-field-req "*" @124,468 8x16
+      div.tn-inputbox.is-invalid @32,488 324x44
+        input.tn-input-el @44,492 308x44
+      div.tn-field-help "Wir nutzen sie nur für die Antwort." @32,540 324x16
+      div.tn-field-error @32,560 324x16
+        svg.tn-icon @32,564 12x12
+    div.tn-field @32,592 324x64
+      label.tn-field-label @32,592 324x16
+      div.tn-inputbox.tn-selectbox @32,616 324x44
+        select.tn-select-el @44,616 308x44
+        svg.tn-icon @332,628 16x16
+    div.tn-field @32,676 324x132
+      label.tn-field-label @32,676 324x16
+        span.tn-field-req "*" @92,676 8x16
+      div.tn-inputbox.is-multiline.is-invalid @32,696 324x92
+        textarea.tn-input-el @44,704 308x72
+      div.tn-field-error @32,792 324x16
+        svg.tn-icon @32,792 12x12
+    div.tn-field @32,824 324x44
+      label.tn-tick.tn-check @32,824 324x44
+        input.tn-tick-input @32,824 0x0
+        span.tn-check-box @32,836 24x24
+          svg.tn-icon @40,840 12x12
+          svg.tn-icon @40,840 12x12
+        span.tn-tick-text @64,836 136x20
+          span.tn-tick-label "Kopie an mich senden" @64,836 136x20
+    div.tn-form-error [alert] @32,884 324x32
+      svg.tn-icon @44,892 16x16
+    div.tn-form-actions @32,932 324x40
+      button.tn-btn.tn-btn-primary @232,932 124x40
+  button.tn-btn.tn-btn-danger @32,988 324x40

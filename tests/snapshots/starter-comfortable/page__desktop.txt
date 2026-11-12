@@ -1,5 +1,7 @@
 # starter-comfortable #/page · desktop 1440×900 · dunkel
 header @0,0 1424x92
+  button.tn-iconbtn "Help" @1172,20 48x48
+    svg.tn-icon @1184,36 20x20
   div.tn-seg.tn-seg-sm [radiogroup] "Language" @1236,16 168x60
     button.tn-seg-btn [radio] {checked=true} @1240,20 76x48
     button.tn-seg-btn [radio] {checked=false} @1316,20 84x48
@@ -12,8 +14,6 @@ main @352,92 720x1040
     svg.tn-icon @388,292 20x20
   button.tn-btn.tn-btn-default @524,280 136x48
   button.tn-btn.tn-btn-ghost @676,280 116x48
-  button.tn-iconbtn "Help" @804,280 48x48
-    svg.tn-icon @820,292 20x20
   h2 "Contact us" @392,372 640x28
   form.tn-form @392,420 640x588
     div.tn-field @392,420 640x76

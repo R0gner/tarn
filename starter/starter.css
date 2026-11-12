@@ -10,4 +10,7 @@
 .st-panel { display: grid; gap: var(--tn-s4); padding: var(--tn-s4); background: var(--tn-card); border: 1px solid var(--tn-border); border-radius: var(--tn-r); min-width: 0; }
 .st-panel-title { font-size: var(--tn-fs-lg); overflow-wrap: anywhere; }
 .st-buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tn-s2); }
+/* Narrow: the buttons share the rows evenly (never one orphan next to a full row); from tablet width they keep their own size */
+.st-buttons > .tn-btn { flex: 1 1 var(--tn-sz-72); }
+@media (min-width: 700px) { .st-buttons > .tn-btn { flex: 0 0 auto; } }
 .st-footer { padding: var(--tn-s4); border-top: 1px solid var(--tn-sep); color: var(--tn-text-2); font-size: var(--tn-fs-label); text-align: center; }
