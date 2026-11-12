@@ -5,46 +5,46 @@ header @0,0 392x92
   div.tn-seg.tn-seg-sm [radiogroup] "Language" @216,16 152x60
     button.tn-seg-btn [radio] {checked=true} @220,20 76x48
     button.tn-seg-btn [radio] {checked=false} @300,20 84x48
-main @0,92 392x1104
+main @0,92 392x1164
   h1 "A plain page built from the Tarn core" @20,124 352x72
   p [status] @20,292 352x24
     span.tn-dot.tn-s-ok [img] "OK" @20,300 12x12
     span.tn-badge.tn-badge-info "core only" @204,292 76x24
-  button.tn-btn.tn-btn-primary @20,340 108x48
-    svg.tn-icon @20,352 20x20
-  button.tn-btn.tn-btn-default @140,340 108x48
-  button.tn-btn.tn-btn-ghost @260,340 108x48
-  h2 "Contact us" @40,432 308x28
-  form.tn-form @40,480 308x592
-    div.tn-field @40,480 308x76
-      label.tn-field-label @40,480 308x20
-        span.tn-field-req "*" @120,480 8x20
-      div.tn-inputbox @40,508 308x52
-        input.tn-input-el @56,512 284x48
-    div.tn-field @40,580 308x104
-      label.tn-field-label @40,580 308x20
-        span.tn-field-req "*" @144,580 8x20
-      div.tn-inputbox @40,608 308x52
-        input.tn-input-el @56,608 284x48
-      div.tn-field-help "We only use it to reply." @40,664 308x20
-    div.tn-field @40,704 308x76
-      label.tn-field-label @40,704 308x20
-      div.tn-inputbox.tn-selectbox @40,732 308x52
-        select.tn-select-el @56,732 284x48
-        svg.tn-icon @316,748 20x20
-    div.tn-field @40,804 308x132
-      label.tn-field-label @40,804 308x20
-        span.tn-field-req "*" @108,804 8x20
-      div.tn-inputbox.is-multiline @40,832 308x104
-        textarea.tn-input-el @56,844 284x80
-    div.tn-field @40,956 308x52
-      label.tn-tick.tn-check @40,956 308x52
-        input.tn-tick-input @40,956 0x0
-        span.tn-check-box @40,964 28x28
-          svg.tn-icon @48,972 12x12
-          svg.tn-icon @48,972 12x12
-        span.tn-tick-text @80,968 128x24
-          span.tn-tick-label "Send me a copy" @80,968 128x24
-    div.tn-form-actions @40,1024 308x48
-      button.tn-btn.tn-btn-primary @212,1024 140x48
-  button.tn-btn.tn-btn-danger @40,1092 308x48
+  button.tn-btn.tn-btn-primary @20,340 172x48
+    svg.tn-icon @52,352 20x20
+  button.tn-btn.tn-btn-default @204,340 168x48
+  button.tn-btn.tn-btn-ghost @20,400 352x48
+  h2 "Contact us" @40,492 308x28
+  form.tn-form @40,540 308x592
+    div.tn-field @40,540 308x76
+      label.tn-field-label @40,540 308x20
+        span.tn-field-req "*" @120,540 8x20
+      div.tn-inputbox @40,568 308x52
+        input.tn-input-el @56,572 284x48
+    div.tn-field @40,640 308x104
+      label.tn-field-label @40,640 308x20
+        span.tn-field-req "*" @144,640 8x20
+      div.tn-inputbox @40,668 308x52
+        input.tn-input-el @56,668 284x48
+      div.tn-field-help "We only use it to reply." @40,724 308x20
+    div.tn-field @40,764 308x76
+      label.tn-field-label @40,764 308x20
+      div.tn-inputbox.tn-selectbox @40,792 308x52
+        select.tn-select-el @56,792 284x48
+        svg.tn-icon @316,808 20x20
+    div.tn-field @40,864 308x132
+      label.tn-field-label @40,864 308x20
+        span.tn-field-req "*" @108,864 8x20
+      div.tn-inputbox.is-multiline @40,892 308x104
+        textarea.tn-input-el @56,904 284x80
+    div.tn-field @40,1016 308x52
+      label.tn-tick.tn-check @40,1016 308x52
+        input.tn-tick-input @40,1016 0x0
+        span.tn-check-box @40,1024 28x28
+          svg.tn-icon @48,1032 12x12
+          svg.tn-icon @48,1032 12x12
+        span.tn-tick-text @80,1028 128x24
+          span.tn-tick-label "Send me a copy" @80,1028 128x24
+    div.tn-form-actions @40,1084 308x48
+      button.tn-btn.tn-btn-primary @212,1084 140x48
+  button.tn-btn.tn-btn-danger @40,1152 308x48

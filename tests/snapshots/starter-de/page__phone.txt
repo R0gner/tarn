@@ -10,10 +10,10 @@ main @0,68 392x888
   p [status] @16,212 360x20
     span.tn-dot.tn-s-ok [img] "In Ordnung" @16,220 8x8
     span.tn-badge.tn-badge-info "nur Kern" @164,212 56x20
-  button.tn-btn.tn-btn-primary @16,248 116x40
-    svg.tn-icon @36,260 16x16
-  button.tn-btn.tn-btn-default @140,248 116x40
-  button.tn-btn.tn-btn-ghost @260,248 116x40
+  button.tn-btn.tn-btn-primary @16,248 108x40
+    svg.tn-icon @32,260 16x16
+  button.tn-btn.tn-btn-default @132,248 160x40
+  button.tn-btn.tn-btn-ghost @300,248 72x40
   h2 "Kontakt" @32,328 324x20
   form.tn-form @32,364 324x496
     div.tn-field @32,364 324x64

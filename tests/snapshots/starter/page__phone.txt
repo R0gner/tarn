@@ -10,10 +10,10 @@ main @0,68 392x864
   p [status] @16,188 360x20
     span.tn-dot.tn-s-ok [img] "OK" @16,192 8x8
     span.tn-badge.tn-badge-info "core only" @156,188 60x20
-  button.tn-btn.tn-btn-primary @16,224 116x40
+  button.tn-btn.tn-btn-primary @16,224 120x40
     svg.tn-icon @32,236 16x16
-  button.tn-btn.tn-btn-default @140,224 116x40
-  button.tn-btn.tn-btn-ghost @260,224 116x40
+  button.tn-btn.tn-btn-default @144,224 120x40
+  button.tn-btn.tn-btn-ghost @272,224 104x40
   h2 "Contact us" @32,300 324x20
   form.tn-form @32,340 324x496
     div.tn-field @32,340 324x64
