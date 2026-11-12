@@ -7,6 +7,7 @@ export { VERSION } from './version.js';
 export { h, s, cls, mount, $, $$, tokenMs } from './dom.js';
 export { icon, ICON_NAMES } from './icons.js';
 export { favicon } from './favicon.js';
+export { DENSITIES, getDensity, setDensity } from './density.js';
 export { t, setLocale, getLocale, setTimeZone, getTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 export * from './format.js';
 export * from './primitives.js';

@@ -3,16 +3,16 @@
 
 /* ============ Icons, buttons ============ */
 .tn-icon { flex: none; }
+.tn-icon[width="16"] { width: var(--tn-icon); height: var(--tn-icon); } /* standard size follows the density; other sizes stay as asked */
 .tn-btn, .tn-iconbtn, .tn-seg-btn { position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
 
 .tn-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--tn-sp-6);
-  min-height: var(--tn-hit); padding: 0 var(--tn-s3);
+  min-height: var(--tn-hit); min-width: var(--tn-min-w); padding: 0 var(--tn-s3);
   border-radius: var(--tn-r);
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); white-space: nowrap;
 }
-.tn-btn-sm { min-height: var(--tn-sz-24); padding: 0 var(--tn-s2); }
-@media (pointer: coarse) { .tn-btn-sm { min-height: var(--tn-sz-36); } }
+.tn-btn-sm { min-height: var(--tn-btn-sm-h); padding: 0 var(--tn-s2); }
 .tn-btn-icononly { padding: 0; width: var(--tn-hit); }
 .tn-btn-default { background: var(--tn-card); border: 1px solid var(--tn-border); color: var(--tn-text); }
 .tn-btn-default:hover, .tn-btn-default.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); }
@@ -56,7 +56,7 @@
 
 .tn-badge {
   display: inline-flex; align-items: center; gap: var(--tn-s1);
-  height: var(--tn-sz-18); padding: 0 var(--tn-sp-6); border-radius: var(--tn-r-sm);
+  height: var(--tn-badge-h); padding: 0 var(--tn-sp-6); border-radius: var(--tn-r-sm);
   font-size: var(--tn-fs-xs); font-weight: var(--tn-fw-label); line-height: 1; white-space: nowrap;
   font-variant-numeric: tabular-nums;
   background: var(--tn-hover); color: var(--tn-text-2);
@@ -70,21 +70,19 @@
 
 /* ============ Segmented ============ */
 .tn-seg {
-  display: inline-flex; gap: var(--tn-sp-2); padding: var(--tn-sp-2); border-radius: var(--tn-r);
+  display: inline-flex; gap: var(--tn-sp-2); padding: var(--tn-seg-py) var(--tn-sp-2); border-radius: var(--tn-r);
   background: var(--tn-bg-sunken); border: 1px solid var(--tn-border); max-width: 100%; overflow-x: auto; scrollbar-width: none;
 }
 .tn-seg-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--tn-sp-6); flex: 1 0 auto;
-  min-height: calc(var(--tn-hit) - var(--tn-sz-6)); padding: 0 var(--tn-s3); border-radius: var(--tn-r-sm);
+  min-height: var(--tn-seg-h); min-width: var(--tn-min-w); padding: 0 var(--tn-s3); border-radius: var(--tn-r-sm);
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); white-space: nowrap;
   touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
 .tn-seg-btn:hover { background: var(--tn-hover); color: var(--tn-text); }
 .tn-seg-btn:is(:active, .is-down) { background: var(--tn-press); }
 .tn-seg-btn[aria-checked="true"] { background: var(--tn-card); color: var(--tn-text); box-shadow: 0 0 0 1px var(--tn-border); }
-.tn-seg-sm .tn-seg-btn { min-height: var(--tn-sz-22); padding: 0 var(--tn-s2); }
-@media (pointer: coarse) { .tn-seg-sm .tn-seg-btn { min-height: var(--tn-sz-34); } }
-@media (pointer: coarse) { .tn-seg { padding-block: var(--tn-sp-3); } } /* hit area of the segments (≥ 40 px) sits inside the frame */
+.tn-seg-sm .tn-seg-btn { min-height: var(--tn-seg-sm-h); padding: 0 var(--tn-s2); }
 
 /* ============ Tabs ============ */
 .tn-tabset { display: grid; gap: var(--tn-s3); min-width: 0; }
@@ -92,7 +90,7 @@
 .tn-tabs::-webkit-scrollbar { display: none; }
 .tn-tab {
   position: relative; display: inline-flex; align-items: center; gap: var(--tn-sp-6); flex: none;
-  min-height: var(--tn-hit); padding: 0 var(--tn-s2); margin-bottom: calc(-1 * var(--tn-sp-1));
+  min-height: var(--tn-hit); min-width: var(--tn-min-w); padding: 0 var(--tn-s2); margin-bottom: calc(-1 * var(--tn-sp-1));
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); border-radius: var(--tn-r-sm) var(--tn-r-sm) 0 0;
   touch-action: manipulation;
 }
@@ -156,19 +154,18 @@ input[type="number"].tn-input-el { appearance: textfield; }
 .tn-check-box, .tn-toggle-track {
   flex: none; display: inline-grid; place-items: center; align-self: center; border: 1px solid var(--tn-text-3); background: var(--tn-card);
 }
-.tn-check-box { width: var(--tn-sz-18); height: var(--tn-sz-18); border-radius: var(--tn-r-sm); color: var(--tn-text-on-accent); }
+.tn-check-box { width: var(--tn-check); height: var(--tn-check); border-radius: var(--tn-r-sm); color: var(--tn-text-on-accent); }
 .tn-check-box > .tn-icon { grid-area: 1 / 1; opacity: 0; }
 .tn-tick:hover .tn-check-box, .tn-tick:hover .tn-toggle-track { border-color: var(--tn-text-2); }
 .tn-tick-input:checked + .tn-check-box, .tn-tick.is-mixed .tn-check-box { background: var(--tn-primary); border-color: var(--tn-primary); }
 .tn-tick-input:checked + .tn-check-box > .tn-icon:nth-child(1) { opacity: 1; }
 .tn-tick.is-mixed .tn-check-box > .tn-icon:nth-child(1) { opacity: 0; }
 .tn-tick.is-mixed .tn-check-box > .tn-icon:nth-child(2) { opacity: 1; }
-.tn-toggle-track { position: relative; width: var(--tn-sz-28); height: var(--tn-sz-16); border-radius: var(--tn-sz-16); }
-.tn-toggle-thumb { position: absolute; left: var(--tn-sp-2); top: var(--tn-sp-2); width: var(--tn-s3); height: var(--tn-s3); border-radius: 50%; background: var(--tn-text-2); }
+.tn-toggle-track { position: relative; width: var(--tn-toggle-w); height: var(--tn-toggle-h); border-radius: var(--tn-toggle-h); }
+.tn-toggle-thumb { position: absolute; left: var(--tn-sp-2); top: var(--tn-sp-2); width: var(--tn-toggle-thumb); height: var(--tn-toggle-thumb); border-radius: 50%; background: var(--tn-text-2); }
 .tn-tick-input:checked + .tn-toggle-track { background: var(--tn-primary); border-color: var(--tn-primary); }
-.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(var(--tn-s3)); background: var(--tn-text-on-accent); }
+.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(var(--tn-toggle-go)); background: var(--tn-text-on-accent); }
 .tn-tick-input:focus-visible + .tn-check-box, .tn-tick-input:focus-visible + .tn-toggle-track { outline: var(--tn-ring) solid var(--tn-focus); outline-offset: var(--tn-sp-1); }
-@media (pointer: coarse) { .tn-check-box { width: var(--tn-sz-22); height: var(--tn-sz-22); } .tn-toggle-track { width: var(--tn-sz-36); height: var(--tn-sz-22); border-radius: var(--tn-sz-22); } .tn-toggle-thumb { width: var(--tn-sz-16); height: var(--tn-sz-16); } .tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(var(--tn-sz-24)); } }
 
 /* combobox */
 .tn-combobox { padding: 0 var(--tn-s2); }
@@ -217,10 +214,9 @@ input[type="number"].tn-input-el { appearance: textfield; }
 @keyframes tn-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .tn-spin { animation: none; } }
 
-/* ============ Touch: invisible hit area ≥ 40 px (core controls; chips and the heat row: css/components.css) ============ */
+/* ============ Touch: invisible hit area ≥ 40 px (core controls; chips and the heat row: css/components.css) ============
+   Sizes per pointer and density come from tokens (css/tokens.css: coarse block, data-density="comfortable"); only the extension is here. */
 @media (pointer: coarse) {
-  .tn-btn { min-width: var(--tn-hit); }
-  .tn-seg-btn { min-width: var(--tn-hit); }
   .tn-btn-sm::before, .tn-seg-btn::before {
     content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, var(--tn-hit)); height: max(100%, var(--tn-hit)); transform: translate(-50%, -50%);
   }

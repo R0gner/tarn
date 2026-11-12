@@ -11,4 +11,6 @@ try {
   });
   var t = localStorage.getItem('tn-theme');
   if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  // density: stored choice 'comfortable'; a page that sets data-density itself (e.g. the starter page) keeps its own
+  if (!document.documentElement.hasAttribute('data-density') && localStorage.getItem('tn-density') === 'comfortable') document.documentElement.setAttribute('data-density', 'comfortable');
 } catch (e) { /* storage blocked: follow the system */ }

@@ -13,7 +13,7 @@ import path from 'node:path';
 export const CORE = {
   css: ['css/tokens.css', 'css/fonts.css', 'css/base.css', 'css/core.css'],
   js: [
-    'js/core.js', 'js/version.js', 'js/theme-init.js', 'js/dom.js', 'js/press.js', 'js/overlay.js', 'js/format.js',
+    'js/core.js', 'js/version.js', 'js/theme-init.js', 'js/density.js', 'js/dom.js', 'js/press.js', 'js/overlay.js', 'js/format.js',
     'js/i18n.js', 'js/locales/en.js', 'js/locales/de.js', 'js/locales/es.js', 'js/locales/fr.js',
     'js/icons.js', 'js/icons-data.js', 'js/favicon.js',
     'js/primitives.js', 'js/controls.js', 'js/inputs.js', 'js/inputs-data.js', 'js/form.js',

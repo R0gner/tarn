@@ -84,6 +84,7 @@
     "js/core.js",
     "js/data.js",
     "js/datacard.js",
+    "js/density.js",
     "js/dom.js",
     "js/favicon.js",
     "js/filterbar.js",

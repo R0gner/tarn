@@ -120,6 +120,18 @@
   --tn-hit: 28px;        /* minimum control size (mouse) */
   --tn-toolbar-h: 44px;
   --tn-input-h: var(--tn-hit);   /* inputs: mouse = control size, touch ≥ 44 px (see the coarse block) */
+  /* Control dimensions that change with pointer and density (compact values; coarse block and comfortable block below) */
+  --tn-min-w: auto;              /* minimum width of buttons, segments, tabs */
+  --tn-btn-sm-h: var(--tn-sz-24);
+  --tn-seg-h: calc(var(--tn-hit) - var(--tn-sz-6));
+  --tn-seg-sm-h: var(--tn-sz-22);
+  --tn-seg-py: var(--tn-sp-2);   /* frame above and below the segments */
+  --tn-badge-h: var(--tn-sz-18);
+  --tn-check: var(--tn-sz-18);   /* checkbox box */
+  --tn-toggle-w: var(--tn-sz-28);
+  --tn-toggle-h: var(--tn-sz-16);
+  --tn-toggle-thumb: var(--tn-s3);
+  --tn-toggle-go: var(--tn-s3);  /* thumb travel */
   --tn-sidebar-w: 208px;
   --tn-inspector-w: 380px;
   --tn-icon: 16px;
@@ -161,6 +173,7 @@
   --tn-sz-40: 40px;
   --tn-sz-44: 44px;
   --tn-sz-48: 48px;
+  --tn-sz-50: 50px;
   --tn-sz-72: 72px;
   --tn-sz-96: 96px;
   --tn-sz-108: 108px;
@@ -198,7 +211,77 @@
     --tn-hit: 40px;
     --tn-toolbar-h: 48px;
     --tn-input-h: var(--tn-sz-44);
+    --tn-min-w: var(--tn-hit);
+    --tn-btn-sm-h: var(--tn-sz-36);
+    --tn-seg-sm-h: var(--tn-sz-34);
+    --tn-seg-py: var(--tn-sp-3);   /* the hit area (≥ 40 px) of the segments sits inside the frame */
+    --tn-check: var(--tn-sz-22);
+    --tn-toggle-w: var(--tn-sz-36);
+    --tn-toggle-h: var(--tn-sz-22);
+    --tn-toggle-thumb: var(--tn-sz-16);
+    --tn-toggle-go: var(--tn-sz-24);
   }
+}
+
+/* Comfortable density (car touchscreen, big targets, high contrast): the same tokens with other values.
+   <html data-density="comfortable"> (setDensity() in js/density.js). Independent of the pointer: a car screen may report a fine pointer.
+   Every interactive control is ≥ 48 px (verify rule touch48). Compact is the default and stays as above. */
+:root[data-density="comfortable"] {
+  /* Type */
+  --tn-fs-xs: 13px;
+  --tn-fs-section: 14px;
+  --tn-fs-label: 15px;
+  --tn-fs-body: 17px;
+  --tn-fs-lg: 20px;
+  --tn-fs-stat: 28px;
+  --tn-fs-input: 18px;
+  --tn-lh: 1.45;
+  --tn-fw-label: 600;
+  --tn-fw-strong: 700;
+  /* Spacing, radii, lines */
+  --tn-s1: 6px;
+  --tn-s2: 12px;
+  --tn-s3: 16px;
+  --tn-s4: 20px;
+  --tn-s5: 24px;
+  --tn-s6: 32px;
+  --tn-s8: 40px;
+  --tn-sp-3: 4px;
+  --tn-sp-5: 6px;
+  --tn-sp-6: 8px;
+  --tn-sp-9: 12px;
+  --tn-sp-10: 14px;
+  --tn-r-sm: 6px;
+  --tn-r: 8px;
+  --tn-r-lg: 14px;
+  --tn-stroke: 2px;
+  --tn-ring: 3px;
+  --tn-icon: 20px;
+  --tn-dot: 10px;
+  /* Sizes: every interactive element ≥ 48 px (the inner input element of a field is the box minus its 1 px borders, hence 50) */
+  --tn-row-h: 56px;
+  --tn-hit: var(--tn-sz-48);
+  --tn-toolbar-h: 56px;
+  --tn-input-h: var(--tn-sz-50);
+  --tn-min-w: var(--tn-sz-48);
+  --tn-btn-sm-h: var(--tn-sz-48);
+  --tn-seg-h: var(--tn-sz-48);
+  --tn-seg-sm-h: var(--tn-sz-48);
+  --tn-seg-py: var(--tn-sp-3);
+  --tn-badge-h: var(--tn-sz-24);
+  --tn-check: var(--tn-sz-28);
+  --tn-toggle-w: var(--tn-sz-48);
+  --tn-toggle-h: var(--tn-sz-28);
+  --tn-toggle-thumb: var(--tn-sz-20);
+  --tn-toggle-go: var(--tn-sz-20);
+  /* High contrast: stronger secondary text, borders and separators */
+  --tn-text-2:        light-dark(oklch(0.40 0.010 265),  oklch(0.82 0.008 265));
+  --tn-text-3:        light-dark(oklch(0.45 0.008 265),  oklch(0.70 0.008 265));
+  --tn-text-3-tint:   light-dark(oklch(0.42 0.009 265),  var(--tn-text-3));
+  --tn-placeholder:   light-dark(oklch(0.45 0.009 265),  oklch(0.74 0.008 265));
+  --tn-border:        light-dark(rgb(0 0 0 / .32),       rgb(255 255 255 / .30));
+  --tn-sep:           light-dark(rgb(0 0 0 / .18),       rgb(255 255 255 / .16));
+  --tn-focus:         light-dark(oklch(0.40 0.02 265),   oklch(0.85 0.01 265));
 }
 
 @media (prefers-color-scheme: light) {
