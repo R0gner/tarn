@@ -3,6 +3,23 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.4.0
+
+Round 4, stage R: renamed from dashkit.
+
+### Changed
+- The kit is now called **Tarn** (`tarn` in paths and files). Renamed from dashkit; no behaviour change.
+- CSS classes and custom properties use the prefix `tn-` / `--tn-` (was `dk-` / `--dk-`), data attributes `data-tn-*`,
+  test hooks `window.__tnMissingKeys` and `window.tnApp`, environment variables `TN_NO_SANDBOX`, `TN_SERVE_QUIET`, `TN_DEBUG`.
+- The barrel is `js/tarn.js` (was `js/dashkit.js`); boards serve the kit under `/tarn/` and `tools/vendor.mjs` targets `vendor/tarn`.
+- `js/version.js` also exports `NAME` and `PREFIX` (one place for the name and the prefix in JS).
+- Text snapshots are deliberately re-baselined: only the class names changed (`dk-*` → `tn-*`), no pixel and no structure change.
+
+### Added
+- Migration: the stored settings `dk-theme`, `dk-locale` and `dk-sb` are read once by `js/theme-init.js`, copied to `tn-theme`,
+  `tn-locale`, `tn-sb` and removed. Boards must include `theme-init.js` (they already do) to keep their users' choices.
+- Lint rule `legacy`: the old name and prefix may appear only in the migration code and in this changelog.
+
 ## 0.3.0
 
 First version with its own history. Round 3 "foundation", in stages:
