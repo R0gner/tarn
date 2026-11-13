@@ -16,7 +16,8 @@ import { load, settle, injectCss } from './geometry.mjs';
 import { PAGES, parseSize } from './targets.mjs';
 
 export const OVERLAY_SIZES = ['phone', 'tablet-s', 'desktop'];
-const MOD = "import(new URL('../js/tarn.js', location.href).href)";
+export const kitModule = (url) => `import(new URL(${JSON.stringify(url)}, location.href).href)`;
+const MOD = kitModule('../js/tarn.js');
 
 /* Scenarios: page, hash, open(io) opens the overlay, overlay = selector of the expected overlay, focus = check focus. */
 export const SCENARIOS = [
@@ -302,7 +303,7 @@ export const SCENARIOS = [
 ];
 
 /** Input/output helpers for a scenario. */
-function makeIO(page, size) {
+export function makeIO(page, size) {
   // a hint or data card shows after a delay (hover 500 ms, long press 650 ms): wait for it, at most the old fixed pause; when none is expected
   // (e.g. fully visible text) the whole pause passes, as before
   const popped = async (max) => {
@@ -403,10 +404,10 @@ const STATE_JS = (sel, focus) => `(() => {
 })()`;
 
 /** One task per size × scenario (every task reloads the page: clean state; the unit that one worker runs). */
-export function overlayTasks({ sizes, only } = {}) {
+export function overlayTasks({ sizes, only, scenarios = SCENARIOS } = {}) {
   const list = sizes && sizes.length ? sizes : OVERLAY_SIZES.map(parseSize);
   const tasks = [];
-  for (const size of list) for (const sc of SCENARIOS) {
+  for (const size of list) for (const sc of scenarios) {
     if (only && !only.includes(sc.id)) continue;
     if (sc.when && !sc.when(size)) continue;
     tasks.push({ kind: 'overlay', size, sc, label: `overlay ${sc.id} ${size.name}` });
@@ -416,7 +417,7 @@ export function overlayTasks({ sizes, only } = {}) {
 
 /**
  * One scenario at one size on one worker → { findings, scenarios: 1 }.
- * opts: { base?, outDir, css, js }; css/js: mutants for the self-test (inject CSS or a script after loading).
+ * opts: { base?, outDir, css, js }; (scenarios carry `pg` for a board outside the kit); css/js: mutants for the self-test (inject CSS or a script after loading).
  */
 export async function overlayTask(w, task, opts = {}) {
   const { size, sc } = task;
@@ -424,7 +425,7 @@ export async function overlayTask(w, task, opts = {}) {
   const base = opts.base || w.base;
   const { page, con } = w;
   const findings = [];
-  const pg = PAGES.find((p) => p.id === sc.page);
+  const pg = sc.pg || PAGES.find((p) => p.id === sc.page);   // a board outside the kit brings its own page object
   await emulate(page, size, 'dark');
   await load(page, `${base}${pg.path}#/${sc.hash}`, { push: con.push });
   await settle(page);
@@ -434,6 +435,7 @@ export async function overlayTask(w, task, opts = {}) {
   const io = makeIO(page, size);
   let release = null;
   try {
+    if (sc.setup) await sc.setup(io);   // preparation that is not the overlay under test (a board's generic menu scenario opens its sheet here)
     release = await sc.open(io);
   } catch (e) {
     if (!e.missing) throw e;
@@ -463,7 +465,7 @@ export async function overlayTask(w, task, opts = {}) {
   return { findings, scenarios: 1 };
 }
 
-/** Scenarios one after the other on one worker (mutants). opts: { sizes, only, base, css, js } */
+/** Scenarios one after the other on one worker (mutants). opts: { sizes, only, scenarios, base, css, js } */
 export async function runOverlayOn(w, opts = {}) {
   const out = { findings: [], scenarios: 0 };
   for (const task of overlayTasks(opts)) {

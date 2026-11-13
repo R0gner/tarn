@@ -46,6 +46,10 @@
 //   Without --attach/--base the kit files reach the own headless Chrome through CDP (Fetch.fulfillRequest): no HTTP server, no network.
 //   --chrome PATH      Chrome binary; --no-shots no images; -v print all finding groups
 //   --list             list checks, pages and sizes
+//   --board FILE       check a board outside the kit instead of the kit itself: FILE is the board's tarn-board.json (or its folder), --base is the
+//                      board's running server (required). Runs lint (the board's own files), vendor (--check on its kit copy), geometry, overlay
+//                      (generic shell scenarios), snapshots (its own folder and clock), animation inventory. --out defaults to <board>/.tarn-verify;
+//                      --only/--skip/--pages/--views/--sizes/--themes/--scenarios/--update/--quick/--attach/--chrome/--no-shots/-v work as above
 //
 // Exceptions and known faults: tools/verify/exceptions.json (each with a reason).
 import { spawnSync } from 'node:child_process';
@@ -64,6 +68,9 @@ import { MUTANTS } from './verify/mutants.mjs';
 import { snapshotTasks, snapshotTask, mergeSnapshots } from './verify/snapshots.mjs';
 import { lintFindings } from './lint.mjs';
 import { typesFindings, typesMutant } from './verify/types.mjs';
+import { loadRules, classify, groups, groupLine } from './verify/rules.mjs';
+import { makeShot, collectShots } from './verify/shots.mjs';
+import { runBoard } from './verify/board.mjs';
 import { layersMutant } from './verify/layers.mjs';
 import { inventoryUnits, inventoryUnit, inventorySummary } from './tempo.mjs';
 
@@ -99,6 +106,7 @@ function parseArgs(argv) {
     else if (a === '--out') o.out = next();
     else if (a === '--base') o.base = next().replace(/\/+$/, '');
     else if (a === '--ci') o.ci = true;
+    else if (a === '--board') o.board = next();
     else if (a === '--attach') o.attach = next();
     else if (a === '--chrome') o.chrome = next();
     else if (a === '--no-shots') o.shots = false;
@@ -107,42 +115,22 @@ function parseArgs(argv) {
     else if (a === '-h' || a === '--help') { console.log(usage()); process.exit(0); }
     else fail(`unknown option ${a} (--help)`);
   }
-  if (o.ci && (o.attach || o.base)) fail('--ci starts its own Chrome and server; do not combine with --attach/--base');
+  if (o.board) {
+    const no = ['selftest', 'full', 'changed', 'mutants', 'baseReport'].find((k) => o[k] !== undefined && o[k] !== false);
+    if (no) fail(`--board runs the checks of a board outside the kit; ${no === 'baseReport' ? '--base-report' : `--${no}`} belongs to the kit's own run`);
+    if (o.only?.includes('tests') || o.only?.includes('types') || o.skip.includes('tests') || o.skip.includes('types')) fail('--board: the kit\'s own tests and types are not part of a board run (checks: lint, vendor, geometry, overlay, snapshots, tempo)');
+  }
+  if (o.ci && (o.attach || (o.base && !o.board))) fail('--ci starts its own Chrome and server; do not combine with --attach/--base');
   if (o.full && (o.quick || o.pages || o.views || o.sizes || o.themes || o.scenarios || o.only || o.skip.length || o.changed || o.mutants || o.update)) fail('--full is the complete matrix; do not combine with --quick/--pages/--views/--sizes/--themes/--scenarios/--only/--skip/--changed/--mutants/--update');
   if (o.baseReport && !o.selftest) fail('--base-report belongs to --selftest');
   if (o.baseReport && o.full) fail('--base-report and --full both provide the selftest base; use one');
   if (o.changed && (o.selftest || o.update)) fail('--changed is a dev loop for the checks; not with --selftest/--update');
-  for (const c of [...(o.only || []), ...o.skip]) if (!CHECKS.includes(c)) fail(`unknown check ${c} (${CHECKS.join(', ')})`);
+  if (!o.board) for (const c of [...(o.only || []), ...o.skip]) if (!CHECKS.includes(c)) fail(`unknown check ${c} (${CHECKS.join(', ')})`);
   return o;
 }
 
-/* ---- Exceptions / known faults ---- */
-function loadRules() {
-  const file = path.join(HERE, 'verify', 'exceptions.json');
-  const j = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const compile = (e) => ({ ...e, test: (f) => Object.entries(e.match).every(([k, v]) => new RegExp(v).test(String(f[k] ?? ''))) });
-  return { known: (j.known || []).map(compile), exceptions: (j.exceptions || []).map(compile) };
-}
-function classify(findings, rules) {
-  for (const f of findings) {
-    if (f.rule === 'touch48') continue;   // comfortable touch targets: no exceptions and no known faults, whatever exceptions.json says
-    const ex = rules.exceptions.find((e) => e.test(f));
-    if (ex) { f.excepted = ex.id; continue; }
-    const kn = rules.known.find((e) => e.test(f));
-    if (kn) f.known = kn.id;
-  }
-  return findings.filter((f) => !f.excepted);
-}
-const groupKey = (f) => `${f.check}|${f.rule}|${f.page}|${f.sel}`;
-function groups(findings) {
-  const m = new Map();
-  for (const f of findings) {
-    const k = groupKey(f);
-    if (!m.has(k)) m.set(k, { ...f, n: 0, sizes: new Set(), views: new Set() });
-    const g = m.get(k); g.n++; g.sizes.add(f.size); g.views.add(f.view);
-  }
-  return [...m.values()];
-}
+/* ---- Exceptions / known faults: tools/verify/rules.mjs ---- */
+const loadKitRules = () => loadRules(path.join(HERE, 'verify', 'exceptions.json'));
 
 /* ---- Check: tests ---- */
 function runTests() {
@@ -167,6 +155,11 @@ async function main() {
   if (o.list) {
     console.log(`Checks: ${CHECKS.join(', ')}\nPages: ${PAGES.map((p) => `${p.id} (${p.path})`).join(', ')}\nSizes: ${Object.entries(SIZES).map(([k, s]) => `${k} ${s.w}×${s.h}${s.mobile ? ' touch' : ''}`).join(', ')}\nMutants: ${MUTANTS.map((m) => m.id).join(', ')}`);
     return 0;
+  }
+  if (o.board) {
+    const r = await runBoard(o);
+    printOut(r.lines);
+    return r.code;
   }
   const run = (c) => (o.only ? o.only.includes(c) : true) && !o.skip.includes(c);
   const sizes = (o.sizes || (o.quick ? QUICK_SIZES : DEFAULT_SIZES)).map((s) => parseSize(s) || fail(`unknown size ${s}`));
@@ -206,7 +199,7 @@ async function main() {
   const outDir = o.out ? path.resolve(o.out) : fs.mkdtempSync(path.join(os.tmpdir(), 'tn-verify-'));
   if (outDir === ROOT || outDir.startsWith(ROOT + path.sep)) fail(`--out is inside the repo (${ROOT})`);
   fs.mkdirSync(outDir, { recursive: true });
-  const rules = loadRules();
+  const rules = loadKitRules();
   const lines = [], summary = [];
   let findings = [], warnings = [], envError = null;
   const t0 = Date.now();
@@ -233,24 +226,7 @@ async function main() {
       } catch (e) { throw Object.assign(e, { env: true }); }
       jobsUsed = pool.size; modeUsed = pool.mode;
 
-      let seq = 0;
-      const shot = o.shots ? async (page, ctx, raw, st) => {
-        const made = [];
-        for (const f of raw) {
-          const ff = { check: 'geometry', ...ctx, ...f };
-          const keep = classify([ff], rules).length;
-          const key = groupKey(ff);
-          if (!keep || st.seen.has(key) || st.n >= 4 || !f.hit) continue;
-          st.seen.add(key); st.n++;
-          const file = path.join(outDir, `tmp-${String(++seq).padStart(4, '0')}-${f.rule}-${ctx.page}-${ctx.view.replace(/[^a-z0-9]+/gi, '-')}-${ctx.size}-${ctx.theme}.png`);
-          await evaluate(page, `(() => { const el = document.querySelector('[data-verify-hit="${f.hit}"]'); if (!el) return false; el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }); el.style.outline = '2px solid magenta'; el.style.outlineOffset = '0'; return true; })()`);
-          const { data } = await page.send('Page.captureScreenshot', { format: 'png' });
-          fs.writeFileSync(file, Buffer.from(data, 'base64'));
-          await evaluate(page, `(() => { const el = document.querySelector('[data-verify-hit="${f.hit}"]'); if (el) { el.style.outline = ''; el.style.outlineOffset = ''; } return true; })()`);
-          made.push({ key, file });
-        }
-        return made;
-      } : null;
+      const shot = o.shots ? makeShot({ outDir, rules }) : null;
 
       if (!selftestOnly) {
         // everything that needs a browser as one task list: the pool pulls the tasks in this order, the results are merged in task order
@@ -280,13 +256,7 @@ async function main() {
           stats.geometryStates = g.states;
           stateTiming = g.timing;
           // screenshots: first one per finding group in task order, at most 12; files are numbered in that order
-          const seen = new Set(); let n = 0;
-          for (const r of gr) for (const sh of r.shots || []) {
-            if (seen.has(sh.key) || n >= 12) { fs.rmSync(sh.file, { force: true }); continue; }
-            seen.add(sh.key); n++;
-            fs.renameSync(sh.file, path.join(outDir, `${String(n).padStart(2, '0')}-${path.basename(sh.file).replace(/^tmp-\d+-/, '')}`));
-          }
-          shotFiles = n;
+          shotFiles = collectShots(gr, outDir);
         }
         if (doOv) {
           const { res: or } = pick('overlay');
@@ -361,10 +331,7 @@ async function main() {
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 1));
 
   const wGroups = new Set(warnings.map((w) => `${w.rule}|${w.sel}`)).size;
-  const line = (g) => {
-    const where = [...g.views].slice(0, 2).join(',') + (g.views.size > 2 ? ',…' : '');
-    return `${g.known ? 'KNOWN' : 'FINDING'} ${g.rule} ${g.page}/${where} [${[...g.sizes].join(',')}] ${g.sel} – ${g.text}${g.known ? ` (${g.known})` : ''}`.slice(0, 220);
-  };
+  const line = groupLine;
   // summary by known faults: id → groups, hits
   const knownIds = new Map();
   for (const g of known) { const k = knownIds.get(g.known) || { groups: 0, hits: 0, rules: new Set() }; k.groups++; k.hits += g.n; k.rules.add(g.rule); knownIds.set(g.known, k); }

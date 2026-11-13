@@ -1,5 +1,6 @@
 // tarn · static test server for the tools (node:http only), same strict CSP as tools/serve.py.
-// startServer({ root, port = 0, rewrite? }) → { url, port, close() }; binds to 127.0.0.1 only.
+// startServer({ root, port = 0, rewrite?, mounts? }) → { url, port, close() }; binds to 127.0.0.1 only.
+// mounts: { '/tarn/': dir } serves a URL prefix from another folder (a board outside the kit keeps its kit copy in vendor/tarn/ and serves it as /tarn/).
 // rewrite(urlPath, buffer) → buffer: optional, changes a served file (used by the verify mutants that patch the kit source).
 import fs from 'node:fs';
 import http from 'node:http';
@@ -34,10 +35,14 @@ export function respond(root, urlPath, rewrite) {
   return { status: 200, headers: { ...head, 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' }, body };
 }
 
-export function startServer({ root, port = 0, rewrite } = {}) {
+export function startServer({ root, port = 0, rewrite, mounts = {} } = {}) {
   const srv = http.createServer((req, res) => {
     let r;
-    try { r = respond(root, new URL(req.url, 'http://x').pathname, rewrite); } catch { r = { status: 404, headers: { 'Cache-Control': 'no-store' }, body: Buffer.from('not found') }; }
+    try {
+      const p = new URL(req.url, 'http://x').pathname;
+      const mount = Object.keys(mounts).find((m) => p.startsWith(m));
+      r = mount ? respond(mounts[mount], `/${p.slice(mount.length)}`, rewrite) : respond(root, p, rewrite);
+    } catch { r = { status: 404, headers: { 'Cache-Control': 'no-store' }, body: Buffer.from('not found') }; }
     res.writeHead(r.status, r.headers).end(r.body);
   });
   return new Promise((resolve, reject) => {

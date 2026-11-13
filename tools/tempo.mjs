@@ -40,7 +40,7 @@ const max = (a) => { const b = a.filter((x) => x != null); return b.length ? Mat
 const r1 = (x) => (x == null ? null : Math.round(x * 10) / 10);
 
 /* ---- Measurement harness in the page context ---- */
-const HARNESS = `(() => {
+export const HARNESS = `(() => {
   if (window.__tp) return true;
   const tp = window.__tp = { ev: [], loaf: [], marks: [], samples: [], anims: [], run: false };
   try { new PerformanceObserver((l) => { for (const e of l.getEntries()) tp.ev.push({ n: e.name, st: e.startTime, ps: e.processingStart, pe: e.processingEnd, d: e.duration }); }).observe({ type: 'event', buffered: false, durationThreshold: 16 }); } catch {}
@@ -190,7 +190,7 @@ async function runCase(page, base, c, size, cpu, { runs, warmup, inventoryOnly }
 }
 
 /* ---- Inventory check ---- */
-function checkInventory(anims, c, size, tokens) {
+export function checkInventory(anims, c, size, tokens) {
   const out = [];
   const budgetClass = pick(c.budgetClass, size.name);
   const b = BUDGETS[budgetClass];

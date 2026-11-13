@@ -10,6 +10,8 @@
 // openHeadlessPages({ chrome, noSandbox, tmp, n, root, origin }) → { pages, close() }: one own headless Chrome with n pages, each in its
 //   own browser context. The pages get the kit files straight from the repo via CDP (Fetch.fulfillRequest) for every request to
 //   `origin` (FETCH_ORIGIN); no HTTP server and no network connection are involved. page.rewrite(fn|null) patches served files (mutants).
+//   upstream: URL of a running server (a board outside the kit): instead of the repo, Node fetches every request to `origin` from that server and
+//   hands the answer to the page (status, headers incl. CSP, body). The own headless Chrome needs no network of its own (some hosts forbid it).
 import { spawn } from 'node:child_process';
 import { respond } from './static-server.mjs';
 import fs from 'node:fs';
@@ -164,8 +166,30 @@ async function serveFromDisk(page, { root, origin }) {
   page.takeServeErrors = () => st.errors.splice(0);
 }
 
-/** Own headless Chrome with n pages (own browser context each), files from the repo via CDP. → { pages, pid, close() } */
-export async function openHeadlessPages({ chrome, noSandbox, tmp, n = 1, root, origin = FETCH_ORIGIN, log } = {}) {
+/** Answer all requests to `origin` from a running server (`base`): Node fetches them, the page gets status, headers and body unchanged. */
+async function serveFromUpstream(page, { origin, base }) {
+  const st = { errors: [] };
+  const HOP = new Set(['connection', 'keep-alive', 'transfer-encoding', 'content-encoding', 'content-length', 'upgrade']);
+  page.on(async (m) => {
+    if (m.method !== 'Fetch.requestPaused') return;
+    const { requestId, request } = m.params;
+    let code = 502, headers = [{ name: 'Content-Type', value: 'text/plain' }], body = Buffer.alloc(0);
+    try {
+      const u = new URL(request.url);
+      const keep = Object.fromEntries(Object.entries(request.headers || {}).filter(([k]) => ['accept', 'content-type', 'accept-language'].includes(k.toLowerCase())));
+      const res = await fetch(base + u.pathname + u.search, { method: request.method, headers: keep, body: request.hasPostData && request.method !== 'GET' ? request.postData : undefined, redirect: 'manual', signal: AbortSignal.timeout(20000) });
+      code = res.status; body = Buffer.from(await res.arrayBuffer());
+      headers = [...res.headers].filter(([k]) => !HOP.has(k.toLowerCase())).map(([name, value]) => ({ name, value }));
+    } catch (e) { st.errors.push(e.message); body = Buffer.from(`board server: ${e.message}`); }
+    page.send('Fetch.fulfillRequest', { requestId, responseCode: code, responseHeaders: headers, body: body.toString('base64') }).catch(() => {});
+  });
+  await page.send('Fetch.enable', { patterns: [{ urlPattern: `${origin}/*`, requestStage: 'Request' }] });
+  page.rewrite = () => { throw new Error('rewrite is not available for an upstream server'); };
+  page.takeServeErrors = () => st.errors.splice(0);
+}
+
+/** Own headless Chrome with n pages (own browser context each), files from the repo (or from `upstream`) via CDP. → { pages, pid, close() } */
+export async function openHeadlessPages({ chrome, noSandbox, tmp, n = 1, root, upstream, origin = FETCH_ORIGIN, log } = {}) {
   // scrollbars stay visible (like in the headed browser that the snapshots were taken in): inner scroll areas lose 15–16 px of width
   const { port, proc, cleanup } = await launchHeadless({ chrome, tmp, log, noSandbox, scrollbars: true });
   const pages = [];
@@ -193,7 +217,7 @@ export async function openHeadlessPages({ chrome, noSandbox, tmp, n = 1, root, o
         close: async () => { cdp.close(); },
       };
       pages.push(page);
-      await serveFromDisk(page, { root, origin });
+      if (upstream) await serveFromUpstream(page, { origin, base: upstream }); else await serveFromDisk(page, { root, origin });
     }
     return { pages, pid: proc.pid, origin, close };
   } catch (e) { await close(); throw e; }

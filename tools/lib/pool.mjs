@@ -1,12 +1,14 @@
 // tarn · worker pool for verify: n pages, each a worker; tasks are pulled in order, results come back in task order
 // (so reports and snapshots do not depend on the number of workers).
 //
-// createPool({ attach, base, chrome, noSandbox, jobs, root, tmp, log }) → pool
+// createPool({ attach, base, proxy, chrome, noSandbox, jobs, root, tmp, log }) → pool
 //   Default (no --attach, no --base): ONE own headless Chrome with `jobs` pages (a browser context each); the kit files come from the
 //     repo via CDP (Fetch.fulfillRequest), no HTTP server, no network. Works on hosts where the own Chrome cannot open HTTP.
 //   --attach URL: one own tab in the running Chrome, files from a local test server (serial: frame timing and focus belong to that browser).
 //   --base URL:   own headless Chrome, files from the given server (serial).
-// pool.size, pool.mode ('fetch' | 'attach' | 'http'), pool.workers[{ id, page, base, con, withRewrite(fn, cb) }]
+//   base + proxy: own headless Chrome with `jobs` pages like the default, but every request is fetched by Node from the server at `base` and
+//                 handed to the page over CDP (mode 'upstream'): for a board outside the kit; Chrome needs no network access of its own.
+// pool.size, pool.mode ('fetch' | 'upstream' | 'attach' | 'http'), pool.workers[{ id, page, base, con, withRewrite(fn, cb) }]
 // pool.run(tasks, fn(task, worker, index)) → results[]   (tasks run in parallel, one per worker)
 // pool.runAll(fn(worker)) → results[]                    (the same function on every worker)
 // pool.timings: [{ label, worker, ms }] of all tasks with a label
@@ -18,21 +20,22 @@ import { consoleCollector } from '../verify/geometry.mjs';
 /** Default number of parallel workers: min(4, cores / 2), at least 1. */
 export const defaultJobs = () => Math.max(1, Math.min(4, Math.floor((os.availableParallelism?.() ?? os.cpus().length) / 2)));
 
-export async function createPool({ attach, base, chrome, noSandbox, jobs, root, tmp, log } = {}) {
+export async function createPool({ attach, base, proxy, chrome, noSandbox, jobs, root, tmp, log } = {}) {
   const closers = [];
   const workers = [];
   let mode;
   try {
-    if (!attach && !base) {
-      mode = 'fetch';
+    if (!attach && (!base || proxy)) {
+      mode = base ? 'upstream' : 'fetch';
       const n = Math.max(1, jobs || defaultJobs());
-      const h = await openHeadlessPages({ chrome, noSandbox, tmp, n, root, log });
+      const h = await openHeadlessPages({ chrome, noSandbox, tmp, n, root, upstream: base || undefined, log });
       closers.push(() => h.close());
       for (const page of h.pages) {
         workers.push({
           id: page.id, page, base: h.origin,
           // mutants: the patched file is served straight from the page's request handler
           async withRewrite(rewrite, cb) {
+            if (!rewrite && base) return cb(h.origin);
             page.rewrite(rewrite);
             try { const r = await cb(h.origin); const err = page.takeServeErrors(); if (err.length) throw new Error(err[0]); return r; } finally { page.rewrite(null); }
           },
@@ -67,7 +70,7 @@ export async function createPool({ attach, base, chrome, noSandbox, jobs, root, 
 
   const timings = [];
   const pool = {
-    mode, workers, size: workers.length, timings, origin: mode === 'fetch' ? FETCH_ORIGIN : null,
+    mode, workers, size: workers.length, timings, origin: mode === 'fetch' || mode === 'upstream' ? FETCH_ORIGIN : null,
     async run(tasks, fn) {
       const results = new Array(tasks.length);
       let next = 0, error = null;

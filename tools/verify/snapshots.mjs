@@ -16,7 +16,7 @@ export const SNAP_DIR = path.join(ROOT, 'tests', 'snapshots');
 export const SNAP_SIZES = ['phone', 'desktop'];
 export const FIXED_TIME = Date.UTC(2026, 10, 9, 9, 0, 0);
 
-const DATE_SHIM = `(() => { const T = ${FIXED_TIME}, D = Date;
+const dateShim = (time) => `(() => { const T = ${time}, D = Date;
   class FixedDate extends D { constructor(...a) { if (a.length) super(...a); else super(T); } static now() { return T; } }
   globalThis.Date = FixedDate; })();`;
 
@@ -72,7 +72,7 @@ export function lineDiff(a, b, ctx = 1) {
   return { text: out.join('\n'), changed: ops.filter((o) => o[0] !== ' ').length };
 }
 
-const fileFor = (page, view, size) => path.join(SNAP_DIR, page, `${view.replace(/\?/g, '~').replace(/[^\w~=-]+/g, '-')}__${size}.txt`);
+const fileFor = (dir, page, view, size) => path.join(dir, page, `${view.replace(/\?/g, '~').replace(/[^\w~=-]+/g, '-')}__${size}.txt`);
 
 /** One task per page × size (dark). */
 export function snapshotTasks({ pages, sizes }) {
@@ -81,14 +81,18 @@ export function snapshotTasks({ pages, sizes }) {
   return tasks;
 }
 
-/** One snapshot task on one worker → { findings, states, written } */
-export async function snapshotTask(w, task, { base, viewFilter, update, outDir }) {
+/**
+ * One snapshot task on one worker → { findings, states, written }
+ * opts: { base, viewFilter, update, outDir } and, for a board outside the kit: snapDir (its snapshot folder), relTo (paths in findings are
+ * relative to this folder), fixedTime (ms, its fixed clock); the defaults are the kit's own.
+ */
+export async function snapshotTask(w, task, { base, viewFilter, update, outDir, snapDir = SNAP_DIR, relTo = ROOT, fixedTime = FIXED_TIME }) {
   const { pg, sn } = task;
   const b = base || w.base;
   const { page } = w;
   const findings = [];
   let states = 0, written = 0;
-  const { identifier } = await page.send('Page.addScriptToEvaluateOnNewDocument', { source: DATE_SHIM });
+  const { identifier } = await page.send('Page.addScriptToEvaluateOnNewDocument', { source: dateShim(fixedTime) });
   try {
     const size = parseSize(sn);
     await emulate(page, size, 'dark');
@@ -104,8 +108,8 @@ export async function snapshotTask(w, task, { base, viewFilter, update, outDir }
       await evaluate(page, `document.getAnimations().forEach((a) => { if (a.effect?.getComputedTiming().iterations === Infinity) { a.pause(); a.currentTime = 0; } })`);
       const text = `# ${pg.id} #/${view} · ${size.name} ${size.w}×${size.h} · dunkel\n${await evaluate(page, OUTLINE)}\n`;
       states++;
-      const file = fileFor(pg.id, view, size.name);
-      const rel = path.relative(ROOT, file);
+      const file = fileFor(snapDir, pg.id, view, size.name);
+      const rel = path.relative(relTo, file).split(path.sep).join('/');
       if (update) {
         if (!fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== text) { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, text); written++; }
       } else if (!fs.existsSync(file)) {
