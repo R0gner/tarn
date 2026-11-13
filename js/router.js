@@ -29,3 +29,13 @@ export function buildHash(view, params = {}) {
   const q = sp.toString();
   return `#/${encodeURIComponent(view || '')}${q ? `?${q}` : ''}`;
 }
+
+/**
+ * The views of createApp() with `label` and `group` as plain strings: both may be functions (so they can call t() after the language is set), evaluated here, once.
+ * @template {{ label: string | (() => string), group?: string | (() => string | undefined) }} V
+ * @param {V[]} views
+ * @returns {(Omit<V, 'label' | 'group'> & { label: string, group?: string })[]}
+ */
+export function resolveViews(views) {
+  return views.map((v) => ({ ...v, label: typeof v.label === 'function' ? v.label() : v.label, group: typeof v.group === 'function' ? v.group() : v.group }));
+}

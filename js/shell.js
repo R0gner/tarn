@@ -13,7 +13,7 @@ import { segmented } from './controls.js';
 import { field, select } from './inputs.js';
 import { banner, empty } from './components.js';
 import { openSheet, lockScroll } from './sheet.js';
-import { parseHash, buildHash } from './router.js';
+import { parseHash, buildHash, resolveViews } from './router.js';
 import { fmtAgo, fmtFull } from './format.js';
 import { favicon } from './favicon.js';
 import { getDensity, setDensity, watchDensity } from './density.js';
@@ -34,7 +34,7 @@ import { detectPlatform, manualInstall, browserEnv } from './notifications-data.
 /** @typedef {{ title: string, sub?: string, body?: Child }} DetailContent What detail() returns for the inspector, panel or bottom sheet. */
 /** @typedef {{ n: number | string | null | undefined, tone?: Status }} CountSpec Nav counter with a colour. */
 /** @typedef {{ app: App, view: string | undefined, params: Record<string, string>, open: string | null, src: DataState | null, data: any }} ViewContext Argument of render(), detail() and count(). */
-/** @typedef {{ id: string, label: string | (() => string), group?: string, icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined }} ViewDef One view of the app (a navigation entry). */
+/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined }} ViewDef One view of the app (a navigation entry). */
 /**
  * @typedef {{
  *   views: ViewDef[],
@@ -81,7 +81,7 @@ STANDALONE.addEventListener('change', () => installWatchers.forEach((f) => f()))
  *   boards?: [{ id, name, href, icon?, category? }] | { boards, categories } | URL of a same-origin JSON file,
  *   categories?: [{ id, label }], boardId?: id of the current board  → title becomes the board switcher (only with ≥ 2 entries),
  *   favicon?: { icon, color }  (page icon only, if there is no icon object),
- *   views: [{ id, label (string or function), group? (nav heading), icon, count?, render(ctx) → Node, detail?(id, ctx) → { title, sub, body } | null }],
+ *   views: [{ id, label (string or function), group? (nav heading, string or function), icon, count?, render(ctx) → Node, detail?(id, ctx) → { title, sub, body } | null }],
  *   defaultView = views[0].id,
  * })
  * ctx = { app, view, params, open, data, src (state of the dataSource) }
@@ -100,10 +100,10 @@ export function createApp(cfg0) {
   const loc = resolveLocale({ locale: cfg0.locale || queryLang, locales: offered, stored, languages: navigator.languages, fallback: cfg0.fallbackLocale });
   setLocale(loc.locale);
   if (cfg0.timeZone) setTimeZone(cfg0.timeZone);
-  /* title, boards, categories and view labels may be functions (so they can call t() after the locale is set) */
+  /* title, boards, categories, view labels and view groups may be functions (so they can call t() after the locale is set) */
   /** @template T @param {T | (() => T)} x @returns {T} */
   const val = (x) => (typeof x === 'function' ? /** @type {() => T} */ (x)() : x);
-  const cfg = { ...cfg0, title: val(cfg0.title), boards: val(cfg0.boards), categories: val(cfg0.categories), views: cfg0.views.map((v) => ({ ...v, label: val(v.label) })) };
+  const cfg = { ...cfg0, title: val(cfg0.title), boards: val(cfg0.boards), categories: val(cfg0.categories), views: resolveViews(cfg0.views) };
 
   const views = new Map(cfg.views.map((v) => [v.id, v]));
   const defaultView = cfg.defaultView || cfg.views[0].id;

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {
   fmtNum, fmtPct, fmtBytes, fmtDuration, fmtAgo, fmtTime, fmtDate, fmtWhen, fmtDay, sortRows, compareValues, matchQuery, STATUS_RANK,
 } from '../js/format.js';
-import { parseHash, buildHash } from '../js/router.js';
+import { parseHash, buildHash, resolveViews } from '../js/router.js';
 import { setLocale, setTimeZone, getLocale } from '../js/i18n.js';
 
 setLocale('de');
@@ -89,4 +89,15 @@ test('fmtWhen and fmtDay in the other languages keep Intl\'s own patterns', () =
     setLocale('fr'); assert.equal(fmtDay(t0), '07/11'); assert.equal(fmtWhen(t0, now), '07/11 22:10');
     setLocale('de'); assert.equal(fmtDay(t0), '07.11.'); assert.equal(fmtWhen(t0, now), '07.11. 22:10');
   } finally { setLocale(was); }
+});
+
+test('resolveViews: label and group may be functions, evaluated once, after the language is set', () => {
+  let calls = 0;
+  const lang = () => { calls++; return 'Betrieb'; };
+  const views = [{ id: 'a', label: () => 'Übersicht', group: lang, render() {} }, { id: 'b', label: 'Jobs', group: 'Fest', render() {} }, { id: 'c', label: 'Hosts', render() {} }];
+  const r = resolveViews(views);
+  assert.deepEqual(r.map((v) => [v.id, v.label, v.group]), [['a', 'Übersicht', 'Betrieb'], ['b', 'Jobs', 'Fest'], ['c', 'Hosts', undefined]]);
+  assert.equal(calls, 1);
+  assert.equal(typeof r[0].render, 'function');     // everything else is carried over
+  assert.equal(typeof views[0].label, 'function');   // the input is not changed
 });
