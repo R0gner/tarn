@@ -100,6 +100,9 @@ function viewCards(ctx) {
           card({ flush: true }, list(jobs.filter((j) => ['bad', 'warn'].includes(j.status)), (j) => jobRow(j, ctx)))),
         card({ title: 'Card title', sub: 'Subtitle with context', actions: [iconButton('refresh', { label: 'Reload' }), iconButton('more', { label: 'More' })] },
           h('p', { class: 'tn-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
+    demo('tiles() with any number of tiles', `tiles(a, b, c, d, e)               // wide: 5 in a row · medium: 3 + 2 · phone: 2 + 2 + 1 – every row ends at the same edge
+tiles({ className: 'my-tiles' }, …)   // an own class next to tn-tiles`,
+      h('div', { class: 'g-stack' }, [3, 5, 7].map((n) => state(`${n} tiles`, tiles({ className: 'g-tiles-demo' }, ...Array.from({ length: n }, (_, i) => statTile({ label: `Tile ${i + 1}`, value: String(10 * (i + 1)), sub: i % 3 === 0 ? 'with a sub line' : null, status: i === 1 ? 'warn' : 'ok' }))))))),
     demo('Quiet footer line: card({ footer }), section(…, { footer })', `card({ flush: true, footer: '+13 frequent runs hidden' }, list(rows, render))      // under the content, inside the card
 card({ footer: [t('jobs.hidden', { n: 13 }), ' ', button('Show', { variant: 'ghost', small: true })] }, …)   // a link or button inside is fine
 section('Problems', { count: 2, footer: 'Only problems of the last 24 hours' }, card(…))            // under a section without a card`,

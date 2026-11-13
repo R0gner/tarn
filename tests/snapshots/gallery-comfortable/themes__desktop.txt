@@ -84,21 +84,21 @@ div.tn-app @0,0 1424x1104
             button.tn-seg-btn [radio] {checked=true} @840,148 544x48
       div.tn-section-title "Dark" @320,436 500x20
       div.tn-tiles @320,472 500x116
-        div.tn-stat @320,472 160x116
-          div.tn-stat-label @340,484 124x20
+        div.tn-stat @320,472 244x116
+          div.tn-stat-label @340,484 212x20
             span.tn-dot.tn-s-bad [img] "Error" @340,492 12x12
             span.tn-ellipsis "Jobs" @356,484 36x20
-          div.tn-stat-value.tn-num "12" @340,508 124x36
-          div.tn-stat-sub.tn-t-bad "1 error" @340,548 124x20
-        div.tn-stat @492,472 160x116
-          div.tn-stat-label @508,484 124x20
-            span.tn-ellipsis "Storage" @508,484 56x20
-          div.tn-stat-value.tn-num "1.9" @508,508 124x36
-            span.tn-stat-unit "TB" @556,520 20x20
-          div.tn-stat-sub @508,548 124x28
-            div.tn-chart.tn-spark [img] @508,548 124x24
-              div.tn-chart-plot @508,548 124x24
-                svg.tn-svg @508,548 124x24
+          div.tn-stat-value.tn-num "12" @340,508 212x36
+          div.tn-stat-sub.tn-t-bad "1 error" @340,548 212x20
+        div.tn-stat @576,472 244x116
+          div.tn-stat-label @596,484 212x20
+            span.tn-ellipsis "Storage" @596,484 56x20
+          div.tn-stat-value.tn-num "1.9" @596,508 212x36
+            span.tn-stat-unit "TB" @640,520 20x20
+          div.tn-stat-sub @596,548 212x28
+            div.tn-chart.tn-spark [img] @596,548 212x24
+              div.tn-chart-plot @596,548 212x24
+                svg.tn-svg @596,548 212x24
       section.tn-card.tn-card-flush @320,604 500x192
         header.tn-card-head @324,608 500x72
           div.tn-card-heading @340,620 468x48
@@ -149,21 +149,21 @@ div.tn-app @0,0 1424x1104
         div.tn-banner-text "Data is stale: updated 2 h ago" @372,1012 436x20
       div.tn-section-title "Light" @884,436 500x20
       div.tn-tiles @884,472 500x116
-        div.tn-stat @884,472 160x116
-          div.tn-stat-label @900,484 124x20
+        div.tn-stat @884,472 244x116
+          div.tn-stat-label @900,484 212x20
             span.tn-dot.tn-s-bad [img] "Error" @900,492 12x12
             span.tn-ellipsis "Jobs" @920,484 36x20
-          div.tn-stat-value.tn-num "12" @900,508 124x36
-          div.tn-stat-sub.tn-t-bad "1 error" @900,548 124x20
-        div.tn-stat @1056,472 160x116
-          div.tn-stat-label @1072,484 124x20
-            span.tn-ellipsis "Storage" @1072,484 56x20
-          div.tn-stat-value.tn-num "1.9" @1072,508 124x36
-            span.tn-stat-unit "TB" @1120,520 20x20
-          div.tn-stat-sub @1072,548 124x28
-            div.tn-chart.tn-spark [img] @1072,548 124x24
-              div.tn-chart-plot @1072,548 124x24
-                svg.tn-svg @1072,548 124x24
+          div.tn-stat-value.tn-num "12" @900,508 212x36
+          div.tn-stat-sub.tn-t-bad "1 error" @900,548 212x20
+        div.tn-stat @1140,472 244x116
+          div.tn-stat-label @1156,484 212x20
+            span.tn-ellipsis "Storage" @1156,484 56x20
+          div.tn-stat-value.tn-num "1.9" @1156,508 212x36
+            span.tn-stat-unit "TB" @1204,520 20x20
+          div.tn-stat-sub @1156,548 212x28
+            div.tn-chart.tn-spark [img] @1156,548 212x24
+              div.tn-chart-plot @1156,548 212x24
+                svg.tn-svg @1156,548 212x24
       section.tn-card.tn-card-flush @884,604 500x192
         header.tn-card-head @884,608 500x72
           div.tn-card-heading @900,620 468x48

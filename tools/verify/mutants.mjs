@@ -106,6 +106,12 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // the old tile grid: every tile one cell, so five tiles leave an empty cell in the last row
+    id: 'tiles-ragged',
+    page: 'gallery', views: ['cards'], sizes: ['phone', 'desktop'], expect: ['tiles-ragged'],
+    css: '.tn-tiles[data-fit] > * { grid-column: span 1 !important; }',
+  },
+  {
     // a problem row's reason ends in "…" although the row asked to wrap it
     id: 'row-sub-wrap-ellipsis',
     page: 'gallery', views: ['rows'], sizes: ['phone-s'], expect: ['wrap-sub'],

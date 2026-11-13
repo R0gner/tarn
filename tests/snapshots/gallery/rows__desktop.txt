@@ -1,5 +1,5 @@
 # gallery #/rows · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x2276
+div.tn-app @0,0 1424x2196
   aside.tn-sidebar @0,0 208x900
     div.tn-sidebar-head @8,0 192x44
       div.tn-brand @16,12 108x24
@@ -58,7 +58,7 @@ div.tn-app @0,0 1424x2276
         svg.tn-icon @16,580 16x16
         span.tn-ellipsis "Shell and boards" @40,580 104x20
   div.tn-scrim @0,0 1424x900
-  div.tn-main @208,0 1216x2276
+  div.tn-main @208,0 1216x2196
     header.tn-toolbar @208,0 1216x44
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
@@ -73,7 +73,7 @@ div.tn-app @0,0 1424x2276
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x2232
+    main.tn-content @208,44 1216x2152
       section.tn-card @224,60 1184x400
         header.tn-card-head @224,60 1184x40
           div.tn-card-heading @236,72 1160x20
@@ -279,12 +279,12 @@ div.tn-app @0,0 1424x2276
               dd "31 s" @348,1448 268x20
               dt "Error" @236,1472 96x20
               dd.tn-t-bad "rsync: connection unexpectedly closed" @348,1472 268x20
-      section.tn-card @224,1568 1184x680
+      section.tn-card @224,1568 1184x600
         header.tn-card-head @224,1568 1184x40
           div.tn-card-heading @236,1580 1160x20
             h3.tn-card-title "Long words" @236,1580 1160x20
-        div.tn-card-body @224,1608 1184x636
-          div.tn-stack @236,1620 300x548
+        div.tn-card-body @224,1608 1184x556
+          div.tn-stack @236,1620 300x468
             div.tn-banner.tn-banner-warn [status] @236,1620 300x52
               svg.tn-icon @252,1632 16x16
               div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @276,1628 252x32
@@ -301,22 +301,22 @@ div.tn-app @0,0 1424x2276
                       span.tn-num "Betriebssicherheitsverordnung" @372,1704 124x20
                     span.tn-go @508,1704 16x16
                       svg.tn-icon @508,1704 16x16
-            div.tn-tiles @236,1752 300x152
-              div.tn-stat @236,1752 300x72
-                div.tn-stat-label @252,1760 276x16
-                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @252,1760 208x16
-                div.tn-stat-value.tn-num "3" @252,1780 276x24
-              div.tn-stat @236,1832 300x72
-                div.tn-stat-label @252,1840 276x16
-                  span.tn-ellipsis "Short" @252,1840 32x16
-                div.tn-stat-value.tn-num "4" @252,1860 276x24
-            section.tn-facts @236,1920 300x120
-              h3.tn-facts-title "Values" @236,1920 300x16
-              dl.tn-kv @236,1944 300x96
-                dt "Administration" @236,1944 96x20
-                dd "Medienbibliotheksverwaltung" @348,1944 188x20
-                dt "Path" @236,1968 96x72
-                dd "/srv/stack/compose/services/media-library/config/filters/exc" @348,1968 188x72
-            div.tn-empty.tn-empty-compact @236,2056 300x116
-              div.tn-empty-title "No entries" @356,2076 64x20
-              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,2100 276x52
+            div.tn-tiles @236,1752 300x72
+              div.tn-stat @236,1752 148x72
+                div.tn-stat-label @252,1760 120x16
+                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @252,1760 120x16
+                div.tn-stat-value.tn-num "3" @252,1780 120x24
+              div.tn-stat @392,1752 148x72
+                div.tn-stat-label @404,1760 120x16
+                  span.tn-ellipsis "Short" @404,1760 32x16
+                div.tn-stat-value.tn-num "4" @404,1780 120x24
+            section.tn-facts @236,1840 300x120
+              h3.tn-facts-title "Values" @236,1840 300x16
+              dl.tn-kv @236,1864 300x96
+                dt "Administration" @236,1864 96x20
+                dd "Medienbibliotheksverwaltung" @348,1864 188x20
+                dt "Path" @236,1888 96x72
+                dd "/srv/stack/compose/services/media-library/config/filters/exc" @348,1888 188x72
+            div.tn-empty.tn-empty-compact @236,1976 300x116
+              div.tn-empty-title "No entries" @356,1996 64x20
+              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,2020 276x52

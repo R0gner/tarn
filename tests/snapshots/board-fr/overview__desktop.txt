@@ -41,41 +41,41 @@ div.tn-app @0,0 1424x900
         svg.tn-icon @1392,12 16x16
     main.tn-content @208,44 1216x656
       div.tn-tiles @224,60 1184x92
-        button.tn-stat.tn-stat-btn @224,60 164x92
-          div.tn-stat-label @236,68 124x16
+        button.tn-stat.tn-stat-btn @224,60 292x92
+          div.tn-stat-label @236,68 252x16
             span.tn-dot.tn-s-bad [img] "Erreur" @236,72 8x8
             span.tn-ellipsis "Tâches" @252,68 40x16
-          div.tn-stat-value.tn-num "12" @236,88 124x24
-          div.tn-stat-sub.tn-t-bad "1 erreur · 1 avertissement" @236,116 124x16
-          span.tn-go @360,68 16x16
-            svg.tn-icon @360,68 16x16
-        button.tn-stat.tn-stat-btn @396,60 164x92
-          div.tn-stat-label @408,68 124x16
-            span.tn-dot.tn-s-bad [img] "Erreur" @408,72 8x8
-            span.tn-ellipsis "Hôtes" @420,68 32x16
-          div.tn-stat-value.tn-num "6" @408,88 124x24
-          div.tn-stat-sub.tn-t-bad "4 OK" @408,116 124x16
-          span.tn-go @532,68 16x16
-            svg.tn-icon @532,68 16x16
-        button.tn-stat.tn-stat-btn @564,60 164x92
-          div.tn-stat-label @576,68 124x16
-            span.tn-dot.tn-s-bad [img] "Erreur" @576,72 8x8
-            span.tn-ellipsis "Stockage" @592,68 52x16
-          div.tn-stat-value.tn-num "2,54" @576,88 124x24
-            span.tn-stat-unit "TB" @624,96 16x16
-          div.tn-stat-sub.tn-t-bad "app-2 rempli à 94 %" @576,116 124x16
-          span.tn-go @704,68 16x16
-            svg.tn-icon @704,68 16x16
-        button.tn-stat.tn-stat-btn @736,60 164x92
-          div.tn-stat-label @748,68 124x16
-            span.tn-ellipsis "Exécutions, 7 jours" @748,68 108x16
-          div.tn-stat-value.tn-num "104" @748,88 124x24
-          div.tn-stat-sub @748,116 124x28
-            div.tn-chart.tn-spark [img] @748,116 124x24
-              div.tn-chart-plot @748,116 124x24
-                svg.tn-svg @748,116 124x24
-          span.tn-go @872,68 16x16
-            svg.tn-icon @872,68 16x16
+          div.tn-stat-value.tn-num "12" @236,88 252x24
+          div.tn-stat-sub.tn-t-bad "1 erreur · 1 avertissement" @236,116 252x16
+          span.tn-go @488,68 16x16
+            svg.tn-icon @488,68 16x16
+        button.tn-stat.tn-stat-btn @524,60 292x92
+          div.tn-stat-label @536,68 252x16
+            span.tn-dot.tn-s-bad [img] "Erreur" @536,72 8x8
+            span.tn-ellipsis "Hôtes" @548,68 32x16
+          div.tn-stat-value.tn-num "6" @536,88 252x24
+          div.tn-stat-sub.tn-t-bad "4 OK" @536,116 252x16
+          span.tn-go @788,68 16x16
+            svg.tn-icon @788,68 16x16
+        button.tn-stat.tn-stat-btn @820,60 292x92
+          div.tn-stat-label @832,68 252x16
+            span.tn-dot.tn-s-bad [img] "Erreur" @832,72 8x8
+            span.tn-ellipsis "Stockage" @848,68 52x16
+          div.tn-stat-value.tn-num "2,54" @832,88 252x24
+            span.tn-stat-unit "TB" @880,96 16x16
+          div.tn-stat-sub.tn-t-bad "app-2 rempli à 94 %" @832,116 252x16
+          span.tn-go @1084,68 16x16
+            svg.tn-icon @1084,68 16x16
+        button.tn-stat.tn-stat-btn @1120,60 292x92
+          div.tn-stat-label @1132,68 252x16
+            span.tn-ellipsis "Exécutions, 7 jours" @1132,68 108x16
+          div.tn-stat-value.tn-num "104" @1132,88 252x24
+          div.tn-stat-sub @1132,116 252x28
+            div.tn-chart.tn-spark [img] @1132,116 252x24
+              div.tn-chart-plot @1132,116 252x24
+                svg.tn-svg @1132,116 252x24
+          span.tn-go @1384,68 16x16
+            svg.tn-icon @1384,68 16x16
       div.tn-cols @224,172 1184x496
         section.tn-section @224,172 584x280
           header.tn-section-head @224,172 584x24

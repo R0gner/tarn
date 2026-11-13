@@ -6,6 +6,7 @@ import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';
 import { t } from './i18n.js';
+import { fitTiles } from './tiles-data.js';
 
 /** @import { Status } from './primitives.js' */
 /** @typedef {{ title?: Child, sub?: Child, actions?: Child, flush?: boolean, footer?: Child, className?: string }} CardOptions footer: a quiet line under the content ("+13 frequent runs hidden"). */
@@ -176,19 +177,47 @@ export { errorState as error };
  * @returns {HTMLElement}
  */
 export function loading({ rows = 3, tiles = 0, label = t('common.loading') } = {}) {
-  if (tiles) return h('div', { class: 'tn-tiles', 'aria-busy': 'true', 'aria-label': label },
-    Array.from({ length: tiles }, () => h('div', { class: 'tn-stat tn-skel-tile' }, h('span', { class: 'tn-skel tn-skel-s' }), h('span', { class: 'tn-skel tn-skel-l' }))));
+  if (tiles) {
+    const grid = tileGrid(Array.from({ length: tiles }, () => h('div', { class: 'tn-stat tn-skel-tile' }, h('span', { class: 'tn-skel tn-skel-s' }), h('span', { class: 'tn-skel tn-skel-l' }))));
+    grid.setAttribute('aria-busy', 'true'); grid.setAttribute('aria-label', label);
+    return grid;
+  }
   return h('div', { class: 'tn-skel-rows', 'aria-busy': 'true', 'aria-label': label },
     Array.from({ length: rows }, (_, i) => h('div', { class: 'tn-skel-row' },
       h('span', { class: 'tn-skel tn-skel-dot' }), h('span', { class: 'tn-skel', style: { width: `${[62, 48, 70, 55, 40][i % 5]}%` } }), h('span', { class: 'tn-skel tn-skel-v' }))));
 }
 
 /**
- * Tile grid (auto-fill, min. 150 px).
- * @param {...Child} kids
+ * Tile grid for any number of tiles: columns of at least 150 px (two on a phone), the rows are balanced (5 tiles: wide 5, medium 3 + 2, phone 2 + 2 + 1) and the tiles of
+ * an incomplete row are wider, so every row ends at the same edge (fitTiles() in js/tiles-data.js). tiles(a, b, …) · tiles({ className }, a, b, …)
+ * @param {...(Child | { className?: string })} kids
  * @returns {HTMLElement}
  */
-export function tiles(...kids) { return h('div', { class: 'tn-tiles' }, kids); }
+export function tiles(...kids) {
+  const first = kids[0];
+  const o = first && typeof first === 'object' && !Array.isArray(first) && !(first instanceof Node) ? /** @type {{ className?: string }} */ (kids.shift()) : {};
+  return tileGrid(/** @type {Child[]} */ (kids), o.className);
+}
+
+/** The tile grid itself (also used by loading({ tiles })). @param {Child[]} kids @param {string} [className] */
+function tileGrid(kids, className) {
+  const el = h('div', { class: cls('tn-tiles', className) }, kids);
+  if (typeof ResizeObserver === 'undefined') return el;
+  let last = '';
+  const fit = () => {
+    const cs = getComputedStyle(el), items = /** @type {HTMLElement[]} */ ([...el.children].filter((c) => c instanceof HTMLElement));
+    const gap = parseFloat(cs.columnGap) || 8, min = parseFloat(cs.getPropertyValue('--tn-sz-150')) || 150;
+    const r = fitTiles(items.length, el.clientWidth, { min, gap });
+    const key = `${items.length}/${r.grid}/${r.spans.join('')}`;
+    if (key === last) return;
+    last = key;
+    el.style.setProperty('--tn-tiles-cols', String(r.grid));
+    items.forEach((c, i) => c.style.setProperty('--tn-tile-span', String(r.spans[i])));
+    el.dataset.fit = String(r.cols);
+  };
+  new ResizeObserver(fit).observe(el);
+  return el;
+}
 
 /**
  * Button group/toolbar inside cards.

@@ -159,6 +159,9 @@
 /* ============ Tiles ============ */
 .tn-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tn-sz-150), 1fr)); gap: var(--tn-s2); }
 @media (max-width: 599px) { .tn-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* fitTiles() (js/tiles-data.js) sets the number of grid columns and the span of every tile: rows are balanced and close at the same edge */
+.tn-tiles[data-fit] { grid-template-columns: repeat(var(--tn-tiles-cols), minmax(0, 1fr)); }
+.tn-tiles[data-fit] > * { grid-column: span var(--tn-tile-span); }
 .tn-stat {
   display: grid; gap: var(--tn-sp-2); align-content: start;
   min-height: var(--tn-sz-72); padding: var(--tn-s2) var(--tn-s3) var(--tn-s3);

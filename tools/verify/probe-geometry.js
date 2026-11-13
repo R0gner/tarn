@@ -7,6 +7,7 @@
 //   overlap    text boxes overlap; siblings in flex/grid overlap
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
+//   tiles-ragged  a row of tiles() does not end at the grid's right edge (empty cell, narrow last tile)
 //   wrap-sub   a row sub line with wrapSub is cut off or ends in an ellipsis
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
@@ -79,6 +80,19 @@
   for (const el of document.querySelectorAll('.tn-seg')) {
     if (ignored(el) || !visible(el)) continue;
     if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `segmented control scrolls sideways, options hidden (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- tiles-ragged: the rows of a tile grid close: every row ends at the right edge of the grid and starts at the left one (no empty cell, no narrow last tile) ---- */
+  for (const el of document.querySelectorAll('.tn-tiles')) {
+    if (ignored(el) || !visible(el)) continue;
+    const g = el.getBoundingClientRect(), kids = [...el.children].filter((c) => c.checkVisibility && c.checkVisibility());
+    const rowsMap = new Map();
+    for (const k of kids) { const r = k.getBoundingClientRect(), top = Math.round(r.top / 4); (rowsMap.get(top) || rowsMap.set(top, []).get(top)).push(r); }
+    if (rowsMap.size < 2) continue;
+    for (const rs of rowsMap.values()) {
+      const right = Math.max(...rs.map((r) => r.right)), left = Math.min(...rs.map((r) => r.left));
+      if (Math.abs(right - g.right) > 1.5 || Math.abs(left - g.left) > 1.5) { push(findings, { rule: 'tiles-ragged', sel: path(el), where: where(el), px: Math.round(g.right - right), text: `tile row does not close: ${rs.length} of ${kids.length} tiles end ${Math.round(g.right - right)} px short of the grid edge`, rect: R(g), el }); break; }
+    }
   }
 
   /* ---- wrap-sub: a row sub line that asked to wrap (metricRow({ wrapSub })) is readable in full: no "…", no cut-off text ---- */

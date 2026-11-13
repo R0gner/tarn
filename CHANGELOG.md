@@ -58,6 +58,8 @@ Round 5.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ### Stage Gb
+- **`tiles()` closes its rows for any number of tiles (G8):** 5 tiles are wide 5 in a row, medium 3 + 2, phone 2 + 2 + 1 with a wide last tile (`fitTiles()` in `js/tiles-data.js`: balanced rows, the tiles of an incomplete row
+  take whole parts of a common grid); `tiles({ className }, …)`; `loading({ tiles })` uses the same grid. Verify rule `tiles-ragged`, mutant `tiles-ragged`, `tests/tiles.test.mjs`, gallery demo with 3, 5 and 7 tiles.
 - **`metricRow({ wrapSub })` (G7):** the sub line wraps over as many lines as it needs instead of ending in "…" (a problem row's reason is readable in full at 340 px); the sample board's problem list uses it. Verify rule `wrap-sub`, mutant `row-sub-wrap-ellipsis`, gallery demo.
 - **Quiet footer line (G4):** `card({ footer })` and `section(title, { footer })` put one short muted sentence under the content ("+13 frequent runs hidden"; a link or button inside is fine), wrapping instead of truncating. Class `tn-foot`; gallery demo with four states (cards view).
 - **shoot (G5):** `tools/shoot.mjs` now takes `http(s)://host:port/…` URLs of a running server without `--attach`: Node fetches the requests and fulfils them over CDP (like `verify --board`), so Chrome
