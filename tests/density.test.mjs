@@ -30,3 +30,12 @@ test('watchDensity: called on every change of data-density, by whoever changes i
   assert.equal(seen.length, 3);
   assert.throws(() => setDensity('huge'), /unknown density/);
 });
+
+test('own headless Chrome: no D-Bus session address (an unanswered one blocks every HTTP navigation)', async () => {
+  process.env.DBUS_SESSION_BUS_ADDRESS = 'unix:path=/nonexistent';
+  const { chromeEnv } = await import('../tools/lib/cdp.mjs');
+  const env = chromeEnv();
+  assert.equal('DBUS_SESSION_BUS_ADDRESS' in env, false);
+  assert.equal(env.TZ, 'Europe/Berlin');
+  assert.ok(process.env.DBUS_SESSION_BUS_ADDRESS, "the caller's own environment is not changed");
+});

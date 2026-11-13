@@ -105,6 +105,17 @@ async function openTab(base, log, onClose) {
   return page;
 }
 
+/**
+ * Environment of an own headless Chrome. DBUS_SESSION_BUS_ADDRESS is removed: with a session bus address that does not answer (found in an agent sandbox, where
+ * the desktop session's address is inherited) Chrome's browser process blocks on its first D-Bus call and every HTTP navigation hangs (Page.navigate never answers,
+ * no request leaves Chrome, TCP preconnects still happen); about:blank and files served over CDP keep working, which hid it. A headless Chrome needs no session bus.
+ */
+export function chromeEnv() {
+  const env = { ...process.env, TZ: 'Europe/Berlin' };
+  delete env.DBUS_SESSION_BUS_ADDRESS;
+  return env;
+}
+
 /** Start an own headless Chrome (throw-away profile, own port, own PID). → { port, proc, cleanup() } */
 async function launchHeadless({ chrome, port, tmp, log, noSandbox, scrollbars }) {
   const exe = findChrome(chrome);
@@ -116,7 +127,7 @@ async function launchHeadless({ chrome, port, tmp, log, noSandbox, scrollbars })
     '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--disable-background-networking', '--disable-sync',
     '--disable-component-update', ...(scrollbars ? [] : ['--hide-scrollbars']), '--mute-audio', '--lang=de-DE', '--no-proxy-server', '--font-render-hinting=none',
     ...(noSandbox || process.env.TN_NO_SANDBOX === '1' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []), 'about:blank',
-  ], { stdio: 'ignore', env: { ...process.env, TZ: 'Europe/Berlin' } });
+  ], { stdio: 'ignore', env: chromeEnv() });
   log?.(`Chrome pid ${proc.pid}, port ${dport}`);
   const cleanup = async () => {
     if (proc.exitCode == null && proc.signalCode == null) {

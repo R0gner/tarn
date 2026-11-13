@@ -57,6 +57,12 @@ Round 5.
   Snapshots of the German sample board pages re-baselined for it.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
+### Stage Gb
+- **shoot (G5):** `tools/shoot.mjs` now takes `http(s)://host:port/…` URLs of a running server without `--attach`: Node fetches the requests and fulfils them over CDP (like `verify --board`), so Chrome
+  needs no network of its own; `--base URL` for paths, `--direct` for Chrome's own network. Cause of the old hang at `Page.navigate` in an agent sandbox: an inherited `DBUS_SESSION_BUS_ADDRESS` blocks
+  Chrome's first D-Bus call and every HTTP navigation; the kit's own Chrome is now started without it (`chromeEnv()`), README documents what to do for `--attach`. Selftest checks the Node route; `shoot` and `load()` no longer
+  leave an unhandled rejection when a navigation fails.
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.

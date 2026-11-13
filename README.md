@@ -404,17 +404,31 @@ node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port>      # 50 KB repo
 ### Screenshots
 
 ```sh
-node tools/shoot.mjs --out <folder-outside-the-repo> [--attach http://127.0.0.1:<port>] \
-  "http://127.0.0.1:18810/example/?lang=en#/overview" "http://127.0.0.1:18810/example/#/jobs?open=offsite-sync"
+node tools/shoot.mjs --out <folder-outside-the-repo> "http://127.0.0.1:18810/example/?lang=en#/overview" "http://127.0.0.1:18810/example/#/jobs?open=offsite-sync"
+node tools/shoot.mjs --out <folder> --sizes phone --themes light "/starter/?lang=de"        # a path: answered from the repo, no server
+node tools/shoot.mjs --out <folder> --base http://10.0.0.5:8795 "/#/overview"               # paths from a running server
+node tools/shoot.mjs --out <folder> --attach http://127.0.0.1:<debug-port> http://…/        # a running Chrome opens the URLs
 ```
 
-Without `--attach` the own headless Chrome answers paths that start with `/` straight from the repo (no server needed):
-`node tools/shoot.mjs --out <folder> --sizes phone --themes light "/starter/?lang=de"`. With `--attach` use full `http://127.0.0.1:<port>/…` URLs.
+Three ways to get the page into the own headless Chrome (without `--attach`):
+- **A path** (`/starter/…`) is answered from the repo by CDP file delivery (same bytes and CSP as `tools/serve.py`).
+- **`http(s)://host:port/…` of a running server** (a board, any address, a container IP): Node fetches every request from that server and hands status, headers (CSP
+  included) and body to Chrome over CDP (`Fetch.fulfillRequest`), the same route as `verify --board`. Chrome needs no network access of its own; all URLs of a run must
+  share one origin. This is the default and works wherever Node can reach the server.
+- **`--direct`**: the own Chrome opens the URLs with its own network stack.
+
+**Why `--attach` against a self-started headless Chrome could hang at `Page.navigate`:** an agent sandbox that inherits the desktop session's `DBUS_SESSION_BUS_ADDRESS`
+makes Chrome's browser process block on its first D-Bus call: TCP preconnects happen, but no HTTP request is ever sent and `Page.navigate` never answers (even for a refused
+connection), while `about:blank`, files served over CDP and plain `curl`/Node requests keep working. Found by starting Chrome with and without the variable
+(without: navigates; `env -u DISPLAY` alone: still hangs); a fresh Chrome with the same flags and a live server was the test. The kit's own Chrome is started without
+the variable (`chromeEnv()` in `tools/lib/cdp.mjs`, so `--direct` and `verify --base` work there too); a Chrome you start yourself for `--attach` needs
+`env -u DBUS_SESSION_BUS_ADDRESS google-chrome --headless=new --remote-debugging-port=…`. A shell whose environment has no such variable (the likely reason it worked from the gateway owner's own shell; not checked there) needs nothing.
 
 - One PNG per URL × size (`phone` 390×844 @3 touch, `desktop` 1440×900; `--sizes tablet` or `800x600@1t`) × scheme (`dark`, `light`).
   `--full` full page height, `--eval JS` e.g. a click before the capture.
 - Reports console errors (including CSP violations, 404, exceptions), Chrome error pages and page overflow. Exit 1 on problems.
-  `--out` is required and must be outside the repo; `--attach` as with verify.
+  `--out` is required and must be outside the repo. `shoot` loads pages like verify does (waits for the requested document to be complete); the selftest checks the
+  Node-fetch route against the foreign board copy.
 
 ## API in short
 

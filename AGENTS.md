@@ -139,7 +139,7 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 - [ ] Kit code: `// @ts-check` at the top, options as `@typedef`, `node tools/verify.mjs --types` green; no `@ts-ignore`, no `any` except where a comment says why.
 - [ ] For kit changes `node tools/verify.mjs` green (see “Verification”), for timing changes additionally `tools/tempo.mjs` with a
       before/after table.
-- [ ] `tools/shoot.mjs --out <folder-outside-the-repo>` (if needed `--attach http://127.0.0.1:<port>`) for the overview, a list, an
+- [ ] `tools/shoot.mjs --out <folder-outside-the-repo>` (a running board: pass its `http://host:port/…` URLs, Node fetches them; `--attach` only for a visible Chrome) for the overview, a list, an
       open detail (`?open=…`), in two languages – **no** console/CSP errors, **no** overflow, phone and desktop, light and dark.
       Look at a few images yourself, dark first.
 - [ ] Every action gives feedback (toast or `actionRun`); every dangerous one goes through `confirm()`; forms show errors on the fields and cannot be submitted twice.

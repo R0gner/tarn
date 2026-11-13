@@ -3,8 +3,14 @@
 //
 //   node tools/shoot.mjs --out /path/outside/the/repo [options] URL [URL …]
 //
-// URL: without --attach a path like /starter/?lang=en or /gallery/#/inputs is answered from the repo by the own headless Chrome (CDP file
-// delivery, same bytes and CSP as tools/serve.py; no server needed, the sandbox may forbid connections). With --attach use full http://127.0.0.1:<port>/… URLs.
+// URL, three ways:
+//   a path like /starter/?lang=en or /gallery/#/inputs: answered from the repo by the own headless Chrome (CDP file delivery, same bytes and CSP as
+//     tools/serve.py; no server needed).
+//   http://host:port/… of a RUNNING server (a board, any address, also a container IP): the own headless Chrome gets every request from Node, which fetches it
+//     from that server and hands status, headers (CSP too) and body over CDP (Fetch.fulfillRequest) – the same route as `verify --board`. Chrome needs no
+//     network access of its own, so this works where an own Chrome cannot open connections. All URLs of a run must share one origin; with --base URL
+//     paths are taken from that server instead of the repo.
+//   --direct: the own Chrome opens http(s) URLs itself (its own network stack); --attach: a running Chrome opens them (full URLs).
 //
 // One PNG per URL × size × theme. Reports console errors (including CSP, 404, exceptions) and horizontal
 // overflow. Exit code 1 on errors/overflow, 2 on usage errors.
@@ -18,6 +24,8 @@
 //   --port N         debug port (default: chosen freely); --chrome PATH; --tmp DIR (base for the throw-away profile)
 //   --prefix NAME    file name prefix
 //   --eval JS        run after loading (e.g. a click), then wait --wait again
+//   --base URL       paths (/…) come from this running server (fetched by Node, fulfilled over CDP) instead of the repo
+//   --direct         the own Chrome loads http(s) URLs itself instead of through Node
 //   --attach URL     use a running Chrome via CDP instead of starting one (e.g. http://127.0.0.1:<port>):
 //                    opens its own new tab (/json/new), emulates viewport/DPR/touch/colour scheme,
 //                    brings it to the front (otherwise Chrome throttles) and closes only this tab at the end.
@@ -30,6 +38,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openBrowser, openHeadlessPages, FETCH_ORIGIN, emulate, sleep } from './lib/cdp.mjs';
+import { load } from './verify/geometry.mjs';
 
 const SIZES = {
   phone: { w: 390, h: 844, dpr: 3, mobile: true },
@@ -52,6 +61,8 @@ function parseArgs(argv) {
     else if (a === '--prefix') o.prefix = next();
     else if (a === '--eval') o.eval = next();
     else if (a === '--attach') o.attach = next().replace(/\/+$/, '');
+    else if (a === '--base') o.base = next().replace(/\/+$/, '');
+    else if (a === '--direct') o.direct = true;
     else if (a === '--full') o.full = true;
     else if (a === '-h' || a === '--help') { console.log(fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\n').filter((l) => l.startsWith('//')).map((l) => l.slice(3)).join('\n')); process.exit(0); }
     else if (a.startsWith('--')) die(`unknown option ${a}`);
@@ -111,11 +122,17 @@ async function main() {
   try {
     if (o.attach) page = await openBrowser({ attach: o.attach, chrome: o.chrome, port: o.port, tmp: o.tmp, log: (t) => console.log(`shoot: ${t}`) });
     else {
-      const own = await openHeadlessPages({ chrome: o.chrome, tmp: o.tmp, n: 1, root, log: (t) => console.log(`shoot: ${t}`) });
+      // Own Chrome. Through Node (upstream) when the URLs name a running server, from the repo for plain paths, or the own network stack with --direct.
+      const origins = new Set(o.urls.filter((u) => /^https?:\/\//.test(u)).map((u) => new URL(u).origin));
+      if (o.base) origins.add(new URL(o.base).origin);
+      if (origins.size > 1) die(`the URLs of one run must share one origin (got ${[...origins].join(', ')}); run shoot once per server`);
+      const upstream = o.direct ? null : [...origins][0] || null;
+      const own = await openHeadlessPages({ chrome: o.chrome, tmp: o.tmp, n: 1, root, upstream: upstream || undefined, log: (t) => console.log(`shoot: ${t}`) });
       page = own.pages[0];
       page.pid = own.pid;
       page.close = own.close;                                   // stops exactly this Chrome and deletes its profile
-      o.urls = o.urls.map((u) => (u.startsWith('/') ? FETCH_ORIGIN + u : u));
+      if (upstream) console.log(`shoot: ${upstream} is fetched by Node and handed to Chrome over CDP (no network access of Chrome needed)`);
+      o.urls = o.urls.map((u) => (u.startsWith('/') ? (upstream ? FETCH_ORIGIN : o.direct && o.base ? o.base : FETCH_ORIGIN) + u : upstream && u.startsWith(upstream) ? FETCH_ORIGIN + u.slice(upstream.length) : u));
     }
     const S = (m, p) => page.send(m, p);
     await S('Page.enable'); await S('Runtime.enable'); await S('Log.enable');
@@ -135,11 +152,8 @@ async function main() {
         for (const theme of themes) {
           errs = [];
           await emulate(page, sz, theme);
-          await S('Page.navigate', { url: 'about:blank' });
-          const loaded = page.waitFor((m) => m.method === 'Page.loadEventFired', 20000);
-          if (o.attach) await S('Page.bringToFront');
-          await S('Page.navigate', { url });
-          await loaded.catch(() => errs.push('loading: timeout'));
+          try { await load(page, url, { push: (e) => errs.push(e) }); } catch (e) { errs.push(`page not reachable: ${e.message.slice(0, 160)}`); }
+          for (const e of page.takeServeErrors?.() || []) errs.push(`server not reachable: ${e}`);
           await sleep(o.wait);
           if (o.eval) {
             const r = await S('Runtime.evaluate', { expression: o.eval, awaitPromise: true });

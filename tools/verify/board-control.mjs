@@ -1,7 +1,7 @@
 // tarn · positive control of the board run: a copy of example/ set up OUTSIDE the repo as a foreign board (its own folder, tarn-board.json,
 // a vendored kit copy in vendor/tarn served as /tarn/, a small static server with the strict CSP) must be green; the same copy with
 // injected faults must be red. Run by `verify --selftest`, so the ability to check a board outside the kit cannot rot silently.
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -60,16 +60,29 @@ export async function boardControl({ chrome, ci, attach } = {}) {
     const measured = (st.geometryStates || 0) >= 4 && (st.overlayScenarios || 0) >= 4 && (st.snapshotStates || 0) >= 4;
     const kit = green.report?.kit;
     const greenOk = green.code === 0 && measured && kit === fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim();
+    // tools/shoot.mjs against the running server without --attach: Node fetches, CDP fulfils (no network access of the own Chrome needed)
+    const shotDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-shoot-'));
+    // asynchronous: the server of this process must keep answering while shoot runs
+    const sh = await new Promise((resolve) => {
+      const c = spawn(process.execPath, [path.join(ROOT, 'tools', 'shoot.mjs'), '--out', shotDir, '--sizes', 'phone', '--themes', 'dark', ...(chrome ? ['--chrome', chrome] : []), `${server.url}/`], { env: { ...process.env, ...(ci ? { TN_NO_SANDBOX: '1' } : {}) } });
+      let stdout = '', stderr = '';
+      c.stdout.on('data', (d) => { stdout += d; }); c.stderr.on('data', (d) => { stderr += d; });
+      const t = setTimeout(() => c.kill('SIGKILL'), 90000);
+      c.on('close', (status) => { clearTimeout(t); resolve({ status, stdout, stderr }); });
+    });
+    const shootOk = sh.status === 0 && fs.readdirSync(shotDir).some((f) => f.endsWith('.png')) && /fetched by Node/.test(sh.stdout);
+    const shootDetail = shootOk ? '' : `shoot: exit ${sh.status} ${(sh.stdout + sh.stderr).trim().split('\n').slice(-6).join(' | ')}`;
+    fs.rmSync(shotDir, { recursive: true, force: true });
     injectFaults(dir);
     const red = await runBoard({ ...common, only: ['lint', 'vendor', 'geometry'], views: ['overview'] });
     const checks = new Set((red.report?.findings || []).map((f) => f.check));
     const rules = new Set((red.report?.findings || []).map((f) => f.rule));
     const redOk = red.code === 1 && ['lint', 'vendor', 'geometry'].every((c) => checks.has(c)) && rules.has('html') && rules.has('color');
-    const ok = greenOk && redOk;
+    const ok = greenOk && redOk && shootOk;
     return {
       ok,
-      line: `selftest: board outside the kit: foreign copy ${greenOk ? 'green' : 'NOT GREEN'} (kit ${kit || '?'}, ${st.geometryStates || 0} states, ${st.overlayScenarios || 0} scenarios, ${st.snapshotStates || 0} snapshots), injected faults ${redOk ? 'red' : 'NOT RED'} (${[...checks].join(', ') || 'none'})`,
-      detail: ok ? '' : `green: ${green.lines.slice(0, 3).join(' | ')} · red: ${red.lines.slice(0, 3).join(' | ')}`,
+      line: `selftest: board outside the kit: foreign copy ${greenOk ? 'green' : 'NOT GREEN'} (kit ${kit || '?'}, ${st.geometryStates || 0} states, ${st.overlayScenarios || 0} scenarios, ${st.snapshotStates || 0} snapshots), injected faults ${redOk ? 'red' : 'NOT RED'} (${[...checks].join(', ') || 'none'}), shoot through Node ${shootOk ? 'ok' : 'FAILED'}`,
+      detail: ok ? '' : `${shootDetail} · green: ${green.lines.slice(0, 3).join(' | ')} · red: ${red.lines.slice(0, 3).join(' | ')}`,
     };
   } finally {
     await server?.close().catch(() => {});

@@ -44,6 +44,7 @@ export async function load(page, url, errs) {
   // whatever worker or order the tasks run in. Only in an own throw-away Chrome; a running browser (--attach) keeps its storage.
   if (page.kind === 'own') await page.send('Storage.clearDataForOrigin', { origin: new URL(url).origin, storageTypes: 'local_storage,session_storage,cookies' }).catch(() => {});
   const loaded = page.waitFor((m) => m.method === 'Page.loadEventFired', 20000);
+  loaded.catch(() => {});   // handled below; but never an unhandled rejection when the navigation throws first
   if (page.kind === 'attach') await page.send('Page.bringToFront');
   try { await page.send('Page.navigate', { url }, 15000); } catch (e) {
     throw Object.assign(new Error(`${url} does not load (${e.message}); ${page.kind === 'own' ? 'the own headless Chrome cannot reach the test server – use --attach with a running Chrome' : 'check server/Chrome'}`), { env: true });
