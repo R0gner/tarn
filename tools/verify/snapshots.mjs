@@ -16,7 +16,7 @@ export const SNAP_DIR = path.join(ROOT, 'tests', 'snapshots');
 export const SNAP_SIZES = ['phone', 'desktop'];
 export const FIXED_TIME = Date.UTC(2026, 10, 9, 9, 0, 0);
 
-const dateShim = (time) => `(() => { const T = ${time}, D = Date;
+export const dateShim = (time) => `(() => { const T = ${time}, D = Date;
   class FixedDate extends D { constructor(...a) { if (a.length) super(...a); else super(T); } static now() { return T; } }
   globalThis.Date = FixedDate; })();`;
 
