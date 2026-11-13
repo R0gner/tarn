@@ -110,7 +110,7 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 | You want … | use |
 |---|---|
 | a key figure with a goal | `statTile({ label, value, unit, sub, status, onClick })`, trend as `sub: sparkline({ values })` |
-| a list of things | `card({ flush: true }, list(items, (x) => metricRow({ … })))` |
+| a list of things | `card({ flush: true }, list(items, (x) => metricRow({ … })))`; a reason that must be read in full (problem rows): `metricRow({ wrapSub: true })` |
 | a quiet note under a list or card ("+13 frequent runs hidden") | `card({ flush: true, footer: t('…') }, list(…))`, under a section `section(title, { footer })` – one short sentence, never a second heading |
 | many columns, sorting | `table({ columns, rows, status, onRow })` + `filterBar()`; long texts `wrap: true`, phone role `mobile` |
 | facts in the detail | `facts('Title', kv([[k, v, class?], …]))` |

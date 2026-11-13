@@ -77,59 +77,59 @@ div.tn-app @0,0 1424x900
           span.tn-go @872,68 16x16
             svg.tn-icon @872,68 16x16
       div.tn-cols @224,172 1184x496
-        section.tn-section @224,172 584x264
+        section.tn-section @224,172 584x280
           header.tn-section-head @224,172 584x24
             h2.tn-section-title "Problèmes" @228,176 580x16
               span.tn-section-count "5" @292,176 8x16
-          section.tn-card.tn-card-flush @224,204 584x232
-            div.tn-card-body @224,208 584x228
-              div.tn-list [list] @224,208 584x228
-                button.tn-row.tn-row-btn @224,208 584x44
-                  span.tn-row-status @236,224 8x8
-                    span.tn-dot.tn-s-bad [img] "Erreur" @236,224 8x8
-                  span.tn-row-main @256,212 448x36
+          section.tn-card.tn-card-flush @224,204 584x248
+            div.tn-card-body @224,208 584x244
+              div.tn-list [list] @224,208 584x244
+                button.tn-row.tn-row-btn @224,208 584x60
+                  span.tn-row-status @236,236 8x8
+                    span.tn-dot.tn-s-bad [img] "Erreur" @236,236 8x8
+                  span.tn-row-main @256,212 448x52
                     span.tn-row-title.tn-ellipsis "Offsite archive sync" @256,212 448x20
-                    span.tn-row-sub.tn-ellipsis "nas-b · rsync: connection unexpectedly closed (0 bytes recei" @256,228 448x16
-                  span.tn-row-value @716,220 52x20
-                    span.tn-num "il y a 4 h" @716,220 52x20
-                  span.tn-go @780,220 16x16
-                    svg.tn-icon @780,220 16x16
-                button.tn-row.tn-row-btn @224,252 584x44
-                  span.tn-row-status @236,272 8x8
-                    span.tn-dot.tn-s-bad [img] "Erreur" @236,272 8x8
-                  span.tn-row-main @256,256 512x36
-                    span.tn-row-title.tn-ellipsis "app-2" @256,256 512x20
-                    span.tn-row-sub.tn-ellipsis "Stockage rempli à 94 %" @256,276 512x16
-                  span.tn-go @780,268 16x16
-                    svg.tn-icon @780,268 16x16
-                button.tn-row.tn-row-btn @224,296 584x44
-                  span.tn-row-status @236,316 8x8
-                    span.tn-dot.tn-s-warn [img] "Avertissement" @236,316 8x8
-                  span.tn-row-main @256,304 424x36
-                    span.tn-row-title.tn-ellipsis "Media library scan" @256,304 424x20
-                    span.tn-row-sub.tn-ellipsis "media-1 · Takes longer than usual (25 instead of 12 min)." @256,320 424x16
-                  span.tn-row-value @692,312 72x20
-                    span.tn-num "il y a 40 min" @692,312 72x20
-                  span.tn-go @780,312 16x16
-                    svg.tn-icon @780,312 16x16
-                button.tn-row.tn-row-btn @224,344 584x44
-                  span.tn-row-status @236,364 8x8
-                    span.tn-dot.tn-s-warn [img] "Avertissement" @236,364 8x8
-                  span.tn-row-main @256,348 512x36
-                    span.tn-row-title.tn-ellipsis "nas-b" @256,348 512x20
-                    span.tn-row-sub.tn-ellipsis "Redémarré il y a 3 j" @256,368 512x16
-                  span.tn-go @780,360 16x16
-                    svg.tn-icon @780,360 16x16
-                button.tn-row.tn-row-btn @224,388 584x44
-                  span.tn-row-status @236,408 8x8
-                    span.tn-dot.tn-s-unknown [img] "Inconnu" @236,408 8x8
-                  span.tn-row-main @256,396 448x36
-                    span.tn-row-title.tn-ellipsis "DNS reachability" @256,396 448x20
-                    span.tn-row-sub.tn-ellipsis "edge-1 · No response from the agent for 3 h." @256,412 448x16
-                  span.tn-row-value @716,404 52x20
-                    span.tn-num "il y a 3 h" @716,404 52x20
-                  span.tn-go @780,404 16x16
-                    svg.tn-icon @780,404 16x16
+                    span.tn-row-sub.tn-row-sub-wrap "nas-b · rsync: connection unexpectedly closed (0 bytes recei" @256,228 448x32
+                  span.tn-row-value @716,228 52x20
+                    span.tn-num "il y a 4 h" @716,228 52x20
+                  span.tn-go @780,228 16x16
+                    svg.tn-icon @780,228 16x16
+                button.tn-row.tn-row-btn @224,268 584x44
+                  span.tn-row-status @236,288 8x8
+                    span.tn-dot.tn-s-bad [img] "Erreur" @236,288 8x8
+                  span.tn-row-main @256,276 512x36
+                    span.tn-row-title.tn-ellipsis "app-2" @256,276 512x20
+                    span.tn-row-sub.tn-row-sub-wrap "Stockage rempli à 94 %" @256,292 512x16
+                  span.tn-go @780,284 16x16
+                    svg.tn-icon @780,284 16x16
+                button.tn-row.tn-row-btn @224,316 584x44
+                  span.tn-row-status @236,336 8x8
+                    span.tn-dot.tn-s-warn [img] "Avertissement" @236,336 8x8
+                  span.tn-row-main @256,320 424x36
+                    span.tn-row-title.tn-ellipsis "Media library scan" @256,320 424x20
+                    span.tn-row-sub.tn-row-sub-wrap "media-1 · Takes longer than usual (25 instead of 12 min)." @256,340 424x16
+                  span.tn-row-value @692,328 72x20
+                    span.tn-num "il y a 40 min" @692,328 72x20
+                  span.tn-go @780,332 16x16
+                    svg.tn-icon @780,332 16x16
+                button.tn-row.tn-row-btn @224,360 584x44
+                  span.tn-row-status @236,380 8x8
+                    span.tn-dot.tn-s-warn [img] "Avertissement" @236,380 8x8
+                  span.tn-row-main @256,368 512x36
+                    span.tn-row-title.tn-ellipsis "nas-b" @256,368 512x20
+                    span.tn-row-sub.tn-row-sub-wrap "Redémarré il y a 3 j" @256,384 512x16
+                  span.tn-go @780,376 16x16
+                    svg.tn-icon @780,376 16x16
+                button.tn-row.tn-row-btn @224,408 584x44
+                  span.tn-row-status @236,428 8x8
+                    span.tn-dot.tn-s-unknown [img] "Inconnu" @236,428 8x8
+                  span.tn-row-main @256,412 448x36
+                    span.tn-row-title.tn-ellipsis "DNS reachability" @256,412 448x20
+                    span.tn-row-sub.tn-row-sub-wrap "edge-1 · No response from the agent for 3 h." @256,432 448x16
+                  span.tn-row-value @716,420 52x20
+                    span.tn-num "il y a 3 h" @716,420 52x20
+                  span.tn-go @780,424 16x16
+                    svg.tn-icon @780,424 16x16
         div.tn-stack @824,172 584x496
           section.tn-section @824,172 584x264
             header.tn-section-head @824,172 584x24

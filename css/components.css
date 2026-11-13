@@ -193,6 +193,7 @@
 .tn-row-main { flex: 1; min-width: 0; display: grid; }
 .tn-row-title { font-size: var(--tn-fs-body); }
 .tn-row-sub { font-size: var(--tn-fs-label); color: var(--tn-text-2); }
+.tn-row-sub-wrap { min-width: 0; white-space: normal; overflow-wrap: anywhere; }   /* metricRow({ wrapSub }): the sub line wraps instead of ending in "…" */
 .tn-row-value { flex: none; display: grid; justify-items: end; text-align: right; font-variant-numeric: tabular-nums; max-width: 45%; }
 .tn-row-value > .tn-num { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
 .tn-go { display: inline-grid; place-items: center; flex: none; color: var(--tn-text-3); }

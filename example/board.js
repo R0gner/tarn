@@ -96,7 +96,7 @@ function viewOverview(ctx) {
     cols(
       section(t('board.sec.problems'), { count: problems.length },
         card({ flush: true }, list(problems, (p) => metricRow({
-          key: p.id, title: p.title, sub: p.sub, status: p.status, value: p.at ? fmtAgo((now - p.at) / 1000) : null,
+          key: p.id, title: p.title, sub: p.sub, wrapSub: true, status: p.status, value: p.at ? fmtAgo((now - p.at) / 1000) : null,
           onClick: () => ctx.app.go(p.kind === 'job' ? 'jobs' : 'hosts', { open: p.id }),
         }), { empty: t('board.noProblems') }))),
       stack(

@@ -11,7 +11,7 @@ import { t } from './i18n.js';
 /** @typedef {{ title?: Child, sub?: Child, actions?: Child, flush?: boolean, footer?: Child, className?: string }} CardOptions footer: a quiet line under the content ("+13 frequent runs hidden"). */
 /** @typedef {{ count?: number | string | null, actions?: Child, footer?: Child, className?: string }} SectionOptions footer: a quiet line under the content. */
 /** @typedef {{ label?: Child, value?: Child, unit?: Child, sub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, className?: string }} StatTileOptions */
-/** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, className?: string }} MetricRowOptions */
+/** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, wrapSub?: boolean, className?: string }} MetricRowOptions wrapSub: the sub line wraps instead of ending in "…" (a problem row's reason must be readable in full). */
 /** @typedef {{ empty?: string, zebra?: boolean }} ListOptions */
 /** @typedef {{ mono?: boolean }} KvOptions */
 /** @typedef {[Child, Child, string?]} KvPair [key, value, optional class for the value] */
@@ -69,11 +69,12 @@ export function statTile({ label, value, unit, sub, status, onClick, className }
 
 /**
  * Row – whole surface tappable (button), title/subtitle left, value right, status dot, chevron.
- * metricRow({ title, sub, value, valueSub, status, onClick, chevron = !!onClick, mono })
+ * metricRow({ title, sub, value, valueSub, status, onClick, chevron = !!onClick, mono, wrapSub })
+ * wrapSub: the sub line wraps over as many lines as it needs (default: one line, "…" at the end, full text as hint).
  * @param {MetricRowOptions} [o]
  * @returns {HTMLElement}
  */
-export function metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, className } = {}) {
+export function metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, wrapSub, className } = {}) {
   const tag = onClick ? 'button' : 'div';
   return h(tag, {
     class: cls('tn-row', onClick && 'tn-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
@@ -82,7 +83,7 @@ export function metricRow({ title, sub, value, valueSub, status, onClick, chevro
   status && h('span', { class: 'tn-row-status' }, statusDot(status)),
   h('span', { class: 'tn-row-main' },
     h('span', { class: cls('tn-row-title tn-ellipsis', mono && 'tn-mono') }, title),
-    sub && h('span', { class: 'tn-row-sub tn-ellipsis' }, sub)),
+    sub && h('span', { class: cls('tn-row-sub', wrapSub ? 'tn-row-sub-wrap' : 'tn-ellipsis') }, sub)),
   value != null && h('span', { class: 'tn-row-value' },
     h('span', { class: 'tn-num' }, value), valueSub && h('span', { class: 'tn-row-sub' }, valueSub)),
   (chevron ?? !!onClick) && h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon('chevron-right')));

@@ -106,6 +106,12 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // a problem row's reason ends in "…" although the row asked to wrap it
+    id: 'row-sub-wrap-ellipsis',
+    page: 'gallery', views: ['rows'], sizes: ['phone-s'], expect: ['wrap-sub'],
+    css: '.tn-row-sub-wrap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
+  },
+  {
     // the browser prompt for the permission appears when the sheet opens, not after a tap on the button (browsers punish that, Safari refuses it)
     id: 'notifications-ask-on-open',
     check: 'overlay', scenarios: ['notifications'], sizes: ['desktop'], expect: ['overlay-behaviour'],

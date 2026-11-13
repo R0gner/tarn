@@ -7,6 +7,7 @@
 //   overlap    text boxes overlap; siblings in flex/grid overlap
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
+//   wrap-sub   a row sub line with wrapSub is cut off or ends in an ellipsis
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
@@ -78,6 +79,13 @@
   for (const el of document.querySelectorAll('.tn-seg')) {
     if (ignored(el) || !visible(el)) continue;
     if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `segmented control scrolls sideways, options hidden (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- wrap-sub: a row sub line that asked to wrap (metricRow({ wrapSub })) is readable in full: no "…", no cut-off text ---- */
+  for (const el of document.querySelectorAll('.tn-row-sub-wrap')) {
+    if (ignored(el) || !visible(el)) continue;
+    const cs = getComputedStyle(el);
+    if (el.scrollWidth > el.clientWidth + o.tol || el.scrollHeight > el.clientHeight + o.tol || cs.textOverflow === 'ellipsis' || cs.whiteSpace === 'nowrap') push(findings, { rule: 'wrap-sub', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `a sub line that wraps is cut off or ends in “…” (“${el.textContent.trim().slice(0, 40)}”)`, rect: R(el.getBoundingClientRect()), el });
   }
 
   /* ---- toolbar-title: on a 390 px phone the view title is shown in full; buttons that crowd it out (theme, density, language, notifications) belong
