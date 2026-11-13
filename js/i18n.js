@@ -17,7 +17,7 @@ import fr from './locales/fr.js';
 /** @typedef {string | { one?: string, two?: string, few?: string, many?: string, other: string, zero?: string }} Message A text, or plural forms chosen by vars.count (Intl.PluralRules categories). */
 /** @typedef {Record<string, Message>} Catalog Key → text of one language. */
 /** @typedef {Record<string, Catalog>} Messages Language code → catalog (board texts for createApp({ messages }) and addMessages()). */
-/** @typedef {{ locale?: string | null, locales?: string[], languages?: readonly string[], stored?: string | null }} ResolveLocaleOptions */
+/** @typedef {{ locale?: string | null, locales?: string[], languages?: readonly string[], stored?: string | null, fallback?: string | null }} ResolveLocaleOptions */
 
 /** Kit catalogs per language: the core part (js/locales/<lang>.js); the shell part is added by js/locales/shell.js. */
 export const KIT_CATALOGS = { en, de, es, fr };
@@ -134,17 +134,18 @@ export function t(key, vars) {
 export const placeholdersOf = (v) => [...new Set([...(typeof v === 'object' ? Object.values(v) : [v]).join(' ').matchAll(/\{(\w+)\}/g)].map((m) => m[1]))].sort();
 
 /**
- * Locale choice. opts: { locale?: forced, locales?: offered (default: all kit locales), languages?: navigator.languages, stored?: saved choice }.
- * Returns { locale, offered, forced }. Without a match the result is 'en'.
+ * Locale choice. opts: { locale?: forced, locales?: offered (default: all kit locales), languages?: navigator.languages, stored?: saved choice,
+ * fallback?: the offered language to use when none of the browser languages matches, default 'en' }.
+ * Returns { locale, offered, forced }. Without a match the result is `fallback` (if it is offered), else 'en'.
  * @param {ResolveLocaleOptions} [o]
  * @returns {{ locale: string, offered: string[], forced: boolean }}
  */
-export function resolveLocale({ locale: forced, locales, languages, stored } = {}) {
+export function resolveLocale({ locale: forced, locales, languages, stored, fallback } = {}) {
   const offered = (locales && locales.length ? locales : KIT_LOCALES).map(String);
   const pick = (code) => offered.find((o) => o.toLowerCase() === String(code).toLowerCase()) || offered.find((o) => baseLang(o) === baseLang(code));
   if (forced) return { locale: pick(forced) || forced, offered, forced: true };
   const saved = stored && stored !== 'auto' ? pick(stored) : undefined;
   if (saved) return { locale: saved, offered, forced: false };
   for (const l of languages || (typeof navigator !== 'undefined' ? navigator.languages : []) || []) { const p = pick(l); if (p) return { locale: p, offered, forced: false }; }
-  return { locale: pick('en') || 'en', offered, forced: false };
+  return { locale: (fallback && pick(fallback)) || pick('en') || 'en', offered, forced: false };
 }

@@ -49,6 +49,7 @@ import { detectPlatform, manualInstall, browserEnv } from './notifications-data.
  *   categories?: BoardCategory[] | (() => BoardCategory[]),
  *   boardId?: string,
  *   locale?: string,
+ *   fallbackLocale?: string,   // language for browsers none of whose languages is offered (default 'en'); the language menu stays
  *   locales?: string[],
  *   messages?: Record<string, Record<string, any>>,
  *   timeZone?: string,
@@ -96,7 +97,7 @@ export function createApp(cfg0) {
   let stored = null;
   try { stored = localStorage.getItem('tn-locale'); } catch {}
   const queryLang = new URLSearchParams(location.search).get('lang'); // test/preview aid: ?lang=de
-  const loc = resolveLocale({ locale: cfg0.locale || queryLang, locales: offered, stored, languages: navigator.languages });
+  const loc = resolveLocale({ locale: cfg0.locale || queryLang, locales: offered, stored, languages: navigator.languages, fallback: cfg0.fallbackLocale });
   setLocale(loc.locale);
   if (cfg0.timeZone) setTimeZone(cfg0.timeZone);
   /* title, boards, categories and view labels may be functions (so they can call t() after the locale is set) */

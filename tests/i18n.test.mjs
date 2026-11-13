@@ -70,6 +70,14 @@ test('resolveLocale: forced > stored > browser languages > English', () => {
   assert.equal(resolveLocale({ locales: o, stored: 'auto', languages: ['de-AT', 'en'] }).locale, 'de');
   assert.equal(resolveLocale({ locales: o, stored: 'xx', languages: ['fr-CA'] }).locale, 'fr');
   assert.equal(resolveLocale({ locales: o, languages: ['ja', 'ko'] }).locale, 'en');
+  // fallbackLocale: used only when no browser language matches; a match wins, an unoffered fallback is ignored, a forced or stored choice wins
+  assert.equal(resolveLocale({ locales: o, languages: ['ja', 'ko'], fallback: 'de' }).locale, 'de');
+  assert.equal(resolveLocale({ locales: o, languages: ['fr-CA'], fallback: 'de' }).locale, 'fr');
+  assert.equal(resolveLocale({ locales: o, languages: ['ja'], fallback: 'xx' }).locale, 'en');
+  assert.equal(resolveLocale({ locales: o, languages: ['ja'], fallback: 'DE-at' }).locale, 'de');
+  assert.equal(resolveLocale({ locales: o, languages: ['ja'], fallback: 'de', stored: 'fr' }).locale, 'fr');
+  assert.equal(resolveLocale({ locales: o, languages: ['ja'], fallback: 'de', locale: 'es' }).locale, 'es');
+  assert.equal(resolveLocale({ locales: o, languages: [], fallback: 'de' }).locale, 'de');
   assert.equal(resolveLocale({ languages: ['es-MX'] }).locale, 'es');                 // default: all kit locales
   assert.equal(resolveLocale({ locales: ['de'], languages: ['ja'] }).locale, 'en');   // fallback is English even if not offered
   assert.equal(baseLang('pt-BR'), 'pt');

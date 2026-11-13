@@ -424,7 +424,7 @@ colours only as token names (`blue green orange purple pink graphite` or a statu
 
 | Area | Functions |
 |---|---|
-| Shell | `createApp({ title, icon, boards, categories, boardId, locale, locales, messages, timeZone, views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }], source })` → `app.go(view, { open })`, `app.open(id)`, `app.closeDetail()`, `app.refresh()`, `app.setCount(view, n, tone)` |
+| Shell | `createApp({ title, icon, boards, categories, boardId, locale, fallbackLocale, locales, messages, timeZone, views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }], source })` → `app.go(view, { open })`, `app.open(id)`, `app.closeDetail()`, `app.refresh()`, `app.setCount(view, n, tone)` |
 | Data | `dataSource({ url, interval, staleAfter, parse, ageOf })` → `.start()`, `.reload()`, `.subscribe(fn)`, `.state` |
 | Primitives | `h()`, `s()`, `icon()`, `statusDot()`, `badge()`, `button()`, `iconButton()`, `segmented()`, `tabs()`, `tooltip()`, `progress()`, `field()`, `textField()`, `numberField()`, `select()`, `combobox()`, `checkbox()`, `toggle()`, `dateField()`, `dateRange()` |
 | Components | `card()`, `section()`, `tiles()`, `statTile()`, `cols()`, `stack()`, `toolbarRow()`, `metricRow()`, `list()`, `kv()`, `facts()`, `table()`, `filterBar()` (types options, bool, range, time) + `matchFilters()`, `form()`, `confirm()`, `actionRun()`, `matchQuery()`, `banner()`, `empty()`, `error()`, `loading()`, `toast()`, `menu()`, `usageBar()`, `log()`, `dataCard()`, `openSheet()`, `markdown()` |

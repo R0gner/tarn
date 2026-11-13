@@ -39,8 +39,8 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
     `createApp({ icon: { icon: 'server', color: 'purple' } })` / `favicon({ icon, color })`. Lint (`page`) and verify (`identity`)
     check both; never take the icon of another board or the kit logo. With several boards: the same icon in the header
     (`createApp({ icon })`) and optionally the switcher (`boards`, see README “Multiple boards”); do not build your own navigation.
-12. **Language and time zone belong to the shell:** `createApp({ locale?, locales?, messages?, timeZone? })`. Without `locale` the
-    browser languages are matched against `locales`, fallback English; `locale: 'de'` forces one language (then there is no
+12. **Language and time zone belong to the shell:** `createApp({ locale?, fallbackLocale?, locales?, messages?, timeZone? })`. Without `locale` the
+    browser languages are matched against `locales`, fallback English (or `fallbackLocale`, e.g. `'de'` for a German board that still offers the language menu); `locale: 'de'` forces one language (then there is no
     language menu). Do not hard-wire a time zone or a number format anywhere.
 13. **Inputs, filters and actions only through the kit.** Fields: `field({ label, help, required, rules }, textField | numberField | select | combobox |
     checkbox | toggle | dateField | dateRange)` – never a bare `<input>`; `select` up to about 8 options, above that `combobox`. Several fields that are
