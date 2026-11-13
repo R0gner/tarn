@@ -3,6 +3,27 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.5.0 (unreleased)
+
+Round 5.
+
+### Stage V: verify for a board outside the kit
+- `node <kit>/tools/verify.mjs --board <board folder | tarn-board.json> --base http://127.0.0.1:<port>` checks a running board server: its own CSS/JS
+  lint, `vendor.mjs --check` on its kit copy (names the kit version found; the server must deliver the same `VERSION`), geometry (overflow,
+  truncation, touch targets, i18n, identity, console), snapshots in the board's own folder with its fixed clock, the generic shell overlay
+  scenarios (sidebar, detail, menu over a sheet, sheet) and the animation inventory. The kit's own tests, lint, types and mutants are not part of
+  a board run; snapshots live in the board, images and `report.json` in `--out` (default `<board>/.tarn-verify`), never in the kit.
+- The board describes itself in `tarn-board.json` (pages with `id`, `path`, `details`, optional `views`, `sizes`, `themes`, `density`; snapshot folder,
+  exceptions file, fixed clock, kit copy, lint settings): `tools/lib/board.mjs`, README "Check: verify".
+- `node tools/lint.mjs --board <…>` lints a board's own CSS, JS and HTML (tokens only, no `innerHTML`, texts via `t()`, timers, favicon/title)
+  against the board's own allow file; its vendored kit copy is not linted. `--write-known` writes the board's inventory.
+- The board run feeds the page from the board's server through Node (CDP `Fetch.fulfillRequest`, headers and CSP unchanged), so the own headless Chrome
+  needs no network access of its own and `--jobs` works.
+- Positive control in `verify --selftest`: a copy of `example/` set up outside the repo as a foreign board (vendor copy, static server) must be green,
+  the same copy with injected faults (colour literal, `innerHTML`, a card wider than the page, an edited vendor file) must be red.
+- Internal: exceptions, finding groups and finding screenshots moved to `tools/verify/rules.mjs` and `shots.mjs`; snapshots, overlay scenarios and the
+  pool take the board's folder, pages and kit URL as options; `tests/version.test.mjs` accepts a top entry marked "(unreleased)".
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.

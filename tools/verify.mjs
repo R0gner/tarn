@@ -71,6 +71,7 @@ import { typesFindings, typesMutant } from './verify/types.mjs';
 import { loadRules, classify, groups, groupLine } from './verify/rules.mjs';
 import { makeShot, collectShots } from './verify/shots.mjs';
 import { runBoard } from './verify/board.mjs';
+import { boardControl } from './verify/board-control.mjs';
 import { layersMutant } from './verify/layers.mjs';
 import { inventoryUnits, inventoryUnit, inventorySummary } from './tempo.mjs';
 
@@ -284,10 +285,11 @@ async function main() {
         selftestResult = await selftest(pool, { rules, sizes: sizes.length ? sizes : [parseSize('phone')], themes, pages, viewFilter, only: o.mutants, base: baseRaw || reportBase, baseSource: baseRaw ? 'this run' : reportBase ? path.basename(o.baseReport) : 'own pass' });
         const tm = o.mutants ? null : typesMutant(ROOT); // positive control of the type check (temp copy, no browser)
         const lm = o.mutants ? null : layersMutant(ROOT); // positive control of the import-direction rule (temp copy, no browser)
+        const bm = o.mutants ? null : await boardControl({ chrome: o.chrome, ci: o.ci }).catch((e) => ({ ok: false, line: 'selftest: board outside the kit: control could not run', detail: e.message })); // positive control of the board run (own Chrome and server)
         const st = selftestResult;
-        st.ok = st.ok && (!tm || tm.ok) && (!lm || lm.ok);
+        st.ok = st.ok && (!tm || tm.ok) && (!lm || lm.ok) && (!bm || bm.ok);
         const took = `${Math.round((Date.now() - tVerifyEnd) / 1000)} s`;
-        st.lines = tm ? [...st.lines.slice(0, -1), tm.line, lm.line, st.ok ? `selftest GREEN · ${took} · exit 0` : `selftest RED · ${took} · exit 1`] : [...st.lines.slice(0, -1), st.lines.at(-1).replace(' · exit', ` · ${took} · exit`)];
+        st.lines = tm ? [...st.lines.slice(0, -1), tm.line, lm.line, bm.line, ...(bm.ok ? [] : [`  ${bm.detail}`.slice(0, 300)]), st.ok ? `selftest GREEN · ${took} · exit 0` : `selftest RED · ${took} · exit 1`] : [...st.lines.slice(0, -1), st.lines.at(-1).replace(' · exit', ` · ${took} · exit`)];
         fs.writeFileSync(path.join(outDir, 'selftest.json'), JSON.stringify(st.report, null, 1));
         if (selftestOnly) {
           lines.push(...st.lines, `Report: ${path.join(outDir, 'selftest.json')}`);

@@ -56,7 +56,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 2. **Hand in only with a green verify:** `node tools/verify.mjs` (tests, lint, types, geometry in en/de/fr, overlays, snapshots,
    animation inventory) ends with exit 0, or – while known faults are open – only with the findings listed as KNOWN
    (`tools/verify/exceptions.json`, `tools/lint/allow.json`), never with new ones. When changing check tools also run
-   `node tools/verify.mjs --full --selftest` (exit 0). While developing use `node tools/verify.mjs --changed` (only the pages/views
+   `node tools/verify.mjs --full --selftest` (exit 0; it also proves that a foreign board copy is green and a faulty one red). While developing use `node tools/verify.mjs --changed` (only the pages/views
    the changed files can affect); the full run stays mandatory before handing in.
 3. **Evidence as command plus path**, not as a claim: e.g. “`node tools/verify.mjs` → exit 0, report `<out>/report.json`”, tempo
    “`node tools/tempo.mjs --attach … --out <dir>` → `<dir>/tempo.md`”.
@@ -74,6 +74,8 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 | `node tools/tempo.mjs --attach http://127.0.0.1:<port>` | response times against budgets (visible Chrome) | ≈ 10 min |
 | `node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port>` | 50 KB report with `markdown()` under 4× CPU (budget 50 ms) | ≈ 20 s |
 | `node tools/verify.mjs --update` | deliberately rewrite snapshots | ≈ 30 s |
+| `node <kit>/tools/verify.mjs --board <board> --base http://127.0.0.1:<port>` | the same checks for a board outside the kit (its own lint, vendor copy, geometry, snapshots, overlays, inventory) | ≈ 10–60 s |
+| `node <kit>/tools/lint.mjs --board <board>` | lint of the board's own CSS, JS, HTML with its allow file | < 1 s |
 
 ## Create a new board
 
@@ -90,6 +92,11 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    may be functions so that they can call `t()` after the language is set.
 5. Texts: one catalog per language (`messages: { en: {…}, de: {…} }`), keys prefixed with the board name.
 6. Server with a strict CSP like `tools/serve.py` (`default-src 'self'`, no inline scripts/styles).
+7. Describe the board for the check tools in `tarn-board.json` in the board folder (pages with `id`, `path`, `details`, optional `views`, `sizes`,
+   `themes`, `density`; `snapshots` folder, `exceptions` file, fixed `clock`; see README “Check a board outside the kit”). With the board server running:
+   `node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port> --update` once (snapshot baseline, review it), afterwards
+   `node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>` – exit 0 before every hand-in. It runs lint of the board's own
+   files, `vendor --check` on its copy, geometry, snapshots, the generic overlay scenarios and the animation inventory.
 
 ## Choosing building blocks
 

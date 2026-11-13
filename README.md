@@ -194,7 +194,7 @@ Exit codes: 0 done or copy intact · 1 local changes (check) or update refused �
 
 **Update:** the tool refuses to overwrite a copy whose files were changed locally (compare with `--check`; `--force` overwrites anyway,
 `--dry-run` shows what would change). Then: read `CHANGELOG.md` for the versions in between, run the update, run the board's own
-checks (`node <kit>/tools/verify.mjs` against the board, see “Check: verify”), review the snapshot diff, commit the copy together with
+checks (`node <kit>/tools/verify.mjs --board <board> --base http://127.0.0.1:<port>`, see “Check a board outside the kit”), review the snapshot diff, commit the copy together with
 the board changes it needs. Never edit files in `vendor/tarn/`; a missing building block goes into the kit and arrives with the next copy.
 The pinned version is also available at runtime: `import { VERSION } from '/tarn/js/tarn.js'`.
 
@@ -283,6 +283,7 @@ node tools/verify.mjs --changed [<rev>]   # dev loop: only the pages/views that 
 node tools/verify.mjs --jobs 2            # number of parallel workers (default min(4, cores/2))
 node tools/verify.mjs --only overlay --scenarios combobox,form-submit   # single overlay scenarios
 node tools/verify.mjs --attach http://127.0.0.1:<port>   # use a running Chrome (own tab)
+node tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>   # a board outside the kit, see “Check a board outside the kit”
 ```
 
 - **Density:** the pages `gallery-comfortable` (the core views), `starter-comfortable` and `starter-de-comfortable` run the same geometry and snapshot
@@ -327,6 +328,59 @@ node tools/verify.mjs --attach http://127.0.0.1:<port>   # use a running Chrome 
 - **tempo** (inventory): `document.getAnimations()` during every test interaction: only `transform`/`opacity`, durations =
   motion tokens, duration within the class budget; plus endless animations. Runs headless.
 - Known faults and justified exceptions: `tools/verify/exceptions.json`. Mutants: `tools/verify/mutants.mjs`.
+
+### Check a board outside the kit
+
+A board that lives in its own repository checks itself with the tools of a kit checkout. The board describes itself in one file in its own
+folder, `tarn-board.json` (all paths relative to that folder; only `name` and `pages` are required):
+
+```json
+{
+  "name": "Homelab board",
+  "pages": [
+    { "id": "main", "path": "/?lang=en", "details": ["jobs?open=a1"] },
+    { "id": "main-de", "path": "/?lang=de", "sizes": ["phone", "desktop"], "themes": ["dark"] }
+  ],
+  "kit": "vendor/tarn",
+  "kitUrl": "/tarn/js/tarn.js",
+  "clock": "2026-11-09T09:00:00Z",
+  "snapshots": "verify/snapshots",
+  "exceptions": "verify/exceptions.json",
+  "lint": { "dirs": ["."], "skip": ["vendor", "verify"], "allow": "verify/lint-allow.json", "messages": ["messages.js"] }
+}
+```
+
+Pages as in the kit's `tools/verify/targets.mjs`: `id` (used in findings and snapshot paths), `path` (URL path and query; pin the language with
+`?lang=`), `details` (hashes without `#/` that are checked as extra states, e.g. an open detail), `views` (only for a page without shell
+navigation, otherwise the views are read from the sidebar), `sizes` / `themes` / `density` (narrower than the default: five sizes, dark and light, compact).
+`clock` is the fixed time of the snapshots; `exceptions` and `lint.allow` have the format of the kit's `tools/verify/exceptions.json` and
+`tools/lint/allow.json` (each entry with a reason); missing files mean no exceptions. A mistake in the file is reported with the field name (exit 2).
+
+Start the board's server, then, from a kit checkout (any version at or newer than the board's copy):
+
+```sh
+node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>          # everything below, ≤ 10 lines, exit 0 / 1 / 2
+node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port> --update  # write the snapshot baseline (deliberately only)
+node <kit>/tools/lint.mjs --board <board folder> [-v] [--write-known]                       # only the lint of the board's own files
+```
+
+| Check | What a board run does |
+|---|---|
+| `lint` | the board's own CSS, JS and HTML: colour/size/radius/duration literals (tokens only), transitions, no `innerHTML`, no number timers, no `title` attribute, no emoji, visible texts via `t()` (the files in `lint.messages` are exempt), favicon and title on every page |
+| `vendor` | `tools/vendor.mjs --check` on the board's copy (`kit`): local changes, missing or foreign files are findings; names the kit version found (and a note when the checkout is newer); the server must deliver the same `VERSION` under the kit URL |
+| `geometry` | overflow, truncated text, overlap, touch targets, words broken letter by letter, missing translations, favicon/title (`identity`), console errors – for every page, size, theme, view and detail |
+| `snapshots` | text outline of every view and state against `snapshots`, with the board's fixed `clock` |
+| `overlay` | the scenarios that are generic for any shell board: `sidebar` (below 1000 px), `detail` (the first `details` entry with `?open=`), `menu` (opened inside a sheet), `sheet` – on top, not inert, focus, closing |
+| `tempo` | animation inventory: endless animations in every view and the animations of those scenarios (only `transform`/`opacity`, durations = tokens, budget class) |
+
+Not part of a board run: the kit's own unit tests, kit lint, types, the gallery and the mutants. Use `--only`, `--skip`, `--pages`, `--views`, `--sizes`,
+`--themes`, `--scenarios`, `--quick` and `--jobs` as in the kit run. Snapshots live in the board (commit them with it); screenshots of findings, diffs
+and `report.json` go to `--out` (default `<board folder>/.tarn-verify`, it carries its own `.gitignore`), never into the kit. Exit 2 (no verdict) when
+the board server does not answer or Chrome cannot start. The page is fed from the board's server through Node over CDP (headers and CSP unchanged),
+so the own headless Chrome needs no network of its own.
+
+Positive control: `node tools/verify.mjs --selftest` sets up a copy of `example/` outside the repo as a foreign board (vendor copy, static server);
+it must be green, and the same copy with an injected fault (colour literal, `innerHTML`, a card wider than the page, an edited vendor file) must be red.
 
 ### Tempo
 
