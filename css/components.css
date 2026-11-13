@@ -19,6 +19,7 @@
   display: flex; flex-direction: column;
 }
 .tn-app[data-sb="closed"] .tn-sidebar { visibility: hidden; }
+.tn-sidebar-head, .tn-nav, .tn-sidebar-foot { flex: none; }   /* a long navigation scrolls the sidebar; it never squeezes the head */
 .tn-sidebar-head { height: var(--tn-toolbar-h); display: flex; align-items: center; padding: 0 var(--tn-s2); }
 .tn-brand { display: flex; align-items: center; gap: var(--tn-s2); min-width: 0; font-weight: var(--tn-fw-strong); }
 .tn-brand > .tn-bicon { flex: none; }
@@ -33,8 +34,8 @@
 .tn-brand-btn:hover > .tn-icon { color: var(--tn-text-2); }
 .tn-nav { display: grid; gap: var(--tn-sp-1); }
 .tn-sidebar-foot { margin-top: auto; padding-top: var(--tn-s4); position: sticky; bottom: 0; background: inherit; }
-.tn-sidebar-foot:has(> [hidden]) { display: none; }
-.tn-install { width: 100%; justify-content: flex-start; }
+.tn-sidebar-foot:not(:has(> :not([hidden]))) { display: none; }   /* nothing to show (no install prompt, no notifications entry) */
+.tn-install, .tn-notif-entry { width: 100%; justify-content: flex-start; }
 .tn-nav-group { padding: var(--tn-s3) var(--tn-s2) var(--tn-s1); font-size: var(--tn-fs-section); font-weight: var(--tn-fw-strong); color: var(--tn-text-3-tint); }
 .tn-nav-group:first-child { padding-top: var(--tn-s1); }
 .tn-nav-item {
@@ -64,9 +65,11 @@
 }
 .tn-toolbar-title { font-size: var(--tn-fs-body); font-weight: var(--tn-fw-strong); margin-left: var(--tn-s1); }
 .tn-toolbar-spacer { flex: 1; }
+.tn-settings-btn { display: none; }   /* phone only, see the media query below */
 .tn-fresh {
   font-size: var(--tn-fs-label); color: var(--tn-text-2); font-variant-numeric: tabular-nums;
   min-height: var(--tn-hit); padding: 0 var(--tn-s2); border-radius: var(--tn-r); white-space: nowrap;
+  flex-shrink: 1000;   /* when the toolbar is full the freshness text gives way (down to its minimum width) before the view title does */
   min-width: var(--tn-fresh-min-w); overflow: var(--tn-fresh-overflow); text-overflow: ellipsis;   /* comfortable: gives way when the toolbar is full on a phone */
 }
 .tn-fresh:hover { background: var(--tn-hover); }
@@ -115,6 +118,8 @@
   .tn-inspector { display: none; }
 }
 @media (max-width: 599px) {
+  .tn-hide-phone { display: none; }
+  .tn-toolbar .tn-settings-btn { display: inline-grid; }
   .tn-content { padding: var(--tn-s3); gap: var(--tn-s4); }
   .tn-banners { padding: var(--tn-s2) var(--tn-s3) 0; }
   .tn-toolbar { padding-left: max(var(--tn-s1), env(safe-area-inset-left)); padding-right: max(var(--tn-s2), env(safe-area-inset-right)); }
@@ -509,3 +514,11 @@ ol.tn-md-list { list-style: decimal; }
 .tn-board[aria-current="true"] .tn-bicon { box-shadow: 0 0 0 var(--tn-ring) var(--tn-accent); }
 .tn-board-name { max-width: 100%; font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); line-height: 1.25; overflow-wrap: normal; word-break: normal; hyphens: manual; } /* never letter by letter: word boundaries, otherwise ellipsis */
 .tn-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+
+/* ============ Notifications (sheet) and install steps ============ */
+.tn-notif-panel, .tn-notif { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s3); align-content: start; min-width: 0; }
+.tn-notif p { margin: 0; overflow-wrap: anywhere; }
+.tn-notif-title { font-weight: var(--tn-fw-strong); }
+.tn-steps { list-style: decimal; padding-left: var(--tn-s5); margin: 0; display: grid; gap: var(--tn-s2); }
+.tn-steps li { padding-left: var(--tn-s1); }
+.tn-steps li > .tn-icon { vertical-align: middle; margin-right: var(--tn-s1); }

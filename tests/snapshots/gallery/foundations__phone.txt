@@ -1,5 +1,5 @@
 # gallery #/foundations · phone 390×844 · dunkel
-div.tn-app @0,0 392x2176
+div.tn-app @0,0 392x2208
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -58,22 +58,16 @@ div.tn-app @0,0 392x2176
         svg.tn-icon @-268,760 16x16
         span.tn-ellipsis "Shell and boards" @-244,756 104x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x2176
+  div.tn-main @0,0 392x2208
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
-      h1.tn-toolbar-title.tn-ellipsis "Foundations" @52,16 56x20
-      div.tn-toolbar-spacer @112,24 0x0
-      button.tn-fresh "Updated now" @116,4 92x40
-      button.tn-iconbtn "Reload" @212,4 40x40
-        svg.tn-icon @224,16 16x16
-      button.tn-iconbtn {expanded=false} "Language" @256,4 40x40
-        svg.tn-icon @268,16 16x16
-      button.tn-iconbtn "Density: Compact (switch)" @300,4 40x40
-        svg.tn-icon @312,16 16x16
-      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+      h1.tn-toolbar-title.tn-ellipsis "Foundations" @52,16 76x20
+      div.tn-toolbar-spacer @132,24 108x0
+      button.tn-fresh "Updated now" @248,4 92x40
+      button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x2128
+    main.tn-content @0,48 392x2160
       section.tn-section @12,168 368x280
         header.tn-section-head @12,168 368x24
           h2.tn-section-title "Status" @16,172 364x16
@@ -104,12 +98,12 @@ div.tn-app @0,0 392x2176
             span.tn-stat-label "Label, subtitle" @156,1616 80x16
             span.tn-section-title "Section" @156,1644 208x16
             span.tn-mono "rsync exit 12 · 02:30:00" @156,1668 172x16
-      section.tn-section @12,1712 368x452
+      section.tn-section @12,1712 368x484
         header.tn-section-head @12,1712 368x24
           h2.tn-section-title "Icons" @16,1716 364x16
-            span.tn-section-count "34" @52,1716 16x16
-        section.tn-card @12,1744 368x420
-          div.tn-card-body @12,1744 364x420
+            span.tn-section-count "39" @52,1716 16x16
+        section.tn-card @12,1744 368x452
+          div.tn-card-body @12,1744 364x452
             svg.tn-icon @32,1764 16x16
             svg.tn-icon @144,1764 16x16
             svg.tn-icon @260,1764 16x16
@@ -144,3 +138,8 @@ div.tn-app @0,0 392x2176
             svg.tn-icon @144,2100 16x16
             svg.tn-icon @260,2100 16x16
             svg.tn-icon @32,2132 16x16
+            svg.tn-icon @144,2132 16x16
+            svg.tn-icon @260,2132 16x16
+            svg.tn-icon @32,2164 16x16
+            svg.tn-icon @144,2164 16x16
+            svg.tn-icon @260,2164 16x16

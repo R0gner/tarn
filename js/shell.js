@@ -9,6 +9,8 @@ import './locales/shell.js';   // shell texts
 import { h, cls, mount } from './dom.js';
 import { icon } from './icons.js';
 import { iconButton, button, badge } from './primitives.js';
+import { segmented } from './controls.js';
+import { field, select } from './inputs.js';
 import { banner, empty } from './components.js';
 import { openSheet, lockScroll } from './sheet.js';
 import { parseHash, buildHash } from './router.js';
@@ -19,6 +21,8 @@ import { menu } from './widgets.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
 import { normalizeBoards } from './boards-data.js';
+import { notifications, openInstallHint } from './notifications.js';
+import { detectPlatform, manualInstall, browserEnv } from './notifications-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
@@ -50,6 +54,7 @@ import { normalizeBoards } from './boards-data.js';
  *   timeZone?: string,
  *   toolbarExtra?: Child,
  *   densitySwitch?: boolean,   // button next to the theme switch: compact ↔ comfortable (stored; for galleries and boards that offer both)
+ *   notifications?: import('./notifications-data.js').NotificationsOptions,   // adds the entry "Notifications" (web push, browser half) to the sidebar; README "Notifications"
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
 /** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean }} App Returned by createApp(). */
@@ -125,32 +130,39 @@ export function createApp(cfg0) {
     boardSwitcher(btn, { boards: /** @type {BoardList | string} */ (cfg.boards), categories: cfg.categories, boardId: cfg.boardId });
     return btn;
   }
+  /* Where the browser has no install prompt (iPhone, iPad, Safari on the Mac) the entry stays and shows how to add the page by hand. */
+  const manual = () => manualInstall(detectPlatform({ ...browserEnv(), standalone: isStandalone() }));
   const installBtn = button(t('shell.install'), { variant: 'ghost', icon: 'download', className: 'tn-install', onClick: async () => {
-    const ev = installEvent; if (!ev) return;
+    const ev = installEvent;
+    if (!ev) { const how = manual(); if (how) openInstallHint(how); return; }
     installEvent = null; syncInstall();               // the event can only be used once
     try { await ev.prompt(); await ev.userChoice; } catch {}
   } });
-  const syncInstall = () => { installBtn.hidden = !installEvent || isStandalone(); };
+  const syncInstall = () => { installBtn.hidden = isStandalone() || (!installEvent && !manual()); };
+  const notif = cfg.notifications ? notifications(cfg.notifications) : null;
+  const notifBtn = notif ? button(t('notif.title'), { variant: 'ghost', icon: 'bell', className: 'tn-notif-entry', onClick: () => { notif.open(); setDrawer(false); } }) : null;
   installWatchers.add(syncInstall); syncInstall();
   const sidebar = h('aside', { class: 'tn-sidebar', id: 'tn-sidebar' },
     h('div', { class: 'tn-sidebar-head' }, brand()), navEl,
-    h('div', { class: 'tn-sidebar-foot' }, installBtn));
+    h('div', { class: 'tn-sidebar-foot' }, notifBtn, installBtn));
   const scrim = h('div', { class: 'tn-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
   const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'tn-sb-toggle' });
   const viewTitle = h('h1', { class: 'tn-toolbar-title tn-ellipsis' });
   const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => cfg.source?.reload(), hidden: !cfg.source });
-  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => cfg.source?.reload() });
+  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => cfg.source?.reload(), className: 'tn-hide-phone' });   // phone: the freshness text is a reload button too
   reloadBtn.hidden = !cfg.source;
-  const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme });
-  const densityBtn = cfg.densitySwitch ? iconButton('list', { label: t('shell.density'), onClick: cycleDensity }) : null;
+  const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme, className: 'tn-hide-phone' });
+  const densityBtn = cfg.densitySwitch ? iconButton('list', { label: t('shell.density'), onClick: cycleDensity, className: 'tn-hide-phone' }) : null;
   /* Language menu: only with more than one offered language and no forced locale; the choice is stored and applied by reloading. */
-  const langBtn = offered.length > 1 && !cfg0.locale ? menu(iconButton('languages', { label: t('shell.language') }), [
+  const langBtn = offered.length > 1 && !cfg0.locale ? menu(iconButton('languages', { label: t('shell.language'), className: 'tn-hide-phone' }), [
     { label: t('shell.languageAuto'), checked: !stored || stored === 'auto', onClick: () => chooseLocale('auto') },
     ...offered.map((l) => ({ label: LOCALE_NAMES[l] || l, checked: stored === l, onClick: () => chooseLocale(l) })),
   ]) : null;
   /** @param {string} l */
   function chooseLocale(l) { try { localStorage.setItem('tn-locale', l); } catch {} const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href; if (u.href === location.href) location.reload(); }
-  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, densityBtn, themeBtn);
+  /* Phone (< 600 px): theme, density and language leave the toolbar for ONE settings entry; otherwise the view title is cut off. */
+  const settingsBtn = iconButton('settings', { label: t('shell.settings'), onClick: openSettings, className: 'tn-settings-btn' });
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
   const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
@@ -238,8 +250,9 @@ export function createApp(cfg0) {
 
   /* ---- Theme: System → Light → Dark → System ---- */
   function themeNow() { return document.documentElement.dataset.theme || 'system'; }
-  function cycleTheme() {
-    const next = { system: 'light', light: 'dark', dark: 'system' }[themeNow()];
+  function cycleTheme() { setTheme(/** @type {string} */ ({ system: 'light', light: 'dark', dark: 'system' }[themeNow()])); }
+  /** @param {string} next 'system' | 'light' | 'dark' */
+  function setTheme(next) {
     if (next === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = next;
     try { next === 'system' ? localStorage.removeItem('tn-theme') : localStorage.setItem('tn-theme', next); } catch {}
     syncTheme();
@@ -252,13 +265,28 @@ export function createApp(cfg0) {
   }
 
   /* ---- Density: Compact ↔ Comfortable (only with createApp({ densitySwitch: true })) ---- */
-  function cycleDensity() { setDensity(getDensity() === 'compact' ? 'comfortable' : 'compact', { persist: true }); syncDensity(); }
+  function cycleDensity() { chooseDensity(getDensity() === 'compact' ? 'comfortable' : 'compact'); }
+  /** @param {'compact' | 'comfortable'} d */
+  function chooseDensity(d) { setDensity(d, { persist: true }); syncDensity(); }
   function syncDensity() {
     if (!densityBtn) return;
     const mode = getDensity();
     const label = t(mode === 'comfortable' ? 'shell.densityComfortable' : 'shell.densityCompact');
     densityBtn.dataset.tip = label; densityBtn.setAttribute('aria-label', t('shell.densitySwitch', { label }));
     densityBtn.replaceChildren(icon(mode === 'comfortable' ? 'grid' : 'list'));
+  }
+
+  /* ---- Settings sheet (phone): theme, density, language in one place ---- */
+  function openSettings() {
+    const rows = [
+      field({ label: t('shell.theme') }, segmented({ label: t('shell.theme'), value: themeNow(), onChange: setTheme, options: [
+        { value: 'system', label: t('shell.optSystem') }, { value: 'light', label: t('shell.optLight') }, { value: 'dark', label: t('shell.optDark') }] })),
+    ];
+    if (densityBtn) rows.push(field({ label: t('shell.density') }, segmented({ label: t('shell.density'), value: getDensity(), onChange: (v) => chooseDensity(v), options: [
+      { value: 'compact', label: t('shell.optCompact') }, { value: 'comfortable', label: t('shell.optComfortable') }] })));
+    if (langBtn) rows.push(field({ label: t('shell.language') }, select({ label: t('shell.language'), value: stored && offered.includes(stored) ? stored : 'auto', onChange: (v) => chooseLocale(String(v)),
+      options: [{ value: 'auto', label: t('shell.languageAuto') }, ...offered.map((l) => ({ value: l, label: LOCALE_NAMES[l] || l }))] })));
+    openSheet({ title: t('shell.settings'), body: rows });
   }
 
   /* ---- Data status ---- */

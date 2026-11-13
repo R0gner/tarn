@@ -7,6 +7,7 @@
 //   overlap    text boxes overlap; siblings in flex/grid overlap
 //   align      siblings in a flex row or grid row misaligned (per align-items/align-self)
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
+//   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
@@ -77,6 +78,15 @@
   for (const el of document.querySelectorAll('.tn-seg')) {
     if (ignored(el) || !visible(el)) continue;
     if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `segmented control scrolls sideways, options hidden (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- toolbar-title: on a 390 px phone the view title is shown in full; buttons that crowd it out (theme, density, language, notifications) belong
+     in the one settings entry. The toolbar title ellipsis is a last resort for long titles, not the normal case: 360–599 px wide only ---- */
+  if (VW >= 360 && VW < 600) {
+    for (const el of document.querySelectorAll('.tn-toolbar-title')) {
+      if (!visible(el) || el.scrollWidth <= el.clientWidth + o.tol) continue;
+      push(findings, { rule: 'toolbar-title', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `view title cut off in the toolbar (“${el.textContent.trim().slice(0, 30)}”, ${el.scrollWidth} px of ${el.clientWidth})`, rect: R(el.getBoundingClientRect()), el });
+    }
   }
 
   /* ---- identity: every board has a favicon and a meaningful title “View · Board” ---- */

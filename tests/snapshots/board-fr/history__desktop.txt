@@ -33,11 +33,11 @@ div.tn-app @0,0 1424x1192
       h1.tn-toolbar-title.tn-ellipsis "Historique" @252,12 64x20
       div.tn-toolbar-spacer @320,20 856x0
       button.tn-fresh "Mis à jour il y a 2 min" @1184,8 136x28
-      button.tn-iconbtn "Recharger" @1320,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Recharger" @1320,8 28x28
         svg.tn-icon @1328,12 16x16
-      button.tn-iconbtn {expanded=false} "Langue" @1352,8 28x28
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Langue" @1352,8 28x28
         svg.tn-icon @1360,12 16x16
-      button.tn-iconbtn "Apparence : système (changer)" @1384,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Apparence : système (changer)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
     main.tn-content @208,44 1216x1148
       section.tn-card @224,60 1184x276

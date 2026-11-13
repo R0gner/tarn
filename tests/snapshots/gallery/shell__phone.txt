@@ -1,5 +1,5 @@
 # gallery #/shell · phone 390×844 · dunkel
-div.tn-app @0,0 392x3540
+div.tn-app @0,0 392x6656
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -58,22 +58,16 @@ div.tn-app @0,0 392x3540
         svg.tn-icon @-268,760 16x16
         span.tn-ellipsis "Shell and boards" @-244,756 104x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x3540
+  div.tn-main @0,0 392x6656
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
-      h1.tn-toolbar-title.tn-ellipsis "Shell and boards" @52,16 56x20
-      div.tn-toolbar-spacer @112,24 0x0
-      button.tn-fresh "Updated now" @116,4 92x40
-      button.tn-iconbtn "Reload" @212,4 40x40
-        svg.tn-icon @224,16 16x16
-      button.tn-iconbtn {expanded=false} "Language" @256,4 40x40
-        svg.tn-icon @268,16 16x16
-      button.tn-iconbtn "Density: Compact (switch)" @300,4 40x40
-        svg.tn-icon @312,16 16x16
-      button.tn-iconbtn "Appearance: System (switch)" @344,4 40x40
+      h1.tn-toolbar-title.tn-ellipsis "Shell and boards" @52,16 104x20
+      div.tn-toolbar-spacer @160,24 80x0
+      button.tn-fresh "Updated now" @248,4 92x40
+      button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x3492
+    main.tn-content @0,48 392x6608
       section.tn-card @12,132 368x2104
         header.tn-card-head @12,132 364x40
           div.tn-card-heading @24,140 340x20
@@ -166,52 +160,192 @@ div.tn-app @0,0 392x3540
                     span.tn-bicon.is-letter.tn-c-green @104,1864 44x44
                       span.tn-bicon-letter "O" @120,1876 16x20
                     span.tn-board-name.tn-clamp "Occupational safety regulation" @40,1916 176x16
-      section.tn-card @12,2252 368x492
+      section.tn-card @12,2252 368x3100
         header.tn-card-head @12,2252 364x40
           div.tn-card-heading @24,2264 340x20
-            h3.tn-card-title "Board identity: favicon() and language" @24,2264 340x20
-        div.tn-card-body @12,2292 364x448
-          button.tn-btn.tn-btn-default.tn-btn-sm @248,2304 104x36
-          button.tn-btn.tn-btn-default.tn-btn-sm @24,2376 104x36
-          button.tn-btn.tn-btn-default.tn-btn-sm @156,2376 104x36
-          button.tn-btn.tn-btn-default.tn-btn-sm @24,2444 104x36
-      section.tn-card @12,2756 368x400
-        header.tn-card-head @12,2760 364x40
-          div.tn-card-heading @24,2768 340x20
-            h3.tn-card-title "Language and formats" @24,2768 340x20
-        div.tn-card-body @12,2800 364x360
-          dl.tn-kv @24,2812 340x220
-            dt "Number" @24,2812 96x20
-            dd "12,345.68" @140,2812 228x20
-            dt "Percent" @24,2836 96x20
-            dd "85.7%" @140,2836 228x20
-            dt "Bytes" @24,2856 96x20
-            dd "45 GB" @140,2856 228x20
-            dt "Duration" @24,2880 96x20
-            dd "49 min 10 s" @140,2880 228x20
-            dt "Age" @24,2904 96x20
-            dd "3 hr. ago" @140,2904 228x20
-            dt "Time of day" @24,2928 96x20
-            dd "10:00 AM" @140,2928 228x20
-            dt "Date" @24,2948 96x20
-            dd "11/09/2026" @140,2948 228x20
-            dt "Yesterday 22:10" @24,2972 96x20
-            dd "yesterday 10:00 AM" @140,2972 228x20
-            dt "Status" @24,2996 96x36
-            dd "OK · Warning · Error · Unknown · Pending · Note · Off" @140,2996 228x36
-      section.tn-card @12,3176 368x356
-        header.tn-card-head @12,3176 364x40
-          div.tn-card-heading @24,3184 340x20
-            h3.tn-card-title "dataSource()" @24,3184 340x20
-        div.tn-card-body @12,3216 364x312
-          dl.tn-kv @24,3228 340x112
-            dt "URL" @24,3228 96x20
-            dd "./fixture.json" @136,3228 228x20
-            dt "State" @24,3252 96x20
-            dd "ok" @136,3252 228x20
-            dt "Fetched" @24,3272 96x20
-            dd "10:00 AM" @136,3272 228x20
-            dt "Age" @24,3296 96x20
-            dd "now" @136,3296 228x20
-            dt "Stale after" @24,3320 96x20
-            dd "15 min" @136,3320 228x20
+            h3.tn-card-title "notifications() and the "Notifications" sheet" @24,2264 340x20
+        div.tn-card-body @12,2292 364x3056
+          section.tn-card @24,2304 340x164
+            div.tn-card-body @28,2304 340x164
+              div.tn-notif-panel @40,2316 316x140
+                div.tn-notif @40,2316 316x140
+                  p.tn-notif-title @40,2316 316x20
+                    span.tn-dotlabel @40,2320 136x20
+                      span.tn-dot.tn-s-off @40,2324 8x8
+                  p.tn-muted "Get a message on this device when something needs attention." @40,2348 316x56
+                  div.tn-toolrow @40,2416 316x40
+                    button.tn-btn.tn-btn-primary @40,2416 164x40
+                      svg.tn-icon @52,2428 16x16
+          section.tn-card @24,2508 340x144
+            div.tn-card-body @28,2508 340x144
+              div.tn-notif-panel @40,2520 316x120
+                div.tn-notif @40,2520 316x120
+                  p.tn-notif-title @40,2520 316x20
+                    span.tn-dotlabel @40,2520 136x20
+                      span.tn-dot.tn-s-ok @40,2528 8x8
+                  p.tn-muted "This device (Android, Chrome) gets messages. Send a test to " @40,2552 316x36
+                  div.tn-toolrow @40,2600 316x40
+                    button.tn-btn.tn-btn-default @40,2600 172x40
+                      svg.tn-icon @52,2612 16x16
+                    button.tn-btn.tn-btn-ghost @216,2600 92x40
+                      svg.tn-icon @228,2612 16x16
+          section.tn-card @24,2688 340x220
+            div.tn-card-body @28,2692 340x216
+              div.tn-notif-panel @40,2704 316x192
+                div.tn-notif @40,2704 316x192
+                  p.tn-notif-title @40,2704 316x20
+                    span.tn-dotlabel @40,2704 168x20
+                      span.tn-dot.tn-s-warn @40,2708 8x8
+                  p.tn-muted "This site is not allowed to show notifications. To allow the" @40,2736 316x108
+                  div.tn-toolrow @40,2856 316x40
+                    button.tn-btn.tn-btn-default @40,2856 120x40
+                      svg.tn-icon @52,2868 16x16
+          section.tn-card @24,2944 340x112
+            div.tn-card-body @28,2948 340x112
+              div.tn-notif-panel @40,2960 316x88
+                div.tn-notif @40,2960 316x88
+                  p.tn-notif-title @40,2960 316x20
+                    span.tn-dotlabel @40,2960 204x20
+                      span.tn-dot.tn-s-info @40,2964 8x8
+                  p.tn-muted "This browser cannot show notifications from a web page. Try " @40,2992 316x56
+          section.tn-card @24,3096 340x112
+            div.tn-card-body @28,3096 340x112
+              div.tn-notif-panel @40,3108 316x88
+                div.tn-notif @40,3108 316x88
+                  p.tn-notif-title @40,3108 316x20
+                    span.tn-dotlabel @40,3108 208x20
+                      span.tn-dot.tn-s-bad @40,3116 8x8
+                  p.tn-muted "Browsers only allow notifications on pages opened over https" @40,3140 316x56
+          section.tn-card @24,3244 340x244
+            div.tn-card-body @28,3244 340x244
+              div.tn-notif-panel @40,3256 316x220
+                div.tn-notif @40,3256 316x220
+                  p.tn-notif-title @40,3256 316x20
+                    span.tn-dotlabel @40,3260 248x20
+                      span.tn-dot.tn-s-info @40,3264 8x8
+                  p.tn-muted "On iPhone and iPad, notifications only reach an installed ap" @40,3288 316x56
+                  ol.tn-steps @40,3356 316x120
+                    svg.tn-icon @64,3356 16x16
+                    svg.tn-icon @64,3400 16x16
+          section.tn-card @24,3528 340x92
+            div.tn-card-body @28,3528 340x92
+              div.tn-notif-panel @40,3540 316x68
+                div.tn-notif @40,3540 316x68
+                  p.tn-notif-title @40,3540 316x20
+                    span.tn-dotlabel @40,3540 256x20
+                      span.tn-dot.tn-s-info @40,3548 8x8
+                  p.tn-muted "Notifications are not set up on the server side yet, so ther" @40,3572 316x36
+          section.tn-card @24,3660 340x144
+            div.tn-card-body @28,3660 340x144
+              div.tn-notif-panel @40,3672 316x120
+                div.tn-notif @40,3672 316x120
+                  p.tn-notif-title @40,3672 316x20
+                    span.tn-dotlabel @40,3672 144x20
+                      span.tn-dot.tn-s-bad @40,3680 8x8
+                  p.tn-muted "Notifications cannot be checked right now (HTTP 503). Check " @40,3704 316x36
+                  div.tn-toolrow @40,3752 316x40
+                    button.tn-btn.tn-btn-default @40,3752 120x40
+                      svg.tn-icon @52,3764 16x16
+          section.tn-card @24,3840 340x144
+            div.tn-card-body @28,3844 340x144
+              div.tn-notif-panel @40,3856 316x120
+                div.tn-notif @40,3856 316x120
+                  p.tn-notif-title @40,3856 316x20
+                    span.tn-dotlabel @40,3856 224x20
+                      span.tn-dot.tn-s-bad @40,3860 8x8
+                  p.tn-muted "The background service for notifications did not start (scri" @40,3888 316x36
+                  div.tn-toolrow @40,3936 316x40
+                    button.tn-btn.tn-btn-default @40,3936 120x40
+                      svg.tn-icon @52,3948 16x16
+          section.tn-card @24,4020 340x208
+            div.tn-card-body @28,4024 340x208
+              div.tn-notif-panel @40,4036 316x184
+                div.tn-notif @40,4036 316x120
+                  p.tn-notif-title @40,4036 316x20
+                    span.tn-dotlabel @40,4036 136x20
+                      span.tn-dot.tn-s-ok @40,4040 8x8
+                  p.tn-muted "This device (Android, Chrome) gets messages. Send a test to " @40,4064 316x36
+                  div.tn-toolrow @40,4116 316x40
+                    button.tn-btn.tn-btn-default @40,4116 172x40
+                      svg.tn-icon @52,4128 16x16
+                    button.tn-btn.tn-btn-ghost @216,4116 92x40
+                      svg.tn-icon @228,4128 16x16
+                div.tn-banner.tn-banner-ok [status] @40,4168 316x52
+                  svg.tn-icon @52,4176 16x16
+                  div.tn-banner-text "Turned on. Use “Send test notification” to see how a message" @76,4176 264x32
+          section.tn-card @24,4268 340x208
+            div.tn-card-body @28,4268 340x208
+              div.tn-notif-panel @40,4280 316x184
+                div.tn-notif @40,4280 316x120
+                  p.tn-notif-title @40,4280 316x20
+                    span.tn-dotlabel @40,4284 136x20
+                      span.tn-dot.tn-s-ok @40,4288 8x8
+                  p.tn-muted "This device (Android, Chrome) gets messages. Send a test to " @40,4312 316x36
+                  div.tn-toolrow @40,4360 316x40
+                    button.tn-btn.tn-btn-default @40,4360 172x40
+                      svg.tn-icon @52,4372 16x16
+                    button.tn-btn.tn-btn-ghost @216,4360 92x40
+                      svg.tn-icon @228,4372 16x16
+                div.tn-banner.tn-banner-bad [alert] @40,4412 316x52
+                  svg.tn-icon @52,4424 16x16
+                  div.tn-banner-text "The test could not be sent: push service answered 410" @76,4424 264x32
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4512 132x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @168,4512 72x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @252,4512 100x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4560 136x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @172,4560 104x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4608 200x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4656 176x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4704 176x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4752 168x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,4820 172x36
+            svg.tn-icon @36,4832 16x16
+      section.tn-card @12,5364 368x492
+        header.tn-card-head @12,5368 364x40
+          div.tn-card-heading @24,5376 340x20
+            h3.tn-card-title "Board identity: favicon() and language" @24,5376 340x20
+        div.tn-card-body @12,5408 364x448
+          button.tn-btn.tn-btn-default.tn-btn-sm @248,5420 104x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,5488 104x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @156,5488 104x36
+          button.tn-btn.tn-btn-default.tn-btn-sm @24,5556 104x36
+      section.tn-card @12,5872 368x400
+        header.tn-card-head @12,5872 364x40
+          div.tn-card-heading @24,5884 340x20
+            h3.tn-card-title "Language and formats" @24,5884 340x20
+        div.tn-card-body @12,5912 364x360
+          dl.tn-kv @24,5924 340x220
+            dt "Number" @24,5924 96x20
+            dd "12,345.68" @140,5924 228x20
+            dt "Percent" @24,5948 96x20
+            dd "85.7%" @140,5948 228x20
+            dt "Bytes" @24,5972 96x20
+            dd "45 GB" @140,5972 228x20
+            dt "Duration" @24,5996 96x20
+            dd "49 min 10 s" @140,5996 228x20
+            dt "Age" @24,6016 96x20
+            dd "3 hr. ago" @140,6016 228x20
+            dt "Time of day" @24,6040 96x20
+            dd "10:00 AM" @140,6040 228x20
+            dt "Date" @24,6064 96x20
+            dd "11/09/2026" @140,6064 228x20
+            dt "Yesterday 22:10" @24,6088 96x20
+            dd "yesterday 10:00 AM" @140,6088 228x20
+            dt "Status" @24,6112 96x36
+            dd "OK · Warning · Error · Unknown · Pending · Note · Off" @140,6112 228x36
+      section.tn-card @12,6288 368x356
+        header.tn-card-head @12,6288 364x40
+          div.tn-card-heading @24,6300 340x20
+            h3.tn-card-title "dataSource()" @24,6300 340x20
+        div.tn-card-body @12,6328 364x312
+          dl.tn-kv @24,6340 340x112
+            dt "URL" @24,6340 96x20
+            dd "./fixture.json" @136,6340 228x20
+            dt "State" @24,6364 96x20
+            dd "ok" @136,6364 228x20
+            dt "Fetched" @24,6388 96x20
+            dd "10:00 AM" @136,6388 228x20
+            dt "Age" @24,6412 96x20
+            dd "now" @136,6412 228x20
+            dt "Stale after" @24,6436 96x20
+            dd "15 min" @136,6436 228x20

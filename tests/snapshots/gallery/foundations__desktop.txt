@@ -65,13 +65,13 @@ div.tn-app @0,0 1424x1208
       h1.tn-toolbar-title.tn-ellipsis "Foundations" @252,12 76x20
       div.tn-toolbar-spacer @332,20 856x0
       button.tn-fresh "Updated now" @1192,8 92x28
-      button.tn-iconbtn "Reload" @1288,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Reload" @1288,8 28x28
         svg.tn-icon @1296,12 16x16
-      button.tn-iconbtn {expanded=false} "Language" @1320,8 28x28
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @1320,8 28x28
         svg.tn-icon @1328,12 16x16
-      button.tn-iconbtn "Density: Compact (switch)" @1352,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Density: Compact (switch)" @1352,8 28x28
         svg.tn-icon @1360,12 16x16
-      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
     main.tn-content @208,44 1216x1164
       section.tn-section @224,136 1184x128
@@ -107,7 +107,7 @@ div.tn-app @0,0 1424x1208
       section.tn-section @224,980 1184x196
         header.tn-section-head @224,980 1184x24
           h2.tn-section-title "Icons" @228,984 1180x16
-            span.tn-section-count "34" @264,984 16x16
+            span.tn-section-count "39" @264,984 16x16
         section.tn-card @224,1012 1184x164
           div.tn-card-body @224,1012 1184x164
             svg.tn-icon @244,1036 16x16
@@ -144,3 +144,8 @@ div.tn-app @0,0 1424x1208
             svg.tn-icon @1196,1108 16x16
             svg.tn-icon @1300,1108 16x16
             svg.tn-icon @244,1140 16x16
+            svg.tn-icon @348,1140 16x16
+            svg.tn-icon @456,1140 16x16
+            svg.tn-icon @560,1140 16x16
+            svg.tn-icon @664,1140 16x16
+            svg.tn-icon @772,1140 16x16

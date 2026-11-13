@@ -164,6 +164,90 @@ export const SCENARIOS = [
     // fully visible text gets no hint
     assert: async (io) => { await io.hover('.g-clip', { text: 'Short' }); await sleep(500); return (await io.count('.tn-tooltip:not([hidden])')) ? ['hint on fully visible text'] : []; } },
 
+  // ---- Notifications (stage N): every state of the sheet over mocked browser APIs, the flow, the install hint, the phone settings ----
+  { id: 'notifications', page: 'gallery', hash: 'shell', overlay: 'dialog.tn-sheet[open]', focus: true,
+    // the real way: the sidebar entry opens the sheet (mock browser and backend of the gallery); then every state through the demo buttons
+    open: async (io) => { if (io.size.w < 1000) await io.press('.tn-sb-toggle'); await io.press('.tn-notif-entry'); },
+    assert: async (io) => {
+      const left = [];
+      const kind = (k) => io.until(`!!document.querySelector('dialog.tn-sheet[open] .tn-notif[data-kind="${k}"]')`, 1500);
+      // a button is ready when it exists and is not locked by a running action (the sheet redraws after every step)
+      const tap = async (act) => { await io.until(`(() => { const b = document.querySelector('dialog.tn-sheet[open] [data-act="${act}"]'); return !!b && !b.disabled; })()`, 2000); await io.press(`dialog.tn-sheet[open] [data-act="${act}"]`); };
+      if (!(await kind('off'))) { left.push('the sheet does not reach the state “not asked yet” (off)'); return left; }
+      if (!(await io.count('dialog.tn-sheet[open] [data-act="enable"]'))) left.push('state off: no button that asks');
+      await io.key('Escape'); await io.gone('dialog.tn-sheet[open]', 600);
+      // state → what must be there (a button of its own, the steps, …)
+      const EXPECT = { off: ['[data-act="enable"]'], on: ['[data-act="test"]', '[data-act="disable"]'], blocked: ['[data-act="retry"]'], unsupported: [], insecure: [],
+        'ios-install': ['.tn-steps li:nth-child(3)'], disabled: [], unreachable: ['[data-act="retry"]'], error: ['[data-act="retry"]'] };
+      const texts = new Set();
+      for (const [k, need] of Object.entries(EXPECT)) {
+        await io.eval(`document.querySelector('[data-notif-state="${k}"]').scrollIntoView({ block: 'center' })`);
+        await io.press(`[data-notif-state="${k}"]`);
+        if (!(await kind(k))) { left.push(`state ${k}: the sheet does not show it`); await io.key('Escape'); await io.gone('dialog.tn-sheet[open]', 600); continue; }
+        await io.settle(); await sleep(350);   // the sheet slides in
+        const st = await io.eval(`(() => { const p = document.querySelector('dialog.tn-sheet[open] .tn-notif'); const r = p.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + 10);
+          return { text: p.textContent.trim(), top: !!e && p.closest('dialog').contains(e), asked: globalThis.__tnPushMock?.server.asked.count }; })()`);
+        for (const sel of need) if (!(await io.count(`dialog.tn-sheet[open] ${sel}`))) left.push(`state ${k}: ${sel} is missing`);
+        if (!st.top) left.push(`state ${k}: the sheet is not on top`);
+        if (st.text.length < 25) left.push(`state ${k}: no text`);
+        if (texts.has(st.text)) left.push(`state ${k}: the same text as another state`);
+        texts.add(st.text);
+        if (st.asked) left.push(`state ${k}: the permission was asked without a tap on the button`);
+        if (k === 'off') {
+          // the flow: tap → permission asked once → on → test → server saw it → off again
+          await tap('enable');
+          if (!(await kind('on'))) left.push('enable: the state does not become on');
+          const a = await io.eval(`({ asked: globalThis.__tnPushMock.server.asked.count, sub: globalThis.__tnPushMock.server.calls.filter((c) => c.path === 'subscribe').length, msg: document.querySelectorAll('dialog.tn-sheet[open] .tn-banner-ok').length })`);
+          if (a.asked !== 1 || a.sub !== 1) left.push(`enable: permission asked ${a.asked}×, subscribe sent ${a.sub}× (1 and 1 expected)`);
+          if (!a.msg) left.push('enable: no confirmation message');
+          await tap('test');
+          if (!(await io.until(`document.querySelectorAll('dialog.tn-sheet[open] .tn-banner-ok').length === 1 && globalThis.__tnPushMock.server.calls.some((c) => c.path === 'test')`, 1500))) left.push('test: the server did not get the request');
+          await tap('disable');
+          if (!(await kind('off'))) left.push('disable: the state does not become off');
+          if (!(await io.eval(`globalThis.__tnPushMock.server.calls.some((c) => c.path === 'unsubscribe')`))) left.push('disable: the server was not told');
+        }
+        await io.key('Escape'); await io.gone('dialog.tn-sheet[open]', 600);
+      }
+      return left;
+    } },
+  { id: 'install-hint', page: 'board', hash: 'overview', overlay: '.tn-install', focus: false,
+    // Safari and iPhone have no install prompt: the install entry is still there and shows "Add to Home Screen" instead (steps in a sheet)
+    open: async (io) => {
+      await io.eval(`(() => { Object.defineProperty(navigator, 'userAgent', { value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1', configurable: true });
+        window.dispatchEvent(new Event('appinstalled')); return true; })()`);
+      if (io.size.w < 1000) await io.press('.tn-sb-toggle');
+    },
+    assert: async (io) => {
+      const left = [];
+      await sleep(250);
+      if (!(await io.count('.tn-install'))) { left.push('no install entry on iPhone without an install prompt'); return left; }
+      await io.press('.tn-install');
+      if (!(await io.until(`!!document.querySelector('dialog.tn-sheet[open] .tn-steps')`, 1500))) { left.push('the install entry does not show the Add-to-Home-Screen hint'); return left; }
+      const n = await io.eval(`document.querySelectorAll('dialog.tn-sheet[open] .tn-steps li').length`);
+      if (n !== 3) left.push(`${n} steps instead of 3`);
+      await io.key('Escape'); await io.gone('dialog.tn-sheet[open]', 600);
+      await io.eval(`Object.defineProperty(navigator, 'standalone', { value: true, configurable: true })`);
+      await io.eval(`window.dispatchEvent(new Event('appinstalled'))`); await sleep(150);
+      if (await io.count('.tn-install')) left.push('the entry stays visible in an installed app');
+      return left;
+    } },
+  { id: 'settings-phone', page: 'gallery', hash: 'foundations', overlay: 'dialog.tn-sheet[open]', focus: true, when: (sz) => sz.w < 600,
+    // phone: theme, density and language are ONE settings entry in the toolbar (not three buttons); the sheet changes them
+    open: (io) => io.press('.tn-settings-btn'),
+    assert: async (io) => {
+      const left = [];
+      const hidden = await io.eval(`['.tn-toolbar .tn-hide-phone'].flatMap((s) => [...document.querySelectorAll(s)]).filter((e) => e.checkVisibility()).length`);
+      if (hidden) left.push(`${hidden} toolbar buttons that belong in the settings sheet are still visible`);
+      const n = await io.eval(`({ seg: document.querySelectorAll('dialog.tn-sheet[open] .tn-seg').length, sel: document.querySelectorAll('dialog.tn-sheet[open] select').length })`);
+      if (n.seg !== 2 || n.sel !== 1) left.push(`settings sheet: ${n.seg} segmented controls and ${n.sel} language choice (2 and 1 expected: theme, density, language)`);
+      await io.press('dialog.tn-sheet[open] .tn-seg-btn[data-value="light"]'); await sleep(80);
+      if ((await io.eval(`document.documentElement.dataset.theme`)) !== 'light') left.push('the theme choice does not apply');
+      await io.press('dialog.tn-sheet[open] .tn-seg-btn[data-value="comfortable"]'); await sleep(80);
+      if ((await io.eval(`document.documentElement.getAttribute('data-density')`)) !== 'comfortable') left.push('the density choice does not apply');
+      await io.eval(`(() => { localStorage.removeItem('tn-theme'); localStorage.removeItem('tn-density'); return true; })()`);
+      return left;
+    } },
+
   // ---- Inputs, filters, forms (stage D) ----
   { id: 'combobox', page: 'gallery', hash: 'inputs', overlay: '.tn-combo-pop', focus: false,
     // popover in the overlay layer: on top, inside the viewport, search field with focus (not on touch: the keyboard would cover the list),

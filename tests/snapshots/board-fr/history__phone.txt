@@ -30,14 +30,10 @@ div.tn-app @0,0 392x1416
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Afficher ou masquer la barre latérale" @4,4 40x40
         svg.tn-icon @16,16 16x16
-      h1.tn-toolbar-title.tn-ellipsis "Historique" @52,16 56x20
-      div.tn-toolbar-spacer @112,24 0x0
-      button.tn-fresh "Mis à jour il y a 2 min" @116,4 136x40
-      button.tn-iconbtn "Recharger" @256,4 40x40
-        svg.tn-icon @268,16 16x16
-      button.tn-iconbtn {expanded=false} "Langue" @300,4 40x40
-        svg.tn-icon @312,16 16x16
-      button.tn-iconbtn "Apparence : système (changer)" @344,4 40x40
+      h1.tn-toolbar-title.tn-ellipsis "Historique" @52,16 64x20
+      div.tn-toolbar-spacer @120,24 80x0
+      button.tn-fresh "Mis à jour il y a 2 min" @204,4 136x40
+      button.tn-iconbtn.tn-settings-btn "Réglages" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x1368
       section.tn-card @12,60 368x288

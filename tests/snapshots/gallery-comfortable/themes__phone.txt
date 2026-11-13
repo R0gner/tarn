@@ -1,77 +1,71 @@
 # gallery-comfortable #/themes · phone 390×844 · dunkel
 div.tn-app @0,0 392x2032
   aside.tn-sidebar @-284,0 280x844
-    div.tn-sidebar-head @-272,0 256x24
-      div.tn-brand @-260,0 136x24
-        span.tn-bicon @-260,0 24x24
-          img.tn-bicon-img @-260,0 24x24
-        span.tn-ellipsis "Tarn Gallery" @-224,0 100x24
-    nav.tn-nav "Views" @-272,24 256x896
-      div.tn-nav-group [presentation] "Core · Tokens" @-272,24 256x32
-      a.tn-nav-item @-272,56 256x48
-        svg.tn-icon @-260,72 20x20
-        span.tn-ellipsis "Foundations" @-228,68 100x24
-      a.tn-nav-item.is-active {current=page} @-272,108 256x48
-        svg.tn-icon @-260,120 20x20
-        span.tn-ellipsis "Light and dark" @-228,120 116x24
-      div.tn-nav-group [presentation] "Core · Primitives" @-272,156 256x44
-      a.tn-nav-item @-272,200 256x48
-        svg.tn-icon @-260,212 20x20
-        span.tn-ellipsis "Buttons and status" @-228,212 152x24
-      a.tn-nav-item @-272,248 256x48
-        svg.tn-icon @-260,264 20x20
-        span.tn-ellipsis "Controls" @-228,260 68x24
-      a.tn-nav-item @-272,296 256x48
-        svg.tn-icon @-260,312 20x20
-        span.tn-ellipsis "Inputs" @-228,308 52x24
-      a.tn-nav-item @-272,348 256x48
-        svg.tn-icon @-260,360 20x20
-        span.tn-ellipsis "Forms" @-228,356 52x24
-      div.tn-nav-group [presentation] "Shell · Components" @-272,396 256x44
-      a.tn-nav-item @-272,440 256x48
-        svg.tn-icon @-260,452 20x20
-        span.tn-ellipsis "Cards and tiles" @-228,452 124x24
-      a.tn-nav-item @-272,488 256x48
-        svg.tn-icon @-260,500 20x20
-        span.tn-ellipsis "Rows and facts" @-228,500 124x24
-      a.tn-nav-item @-272,536 256x48
-        svg.tn-icon @-260,552 20x20
-        span.tn-ellipsis "Table and filter" @-228,548 124x24
-        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-56,548 24x24
-      a.tn-nav-item @-272,584 256x48
-        svg.tn-icon @-260,600 20x20
-        span.tn-ellipsis "Confirm and actions" @-228,596 168x24
-      a.tn-nav-item @-272,636 256x48
-        svg.tn-icon @-260,648 20x20
-        span.tn-ellipsis "Menus and feedback" @-228,648 172x24
-      a.tn-nav-item @-272,684 256x48
-        svg.tn-icon @-260,696 20x20
-        span.tn-ellipsis "Charts" @-228,696 56x24
-      a.tn-nav-item @-272,732 256x48
-        svg.tn-icon @-260,748 20x20
-        span.tn-ellipsis "Markdown" @-228,744 88x24
-      a.tn-nav-item @-272,780 256x48
-        svg.tn-icon @-260,796 20x20
-        span.tn-ellipsis "States and sheets" @-228,792 148x24
-      div.tn-nav-group [presentation] "Shell · App frame" @-272,832 256x44
-      a.tn-nav-item @-272,872 256x48
-        svg.tn-icon @-260,888 20x20
-        span.tn-ellipsis "Shell and boards" @-228,884 136x24
+    div.tn-sidebar-head @-272,0 256x56
+      div.tn-brand @-260,16 136x24
+        span.tn-bicon @-260,16 24x24
+          img.tn-bicon-img @-260,16 24x24
+        span.tn-ellipsis "Tarn Gallery" @-224,16 100x24
+    nav.tn-nav "Views" @-272,56 256x896
+      div.tn-nav-group [presentation] "Core · Tokens" @-272,56 256x32
+      a.tn-nav-item @-272,88 256x48
+        svg.tn-icon @-260,104 20x20
+        span.tn-ellipsis "Foundations" @-228,100 100x24
+      a.tn-nav-item.is-active {current=page} @-272,140 256x48
+        svg.tn-icon @-260,152 20x20
+        span.tn-ellipsis "Light and dark" @-228,148 116x24
+      div.tn-nav-group [presentation] "Core · Primitives" @-272,188 256x44
+      a.tn-nav-item @-272,232 256x48
+        svg.tn-icon @-260,244 20x20
+        span.tn-ellipsis "Buttons and status" @-228,244 152x24
+      a.tn-nav-item @-272,280 256x48
+        svg.tn-icon @-260,292 20x20
+        span.tn-ellipsis "Controls" @-228,292 68x24
+      a.tn-nav-item @-272,328 256x48
+        svg.tn-icon @-260,344 20x20
+        span.tn-ellipsis "Inputs" @-228,340 52x24
+      a.tn-nav-item @-272,376 256x48
+        svg.tn-icon @-260,392 20x20
+        span.tn-ellipsis "Forms" @-228,388 52x24
+      div.tn-nav-group [presentation] "Shell · Components" @-272,428 256x44
+      a.tn-nav-item @-272,468 256x48
+        svg.tn-icon @-260,484 20x20
+        span.tn-ellipsis "Cards and tiles" @-228,480 124x24
+      a.tn-nav-item @-272,520 256x48
+        svg.tn-icon @-260,532 20x20
+        span.tn-ellipsis "Rows and facts" @-228,532 124x24
+      a.tn-nav-item @-272,568 256x48
+        svg.tn-icon @-260,580 20x20
+        span.tn-ellipsis "Table and filter" @-228,580 124x24
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @-56,580 24x24
+      a.tn-nav-item @-272,616 256x48
+        svg.tn-icon @-260,632 20x20
+        span.tn-ellipsis "Confirm and actions" @-228,628 168x24
+      a.tn-nav-item @-272,664 256x48
+        svg.tn-icon @-260,680 20x20
+        span.tn-ellipsis "Menus and feedback" @-228,676 172x24
+      a.tn-nav-item @-272,716 256x48
+        svg.tn-icon @-260,728 20x20
+        span.tn-ellipsis "Charts" @-228,728 56x24
+      a.tn-nav-item @-272,764 256x48
+        svg.tn-icon @-260,776 20x20
+        span.tn-ellipsis "Markdown" @-228,776 88x24
+      a.tn-nav-item @-272,812 256x48
+        svg.tn-icon @-260,828 20x20
+        span.tn-ellipsis "States and sheets" @-228,824 148x24
+      div.tn-nav-group [presentation] "Shell · App frame" @-272,860 256x44
+      a.tn-nav-item @-272,904 256x48
+        svg.tn-icon @-260,920 20x20
+        span.tn-ellipsis "Shell and boards" @-228,916 136x24
   div.tn-scrim @0,0 392x844
   div.tn-main @0,0 392x2032
     header.tn-toolbar @0,0 392x56
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
         svg.tn-icon @20,16 20x20
-      h1.tn-toolbar-title.tn-ellipsis "Light and dark" @68,16 32x24
-      div.tn-toolbar-spacer @104,28 0x0
-      button.tn-fresh "Updated now" @112,4 52x48
-      button.tn-iconbtn "Reload" @168,4 48x48
-        svg.tn-icon @184,16 20x20
-      button.tn-iconbtn {expanded=false} "Language" @224,4 48x48
-        svg.tn-icon @236,16 20x20
-      button.tn-iconbtn "Density: Comfortable (switch)" @276,4 48x48
-        svg.tn-icon @292,16 20x20
-      button.tn-iconbtn "Appearance: System (switch)" @332,4 48x48
+      h1.tn-toolbar-title.tn-ellipsis "Light and dark" @68,16 116x24
+      div.tn-toolbar-spacer @188,28 8x0
+      button.tn-fresh "Updated now" @204,4 120x48
+      button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
     main.tn-content @0,56 392x1976
       section.tn-card @16,72 360x416

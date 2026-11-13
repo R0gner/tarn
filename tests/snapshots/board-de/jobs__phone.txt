@@ -31,13 +31,9 @@ div.tn-app @0,0 392x844
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Seitenleiste umschalten" @4,4 40x40
         svg.tn-icon @16,16 16x16
       h1.tn-toolbar-title.tn-ellipsis "Jobs" @52,16 32x20
-      div.tn-toolbar-spacer @88,24 52x0
-      button.tn-fresh "Stand vor 2 Min." @140,4 108x40
-      button.tn-iconbtn "Neu laden" @256,4 40x40
-        svg.tn-icon @268,16 16x16
-      button.tn-iconbtn {expanded=false} "Sprache" @300,4 40x40
-        svg.tn-icon @312,16 16x16
-      button.tn-iconbtn "Darstellung: System (umschalten)" @344,4 40x40
+      div.tn-toolbar-spacer @88,24 140x0
+      button.tn-fresh "Stand vor 2 Min." @228,4 108x40
+      button.tn-iconbtn.tn-settings-btn "Einstellungen" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x680
       div.tn-filterbar @12,60 368x64

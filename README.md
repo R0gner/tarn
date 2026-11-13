@@ -25,7 +25,7 @@ For agents that build a board: **read [AGENTS.md](AGENTS.md) first.**
 | **Tokens** | colours, spacing, type, motion, icons, formatters, texts | `css/tokens.css`, Lucide icons, `fmt*()`, `t()` |
 | **Primitives** | small self-contained controls | `button`, `iconButton`, `badge`, `statusDot`, `segmented`, `tabs`, `tooltip`, `progress`, **inputs** (`textField`, `numberField`, `select`, `combobox`, `checkbox`, `toggle`, `dateField`, `dateRange`, `field`) |
 | **Components** | composed blocks | `card`, `section`, `statTile`, `list`, `kv`, `table`, `filterBar`, `banner`, `log`, `menu`, `toast`, sheet/panel, `markdown`, `dataCard`, `form`, `confirm`, `actionRun`, charts |
-| **Shell** | the frame around a board | `createApp`, `dataSource`, board switcher, language menu, install button |
+| **Shell** | the frame around a board | `createApp`, `dataSource`, board switcher, language menu, install button, notifications (browser half) |
 
 The gallery (`gallery/`) is grouped by these levels and shows every building block in all its states, light and dark. The navigation names the part: groups `Core · Tokens`, `Core · Primitives` (incl. inputs and `form`), `Shell · Components`, `Shell · App frame`.
 
@@ -588,12 +588,74 @@ const f = form({
 - **Icons**: Lucide (ISC) in a fixed version, only used symbols in `icons/`, sources and sha256 in `icons/SOURCES.md`, runtime
   file `js/icons-data.js` (generated). New symbol: `node tools/icons.mjs add <lucide-name> [--as <kit-name>]`;
   `node tools/icons.mjs check` and `tests/icons.test.mjs` verify that generated files and sources match.
-- **Installing**: “Install as app” sits at the bottom of the sidebar and appears only when the browser offers
-  `beforeinstallprompt`; after installing (`appinstalled`) and in standalone mode (also iOS `navigator.standalone`) it is gone.
+- **Installing**: “Install as app” sits at the bottom of the sidebar and appears when the browser offers
+  `beforeinstallprompt`, or – on iPhone, iPad and Safari on the Mac, which have no prompt – as the Add-to-Home-Screen hint (see “Notifications”); after installing (`appinstalled`) and in standalone mode (also iOS `navigator.standalone`) it is gone.
   In the board's `<head>`: `<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">` (the pages sit
   behind a login proxy, the manifest needs the cookies). **Chrome offers installation without a service worker**:
   `Page.getInstallabilityErrors` returns an empty list for gallery and sample board and the real `beforeinstallprompt` arrived
-  without a service worker. Hence there is none (and no offline cache).
+  without a service worker. Hence the kit has none by default (and no offline cache); the only worker it offers is `js/push-sw.js`, for notifications, and a board opts in.
+
+## Notifications (web push, browser half)
+
+The kit brings the browser half of notifications as an optional shell module; **sending stays with each board's backend**.
+
+```js
+createApp({ notifications: { api: '/api/push' } })        // sidebar entry "Notifications" → settings sheet
+openNotifications({ api: '/api/push' })                   // the same sheet without the shell (any page)
+const n = notifications({ api: '/api/push', worker: '/sw.js', scope: '/', query: { data: token } })   // controller + n.open()
+```
+
+Options: `api` (base URL of the server interface, required), `worker` (URL of the service worker file, default `sw.js` relative to the page),
+`scope` (default: the folder of the worker), `query` (parameters added to every server call, e.g. a token), `env` (the browser; only for tests and
+demos, see below). The sheet has one text for every state: *not supported by this browser* · *no https* · *iPhone/iPad, not installed yet* (Share →
+Add to Home Screen; iOS only offers notifications to an installed app) · *server does not push* · *server not reachable* (with *Check again*) ·
+*service worker did not start* · *blocked* (how to allow it again in the browser or system settings) · *off / not asked yet* (the button that asks,
+**the browser prompt only ever follows a tap**) · *on* (send a test notification, turn off). All texts in en, de, es, fr.
+
+**Server interface** (JSON, same origin, the page's cookies; `<api>` is the base URL):
+
+| Call | Body | Answer |
+|---|---|---|
+| `GET <api>/key` | – | `{ "enabled": true, "publicKey": "<VAPID public key, base64url>" }`; `enabled: false` = the server does not push |
+| `POST <api>/status` | `{ "endpoint": "…" }` | `{ "known": true \| false }` – does the server still know this subscription? If not, the page subscribes again quietly |
+| `POST <api>/subscribe` | `{ "subscription": <PushSubscription.toJSON()>, "label": "Android, Chrome" }` | any 2xx |
+| `POST <api>/unsubscribe` | `{ "endpoint": "…" }` | any 2xx (the page ignores a failure) |
+| `POST <api>/test` | `{ "endpoint": "…" }` | `{ "ok": true }` or `{ "ok": false, "error": "…", "gone": true \| false }` – with any status; `gone: true` makes the page drop the subscription |
+
+An error answer is a non-2xx status, optionally `{ "error": "text" }` (shown to the user). Deliberate difference to a "GET status": the status call is a
+**POST** because the endpoint URL is a capability (anyone who has it can push to the device) and does not belong into URLs and access logs. This is exactly
+what the parcel board already serves (`/api/push/key|status|subscribe|unsubscribe|test`), so it needs no server change; the same board's extra field
+`events` in the key answer is ignored by the kit (per-event settings are the board's own business).
+
+**Service worker** `js/push-sw.js` (push only: no offline cache, no `fetch` handler):
+- `push` shows title, text, icon and `tag` from the message `{ "title", "body", "tag"?, "url"?, "icon"?, "renotify"?, "ts"? }` (a new message with the same `tag`
+  replaces the old one and alerts again unless `renotify` is `false`; no title → the host name; relative `url`/`icon` resolve against the scope);
+- `notificationclick` focuses an open window of the board and navigates it to `url`, else opens `url`.
+- **The board serves this file from its own root**, not from `/tarn/`: a worker only controls the folder it is served from, and `Service-Worker-Allowed`
+  is easy to forget. So: `GET /sw.js` answers with the bytes of `vendor/tarn/js/push-sw.js` (`Content-Type: text/javascript`, `Cache-Control: no-cache`); the
+  scope is then `/`. A board under `/board/` serves it as `/board/sw.js` (scope `/board/`) and passes `worker: '/board/sw.js'`; a board that must
+  serve it from a deeper path adds the header `Service-Worker-Allowed: /` and passes `scope`. The browser compares the file byte for byte on every
+  visit, so a kit update reaches the devices by itself. The icon of a notification is `icon-192.png` next to the worker unless the message names another.
+
+**What a board has to do**, in short: (1) implement the five calls (VAPID keys, a table of subscriptions, a sender such as `pywebpush`/`web-push`),
+(2) serve `push-sw.js` from its root, (3) `createApp({ notifications: { api } })`, (4) send messages in the format above. The same applies when moving the parcel board to
+Tarn: keep `api/push/*` as it is, serve `vendor/tarn/js/push-sw.js` as `/sw.js` (the board already sends `Service-Worker-Allowed: /` and the same
+message format), pass its token as `query: { data }`, drop its own `meldungen.js` and sheet.
+
+Without the shell: `openNotifications({ api })` needs only the barrel (or `notifications.js`, its data file and the core). `createNotifications({ api, env })` is the logic
+without any DOM; `env` replaces every browser API (`serviceWorker`, `PushManager`, `Notification`, permission, `fetch`, user agent, standalone), which is
+how the tests and the gallery run every state: `gallery/mock-push.js` is a mocked browser plus an in-memory backend.
+
+**Install hint:** where the browser has no install prompt – iPhone and iPad (any browser), Safari on the Mac – the “Install as app” entry stays and opens a
+sheet with the steps (Share → Add to Home Screen / File → Add to Dock) instead of being absent; in an installed app it is gone.
+
+**Phone toolbar:** below 600 px the toolbar keeps only the burger, the view title, the freshness text and **one settings entry** (theme, density, language in one
+sheet); the separate buttons stay on larger screens, the reload button gives way to the freshness text (itself a reload button), and the freshness text gives
+way before the view title does. Verify rule `toolbar-title` (360–599 px) fails when a toolbar crowds the view title out; mutant `toolbar-crowded` plants the old layout.
+
+Checks: the overlay scenarios `notifications` (every state through the gallery's mock, the flow tap → prompt once → on → test → off, nothing asked before the tap),
+`install-hint` (iPhone user agent, no prompt) and `settings-phone`; `tests/notifications.test.mjs` (state machine, server calls, platform detection, the service worker with a
+mocked scope); mutants `notifications-ask-on-open`, `install-hint-absent`, `toolbar-crowded`.
 
 ## Multiple boards (board icon and switcher)
 

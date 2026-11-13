@@ -31,13 +31,9 @@ div.tn-app @0,0 392x844
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Afficher ou masquer la barre latérale" @4,4 40x40
         svg.tn-icon @16,16 16x16
       h1.tn-toolbar-title.tn-ellipsis "Tâches" @52,16 44x20
-      div.tn-toolbar-spacer @100,24 8x0
-      button.tn-fresh "Mis à jour il y a 2 min" @116,4 136x40
-      button.tn-iconbtn "Recharger" @256,4 40x40
-        svg.tn-icon @268,16 16x16
-      button.tn-iconbtn {expanded=false} "Langue" @300,4 40x40
-        svg.tn-icon @312,16 16x16
-      button.tn-iconbtn "Apparence : système (changer)" @344,4 40x40
+      div.tn-toolbar-spacer @100,24 96x0
+      button.tn-fresh "Mis à jour il y a 2 min" @204,4 136x40
+      button.tn-iconbtn.tn-settings-btn "Réglages" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x680
       div.tn-filterbar @12,60 368x64

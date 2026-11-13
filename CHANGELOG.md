@@ -24,6 +24,24 @@ Round 5.
 - Internal: exceptions, finding groups and finding screenshots moved to `tools/verify/rules.mjs` and `shots.mjs`; snapshots, overlay scenarios and the
   pool take the board's folder, pages and kit URL as options; `tests/version.test.mjs` accepts a top entry marked "(unreleased)".
 
+### Stage N: notifications (browser half) and the phone toolbar
+- `createApp({ notifications: { api } })` adds the entry "Notifications" (bell, sidebar) that opens a settings sheet; `openNotifications({ api })` is the same sheet without
+  the shell, `notifications()` the controller, `createNotifications({ api, env })` the logic without a DOM (all browser APIs replaceable). States, each with its own text
+  (en, de, es, fr): not supported · no https · iPhone/iPad not installed (Share → Add to Home Screen) · server does not push · server not reachable · service worker did not
+  start · blocked (how to allow it again) · off (the button that asks; the browser prompt only ever after a tap) · on (test, turn off).
+- Server interface, documented in the README so any backend can implement it: `GET <api>/key`, `POST <api>/status`, `/subscribe`, `/unsubscribe`, `/test`. Compatible with
+  the parcel board's server as it is (status is a POST on purpose: the endpoint URL is a capability and stays out of URLs and logs; the brief's "GET status" is not used).
+- New `js/push-sw.js`: a service worker for push only (`push` shows title, text, icon, `tag`; `notificationclick` focuses or opens the target); no offline cache, no fetch handler.
+  The board serves it from its own root; scope and header are documented. Classified as shell, part of the vendor copy and the package.
+- The install entry no longer disappears where the browser has no install prompt: on iPhone, iPad and Safari on the Mac it opens the Add-to-Home-Screen steps.
+- **Phone toolbar (< 600 px):** theme, density and language move into one settings entry (sheet); the reload button gives way to the freshness text, the freshness text
+  gives way before the view title (the gallery title was cut to "Foundati…" since the density button arrived). Verify rule `toolbar-title`, mutant `toolbar-crowded`.
+- The sidebar foot is hidden only when all its entries are hidden (was: when any was); head, navigation and foot no longer shrink in a long sidebar, it scrolls.
+- Icons `bell`, `bell-off`, `settings`, `share`, `square-plus`. Gallery: demo with every state, live sheets over mocked browser APIs and a mock backend (`gallery/mock-push.js`).
+- Checks: overlay scenarios `notifications`, `install-hint`, `settings-phone`; `tests/notifications.test.mjs`; mutants `notifications-ask-on-open`, `install-hint-absent`, `toolbar-crowded`.
+- Snapshots deliberately re-baselined: gallery and sample board on the phone (toolbar: settings entry instead of language/density/theme/reload), gallery on the desktop (class `tn-hide-phone`
+  on the toolbar buttons), gallery `shell` (notifications demo).
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.

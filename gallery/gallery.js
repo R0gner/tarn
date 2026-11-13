@@ -10,6 +10,7 @@ import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from '.
 import { viewInputs } from './gallery-inputs.js';
 import { viewForms, viewActions } from './gallery-forms.js';
 import { REPORT, SECURITY_CASES } from './markdown-sample.js';
+import { mockPush } from './mock-push.js';
 
 /* ---- helpers ---- */
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
@@ -252,6 +253,7 @@ function viewStates() {
 const app = createApp({
   title: 'Tarn Gallery',
   densitySwitch: true,
+  notifications: { api: './mock-push', env: mockPush('off', { delay: 80 }).env },   // mocked browser APIs and a mock backend: the sidebar entry works without a server
   icon: './favicon.svg',
   locales: ['en', 'de'],
   source: src,

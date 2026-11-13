@@ -65,13 +65,13 @@ div.tn-app @0,0 1424x1856
       h1.tn-toolbar-title.tn-ellipsis "Inputs" @252,12 40x20
       div.tn-toolbar-spacer @296,20 896x0
       button.tn-fresh "Updated now" @1192,8 92x28
-      button.tn-iconbtn "Reload" @1288,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Reload" @1288,8 28x28
         svg.tn-icon @1296,12 16x16
-      button.tn-iconbtn {expanded=false} "Language" @1320,8 28x28
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @1320,8 28x28
         svg.tn-icon @1328,12 16x16
-      button.tn-iconbtn "Density: Compact (switch)" @1352,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Density: Compact (switch)" @1352,8 28x28
         svg.tn-icon @1360,12 16x16
-      button.tn-iconbtn "Appearance: System (switch)" @1384,8 28x28
+      button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
     main.tn-content @208,44 1216x1812
       section.tn-card @224,152 584x548

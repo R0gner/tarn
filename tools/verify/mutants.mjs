@@ -106,6 +106,25 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // the browser prompt for the permission appears when the sheet opens, not after a tap on the button (browsers punish that, Safari refuses it)
+    id: 'notifications-ask-on-open',
+    check: 'overlay', scenarios: ['notifications'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/notifications-data.js', from: "if (!sub) return set({ kind: env.permission() === 'denied' ? 'blocked' : 'off', message: null });", to: "if (!sub) { env.requestPermission(); return set({ kind: env.permission() === 'denied' ? 'blocked' : 'off', message: null }); }" }],
+  },
+  {
+    // the install entry is absent where the browser has no install prompt (iPhone, Safari): no way to find out how to install
+    id: 'install-hint-absent',
+    check: 'overlay', scenarios: ['install-hint'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour', 'overlay-missing'],
+    patch: [{ file: 'js/shell.js', from: "installBtn.hidden = isStandalone() || (!installEvent && !manual());", to: "installBtn.hidden = isStandalone() || !installEvent;" }],
+  },
+  {
+    // the old phone toolbar: theme, density and language as three separate buttons next to the reload button and the freshness text
+    // (no single settings entry): the view title of the gallery is cut to “Foundati…” on a 390 px phone
+    id: 'toolbar-crowded',
+    page: 'gallery', views: ['foundations', 'themes'], sizes: ['phone'], expect: ['toolbar-title'],
+    css: '.tn-hide-phone { display: inline-grid !important; } .tn-toolbar .tn-settings-btn { display: none !important; }',
+  },
+  {
     // earlier starter fault: the language switch shrinks in a full header row and scrolls sideways (comfortable phone: “Deutsch” cut off)
     id: 'segmented-squeezed',
     page: 'starter-comfortable', views: ['page'], sizes: ['phone-s'], expect: ['scroll-x'],

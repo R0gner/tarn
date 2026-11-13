@@ -98,6 +98,13 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    `node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>` – exit 0 before every hand-in. It runs lint of the board's own
    files, `vendor --check` on its copy, geometry, snapshots, the generic overlay scenarios and the animation inventory.
 
+## Notifications
+
+A board that wants notifications adds `createApp({ notifications: { api: '/api/push' } })` (sidebar entry + sheet; all states and texts are the kit's), serves
+`vendor/tarn/js/push-sw.js` from its own root (e.g. `GET /sw.js`) and implements the five server calls of README “Notifications”. No own notification UI, no
+permission prompt outside the sheet (it only ever follows a tap), no service worker with an offline cache. On phones theme, density and language live in one
+settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
+
 ## Choosing building blocks
 
 | You want … | use |
