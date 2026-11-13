@@ -2,7 +2,7 @@
 import {
   h, icon, card, section, button, iconButton, statTile, tiles, metricRow, list, kv, facts, statusDot, badge, empty, banner,
   segmented, tabs, log, toast, progress, usageBar, tooltip, menu, dataCard, boardSwitcher, boardGrid, boardIcon, normalizeBoards,
-  lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtAgo, fmtPct,
+  lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtDay, fmtAgo, fmtPct,
   STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES, DENSITIES, getDensity, setDensity,
   notifications, openNotifications, notificationsPanel, createNotifications, openInstallHint, manualInstall,
 } from '../js/tarn.js';
@@ -181,7 +181,7 @@ boardSwitcher(button, { boards, categories, boardId })   // or on your own butto
     demo('Language and formats', `// ${KIT_LOCALES.map((l) => LOCALE_NAMES[l]).join(' · ')}   (active: ${getLocale()}, time zone ${getTimeZone()})\n// fmt*() use Intl with the active locale and time zone; kit texts come from js/locales/*.js via t(key, vars)`,
       h('div', { class: 'g-narrow' }, kv([
         ['Number', fmtNum(12345.678)], ['Percent', fmtPct(0.857)], ['Bytes', fmtBytes(48318382080)], ['Duration', fmtDuration(2950)],
-        ['Age', fmtAgo(11100)], ['Time of day', fmtTime(Date.now())], ['Date', fmtDate(Date.now())], ['Yesterday 22:10', fmtWhen(Date.now() - 86400e3)],
+        ['Age', fmtAgo(11100)], ['Time of day', fmtTime(Date.now())], ['Date', fmtDate(Date.now())], ['Short date', fmtDay(Date.now())], ['Yesterday 22:10', fmtWhen(Date.now() - 86400e3)],
         ['Status', Object.values(STATUS_TEXT).join(' · ')],
       ]))),
     demo('dataSource()', `const src = dataSource({ url: '/api/snapshot', interval: 60_000, staleAfter: 900,\n  ageOf: (d) => d.ageSec })   // age from the server, else from the fetch\ncreateApp({ title, views, source: src }); src.start();\n// the toolbar shows "Updated … ago" (red once stale), a reload button, banners on error/stale data`,

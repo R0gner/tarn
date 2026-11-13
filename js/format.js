@@ -2,7 +2,7 @@
 // tarn · pure formatting and sorting functions (no DOM, testable with node --test).
 // Everything runs through Intl with the active locale and time zone from i18n.js (setLocale / setTimeZone);
 // without a call the locale is English and the time zone the browser's.
-import { getLocale, getTimeZone, t } from './i18n.js';
+import { getLocale, getTimeZone, baseLang, t } from './i18n.js';
 
 const cache = new Map();
 /**
@@ -112,6 +112,12 @@ export const fmtDate = (t) => (t == null ? '–' : dtf('date', { day: '2-digit',
  */
 export const fmtShort = (t) => (t == null ? '–' : dtf('short', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(toDate(t)));
 /**
+ * Short date without time: "09.11." (de) / "11/09" (en-US)
+ * @param {number | Date | null | undefined} t epoch milliseconds or Date
+ * @returns {string}
+ */
+export const fmtDay = (t) => (t == null ? '–' : dtf('day', { day: '2-digit', month: '2-digit' }).format(toDate(t)));
+/**
  * Full: "09.11.2026, 07:15:02"
  * @param {number | Date | null | undefined} t epoch milliseconds or Date
  * @returns {string}
@@ -119,7 +125,8 @@ export const fmtShort = (t) => (t == null ? '–' : dtf('short', { day: '2-digit
 export const fmtFull = (t) => (t == null ? '–' : dtf('full', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(toDate(t)));
 
 /**
- * Date/time in context: today → "07:15", yesterday → "yesterday 22:10" (Intl wording), otherwise "07.11., 22:10".
+ * Date/time in context: today → "07:15", yesterday → "yesterday 22:10" (Intl wording), otherwise day and time: "07.11. 22:10" (de: date, space, time – no comma
+ * after the full stop of the date) / "11/07, 10:10 PM" (en-US, Intl's own pattern).
  * @param {number | Date | null | undefined} t
  * @param {number} [now]
  * @returns {string}
@@ -129,7 +136,7 @@ export function fmtWhen(t, now = Date.now()) {
   const k = dayKey(t);
   if (k === dayKey(now)) return fmtTime(t);
   if (k === dayKey(+toDate(now) - 86400e3)) return `${fmt('r', () => new Intl.RelativeTimeFormat(getLocale(), { numeric: 'auto', style: 'short' }), '').format(-1, 'day')} ${fmtTime(t)}`;
-  return fmtShort(t);
+  return baseLang(getLocale()) === 'de' ? `${fmtDay(t)} ${fmtTime(t)}` : fmtShort(t);
 }
 
 /* ---- Sorting ---- */

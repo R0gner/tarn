@@ -69,7 +69,7 @@ div.tn-app @0,0 392x844
                 span.tn-dot.tn-s-pending [img] "Ausstehend" @24,256 8x8
               td.tn-td-title "Package update check" @44,244 272x20
               td.tn-right "–" @332,244 8x20
-              td.tn-td-m "app-1 einmalig 10.11., 12:00" @44,260 292x16
+              td.tn-td-m "app-1 einmalig 10.11. 12:00" @44,260 292x16
                 span.tn-sep-dot "·" @84,260 8x16
               td.tn-td-go @348,252 16x16
                 svg.tn-icon @348,252 16x16
@@ -169,7 +169,7 @@ dialog.tn-sheet.is-open @0,100 392x744
         dt "Letzter Lauf" @16,316 96x20
         dd "05:15 (vor 4 Std.)" @128,316 248x20
         dt "Nächster Lauf" @16,340 96x20
-        dd "10.11., 04:15" @128,340 248x20
+        dd "10.11. 04:15" @128,340 248x20
         dt "Dauer" @16,364 96x20
         dd "~45 min" @128,364 248x20
     section.tn-facts @16,400 360x92

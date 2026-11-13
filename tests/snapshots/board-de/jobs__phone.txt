@@ -69,7 +69,7 @@ div.tn-app @0,0 392x844
                 span.tn-dot.tn-s-pending [img] "Ausstehend" @24,256 8x8
               td.tn-td-title "Package update check" @44,244 272x20
               td.tn-right "–" @332,244 8x20
-              td.tn-td-m "app-1 einmalig 10.11., 12:00" @44,260 292x16
+              td.tn-td-m "app-1 einmalig 10.11. 12:00" @44,260 292x16
                 span.tn-sep-dot "·" @84,260 8x16
               td.tn-td-go @348,252 16x16
                 svg.tn-icon @348,252 16x16

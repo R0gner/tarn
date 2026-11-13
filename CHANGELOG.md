@@ -50,6 +50,8 @@ Round 5.
 - The shell names the theme and density in effect on its buttons also when something else changes them (`setDensity()` in a board, a page that sets `data-density`): observers on `<html>`, no polling (`watchDensity()` in `js/density.js`, unit test).
   No snapshot changed.
 - **Texts with a formatted age (G6):** `shell.dataStale` put a full stop after `{age}` ("Stand vor 3 Std.."; English future ages end in one too); the text is now "Daten veraltet (Stand {age})." in all four languages. A test fails when any kit or sample board text has a full stop right after `{age}`.
+- **Dates (G9):** `fmtDay(t)`: a short date without time ("09.11." de, "11/09" en). `fmtWhen` in German no longer puts a comma after the full stop of the date ("07.11. 22:10", was "07.11., 22:10"); the other languages keep Intl's patterns.
+  Snapshots of the German sample board pages re-baselined for it.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ## 0.4.0

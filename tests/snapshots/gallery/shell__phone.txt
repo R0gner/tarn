@@ -1,5 +1,5 @@
 # gallery #/shell · phone 390×844 · dunkel
-div.tn-app @0,0 392x6656
+div.tn-app @0,0 392x6680
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -58,7 +58,7 @@ div.tn-app @0,0 392x6656
         svg.tn-icon @-268,760 16x16
         span.tn-ellipsis "Shell and boards" @-244,756 104x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x6656
+  div.tn-main @0,0 392x6680
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
@@ -67,7 +67,7 @@ div.tn-app @0,0 392x6656
       button.tn-fresh "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x6608
+    main.tn-content @0,48 392x6632
       section.tn-card @12,132 368x2104
         header.tn-card-head @12,132 364x40
           div.tn-card-heading @24,140 340x20
@@ -309,12 +309,12 @@ div.tn-app @0,0 392x6656
           button.tn-btn.tn-btn-default.tn-btn-sm @24,5488 104x36
           button.tn-btn.tn-btn-default.tn-btn-sm @156,5488 104x36
           button.tn-btn.tn-btn-default.tn-btn-sm @24,5556 104x36
-      section.tn-card @12,5872 368x400
+      section.tn-card @12,5872 368x424
         header.tn-card-head @12,5872 364x40
           div.tn-card-heading @24,5884 340x20
             h3.tn-card-title "Language and formats" @24,5884 340x20
-        div.tn-card-body @12,5912 364x360
-          dl.tn-kv @24,5924 340x220
+        div.tn-card-body @12,5912 364x380
+          dl.tn-kv @24,5924 340x244
             dt "Number" @24,5924 96x20
             dd "12,345.68" @140,5924 228x20
             dt "Percent" @24,5948 96x20
@@ -329,23 +329,25 @@ div.tn-app @0,0 392x6656
             dd "10:00 AM" @140,6040 228x20
             dt "Date" @24,6064 96x20
             dd "11/09/2026" @140,6064 228x20
-            dt "Yesterday 22:10" @24,6088 96x20
-            dd "yesterday 10:00 AM" @140,6088 228x20
-            dt "Status" @24,6112 96x36
-            dd "OK · Warning · Error · Unknown · Pending · Note · Off" @140,6112 228x36
-      section.tn-card @12,6288 368x356
-        header.tn-card-head @12,6288 364x40
-          div.tn-card-heading @24,6300 340x20
-            h3.tn-card-title "dataSource()" @24,6300 340x20
-        div.tn-card-body @12,6328 364x312
-          dl.tn-kv @24,6340 340x112
-            dt "URL" @24,6340 96x20
-            dd "./fixture.json" @136,6340 228x20
-            dt "State" @24,6364 96x20
-            dd "ok" @136,6364 228x20
-            dt "Fetched" @24,6388 96x20
-            dd "10:00 AM" @136,6388 228x20
-            dt "Age" @24,6412 96x20
-            dd "now" @136,6412 228x20
-            dt "Stale after" @24,6436 96x20
-            dd "15 min" @136,6436 228x20
+            dt "Short date" @24,6088 96x20
+            dd "11/09" @140,6088 228x20
+            dt "Yesterday 22:10" @24,6112 96x20
+            dd "yesterday 10:00 AM" @140,6112 228x20
+            dt "Status" @24,6132 96x36
+            dd "OK · Warning · Error · Unknown · Pending · Note · Off" @140,6132 228x36
+      section.tn-card @12,6312 368x356
+        header.tn-card-head @12,6312 364x40
+          div.tn-card-heading @24,6324 340x20
+            h3.tn-card-title "dataSource()" @24,6324 340x20
+        div.tn-card-body @12,6352 364x312
+          dl.tn-kv @24,6364 340x112
+            dt "URL" @24,6364 96x20
+            dd "./fixture.json" @136,6364 228x20
+            dt "State" @24,6388 96x20
+            dd "ok" @136,6388 228x20
+            dt "Fetched" @24,6412 96x20
+            dd "10:00 AM" @136,6412 228x20
+            dt "Age" @24,6436 96x20
+            dd "now" @136,6436 228x20
+            dt "Stale after" @24,6456 96x20
+            dd "15 min" @136,6456 228x20

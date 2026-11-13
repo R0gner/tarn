@@ -156,18 +156,18 @@ div.tn-app @0,0 1424x900
                       span.tn-row-title.tn-ellipsis "Log cleanup" @856,256 400x20
                       span.tn-row-sub.tn-ellipsis "app-2 · täglich 00:10" @856,276 400x16
                     span.tn-row-value @1272,256 96x36
-                      span.tn-num "10.11., 00:10" @1284,256 84x20
+                      span.tn-num "10.11. 00:10" @1288,256 80x20
                       span.tn-row-sub "in 14 Std. 10 min" @1272,276 96x16
                     span.tn-go @1380,268 16x16
                       svg.tn-icon @1380,268 16x16
                   button.tn-row.tn-row-btn @824,296 584x44
                     span.tn-row-status @836,316 8x8
                       span.tn-dot.tn-s-ok [img] "In Ordnung" @840,316 8x8
-                    span.tn-row-main @856,304 412x36
-                      span.tn-row-title.tn-ellipsis "Wiki database dump" @856,304 412x20
-                      span.tn-row-sub.tn-ellipsis "app-2 · täglich 01:00" @856,320 412x16
-                    span.tn-row-value @1284,304 84x36
-                      span.tn-num "10.11., 01:00" @1284,304 84x20
+                    span.tn-row-main @856,304 416x36
+                      span.tn-row-title.tn-ellipsis "Wiki database dump" @856,304 416x20
+                      span.tn-row-sub.tn-ellipsis "app-2 · täglich 01:00" @856,320 416x16
+                    span.tn-row-value @1288,304 80x36
+                      span.tn-num "10.11. 01:00" @1288,304 80x20
                       span.tn-row-sub "in 15 Std." @1312,320 56x16
                     span.tn-go @1380,312 16x16
                       svg.tn-icon @1380,312 16x16
@@ -178,18 +178,18 @@ div.tn-app @0,0 1424x900
                       span.tn-row-title.tn-ellipsis "Photo backup" @856,348 400x20
                       span.tn-row-sub.tn-ellipsis "nas-a · täglich 02:30" @856,368 400x16
                     span.tn-row-value @1272,348 96x36
-                      span.tn-num "10.11., 02:30" @1284,348 84x20
+                      span.tn-num "10.11. 02:30" @1288,348 80x20
                       span.tn-row-sub "in 16 Std. 30 min" @1272,368 96x16
                     span.tn-go @1380,360 16x16
                       svg.tn-icon @1380,360 16x16
                   button.tn-row.tn-row-btn @824,388 584x44
                     span.tn-row-status @836,408 8x8
                       span.tn-dot.tn-s-ok [img] "In Ordnung" @840,408 8x8
-                    span.tn-row-main @856,396 412x36
-                      span.tn-row-title.tn-ellipsis "Document backup" @856,396 412x20
-                      span.tn-row-sub.tn-ellipsis "nas-a · täglich 03:00" @856,412 412x16
-                    span.tn-row-value @1284,396 84x36
-                      span.tn-num "10.11., 03:00" @1284,396 84x20
+                    span.tn-row-main @856,396 416x36
+                      span.tn-row-title.tn-ellipsis "Document backup" @856,396 416x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · täglich 03:00" @856,412 416x16
+                    span.tn-row-value @1288,396 80x36
+                      span.tn-num "10.11. 03:00" @1288,396 80x20
                       span.tn-row-sub "in 17 Std." @1312,412 56x16
                     span.tn-go @1380,404 16x16
                       svg.tn-icon @1380,404 16x16

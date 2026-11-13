@@ -430,7 +430,7 @@ colours only as token names (`blue green orange purple pink graphite` or a statu
 | Components | `card()`, `section()`, `tiles()`, `statTile()`, `cols()`, `stack()`, `toolbarRow()`, `metricRow()`, `list()`, `kv()`, `facts()`, `table()`, `filterBar()` (types options, bool, range, time) + `matchFilters()`, `form()`, `confirm()`, `actionRun()`, `matchQuery()`, `banner()`, `empty()`, `error()`, `loading()`, `toast()`, `menu()`, `usageBar()`, `log()`, `dataCard()`, `openSheet()`, `markdown()` |
 | Charts | `lineChart()`, `barChart()`, `sparkline()`, `donut()`, `heatRow()`, `timeline()`, `scale.*` |
 | Boards and identity | `boardSwitcher()`, `boardGrid()`, `boardIcon()`, `favicon({ icon, color })` |
-| Texts and formats | `t()`, `setLocale()`, `addMessages()`, `fmtNum fmtPct fmtBytes fmtDuration fmtAgo fmtTime fmtDate fmtShort fmtFull fmtWhen`, `sortRows`, `STATUS_TEXT`, `STATUS_RANK` |
+| Texts and formats | `t()`, `setLocale()`, `addMessages()`, `fmtNum fmtPct fmtBytes fmtDuration fmtAgo fmtTime fmtDate fmtDay fmtShort fmtFull fmtWhen`, `sortRows`, `STATUS_TEXT`, `STATUS_RANK` |
 
 ## Layout behaviour
 

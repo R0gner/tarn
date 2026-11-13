@@ -57,13 +57,13 @@ div.tn-app @0,0 1424x900
               th @252,132 216x32
                 button.tn-th-btn @264,132 48x32
                   span.tn-sort @304,148 12x0
-              th @468,132 104x32
-                button.tn-th-btn @480,132 44x32
+              th @472,132 104x32
+                button.tn-th-btn @484,132 44x32
                   span.tn-sort @512,148 12x0
               th @572,132 100x32
                 button.tn-th-btn @584,132 32x32
-                  span.tn-sort @604,148 12x0
-              th "Zeitplan" @672,132 216x32
+                  span.tn-sort @608,148 12x0
+              th "Zeitplan" @676,132 212x32
               th.is-sorted {sort=ascending} @888,132 128x32
                 button.tn-th-btn @900,132 52x32
                   span.tn-sort @940,144 12x12
@@ -76,7 +76,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,164 28x32
                 span.tn-dot.tn-s-bad [img] "Fehler" @236,180 8x8
               td.tn-td-title "Offsite archive sync" @252,164 216x32
-              td.tn-wrap "täglich 04:15" @672,164 216x32
+              td.tn-wrap "täglich 04:15" @676,164 212x32
               div.tn-heat [img] "12 Läufe, 6 fehlgeschlagen" @1028,176 196x12
                 span.tn-heat-cell.tn-s-bad @1028,176 12x12
                 span.tn-heat-cell.tn-s-bad @1040,176 12x12
@@ -96,7 +96,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,196 28x32
                 span.tn-dot.tn-s-warn [img] "Warnung" @236,212 8x8
               td.tn-td-title "Media library scan" @252,196 216x32
-              td.tn-wrap "alle 2 Std." @672,196 216x32
+              td.tn-wrap "alle 2 Std." @676,196 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,208 196x12
                 span.tn-heat-cell.tn-s-ok @1028,208 12x12
                 span.tn-heat-cell.tn-s-warn @1040,208 12x12
@@ -116,7 +116,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,228 28x32
                 span.tn-dot.tn-s-pending [img] "Ausstehend" @236,244 8x8
               td.tn-td-title "Package update check" @252,228 216x32
-              td.tn-wrap "einmalig 10.11., 12:00" @672,228 216x32
+              td.tn-wrap "einmalig 10.11. 12:00" @676,228 212x32
               div.tn-heat [img] "0 Läufe, 0 fehlgeschlagen" @1028,240 196x12
                 span.tn-heat-cell.tn-heat-none @1028,240 12x12
                 span.tn-heat-cell.tn-heat-none @1040,240 12x12
@@ -136,7 +136,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,260 28x32
                 span.tn-dot.tn-s-unknown [img] "Unbekannt" @236,276 8x8
               td.tn-td-title "DNS reachability" @252,260 216x32
-              td.tn-wrap "alle 15 min" @672,260 216x32
+              td.tn-wrap "alle 15 min" @676,260 212x32
               div.tn-heat [img] "12 Läufe, 1 fehlgeschlagen" @1028,272 196x12
                 span.tn-heat-cell.tn-s-ok @1028,272 12x12
                 span.tn-heat-cell.tn-s-ok @1040,272 12x12
@@ -156,7 +156,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,292 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,308 8x8
               td.tn-td-title "Photo backup" @252,292 216x32
-              td.tn-wrap "täglich 02:30" @672,292 216x32
+              td.tn-wrap "täglich 02:30" @676,292 212x32
               div.tn-heat [img] "12 Läufe, 1 fehlgeschlagen" @1028,304 196x12
                 span.tn-heat-cell.tn-s-ok @1028,304 12x12
                 span.tn-heat-cell.tn-s-bad @1040,304 12x12
@@ -176,7 +176,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,324 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,340 8x8
               td.tn-td-title "Document backup" @252,324 216x32
-              td.tn-wrap "täglich 03:00" @672,324 216x32
+              td.tn-wrap "täglich 03:00" @676,324 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,336 196x12
                 span.tn-heat-cell.tn-s-ok @1028,336 12x12
                 span.tn-heat-cell.tn-s-ok @1040,336 12x12
@@ -196,7 +196,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,356 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,372 8x8
               td.tn-td-title "Wiki database dump" @252,356 216x32
-              td.tn-wrap "täglich 01:00" @672,356 216x32
+              td.tn-wrap "täglich 01:00" @676,356 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,368 196x12
                 span.tn-heat-cell.tn-s-ok @1028,368 12x12
                 span.tn-heat-cell.tn-s-ok @1040,368 12x12
@@ -216,7 +216,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,388 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,404 8x8
               td.tn-td-title "Thumbnail generation" @252,388 216x32
-              td.tn-wrap "alle 5 min" @672,388 216x32
+              td.tn-wrap "alle 5 min" @676,388 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,400 196x12
                 span.tn-heat-cell.tn-s-ok @1028,400 12x12
                 span.tn-heat-cell.tn-s-ok @1040,400 12x12
@@ -236,7 +236,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,420 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,436 8x8
               td.tn-td-title "Certificate renewal" @252,420 216x32
-              td.tn-wrap "So 05:00" @672,420 216x32
+              td.tn-wrap "So 05:00" @676,420 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,432 196x12
                 span.tn-heat-cell.tn-s-ok @1028,432 12x12
                 span.tn-heat-cell.tn-s-ok @1040,432 12x12
@@ -256,7 +256,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,452 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,468 8x8
               td.tn-td-title "Log cleanup" @252,452 216x32
-              td.tn-wrap "täglich 00:10" @672,452 216x32
+              td.tn-wrap "täglich 00:10" @676,452 212x32
               div.tn-heat [img] "12 Läufe, 0 fehlgeschlagen" @1028,464 196x12
                 span.tn-heat-cell.tn-s-ok @1028,464 12x12
                 span.tn-heat-cell.tn-s-ok @1040,464 12x12
@@ -276,7 +276,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,484 28x32
                 span.tn-dot.tn-s-ok [img] "In Ordnung" @236,500 8x8
               td.tn-td-title "Disk SMART check" @252,484 216x32
-              td.tn-wrap "Mo 06:00" @672,484 216x32
+              td.tn-wrap "Mo 06:00" @676,484 212x32
               div.tn-heat [img] "12 Läufe, 1 fehlgeschlagen" @1028,496 196x12
                 span.tn-heat-cell.tn-s-ok @1028,496 12x12
                 span.tn-heat-cell.tn-s-ok @1040,496 12x12
@@ -296,7 +296,7 @@ div.tn-app @0,0 1424x900
               td.tn-td-status @224,516 28x32
                 span.tn-dot.tn-s-off [img] "Aus" @236,532 8x8
               td.tn-td-title "Mirror repos" @252,516 216x32
-              td.tn-wrap "Deaktiviert" @672,516 216x32
+              td.tn-wrap "Deaktiviert" @676,516 212x32
               div.tn-heat [img] "12 Läufe, 2 fehlgeschlagen" @1028,528 196x12
                 span.tn-heat-cell.tn-s-ok @1028,528 12x12
                 span.tn-heat-cell.tn-s-ok @1040,528 12x12

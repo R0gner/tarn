@@ -2,10 +2,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  fmtNum, fmtPct, fmtBytes, fmtDuration, fmtAgo, fmtTime, fmtDate, fmtWhen, sortRows, compareValues, matchQuery, STATUS_RANK,
+  fmtNum, fmtPct, fmtBytes, fmtDuration, fmtAgo, fmtTime, fmtDate, fmtWhen, fmtDay, sortRows, compareValues, matchQuery, STATUS_RANK,
 } from '../js/format.js';
 import { parseHash, buildHash } from '../js/router.js';
-import { setLocale, setTimeZone } from '../js/i18n.js';
+import { setLocale, setTimeZone, getLocale } from '../js/i18n.js';
 
 setLocale('de');
 setTimeZone('Europe/Berlin');
@@ -46,7 +46,9 @@ test('times in Europe/Berlin (summer and winter time)', () => {
   const now = Date.UTC(2026, 10, 9, 9, 0);
   assert.equal(fmtWhen(Date.UTC(2026, 10, 9, 6, 15), now), '07:15');
   assert.equal(fmtWhen(Date.UTC(2026, 10, 8, 21, 10), now), 'gestern 22:10');
-  assert.equal(fmtWhen(Date.UTC(2026, 10, 7, 21, 10), now), '07.11., 22:10');
+  assert.equal(fmtWhen(Date.UTC(2026, 10, 7, 21, 10), now), '07.11. 22:10');   // no comma after the full stop of the date
+  assert.equal(fmtDay(Date.UTC(2026, 10, 9, 23, 30)), '10.11.');                    // short date, local day
+  assert.equal(fmtDay(null), '–');
 });
 
 test('sorting: stable, natural, empty last', () => {
@@ -77,4 +79,14 @@ test('router: read and build the hash', () => {
   assert.equal(buildHash('zeilen & fakten'), '#/zeilen%20%26%20fakten');
   const h = buildHash('jobs', { open: 'a/b?c' });
   assert.deepEqual(parseHash(h), { view: 'jobs', params: { open: 'a/b?c' } });
+});
+
+test('fmtWhen and fmtDay in the other languages keep Intl\'s own patterns', () => {
+  const now = Date.UTC(2026, 10, 9, 9, 0), t0 = Date.UTC(2026, 10, 7, 21, 10);
+  const was = getLocale();
+  try {
+    setLocale('en'); assert.equal(fmtDay(t0), '11/07'); assert.equal(fmtWhen(t0, now), '11/07, 10:10 PM');
+    setLocale('fr'); assert.equal(fmtDay(t0), '07/11'); assert.equal(fmtWhen(t0, now), '07/11 22:10');
+    setLocale('de'); assert.equal(fmtDay(t0), '07.11.'); assert.equal(fmtWhen(t0, now), '07.11. 22:10');
+  } finally { setLocale(was); }
 });
