@@ -21,3 +21,14 @@ export function setDensity(density, { persist = false } = {}) {
   else document.documentElement.removeAttribute('data-density');
   if (persist) { try { density === 'comfortable' ? localStorage.setItem(KEY, density) : localStorage.removeItem(KEY); } catch { /* storage blocked */ } }
 }
+
+/**
+ * Call `fn(density)` whenever the density of the page changes, whoever changes it (setDensity(), a board, the verify tools): an observer on <html>, no polling.
+ * @param {(density: 'compact' | 'comfortable') => void} fn
+ * @returns {() => void} stop watching
+ */
+export function watchDensity(fn) {
+  const mo = new MutationObserver(() => fn(getDensity()));
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-density'] });
+  return () => mo.disconnect();
+}

@@ -42,6 +42,14 @@ Round 5.
 - Snapshots deliberately re-baselined: gallery and sample board on the phone (toolbar: settings entry instead of language/density/theme/reload), gallery on the desktop (class `tn-hide-phone`
   on the toolbar buttons), gallery `shell` (notifications demo).
 
+### Stage G: gaps found by the first real board
+- **verify (G12):** `load()` returned before the page had loaded: the load event it waited for could be the one of `about:blank`, so the page's scripts ran after the next
+  step of the check (`document.readyState` was `loading` in 13 of 14 trial loads). It now returns when the requested document is complete. A snapshot of the shell's density button
+  therefore depended on timing (GitHub's 2-core runner, one worker, measured "Compact"; the baseline had "Comfortable"). Every page now also starts from a clean origin (own Chrome:
+  `Storage.clearDataForOrigin`), so no scenario can leak theme, density, language or sidebar state into other pages of the same run; selftest control `state isolation` plants such state and expects defaults.
+- The shell names the theme and density in effect on its buttons also when something else changes them (`setDensity()` in a board, a page that sets `data-density`): observers on `<html>`, no polling (`watchDensity()` in `js/density.js`, unit test).
+  No snapshot changed.
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.

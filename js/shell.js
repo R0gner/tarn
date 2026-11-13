@@ -16,7 +16,7 @@ import { openSheet, lockScroll } from './sheet.js';
 import { parseHash, buildHash } from './router.js';
 import { fmtAgo, fmtFull } from './format.js';
 import { favicon } from './favicon.js';
-import { getDensity, setDensity } from './density.js';
+import { getDensity, setDensity, watchDensity } from './density.js';
 import { menu } from './widgets.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
@@ -407,6 +407,9 @@ export function createApp(cfg0) {
   if (cfg.icon && typeof cfg.icon === 'object') favicon(cfg.icon); else if (cfg.favicon) favicon(cfg.favicon);
   (cfg.root || document.body).append(appEl);
   syncTheme(); syncDensity(); syncSidebarA11y();
+  /* The buttons name the theme and density in effect, also when something else changes them (setDensity() in a board, data-density set by a page). */
+  watchDensity(syncDensity);
+  new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   onRoute();
   if (cfg.source) {
     cfg.source.subscribe((s) => {

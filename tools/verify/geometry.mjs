@@ -40,14 +40,25 @@ export async function load(page, url, errs) {
   // without Page.enable no loadEventFired arrives (every call would wait for the timeout)
   if (!page.enabled) { await page.send('Page.enable'); await page.send('Runtime.enable'); page.enabled = true; }
   await page.send('Page.navigate', { url: 'about:blank' });
+  // Every page starts from a clean origin: nothing a scenario stored (theme, density, language, sidebar) may reach the next page of the same run,
+  // whatever worker or order the tasks run in. Only in an own throw-away Chrome; a running browser (--attach) keeps its storage.
+  if (page.kind === 'own') await page.send('Storage.clearDataForOrigin', { origin: new URL(url).origin, storageTypes: 'local_storage,session_storage,cookies' }).catch(() => {});
   const loaded = page.waitFor((m) => m.method === 'Page.loadEventFired', 20000);
   if (page.kind === 'attach') await page.send('Page.bringToFront');
   try { await page.send('Page.navigate', { url }, 15000); } catch (e) {
     throw Object.assign(new Error(`${url} does not load (${e.message}); ${page.kind === 'own' ? 'the own headless Chrome cannot reach the test server – use --attach with a running Chrome' : 'check server/Chrome'}`), { env: true });
   }
   await loaded.catch(() => errs.push('loading: timeout (no load event after 20 s)'));
-  const docUrl = await evaluate(page, 'document.URL');
-  if (/^chrome-error:/.test(docUrl)) throw Object.assign(new Error(`page not reachable: ${url}`), { env: true });
+  // The load event can be the one of about:blank (it arrives after the second navigation started): the page itself is loaded when the document is
+  // the requested one and complete. Without this, the page's scripts could run after the caller's next step (density, hash), depending on timing.
+  const t0 = Date.now();
+  for (;;) {
+    const st = await evaluate(page, '[document.URL, document.readyState].join(" ")');
+    if (/^chrome-error:/.test(st)) throw Object.assign(new Error(`page not reachable: ${url}`), { env: true });
+    if (!st.startsWith('about:blank') && st.endsWith(' complete')) break;
+    if (Date.now() - t0 > 20000) { errs.push(`loading: ${st} after 20 s`); break; }
+    await sleep(15);
+  }
 }
 
 /** Density of the page (data-density on <html>, what setDensity() in js/density.js does): the pages of tools/verify/targets.mjs name theirs. */
