@@ -2,6 +2,7 @@
 // tarn · lint: check kit rules statically. Node ≥ 22, no npm packages.
 //
 //   node tools/lint.mjs [-v] [--write-known]
+//   node tools/lint.mjs --board <tarn-board.json | folder> [-v] [--write-known]    lint the CSS/JS/HTML of a board outside the kit
 //
 // Rules (list and exceptions: tools/lint/allow.json):
 //   color       colour literal (#…, rgb(), oklch(), colour names …) outside css/tokens.css
@@ -22,6 +23,10 @@
 //   layers      a core file imports a shell file (static import, export … from, import()): the core must work without the shell
 //   page        HTML page without <link rel="icon"> or without a non-empty <title> (every board has a favicon and a title)
 //
+// --board: the board's own files (folders from its board file, never its vendored kit copy) against its own allow file: rules color, size,
+// radius, duration, transition, keyframes, html, timer, i18n (texts via t(); catalogues are exempt), title, emoji, density and page (favicon + title).
+// The kit-only rules (gallery, legacy, classified, layers, starter) do not apply to a board.
+//
 // Checked: kit (css/, js/), sample board (example/) and starter page (starter/); html and emoji also gallery/.
 // Output ≤ 10 lines, exit 0 green · 1 finding (new violations) · 2 tool error.
 // An inventory of known violations may be listed as "known" in allow.json; --write-known writes the current
@@ -30,6 +35,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classification, layerOf } from './lib/kit-files.mjs';
+import { loadBoard } from './lib/board.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ALLOW = path.join(ROOT, 'tools', 'lint', 'allow.json');
@@ -84,10 +90,10 @@ function keyframes(src) {
   return map;
 }
 
-export function lintCss(file, add) {
+export function lintCss(file, add, { root = ROOT, kit = true } = {}) {
   const src = fs.readFileSync(file, 'utf8');
-  const f = rel(file);
-  const isTokens = f === 'css/tokens.css';
+  const f = rel2(root, file);
+  const isTokens = kit && f === 'css/tokens.css';   // a board has no tokens file of its own: every literal in its CSS is a finding
   const kf = keyframes(src);
   // density: the values of the comfortable density live in css/tokens.css only; a component never branches on it (no per-component hacks)
   if (!isTokens) {
@@ -127,11 +133,11 @@ export function lintCss(file, add) {
 const stripComments = (src) => src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' ')).replace(/(^|[^:'"`\\])\/\/[^\n]*/g, (m, a) => a + ' '.repeat(m.length - a.length));
 const RE_EMOJI = /\p{Emoji_Presentation}|\p{Extended_Pictographic}️/u;
 
-export function lintJs(file, add, { timers = true, i18n = false } = {}) {
+export function lintJs(file, add, { timers = true, i18n = false, root = ROOT } = {}) {
   const opts = { i18n };
   const src = fs.readFileSync(file, 'utf8');
   const code = stripComments(src);
-  const f = rel(file);
+  const f = rel2(root, file);
   for (const m of code.matchAll(/\b(innerHTML|outerHTML|insertAdjacentHTML)\b/g)) add({ rule: 'html', file: f, line: lineOf(code, m.index), text: m[1] });
   if (timers) for (const m of code.matchAll(/\b(setTimeout|setInterval)\s*\(/g)) {
     // find the last argument inside the parentheses
@@ -169,7 +175,8 @@ export function lintJs(file, add, { timers = true, i18n = false } = {}) {
     if (e) add({ rule: 'emoji', file: f, line: lineOf(code, m.index), text: `„${e[0]}“` });
   }
 }
-export function lintHtml(file, add) {
+export function lintHtml(file, add, root = ROOT) {
+  const rel = (p) => rel2(root, p);
   const src = fs.readFileSync(file, 'utf8');
   const body = src.replace(/<!--[\s\S]*?-->/g, '');
   if (!/<link\b[^>]*\brel\s*=\s*["'](?:shortcut )?icon["'][^>]*\bhref\s*=\s*["'][^"']+["']|<link\b[^>]*\bhref\s*=\s*["'][^"']+["'][^>]*\brel\s*=\s*["'](?:shortcut )?icon["']/i.test(body)) add({ rule: 'page', file: rel(file), line: 1, text: 'kein <link rel="icon">' });
@@ -283,6 +290,11 @@ export function runLint({ allowFile = ALLOW } = {}) {
   lintClassified(add);
   lintLayers(add);
   lintStarter(add);
+  return applyAllow(found, allow);
+}
+
+/** Exceptions (with reasons) drop findings, the `known` inventory marks them: → { findings, excepted, allow } */
+export function applyAllow(found, allow) {
   const sig = (x) => `${x.rule}|${x.file}|${x.text}`;
   const exc = (allow.exceptions || []).map((e) => ({ ...e, re: Object.fromEntries(Object.entries(e.match).map(([k, v]) => [k, new RegExp(v)])) }));
   const known = new Set((allow.known || []).map((k) => `${k.rule}|${k.file}|${k.text}`));
@@ -296,12 +308,47 @@ export function runLint({ allowFile = ALLOW } = {}) {
   return { findings: out, excepted, allow };
 }
 
-/** For verify: findings in verify format. */
-export function lintFindings() {
-  const r = runLint();
+/** Files of a board folder: css, js, mjs, html under `dirs`, without `skip` paths, the kit copy, dot folders and node_modules. */
+function boardFiles({ dirs, skip, kit }) {
+  const skipped = [...skip, kit];
+  const out = [];
+  const visit = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (skipped.some((s) => p === s)) continue;
+      if (e.isDirectory()) { if (!e.name.startsWith('.') && e.name !== 'node_modules') visit(p); }
+      else if (e.isFile() && ['.css', '.js', '.mjs', '.html'].includes(path.extname(e.name))) out.push(p);
+    }
+  };
+  for (const d of dirs) if (fs.existsSync(d)) visit(d);
+  return [...new Set(out)].sort();
+}
+
+/**
+ * Lint of a board that lives outside the kit (see tools/lib/board.mjs for the board file): the same rules on its own CSS, JS and HTML,
+ * exceptions and inventory from its own allow file (missing file = empty). → { findings, excepted, allow, files }
+ */
+export function runBoardLint(board) {
+  const { dir, lint, kit } = board;
+  const allow = fs.existsSync(lint.allow) ? JSON.parse(fs.readFileSync(lint.allow, 'utf8')) : {};
+  const found = [];
+  const add = (f) => found.push(f);
+  const files = boardFiles({ dirs: lint.dirs, skip: lint.skip, kit });
+  for (const f of files) {
+    const ext = path.extname(f);
+    if (ext === '.css') lintCss(f, add, { root: dir, kit: false });
+    else if (ext === '.html') lintHtml(f, add, dir);
+    else lintJs(f, add, { i18n: !lint.messages.includes(f), root: dir });
+  }
+  return { ...applyAllow(found, allow), files: files.length };
+}
+
+/** Lint result in verify format (check 'lint'); a board run passes its own result. */
+export function lintFindings(r = runLint()) {
+  const fresh = r.findings.filter((x) => !x.known).length;
   return {
     findings: r.findings.map((x) => ({ check: 'lint', rule: x.rule, page: '-', view: x.file, size: '-', theme: '-', sel: `${x.file}${x.line ? `:${x.line}` : ''}`, where: '', text: x.text, known: x.known })),
-    summary: `lint ${r.findings.filter((x) => !x.known).length ? `${r.findings.filter((x) => !x.known).length} new` : 'ok'} (${r.findings.filter((x) => x.known).length} inventory)`,
+    summary: `lint ${fresh ? `${fresh} new` : 'ok'} (${r.findings.length - fresh} inventory)`,
   };
 }
 
@@ -312,20 +359,29 @@ function main() {
     return 0;
   }
   const verbose = argv.includes('-v');
-  const r = runLint();
+  let board = null;
+  const bi = argv.indexOf('--board');
+  if (bi >= 0) {
+    if (!argv[bi + 1]) { console.log('lint: --board needs the board file or its folder'); return 2; }
+    try { board = loadBoard(argv[bi + 1]); } catch (e) { console.log(`lint: ${e.message}`); return 2; }
+  }
+  const r = board ? runBoardLint(board) : runLint();
+  const allowPath = board ? board.lint.allow : ALLOW;
   if (argv.includes('--write-known')) {
     const seen = new Set();
     r.allow.known = r.findings.map(({ rule, file, text }) => ({ rule, file, text })).filter((k) => { const s = `${k.rule}|${k.file}|${k.text}`; return !seen.has(s) && seen.add(s); });
     // compact: one entry per line so diffs stay readable
     const { known, ...rest } = r.allow;
-    const head = JSON.stringify(rest, null, 1).replace(/\n}$/, '');
-    fs.writeFileSync(ALLOW, `${head},\n "known": [\n${known.map((k) => `  ${JSON.stringify(k)}`).join(',\n')}\n ]\n}\n`);
-    console.log(`lint: ${r.allow.known.length} inventory entries written to ${rel(ALLOW)}`);
+    const empty = !Object.keys(rest).length;
+    const head = empty ? '{' : JSON.stringify(rest, null, 1).replace(/\n}$/, '');
+    fs.mkdirSync(path.dirname(allowPath), { recursive: true });
+    fs.writeFileSync(allowPath, `${head}${empty ? '' : ','}\n "known": [\n${known.map((k) => `  ${JSON.stringify(k)}`).join(',\n')}\n ]\n}\n`);
+    console.log(`lint: ${r.allow.known.length} inventory entries written to ${board ? allowPath : rel(ALLOW)}`);
     return 0;
   }
   const fresh = r.findings.filter((x) => !x.known), known = r.findings.filter((x) => x.known);
   const byRule = (list) => Object.entries(list.reduce((a, x) => ((a[x.rule] = (a[x.rule] || 0) + 1), a), {})).map(([k, n]) => `${k} ${n}`).join(', ');
-  const lines = [`lint: ${r.findings.length + r.excepted} hits · ${fresh.length} new · ${known.length} inventory (${byRule(known) || '–'}) · ${r.excepted} exceptions`];
+  const lines = [`lint${board ? ` (${board.name}, ${r.files} files)` : ''}: ${r.findings.length + r.excepted} hits · ${fresh.length} new · ${known.length} inventory (${byRule(known) || '–'}) · ${r.excepted} exceptions`];
   const show = verbose ? r.findings : fresh.slice(0, 7);
   for (const x of show) lines.push(`${x.known ? 'KNOWN' : 'NEW  '} ${x.rule} ${x.file}${x.line ? `:${x.line}` : ''} – ${x.text}`);
   if (!verbose && fresh.length > show.length) lines.push(`… ${fresh.length - show.length} more (-v)`);
