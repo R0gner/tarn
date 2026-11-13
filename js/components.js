@@ -8,8 +8,8 @@ import { statusDot, button } from './primitives.js';
 import { t } from './i18n.js';
 
 /** @import { Status } from './primitives.js' */
-/** @typedef {{ title?: Child, sub?: Child, actions?: Child, flush?: boolean, className?: string }} CardOptions */
-/** @typedef {{ count?: number | string | null, actions?: Child, className?: string }} SectionOptions */
+/** @typedef {{ title?: Child, sub?: Child, actions?: Child, flush?: boolean, footer?: Child, className?: string }} CardOptions footer: a quiet line under the content ("+13 frequent runs hidden"). */
+/** @typedef {{ count?: number | string | null, actions?: Child, footer?: Child, className?: string }} SectionOptions footer: a quiet line under the content. */
 /** @typedef {{ label?: Child, value?: Child, unit?: Child, sub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, className?: string }} StatTileOptions */
 /** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, className?: string }} MetricRowOptions */
 /** @typedef {{ empty?: string, zebra?: boolean }} ListOptions */
@@ -23,31 +23,32 @@ import { t } from './i18n.js';
 
 
 /**
- * Card – the only container with a hairline border. card({ title, sub, actions, flush }, ...content)
+ * Card – the only container with a hairline border. card({ title, sub, actions, flush, footer }, ...content)
+ * footer: a quiet footer line (one short sentence, e.g. "+13 frequent runs hidden"; a link or button inside is fine) under the content, inside the card.
  * @param {CardOptions | undefined} o
  * @param {...Child} kids
  * @returns {HTMLElement}
  */
-export function card({ title, sub, actions, flush, className } = {}, ...kids) {
+export function card({ title, sub, actions, flush, footer, className } = {}, ...kids) {
   const head = title || actions ? h('header', { class: 'tn-card-head' },
     h('div', { class: 'tn-card-heading' }, title && h('h3', { class: 'tn-card-title' }, title), sub && h('div', { class: 'tn-card-sub' }, sub)),
     actions && h('div', { class: 'tn-card-actions' }, actions)) : null;
-  return h('section', { class: cls('tn-card', flush && 'tn-card-flush', className) }, head, h('div', { class: 'tn-card-body' }, kids));
+  return h('section', { class: cls('tn-card', flush && 'tn-card-flush', className) }, head, h('div', { class: 'tn-card-body' }, kids), footer ? h('footer', { class: 'tn-foot' }, footer) : null);
 }
 
 /**
- * Section with a small heading (11.5/600), optional counter and actions.
+ * Section with a small heading (11.5/600), optional counter and actions; `footer`: a quiet line under the content.
  * @param {Child} title
  * @param {SectionOptions | undefined} o
  * @param {...Child} kids
  * @returns {HTMLElement}
  */
-export function section(title, { count, actions, className } = {}, ...kids) {
+export function section(title, { count, actions, footer, className } = {}, ...kids) {
   return h('section', { class: cls('tn-section', className) },
     h('header', { class: 'tn-section-head' },
       h('h2', { class: 'tn-section-title' }, title, count != null && h('span', { class: 'tn-section-count' }, count)),
       actions && h('div', { class: 'tn-section-actions' }, actions)),
-    kids);
+    kids, footer ? h('div', { class: 'tn-foot tn-foot-plain' }, footer) : null);
 }
 
 /**

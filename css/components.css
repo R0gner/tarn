@@ -152,6 +152,9 @@
 }
 .tn-section-count { font-weight: var(--tn-fw-label); color: var(--tn-text-3-tint); font-variant-numeric: tabular-nums; }
 .tn-section-actions { display: flex; gap: var(--tn-s1); }
+/* Quiet footer line under a card or section ("+13 frequent runs hidden"): small, muted, wraps; in a card it sits under a hairline like the table's "Show more" */
+.tn-foot { padding: var(--tn-s2) var(--tn-s3); color: var(--tn-text-2); font-size: var(--tn-fs-label); border-top: 1px solid var(--tn-sep); overflow-wrap: anywhere; min-width: 0; }
+.tn-foot-plain { border-top: 0; padding: 0 var(--tn-sp-2); }
 
 /* ============ Tiles ============ */
 .tn-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--tn-sz-150), 1fr)); gap: var(--tn-s2); }

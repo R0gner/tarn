@@ -58,6 +58,7 @@ Round 5.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ### Stage Gb
+- **Quiet footer line (G4):** `card({ footer })` and `section(title, { footer })` put one short muted sentence under the content ("+13 frequent runs hidden"; a link or button inside is fine), wrapping instead of truncating. Class `tn-foot`; gallery demo with four states (cards view).
 - **shoot (G5):** `tools/shoot.mjs` now takes `http(s)://host:port/…` URLs of a running server without `--attach`: Node fetches the requests and fulfils them over CDP (like `verify --board`), so Chrome
   needs no network of its own; `--base URL` for paths, `--direct` for Chrome's own network. Cause of the old hang at `Page.navigate` in an agent sandbox: an inherited `DBUS_SESSION_BUS_ADDRESS` blocks
   Chrome's first D-Bus call and every HTTP navigation; the kit's own Chrome is now started without it (`chromeEnv()`), README documents what to do for `--attach`. Selftest checks the Node route; `shoot` and `load()` no longer

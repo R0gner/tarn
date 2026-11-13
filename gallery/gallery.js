@@ -100,6 +100,14 @@ function viewCards(ctx) {
           card({ flush: true }, list(jobs.filter((j) => ['bad', 'warn'].includes(j.status)), (j) => jobRow(j, ctx)))),
         card({ title: 'Card title', sub: 'Subtitle with context', actions: [iconButton('refresh', { label: 'Reload' }), iconButton('more', { label: 'More' })] },
           h('p', { class: 'tn-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
+    demo('Quiet footer line: card({ footer }), section(…, { footer })', `card({ flush: true, footer: '+13 frequent runs hidden' }, list(rows, render))      // under the content, inside the card
+card({ footer: [t('jobs.hidden', { n: 13 }), ' ', button('Show', { variant: 'ghost', small: true })] }, …)   // a link or button inside is fine
+section('Problems', { count: 2, footer: 'Only problems of the last 24 hours' }, card(…))            // under a section without a card`,
+      h('div', { class: 'g-grid2' },
+        state('flush list card', card({ flush: true, footer: '+13 frequent runs hidden' }, list(jobs.slice(0, 2), (j) => jobRow(j, ctx)))),
+        state('long text wraps', card({ flush: true, footer: '+13 frequent runs hidden: they succeeded every time in the last 24 hours and are summarised in the overview instead' }, list(jobs.slice(0, 1), (j) => jobRow(j, ctx)))),
+        state('with a button', card({ footer: ['3 of 16 hosts are not shown. ', button('Show all', { variant: 'ghost', small: true })] }, h('p', { class: 'tn-muted' }, 'Content of the card.'))),
+        state('section footer', section('Problems', { count: 1, footer: 'Only problems of the last 24 hours' }, card({ flush: true }, list(jobs.slice(0, 1), (j) => jobRow(j, ctx))))))),
     demo('cols() and stack()', `cols(a, b)                    // columns, side by side from 340 px content width, else stacked\ncols({ min: 280 }, a, b, c)   // smaller minimum width per column\nstack(a, b)                   // vertical stack with the standard gap`,
       cols(stack(box('stack: first'), box('stack: second')), box('cols: second column'), cols({ min: 160 }, box('small 1'), box('small 2')))),
   ];
