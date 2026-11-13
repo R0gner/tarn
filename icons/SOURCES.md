@@ -8,11 +8,13 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | Kit name | File | Source | sha256 |
 |---|---|---|---|
 | `alert` | `triangle-exclamation-point.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/triangle-exclamation-point.svg | `4866f38b8560d410f21e3226413e0b77997b6dfbb6931fadfe0a0d5aef9ffeb4` |
+| `archive` | `archive.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/archive.svg | `78c732e34e232db63af06a2330b4448045cfdf49b48b59f2d31922df54c7bb17` |
 | `arrow-down` | `arrow-down.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-down.svg | `2b641c7a59d39450edfed72067fcc9940a1a316a737346af23b4b9103c0689f2` |
 | `arrow-up` | `arrow-up.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-up.svg | `8c22c25874c80bb062bef985d207d8f1d4a4d7847237d0a8cf720a3235968518` |
 | `bell` | `bell.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell.svg | `394889e9631fe3a9a63be9a479a95b451b708e432d895978d21d9130b5ee5dbe` |
 | `bell-off` | `bell-off.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell-off.svg | `14ad2775c3a594f09a79c195531778ae51302f847a9c558f720340d1e450bd6a` |
 | `box` | `box.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/box.svg | `511862693d914d2bf1947c9ccc513595f2a256541f5dd4f6f9ac8383cd41ac4f` |
+| `calendar` | `calendar.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/calendar.svg | `312ac8e715ac2b71bcc942dec2e8de9c1929085474f08885af35b563f6aa7a0b` |
 | `chart` | `chart-column.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chart-column.svg | `80664a4c5ca1bca10bcb88c1a99f62593c94d61d72d3a4bbf577eb3f3ea4da57` |
 | `check` | `check.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/check.svg | `7f33acc9a77a61659531044525fc008edebe215bf4dcf1c789c8674ad3277db0` |
 | `chevron-down` | `chevron-down.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chevron-down.svg | `66ea878e72ed3488bb3b464c39dfdccee8d1f78e560dccea40e5e12da0e87e87` |
@@ -20,12 +22,15 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `chevron-right` | `chevron-right.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chevron-right.svg | `2758143d7b2434e4aa7307dfd34405c87909ff4052f21b5f3f40d45224b4f19b` |
 | `chevron-up` | `chevron-up.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chevron-up.svg | `d09f13fcbef3c493ead7e4663b5ee91804fec38d5edb5e7cc3acfbd547641cf4` |
 | `clock` | `clock.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/clock.svg | `e9d3e3acf4d1c280fcf8092293439dc0a4756a908ceb859de144b12451cd1cb9` |
+| `container` | `container.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/container.svg | `8a41c445ba181b69b4ccf652f46fec5df0f410d64fff5e2cc202600b4862c633` |
 | `contrast` | `contrast.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/contrast.svg | `a9f1a6166c479cd3e546625b09686a7e97322c850a9b146f270f912e886c395c` |
+| `database` | `database.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/database.svg | `471eb14bc8d144896a82dfc4aa9daf350f769f0896f4bef33e50aabdbb51130d` |
 | `download` | `download.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/download.svg | `3daeee13ded5a3afa2198b1bb4e2262d163922f97d96ac6ff9953e8ed4fe039d` |
 | `edit` | `square-pen.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/square-pen.svg | `09bdac7fdb94058246a5d3132eea0976e690d01694179ab6f474faa2c21de59a` |
 | `external` | `external-link.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/external-link.svg | `3891241b8c3bfc3a8a930078f26ffc5a7e9763da6d0162ace2050b28d4c1d1fe` |
 | `filter` | `funnel.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/funnel.svg | `288f869330602e29a640099ffc5d6ac01caadad2ef6f8aac1138b8bf91ccd752` |
 | `grid` | `layout-grid.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/layout-grid.svg | `b8903f61d09b1d75e55c71158277d26570962f69c2099446a251871e0a2d6678` |
+| `hard-drive` | `hard-drive.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/hard-drive.svg | `324363c40f54e4ca843de0ad1d023b063b70a26a83bb2e0a9e9f4aad9af37378` |
 | `home` | `house.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/house.svg | `28216c479005731ef5e382e7d8627eda2b129b019eb1f3d9de9f5915576d448e` |
 | `info` | `info.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/info.svg | `bc977a64eb96f3e9c1041ffd09a3fceb70e3e65c02b571f76064062ed31f3cb9` |
 | `languages` | `languages.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/languages.svg | `ae9048feb2c7b19855da9a8f5414f68125573039777a89b9c253cceed5dc5075` |
