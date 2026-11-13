@@ -49,6 +49,7 @@ Round 5.
   `Storage.clearDataForOrigin`), so no scenario can leak theme, density, language or sidebar state into other pages of the same run; selftest control `state isolation` plants such state and expects defaults.
 - The shell names the theme and density in effect on its buttons also when something else changes them (`setDensity()` in a board, a page that sets `data-density`): observers on `<html>`, no polling (`watchDensity()` in `js/density.js`, unit test).
   No snapshot changed.
+- **Texts with a formatted age (G6):** `shell.dataStale` put a full stop after `{age}` ("Stand vor 3 Std.."; English future ages end in one too); the text is now "Daten veraltet (Stand {age})." in all four languages. A test fails when any kit or sample board text has a full stop right after `{age}`.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ## 0.4.0

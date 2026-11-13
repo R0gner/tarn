@@ -31,7 +31,7 @@ export default {
   "shell.freshAria": "{text}, toca para recargar",
   "shell.freshAriaAt": "{text}, obtenido {time}, toca para recargar",
   "shell.updateFailed": "La actualización falló ({error}); se muestran los últimos datos.",
-  "shell.dataStale": "Datos desactualizados: actualizados {age}.",
+  "shell.dataStale": "Datos desactualizados (actualizados {age}).",
   "shell.notFound": "No encontrado",
   "shell.itemNotFound": "Elemento no encontrado",
   "shell.itemNotFoundText": "Ya no existe «{id}» en esta vista.",

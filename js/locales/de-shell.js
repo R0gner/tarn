@@ -31,7 +31,7 @@ export default {
   "shell.freshAria": "{text}, tippen zum Neuladen",
   "shell.freshAriaAt": "{text}, Abruf {time}, tippen zum Neuladen",
   "shell.updateFailed": "Aktualisierung fehlgeschlagen ({error}), zeige den letzten Stand.",
-  "shell.dataStale": "Daten veraltet: Stand {age}.",
+  "shell.dataStale": "Daten veraltet (Stand {age}).",
   "shell.notFound": "Nicht gefunden",
   "shell.itemNotFound": "Element nicht gefunden",
   "shell.itemNotFoundText": "„{id}“ gibt es in dieser Ansicht nicht (mehr).",

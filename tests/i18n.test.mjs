@@ -118,3 +118,22 @@ test('sample board catalogs: same keys and placeholders in every language', asyn
     for (const k of keys) assert.deepEqual(placeholdersOf(msgs[l][k]), placeholdersOf(msgs.en[k]), `${l}:${k}`);
   }
 });
+
+test('a formatted age ends with a full stop in some languages ("vor 3 Std."): no text puts a full stop right after {age}', async () => {
+  const { default: msgs } = await import('../example/messages.js');
+  const { default: kitDe } = await import('../js/locales/de-shell.js');
+  const { default: kitEn } = await import('../js/locales/en-shell.js');
+  const { default: kitEs } = await import('../js/locales/es-shell.js');
+  const { default: kitFr } = await import('../js/locales/fr-shell.js');
+  const all = { ...Object.fromEntries(Object.entries({ en: kitEn, de: kitDe, es: kitEs, fr: kitFr }).map(([l, c]) => [`kit ${l}`, c])), ...Object.fromEntries(Object.entries(msgs).map(([l, c]) => [`board ${l}`, c])) };
+  const bad = [];
+  for (const [where, cat] of Object.entries(all)) for (const [k, v] of Object.entries(cat)) if (typeof v === 'string' && /\{age\}[.]/.test(v)) bad.push(`${where}:${k}`);
+  assert.deepEqual(bad, []);
+  // and what the shell shows, for ages that end in a full stop in German and English (future)
+  addMessages({});
+  for (const l of ['en', 'de', 'es', 'fr']) {
+    setLocale(l);
+    for (const sec of [300, 7200, 3 * 86400, -7200]) assert.ok(!/\.\./.test(t('shell.dataStale', { age: fmtAgo(sec) })), `${l} ${sec}: ${t('shell.dataStale', { age: fmtAgo(sec) })}`);
+  }
+  setLocale('en');
+});

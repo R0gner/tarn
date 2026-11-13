@@ -31,7 +31,7 @@ export default {
   "shell.freshAria": "{text}, tap to reload",
   "shell.freshAriaAt": "{text}, fetched {time}, tap to reload",
   "shell.updateFailed": "Update failed ({error}), showing the last data.",
-  "shell.dataStale": "Data is stale: updated {age}.",
+  "shell.dataStale": "Data is stale (updated {age}).",
   "shell.notFound": "Not found",
   "shell.itemNotFound": "Item not found",
   "shell.itemNotFoundText": "There is no “{id}” in this view (any more).",

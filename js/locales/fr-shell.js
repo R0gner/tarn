@@ -31,7 +31,7 @@ export default {
   "shell.freshAria": "{text}, appuyer pour recharger",
   "shell.freshAriaAt": "{text}, récupéré {time}, appuyer pour recharger",
   "shell.updateFailed": "Échec de la mise à jour ({error}), affichage des dernières données.",
-  "shell.dataStale": "Données obsolètes : mises à jour {age}.",
+  "shell.dataStale": "Données obsolètes (mises à jour {age}).",
   "shell.notFound": "Introuvable",
   "shell.itemNotFound": "Élément introuvable",
   "shell.itemNotFoundText": "« {id} » n’existe plus dans cette vue.",
