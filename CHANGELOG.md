@@ -72,6 +72,15 @@ Round 5.
   Chrome's first D-Bus call and every HTTP navigation; the kit's own Chrome is now started without it (`chromeEnv()`), README documents what to do for `--attach`. Selftest checks the Node route; `shoot` and `load()` no longer
   leave an unhandled rejection when a navigation fails.
 
+### Stage J: visual judge (optional second layer)
+- `node tools/judge.mjs`: photographs page × view × size × theme with the capture path of verify (fixed clock, animations off, screenshot repeated until it is stable) and asks
+  a decision model (TypeSafe Jev) one yes/no question per fault type (overflow, overlap, clipped, misaligned, malformed). Prints at most 10 lines (pictures marked, API calls,
+  calls saved, cost) and writes `judge-report.json`. Not part of `verify`, `--ci` or the workflow; never a gate (exit 0 with marked pictures); only pages with invented data can be chosen.
+- Never pays twice: verdicts cached by sha256 of the PNG + question-set version (`--cache`, default `$XDG_CACHE_HOME/tarn/`), spend ledger next to it, cost from the reported tokens
+  at the list price, `--max-usd` (default 0.10) and `--max-total-usd` stop before a run would pass the limit; `--dry-run`, `--mock FILE`.
+- `--calibrate`: the known faults of `verify --selftest` against the same states unmutated; thresholds per fault type and the table are in README "Visual judge".
+- `tests/judge.test.mjs` (request, cost, cache, ledger, budget stop, calibration, CLI) against a recorded answer; no network, no key. `snapshots.mjs` exports `dateShim`.
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.
