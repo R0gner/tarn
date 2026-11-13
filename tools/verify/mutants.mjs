@@ -106,6 +106,12 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // the old overview: a problem row moves to the owning view instead of opening the detail where the user is
+    id: 'row-leaves-view',
+    check: 'overlay', scenarios: ['detail-in-place'], sizes: ['desktop'], expect: ['overlay-behaviour', 'overlay-missing'],
+    patch: [{ file: 'example/board.js', from: "onClick: () => ctx.app.open(p.id),", to: "onClick: () => ctx.app.go(p.kind === 'job' ? 'jobs' : 'hosts', { open: p.id })," }],
+  },
+  {
     // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)
     id: 'redraw-loses-focus',
     check: 'overlay', scenarios: ['filter-refresh'], sizes: ['desktop'], expect: ['overlay-behaviour'],

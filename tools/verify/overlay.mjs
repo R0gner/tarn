@@ -268,6 +268,23 @@ export const SCENARIOS = [
       return left;
     } },
 
+  // ---- Gb: detail in place – a row that stands for a thing another view owns opens that thing's detail HERE; the way to the other view is a link inside ----
+  { id: 'detail-in-place', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
+    open: (io) => io.press('.tn-row-btn[data-key]'),
+    assert: async (io) => {
+      const left = [];
+      await sleep(150);
+      const st = await io.eval(`({ hash: location.hash, link: [...document.querySelectorAll('dialog.tn-sheet[open] .tn-btn, .tn-inspector:not([hidden]) .tn-btn')].map((b) => b.textContent.trim()).filter((x) => /^(Open in|In .+ öffnen)/.test(x)) })`);
+      if (!/^#\/overview\?open=/.test(st.hash)) left.push(`tapping a problem row moved to ${st.hash} instead of opening the detail in the overview`);
+      if (st.link.length !== 1) left.push(`${st.link.length} “Open in …” links in the detail (1 expected: the explicit way to the other view)`);
+      if (!st.link.length) return left;
+      await io.press('dialog.tn-sheet[open] .tn-btn, .tn-inspector:not([hidden]) .tn-btn', 'Open in');
+      await sleep(250);
+      const h2 = await io.eval('location.hash');
+      if (!/^#\/(jobs|hosts)\?open=/.test(h2)) left.push(`the link inside the detail leads to ${h2} (the owning view with the thing open expected)`);
+      return left;
+    } },
+
   // ---- Inputs, filters, forms (stage D) ----
   { id: 'combobox', page: 'gallery', hash: 'inputs', overlay: '.tn-combo-pop', focus: false,
     // popover in the overlay layer: on top, inside the viewport, search field with focus (not on touch: the keyboard would cover the list),

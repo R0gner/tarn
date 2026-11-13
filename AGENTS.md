@@ -11,9 +11,11 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 
 1. **Overview first.** Start view = status tiles (`tiles(statTile…)`), below them “Problems” (everything red/yellow, worst
    first), “Up next”, “Recently failed”. Tiles with their own view jump there.
-2. **Tap a row = detail.** The whole row is the button (`metricRow({ onClick })`, `table({ onRow })`), a chevron on the right.
+2. **Tap a row = detail – in the view you are in.** The whole row is the button (`metricRow({ onClick })`, `table({ onRow })`), a chevron on the right.
    Detail through `view.detail(id, ctx)` → `{ title, sub, body }`; the shell chooses inspector/panel/bottom sheet. From
-   elsewhere: `app.go('view', { open: id })`. No expanding in lists.
+   elsewhere: `app.go('view', { open: id })`. No expanding in lists. **A row that stands for a thing another view owns** (an overview's problem list, failed runs, a
+   timeline) opens that thing's detail in place: `onClick: () => ctx.app.open(id)` and in the view `detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true })`; the
+   “Open in …” link inside the detail is the explicit way to the owning view (README “Pattern: detail in place”). Do not `app.go()` away from the overview on a row tap.
 3. **Detail layout:** `banner()` for error/notice on top → `facts('Status', kv(…))` → history (`heatRow`, chart) →
    `facts('Events', log(…))` → `facts('Technical', kv(…, { mono: true }))` → actions (`toolbarRow`, `menu`).
 4. **Status only through status tokens** (`ok warn bad unknown pending info off`): `statusDot`, `badge({ tone })`,

@@ -147,4 +147,5 @@ export default {
   "notif.install.title.mac": "Zum Dock hinzufügen",
   "notif.install.intro.ios": "Dieser Browser hat keine Installationsschaltfläche. Füge die App deinem Home-Bildschirm hinzu:",
   "notif.install.intro.mac": "Safari hat keine Installationsschaltfläche. Füge die App deinem Dock hinzu:",
+  "shell.openInView": "In {view} öffnen",
 };

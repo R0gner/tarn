@@ -446,6 +446,27 @@ colours only as token names (`blue green orange purple pink graphite` or a statu
 | Boards and identity | `boardSwitcher()`, `boardGrid()`, `boardIcon()`, `favicon({ icon, color })` |
 | Texts and formats | `t()`, `setLocale()`, `addMessages()`, `fmtNum fmtPct fmtBytes fmtDuration fmtAgo fmtTime fmtDate fmtDay fmtShort fmtFull fmtWhen`, `sortRows`, `STATUS_TEXT`, `STATUS_RANK` |
 
+## Pattern: detail in place
+
+A row that stands for a thing **another view owns** – the problem list of an overview, the failed runs, a timeline in the history – opens that thing's detail **in the view the
+user is in**; the overview stays where it is, Back and Esc close the detail and return to it. Moving to the owning view is an explicit step, a link inside the detail
+("Open in Jobs"). Rows of a view that owns the thing (the jobs table) open the same detail as before.
+
+```js
+views: [
+  { id: 'overview', label: …, render: viewOverview,
+    detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true }) || ctx.app.detailOf('hosts', id, { link: true }) },   // reuse the owners' details
+  { id: 'jobs', label: …, render: viewJobs, detail: jobDetail },
+  { id: 'hosts', label: …, render: viewHosts, detail: hostDetail },
+]
+// in the overview: metricRow({ key: p.id, …, onClick: () => ctx.app.open(p.id) })      // not ctx.app.go('jobs', { open })
+```
+
+`app.detailOf(view, id, { link })` returns what that view's `detail(id, ctx)` returns (`null` when the view has no detail or does not know the id); `link: true` adds the button
+“Open in <view>” (`app.go(view, { open: id })`) under the detail. The sample board's overview and history follow the pattern; overlay scenario `detail-in-place` checks it
+(a tap stays in the overview, exactly one link, the link leads to the owner), mutant `row-leaves-view` plants the old behaviour. `app.go(view, { open })` stays for an explicit
+jump (a link, a command).
+
 ## Layout behaviour
 
 | Width | Sidebar | Detail (`#/view?open=id`) | Tables |

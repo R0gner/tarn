@@ -58,6 +58,9 @@ Round 5.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ### Stage Gb
+- **Pattern "detail in place" (item 13):** a row that stands for a thing another view owns opens that thing's detail in the current view; moving to the owner is a link inside the detail. `app.detailOf(view, id, { link })`
+  reuses another view's `detail` (and adds "Open in <view>", text in en, de, es, fr). The sample board's overview (problems, up next, recently failed) and history (timeline) follow it; new board states `overview?open=…`,
+  overlay scenario `detail-in-place`, mutant `row-leaves-view`. README "Pattern: detail in place", AGENTS principle 2.
 - **A redraw keeps the field you are typing in (G10):** `app.refresh()` (new data) rebuilds the view, and with it the filter bar; the shell now gives focus and caret back to the same field (matched by position, tag, type and label). The text stays the
   board's state (`filterBar({ value })`, as in the sample board). Overlay scenario `filter-refresh` (real typing, a redraw, typing goes on), mutant `redraw-loses-focus`.
 - **`tiles()` closes its rows for any number of tiles (G8):** 5 tiles are wide 5 in a row, medium 3 + 2, phone 2 + 2 + 1 with a wide last tile (`fitTiles()` in `js/tiles-data.js`: balanced rows, the tiles of an incomplete row

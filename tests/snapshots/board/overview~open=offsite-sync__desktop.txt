@@ -1,0 +1,371 @@
+# board #/overview?open=offsite-sync · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x900
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      button.tn-brand.tn-brand-btn {expanded=false} "Sample board: switch board" @8,8 176x28
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Sample board" @48,12 88x20
+        svg.tn-icon @144,16 16x16
+    nav.tn-nav "Views" @8,44 192x144
+      a.tn-nav-item.is-active {current=page} @8,44 192x28
+        svg.tn-icon @16,52 16x16
+        span.tn-ellipsis "Overview" @40,48 60x20
+      a.tn-nav-item @8,72 192x28
+        svg.tn-icon @16,80 16x16
+        span.tn-ellipsis "Jobs" @40,76 32x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,80 24x20
+      a.tn-nav-item @8,104 192x28
+        svg.tn-icon @16,108 16x16
+        span.tn-ellipsis "Hosts" @40,108 36x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,108 24x20
+      a.tn-nav-item @8,132 192x28
+        svg.tn-icon @16,136 16x16
+        span.tn-ellipsis "History" @40,136 44x20
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Deploy" @40,164 44x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 836x900
+    header.tn-toolbar @208,0 836x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Overview" @252,12 60x20
+      div.tn-toolbar-spacer @316,20 492x0
+      button.tn-fresh "Updated 2 min. ago" @812,8 128x28
+      button.tn-iconbtn.tn-hide-phone "Reload" @940,8 28x28
+        svg.tn-icon @948,12 16x16
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @972,8 28x28
+        svg.tn-icon @980,12 16x16
+      button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1004,8 28x28
+        svg.tn-icon @1012,12 16x16
+    main.tn-content @208,44 836x656
+      div.tn-tiles @224,60 804x92
+        button.tn-stat.tn-stat-btn @224,60 196x92
+          div.tn-stat-label @236,68 156x16
+            span.tn-dot.tn-s-bad [img] "Error" @236,72 8x8
+            span.tn-ellipsis "Jobs" @252,68 28x16
+          div.tn-stat-value.tn-num "12" @236,88 156x24
+          div.tn-stat-sub.tn-t-bad "1 error · 1 warning" @236,116 156x16
+          span.tn-go @396,68 16x16
+            svg.tn-icon @396,68 16x16
+        button.tn-stat.tn-stat-btn @428,60 196x92
+          div.tn-stat-label @440,68 156x16
+            span.tn-dot.tn-s-bad [img] "Error" @440,72 8x8
+            span.tn-ellipsis "Hosts" @452,68 32x16
+          div.tn-stat-value.tn-num "6" @440,88 156x24
+          div.tn-stat-sub.tn-t-bad "4 OK" @440,116 156x16
+          span.tn-go @596,68 16x16
+            svg.tn-icon @596,68 16x16
+        button.tn-stat.tn-stat-btn @632,60 196x92
+          div.tn-stat-label @644,68 156x16
+            span.tn-dot.tn-s-bad [img] "Error" @644,72 8x8
+            span.tn-ellipsis "Storage" @656,68 44x16
+          div.tn-stat-value.tn-num "2.54" @644,88 156x24
+            span.tn-stat-unit "TB" @688,96 16x16
+          div.tn-stat-sub.tn-t-bad "app-2 is 94% full" @644,116 156x16
+          span.tn-go @800,68 16x16
+            svg.tn-icon @800,68 16x16
+        button.tn-stat.tn-stat-btn @832,60 196x92
+          div.tn-stat-label @848,68 156x16
+            span.tn-ellipsis "Runs, 7 days" @848,68 72x16
+          div.tn-stat-value.tn-num "104" @848,88 156x24
+          div.tn-stat-sub @848,116 156x28
+            div.tn-chart.tn-spark [img] @848,116 156x24
+              div.tn-chart-plot @848,116 156x24
+                svg.tn-svg @848,116 156x24
+          span.tn-go @1004,68 16x16
+            svg.tn-icon @1004,68 16x16
+      div.tn-cols @224,172 804x496
+        section.tn-section @224,172 396x312
+          header.tn-section-head @224,172 396x24
+            h2.tn-section-title "Problems" @228,176 392x16
+              span.tn-section-count "5" @288,176 8x16
+          section.tn-card.tn-card-flush @224,204 396x280
+            div.tn-card-body @224,208 392x280
+              div.tn-list [list] @224,208 392x280
+                button.tn-row.tn-row-btn.is-selected @224,208 392x80
+                  span.tn-row-status @236,244 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @236,244 8x8
+                  span.tn-row-main @256,212 252x68
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @256,212 252x20
+                    span.tn-row-sub.tn-row-sub-wrap "nas-b · rsync: connection unexpectedly closed (0 bytes recei" @256,228 252x52
+                  span.tn-row-value @524,236 56x20
+                    span.tn-num "4 hr. ago" @524,236 56x20
+                  span.tn-go @588,240 16x16
+                    svg.tn-icon @588,240 16x16
+                button.tn-row.tn-row-btn @224,284 392x44
+                  span.tn-row-status @236,304 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @236,304 8x8
+                  span.tn-row-main @256,292 320x36
+                    span.tn-row-title.tn-ellipsis "app-2" @256,292 320x20
+                    span.tn-row-sub.tn-row-sub-wrap "Storage 94% full" @256,308 320x16
+                  span.tn-go @588,300 16x16
+                    svg.tn-icon @588,300 16x16
+                button.tn-row.tn-row-btn @224,332 392x64
+                  span.tn-row-status @236,360 8x8
+                    span.tn-dot.tn-s-warn [img] "Warning" @236,360 8x8
+                  span.tn-row-main @256,336 236x52
+                    span.tn-row-title.tn-ellipsis "Media library scan" @256,336 236x20
+                    span.tn-row-sub.tn-row-sub-wrap "media-1 · Takes longer than usual (25 instead of 12 min)." @256,356 236x32
+                  span.tn-row-value @504,356 72x20
+                    span.tn-num "40 min. ago" @504,356 72x20
+                  span.tn-go @588,356 16x16
+                    svg.tn-icon @588,356 16x16
+                button.tn-row.tn-row-btn @224,396 392x44
+                  span.tn-row-status @236,416 8x8
+                    span.tn-dot.tn-s-warn [img] "Warning" @236,416 8x8
+                  span.tn-row-main @256,400 320x36
+                    span.tn-row-title.tn-ellipsis "nas-b" @256,400 320x20
+                    span.tn-row-sub.tn-row-sub-wrap "Restarted 3 days ago" @256,420 320x16
+                  span.tn-go @588,408 16x16
+                    svg.tn-icon @588,408 16x16
+                button.tn-row.tn-row-btn @224,440 392x44
+                  span.tn-row-status @236,460 8x8
+                    span.tn-dot.tn-s-unknown [img] "Unknown" @236,460 8x8
+                  span.tn-row-main @256,448 252x36
+                    span.tn-row-title.tn-ellipsis "DNS reachability" @256,448 252x20
+                    span.tn-row-sub.tn-row-sub-wrap "edge-1 · No response from the agent for 3 h." @256,464 252x16
+                  span.tn-row-value @524,456 56x20
+                    span.tn-num "3 hr. ago" @524,456 56x20
+                  span.tn-go @588,456 16x16
+                    svg.tn-icon @588,456 16x16
+        div.tn-stack @636,172 396x496
+          section.tn-section @636,172 396x264
+            header.tn-section-head @636,172 396x24
+              h2.tn-section-title "Up next" @636,176 392x16
+                span.tn-section-count "5" @688,176 8x16
+            section.tn-card.tn-card-flush @636,204 396x232
+              div.tn-card-body @636,208 392x228
+                div.tn-list [list] @636,208 392x228
+                  button.tn-row.tn-row-btn @636,208 392x44
+                    span.tn-row-status @648,224 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @648,224 8x8
+                    span.tn-row-main @668,212 236x36
+                      span.tn-row-title.tn-ellipsis "Media library scan" @668,212 236x20
+                      span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @668,228 236x16
+                    span.tn-row-value @916,212 72x36
+                      span.tn-num "11:40 AM" @928,212 60x20
+                      span.tn-row-sub "in 1 h 40 min" @916,228 72x16
+                    span.tn-go @1000,220 16x16
+                      svg.tn-icon @1000,220 16x16
+                  button.tn-row.tn-row-btn @636,252 392x44
+                    span.tn-row-status @648,272 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,272 8x8
+                    span.tn-row-main @668,256 200x36
+                      span.tn-row-title.tn-ellipsis "Log cleanup" @668,256 200x20
+                      span.tn-row-sub.tn-ellipsis "app-2 · daily 12:10 AM" @668,276 200x16
+                    span.tn-row-value @880,256 108x36
+                      span.tn-num "11/10, 12:10 AM" @880,256 108x20
+                      span.tn-row-sub "in 14 h 10 min" @908,276 80x16
+                    span.tn-go @1000,268 16x16
+                      svg.tn-icon @1000,268 16x16
+                  button.tn-row.tn-row-btn @636,296 392x44
+                    span.tn-row-status @648,316 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,316 8x8
+                    span.tn-row-main @668,304 200x36
+                      span.tn-row-title.tn-ellipsis "Wiki database dump" @668,304 200x20
+                      span.tn-row-sub.tn-ellipsis "app-2 · daily 01:00 AM" @668,320 200x16
+                    span.tn-row-value @880,304 108x36
+                      span.tn-num "11/10, 01:00 AM" @880,304 108x20
+                      span.tn-row-sub "in 15 h" @948,320 40x16
+                    span.tn-go @1000,312 16x16
+                      svg.tn-icon @1000,312 16x16
+                  button.tn-row.tn-row-btn @636,344 392x44
+                    span.tn-row-status @648,364 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,364 8x8
+                    span.tn-row-main @668,348 200x36
+                      span.tn-row-title.tn-ellipsis "Photo backup" @668,348 200x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30 AM" @668,368 200x16
+                    span.tn-row-value @880,348 108x36
+                      span.tn-num "11/10, 02:30 AM" @880,348 108x20
+                      span.tn-row-sub "in 16 h 30 min" @908,368 80x16
+                    span.tn-go @1000,360 16x16
+                      svg.tn-icon @1000,360 16x16
+                  button.tn-row.tn-row-btn @636,388 392x44
+                    span.tn-row-status @648,408 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,408 8x8
+                    span.tn-row-main @668,396 200x36
+                      span.tn-row-title.tn-ellipsis "Document backup" @668,396 200x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00 AM" @668,412 200x16
+                    span.tn-row-value @880,396 108x36
+                      span.tn-num "11/10, 03:00 AM" @880,396 108x20
+                      span.tn-row-sub "in 17 h" @948,412 40x16
+                    span.tn-go @1000,404 16x16
+                      svg.tn-icon @1000,404 16x16
+          section.tn-section @636,452 396x216
+            header.tn-section-head @636,452 396x24
+              h2.tn-section-title "Recently failed" @636,456 392x16
+                span.tn-section-count "4" @728,456 8x16
+            section.tn-card.tn-card-flush @636,484 396x184
+              div.tn-card-body @636,484 392x184
+                div.tn-list [list] @636,484 392x184
+                  button.tn-row.tn-row-btn @636,484 392x44
+                    span.tn-row-status @648,504 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @648,504 8x8
+                    span.tn-row-main @668,492 252x36
+                      span.tn-row-title.tn-ellipsis "Media library scan" @668,492 252x20
+                      span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @668,508 252x16
+                    span.tn-row-value @932,492 56x36
+                      span.tn-num "5×" @972,492 16x20
+                      span.tn-row-sub "in 30 runs" @932,508 56x16
+                    span.tn-go @1000,500 16x16
+                      svg.tn-icon @1000,500 16x16
+                  button.tn-row.tn-row-btn @636,532 392x44
+                    span.tn-row-status @648,552 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,552 8x8
+                    span.tn-row-main @668,536 252x36
+                      span.tn-row-title.tn-ellipsis "Photo backup" @668,536 252x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30 AM" @668,556 252x16
+                    span.tn-row-value @932,536 56x36
+                      span.tn-num "4×" @972,536 16x20
+                      span.tn-row-sub "in 30 runs" @932,556 56x16
+                    span.tn-go @1000,548 16x16
+                      svg.tn-icon @1000,548 16x16
+                  button.tn-row.tn-row-btn @636,576 392x44
+                    span.tn-row-status @648,596 8x8
+                      span.tn-dot.tn-s-off [img] "Off" @648,596 8x8
+                    span.tn-row-main @668,584 252x36
+                      span.tn-row-title.tn-ellipsis "Mirror repos" @668,584 252x20
+                      span.tn-row-sub.tn-ellipsis "edge-1 · Disabled" @668,600 252x16
+                    span.tn-row-value @932,584 56x36
+                      span.tn-num "2×" @972,584 16x20
+                      span.tn-row-sub "in 30 runs" @932,600 56x16
+                    span.tn-go @1000,592 16x16
+                      svg.tn-icon @1000,592 16x16
+                  button.tn-row.tn-row-btn @636,624 392x44
+                    span.tn-row-status @648,644 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @648,644 8x8
+                    span.tn-row-main @668,628 252x36
+                      span.tn-row-title.tn-ellipsis "Wiki database dump" @668,628 252x20
+                      span.tn-row-sub.tn-ellipsis "app-2 · daily 01:00 AM" @668,648 252x16
+                    span.tn-row-value @932,628 56x36
+                      span.tn-num "1×" @972,628 16x20
+                      span.tn-row-sub "in 30 runs" @932,648 56x16
+                    span.tn-go @1000,640 16x16
+                      svg.tn-icon @1000,640 16x16
+  aside.tn-inspector "Details" @1044,0 380x900
+    header.tn-sheet-head @1048,0 380x44
+      div.tn-sheet-heading @1064,4 320x36
+        h2.tn-sheet-title.tn-ellipsis "Offsite archive sync" @1064,4 320x20
+        div.tn-sheet-sub "nas-b · backup" @1064,24 320x16
+      button.tn-iconbtn "Close details" @1388,8 28x28
+        svg.tn-icon @1396,12 16x16
+    div.tn-inspector-body @1048,44 380x856
+      div.tn-banner.tn-banner-bad [alert] @1064,60 332x52
+        svg.tn-icon @1076,72 16x16
+        div.tn-banner-text "rsync: connection unexpectedly closed (0 bytes received so f" @1100,68 284x32
+      section.tn-facts @1064,128 332x136
+        h3.tn-facts-title "Status" @1064,128 332x16
+        dl.tn-kv @1064,152 332x112
+          dt "State" @1064,152 96x20
+          dd @1176,152 220x20
+            span.tn-dotlabel @1176,152 44x20
+              span.tn-dot.tn-s-bad @1176,160 8x8
+          dt "Schedule" @1064,176 96x20
+          dd "daily 04:15 AM" @1176,176 220x20
+          dt "Last run" @1064,200 96x20
+          dd "05:15 AM (4 hr. ago)" @1176,200 220x20
+          dt "Next run" @1064,224 96x20
+          dd "11/10, 04:15 AM" @1176,224 220x20
+          dt "Duration" @1064,244 96x20
+          dd "~45 min" @1176,244 220x20
+      section.tn-facts @1064,280 332x92
+        h3.tn-facts-title "Last 30 runs" @1064,280 332x16
+        div.tn-heat.is-lg [img] "30 runs, 12 failed" @1064,304 332x20
+          span.tn-heat-cell.tn-s-ok @1064,304 8x20
+          span.tn-heat-cell.tn-s-ok @1072,304 8x20
+          span.tn-heat-cell.tn-s-ok @1084,304 8x20
+          span.tn-heat-cell.tn-s-ok @1096,304 8x20
+          span.tn-heat-cell.tn-s-ok @1108,304 8x20
+          span.tn-heat-cell.tn-s-ok @1116,304 8x20
+          span.tn-heat-cell.tn-s-bad @1128,304 8x20
+          span.tn-heat-cell.tn-s-bad @1140,304 8x20
+          span.tn-heat-cell.tn-s-bad @1152,304 8x20
+          span.tn-heat-cell.tn-s-bad @1164,304 8x20
+          span.tn-heat-cell.tn-s-bad @1172,304 8x20
+          span.tn-heat-cell.tn-s-ok @1184,304 8x20
+          span.tn-heat-cell.tn-s-ok @1196,304 8x20
+          span.tn-heat-cell.tn-s-bad @1208,304 8x20
+          span.tn-heat-cell.tn-s-ok @1220,304 8x20
+          span.tn-heat-cell.tn-s-warn @1228,304 8x20
+          span.tn-heat-cell.tn-s-ok @1240,304 8x20
+          span.tn-heat-cell.tn-s-ok @1252,304 8x20
+          span.tn-heat-cell.tn-s-bad @1264,304 8x20
+          span.tn-heat-cell.tn-s-bad @1276,304 8x20
+          span.tn-heat-cell.tn-s-ok @1284,304 8x20
+          span.tn-heat-cell.tn-s-bad @1296,304 8x20
+          span.tn-heat-cell.tn-s-ok @1308,304 8x20
+          span.tn-heat-cell.tn-s-ok @1320,304 8x20
+          span.tn-heat-cell.tn-s-warn @1328,304 8x20
+          span.tn-heat-cell.tn-s-bad @1340,304 8x20
+          span.tn-heat-cell.tn-s-ok @1352,304 8x20
+          span.tn-heat-cell.tn-s-ok @1364,304 8x20
+          span.tn-heat-cell.tn-s-bad @1376,304 8x20
+          span.tn-heat-cell.tn-s-bad @1384,304 8x20
+        dl.tn-kv @1064,332 332x40
+          dt "Success rate" @1064,332 96x20
+          dd "60%" @1176,332 220x20
+          dt "Failures" @1064,356 96x20
+          dd.tn-t-bad "12" @1176,356 220x20
+      section.tn-facts @1064,388 332x436
+        h3.tn-facts-title "Run report" @1064,388 332x16
+        div.tn-md.tn-md-compact @1064,412 332x412
+          h2.tn-md-h.tn-md-h2 "Run 412" @1064,412 332x16
+          code.tn-md-code "rsync" @1272,440 36x16
+          ol.tn-md-list @1064,480 332x100
+            code.tn-md-code "nas-b" @1160,480 36x16
+            ul.tn-md-list @1084,540 312x36
+              code.tn-md-code "No space left on device" @1160,544 156x16
+              code.tn-md-code "/archive" @1156,564 56x16
+          div.tn-md-table [region] @1064,588 332x76
+            table @1064,588 332x76
+              th "Target" @1064,588 144x24
+              th.is-right "Used" @1208,588 88x24
+              th.is-center "Status" @1300,588 96x24
+              td.is-right "868 GB" @1208,612 88x24
+              td.is-center "Warning" @1300,612 96x24
+              td.is-right "412 GB" @1208,640 88x24
+              td.is-center "ok" @1300,640 96x24
+          ul.tn-md-list.is-tasks @1064,672 332x72
+            li.tn-md-task @1064,672 332x20
+              input "done" @1064,676 12x12
+            li.tn-md-task @1064,696 332x20
+              input "open" @1064,700 12x12
+            li.tn-md-task @1064,720 332x20
+              input "open" @1064,724 12x12
+          pre.tn-md-pre @1064,752 332x52
+          a.tn-md-link "https://example.com/runbooks/offsite-sync" @1108,808 248x16
+      section.tn-facts @1064,844 332x204
+        h3.tn-facts-title "Events" @1064,844 332x16
+        div.tn-log.tn-log-wrap [log] @1064,868 332x180
+          div.tn-log-line.tn-log-bad @1064,872 332x92
+            span.tn-log-t "06:00 AM" @1076,872 56x92
+            span.tn-log-lv "ERR" @1140,872 20x92
+            span.tn-log-src "offsite-sync" @1172,872 88x92
+            span.tn-log-msg "rsync error: error in rsync protocol data stream (code 12) a" @1264,872 116x92
+          div.tn-log-line.tn-log-warn @1064,964 332x40
+            span.tn-log-t "05:59 AM" @1076,964 56x36
+            span.tn-log-lv "WRN" @1140,964 20x36
+            span.tn-log-src "offsite-sync" @1172,964 88x36
+            span.tn-log-msg "Connection slow: 1.2 MB/s" @1264,964 116x36
+          div.tn-log-line.tn-log-info @1064,1000 332x40
+            span.tn-log-t "05:15 AM" @1076,1004 56x36
+            span.tn-log-lv "INF" @1140,1004 20x36
+            span.tn-log-src "offsite-sync" @1172,1004 88x36
+            span.tn-log-msg "Start rsync to nas-b:/archive" @1264,1004 116x36
+      section.tn-facts @1064,1060 332x64
+        h3.tn-facts-title "Technical" @1064,1060 332x16
+        dl.tn-kv.tn-kv-mono @1064,1084 332x40
+          dt "ID" @1064,1084 96x20
+          dd "offsite-sync" @1176,1084 220x20
+          dt "Host" @1064,1108 96x20
+          dd "nas-b" @1176,1108 220x20
+      div.tn-toolrow @1064,1140 332x28
+        button.tn-btn.tn-btn-default @1064,1140 96x28
+          svg.tn-icon @1076,1148 16x16
+        button.tn-iconbtn {expanded=false} "More actions" @1168,1140 28x28
+          svg.tn-icon @1172,1148 16x16
+      div.tn-toolrow @1064,1184 332x28
+        button.tn-btn.tn-btn-ghost @1064,1184 120x28
+          svg.tn-icon @1156,1192 16x16

@@ -97,13 +97,13 @@ function viewOverview(ctx) {
       section(t('board.sec.problems'), { count: problems.length },
         card({ flush: true }, list(problems, (p) => metricRow({
           key: p.id, title: p.title, sub: p.sub, wrapSub: true, status: p.status, value: p.at ? fmtAgo((now - p.at) / 1000) : null,
-          onClick: () => ctx.app.go(p.kind === 'job' ? 'jobs' : 'hosts', { open: p.id }),
+          onClick: () => ctx.app.open(p.id),   // detail in place: the thing opens here, "Open in Jobs/Hosts" inside it moves on
         }), { empty: t('board.noProblems') }))),
       stack(
         section(t('board.sec.next'), { count: next.length },
-          card({ flush: true }, list(next, (j) => jobRow(j, ctx, { value: fmtWhen(j.nextAt), valueSub: t('board.inTime', { time: fmtDuration((j.nextAt - now) / 1000).replace(new RegExp(` \\d+ ${t('unit.s')}$`), '') }) })))),
+          card({ flush: true }, list(next, (j) => jobRow(j, ctx, { onClick: () => ctx.app.open(j.id), value: fmtWhen(j.nextAt), valueSub: t('board.inTime', { time: fmtDuration((j.nextAt - now) / 1000).replace(new RegExp(` \\d+ ${t('unit.s')}$`), '') }) })))),
         section(t('board.sec.failed'), { count: failed.length },
-          card({ flush: true }, list(failed, ({ j, n }) => jobRow(j, ctx, { value: `${n}×`, valueSub: t('board.inRuns') }), { empty: t('board.noFailures') }))))),
+          card({ flush: true }, list(failed, ({ j, n }) => jobRow(j, ctx, { onClick: () => ctx.app.open(j.id), value: `${n}×`, valueSub: t('board.inRuns') }), { empty: t('board.noFailures') }))))),
   ];
 }
 
@@ -287,7 +287,7 @@ function viewHistory(ctx) {
       start: a, end: b, now, rows: scheduleRows(jobs, a, b),
       groups: [...new Set(jobs.map((j) => j.kind))].map((k) => ({ id: k, label: t(`board.kind.${k}`) })),
       windows: [{ start: a + 2 * HOUR, end: a + 6 * HOUR, label: t('board.h.window') }],
-      onRow: (r) => ctx.app.go('jobs', { open: r.id }), onItem: (r) => ctx.app.go('jobs', { open: r.id }),
+      onRow: (r) => ctx.app.open(r.id), onItem: (r) => ctx.app.open(r.id),
     })),
   ];
 }
@@ -314,10 +314,11 @@ const app = createApp({
   categories: () => [{ id: 'examples', label: t('board.cat.examples') }, { id: 'operations', label: t('board.cat.operations') }, { id: 'home', label: t('board.cat.home') }],
   source: src,
   views: [
-    { id: 'overview', label: () => t('board.overview'), icon: 'home', render: viewOverview },
+    // the problem list shows jobs and hosts that other views own: their detail opens here (detailOf), the link inside the detail moves to the owner
+    { id: 'overview', label: () => t('board.overview'), icon: 'home', render: viewOverview, detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true }) || ctx.app.detailOf('hosts', id, { link: true }) },
     { id: 'jobs', label: () => t('board.jobs'), icon: 'list', render: viewJobs, detail: jobDetail, count: (ctx) => ({ n: ctx.data?.jobs.filter((j) => j.status === 'bad').length || null, tone: 'bad' }) },
     { id: 'hosts', label: () => t('board.hosts'), icon: 'server', render: viewHosts, detail: hostDetail, count: (ctx) => ({ n: ctx.data?.hosts.filter((x) => x.status === 'bad').length || null, tone: 'bad' }) },
-    { id: 'history', label: () => t('board.history'), icon: 'chart', render: viewHistory },
+    { id: 'history', label: () => t('board.history'), icon: 'chart', render: viewHistory, detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true }) },
     { id: 'deploy', label: () => t('board.deploy'), icon: 'rocket', render: viewDeploy },
   ],
 });

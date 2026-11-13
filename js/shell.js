@@ -11,7 +11,7 @@ import { icon } from './icons.js';
 import { iconButton, button, badge } from './primitives.js';
 import { segmented } from './controls.js';
 import { field, select } from './inputs.js';
-import { banner, empty } from './components.js';
+import { banner, empty, toolbarRow } from './components.js';
 import { openSheet, lockScroll } from './sheet.js';
 import { parseHash, buildHash, resolveViews } from './router.js';
 import { fmtAgo, fmtFull } from './format.js';
@@ -58,7 +58,7 @@ import { detectPlatform, manualInstall, browserEnv } from './notifications-data.
  *   notifications?: import('./notifications-data.js').NotificationsOptions,   // adds the entry "Notifications" (web push, browser half) to the sidebar; README "Notifications"
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
-/** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean }} App Returned by createApp(). */
+/** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null }} App Returned by createApp(). */
 
 const DESKTOP = window.matchMedia('(min-width: 1000px)');
 
@@ -423,6 +423,13 @@ export function createApp(cfg0) {
     /** Redraw the view (and open detail), e.g. after new data. */
     refresh() { if (!cur.view) return; renderView({ keepField: true }); if (cur.open) showDetail(cur.open, { keepScroll: true }); },
     setCount(id, n, tone) { counts.set(id, n == null ? null : { n, tone }); renderNav(); },
+    /** The detail another view defines, for a view that shows things it does not own: `detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true })`. link: add "Open in <view>" (the only way to move to the other view). */
+    detailOf(viewId, id, { link = false } = {}) {
+      const v = views.get(viewId);
+      const d = v?.detail?.(id, /** @type {ViewContext} */ (ctx(v)));
+      if (!v || !d) return null;
+      return link ? { ...d, body: [d.body, toolbarRow(button(t('shell.openInView', { view: v.label }), { variant: 'ghost', iconAfter: 'chevron-right', onClick: () => api.go(viewId, { open: id }) }))] } : d;
+    },
     get isDesktop() { return DESKTOP.matches; },
   };
 
