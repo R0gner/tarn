@@ -248,6 +248,26 @@ export const SCENARIOS = [
       return left;
     } },
 
+  // ---- Gb: a filter bar survives a data refresh ----
+  { id: 'filter-refresh', page: 'board', hash: 'jobs', overlay: '.tn-filterbar input[type="search"]', focus: true,
+    // the sample board rebuilds its filter bar on every redraw (app.refresh() after new data): the search field keeps focus, caret and text, and typing goes on
+    open: async (io) => { await io.press('.tn-filterbar input[type="search"]'); await io.page.send('Input.insertText', { text: 'back' }); await sleep(120); },
+    assert: async (io) => {
+      const left = [];
+      await io.eval(`(() => { document.querySelector('.tn-filterbar input[type="search"]').__old = true; window.tnApp.refresh(); return true; })()`);
+      await sleep(150);
+      const st = await io.eval(`(() => { const a = document.activeElement, q = document.querySelector('.tn-filterbar input[type="search"]');
+        return { same: a === q, rebuilt: !!q && !q.__old, value: q?.value, caret: q ? [q.selectionStart, q.selectionEnd] : null, shown: document.querySelector('.tn-filterbar')?.textContent.replace(/\\s+/g, ' ') }; })()`);
+      if (!st.rebuilt) left.push('the redraw did not rebuild the filter bar (the check proves nothing)');
+      if (!st.same) left.push('the search field lost the focus on a redraw');
+      if (st.value !== 'back') left.push(`the search text is “${st.value}” after a redraw (“back” expected)`);
+      if (!st.caret || st.caret[0] !== 4 || st.caret[1] !== 4) left.push(`the caret is at ${st.caret} after a redraw (4 expected)`);
+      await io.page.send('Input.insertText', { text: 's' }); await sleep(120);
+      const v = await io.eval(`document.querySelector('.tn-filterbar input[type="search"]')?.value`);
+      if (v !== 'backs') left.push(`typing after a redraw gives “${v}” (“backs” expected)`);
+      return left;
+    } },
+
   // ---- Inputs, filters, forms (stage D) ----
   { id: 'combobox', page: 'gallery', hash: 'inputs', overlay: '.tn-combo-pop', focus: false,
     // popover in the overlay layer: on top, inside the viewport, search field with focus (not on touch: the keyboard would cover the list),

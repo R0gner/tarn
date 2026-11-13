@@ -311,11 +311,32 @@ export function createApp(cfg0) {
   function ctx(v = views.get(/** @type {string} */ (cur.view))) {
     return { app: api, view: v?.id, params: cur.params, open: cur.open, src: srcState, data: srcState?.data ?? null };
   }
-  function renderView() {
+  /* A redraw of the same view (new data: refresh()) rebuilds every control; the field the user is typing in keeps focus and caret
+     (matched by position, tag, type and label; its text is the board's state, as filterBar({ value }) keeps it). */
+  function captureField() {
+    const a = document.activeElement;
+    if (!(a instanceof HTMLInputElement || a instanceof HTMLTextAreaElement || a instanceof HTMLSelectElement) || !content.contains(a)) return null;
+    const label = a.getAttribute('aria-label') || ('placeholder' in a ? a.placeholder : '') || '';
+    const field = a instanceof HTMLSelectElement ? null : a;
+    return { index: [...content.querySelectorAll('input, textarea, select')].indexOf(a), tag: a.tagName, type: a.type, label, start: field?.selectionStart ?? null, end: field?.selectionEnd ?? null };
+  }
+  /** @param {ReturnType<typeof captureField>} k */
+  function restoreField(k) {
+    if (!k || k.index < 0) return;
+    const el = content.querySelectorAll('input, textarea, select')[k.index];
+    if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) || el.tagName !== k.tag || el.type !== k.type) return;
+    if ((el.getAttribute('aria-label') || ('placeholder' in el ? el.placeholder : '') || '') !== k.label) return;
+    el.focus({ preventScroll: true });
+    if (k.start != null && !(el instanceof HTMLSelectElement)) { try { el.setSelectionRange(k.start, k.end); } catch { /* a type without a caret (checkbox) */ } }
+  }
+  /** @param {{ keepField?: boolean }} [o] */
+  function renderView({ keepField = false } = {}) {
     const v = /** @type {NonNullable<ReturnType<typeof views.get>>} */ (views.get(/** @type {string} */ (cur.view)));
     viewTitle.textContent = v.label;
     document.title = cfg.title ? `${v.label} · ${cfg.title}` : v.label;
+    const field = keepField ? captureField() : null;
     mount(content, v.render(/** @type {ViewContext} */ (ctx(v))));
+    restoreField(field);
     markSelected();
     renderNav();
   }
@@ -400,7 +421,7 @@ export function createApp(cfg0) {
     open(id) { location.hash = buildHash(cur.view, { ...cur.params, open: id }); pushedOpen = true; },
     closeDetail,
     /** Redraw the view (and open detail), e.g. after new data. */
-    refresh() { if (!cur.view) return; renderView(); if (cur.open) showDetail(cur.open, { keepScroll: true }); },
+    refresh() { if (!cur.view) return; renderView({ keepField: true }); if (cur.open) showDetail(cur.open, { keepScroll: true }); },
     setCount(id, n, tone) { counts.set(id, n == null ? null : { n, tone }); renderNav(); },
     get isDesktop() { return DESKTOP.matches; },
   };

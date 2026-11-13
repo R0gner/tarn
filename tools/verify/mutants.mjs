@@ -106,6 +106,12 @@ export const MUTANTS = [
     css: '.tn-tick-input:checked + .tn-toggle-track > .tn-toggle-thumb { transform: translateX(24px); }',
   },
   {
+    // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)
+    id: 'redraw-loses-focus',
+    check: 'overlay', scenarios: ['filter-refresh'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "renderView({ keepField: true });", to: "renderView();" }],
+  },
+  {
     // the old tile grid: every tile one cell, so five tiles leave an empty cell in the last row
     id: 'tiles-ragged',
     page: 'gallery', views: ['cards'], sizes: ['phone', 'desktop'], expect: ['tiles-ragged'],

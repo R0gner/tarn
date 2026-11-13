@@ -549,7 +549,8 @@ rows.filter((row) => matchFilters(row, state.f, (row, key) => ({ failing: row.fa
 
 `matchFilters(row, f, get?, { now? })` handles every type (the type follows from the value; a row without a number or time does not match a
 range or time filter); calls without a `type` keep working. The filter sheet has one calm group per filter with its own *Clear*; the controls are
-created once and only synchronised afterwards, so the focus stays where the user is.
+created once and only synchronised afterwards, so the focus stays where the user is. When a view is redrawn for new data (`app.refresh()`, every poll) the filter bar is
+built again from the board's state (`filterBar({ value: state })`): the shell gives focus and caret back to the field the user was typing in, the text comes from that state.
 
 Long results: `table({ pageSize })` draws the first 20 rows (default; `0` = all) and a *Show more* footer (“20 of 339 rows”) adds the next ones – drawing
 rows, not filtering, is what costs time (1,000 rows filtered and drawn: ≈ 560 ms before, ≈ 35 ms handler at 4× CPU now; tempo case `filter-apply-1000`).

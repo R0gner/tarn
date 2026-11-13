@@ -58,6 +58,8 @@ Round 5.
 - **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
 
 ### Stage Gb
+- **A redraw keeps the field you are typing in (G10):** `app.refresh()` (new data) rebuilds the view, and with it the filter bar; the shell now gives focus and caret back to the same field (matched by position, tag, type and label). The text stays the
+  board's state (`filterBar({ value })`, as in the sample board). Overlay scenario `filter-refresh` (real typing, a redraw, typing goes on), mutant `redraw-loses-focus`.
 - **`tiles()` closes its rows for any number of tiles (G8):** 5 tiles are wide 5 in a row, medium 3 + 2, phone 2 + 2 + 1 with a wide last tile (`fitTiles()` in `js/tiles-data.js`: balanced rows, the tiles of an incomplete row
   take whole parts of a common grid); `tiles({ className }, …)`; `loading({ tiles })` uses the same grid. Verify rule `tiles-ragged`, mutant `tiles-ragged`, `tests/tiles.test.mjs`, gallery demo with 3, 5 and 7 tiles.
 - **`metricRow({ wrapSub })` (G7):** the sub line wraps over as many lines as it needs instead of ending in "…" (a problem row's reason is readable in full at 340 px); the sample board's problem list uses it. Verify rule `wrap-sub`, mutant `row-sub-wrap-ellipsis`, gallery demo.
