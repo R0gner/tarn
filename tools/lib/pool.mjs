@@ -17,6 +17,19 @@ import { openBrowser, openHeadlessPages, FETCH_ORIGIN } from './cdp.mjs';
 import { startServer } from './static-server.mjs';
 import { consoleCollector } from '../verify/geometry.mjs';
 
+/**
+ * Start something that starts Chrome (createPool); with `retry` a failed Chrome start (error.chromeStart: the debugger port did not answer, a CI runner under load)
+ * is tried once more before the error goes on. → { value, retried: error message of the first attempt | null }
+ * A missing Chrome binary or any other error is not retried.
+ * @template T @param {() => Promise<T>} start @param {boolean} retry
+ */
+export async function startWithRetry(start, retry) {
+  try { return { value: await start(), retried: null }; } catch (e) {
+    if (!retry || !e?.chromeStart) throw e;
+    return { value: await start(), retried: String(e.message) };
+  }
+}
+
 /** Default number of parallel workers: min(4, cores / 2), at least 1. */
 export const defaultJobs = () => Math.max(1, Math.min(4, Math.floor((os.availableParallelism?.() ?? os.cpus().length) / 2)));
 

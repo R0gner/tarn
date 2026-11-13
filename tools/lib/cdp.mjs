@@ -68,7 +68,7 @@ async function waitForDebugger(port, ms = 15000) {
     try { const r = await fetch(`http://127.0.0.1:${port}/json/version`); if (r.ok) return (await r.json()).webSocketDebuggerUrl; } catch {}
     await sleep(150);
   }
-  throw new Error(`Chrome debugger on port ${port} not reachable`);
+  throw Object.assign(new Error(`Chrome debugger on port ${port} not reachable`), { chromeStart: true });   // chromeStart: starting Chrome failed (a retry can help)
 }
 
 /** Find a free port on 127.0.0.1 (bind briefly, release again). */

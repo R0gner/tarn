@@ -42,7 +42,7 @@
 //   --base URL         check a running server instead of starting one (e.g. http://127.0.0.1:<port>)
 //   --attach URL       use a running Chrome via CDP (own tab, closed afterwards)
 //   --ci               for CI runners: always starts its own headless Chrome (throw-away profile, --no-sandbox), refuses --attach/--base,
-//                      fails with exit 2 when no Chrome is found (CHROME=… or --chrome PATH); use --out DIR to keep images and report.json
+//                      starts it a second time when the first start fails (the output says so), fails with exit 2 when no Chrome is found (CHROME=… or --chrome PATH); use --out DIR to keep images and report.json
 //   Without --attach/--base the kit files reach the own headless Chrome through CDP (Fetch.fulfillRequest): no HTTP server, no network.
 //   --chrome PATH      Chrome binary; --no-shots no images; -v print all finding groups
 //   --list             list checks, pages and sizes
@@ -58,7 +58,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { evaluate } from './lib/cdp.mjs';
-import { createPool } from './lib/pool.mjs';
+import { createPool, startWithRetry } from './lib/pool.mjs';
 import { treeIdentity } from './lib/tree.mjs';
 import { PAGES, SIZES, DEFAULT_SIZES, QUICK_SIZES, THEMES, parseSize } from './verify/targets.mjs';
 import { geometryTasks, geometryTask, runGeometry, runGeometryOn, mergeGeometry } from './verify/geometry.mjs';
@@ -224,7 +224,9 @@ async function main() {
   try {
     if (needBrowser) {
       try {
-        pool = await createPool({ attach: o.attach, base: o.base, chrome: o.chrome, noSandbox: o.ci, jobs: o.jobs, root: ROOT, tmp: outDir });
+        const started = await startWithRetry(() => createPool({ attach: o.attach, base: o.base, chrome: o.chrome, noSandbox: o.ci, jobs: o.jobs, root: ROOT, tmp: outDir }), !!o.ci);
+        pool = started.value;
+        if (started.retried) notes.push(`Chrome did not start at the first attempt (${started.retried}); the second attempt worked`);
       } catch (e) { throw Object.assign(e, { env: true }); }
       jobsUsed = pool.size; modeUsed = pool.mode;
 

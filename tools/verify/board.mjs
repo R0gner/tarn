@@ -15,7 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { emulate, evaluate, sleep } from '../lib/cdp.mjs';
-import { createPool } from '../lib/pool.mjs';
+import { createPool, startWithRetry } from '../lib/pool.mjs';
 import { loadBoard } from '../lib/board.mjs';
 import { treeIdentity } from '../lib/tree.mjs';
 import { DEFAULT_SIZES, QUICK_SIZES, THEMES, parseSize } from './targets.mjs';
@@ -192,7 +192,11 @@ export async function runBoard(o) {
   try {
     if (doGeo || doSnap || doOv || doInv) {
       try { await fetch(base + pages[0].path, { signal: AbortSignal.timeout(8000) }); } catch (e) { throw Object.assign(new Error(`the board server at ${base} does not answer (${e.message}); start it first`), { env: true }); }
-      try { pool = await createPool({ attach: o.attach, base, proxy: true, chrome: o.chrome, noSandbox: o.ci, jobs: o.jobs, root: ROOT, tmp: outDir }); } catch (e) { throw Object.assign(e, { env: true }); }
+      try {
+        const started = await startWithRetry(() => createPool({ attach: o.attach, base, proxy: true, chrome: o.chrome, noSandbox: o.ci, jobs: o.jobs, root: ROOT, tmp: outDir }), !!o.ci);
+        pool = started.value;
+        if (started.retried) notes.push(`Chrome did not start at the first attempt (${started.retried}); the second attempt worked`);
+      } catch (e) { throw Object.assign(e, { env: true }); }
       const shot = o.shots === false ? null : makeShot({ outDir, rules });
       const { scenarios, notes: scNotes } = doOv || doInv ? boardScenarios(board, pages) : { scenarios: [], notes: [] };
       const picked = scenarios.filter((sc) => !o.scenarios || o.scenarios.includes(sc.id));
