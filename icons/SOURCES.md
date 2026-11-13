@@ -10,6 +10,8 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `alert` | `triangle-exclamation-point.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/triangle-exclamation-point.svg | `4866f38b8560d410f21e3226413e0b77997b6dfbb6931fadfe0a0d5aef9ffeb4` |
 | `arrow-down` | `arrow-down.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-down.svg | `2b641c7a59d39450edfed72067fcc9940a1a316a737346af23b4b9103c0689f2` |
 | `arrow-up` | `arrow-up.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-up.svg | `8c22c25874c80bb062bef985d207d8f1d4a4d7847237d0a8cf720a3235968518` |
+| `bell` | `bell.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell.svg | `394889e9631fe3a9a63be9a479a95b451b708e432d895978d21d9130b5ee5dbe` |
+| `bell-off` | `bell-off.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell-off.svg | `14ad2775c3a594f09a79c195531778ae51302f847a9c558f720340d1e450bd6a` |
 | `box` | `box.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/box.svg | `511862693d914d2bf1947c9ccc513595f2a256541f5dd4f6f9ac8383cd41ac4f` |
 | `chart` | `chart-column.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chart-column.svg | `80664a4c5ca1bca10bcb88c1a99f62593c94d61d72d3a4bbf577eb3f3ea4da57` |
 | `check` | `check.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/check.svg | `7f33acc9a77a61659531044525fc008edebe215bf4dcf1c789c8674ad3277db0` |
@@ -37,7 +39,10 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `rocket` | `rocket.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/rocket.svg | `2b7887d9a5623f2e5e4a5d32716f93829d61b458e03b6eae33a6df648b9eb855` |
 | `search` | `search.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/search.svg | `283d371c2e433817bb9c0c8310caa6c77fa4177c0f4f1168d9c83b97af7389dc` |
 | `server` | `server.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/server.svg | `f7bea54b609dc488f3b848995014041846b2443fd2a880653e9e583d7a034f61` |
+| `settings` | `settings.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/settings.svg | `0ae27fd0f81999229e3127ac96c5b32edfea448e291d509e76212b917551d66b` |
+| `share` | `share.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/share.svg | `be8870646f636f4db03fd2d1d5db4912a1ab03ce2cfcc5daacc15fa8e105dbc2` |
 | `sidebar` | `panel-left.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/panel-left.svg | `029f67b9e3eeb7ddf7c7c499b174c50388725e8ea50d4ea59ed7dbaf8d61cb82` |
 | `spinner` | `loader-circle.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/loader-circle.svg | `043021bb903919668804bdb6fee0342072e4ffea5f03fbd857774c440179ad3b` |
+| `square-plus` | `square-plus.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/square-plus.svg | `c0856053827b2796170556f874a3017f7cb8d5b7a53bbb00f95600891fc76cc1` |
 | `sun` | `sun.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/sun.svg | `a3955c8b0425fcc5c9ba12d2bdd77fe53b2cd5dd05e7742a56f342e996fb2ef8` |
 | `x` | `x.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/x.svg | `4a9cdab38fbb96162e7dace28e33f4ca0e49d8963a6162abc3d4691b7d675117` |

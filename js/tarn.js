@@ -17,5 +17,7 @@ export { markdown } from './markdown.js';
 export { dataCard } from './datacard.js';
 export { dataSource } from './data.js';
 export { createApp } from './shell.js';
+export { notifications, openNotifications, notificationsPanel, openInstallHint } from './notifications.js';
+export { createNotifications, manualInstall } from './notifications-data.js';
 export { log, toast, usageBar, menu } from './widgets.js';
 export { lineChart, barChart, sparkline, donut, heatRow, timeline, scale } from './charts/index.js';

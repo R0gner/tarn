@@ -24,6 +24,8 @@ export const RULES = [
   [/^starter\//, { starter: null, 'starter-de': null }],
   // the sample board (all languages)
   [/^example\//, BOARDS],
+  // notifications: the gallery shell view (static states, live sheets); the scenarios run with it
+  [/^js\/(notifications|notifications-data|push-sw)\.js$/, G('shell')],
   // components with a known footprint: gallery views and the board views that use them
   [/^js\/charts\//, join(G('charts', 'themes'), { board: ['overview', 'history'], 'board-de': ['overview', 'history'], 'board-fr': ['overview', 'history'] })],
   [/^js\/(table|filterbar|filters-data)\.js$/, join(G('table', 'cards', 'rows', 'states'), { board: ['jobs', 'hosts'], 'board-de': ['jobs', 'hosts'], 'board-fr': ['jobs', 'hosts'] })],

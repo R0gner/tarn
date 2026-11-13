@@ -4,7 +4,9 @@ import {
   segmented, tabs, log, toast, progress, usageBar, tooltip, menu, dataCard, boardSwitcher, boardGrid, boardIcon, normalizeBoards,
   lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtAgo, fmtPct,
   STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES, DENSITIES, getDensity, setDensity,
+  notifications, openNotifications, notificationsPanel, createNotifications, openInstallHint, manualInstall,
 } from '../js/tarn.js';
+import { mockPush } from './mock-push.js';
 
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
 const demo = (title, usage, ...stage) => card({ title }, h('div', { class: 'g-demo' }, stage, usage && code(usage)));
@@ -116,6 +118,35 @@ export function viewFeedback() {
 }
 
 /* ================= Shell: board switcher, identity, language ================= */
+/* ---- Notifications: every state as a static panel, and live sheets over mocked browser APIs and a mock backend ---- */
+const NOTIF_STATES = [
+  ['off', 'not asked yet'], ['on', 'on'], ['blocked', 'blocked'], ['unsupported', 'not supported'], ['insecure', 'no https'],
+  ['ios-install', 'iPhone/iPad, not installed'], ['disabled', 'server does not push'], ['unreachable', 'server not reachable'], ['error', 'worker did not start'],
+];
+const notifModel = (kind, extra = {}) => ({ kind, busy: false, message: null, device: 'Android, Chrome', platform: { ios: false, safariMac: false, standalone: false }, detail: kind === 'error' ? 'script could not be loaded (404)' : 'HTTP 503', ...extra });
+function notificationsDemo() {
+  const live = NOTIF_STATES.map(([kind, label]) => {
+    // globalThis.__tnPushMock: the mock of the last sheet, for the overlay check (it counts the permission prompts and the server calls)
+    const b = button(`Open: ${label}`, { small: true, onClick: () => { const m = globalThis.__tnPushMock = mockPush(kind, { delay: 20 }); openNotifications({ api: './mock-push', env: m.env }); } });
+    b.dataset.notifState = kind;
+    return b;
+  });
+  return demo('notifications() and the "Notifications" sheet', `createApp({ notifications: { api: '/api/push' } })    // sidebar entry "Notifications" → this sheet
+openNotifications({ api: '/api/push' })                   // the same sheet on any page, without the shell
+const n = notifications({ api: '/api/push', worker: '/sw.js' })   // controller: n.model, n.refresh(), n.enable() (call it from a tap), n.disable(), n.test(), n.open()
+createNotifications({ api, env })                         // logic only; env = the browser (default) or mocked APIs, as in this gallery
+notificationsPanel(model, { onEnable, onDisable, onTest, onRetry })   // the content for one state
+openInstallHint(manualInstall(platform))                 // iPhone/iPad/Safari: "Add to Home Screen" steps instead of an install prompt
+// Server: GET key · POST status, subscribe, unsubscribe, test (README "Notifications"). Service worker: js/push-sw.js, served from the board's own root.
+// Below: every state with mocked browser APIs; the buttons open the live sheet over a mock backend (no network).`,
+    h('div', { class: 'g-grid2' }, NOTIF_STATES.map(([kind, label]) => state(label, card({}, notificationsPanel(notifModel(kind)))))),
+    h('div', { class: 'g-grid2' },
+      state('after turning on', card({}, notificationsPanel(notifModel('on', { message: { kind: 'ok', code: 'enabled' } })))),
+      state('test failed', card({}, notificationsPanel(notifModel('on', { message: { kind: 'bad', code: 'testFailed', detail: 'push service answered 410' } }))))),
+    stage(state('live sheets (mock backend)', h('div', { class: 'g-stage' }, live)),
+      state('install hint (no prompt)', h('div', { class: 'g-stage' }, button('Add to Home Screen …', { small: true, icon: 'share', onClick: () => openInstallHint(manualInstall({ ios: true, safariMac: false, standalone: false })) })))));
+}
+
 export function viewShell(ctx) {
   const sw = (label, opts) => { const b = button(label, { icon: 'grid', iconAfter: 'chevron-down' }); boardSwitcher(b, opts); return b; };
   return [
@@ -138,6 +169,7 @@ boardSwitcher(button, { boards, categories, boardId })   // or on your own butto
         h('div', { class: 'g-grid2' },
           state('flat grid', card({}, boardGrid(normalizeBoards(flat), { current: 'network' }))),
           state('grid with categories', card({}, boardGrid(normalizeBoards(DEMO_BOARDS, DEMO_CATEGORIES), { current: 'media' })))))),
+    notificationsDemo(),
     demo('Board identity: favicon() and language', `// Every board has its own favicon (SVG) and a descriptive title ("View · Board").
 // With a file: <link rel="icon" type="image/svg+xml" href="favicon.svg">  (made by tools/brand.mjs; template: example/favicon.svg)
 // Without a file:  favicon({ icon: 'server', color: 'purple' })   // or createApp({ icon: { icon, color } })

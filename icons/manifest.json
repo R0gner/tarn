@@ -4,6 +4,8 @@
     "alert": "triangle-exclamation-point",
     "arrow-down": "arrow-down",
     "arrow-up": "arrow-up",
+    "bell": "bell",
+    "bell-off": "bell-off",
     "box": "box",
     "chart": "chart-column",
     "check": "check",
@@ -31,8 +33,11 @@
     "rocket": "rocket",
     "search": "search",
     "server": "server",
+    "settings": "settings",
+    "share": "share",
     "sidebar": "panel-left",
     "spinner": "loader-circle",
+    "square-plus": "square-plus",
     "sun": "sun",
     "x": "x"
   }
