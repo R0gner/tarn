@@ -7,7 +7,7 @@ import { showOverlay, hideOverlay, placeAbove } from './overlay.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
-/** @typedef {{ value: any, label?: string, icon?: string, title?: string }} SegmentedOption An option without a label is icon-only and needs a title (aria-label and hint). */
+/** @typedef {{ value: any, label?: string, icon?: string, title?: string, count?: number | string | null, tone?: Status }} SegmentedOption An option without a label is icon-only and needs a title (aria-label and hint). count shows a counter behind the label, coloured by tone (as in the sidebar). */
 /** @typedef {{ options: SegmentedOption[], value?: any, onChange?: (value: any) => void, label?: string, small?: boolean, className?: string }} SegmentedOptions */
 /** @typedef {HTMLElement & { setValue: (value: any) => void, readonly value: any }} SegmentedElement setValue() fires no onChange. */
 /** @typedef {{ id: string, label: Child, count?: number | string | null, tone?: Status, render?: () => Child }} TabDef */
@@ -18,7 +18,8 @@ import { showOverlay, hideOverlay, placeAbove } from './overlay.js';
 
 /**
  * Segmented switch (2–5 short options, e.g. 24 h | 7 days).
- * segmented({ options: [{ value, label, icon? }], value, onChange(value), label, small })
+ * segmented({ options: [{ value, label, icon?, count?, tone? }], value, onChange(value), label, small })
+ * count: a counter behind the label (e.g. the problems in that part); tone colours it like the sidebar counter.
  * Keyboard: arrow keys switch (radio group).
  * @param {SegmentedOptions} o
  * @returns {SegmentedElement}
@@ -29,7 +30,8 @@ export function segmented({ options, value, onChange, label, small, className })
     const b = h('button', {
       class: 'tn-seg-btn', type: 'button', role: 'radio', 'data-value': String(o.value), 'aria-label': !o.label ? (o.title || String(o.value)) : null,
       onclick: () => set(o.value, true),
-    }, o.icon && icon(o.icon), o.label && h('span', null, o.label));
+    }, o.icon && icon(o.icon), o.label && h('span', null, o.label),
+    o.count != null && o.count !== '' && h('span', { class: cls('tn-badge', 'tn-badge-' + (o.tone || 'neutral'), 'tn-badge-count') }, String(o.count)));
     return o.label ? b : tooltip(b, o.title || String(o.value)); // icon-only button: hint
   });
   const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('tn-seg', small && 'tn-seg-sm', className), role: 'radiogroup', 'aria-label': label || null, onkeydown: key }, btns)));

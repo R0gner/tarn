@@ -49,10 +49,11 @@ export function viewControls() {
   return [
     h('p', { class: 'g-intro' }, 'Primitives are small, self-contained controls. All keyboard operable, touch targets at least 40 px, animation only via transform/opacity.'),
     h('div', { class: 'g-grid2' },
-      demo('segmented()', `segmented({ options: [{ value: '24h', label: '24 h' }, …], value, label: 'Time range',\n  onChange: (v) => … })   // arrow keys switch; el.setValue(v)`,
+      demo('segmented()', `segmented({ options: [{ value: '24h', label: '24 h' }, …], value, label: 'Time range',\n  onChange: (v) => … })   // arrow keys switch; el.setValue(v)\n// an option with { count: 2, tone: 'bad' } shows a counter like the sidebar`,
         h('div', { class: 'g-stage-col' }, state('normal', seg), out,
           state('small', segmented({ small: true, options: [{ value: 'a', label: 'All' }, { value: 'f', label: 'Errors' }, { value: 'w', label: 'Warnings' }], value: 'f' })),
-          state('with icons', segmented({ options: [{ value: 'l', icon: 'list', title: 'List' }, { value: 'g', icon: 'grid', title: 'Tiles' }], value: 'l', label: 'Layout' })))),
+          state('with icons', segmented({ options: [{ value: 'l', icon: 'list', title: 'List' }, { value: 'g', icon: 'grid', title: 'Tiles' }], value: 'l', label: 'Layout' })),
+          state('with counters', segmented({ small: true, options: [{ value: 'j', label: 'Jobs' }, { value: 't', label: 'Timers', count: 2, tone: 'bad' }, { value: 'c', label: 'Cron', count: 1, tone: 'warn' }], value: 'j', label: 'Kind' })))),
       demo('tooltip() and hint', `iconButton('info', { label: 'Info', hint: 'Longer explanation' })   // icon-only buttons have the hint built in; tooltip(el, text) for others\n// mouse: hover 350 ms · keyboard: focus · touch: long press, stays after release\n// truncated text (.tn-ellipsis) shows its full text automatically; fully visible text gets no hint`,
         stage(state('icon button', iconButton('info', { label: 'Info', hint: 'Runs daily at 04:15, takes about 30 s' })),
           state('tooltip() on any element', tooltip(h('button', { class: 'tn-iconbtn', type: 'button', 'aria-label': 'More' }, icon('more')), 'Any element with a hint')),

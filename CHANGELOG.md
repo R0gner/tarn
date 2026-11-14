@@ -3,6 +3,23 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.5.2
+
+### Added
+- `segmented()`: an option takes `count` and `tone` and shows the counter behind its label, in the same form as the sidebar counter (a red 2 in
+  the sidebar is a red 2 on the part that holds the two problems).
+- `timeline()`: `conflictTone: 'warn'` paints conflicting rows and bars in the warning colour, for boards where an overlap is a risk and not a
+  failure. The default stays red.
+
+### Fixed
+- README: the sections Inputs, Filters, Forms and actions, Identity, Notifications, Multiple boards and Licence are back. They were cut off by
+  accident in 0.5.0 (the file ended in the middle of the Markdown section) while the code and AGENTS.md still pointed to them.
+
+### Removed
+- The visual judge (`tools/judge.mjs`, `tools/lib/judge*.mjs`, its tests and its README section) left the kit. On the calibration set it marked
+  12 of 25 visible faults and 23 of 167 clean pictures, and it is tied to one provider. It stays on the branch `visual-judge` until a comparison
+  of decision models gives a better result. `verify` never used it.
+
 ## 0.5.1
 
 ### Fixed

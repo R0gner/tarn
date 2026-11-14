@@ -89,7 +89,6 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `node tools/lint.mjs` | static kit rules (tokens, no `innerHTML`, texts via `t()`) |
 | `node tools/tempo.mjs` | response times against budgets |
 | `node tools/shoot.mjs` | screenshots of a page in a chosen size and colour scheme |
-| `node tools/judge.mjs` | optional second layer: a decision model looks at screenshots and marks the ones that look broken (needs an API key, costs cents) |
 | `node tools/brand.mjs`, `node tools/icons.mjs` | board identity (favicon, icons, manifest) and Lucide icons |
 
 ## Folders
@@ -121,7 +120,6 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `tools/tempo.mjs`, `tools/tempo/` | response times (Event Timing, long animation frames, visibility) against budgets |
 | `tools/brand.mjs`, `tools/icons.mjs` | board identity (favicon, PNG icons, manifest) · Lucide icons |
 | `tools/vendor.mjs`, `tools/lib/kit-files.mjs` | copies a fixed kit version (`--profile core\|full`) into a board (`vendor/tarn/`), `--check` reports local changes, the version and the profile · the core/shell file lists |
-| `tools/judge.mjs`, `tools/lib/judge*.mjs` | optional visual judge: a decision model marks pictures that look broken (not part of verify) |
 | `tools/serve.py`, `tools/shoot.mjs`, `tools/lib/` | local server with board CSP · screenshots via CDP · shared CDP client and test server |
 | `tests/` | `node --test tests/*.test.mjs`; `tests/snapshots/` holds the expected DOM outlines for verify |
 
@@ -160,7 +158,7 @@ a block only this project needs lives in the project's own files.
 | how | `npm i github:R0gner/tarn#v<version>` | `node tools/vendor.mjs --to <project>/vendor/tarn [--profile core]` |
 | import | `import { button } from '@r0gner/tarn/core'` · `import { createApp } from '@r0gner/tarn'` | `import … from '/tarn/js/core.js'` · `'/tarn/js/tarn.js'` |
 | styles | `@r0gner/tarn/css/tokens.css`, `fonts.css`, `base.css`, `core.css` (+ `components.css`, `charts.css`) | `<link href="/tarn/css/…">` |
-| pin | the tag in `package.json` (`v0.5.1`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
+| pin | the tag in `package.json` (`v0.5.2`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
 | update | change the tag, `npm update @r0gner/tarn` | run `vendor.mjs` again |
 
 ### (a) git dependency
@@ -171,7 +169,7 @@ those folders; `files` limits the installed package to the runtime files plus `L
 `tools/vendor.mjs` copies, kept in `tools/lib/kit-files.mjs`; a test keeps `package.json` equal to it, `node tools/package.mjs` rewrites it).
 
 ```sh
-npm i github:R0gner/tarn#v0.5.1        # a tag, never a branch: the version stays fixed
+npm i github:R0gner/tarn#v0.5.2        # a tag, never a branch: the version stays fixed
 ```
 
 ```js
@@ -453,70 +451,6 @@ the variable (`chromeEnv()` in `tools/lib/cdp.mjs`, so `--direct` and `verify --
   `--out` is required and must be outside the repo. `shoot` loads pages like verify does (waits for the requested document to be complete); the selftest checks the
   Node-fetch route against the foreign board copy.
 
-## Visual judge (optional second layer)
-
-`node tools/judge.mjs` takes a picture of every page × view × size × theme (the capture path of verify), asks a decision model (TypeSafe Jev, `jev-latest`)
-five yes/no questions about each picture – one per fault type: **overflow** (sticks out of its box or the screen), **overlap**, **clipped** (text cut without an
-ellipsis, a word chopped), **misaligned** (a row or grid out of line, ragged tiles), **malformed** (a control that looks broken: a toggle knob outside its track, a squeezed segmented
-control) – and prints at most ten lines: the pictures marked for a look, the calls made, the calls the cache saved and the cost of the run. A report file (`judge-report.json`
-in `--out`) lists every marked picture with its path. An agent or a person looks at those pictures only.
-
-```bash
-export TYPESAFEAI_API_KEY=…                          # the key is read from the environment, sent in one header, never printed or stored
-node tools/judge.mjs --pages gallery --views cards,inputs --sizes phone,desktop   # a few pictures
-node tools/judge.mjs --dry-run                       # capture and look up the cache, ask nothing: how many calls would a real run make?
-node tools/judge.mjs --max-usd 0.05                  # stop before the run would cost more (default 0.10)
-node tools/judge.mjs --mock recorded.json            # answer from a recorded JSON, no key and no network
-```
-
-**When to run it.** After a larger UI change, when the deterministic checks are green: `verify` finds what it can measure (overflow, overlap, truncation,
-touch targets, alignment), the judge looks at what a person would see. Not in `verify`, not in `--ci`, not in the workflow: `verify` and CI never need the key
-and never call the API. The judge is never a gate: it exits 0 with marked pictures, and a marked picture is a reason to look, not a finding.
-
-**What leaves the machine.** Only pictures of pages with invented data: the choices are the pages of `tools/verify/targets.mjs` (gallery, sample board, starter). The
-tool takes no URL. Do not point a board with real data at it.
-
-**What it costs.** The price is per input token ($0.042 per million, output free; list price of Jev 1.14, `PRICE_PER_MTOK` in `tools/lib/judge.mjs`). One picture is one call with all five questions and about 3,300
-tokens, so **≈ $0.00014 per picture**; 100 pictures are about 1.4 cents. The cost of every call is computed from the `usage.input_tokens` the API reports; `judge-ledger.jsonl`
-(next to the cache) books every call, a failed one with cost 0. A run estimates the next call from the tokens seen so far and stops before it would pass `--max-usd`
-(`--max-total-usd` does the same for everything ever booked in the ledger).
-
-**Never pay twice.** The cache key is the sha256 of the PNG bytes plus the question-set version (`QUESTION_SET_VERSION`; it changes whenever a question or the way a picture is
-prepared changes). Verdicts are kept in `$XDG_CACHE_HOME/tarn/judge-verdicts.json` (`--cache FILE` overrides; the ledger lies next to it). A second run over unchanged pictures makes zero
-calls, and the output says so. For the bytes to stay the same, the capture uses the fixed clock of the snapshots, switches animations, transitions and the caret off and takes the screenshot again
-until two in a row are identical; about 1 picture in 70 still differs from run to run (the foundations view) and costs one more call.
-
-**Calibration.** The labelled test set is free: the CSS and script mutants of `verify --selftest` are known faults, the same states without the mutant are clean.
-`node tools/judge.mjs --calibrate --with-clean --pages gallery,board,starter,gallery-comfortable,starter-comfortable --sizes phone,desktop,phone-s --themes dark,light`
-photographs 167 clean pictures (all views of those pages) and 26 pictures of 13 mutants, asks, and prints the table below. The threshold per fault type is the lowest
-score (steps of 0.05, from 0.30) at which at most 5 % of the clean pictures are marked for that type; they are `THRESHOLDS` in `tools/lib/judge.mjs`. They were measured on the same pictures they
-are judged on, so the numbers are optimistic. (Calibration 13.11.2026, `jev-latest` = `jev-1.14.0`, 202 pictures, 17 + 181 paid calls for the final question set, about 3.5 cents.)
-
-| Fault type | Threshold | Clean pictures marked | Faults of this type found by their own question |
-|---|---|---|---|
-| overflow | 0.85 | 4 of 167 | 3 of 5 |
-| overlap | 0.50 | 8 of 167 | 2 of 2 |
-| clipped | 0.65 | 8 of 167 | 3 of 7 |
-| misaligned | 0.65 | 7 of 167 | 2 of 3 |
-| malformed | 0.65 | 7 of 167 | 1 of 8 |
-| any question | – | **23 of 167 (14 %)** | **12 of 25 pictures with a visible fault (48 %)** |
-
-Per fault (pictures with the fault visible / marked by any question): tile overlap 2/2, tiles ragged 2/2 (the last row of the tile grid is short), banner path overflow 2/2, word broken letter by letter 2/2,
-row title without ellipsis 1/2, timeline scrolls sideways 1/2, toggle thumb leaves its track 1/2, segmented control squeezed 1/1, a button 3 px out of line 0/1, comfortable touch targets 48 → 40 px 0/6, row sub line
-cut with an ellipsis 0/1, phone toolbar crowded (title cut to “Foundati…”) 0/2.
-
-**Would it have caught the two faults Max asked about?** *Toggle thumb outside its track* (`toggle-thumb-leaves-track`): on the desktop picture yes (malformed 0.76, threshold 0.65), on the 390 px phone no
-(malformed 0.50): the thumb sticks out by 8 px, and the judge does not see 8 px at this scale. *Squeezed segmented control* (`segmented-squeezed`): yes, at 340 px phone
-width three questions mark it (overflow 0.91, overlap 0.90, malformed 0.90). The deterministic checks (`contained`, `scroll-x`) find both every time; the judge is a second pair of eyes for coarse faults, not a replacement.
-
-**What it does not catch.** Anything of a few pixels: a button 3 px out of line, touch targets that are 8 px smaller, an ellipsis missing in a narrow row, a crowded toolbar title. It sees
-the first screen of a view only (the viewport, at most 1568 px on a side; a fault below the fold is not in the picture); it knows nothing about behaviour (focus, menus, taps, notifications:
-that is what the overlay scenarios are for) and nothing about colour contrast. It also marks clean pictures: about one in seven; the false alarms repeat in the same dense views (`gallery/shell`, `gallery/markdown`, `gallery/cards`, `gallery/rows`, `gallery/feedback`, `board/history`) in both themes, so look once and
-move on. A score is a probability from a preview model (images are a preview feature at TypeSafe), not a measurement; run the calibration again after a model update.
-
-Without a key the tool refuses to run (exit 2) unless `--dry-run` or `--mock` is given. `tests/judge.test.mjs` tests the request, the cost, the cache, the ledger, the budget stop and the
-calibration against recorded answers, without network, without key and without a browser.
-
 ## API in short
 
 All functions return DOM elements; status is always `'ok' | 'warn' | 'bad' | 'unknown' | 'pending' | 'info' | 'off'`, chart
@@ -601,3 +535,216 @@ parser (`parseMarkdown()` returns an AST, `renderMarkdown()` builds DOM nodes), 
 the text appears as text**. Links only `http`, `https`, `mailto` and relative (`javascript:`, `data:`, `//host` become plain
 text), external ones with `rel="noopener noreferrer"`; images are off (alt text), with `images: true` only relative paths.
 `compact` is the dense variant for sheets and the inspector. From 20,000 characters the block sets `.is-long`
+(`content-visibility: auto`) so that only the visible part is laid out. Measurement: `node tools/tempo-markdown.mjs --attach …`
+(50 KB, 4× CPU: build ≈ 28 ms, with layout ≈ 46 ms; budget 50 ms). Tests: `tests/markdown.test.mjs`.
+
+## Inputs
+
+All inputs share one contract (the root element is returned): `el.focusEl` (the focusable element), `el.getValue()`, `el.setValue(v)` (no
+`onChange`), `el.setInvalid(bool)`, `el.setDisabled(bool)`; the bubbling `input` and `change` events fire as usual. Touch targets are
+44 px on the phone (`--tn-input-h`), numbers and dates use the native `<input>` (right keyboard and picker), only the combobox has its
+own popover (overlay layer, so it also works inside a sheet).
+
+```js
+import { field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange } from '/tarn/js/tarn.js';
+
+field({ label: t('job.name'), help: t('job.nameHelp'), required: true }, textField({ value: job.name, placeholder: 'offsite-sync' }));
+field({ label: t('job.timeout') }, numberField({ value: 30, unit: 'min', min: 1, max: 120 }));        // min/max validated on change
+field({ label: t('job.host') }, combobox({ options: hosts.map((x) => ({ value: x.id, label: x.name, hint: x.role })), value: 'nas-a' }));
+field({ label: t('job.hosts') }, combobox({ options, multiple: true, value: [] }));                  // checkmarks, stays open
+field({ label: t('job.period') }, dateRange({ from, to, onChange: ({ from, to }) => … }));            // presets today, 7 d, 30 d, month
+checkbox({ label: t('job.dry'), help: t('job.dryHelp'), checked: true });   toggle({ label: t('job.enabled'), onChange: (on) => … });
+```
+
+- `field()` adds label, help and error text, `aria-describedby`, `aria-invalid` and **validation** (`rules: { required, min, max, minLength,
+  maxLength, pattern, number, validate }`): it runs when a value is committed and re-runs while an error is shown. Texts come from the catalog
+  (`validate.*`), a custom `validate(value)` returns its own text.
+- `select()` is native and for up to about 8 options; more options → `combobox()` (search from 7 options, single or multiple choice, arrow keys,
+  Enter, Esc closes the popover first, lists of more than 100 matches show the first 100). On touch devices the search field is not focused
+  automatically (the keyboard would cover the list).
+- Dates are calendar days (`'YYYY-MM-DD'`, no time zone); `dayStart(day, timeZone)` turns them into a point in time.
+- Pure logic without DOM (`js/inputs-data.js`): `parseNumber` (decimal comma and point), `validateValue`, `filterOptions`, `rangeFromPreset`, `dayStart`.
+
+## Filters
+
+`filterBar({ filters })` filters by data type; the type decides the control in the filter sheet and the chip text:
+
+| `type` | Control | State value | Chip |
+|---|---|---|---|
+| `options` (default) | pills, from 9 values a combobox (`pills: n` changes the threshold) | `string[]` | `Status: Error` |
+| `bool` | segment *All · Yes · No* (`labels: { yes, no }`) | `true` / `false` | `Failed: Yes` |
+| `range` | from/to number fields with `unit` | `{ min?, max? }` | `Duration ≥ 10 min`, `10–20 min` |
+| `time` | presets (`presets: ['1h', '24h', '7d']`, also `6h`, `30d`) plus an own period | `{ preset }` or `{ from?, to? }` (days) | `Last run: last 24 hours` |
+
+```js
+const fb = filterBar({
+  placeholder: t('jobs.search'), value: state, onChange: (s) => { state = s; render(); },
+  filters: [
+    { key: 'status', label: t('col.status'), options: STATUS_OPTIONS },
+    { key: 'failing', label: t('jobs.failing'), type: 'bool' },
+    { key: 'duration', label: t('col.duration'), type: 'range', unit: 'min' },
+    { key: 'last', label: t('col.lastRun'), type: 'time', presets: ['1h', '24h', '7d'] },
+  ],
+});
+rows.filter((row) => matchFilters(row, state.f, (row, key) => ({ failing: row.fails > 0, duration: row.sec / 60, last: row.lastAt })[key] ?? row[key]));
+```
+
+`matchFilters(row, f, get?, { now? })` handles every type (the type follows from the value; a row without a number or time does not match a
+range or time filter); calls without a `type` keep working. The filter sheet has one calm group per filter with its own *Clear*; the controls are
+created once and only synchronised afterwards, so the focus stays where the user is. When a view is redrawn for new data (`app.refresh()`, every poll) the filter bar is
+built again from the board's state (`filterBar({ value: state })`): the shell gives focus and caret back to the field the user was typing in, the text comes from that state.
+
+Long results: `table({ pageSize })` draws the first 20 rows (default; `0` = all) and a *Show more* footer (“20 of 339 rows”) adds the next ones – drawing
+rows, not filtering, is what costs time (1,000 rows filtered and drawn: ≈ 560 ms before, ≈ 35 ms handler at 4× CPU now; tempo case `filter-apply-1000`).
+
+## Forms and actions
+
+```js
+import { form, confirm, actionRun, openSheet, toast } from '/tarn/js/tarn.js';
+
+const f = form({
+  fields: [
+    { name: 'host', type: 'combobox', label: t('dep.host'), required: true, options },
+    { name: 'version', label: t('dep.version'), required: true, rules: { pattern: /^\d+\.\d+\.\d+$/ } },
+    { name: 'dry', type: 'checkbox', label: t('dep.dry'), value: true },
+  ],
+  submitLabel: t('dep.start'),
+  onSubmit: async (v) => {
+    if (!(await confirm({ title: t('dep.confirm', v), danger: !v.dry, typeToConfirm: v.dry ? undefined : v.host }))) return;
+    const run = await api.deploy(v);                      // { errors: { version: '…' } } or { error: '…' } reports a failure
+    box.replaceChildren(actionRun({ source: `/api/runs/${run.id}`, title: …, onCancel: () => api.cancel(run.id) }));
+    toast(t('dep.started'), { tone: 'ok' });
+  },
+});
+```
+
+- **`form()`** validates all fields first (errors on the fields, focus on the first one, “Please fix the marked fields.”), then the submit button
+  shows *Running …*, the fields are locked and a second submit (click, Enter, double tap) is ignored until `onSubmit` has finished. A returned
+  `{ errors, error }` or a thrown error shows up on the fields or in the form; the values stay. In a sheet pass the buttons as footer:
+  `openSheet({ body: f, footer: f.buttons() })` (they are linked to the form, Enter submits).
+- **`confirm({ title, text, danger?, typeToConfirm?, confirmLabel? })`** → `Promise<boolean>`: a centred modal dialog above everything, including open
+  sheets. `danger` puts the focus on *Cancel*; `typeToConfirm` keeps the confirm button off until the text (e.g. the host name) is typed exactly.
+- **`actionRun({ source, title, intervalMs, onCancel, onDone })`**: status badge, elapsed time, progress (a bar with a percentage if `progress` is
+  known, otherwise indeterminate), live log (`log()`, sticks to the bottom unless the user scrolls up) and an optional *Cancel run* button.
+  `source` is a function or a same-origin URL returning `{ status: 'pending'|'running'|'ok'|'bad'|'cancelled', startedAt?, endedAt?, progress?,
+  log?: [{ t, level, text }], message? }`; it is polled every 2 s until the status is final or the element leaves the page (no WebSocket needed);
+  a failing poll shows a note and retries, after 8 failures it offers *Try again*.
+- Rule for boards: **every action gives feedback** (`toast` or `actionRun`), **every dangerous action asks first** (`confirm`). The sample board’s
+  *Deploy* view shows the whole path with a fixture (`example/deploy-steps.json`; nothing is deployed).
+
+## Identity, icons, installing
+
+- **Every board has its own favicon (SVG) and a descriptive title** (`View · Board`, the shell sets it). Lint (`page`: every HTML
+  page has `<link rel="icon">` and `<title>`) and verify (`identity`) check it, a self-test mutant guards the rule.
+- **`node tools/brand.mjs --name "My board" --icon server --accent purple --out <folder>`** creates `favicon.svg` (rounded square
+  in card grey with a hairline and a single-colour Lucide symbol in the accent colour, light/dark via `prefers-color-scheme`),
+  `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png` (180 px) and `manifest.webmanifest`. A headless
+  Chrome renders the PNGs via CDP (no image library; on hosts without their own Chrome use `--attach`). With
+  `--source <svg> --bg <colour>` use an existing drawing instead of a symbol (that is how `gallery/` was made from
+  `icons/logo.svg`). Without any graphic file: `favicon({ icon, color })` or `createApp({ icon: { icon, color } })`.
+- **Icons**: Lucide (ISC) in a fixed version, only used symbols in `icons/`, sources and sha256 in `icons/SOURCES.md`, runtime
+  file `js/icons-data.js` (generated). New symbol: `node tools/icons.mjs add <lucide-name> [--as <kit-name>]`;
+  `node tools/icons.mjs check` and `tests/icons.test.mjs` verify that generated files and sources match.
+- **Installing**: “Install as app” sits at the bottom of the sidebar and appears when the browser offers
+  `beforeinstallprompt`, or – on iPhone, iPad and Safari on the Mac, which have no prompt – as the Add-to-Home-Screen hint (see “Notifications”); after installing (`appinstalled`) and in standalone mode (also iOS `navigator.standalone`) it is gone.
+  In the board's `<head>`: `<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">` (the pages sit
+  behind a login proxy, the manifest needs the cookies). **Chrome offers installation without a service worker**:
+  `Page.getInstallabilityErrors` returns an empty list for gallery and sample board and the real `beforeinstallprompt` arrived
+  without a service worker. Hence the kit has none by default (and no offline cache); the only worker it offers is `js/push-sw.js`, for notifications, and a board opts in.
+
+## Notifications (web push, browser half)
+
+The kit brings the browser half of notifications as an optional shell module; **sending stays with each board's backend**.
+
+```js
+createApp({ notifications: { api: '/api/push' } })        // sidebar entry "Notifications" → settings sheet
+openNotifications({ api: '/api/push' })                   // the same sheet without the shell (any page)
+const n = notifications({ api: '/api/push', worker: '/sw.js', scope: '/', query: { data: token } })   // controller + n.open()
+```
+
+Options: `api` (base URL of the server interface, required), `worker` (URL of the service worker file, default `sw.js` relative to the page),
+`scope` (default: the folder of the worker), `query` (parameters added to every server call, e.g. a token), `env` (the browser; only for tests and
+demos, see below). The sheet has one text for every state: *not supported by this browser* · *no https* · *iPhone/iPad, not installed yet* (Share →
+Add to Home Screen; iOS only offers notifications to an installed app) · *server does not push* · *server not reachable* (with *Check again*) ·
+*service worker did not start* · *blocked* (how to allow it again in the browser or system settings) · *off / not asked yet* (the button that asks,
+**the browser prompt only ever follows a tap**) · *on* (send a test notification, turn off). All texts in en, de, es, fr.
+
+**Server interface** (JSON, same origin, the page's cookies; `<api>` is the base URL):
+
+| Call | Body | Answer |
+|---|---|---|
+| `GET <api>/key` | – | `{ "enabled": true, "publicKey": "<VAPID public key, base64url>" }`; `enabled: false` = the server does not push |
+| `POST <api>/status` | `{ "endpoint": "…" }` | `{ "known": true \| false }` – does the server still know this subscription? If not, the page subscribes again quietly |
+| `POST <api>/subscribe` | `{ "subscription": <PushSubscription.toJSON()>, "label": "Android, Chrome" }` | any 2xx |
+| `POST <api>/unsubscribe` | `{ "endpoint": "…" }` | any 2xx (the page ignores a failure) |
+| `POST <api>/test` | `{ "endpoint": "…" }` | `{ "ok": true }` or `{ "ok": false, "error": "…", "gone": true \| false }` – with any status; `gone: true` makes the page drop the subscription |
+
+An error answer is a non-2xx status, optionally `{ "error": "text" }` (shown to the user). Deliberate difference to a "GET status": the status call is a
+**POST** because the endpoint URL is a capability (anyone who has it can push to the device) and does not belong into URLs and access logs. This is exactly
+what the parcel board already serves (`/api/push/key|status|subscribe|unsubscribe|test`), so it needs no server change; the same board's extra field
+`events` in the key answer is ignored by the kit (per-event settings are the board's own business).
+
+**Service worker** `js/push-sw.js` (push only: no offline cache, no `fetch` handler):
+- `push` shows title, text, icon and `tag` from the message `{ "title", "body", "tag"?, "url"?, "icon"?, "renotify"?, "ts"? }` (a new message with the same `tag`
+  replaces the old one and alerts again unless `renotify` is `false`; no title → the host name; relative `url`/`icon` resolve against the scope);
+- `notificationclick` focuses an open window of the board and navigates it to `url`, else opens `url`.
+- **The board serves this file from its own root**, not from `/tarn/`: a worker only controls the folder it is served from, and `Service-Worker-Allowed`
+  is easy to forget. So: `GET /sw.js` answers with the bytes of `vendor/tarn/js/push-sw.js` (`Content-Type: text/javascript`, `Cache-Control: no-cache`); the
+  scope is then `/`. A board under `/board/` serves it as `/board/sw.js` (scope `/board/`) and passes `worker: '/board/sw.js'`; a board that must
+  serve it from a deeper path adds the header `Service-Worker-Allowed: /` and passes `scope`. The browser compares the file byte for byte on every
+  visit, so a kit update reaches the devices by itself. The icon of a notification is `icon-192.png` next to the worker unless the message names another.
+
+**What a board has to do**, in short: (1) implement the five calls (VAPID keys, a table of subscriptions, a sender such as `pywebpush`/`web-push`),
+(2) serve `push-sw.js` from its root, (3) `createApp({ notifications: { api } })`, (4) send messages in the format above. The same applies when moving the parcel board to
+Tarn: keep `api/push/*` as it is, serve `vendor/tarn/js/push-sw.js` as `/sw.js` (the board already sends `Service-Worker-Allowed: /` and the same
+message format), pass its token as `query: { data }`, drop its own `meldungen.js` and sheet.
+
+Without the shell: `openNotifications({ api })` needs only the barrel (or `notifications.js`, its data file and the core). `createNotifications({ api, env })` is the logic
+without any DOM; `env` replaces every browser API (`serviceWorker`, `PushManager`, `Notification`, permission, `fetch`, user agent, standalone), which is
+how the tests and the gallery run every state: `gallery/mock-push.js` is a mocked browser plus an in-memory backend.
+
+**Install hint:** where the browser has no install prompt – iPhone and iPad (any browser), Safari on the Mac – the “Install as app” entry stays and opens a
+sheet with the steps (Share → Add to Home Screen / File → Add to Dock) instead of being absent; in an installed app it is gone.
+
+**Phone toolbar:** below 600 px the toolbar keeps only the burger, the view title, the freshness text and **one settings entry** (theme, density, language in one
+sheet); the separate buttons stay on larger screens, the reload button gives way to the freshness text (itself a reload button), and the freshness text gives
+way before the view title does. Verify rule `toolbar-title` (360–599 px) fails when a toolbar crowds the view title out; mutant `toolbar-crowded` plants the old layout.
+
+Checks: the overlay scenarios `notifications` (every state through the gallery's mock, the flow tap → prompt once → on → test → off, nothing asked before the tap),
+`install-hint` (iPhone user agent, no prompt) and `settings-phone`; `tests/notifications.test.mjs` (state machine, server calls, platform detection, the service worker with a
+mocked scope); mutants `notifications-ask-on-open`, `install-hint-absent`, `toolbar-crowded`.
+
+## Multiple boards (board icon and switcher)
+
+Whoever runs several boards gives each one an icon in the sidebar header and lets the title become a switcher:
+
+```js
+createApp({
+  title: 'Maintenance',
+  icon: './favicon.svg',                       // URL (the file from tools/brand.mjs) or { icon: 'server', color: 'blue' }
+  boardId: 'maintenance',                      // current board (accent ring, aria-current)
+  boards: '/boards.json',                      // or directly [{ id, name, href, icon?, category? }, …]
+  categories: [{ id: 'operations', label: 'Operations' }, { id: 'home', label: 'Home' }],   // optional, order
+});
+```
+
+- **When it makes sense:** from two boards in the same host group. Without `boards` (or with a single entry) the title stays
+  static, with `icon` alone only the icon precedes it. Entries may also point to pages without tarn (plain link).
+- **`icon`**: a URL shows the file (the `<link rel="icon">` stays in the HTML), an object `{ icon, color }` also sets the favicon
+  (`favicon()`): one way for tab and header. Boards without an icon in the list get a letter tile in a fixed colour from the name.
+- **Data format:** `boards` is an array or `{ boards, categories }`. A string is a JSON file of the **same origin**, loaded on first
+  open and cached; errors show a hint in the switcher instead of crashing. **One shared JSON file per host group** (every board
+  includes the same URL) keeps the list in one place. Entries without `id`, `name` or `href`, with a duplicate `id` or an unsafe
+  address (only http, https, relative) are dropped (hint in the console); entries with an unknown or missing category are listed
+  under “Other”; without `categories` a flat grid.
+- **Use:** tiles are real links (middle click and Ctrl-click open a new tab). From 700 px a popover under the title (overlay
+  layer, up to 70 vh, scrolls inside), below a bottom sheet. Enter/Space opens, arrow keys and Home/End move through the grid,
+  Esc closes and returns focus to the title, a click outside closes. Tile names never break letter by letter: one word gets an
+  ellipsis plus hint, several words wrap at word boundaries up to two lines.
+- **Checks:** `tests/boards.test.mjs` (data), overlay scenarios `board-switcher` and `detail-board-switcher`, tempo case
+  `switcher-open`, mutant `switcher-without-current`.
+
+## Licence
+
+Tarn is released under the [MIT licence](LICENSE), copyright (c) 2026 R0gner. The bundled Lucide icons (ISC), Inter and IBM Plex
+Mono (SIL Open Font License 1.1) keep their own licences; see [NOTICE](NOTICE) and the licence texts in `fonts/` and `icons/`.

@@ -1,5 +1,5 @@
 # gallery-comfortable #/controls · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x1344
+div.tn-app @0,0 1424x1484
   aside.tn-sidebar @0,0 280x900
     div.tn-sidebar-head @12,0 240x56
       div.tn-brand @24,16 136x24
@@ -58,7 +58,7 @@ div.tn-app @0,0 1424x1344
         svg.tn-icon @24,920 20x20
         span.tn-ellipsis "Shell and boards" @56,916 136x24
   div.tn-scrim @0,0 1424x900
-  div.tn-main @280,0 1144x1344
+  div.tn-main @280,0 1144x1484
     header.tn-toolbar @280,0 1144x56
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @292,4 48x48
         svg.tn-icon @308,16 20x20
@@ -73,12 +73,12 @@ div.tn-app @0,0 1424x1344
         svg.tn-icon @1320,16 20x20
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1360,4 48x48
         svg.tn-icon @1376,16 20x20
-    main.tn-content @280,56 1144x1288
-      section.tn-card @300,148 544x520
+    main.tn-content @280,56 1144x1428
+      section.tn-card @300,148 544x656
         header.tn-card-head @300,152 540x48
           div.tn-card-heading @316,164 508x24
             h3.tn-card-title "segmented()" @316,164 508x24
-        div.tn-card-body @300,200 540x468
+        div.tn-card-body @300,200 540x604
           div.tn-seg [radiogroup] "Time range" @316,216 244x60
             button.tn-seg-btn [radio] {checked=true} @320,220 64x48
             button.tn-seg-btn [radio] {checked=false} @388,220 80x48
@@ -92,6 +92,12 @@ div.tn-app @0,0 1424x1344
               svg.tn-icon @336,468 20x20
             button.tn-seg-btn [radio] {checked=false} "Tiles" @376,452 52x48
               svg.tn-icon @392,468 20x20
+          div.tn-seg.tn-seg-sm [radiogroup] "Kind" @316,548 268x60
+            button.tn-seg-btn [radio] {checked=true} @320,552 60x48
+            button.tn-seg-btn [radio] {checked=false} @380,552 108x48
+              span.tn-badge.tn-badge-bad.tn-badge-count "2" @452,564 24x24
+            button.tn-seg-btn [radio] {checked=false} @492,552 92x48
+              span.tn-badge.tn-badge-warn.tn-badge-count "1" @544,564 24x24
       section.tn-card @864,148 544x400
         header.tn-card-head @864,152 540x48
           div.tn-card-heading @880,164 508x24
@@ -103,78 +109,78 @@ div.tn-app @0,0 1424x1344
             svg.tn-icon @980,228 20x20
           span.tn-ellipsis "offsite-sync-archive-nas-b-daily-04-15" @1128,228 140x24
           span.tn-ellipsis "Short" @880,304 44x24
-      section.tn-card @300,692 1104x232
-        header.tn-card-head @300,692 1104x48
-          div.tn-card-heading @316,704 1072x24
-            h3.tn-card-title "tabs()" @316,704 1072x24
-        div.tn-card-body @300,744 1104x180
-          div.tn-tabset @316,760 1072x88
-            div.tn-tabs [tablist] @316,760 1072x48
-              button.tn-tab [tab] {selected=true} @316,760 76x48
-                span.tn-tab-count "7" @372,772 8x20
-              button.tn-tab [tab] {selected=false} @400,760 68x48
-                span.tn-tab-count "6" @448,772 8x20
-              button.tn-tab [tab] {selected=false} @472,760 84x48
-                span.tn-tab-count.tn-t-bad "3" @536,772 8x20
-              button.tn-tab [tab] {selected=false} @564,760 88x48
-                span.tn-tab-count "0" @632,772 8x20
-            div.tn-tabpanel [tabpanel] @316,824 1072x24
-              div.tn-heat.is-lg [img] "30 runs, 3 failed" @316,824 1072x24
-                span.tn-heat-cell.tn-s-ok @316,824 16x24
-                span.tn-heat-cell.tn-s-ok @336,824 16x24
-                span.tn-heat-cell.tn-s-ok @356,824 16x24
-                span.tn-heat-cell.tn-s-ok @376,824 16x24
-                span.tn-heat-cell.tn-s-bad @396,824 16x24
-                span.tn-heat-cell.tn-s-ok @416,824 16x24
-                span.tn-heat-cell.tn-s-ok @436,824 16x24
-                span.tn-heat-cell.tn-s-ok @456,824 16x24
-                span.tn-heat-cell.tn-s-ok @476,824 16x24
-                span.tn-heat-cell.tn-s-ok @496,824 16x24
-                span.tn-heat-cell.tn-s-ok @516,824 16x24
-                span.tn-heat-cell.tn-s-ok @536,824 16x24
-                span.tn-heat-cell.tn-s-ok @556,824 16x24
-                span.tn-heat-cell.tn-s-ok @576,824 16x24
-                span.tn-heat-cell.tn-s-ok @596,824 16x24
-                span.tn-heat-cell.tn-s-warn @616,824 16x24
-                span.tn-heat-cell.tn-s-ok @636,824 16x24
-                span.tn-heat-cell.tn-s-ok @656,824 16x24
-                span.tn-heat-cell.tn-s-ok @676,824 16x24
-                span.tn-heat-cell.tn-s-ok @696,824 16x24
-                span.tn-heat-cell.tn-s-bad @716,824 16x24
-                span.tn-heat-cell.tn-s-ok @736,824 16x24
-                span.tn-heat-cell.tn-s-ok @756,824 16x24
-                span.tn-heat-cell.tn-s-ok @776,824 16x24
-                span.tn-heat-cell.tn-s-ok @796,824 16x24
-                span.tn-heat-cell.tn-s-ok @816,824 16x24
-                span.tn-heat-cell.tn-s-ok @836,824 16x24
-                span.tn-heat-cell.tn-s-bad @856,824 16x24
-                span.tn-heat-cell.tn-s-ok @876,824 16x24
-                span.tn-heat-cell.tn-s-ok @896,824 16x24
-      section.tn-card @300,948 1104x356
-        header.tn-card-head @300,952 1104x48
-          div.tn-card-heading @316,964 1072x24
-            h3.tn-card-title "progress()" @316,964 1072x24
-        div.tn-card-body @300,1000 1104x304
-          div.tn-progress-wrap @316,1016 1072x36
-            div.tn-progress-head @316,1016 1072x20
-              span.tn-ellipsis "Offsite upload" @316,1016 100x20
-              span.tn-num "42%" @1352,1016 36x20
-            div.tn-progress [progressbar] "Offsite upload" @316,1044 1072x8
-              span.tn-progress-fill @316,1044 448x8
-          div.tn-progress-wrap @316,1068 1072x36
-            div.tn-progress-head @316,1068 1072x20
-              span.tn-ellipsis "Error rate" @316,1068 68x20
-              span.tn-num "93%" @1352,1068 36x20
-            div.tn-progress.tn-tone-bad [progressbar] "Error rate" @316,1096 1072x8
-              span.tn-progress-fill @316,1096 996x8
-          div.tn-progress-wrap @316,1120 1072x36
-            div.tn-progress-head @316,1120 1072x20
-              span.tn-ellipsis "Indexing …" @316,1120 76x20
-            div.tn-progress.is-indeterminate [progressbar] "Indexing …" @316,1148 1072x8
-              span.tn-progress-fill @-752,1148 320x8
-          div.tn-progress-wrap @316,1172 1072x36
-            div.tn-progress-head @316,1172 1072x20
-              span.tn-ellipsis "Empty" @316,1172 44x20
-              span.tn-num "0%" @1364,1172 24x20
-            div.tn-progress [progressbar] "Empty" @316,1200 1072x8
-              span.tn-progress-fill @316,1200 0x8
+      section.tn-card @300,832 1104x232
+        header.tn-card-head @300,832 1104x48
+          div.tn-card-heading @316,844 1072x24
+            h3.tn-card-title "tabs()" @316,844 1072x24
+        div.tn-card-body @300,880 1104x180
+          div.tn-tabset @316,896 1072x88
+            div.tn-tabs [tablist] @316,896 1072x48
+              button.tn-tab [tab] {selected=true} @316,896 76x48
+                span.tn-tab-count "7" @372,912 8x20
+              button.tn-tab [tab] {selected=false} @400,896 68x48
+                span.tn-tab-count "6" @448,912 8x20
+              button.tn-tab [tab] {selected=false} @472,896 84x48
+                span.tn-tab-count.tn-t-bad "3" @536,912 8x20
+              button.tn-tab [tab] {selected=false} @564,896 88x48
+                span.tn-tab-count "0" @632,912 8x20
+            div.tn-tabpanel [tabpanel] @316,960 1072x24
+              div.tn-heat.is-lg [img] "30 runs, 3 failed" @316,960 1072x24
+                span.tn-heat-cell.tn-s-ok @316,960 16x24
+                span.tn-heat-cell.tn-s-ok @336,960 16x24
+                span.tn-heat-cell.tn-s-ok @356,960 16x24
+                span.tn-heat-cell.tn-s-ok @376,960 16x24
+                span.tn-heat-cell.tn-s-bad @396,960 16x24
+                span.tn-heat-cell.tn-s-ok @416,960 16x24
+                span.tn-heat-cell.tn-s-ok @436,960 16x24
+                span.tn-heat-cell.tn-s-ok @456,960 16x24
+                span.tn-heat-cell.tn-s-ok @476,960 16x24
+                span.tn-heat-cell.tn-s-ok @496,960 16x24
+                span.tn-heat-cell.tn-s-ok @516,960 16x24
+                span.tn-heat-cell.tn-s-ok @536,960 16x24
+                span.tn-heat-cell.tn-s-ok @556,960 16x24
+                span.tn-heat-cell.tn-s-ok @576,960 16x24
+                span.tn-heat-cell.tn-s-ok @596,960 16x24
+                span.tn-heat-cell.tn-s-warn @616,960 16x24
+                span.tn-heat-cell.tn-s-ok @636,960 16x24
+                span.tn-heat-cell.tn-s-ok @656,960 16x24
+                span.tn-heat-cell.tn-s-ok @676,960 16x24
+                span.tn-heat-cell.tn-s-ok @696,960 16x24
+                span.tn-heat-cell.tn-s-bad @716,960 16x24
+                span.tn-heat-cell.tn-s-ok @736,960 16x24
+                span.tn-heat-cell.tn-s-ok @756,960 16x24
+                span.tn-heat-cell.tn-s-ok @776,960 16x24
+                span.tn-heat-cell.tn-s-ok @796,960 16x24
+                span.tn-heat-cell.tn-s-ok @816,960 16x24
+                span.tn-heat-cell.tn-s-ok @836,960 16x24
+                span.tn-heat-cell.tn-s-bad @856,960 16x24
+                span.tn-heat-cell.tn-s-ok @876,960 16x24
+                span.tn-heat-cell.tn-s-ok @896,960 16x24
+      section.tn-card @300,1088 1104x356
+        header.tn-card-head @300,1088 1104x48
+          div.tn-card-heading @316,1100 1072x24
+            h3.tn-card-title "progress()" @316,1100 1072x24
+        div.tn-card-body @300,1136 1104x304
+          div.tn-progress-wrap @316,1152 1072x36
+            div.tn-progress-head @316,1152 1072x20
+              span.tn-ellipsis "Offsite upload" @316,1152 100x20
+              span.tn-num "42%" @1352,1152 36x20
+            div.tn-progress [progressbar] "Offsite upload" @316,1184 1072x8
+              span.tn-progress-fill @316,1184 448x8
+          div.tn-progress-wrap @316,1204 1072x36
+            div.tn-progress-head @316,1204 1072x20
+              span.tn-ellipsis "Error rate" @316,1204 68x20
+              span.tn-num "93%" @1352,1204 36x20
+            div.tn-progress.tn-tone-bad [progressbar] "Error rate" @316,1236 1072x8
+              span.tn-progress-fill @316,1236 996x8
+          div.tn-progress-wrap @316,1256 1072x36
+            div.tn-progress-head @316,1256 1072x20
+              span.tn-ellipsis "Indexing …" @316,1256 76x20
+            div.tn-progress.is-indeterminate [progressbar] "Indexing …" @316,1288 1072x8
+              span.tn-progress-fill @-752,1288 320x8
+          div.tn-progress-wrap @316,1308 1072x36
+            div.tn-progress-head @316,1308 1072x20
+              span.tn-ellipsis "Empty" @316,1308 44x20
+              span.tn-num "0%" @1364,1308 24x20
+            div.tn-progress [progressbar] "Empty" @316,1340 1072x8
+              span.tn-progress-fill @316,1340 0x8

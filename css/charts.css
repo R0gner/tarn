@@ -176,6 +176,7 @@ button.tn-tl-name:is(:active, .is-down) { background: color-mix(in oklch, var(--
 .tn-tl-bar.tn-s-bad { background: var(--tn-bad); }
 .tn-tl-bar.tn-s-warn { background: var(--tn-warn); }
 .tn-tl-bar.is-hot { background: var(--tn-bad); box-shadow: 0 0 0 var(--tn-ring) color-mix(in oklch, var(--tn-bad) 35%, transparent); }
+.tn-tl.is-conflict-warn .tn-tl-bar.is-hot { background: var(--tn-warn); box-shadow: 0 0 0 var(--tn-ring) color-mix(in oklch, var(--tn-warn) 35%, transparent); }
 button.tn-tl-bar { cursor: pointer; }
 button.tn-tl-bar::before { content: ""; position: absolute; inset: calc(-1 * var(--tn-sp-9)) calc(-1 * var(--tn-sp-3)); } /* larger hit area */
 .tn-tl-bar, .tn-usage-seg { touch-action: pan-y; }
@@ -184,6 +185,7 @@ button.tn-tl-bar:hover { filter: brightness(1.15); }
   height: var(--tn-s2); margin-top: calc(-1 * var(--tn-s1)); z-index: 1; opacity: .4; background: var(--tn-graphite);
 }
 .tn-tl-row.is-hot .tn-tl-name { box-shadow: inset var(--tn-ring) 0 0 var(--tn-bad); }
+.tn-tl.is-conflict-warn .tn-tl-row.is-hot .tn-tl-name { box-shadow: inset var(--tn-ring) 0 0 var(--tn-warn); }
 @media (pointer: coarse) { .tn-tl-row { min-height: var(--tn-sz-40); } .tn-tl-name { min-height: var(--tn-hit); } }
 
 /* narrow container (< NARROW_BELOW, js/charts/timeline.js): name and sub-line small above the track, track full width.
@@ -202,4 +204,5 @@ button.tn-tl-bar:hover { filter: brightness(1.15); }
 .tn-tl.is-narrow .tn-tl-row:nth-child(odd of .tn-tl-row:not(.tn-tl-group, .tn-tl-head)) .tn-tl-track { background: none; }
 .tn-tl.is-narrow .tn-tl-bg { left: 0; }
 .tn-tl.is-narrow .tn-tl-row.is-hot { box-shadow: inset var(--tn-ring) 0 0 var(--tn-bad); }
+.tn-tl.is-narrow.is-conflict-warn .tn-tl-row.is-hot { box-shadow: inset var(--tn-ring) 0 0 var(--tn-warn); }
 .tn-tl.is-narrow .tn-tl-row.is-hot .tn-tl-name { box-shadow: none; }

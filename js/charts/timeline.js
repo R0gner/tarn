@@ -13,7 +13,7 @@ import { t } from '../i18n.js';
 /** @typedef {{ start: number, end?: number, label?: string }} TimelineItem end missing = a point in time. */
 /** @typedef {{ id: string, label: string, sub?: string, group?: string, heavy?: boolean, status?: string, items?: TimelineItem[], band?: number[][] }} TimelineRow */
 /** @typedef {{ start: number, end: number, label?: string, tone?: 'info' | 'warn' }} TimelineWindow Maintenance window drawn in the background. */
-/** @typedef {{ start: number, end: number, now?: number, rows: TimelineRow[], groups?: Array<{ id?: string, label: string | null }>, windows?: TimelineWindow[], conflicts?: 'auto' | Conflict[] | null, title?: string, minPxPerHour?: number, nameWidth?: number, minBar?: number, onRow?: (row: TimelineRow) => void, onItem?: (row: TimelineRow, item: TimelineItem) => void }} TimelineOptions start, end, now in epoch milliseconds. */
+/** @typedef {{ start: number, end: number, now?: number, rows: TimelineRow[], groups?: Array<{ id?: string, label: string | null }>, windows?: TimelineWindow[], conflicts?: 'auto' | Conflict[] | null, conflictTone?: 'bad' | 'warn', title?: string, minPxPerHour?: number, nameWidth?: number, minBar?: number, onRow?: (row: TimelineRow) => void, onItem?: (row: TimelineRow, item: TimelineItem) => void }} TimelineOptions start, end, now in epoch milliseconds. */
 /** @typedef {HTMLElement & { conflicts: Conflict[] }} TimelineElement */
 
 /**
@@ -21,14 +21,14 @@ import { t } from '../i18n.js';
  *   start, end (ms), now?,
  *   rows: [{ id, label, sub?, group?, heavy?, status?, items: [{ start, end?, label? }], band?: [[start, end]…] }],
  *   groups?: [{ id, label }], windows?: [{ start, end, label, tone?: 'info'|'warn' }],
- *   conflicts = 'auto' | [{ a, b, start, end }], minPxPerHour?, nameWidth?,
+ *   conflicts = 'auto' | [{ a, b, start, end }], conflictTone = 'bad' | 'warn', minPxPerHour?, nameWidth?,
  *   onRow?(row), onItem?(row, item)
  * }) → element
  * The time axis adapts to the container width (no horizontal scrolling; zoom follows in round 4).
  * From NARROW_BELOW px container width a narrow name column sits on the left (at most 180 px or a quarter, with
  * ellipsis and tooltip); below that, name and subline sit small above the track, and the track uses the full width.
  * The number of axis marks follows the track width. With minPxPerHour (opt-in) the track scrolls horizontally again.
- * Conflicts: row and affected bars red. Tapping a row (onRow) opens the detail with the individual runs.
+ * Conflicts: row and affected bars red; conflictTone 'warn' paints them in the warning colour (an overlap that is a risk, not a failure). Tapping a row (onRow) opens the detail with the individual runs.
  */
 export const NARROW_BELOW = 560; // container width (px) below which the name sits above the track
 /**
@@ -45,6 +45,7 @@ export function timeline(o) {
   const hours = (b - a) / 3600e3;
   const host = /** @type {TimelineElement} */ (/** @type {HTMLElement} */ (h('div', { class: 'tn-tl' })));
   if (o.nameWidth) host.style.setProperty('--tn-tl-name', `${o.nameWidth}px`);
+  if (o.conflictTone === 'warn') host.classList.add('is-conflict-warn');
 
   const build = (avail) => {
     const narrow = avail < NARROW_BELOW;
