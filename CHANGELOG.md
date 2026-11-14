@@ -3,6 +3,14 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.5.3
+
+### Added
+- The visual judge is back as an optional, experimental tool (`tools/judge.mjs`, `tools/lib/judge*.mjs`, `tests/judge.test.mjs`, README section
+  "Visual judge"), restored unchanged from 0.5.1. It is never run by `verify`, `lint` or CI, needs its own API key from the environment
+  (`TYPESAFEAI_API_KEY`, one provider so far: TypeSafe Jev) and is never a gate. Last calibration: 12 of 25 visible faults and 23 of 167 clean
+  pictures marked. Further decision models may be added later.
+
 ## 0.5.2
 
 ### Added

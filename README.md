@@ -89,6 +89,7 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `node tools/lint.mjs` | static kit rules (tokens, no `innerHTML`, texts via `t()`) |
 | `node tools/tempo.mjs` | response times against budgets |
 | `node tools/shoot.mjs` | screenshots of a page in a chosen size and colour scheme |
+| `node tools/judge.mjs` | optional second layer: a decision model looks at screenshots and marks the ones that look broken (needs an API key, costs cents) |
 | `node tools/brand.mjs`, `node tools/icons.mjs` | board identity (favicon, icons, manifest) and Lucide icons |
 
 ## Folders
@@ -120,6 +121,7 @@ with an `index.html`, an `app.js` that imports `/tarn/js/tarn.js`, a data source
 | `tools/tempo.mjs`, `tools/tempo/` | response times (Event Timing, long animation frames, visibility) against budgets |
 | `tools/brand.mjs`, `tools/icons.mjs` | board identity (favicon, PNG icons, manifest) · Lucide icons |
 | `tools/vendor.mjs`, `tools/lib/kit-files.mjs` | copies a fixed kit version (`--profile core\|full`) into a board (`vendor/tarn/`), `--check` reports local changes, the version and the profile · the core/shell file lists |
+| `tools/judge.mjs`, `tools/lib/judge*.mjs` | optional visual judge: a decision model marks pictures that look broken (not part of verify) |
 | `tools/serve.py`, `tools/shoot.mjs`, `tools/lib/` | local server with board CSP · screenshots via CDP · shared CDP client and test server |
 | `tests/` | `node --test tests/*.test.mjs`; `tests/snapshots/` holds the expected DOM outlines for verify |
 
@@ -158,7 +160,7 @@ a block only this project needs lives in the project's own files.
 | how | `npm i github:R0gner/tarn#v<version>` | `node tools/vendor.mjs --to <project>/vendor/tarn [--profile core]` |
 | import | `import { button } from '@r0gner/tarn/core'` · `import { createApp } from '@r0gner/tarn'` | `import … from '/tarn/js/core.js'` · `'/tarn/js/tarn.js'` |
 | styles | `@r0gner/tarn/css/tokens.css`, `fonts.css`, `base.css`, `core.css` (+ `components.css`, `charts.css`) | `<link href="/tarn/css/…">` |
-| pin | the tag in `package.json` (`v0.5.2`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
+| pin | the tag in `package.json` (`v0.5.3`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
 | update | change the tag, `npm update @r0gner/tarn` | run `vendor.mjs` again |
 
 ### (a) git dependency
@@ -169,7 +171,7 @@ those folders; `files` limits the installed package to the runtime files plus `L
 `tools/vendor.mjs` copies, kept in `tools/lib/kit-files.mjs`; a test keeps `package.json` equal to it, `node tools/package.mjs` rewrites it).
 
 ```sh
-npm i github:R0gner/tarn#v0.5.2        # a tag, never a branch: the version stays fixed
+npm i github:R0gner/tarn#v0.5.3        # a tag, never a branch: the version stays fixed
 ```
 
 ```js
@@ -450,6 +452,74 @@ the variable (`chromeEnv()` in `tools/lib/cdp.mjs`, so `--direct` and `verify --
 - Reports console errors (including CSP violations, 404, exceptions), Chrome error pages and page overflow. Exit 1 on problems.
   `--out` is required and must be outside the repo. `shoot` loads pages like verify does (waits for the requested document to be complete); the selftest checks the
   Node-fetch route against the foreign board copy.
+
+## Visual judge (optional second layer)
+
+**Optional and experimental.** The judge is not part of the kit's checks: `verify`, `lint` and CI never run it and never need a key. It needs its own API key, read from the environment
+(`TYPESAFEAI_API_KEY`); today there is one provider, TypeSafe Jev. On the calibration set below it marked 12 of the 25 pictures with a visible fault and 23 of the 167 clean pictures, so treat a marked
+picture as a reason to look, not as a finding, and do not rely on it for a gate. Further decision models may be added later.
+
+`node tools/judge.mjs` takes a picture of every page × view × size × theme (the capture path of verify), asks a decision model (TypeSafe Jev, `jev-latest`)
+five yes/no questions about each picture – one per fault type: **overflow** (sticks out of its box or the screen), **overlap**, **clipped** (text cut without an
+ellipsis, a word chopped), **misaligned** (a row or grid out of line, ragged tiles), **malformed** (a control that looks broken: a toggle knob outside its track, a squeezed segmented
+control) – and prints at most ten lines: the pictures marked for a look, the calls made, the calls the cache saved and the cost of the run. A report file (`judge-report.json`
+in `--out`) lists every marked picture with its path. An agent or a person looks at those pictures only.
+
+```bash
+export TYPESAFEAI_API_KEY=…                          # the key is read from the environment, sent in one header, never printed or stored
+node tools/judge.mjs --pages gallery --views cards,inputs --sizes phone,desktop   # a few pictures
+node tools/judge.mjs --dry-run                       # capture and look up the cache, ask nothing: how many calls would a real run make?
+node tools/judge.mjs --max-usd 0.05                  # stop before the run would cost more (default 0.10)
+node tools/judge.mjs --mock recorded.json            # answer from a recorded JSON, no key and no network
+```
+
+**When to run it.** After a larger UI change, when the deterministic checks are green: `verify` finds what it can measure (overflow, overlap, truncation,
+touch targets, alignment), the judge looks at what a person would see. Not in `verify`, not in `--ci`, not in the workflow: `verify` and CI never need the key
+and never call the API. The judge is never a gate: it exits 0 with marked pictures, and a marked picture is a reason to look, not a finding.
+
+**What leaves the machine.** Only pictures of pages with invented data: the choices are the pages of `tools/verify/targets.mjs` (gallery, sample board, starter). The
+tool takes no URL. Do not point a board with real data at it.
+
+**What it costs.** The price is per input token ($0.042 per million, output free; list price of Jev 1.14, `PRICE_PER_MTOK` in `tools/lib/judge.mjs`). One picture is one call with all five questions and about 3,300
+tokens, so **≈ $0.00014 per picture**; 100 pictures are about 1.4 cents. The cost of every call is computed from the `usage.input_tokens` the API reports; `judge-ledger.jsonl`
+(next to the cache) books every call, a failed one with cost 0. A run estimates the next call from the tokens seen so far and stops before it would pass `--max-usd`
+(`--max-total-usd` does the same for everything ever booked in the ledger).
+
+**Never pay twice.** The cache key is the sha256 of the PNG bytes plus the question-set version (`QUESTION_SET_VERSION`; it changes whenever a question or the way a picture is
+prepared changes). Verdicts are kept in `$XDG_CACHE_HOME/tarn/judge-verdicts.json` (`--cache FILE` overrides; the ledger lies next to it). A second run over unchanged pictures makes zero
+calls, and the output says so. For the bytes to stay the same, the capture uses the fixed clock of the snapshots, switches animations, transitions and the caret off and takes the screenshot again
+until two in a row are identical; about 1 picture in 70 still differs from run to run (the foundations view) and costs one more call.
+
+**Calibration.** The labelled test set is free: the CSS and script mutants of `verify --selftest` are known faults, the same states without the mutant are clean.
+`node tools/judge.mjs --calibrate --with-clean --pages gallery,board,starter,gallery-comfortable,starter-comfortable --sizes phone,desktop,phone-s --themes dark,light`
+photographs 167 clean pictures (all views of those pages) and 26 pictures of 13 mutants, asks, and prints the table below. The threshold per fault type is the lowest
+score (steps of 0.05, from 0.30) at which at most 5 % of the clean pictures are marked for that type; they are `THRESHOLDS` in `tools/lib/judge.mjs`. They were measured on the same pictures they
+are judged on, so the numbers are optimistic. (Calibration 13.11.2026, `jev-latest` = `jev-1.14.0`, 202 pictures, 17 + 181 paid calls for the final question set, about 3.5 cents.)
+
+| Fault type | Threshold | Clean pictures marked | Faults of this type found by their own question |
+|---|---|---|---|
+| overflow | 0.85 | 4 of 167 | 3 of 5 |
+| overlap | 0.50 | 8 of 167 | 2 of 2 |
+| clipped | 0.65 | 8 of 167 | 3 of 7 |
+| misaligned | 0.65 | 7 of 167 | 2 of 3 |
+| malformed | 0.65 | 7 of 167 | 1 of 8 |
+| any question | – | **23 of 167 (14 %)** | **12 of 25 pictures with a visible fault (48 %)** |
+
+Per fault (pictures with the fault visible / marked by any question): tile overlap 2/2, tiles ragged 2/2 (the last row of the tile grid is short), banner path overflow 2/2, word broken letter by letter 2/2,
+row title without ellipsis 1/2, timeline scrolls sideways 1/2, toggle thumb leaves its track 1/2, segmented control squeezed 1/1, a button 3 px out of line 0/1, comfortable touch targets 48 → 40 px 0/6, row sub line
+cut with an ellipsis 0/1, phone toolbar crowded (title cut to “Foundati…”) 0/2.
+
+**Would it have caught the two faults Max asked about?** *Toggle thumb outside its track* (`toggle-thumb-leaves-track`): on the desktop picture yes (malformed 0.76, threshold 0.65), on the 390 px phone no
+(malformed 0.50): the thumb sticks out by 8 px, and the judge does not see 8 px at this scale. *Squeezed segmented control* (`segmented-squeezed`): yes, at 340 px phone
+width three questions mark it (overflow 0.91, overlap 0.90, malformed 0.90). The deterministic checks (`contained`, `scroll-x`) find both every time; the judge is a second pair of eyes for coarse faults, not a replacement.
+
+**What it does not catch.** Anything of a few pixels: a button 3 px out of line, touch targets that are 8 px smaller, an ellipsis missing in a narrow row, a crowded toolbar title. It sees
+the first screen of a view only (the viewport, at most 1568 px on a side; a fault below the fold is not in the picture); it knows nothing about behaviour (focus, menus, taps, notifications:
+that is what the overlay scenarios are for) and nothing about colour contrast. It also marks clean pictures: about one in seven; the false alarms repeat in the same dense views (`gallery/shell`, `gallery/markdown`, `gallery/cards`, `gallery/rows`, `gallery/feedback`, `board/history`) in both themes, so look once and
+move on. A score is a probability from a preview model (images are a preview feature at TypeSafe), not a measurement; run the calibration again after a model update.
+
+Without a key the tool refuses to run (exit 2) unless `--dry-run` or `--mock` is given. `tests/judge.test.mjs` tests the request, the cost, the cache, the ledger, the budget stop and the
+calibration against recorded answers, without network, without key and without a browser.
 
 ## API in short
 
