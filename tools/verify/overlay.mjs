@@ -29,6 +29,14 @@ export const SCENARIOS = [
     open: (io) => io.hint('button[aria-label="Info"]') },
   { id: 'sidebar', page: 'board', hash: 'overview', overlay: '.tn-sidebar', when: (sz) => sz.w < 1000,
     open: (io) => io.press('.tn-sb-toggle') },
+  { id: 'drawer-current', page: 'board', hash: 'overview', overlay: '.tn-sidebar', when: (sz) => sz.w < 1000,
+    open: (io) => io.press('.tn-sb-toggle'),
+    // a tap on the entry of the view already shown closes the drawer too (the hash does not change)
+    assert: async (io) => {
+      await io.press('.tn-nav-item[aria-current="page"]');
+      const shut = await io.until(`document.querySelector('.tn-app').dataset.drawer !== 'open'`, 500);
+      return shut ? [] : ['a tap on the current entry leaves the drawer open'];
+    } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync') },
   { id: 'sheet', page: 'gallery', hash: 'states', overlay: 'dialog.tn-sheet[open]', focus: true,

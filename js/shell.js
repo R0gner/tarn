@@ -192,6 +192,10 @@ export function createApp(cfg0) {
         n.n != null && n.n !== '' && badge(String(n.n), { tone: n.tone || 'neutral', count: true }))];
     }));
   }
+  /* Phone/tablet drawer: a tap on any entry closes it, also on the view already shown (its hash does not change, so onRoute() does not run). */
+  navEl.addEventListener('click', (e) => {
+    if (!DESKTOP.matches && appEl.dataset.drawer === 'open' && /** @type {Element} */ (e.target).closest?.('a.tn-nav-item')) setDrawer(false);
+  });
   let drawerLocked = false;
   /** @param {boolean} open */
   function setDrawer(open) {

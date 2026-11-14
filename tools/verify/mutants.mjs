@@ -161,6 +161,12 @@ export const MUTANTS = [
     patch: [{ file: 'js/form.js', from: "if (pending) return;", to: "" }],
   },
   {
+    // earlier drawer fault: a tap on the entry of the view already shown changes nothing, the drawer stays open
+    id: 'drawer-stays-on-current',
+    check: 'overlay', scenarios: ['drawer-current'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "if (!DESKTOP.matches && appEl.dataset.drawer === 'open' && ", to: "if (false && " }],
+  },
+  {
     // earlier log fault: the log box kept the swipe to itself, so a sheet (or the page) did not scroll while the finger was on the log – also when the log had nothing to scroll
     id: 'log-traps-scroll',
     page: 'gallery', views: ['feedback'], sizes: ['phone', 'desktop'], expect: ['scroll-trap'],

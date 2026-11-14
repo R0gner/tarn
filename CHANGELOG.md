@@ -3,6 +3,13 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.6.0
+
+### Fixed
+- Shell, phone and tablet drawer: a tap on any navigation entry closes the drawer, also on the entry of the view already shown (before, the hash
+  did not change and the drawer stayed open). The desktop sidebar is unchanged. verify overlay scenario `drawer-current`, mutant
+  `drawer-stays-on-current`.
+
 ## 0.5.3
 
 ### Added
