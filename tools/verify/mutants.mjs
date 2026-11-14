@@ -161,6 +161,18 @@ export const MUTANTS = [
     patch: [{ file: 'js/form.js', from: "if (pending) return;", to: "" }],
   },
   {
+    // earlier chrome fault: a long press on the board title or the view title selects it (the text was selectable like content)
+    id: 'title-selectable',
+    page: 'board', views: ['overview'], sizes: ['phone', 'desktop'], expect: ['select-chrome'],
+    css: '.tn-toolbar, .tn-sidebar-head, .tn-toolbar-title, .tn-brand { user-select: text !important; -webkit-user-select: text !important; }',
+  },
+  {
+    // the other side of the same rule: a too wide rule takes content along, table cells can no longer be selected and copied
+    id: 'cells-unselectable',
+    page: 'gallery', views: ['table'], sizes: ['phone', 'desktop'], expect: ['select-chrome'],
+    css: '.tn-table td { user-select: none; -webkit-user-select: none; }',
+  },
+  {
     // earlier drawer fault: a tap on the entry of the view already shown changes nothing, the drawer stays open
     id: 'drawer-stays-on-current',
     check: 'overlay', scenarios: ['drawer-current'], sizes: ['phone'], expect: ['overlay-behaviour'],

@@ -5,6 +5,10 @@
 .tn-icon { flex: none; }
 .tn-icon[width="16"] { width: var(--tn-icon); height: var(--tn-icon); } /* standard size follows the density; other sizes stay as asked */
 .tn-btn, .tn-iconbtn, .tn-seg-btn { position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+/* Labels of controls are interface, not content: a long press or a stray tap selects nothing and opens no callout (button, tab and segment
+   labels and the badges inside them). Content (cells, values, detail text, logs, code) stays selectable. Verify rule `select-chrome`. */
+.tn-btn, .tn-iconbtn, .tn-seg, .tn-tabs { -webkit-touch-callout: none; }
+.tn-seg, .tn-tabs { user-select: none; -webkit-user-select: none; }
 
 .tn-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--tn-sp-6);

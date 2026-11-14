@@ -9,6 +9,11 @@ While the major version is 0, minor versions may change the API; every change is
 - Shell, phone and tablet drawer: a tap on any navigation entry closes the drawer, also on the entry of the view already shown (before, the hash
   did not change and the drawer stayed open). The desktop sidebar is unchanged. verify overlay scenario `drawer-current`, mutant
   `drawer-stays-on-current`.
+- Shell chrome is no longer selectable: a long press or a stray tap on the board title (sidebar head), the view title or the freshness text
+  in the toolbar, a navigation entry or group heading, a tab or segment label or a badge inside a control selects nothing and shows no touch
+  callout (`user-select: none`, `-webkit-touch-callout: none` on sidebar head, navigation, sidebar foot, toolbar, tabs, segmented, buttons).
+  Fields a board puts into the toolbar stay editable. Content (table cells, values, detail text, logs, Markdown, code) stays selectable.
+  verify geometry rule `select-chrome` checks both sides; mutants `title-selectable` and `cells-unselectable`.
 
 ## 0.5.3
 

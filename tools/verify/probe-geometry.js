@@ -12,6 +12,7 @@
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   scroll-trap  a box inside the page or inside another scroller keeps the swipe to itself (overscroll-behavior); only the one scroller of an overlay layer may
+//   select-chrome  shell chrome (board/view title, navigation, tab/segment labels, badges in controls) is selectable, or content is not
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
 (function tnGeometry(opts) {
@@ -436,6 +437,21 @@
     let outer = layer === document.body ? de : null;
     for (let p = el === layer ? null : el.parentElement; !outer && p; p = p === layer ? null : p.parentElement) if (isScroll(S(p).overflowY)) outer = p;
     if (outer) push(findings, { rule: 'scroll-trap', sel: path(el), where: where(el), text: `overscroll-behavior ${s.overscrollBehaviorY} on a box inside ${outer === de ? 'the page' : desc(outer)}: a swipe on it does not scroll what is around it`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- select-chrome: shell chrome is interface, content stays selectable ----
+     A long press or a stray tap on the board title, the view title, a navigation entry, a tab or segment label or a badge inside a control must not
+     select text (user-select none). Content (table cells, values, log lines, Markdown, code) must stay selectable unless it sits inside a control. */
+  const CHROME_SEL = '.tn-brand, .tn-toolbar-title, .tn-fresh, .tn-nav-item, .tn-nav-group, .tn-tab, .tn-seg-btn, :is(.tn-btn, .tn-iconbtn, .tn-nav-item, .tn-tab, .tn-seg-btn) .tn-badge';
+  const CONTENT_SEL = '.tn-table td, .tn-kv dd, .tn-log-msg, .tn-md, .tn-banner-text, code, pre';
+  const CONTROL_SEL = 'button, a[href], [role=button], [role=tab], [role=radio], [role=option], [role=menuitem], label';
+  for (const el of document.querySelectorAll(CHROME_SEL)) {
+    if (ignored(el) || !visible(el) || S(el).userSelect === 'none') continue;
+    push(findings, { rule: 'select-chrome', sel: path(el), where: where(el), text: `shell chrome is selectable (user-select ${S(el).userSelect}): “${snippet(el).slice(0, 24)}”`, rect: R(el.getBoundingClientRect()), el });
+  }
+  for (const el of document.querySelectorAll(CONTENT_SEL)) {
+    if (ignored(el) || !visible(el) || S(el).userSelect !== 'none' || el.closest(CONTROL_SEL)) continue;
+    push(findings, { rule: 'select-chrome', sel: path(el), where: where(el), text: `content is not selectable (user-select none): “${snippet(el).slice(0, 24)}”`, rect: R(el.getBoundingClientRect()), el });
   }
 
   /* ---- contained: the moving part of a control lies inside its track (toggle thumb, determinate progress fill), in the state shown ----

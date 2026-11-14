@@ -20,6 +20,10 @@
 }
 .tn-app[data-sb="closed"] .tn-sidebar { visibility: hidden; }
 .tn-sidebar-head, .tn-nav, .tn-sidebar-foot { flex: none; }   /* a long navigation scrolls the sidebar; it never squeezes the head */
+/* Shell chrome is interface, not content: board title, navigation entries and group headings, toolbar texts (view title, freshness) select
+   nothing on a long press or a stray tap and show no callout. A field a board puts into the toolbar stays editable. Verify rule `select-chrome`. */
+.tn-sidebar-head, .tn-nav, .tn-sidebar-foot, .tn-toolbar { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.tn-toolbar :is(input, textarea, [contenteditable]) { user-select: text; -webkit-user-select: text; }
 .tn-sidebar-head { height: var(--tn-toolbar-h); display: flex; align-items: center; padding: 0 var(--tn-s2); }
 .tn-brand { display: flex; align-items: center; gap: var(--tn-s2); min-width: 0; font-weight: var(--tn-fw-strong); }
 .tn-brand > .tn-bicon { flex: none; }
