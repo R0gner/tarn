@@ -344,7 +344,8 @@ async function main() {
   const tail = [...notes];
   if (warnings.length) tail.push(`Warnings: ${warnings.length} (${wGroups} groups, mostly contrast) – not blocking`);
   if (gs.length) tail.push(`Report: ${reportFile}${shotFiles ? ` · images: ${outDir}/*.png` : ''}`);
-  tail.push(!gs.length ? `GREEN${excepted ? ` (${excepted} justified exceptions)` : ''}${o.changed ? ' – changed-only, not the full run' : ''} · exit 0`
+  if (o.update && !gs.length) tail.push('baseline written, nothing else checked: run again without --update for a verdict · exit 0');
+  else tail.push(!gs.length ? `GREEN${excepted ? ` (${excepted} justified exceptions)` : ''}${o.changed ? ' – changed-only, not the full run' : ''} · exit 0`
     : `RED: ${fresh.length} new, ${known.length} known finding groups (${kept.length} hits)${excepted ? `, ${excepted} exceptions` : ''} · exit 1`);
   lines.push(`verify: ${summary.join(' · ')} · ${seconds} s${jobsUsed > 1 ? ` · ${jobsUsed} workers` : ''}`);
   if (o.verbose) lines.push(...gs.map(line));

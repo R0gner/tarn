@@ -44,7 +44,7 @@ export function injectFaults(dir) {
 
 /**
  * → { ok, line, detail } . opts: { chrome, ci, attach }. The test server uses TN_BOARD_PORT when set (else a free port).
- * Green run: baseline snapshots are written first (--update), then a normal run must be green and must have measured something.
+ * Green run: baseline snapshots are written first (--update, which must not say GREEN), then a normal run must be green and must have measured something.
  */
 export async function boardControl({ chrome, ci, attach } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tn-foreign-board-'));
@@ -55,6 +55,8 @@ export async function boardControl({ chrome, ci, attach } = {}) {
     const common = { board: file, base: server.url, chrome, ci, attach, shots: false };
     const base = await runBoard({ ...common, update: true });
     if (base.code !== 0) return { ok: false, line: 'selftest: board outside the kit: baseline snapshots could not be written', detail: base.lines.slice(0, 3).join(' | ') };
+    // --update writes the baseline and checks nothing else: its last line must not read as a verdict
+    if (base.lines.some((l) => /GREEN/.test(l)) || !base.lines.some((l) => /baseline written/.test(l))) return { ok: false, line: 'selftest: board outside the kit: --update reads like a verdict (expected "baseline written", no GREEN)', detail: base.lines.slice(-2).join(' | ') };
     const green = await runBoard({ ...common });
     const st = green.report?.stats || {};
     const measured = (st.geometryStates || 0) >= 4 && (st.overlayScenarios || 0) >= 4 && (st.snapshotStates || 0) >= 4;

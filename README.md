@@ -325,7 +325,7 @@ node tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>   # 
   page has an icon and a title. Exceptions: `tools/lint/allow.json`.
 - **snapshots**: per page × view (plus open details) × `phone`/`desktop` a text outline (element, role, `tn-*`/`is-*` classes,
   text, box rounded to 4 px) under `tests/snapshots/`, clock fixed to 2026-11-09 10:00. A difference is a finding with a diff
-  file. `--update` rewrites (deliberately only, reason in the commit). All declared fonts are loaded before measuring, otherwise
+  file. `--update` rewrites (deliberately only, reason in the commit) and checks nothing else: it ends with "baseline written", not GREEN. All declared fonts are loaded before measuring, otherwise
   boxes would depend on which view was opened first.
 - **tempo** (inventory): `document.getAnimations()` during every test interaction: only `transform`/`opacity`, durations =
   motion tokens, duration within the class budget; plus endless animations. Runs headless.
@@ -356,13 +356,18 @@ Pages as in the kit's `tools/verify/targets.mjs`: `id` (used in findings and sna
 `?lang=`), `details` (hashes without `#/` that are checked as extra states, e.g. an open detail), `views` (only for a page without shell
 navigation, otherwise the views are read from the sidebar), `sizes` / `themes` / `density` (narrower than the default: five sizes, dark and light, compact).
 `clock` is the fixed time of the snapshots; `exceptions` and `lint.allow` have the format of the kit's `tools/verify/exceptions.json` and
-`tools/lint/allow.json` (each entry with a reason); missing files mean no exceptions. A mistake in the file is reported with the field name (exit 2).
+`tools/lint/allow.json` (each entry with a reason); missing files mean no exceptions (a named but missing exceptions file is noted in the output).
+A mistake in the file is reported with the field name (exit 2).
+
+A board that uses `timeline()` with `onItem`, or `heatRow()` with clickable cells, needs the kit's two touch exceptions in its own file: copy the
+entries `timeline-bars-touch` and `heat-cells-touch` from `tools/verify/exceptions.json`. Bars and cells are dense data points below 40 px; the row is
+the large target, so a timeline with `onItem` passes `onRow` too.
 
 Start the board's server, then, from a kit checkout (any version at or newer than the board's copy):
 
 ```sh
 node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>          # everything below, ≤ 10 lines, exit 0 / 1 / 2
-node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port> --update  # write the snapshot baseline (deliberately only)
+node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port> --update  # write the snapshot baseline (deliberately only); checks nothing else
 node <kit>/tools/lint.mjs --board <board folder> [-v] [--write-known]                       # only the lint of the board's own files
 ```
 
@@ -580,216 +585,3 @@ parser (`parseMarkdown()` returns an AST, `renderMarkdown()` builds DOM nodes), 
 the text appears as text**. Links only `http`, `https`, `mailto` and relative (`javascript:`, `data:`, `//host` become plain
 text), external ones with `rel="noopener noreferrer"`; images are off (alt text), with `images: true` only relative paths.
 `compact` is the dense variant for sheets and the inspector. From 20,000 characters the block sets `.is-long`
-(`content-visibility: auto`) so that only the visible part is laid out. Measurement: `node tools/tempo-markdown.mjs --attach …`
-(50 KB, 4× CPU: build ≈ 28 ms, with layout ≈ 46 ms; budget 50 ms). Tests: `tests/markdown.test.mjs`.
-
-## Inputs
-
-All inputs share one contract (the root element is returned): `el.focusEl` (the focusable element), `el.getValue()`, `el.setValue(v)` (no
-`onChange`), `el.setInvalid(bool)`, `el.setDisabled(bool)`; the bubbling `input` and `change` events fire as usual. Touch targets are
-44 px on the phone (`--tn-input-h`), numbers and dates use the native `<input>` (right keyboard and picker), only the combobox has its
-own popover (overlay layer, so it also works inside a sheet).
-
-```js
-import { field, textField, numberField, select, combobox, checkbox, toggle, dateField, dateRange } from '/tarn/js/tarn.js';
-
-field({ label: t('job.name'), help: t('job.nameHelp'), required: true }, textField({ value: job.name, placeholder: 'offsite-sync' }));
-field({ label: t('job.timeout') }, numberField({ value: 30, unit: 'min', min: 1, max: 120 }));        // min/max validated on change
-field({ label: t('job.host') }, combobox({ options: hosts.map((x) => ({ value: x.id, label: x.name, hint: x.role })), value: 'nas-a' }));
-field({ label: t('job.hosts') }, combobox({ options, multiple: true, value: [] }));                  // checkmarks, stays open
-field({ label: t('job.period') }, dateRange({ from, to, onChange: ({ from, to }) => … }));            // presets today, 7 d, 30 d, month
-checkbox({ label: t('job.dry'), help: t('job.dryHelp'), checked: true });   toggle({ label: t('job.enabled'), onChange: (on) => … });
-```
-
-- `field()` adds label, help and error text, `aria-describedby`, `aria-invalid` and **validation** (`rules: { required, min, max, minLength,
-  maxLength, pattern, number, validate }`): it runs when a value is committed and re-runs while an error is shown. Texts come from the catalog
-  (`validate.*`), a custom `validate(value)` returns its own text.
-- `select()` is native and for up to about 8 options; more options → `combobox()` (search from 7 options, single or multiple choice, arrow keys,
-  Enter, Esc closes the popover first, lists of more than 100 matches show the first 100). On touch devices the search field is not focused
-  automatically (the keyboard would cover the list).
-- Dates are calendar days (`'YYYY-MM-DD'`, no time zone); `dayStart(day, timeZone)` turns them into a point in time.
-- Pure logic without DOM (`js/inputs-data.js`): `parseNumber` (decimal comma and point), `validateValue`, `filterOptions`, `rangeFromPreset`, `dayStart`.
-
-## Filters
-
-`filterBar({ filters })` filters by data type; the type decides the control in the filter sheet and the chip text:
-
-| `type` | Control | State value | Chip |
-|---|---|---|---|
-| `options` (default) | pills, from 9 values a combobox (`pills: n` changes the threshold) | `string[]` | `Status: Error` |
-| `bool` | segment *All · Yes · No* (`labels: { yes, no }`) | `true` / `false` | `Failed: Yes` |
-| `range` | from/to number fields with `unit` | `{ min?, max? }` | `Duration ≥ 10 min`, `10–20 min` |
-| `time` | presets (`presets: ['1h', '24h', '7d']`, also `6h`, `30d`) plus an own period | `{ preset }` or `{ from?, to? }` (days) | `Last run: last 24 hours` |
-
-```js
-const fb = filterBar({
-  placeholder: t('jobs.search'), value: state, onChange: (s) => { state = s; render(); },
-  filters: [
-    { key: 'status', label: t('col.status'), options: STATUS_OPTIONS },
-    { key: 'failing', label: t('jobs.failing'), type: 'bool' },
-    { key: 'duration', label: t('col.duration'), type: 'range', unit: 'min' },
-    { key: 'last', label: t('col.lastRun'), type: 'time', presets: ['1h', '24h', '7d'] },
-  ],
-});
-rows.filter((row) => matchFilters(row, state.f, (row, key) => ({ failing: row.fails > 0, duration: row.sec / 60, last: row.lastAt })[key] ?? row[key]));
-```
-
-`matchFilters(row, f, get?, { now? })` handles every type (the type follows from the value; a row without a number or time does not match a
-range or time filter); calls without a `type` keep working. The filter sheet has one calm group per filter with its own *Clear*; the controls are
-created once and only synchronised afterwards, so the focus stays where the user is. When a view is redrawn for new data (`app.refresh()`, every poll) the filter bar is
-built again from the board's state (`filterBar({ value: state })`): the shell gives focus and caret back to the field the user was typing in, the text comes from that state.
-
-Long results: `table({ pageSize })` draws the first 20 rows (default; `0` = all) and a *Show more* footer (“20 of 339 rows”) adds the next ones – drawing
-rows, not filtering, is what costs time (1,000 rows filtered and drawn: ≈ 560 ms before, ≈ 35 ms handler at 4× CPU now; tempo case `filter-apply-1000`).
-
-## Forms and actions
-
-```js
-import { form, confirm, actionRun, openSheet, toast } from '/tarn/js/tarn.js';
-
-const f = form({
-  fields: [
-    { name: 'host', type: 'combobox', label: t('dep.host'), required: true, options },
-    { name: 'version', label: t('dep.version'), required: true, rules: { pattern: /^\d+\.\d+\.\d+$/ } },
-    { name: 'dry', type: 'checkbox', label: t('dep.dry'), value: true },
-  ],
-  submitLabel: t('dep.start'),
-  onSubmit: async (v) => {
-    if (!(await confirm({ title: t('dep.confirm', v), danger: !v.dry, typeToConfirm: v.dry ? undefined : v.host }))) return;
-    const run = await api.deploy(v);                      // { errors: { version: '…' } } or { error: '…' } reports a failure
-    box.replaceChildren(actionRun({ source: `/api/runs/${run.id}`, title: …, onCancel: () => api.cancel(run.id) }));
-    toast(t('dep.started'), { tone: 'ok' });
-  },
-});
-```
-
-- **`form()`** validates all fields first (errors on the fields, focus on the first one, “Please fix the marked fields.”), then the submit button
-  shows *Running …*, the fields are locked and a second submit (click, Enter, double tap) is ignored until `onSubmit` has finished. A returned
-  `{ errors, error }` or a thrown error shows up on the fields or in the form; the values stay. In a sheet pass the buttons as footer:
-  `openSheet({ body: f, footer: f.buttons() })` (they are linked to the form, Enter submits).
-- **`confirm({ title, text, danger?, typeToConfirm?, confirmLabel? })`** → `Promise<boolean>`: a centred modal dialog above everything, including open
-  sheets. `danger` puts the focus on *Cancel*; `typeToConfirm` keeps the confirm button off until the text (e.g. the host name) is typed exactly.
-- **`actionRun({ source, title, intervalMs, onCancel, onDone })`**: status badge, elapsed time, progress (a bar with a percentage if `progress` is
-  known, otherwise indeterminate), live log (`log()`, sticks to the bottom unless the user scrolls up) and an optional *Cancel run* button.
-  `source` is a function or a same-origin URL returning `{ status: 'pending'|'running'|'ok'|'bad'|'cancelled', startedAt?, endedAt?, progress?,
-  log?: [{ t, level, text }], message? }`; it is polled every 2 s until the status is final or the element leaves the page (no WebSocket needed);
-  a failing poll shows a note and retries, after 8 failures it offers *Try again*.
-- Rule for boards: **every action gives feedback** (`toast` or `actionRun`), **every dangerous action asks first** (`confirm`). The sample board’s
-  *Deploy* view shows the whole path with a fixture (`example/deploy-steps.json`; nothing is deployed).
-
-## Identity, icons, installing
-
-- **Every board has its own favicon (SVG) and a descriptive title** (`View · Board`, the shell sets it). Lint (`page`: every HTML
-  page has `<link rel="icon">` and `<title>`) and verify (`identity`) check it, a self-test mutant guards the rule.
-- **`node tools/brand.mjs --name "My board" --icon server --accent purple --out <folder>`** creates `favicon.svg` (rounded square
-  in card grey with a hairline and a single-colour Lucide symbol in the accent colour, light/dark via `prefers-color-scheme`),
-  `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png` (180 px) and `manifest.webmanifest`. A headless
-  Chrome renders the PNGs via CDP (no image library; on hosts without their own Chrome use `--attach`). With
-  `--source <svg> --bg <colour>` use an existing drawing instead of a symbol (that is how `gallery/` was made from
-  `icons/logo.svg`). Without any graphic file: `favicon({ icon, color })` or `createApp({ icon: { icon, color } })`.
-- **Icons**: Lucide (ISC) in a fixed version, only used symbols in `icons/`, sources and sha256 in `icons/SOURCES.md`, runtime
-  file `js/icons-data.js` (generated). New symbol: `node tools/icons.mjs add <lucide-name> [--as <kit-name>]`;
-  `node tools/icons.mjs check` and `tests/icons.test.mjs` verify that generated files and sources match.
-- **Installing**: “Install as app” sits at the bottom of the sidebar and appears when the browser offers
-  `beforeinstallprompt`, or – on iPhone, iPad and Safari on the Mac, which have no prompt – as the Add-to-Home-Screen hint (see “Notifications”); after installing (`appinstalled`) and in standalone mode (also iOS `navigator.standalone`) it is gone.
-  In the board's `<head>`: `<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">` (the pages sit
-  behind a login proxy, the manifest needs the cookies). **Chrome offers installation without a service worker**:
-  `Page.getInstallabilityErrors` returns an empty list for gallery and sample board and the real `beforeinstallprompt` arrived
-  without a service worker. Hence the kit has none by default (and no offline cache); the only worker it offers is `js/push-sw.js`, for notifications, and a board opts in.
-
-## Notifications (web push, browser half)
-
-The kit brings the browser half of notifications as an optional shell module; **sending stays with each board's backend**.
-
-```js
-createApp({ notifications: { api: '/api/push' } })        // sidebar entry "Notifications" → settings sheet
-openNotifications({ api: '/api/push' })                   // the same sheet without the shell (any page)
-const n = notifications({ api: '/api/push', worker: '/sw.js', scope: '/', query: { data: token } })   // controller + n.open()
-```
-
-Options: `api` (base URL of the server interface, required), `worker` (URL of the service worker file, default `sw.js` relative to the page),
-`scope` (default: the folder of the worker), `query` (parameters added to every server call, e.g. a token), `env` (the browser; only for tests and
-demos, see below). The sheet has one text for every state: *not supported by this browser* · *no https* · *iPhone/iPad, not installed yet* (Share →
-Add to Home Screen; iOS only offers notifications to an installed app) · *server does not push* · *server not reachable* (with *Check again*) ·
-*service worker did not start* · *blocked* (how to allow it again in the browser or system settings) · *off / not asked yet* (the button that asks,
-**the browser prompt only ever follows a tap**) · *on* (send a test notification, turn off). All texts in en, de, es, fr.
-
-**Server interface** (JSON, same origin, the page's cookies; `<api>` is the base URL):
-
-| Call | Body | Answer |
-|---|---|---|
-| `GET <api>/key` | – | `{ "enabled": true, "publicKey": "<VAPID public key, base64url>" }`; `enabled: false` = the server does not push |
-| `POST <api>/status` | `{ "endpoint": "…" }` | `{ "known": true \| false }` – does the server still know this subscription? If not, the page subscribes again quietly |
-| `POST <api>/subscribe` | `{ "subscription": <PushSubscription.toJSON()>, "label": "Android, Chrome" }` | any 2xx |
-| `POST <api>/unsubscribe` | `{ "endpoint": "…" }` | any 2xx (the page ignores a failure) |
-| `POST <api>/test` | `{ "endpoint": "…" }` | `{ "ok": true }` or `{ "ok": false, "error": "…", "gone": true \| false }` – with any status; `gone: true` makes the page drop the subscription |
-
-An error answer is a non-2xx status, optionally `{ "error": "text" }` (shown to the user). Deliberate difference to a "GET status": the status call is a
-**POST** because the endpoint URL is a capability (anyone who has it can push to the device) and does not belong into URLs and access logs. This is exactly
-what the parcel board already serves (`/api/push/key|status|subscribe|unsubscribe|test`), so it needs no server change; the same board's extra field
-`events` in the key answer is ignored by the kit (per-event settings are the board's own business).
-
-**Service worker** `js/push-sw.js` (push only: no offline cache, no `fetch` handler):
-- `push` shows title, text, icon and `tag` from the message `{ "title", "body", "tag"?, "url"?, "icon"?, "renotify"?, "ts"? }` (a new message with the same `tag`
-  replaces the old one and alerts again unless `renotify` is `false`; no title → the host name; relative `url`/`icon` resolve against the scope);
-- `notificationclick` focuses an open window of the board and navigates it to `url`, else opens `url`.
-- **The board serves this file from its own root**, not from `/tarn/`: a worker only controls the folder it is served from, and `Service-Worker-Allowed`
-  is easy to forget. So: `GET /sw.js` answers with the bytes of `vendor/tarn/js/push-sw.js` (`Content-Type: text/javascript`, `Cache-Control: no-cache`); the
-  scope is then `/`. A board under `/board/` serves it as `/board/sw.js` (scope `/board/`) and passes `worker: '/board/sw.js'`; a board that must
-  serve it from a deeper path adds the header `Service-Worker-Allowed: /` and passes `scope`. The browser compares the file byte for byte on every
-  visit, so a kit update reaches the devices by itself. The icon of a notification is `icon-192.png` next to the worker unless the message names another.
-
-**What a board has to do**, in short: (1) implement the five calls (VAPID keys, a table of subscriptions, a sender such as `pywebpush`/`web-push`),
-(2) serve `push-sw.js` from its root, (3) `createApp({ notifications: { api } })`, (4) send messages in the format above. The same applies when moving the parcel board to
-Tarn: keep `api/push/*` as it is, serve `vendor/tarn/js/push-sw.js` as `/sw.js` (the board already sends `Service-Worker-Allowed: /` and the same
-message format), pass its token as `query: { data }`, drop its own `meldungen.js` and sheet.
-
-Without the shell: `openNotifications({ api })` needs only the barrel (or `notifications.js`, its data file and the core). `createNotifications({ api, env })` is the logic
-without any DOM; `env` replaces every browser API (`serviceWorker`, `PushManager`, `Notification`, permission, `fetch`, user agent, standalone), which is
-how the tests and the gallery run every state: `gallery/mock-push.js` is a mocked browser plus an in-memory backend.
-
-**Install hint:** where the browser has no install prompt – iPhone and iPad (any browser), Safari on the Mac – the “Install as app” entry stays and opens a
-sheet with the steps (Share → Add to Home Screen / File → Add to Dock) instead of being absent; in an installed app it is gone.
-
-**Phone toolbar:** below 600 px the toolbar keeps only the burger, the view title, the freshness text and **one settings entry** (theme, density, language in one
-sheet); the separate buttons stay on larger screens, the reload button gives way to the freshness text (itself a reload button), and the freshness text gives
-way before the view title does. Verify rule `toolbar-title` (360–599 px) fails when a toolbar crowds the view title out; mutant `toolbar-crowded` plants the old layout.
-
-Checks: the overlay scenarios `notifications` (every state through the gallery's mock, the flow tap → prompt once → on → test → off, nothing asked before the tap),
-`install-hint` (iPhone user agent, no prompt) and `settings-phone`; `tests/notifications.test.mjs` (state machine, server calls, platform detection, the service worker with a
-mocked scope); mutants `notifications-ask-on-open`, `install-hint-absent`, `toolbar-crowded`.
-
-## Multiple boards (board icon and switcher)
-
-Whoever runs several boards gives each one an icon in the sidebar header and lets the title become a switcher:
-
-```js
-createApp({
-  title: 'Maintenance',
-  icon: './favicon.svg',                       // URL (the file from tools/brand.mjs) or { icon: 'server', color: 'blue' }
-  boardId: 'maintenance',                      // current board (accent ring, aria-current)
-  boards: '/boards.json',                      // or directly [{ id, name, href, icon?, category? }, …]
-  categories: [{ id: 'operations', label: 'Operations' }, { id: 'home', label: 'Home' }],   // optional, order
-});
-```
-
-- **When it makes sense:** from two boards in the same host group. Without `boards` (or with a single entry) the title stays
-  static, with `icon` alone only the icon precedes it. Entries may also point to pages without tarn (plain link).
-- **`icon`**: a URL shows the file (the `<link rel="icon">` stays in the HTML), an object `{ icon, color }` also sets the favicon
-  (`favicon()`): one way for tab and header. Boards without an icon in the list get a letter tile in a fixed colour from the name.
-- **Data format:** `boards` is an array or `{ boards, categories }`. A string is a JSON file of the **same origin**, loaded on first
-  open and cached; errors show a hint in the switcher instead of crashing. **One shared JSON file per host group** (every board
-  includes the same URL) keeps the list in one place. Entries without `id`, `name` or `href`, with a duplicate `id` or an unsafe
-  address (only http, https, relative) are dropped (hint in the console); entries with an unknown or missing category are listed
-  under “Other”; without `categories` a flat grid.
-- **Use:** tiles are real links (middle click and Ctrl-click open a new tab). From 700 px a popover under the title (overlay
-  layer, up to 70 vh, scrolls inside), below a bottom sheet. Enter/Space opens, arrow keys and Home/End move through the grid,
-  Esc closes and returns focus to the title, a click outside closes. Tile names never break letter by letter: one word gets an
-  ellipsis plus hint, several words wrap at word boundaries up to two lines.
-- **Checks:** `tests/boards.test.mjs` (data), overlay scenarios `board-switcher` and `detail-board-switcher`, tempo case
-  `switcher-open`, mutant `switcher-without-current`.
-
-## Licence
-
-Tarn is released under the [MIT licence](LICENSE), copyright (c) 2026 R0gner. The bundled Lucide icons (ISC), Inter and IBM Plex
-Mono (SIL Open Font License 1.1) keep their own licences; see [NOTICE](NOTICE) and the licence texts in `fonts/` and `icons/`.

@@ -81,6 +81,12 @@ Round 5.
 - `--calibrate`: the known faults of `verify --selftest` against the same states unmutated; thresholds per fault type and the table are in README "Visual judge".
 - `tests/judge.test.mjs` (request, cost, cache, ledger, budget stop, calibration, CLI) against a recorded answer; no network, no key. `snapshots.mjs` exports `dateShim`.
 
+### Board check: small things found by the first real board
+- `verify --board`: an exceptions file that is named in `tarn-board.json` but missing no longer stops the run with ENOENT; it means no exceptions (as the README
+  said, and as `lint.allow` already behaved) and is noted in the output.
+- `--update` (kit and board) ends with "baseline written, nothing else checked" instead of GREEN: it rewrites the snapshots and is no verdict. The selftest checks this.
+- README: which two touch exceptions a board with `timeline()` or `heatRow()` copies into its own file.
+
 ## 0.4.0
 
 Round 4, stage R: renamed from dashkit.

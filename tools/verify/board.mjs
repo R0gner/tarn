@@ -157,7 +157,7 @@ export async function runBoard(o) {
   for (const f of fs.readdirSync(outDir)) if (/\.(png|diff)$/.test(f) || f === 'report.json') fs.rmSync(path.join(outDir, f), { force: true });
 
   let rules;
-  try { rules = loadRules(board.exceptions, { optional: !board.exceptionsGiven }); } catch (e) { return refuse(`exceptions file ${board.exceptions}: ${e.message}`); }
+  try { rules = loadRules(board.exceptions, { optional: true }); } catch (e) { return refuse(`exceptions file ${board.exceptions}: ${e.message}`); }
 
   // pages × sizes × themes: the board file narrows the defaults, the command line narrows again
   const globalSizes = o.sizes || (o.quick ? QUICK_SIZES : DEFAULT_SIZES);
@@ -175,6 +175,8 @@ export async function runBoard(o) {
   const findings = [], warnings = [], summary = [], notes = [];
   const stats = {};
   let kitVersion = null;
+  // a missing exceptions file means no exceptions (as for lint.allow); a path that is named but missing is worth a note, never a refusal
+  if (board.exceptionsGiven && !fs.existsSync(board.exceptions)) notes.push(`exceptions file ${path.relative(board.dir, board.exceptions)} not found: running without exceptions`);
 
   if (run('lint')) {
     const r = lintFindings(runBoardLint(board));
@@ -265,7 +267,8 @@ export async function runBoard(o) {
   if (notes.length > 2) tail.push(`… ${notes.length - 2} more notes (report.json)`);
   if (warnings.length) tail.push(`Warnings: ${warnings.length} (${new Set(warnings.map((w) => `${w.rule}|${w.sel}`)).size} groups, mostly contrast) – not blocking`);
   if (gs.length) tail.push(`Report: ${reportFile}${shotFiles ? ` · images: ${outDir}/*.png` : ''}`);
-  tail.push(!gs.length ? `GREEN${excepted ? ` (${excepted} justified exceptions)` : ''} · exit 0` : `RED: ${fresh.length} new, ${known.length} known finding groups (${kept.length} hits)${excepted ? `, ${excepted} exceptions` : ''} · exit 1`);
+  if (o.update && !gs.length) tail.push('baseline written, nothing else checked: run again without --update for a verdict · exit 0');
+  else tail.push(!gs.length ? `GREEN${excepted ? ` (${excepted} justified exceptions)` : ''} · exit 0` : `RED: ${fresh.length} new, ${known.length} known finding groups (${kept.length} hits)${excepted ? `, ${excepted} exceptions` : ''} · exit 1`);
   report.notes = notes;
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 1));
   const lines = [`verify (board ${board.name}): ${summary.join(' · ')} · ${seconds} s`];

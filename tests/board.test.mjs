@@ -170,5 +170,10 @@ test('verify --board: refusals before any browser starts', () => {
     const down = v('--board', dir, '--base', 'http://127.0.0.1:9', '--only', 'geometry');
     assert.equal(down.status, 2);
     assert.match(down.stdout, /does not answer/);
+    // an exceptions file that is named but missing means no exceptions, not a refusal
+    board(dir, { exceptions: 'verify/none.json' });
+    const noFile = v('--board', dir, '--base', 'http://127.0.0.1:9', '--only', 'geometry');
+    assert.match(noFile.stdout, /does not answer/);
+    assert.doesNotMatch(noFile.stdout, /exceptions file/);
   } finally { rm(dir); }
 });
