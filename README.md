@@ -144,7 +144,7 @@ bundler. Either way, never edit Tarn files inside the project: a missing buildin
 | how | `npm i github:R0gner/tarn#v<version>` | `node tools/vendor.mjs --to <project>/vendor/tarn [--profile core]` |
 | import | `import { button } from '@r0gner/tarn/core'` · `import { createApp } from '@r0gner/tarn'` | `import … from '/tarn/js/core.js'` · `'/tarn/js/tarn.js'` |
 | styles | `@r0gner/tarn/css/tokens.css`, `fonts.css`, `base.css`, `core.css` (+ `components.css`, `charts.css`) | `<link href="/tarn/css/…">` |
-| pin | the tag in `package.json` (`v0.4.0`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
+| pin | the tag in `package.json` (`v0.5.0`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
 | update | change the tag, `npm update @r0gner/tarn` | run `vendor.mjs` again |
 
 ### (a) git dependency
@@ -155,7 +155,7 @@ those folders; `files` limits the installed package to the runtime files plus `L
 `tools/vendor.mjs` copies, kept in `tools/lib/kit-files.mjs`; a test keeps `package.json` equal to it, `node tools/package.mjs` rewrites it).
 
 ```sh
-npm i github:R0gner/tarn#v0.4.0        # a tag, never a branch: the version stays fixed
+npm i github:R0gner/tarn#v0.5.0        # a tag, never a branch: the version stays fixed
 ```
 
 ```js

@@ -3,7 +3,7 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
-## 0.5.0 (unreleased)
+## 0.5.0
 
 Round 5.
 
