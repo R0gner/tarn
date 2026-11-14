@@ -160,4 +160,10 @@ export const MUTANTS = [
     check: 'overlay', scenarios: ['form-submit'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
     patch: [{ file: 'js/form.js', from: "if (pending) return;", to: "" }],
   },
+  {
+    // earlier log fault: the log box kept the swipe to itself, so a sheet (or the page) did not scroll while the finger was on the log – also when the log had nothing to scroll
+    id: 'log-traps-scroll',
+    page: 'gallery', views: ['feedback'], sizes: ['phone', 'desktop'], expect: ['scroll-trap'],
+    css: '.tn-log { overscroll-behavior: contain; }',
+  },
 ];

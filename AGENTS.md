@@ -2,7 +2,7 @@
 
 > **Information over decoration. Dense, calm, unambiguous, instant.**
 > Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
-> If a building block is missing, it goes into the kit, not into the board.
+> The kit is the shared base. What only one board needs, that board builds itself from kit parts.
 
 Goal: every board looks the same and works the same. You build **from kit building blocks**, not your own UI. The kit has four
 levels – tokens, primitives, components, shell (see README); the gallery shows them in that order.
@@ -22,8 +22,10 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    `banner({ tone })`, chart colour `'bad'`. Never colour as the only information – always text/aria as well (the kit does it).
 5. **No own colours, sizes, shadows, radii, fonts.** No `style` with pixel or colour values, no own CSS except pure placement that
    `cols()`/`stack()`/`tiles()` do not cover (and then only with tokens).
-6. **No new components in a board.** If something is missing, it goes into the kit **plus** a gallery entry with all states, then
-   into the board. No copying and tweaking of kit code.
+6. **Shared blocks live in the kit, board-specific blocks in the board.** A block only this board needs (for its own data or question) is built
+   in the board's own files from kit parts and tokens; rule 5 still holds. A block a second board needs as well, or one that is plainly general,
+   goes into the kit **plus** a gallery entry with all states. A fault in a kit part is fixed in the kit. No copying and tweaking of kit code
+   (README “What belongs in the kit”).
 7. **Texts only through `t()`.** Never put visible text into the code: board texts go into `messages` (per language, same fallback
    rule as the kit), numbers/bytes/times only through `fmt*` (Intl, active locale and time zone). No emoji, icons only from
    `icon()` (Lucide, fixed version; if one is missing: `node tools/icons.mjs add <lucide-name> [--as <name>]`, then check the

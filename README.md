@@ -2,12 +2,13 @@
 
 > **Information over decoration. Dense, calm, unambiguous, instant.**
 > Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
-> If a building block is missing, it goes into the kit, not into the board.
+> The kit is the shared base. What only one board needs, that board builds itself from kit parts.
 
 Tarn is a small design system and component kit for **personal operations interfaces** – the kind of screens you let a coding
 agent build for you instead of running big tools (Jenkins, Jira, Grafana) of which you use ten percent: monitoring, starting
 pipelines and deployments, evaluations, logs, files, tickets. Dense, unambiguous, always the same look, and automatically
-checkable (`verify`). Agents assemble a board from a few known parts; if a part is missing, it is added to the kit.
+checkable (`verify`). Agents assemble a board from a few known parts. A part several boards need is added to the kit; a part only
+one board needs is built in that board from kit parts and tokens (see “What belongs in the kit”).
 
 Not a goal: a general app framework, shops, logins, payments, SEO pages.
 
@@ -133,10 +134,25 @@ python3 tools/serve.py --port 18810      # 127.0.0.1, no-store, strict CSP
 node --test tests/*.test.mjs
 ```
 
+## What belongs in the kit
+
+The kit is the base every board shares: tokens, primitives, components and the shell that more than one board uses. It is not the place for every
+chart or panel one board happens to want; a kit that takes them all grows without end and gets harder to keep consistent.
+
+- **Into the kit:** a building block a second board needs as well, or one that is plainly general (an input, a chart type, a shell behaviour), and
+  every fix to a kit part. It comes with a gallery entry in all states and its checks.
+- **Into the board:** a block for this board's own data or question (a backup history that switches between bars and an area chart, a summary of one
+  domain). Build it in the board's own files from kit parts (`barChart`, `lineChart`, `segmented`, `facts`, …) and kit tokens; `verify --board`
+  lints and measures it like everything else.
+- **Moving up later:** when a second board builds the same block, move it into the kit then.
+
+Either way the look stays the kit's: no own colours, sizes, radii or fonts, and never a changed copy of a kit file.
+
 ## Include in a project
 
 Two equal ways. Both give a project one fixed version of Tarn; which one fits depends on whether the project has a package manager and a
-bundler. Either way, never edit Tarn files inside the project: a missing building block goes into the kit and arrives with the next update.
+bundler. Either way, never edit Tarn files inside the project: a fix or a generally useful building block goes into the kit and arrives with the next update;
+a block only this project needs lives in the project's own files.
 
 | | (a) git dependency | (b) fixed copy |
 |---|---|---|
@@ -144,7 +160,7 @@ bundler. Either way, never edit Tarn files inside the project: a missing buildin
 | how | `npm i github:R0gner/tarn#v<version>` | `node tools/vendor.mjs --to <project>/vendor/tarn [--profile core]` |
 | import | `import { button } from '@r0gner/tarn/core'` · `import { createApp } from '@r0gner/tarn'` | `import … from '/tarn/js/core.js'` · `'/tarn/js/tarn.js'` |
 | styles | `@r0gner/tarn/css/tokens.css`, `fonts.css`, `base.css`, `core.css` (+ `components.css`, `charts.css`) | `<link href="/tarn/css/…">` |
-| pin | the tag in `package.json` (`v0.5.0`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
+| pin | the tag in `package.json` (`v0.5.1`), npm records the commit | `VERSION` and `SHA256SUMS` in the copy; `--check` |
 | update | change the tag, `npm update @r0gner/tarn` | run `vendor.mjs` again |
 
 ### (a) git dependency
@@ -155,7 +171,7 @@ those folders; `files` limits the installed package to the runtime files plus `L
 `tools/vendor.mjs` copies, kept in `tools/lib/kit-files.mjs`; a test keeps `package.json` equal to it, `node tools/package.mjs` rewrites it).
 
 ```sh
-npm i github:R0gner/tarn#v0.5.0        # a tag, never a branch: the version stays fixed
+npm i github:R0gner/tarn#v0.5.1        # a tag, never a branch: the version stays fixed
 ```
 
 ```js
@@ -197,7 +213,7 @@ Exit codes: 0 done or copy intact · 1 local changes (check) or update refused �
 **Update:** the tool refuses to overwrite a copy whose files were changed locally (compare with `--check`; `--force` overwrites anyway,
 `--dry-run` shows what would change). Then: read `CHANGELOG.md` for the versions in between, run the update, run the board's own
 checks (`node <kit>/tools/verify.mjs --board <board> --base http://127.0.0.1:<port>`, see “Check a board outside the kit”), review the snapshot diff, commit the copy together with
-the board changes it needs. Never edit files in `vendor/tarn/`; a missing building block goes into the kit and arrives with the next copy.
+the board changes it needs. Never edit files in `vendor/tarn/`; a fix or a generally useful building block goes into the kit and arrives with the next copy.
 The pinned version is also available at runtime: `import { VERSION } from '/tarn/js/tarn.js'`.
 
 The board server serves `GET /tarn/<path>` from `vendor/tarn/` (same path check as for its own static files,
@@ -375,7 +391,7 @@ node <kit>/tools/lint.mjs --board <board folder> [-v] [--write-known]           
 |---|---|
 | `lint` | the board's own CSS, JS and HTML: colour/size/radius/duration literals (tokens only), transitions, no `innerHTML`, no number timers, no `title` attribute, no emoji, visible texts via `t()` (the files in `lint.messages` are exempt), favicon and title on every page |
 | `vendor` | `tools/vendor.mjs --check` on the board's copy (`kit`): local changes, missing or foreign files are findings; names the kit version found (and a note when the checkout is newer); the server must deliver the same `VERSION` under the kit URL |
-| `geometry` | overflow, truncated text, overlap, touch targets, words broken letter by letter, missing translations, favicon/title (`identity`), console errors – for every page, size, theme, view and detail |
+| `geometry` | overflow, truncated text, overlap, touch targets, words broken letter by letter, scroll traps (`scroll-trap`), missing translations, favicon/title (`identity`), console errors – for every page, size, theme, view and detail |
 | `snapshots` | text outline of every view and state against `snapshots`, with the board's fixed `clock` |
 | `overlay` | the scenarios that are generic for any shell board: `sidebar` (below 1000 px), `detail` (the first `details` entry with `?open=`), `menu` (opened inside a sheet), `sheet` – on top, not inert, focus, closing |
 | `tempo` | animation inventory: endless animations in every view and the animations of those scenarios (only `transform`/`opacity`, durations = tokens, budget class) |

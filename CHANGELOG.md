@@ -3,6 +3,20 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.5.1
+
+### Fixed
+- `log()`: the box no longer keeps a swipe to itself (`overscroll-behavior: contain` removed). In a bottom sheet a finger on the log now scrolls the
+  sheet; before, nothing moved, also when the log had nothing to scroll. Found on the first real board.
+
+### Added
+- verify, geometry rule `scroll-trap`: a scroller in the page content or inside another scroller must not set `overscroll-behavior`; only the one
+  scroller of an overlay layer (sheet body, sidebar, inspector, popover) may. Mutant `log-traps-scroll` brings the old log back and is detected.
+
+### Changed
+- README “What belongs in the kit” and AGENTS rule 6: the kit is the shared base. A block only one board needs is built in that board from kit parts
+  and tokens; it moves into the kit when a second board needs it. (Before: every missing block went into the kit first.)
+
 ## 0.5.0
 
 Round 5.

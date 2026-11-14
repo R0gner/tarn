@@ -11,6 +11,7 @@
 //   wrap-sub   a row sub line with wrapSub is cut off or ends in an ellipsis
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
+//   scroll-trap  a box inside the page or inside another scroller keeps the swipe to itself (overscroll-behavior); only the one scroller of an overlay layer may
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
 (function tnGeometry(opts) {
@@ -423,6 +424,18 @@
       if (r.width >= MIN - 0.5 && r.height >= MIN - 0.5) continue;
       push(findings, { rule: 'touch48', sel: path(el), where: where(el), px: Math.round(Math.min(r.width, r.height)), text: `target ${Math.round(r.width)}×${Math.round(r.height)} px < ${MIN} (“${snippet(el).slice(0, 24)}”)`, rect: R(r), el });
     }
+  }
+
+  /* ---- scroll-trap: a scroller inside the page or inside another scroller hands the gesture on ----
+     `overscroll-behavior` other than auto belongs to the one scroller of an overlay layer (sheet body, sidebar, inspector, popover). On a box in the content
+     (a log in a sheet) it swallows the swipe, also when the box has nothing to scroll: the finger rests on it and nothing moves. */
+  for (const el of all) {
+    const s = S(el);
+    if (!isScroll(s.overflowY) || s.overscrollBehaviorY === 'auto') continue;
+    const layer = layerOf(el);
+    let outer = layer === document.body ? de : null;
+    for (let p = el === layer ? null : el.parentElement; !outer && p; p = p === layer ? null : p.parentElement) if (isScroll(S(p).overflowY)) outer = p;
+    if (outer) push(findings, { rule: 'scroll-trap', sel: path(el), where: where(el), text: `overscroll-behavior ${s.overscrollBehaviorY} on a box inside ${outer === de ? 'the page' : desc(outer)}: a swipe on it does not scroll what is around it`, rect: R(el.getBoundingClientRect()), el });
   }
 
   /* ---- contained: the moving part of a control lies inside its track (toggle thumb, determinate progress fill), in the state shown ----

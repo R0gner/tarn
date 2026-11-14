@@ -4,7 +4,7 @@
 .tn-log {
   font-family: var(--tn-mono); font-size: var(--tn-fs-label); line-height: 1.5;
   background: var(--tn-bg-sunken); border: 1px solid var(--tn-border); border-radius: var(--tn-r);
-  padding: var(--tn-s1) 0; max-height: var(--tn-sz-320); overflow: auto; overscroll-behavior: contain;
+  padding: var(--tn-s1) 0; max-height: var(--tn-sz-320); overflow: auto; /* no overscroll-behavior: inside a sheet or a page the swipe must reach what is around the log */
 }
 .tn-log-empty { padding: var(--tn-s3); color: var(--tn-text-3-tint); font-family: var(--tn-font); }
 .tn-log-line { display: grid; grid-template-columns: auto auto auto 1fr; column-gap: var(--tn-s2); padding: var(--tn-sp-1) var(--tn-s3); white-space: nowrap; }
