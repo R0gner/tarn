@@ -12,7 +12,7 @@ test('tokens, css and shell mean everything', () => {
 });
 
 test('docs, tests and workflows mean nothing', () => {
-  const s = scopeOf(['README.md', 'tests/format.test.mjs', '.github/workflows/verify.yml', 'CHANGELOG.md', 'tools/lint.mjs']);
+  const s = scopeOf(['README.md', 'docs/shell.md', 'docs/README.md', 'AGENTS.md', 'tests/format.test.mjs', '.github/workflows/verify.yml', 'CHANGELOG.md', 'tools/lint.mjs']);
   assert.equal(s.none, true);
   assert.equal(s.all, false);
 });

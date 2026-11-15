@@ -14,7 +14,7 @@ const join = (...s) => Object.assign({}, ...s);
 // First match wins.
 export const RULES = [
   // nothing to render
-  [/^(tests\/(?!snapshots\/)|\.github\/|\.gitignore$|LICENSE$|NOTICE$|VERSION$|CHANGELOG\.md$|README\.md$|AGENTS\.md$|jsconfig\.json$|tools\/(lint|brand|icons|vendor|shoot|serve|tempo-markdown)[./])/, NONE],
+  [/^(tests\/(?!snapshots\/)|\.github\/|\.gitignore$|LICENSE$|NOTICE$|VERSION$|CHANGELOG\.md$|README\.md$|AGENTS\.md$|docs\/|jsconfig\.json$|tools\/(lint|brand|icons|vendor|shoot|serve|tempo-markdown)[./])/, NONE],
   // the gallery's own view files
   [/^gallery\/gallery-inputs\.js$/, G('inputs')],
   [/^gallery\/gallery-forms\.js$/, G('forms', 'actions')],

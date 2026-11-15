@@ -41,7 +41,7 @@ export const QUESTIONS = {
 };
 export const FAULT_TYPES = Object.keys(QUESTIONS);
 
-/** Score at or above which a picture is marked for a fault type. Chosen from the calibration in README "Visual judge"; per type, not one number. */
+/** Score at or above which a picture is marked for a fault type. Chosen from the calibration in docs/visual-judge.md; per type, not one number. */
 export const THRESHOLDS = { overflow: 0.85, overlap: 0.5, clipped: 0.65, misaligned: 0.65, malformed: 0.65 };
 
 export const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');

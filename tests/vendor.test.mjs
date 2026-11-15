@@ -22,7 +22,7 @@ test('vendor: copies only runtime files, writes SHA256SUMS in sha256sum format',
   const files = walk(to);
   assert.ok(files.includes('js/tarn.js') && files.includes('css/tokens.css') && files.includes('VERSION') && files.includes('SHA256SUMS'));
   assert.ok(files.some((f) => f.startsWith('fonts/') && f.endsWith('.woff2')));
-  for (const f of files) assert.ok(!/^(tests|tools|gallery|example|\.git)\//.test(f) && !f.endsWith('.png'), `unexpected file ${f}`);
+  for (const f of files) assert.ok(!/^(tests|tools|gallery|example|docs|\.git)\//.test(f) && !f.endsWith('.png'), `unexpected file ${f}`);
   const lines = fs.readFileSync(path.join(to, 'SHA256SUMS'), 'utf8').trim().split('\n').filter((l) => !l.startsWith('#'));
   assert.equal(lines.length, files.length - 1);
   for (const l of lines) {

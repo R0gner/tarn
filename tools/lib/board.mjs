@@ -39,7 +39,7 @@ const LINT_KEYS = ['dirs', 'skip', 'allow', 'messages'];
 export function loadBoard(arg) {
   let file = path.resolve(arg || '.');
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, BOARD_FILE);
-  if (!fs.existsSync(file)) throw new Error(`board file not found: ${file} (a board describes itself in ${BOARD_FILE}, see README “Check: verify”)`);
+  if (!fs.existsSync(file)) throw new Error(`board file not found: ${file} (a board describes itself in ${BOARD_FILE}, see docs/checks.md “A board outside the kit”)`);
   let j;
   try { j = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { throw new Error(`${file} is not valid JSON (${e.message})`); }
   const dir = path.dirname(file);

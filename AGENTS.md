@@ -5,7 +5,8 @@
 > The kit is the shared base. What only one board needs, that board builds itself from kit parts.
 
 Goal: every board looks the same and works the same. You build **from kit building blocks**, not your own UI. The kit has four
-levels – tokens, primitives, components, shell (see README); the gallery shows them in that order.
+levels – tokens, primitives, components, shell (see docs/getting-started.md); the gallery shows them in that order. The reference for every
+building block, tool and option is `docs/` (index: `docs/README.md`); this file holds the rules.
 
 ## Principles
 
@@ -15,7 +16,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    Detail through `view.detail(id, ctx)` → `{ title, sub, body }`; the shell chooses inspector/panel/bottom sheet. From
    elsewhere: `app.go('view', { open: id })`. No expanding in lists. **A row that stands for a thing another view owns** (an overview's problem list, failed runs, a
    timeline) opens that thing's detail in place: `onClick: () => ctx.app.open(id)` and in the view `detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true })`; the
-   “Open in …” link inside the detail is the explicit way to the owning view (README “Pattern: detail in place”). Do not `app.go()` away from the overview on a row tap.
+   “Open in …” link inside the detail is the explicit way to the owning view (docs/shell.md “Detail in place”). Do not `app.go()` away from the overview on a row tap.
 3. **Detail layout:** `banner()` for error/notice on top → `facts('Status', kv(…))` → history (`heatRow`, chart) →
    `facts('Events', log(…))` → `facts('Technical', kv(…, { mono: true }))` → actions (`toolbarRow`, `menu`).
 4. **Status only through status tokens** (`ok warn bad unknown pending info off`): `statusDot`, `badge({ tone })`,
@@ -25,7 +26,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 6. **Shared blocks live in the kit, board-specific blocks in the board.** A block only this board needs (for its own data or question) is built
    in the board's own files from kit parts and tokens; rule 5 still holds. A block a second board needs as well, or one that is plainly general,
    goes into the kit **plus** a gallery entry with all states. A fault in a kit part is fixed in the kit. No copying and tweaking of kit code
-   (README “What belongs in the kit”).
+   (docs/getting-started.md “What belongs in the kit”).
 7. **Texts only through `t()`.** Never put visible text into the code: board texts go into `messages` (per language, same fallback
    rule as the kit), numbers/bytes/times only through `fmt*` (Intl, active locale and time zone). No emoji, icons only from
    `icon()` (Lucide, fixed version; if one is missing: `node tools/icons.mjs add <lucide-name> [--as <name>]`, then check the
@@ -36,13 +37,13 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
     (`compact` default, `comfortable` for car screens: `data-density` on `<html>`, 48 px targets) is a token matter: never branch on it in a component.
 10. **Hover, hints, overlays only through the kit:** content you only see by pointing (heat map, timeline bars, chart points) is a
     data card (`dataCard()`); text and icon buttons get the small hint (`iconButton`, `tooltip()`; truncated text automatically). No
-    `title` attributes, no own popups: menus, toasts and tooltips automatically sit above open sheets (overlay layer, see README).
+    `title` attributes, no own popups: menus, toasts and tooltips automatically sit above open sheets (overlay layer, see docs/design.md).
 11. **Every board has its own favicon (SVG) and a descriptive title.** Title `View · Board` (the shell sets it:
     `createApp({ title: 'My board' })`; a static `<title>` in the HTML is also “Name · Context”). Favicon: your own file via
     `<link rel="icon" type="image/svg+xml" href="icon.svg">` (template `example/favicon.svg`) or without a graphic file
     `createApp({ icon: { icon: 'server', color: 'purple' } })` / `favicon({ icon, color })`. Lint (`page`) and verify (`identity`)
     check both; never take the icon of another board or the kit logo. With several boards: the same icon in the header
-    (`createApp({ icon })`) and optionally the switcher (`boards`, see README “Multiple boards”); do not build your own navigation.
+    (`createApp({ icon })`) and optionally the switcher (`boards`, see docs/shell.md “Several boards”); do not build your own navigation.
 12. **Language and time zone belong to the shell:** `createApp({ locale?, fallbackLocale?, locales?, messages?, timeZone? })`. Without `locale` the
     browser languages are matched against `locales`, fallback English (or `fallbackLocale`, e.g. `'de'` for a German board that still offers the language menu); `locale: 'de'` forces one language (then there is no
     language menu). Do not hard-wire a time zone or a number format anywhere.
@@ -87,7 +88,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
    paths to `/tarn/…`; set title, favicon (`node tools/brand.mjs --name … --icon … --accent … --out …` creates favicon.svg,
    PNGs and manifest; or `favicon()`) and the board name.
 2. Copy a fixed kit version into `vendor/tarn/` with `node <kit>/tools/vendor.mjs --to <board>/vendor/tarn` and serve that folder under
-   `/tarn/` (see README, “Include in a project”, way b). Never edit the copy; update it with the same command and run the checks afterwards.
+   `/tarn/` (see docs/getting-started.md, “Include the kit in a project”, way b). Never edit the copy; update it with the same command and run the checks afterwards.
 3. `dataSource({ url: '/api/snapshot', ageOf: (d) => d.ageSec })`; prepare raw data once in `parse` (points in time, problems,
    sorting) – views do not calculate themselves.
 4. Views as `views: [{ id, label, group?, icon, render(ctx), detail?(id, ctx), count?(ctx) }]`; the sidebar counter comes from
@@ -97,7 +98,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 5. Texts: one catalog per language (`messages: { en: {…}, de: {…} }`), keys prefixed with the board name.
 6. Server with a strict CSP like `tools/serve.py` (`default-src 'self'`, no inline scripts/styles).
 7. Describe the board for the check tools in `tarn-board.json` in the board folder (pages with `id`, `path`, `details`, optional `views`, `sizes`,
-   `themes`, `density`; `snapshots` folder, `exceptions` file, fixed `clock`; see README “Check a board outside the kit”). With the board server running:
+   `themes`, `density`; `snapshots` folder, `exceptions` file, fixed `clock`; see docs/checks.md “A board outside the kit”). With the board server running:
    `node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port> --update` once (snapshot baseline, review it), afterwards
    `node <kit>/tools/verify.mjs --board <board folder> --base http://127.0.0.1:<port>` – exit 0 before every hand-in. It runs lint of the board's own
    files, `vendor --check` on its copy, geometry, snapshots, the generic overlay scenarios and the animation inventory.
@@ -105,7 +106,7 @@ levels – tokens, primitives, components, shell (see README); the gallery shows
 ## Notifications
 
 A board that wants notifications adds `createApp({ notifications: { api: '/api/push' } })` (sidebar entry + sheet; all states and texts are the kit's), serves
-`vendor/tarn/js/push-sw.js` from its own root (e.g. `GET /sw.js`) and implements the five server calls of README “Notifications”. No own notification UI, no
+`vendor/tarn/js/push-sw.js` from its own root (e.g. `GET /sw.js`) and implements the five server calls of docs/notifications.md. No own notification UI, no
 permission prompt outside the sheet (it only ever follows a tap), no service worker with an offline cache. On phones theme, density and language live in one
 settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 
