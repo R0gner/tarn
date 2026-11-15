@@ -134,8 +134,9 @@ node tools/tempo-markdown.mjs --attach http://127.0.0.1:<port>      # a 50 KB re
   runs (`--runs`); median and max.
 - **Measured** from the triggering event: first visible change (10 %), half, done (98 %) via a rAF sampler of the real element state; handler and input
   to next frame (Event Timing); long animation frames.
-- **Budgets** (4× CPU): first change ≤ 50 ms; menu, tooltip, toast done ≤ 100; panel and sheet open ≤ 150, close ≤ 120 (+1 frame); desktop panel and press
-  ≤ 34; handler ≤ 16; no long animation frame > 50; input to frame ≤ 100.
+- **Budgets** (4× CPU, `BUDGETS` and `GLOBAL` in `tools/tempo/cases.mjs`): first change ≤ 50 ms; menu, tooltip, toast, data card, combobox done ≤ 100;
+  panel and sheet open ≤ 150, close ≤ 120 (+1 frame); segment and tab switch done ≤ 50; desktop panel and press ≤ 34; handler ≤ 16; no long animation frame
+  > 50; input to frame (95th percentile) ≤ 100. The 1,000-row filter case has its own limits: handler 50, long frame 80, input to frame 120.
 - Exit 0 within budget, 1 exceeded, 2 refused (tab not in front, spread of the first change over 2 frames even after a retry). The frame measurement needs
   a visible Chrome (`--attach`); `--inventory` runs headless.
 - **Extend:** a new check is a module under `tools/verify/`, registered in `verify.mjs` (`CHECKS`); pages and sizes live in `tools/verify/targets.mjs`.
