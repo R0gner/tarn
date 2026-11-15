@@ -71,7 +71,7 @@ applies without exceptions.
 
 - **Overlay layer** (`js/overlay.js`): menu, toast, tooltip and data card hang in the topmost open modal dialog (else `<body>`) and are lifted into the
   top layer with the Popover API (`popover="manual"`). They sit above open sheets, are not inert and refer to the viewport (a sheet has a `transform`).
-  Needs a browser that supports the Popover API (`popover` attribute, `showPopover()`); an older browser lacks the top layer. Esc closes the topmost. Never build your own popups.
+  Where the browser lacks the Popover API (`showPopover()` is feature-detected) they stay ordinary positioned elements in the host, without the top layer. Esc closes the topmost. Never build your own popups.
 - **Two kinds of hover, in the same card style.** The **data card** (`dataCard()`: line and area charts, bars, heat map, timeline bars, usage segments)
   shows content you only see by pointing: with a mouse instantly and gone on leave; on touch a tap shows it, a drag scrubs, a tap elsewhere or scrolling
   closes it, and if the element has an action the second tap triggers it. The **hint** (`tooltip()`, automatic for `.tn-ellipsis`) is smaller and delayed
