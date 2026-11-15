@@ -24,11 +24,13 @@ import { boardSwitcher, boardIcon } from './boards.js';
 import { normalizeBoards } from './boards-data.js';
 import { notifications, openInstallHint } from './notifications.js';
 import { detectPlatform, manualInstall, browserEnv } from './notifications-data.js';
+import { findRange, RANGE_PRESETS } from './prom-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
 /** @typedef {import('./data.js').DataSource} DataSource */
 /** @typedef {import('./data.js').DataState} DataState */
+/** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /** @typedef {import('./boards-data.js').BoardList} BoardList */
 /** @typedef {import('./boards-data.js').BoardCategory} BoardCategory */
 /** @typedef {{ icon?: string, color?: string }} IconSpecObject Board icon drawn by favicon(): a Lucide name and a colour token name. */
@@ -58,10 +60,12 @@ import { detectPlatform, manualInstall, browserEnv } from './notifications-data.
  *   densitySwitch?: boolean,   // button next to the theme switch: compact ↔ comfortable (stored; for galleries and boards that offer both)
  *   notifications?: import('./notifications-data.js').NotificationsOptions,   // adds the entry "Notifications" (web push, browser half) to the sidebar; README "Notifications"
  *   back?: 'levels' | 'history',   // 'levels' (default): Back closes the topmost layer, then goes to the default view, then leaves; 'history': every view change is a history entry (before 0.6.0)
+ *   ranges?: TimeRange[],   // presets of the time range control (default 1 h, 6 h, 24 h, 7 d, 30 d); a preset with `label` shows that text
+ *   range?: string,   // id of the range at start (default: the first preset); the control only shows while a source follows the range
  *   exitHint?: boolean,   // installed app (display-mode standalone, minimal-ui, fullscreen) with back 'levels': Back on the default view first shows "Press back again to close" (default true)
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
-/** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null }} App Returned by createApp(). */
+/** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null, readonly range: TimeRange, setRange: (id: string) => void }} App Returned by createApp(). */
 
 const DESKTOP = window.matchMedia('(min-width: 1000px)');
 /** Installed app: after the exit hint a second Back within this many ms leaves (the hint shows as long). */
@@ -171,7 +175,8 @@ export function createApp(cfg0) {
   function chooseLocale(l) { try { localStorage.setItem('tn-locale', l); } catch {} const u = new URL(location.href); u.searchParams.delete('lang'); location.href = u.href; if (u.href === location.href) location.reload(); }
   /* Phone (< 600 px): theme, density and language leave the toolbar for ONE settings entry; otherwise the view title is cut off. */
   const settingsBtn = iconButton('settings', { label: t('shell.settings'), onClick: openSettings, className: 'tn-settings-btn' });
-  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
+  const rangeSlot = h('div', { class: 'tn-range', hidden: true });
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
   const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
@@ -319,8 +324,46 @@ export function createApp(cfg0) {
   function renderBanners() {
     const s = srcState, items = [];
     if (s?.error && s.data) items.push(banner(t('shell.updateFailed', { error: s.error }), { tone: 'warn' }));
-    if (s?.data && s.stale) items.push(banner(t('shell.dataStale', { age: fmtAgo(s.age) }), { tone: 'bad' }));
+    if (s?.data && s.stale) items.push(banner(s.staleParts?.length ? t('shell.dataStaleParts', { parts: s.staleParts.join(', '), age: fmtAgo(s.age) }) : t('shell.dataStale', { age: fmtAgo(s.age) }), { tone: 'bad' }));
     mount(banners, items);
+  }
+
+  /* ---- Time range: one per app, kept as the view parameter `range` (a change replaces the history entry). Sources that follow it
+     (promSource with a range query, combineSources over one) get it through setRange(), which aborts requests in flight and drops the
+     data of the old range; the control only shows while such a source is active. ---- */
+  const ranges = cfg.ranges?.length ? cfg.ranges : RANGE_PRESETS;
+  let range = findRange(cfg.range, ranges);
+  let rangeSync = false;
+  /** @param {TimeRange} r @param {boolean} [long] */
+  function rangeText(r, long) {
+    if (r.label) return r.label;
+    const s = r.seconds;
+    const [count, unit] = s % 86400 === 0 ? [s / 86400, 'Days'] : s % 3600 === 0 ? [s / 3600, 'Hours'] : [Math.max(1, Math.round(s / 60)), 'Minutes'];
+    return long ? t(`shell.range${unit}`, { count }) : t(`shell.rangeShort${unit}`, { count });
+  }
+  /** The source the shell shows: the app's. */
+  const activeSource = () => cfg.source || null;
+  /** Hand the range to the active source and show the control (or hide it). Called on every route before the view renders; true when the
+      source dropped its data for a new range. @returns {boolean} */
+  function syncRange() {
+    range = cur.params.range ? findRange(cur.params.range, ranges, range.id) : range;
+    const src = activeSource();
+    let changed = false;
+    rangeSlot.hidden = !src?.ranged;
+    if (src?.ranged && src.setRange) {
+      const before = src.range?.id;
+      rangeSync = true;
+      try { src.setRange(range); } finally { rangeSync = false; }
+      changed = before !== src.range?.id;
+      if (changed) { srcState = src.state; renderFresh(); renderBanners(); }
+    }
+    if (rangeSlot.hidden) { rangeSlot.replaceChildren(); return changed; }
+    if (rangeSlot.dataset.range === range.id && rangeSlot.firstChild) return changed;
+    rangeSlot.dataset.range = range.id;
+    const btn = button(rangeText(range), { variant: 'ghost', icon: 'clock', className: 'tn-range-btn' });
+    btn.setAttribute('aria-label', t('shell.rangeAria', { range: rangeText(range, true) }));
+    mount(rangeSlot, menu(btn, ranges.map((r) => ({ label: rangeText(r, true), checked: r.id === range.id, onClick: () => api.setRange(r.id) })), { label: t('shell.range') }));
+    return changed;
   }
 
   /* ---- Views ---- */
@@ -412,8 +455,10 @@ export function createApp(cfg0) {
     const open = params.open || null;
     const viewChanged = view !== cur.view;
     cur.params = params;
+    if (viewChanged) cur.view = view;
+    const rangeChanged = syncRange();
     if (viewChanged) {
-      cur.view = view; cur.open = null; hideDetail();
+      cur.open = null; hideDetail();
       renderView();
       if (!DESKTOP.matches) setDrawer(false);
       window.scrollTo(0, 0);
@@ -423,6 +468,7 @@ export function createApp(cfg0) {
       if (!open) pushedOpen = false;
       open ? showDetail(open) : hideDetail();
     }
+    if (rangeChanged && !viewChanged) api.refresh();
   }
   /* back 'levels' (default): the history holds what Back should walk through – base entry (default view), the other view, one entry per open
      layer (detail, sheet, dialog, drawer); js/levels.js computes it. `model` is that stack, `phys` the browser's position in our entries (stamped
@@ -538,6 +584,14 @@ export function createApp(cfg0) {
       return link ? { ...d, body: [d.body, toolbarRow(button(t('shell.openInView', { view: v.label }), { variant: 'ghost', iconAfter: 'chevron-right', onClick: () => api.go(viewId, { open: id }) }))] } : d;
     },
     get isDesktop() { return DESKTOP.matches; },
+    get range() { return range; },
+    setRange(id) {
+      const r = findRange(id, ranges, range.id);
+      if (!cur.view || (r.id === range.id && cur.params.range === r.id)) return;
+      const params = { ...cur.params, range: r.id };
+      if (levels) { navigate({ view: cur.view, params }); return; }
+      history.replaceState(history.state, '', buildHash(cur.view, params)); onRoute();
+    },
   };
 
   if (cfg.icon && typeof cfg.icon === 'object') favicon(cfg.icon); else if (cfg.favicon) favicon(cfg.favicon);
@@ -557,6 +611,7 @@ export function createApp(cfg0) {
     cfg.source.subscribe((s) => {
       const hadData = srcState?.fetchedAt; srcState = s;
       renderFresh(); renderBanners();
+      if (rangeSync) return;   // syncRange() runs inside a route; the view renders right after
       if (s.fetchedAt !== hadData || (!s.data && !s.loading)) api.refresh();
     });
     const source = cfg.source;
