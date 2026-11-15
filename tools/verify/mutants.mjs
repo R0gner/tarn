@@ -112,6 +112,12 @@ export const MUTANTS = [
     patch: [{ file: 'example/board.js', from: "onClick: () => ctx.app.open(p.id),", to: "onClick: () => ctx.app.go(p.kind === 'job' ? 'jobs' : 'hosts', { open: p.id })," }],
   },
   {
+    // the old x axis: a tick every 90 px whatever the labels, the label anchored by a fixed 20 px margin – with wider labels they touch and leave the chart
+    id: 'axis-labels-crowd',
+    page: 'gallery', views: ['charts', 'datasources'], sizes: ['phone', 'desktop'], expect: ['axis'],
+    patch: [{ file: 'js/charts/scale.js', from: 'gap = 10, minSpacing = 72 }', to: 'gap = -40, minSpacing = 20 }' }],
+  },
+  {
     // a range change keeps the data of the old range until the new answer arrives: the chart shows 1 h of data under "7 d"
     id: 'range-keeps-old-data',
     check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

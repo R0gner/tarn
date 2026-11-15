@@ -124,6 +124,24 @@
     if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'scroll-x', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `timeline scrolls sideways (${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
   }
 
+  /* ---- axis: chart axis labels are whole: each lies inside its chart, none touches its neighbour on the same axis ---- */
+  for (const svg of document.querySelectorAll('.tn-chart svg')) {
+    const sr = svg.getBoundingClientRect();
+    if (!sr.width) continue;
+    const rows = new Map();
+    for (const tx of svg.querySelectorAll('text.tn-axis')) {
+      const r = tx.getBoundingClientRect();
+      if (!r.width) continue;
+      if (r.left < sr.left - 1 || r.right > sr.right + 1) push(findings, { rule: 'axis', sel: `${desc(svg.closest('.tn-chart'))} > text.tn-axis`, where: where(svg), text: `axis label cut off at the chart edge: “${tx.textContent}”`, rect: R(r), el: tx });
+      const k = Math.round(r.top);
+      (rows.get(k) || rows.set(k, []).get(k)).push({ r, tx });
+    }
+    for (const row of rows.values()) {
+      row.sort((a, b) => a.r.left - b.r.left);
+      for (let i = 1; i < row.length; i++) if (row[i].r.left < row[i - 1].r.right + 2) push(findings, { rule: 'axis', sel: `${desc(svg.closest('.tn-chart'))} > text.tn-axis`, where: where(svg), text: `axis labels touch: “${row[i - 1].tx.textContent}” and “${row[i].tx.textContent}”`, rect: R(row[i].r), el: row[i].tx });
+    }
+  }
+
   /* ---- overflow: child sticks out of its container ---- */
   const flagged = new Set();
   for (const el of all) {

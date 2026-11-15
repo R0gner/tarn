@@ -2,8 +2,8 @@
 // tarn · line/area chart with multiple series and scrubbing (mouse and touch).
 import '../locales/shell.js';   // shell texts
 import { h, s } from '../dom.js';
-import { fmtNum, fmtWhen, fmtShort, fmtTime, fmtDate } from '../format.js';
-import { linear, extent, niceDomain, ticks, timeTicks, nearestIndex, linePath, areaPath, stack } from './scale.js';
+import { fmtNum, fmtWhen } from '../format.js';
+import { linear, extent, niceDomain, ticks, timeAxis, nearestIndex, linePath, areaPath, stack } from './scale.js';
 import { t } from '../i18n.js';
 import { chartFrame, colorClass, svg, legend, showTip, hideTip, tipRow, scrub } from './base.js';
 
@@ -49,11 +49,15 @@ export function lineChart(o) {
     // x axis
     const [x0, x1] = extent(x);
     /** @type {{ ticks: number[], unit?: string }} */
-    const xt = time ? timeTicks([x0, x1], Math.max(2, Math.floor((W - padL) / 90))) : { ticks: ticks([x0, x1], Math.max(2, Math.floor((W - padL) / 70))) };
-    const tFmt = time ? (xt.unit === 'day' ? (t) => fmtDate(t).slice(0, 6) : xt.unit === 'hour' && x1 - x0 > 864e5 ? fmtShort : fmtTime) : (v) => fmtNum(v);
-    for (const t of xt.ticks) {
-      const px = xs(t), anchor = px < padL + 20 ? 'start' : px > W - padR - 20 ? 'end' : 'middle';
-      g.push(s('text', { class: 'tn-axis', x: px, y: height - 6, 'text-anchor': anchor }, tFmt(t)));
+    if (time) {
+      /* the label width follows the axis font (density is a token matter): about 0.62 em per character of digits and AM/PM */
+      const fs = parseFloat(getComputedStyle(frame.plot).getPropertyValue('--tn-fs-xs')) || 11;
+      for (const k of timeAxis([x0, x1], { left: padL, right: W - padR, width: W, charW: fs * 0.62 }).ticks) g.push(s('text', { class: 'tn-axis', x: k.px, y: height - 6, 'text-anchor': k.anchor }, k.text));
+    } else {
+      for (const v of ticks([x0, x1], Math.max(2, Math.floor((W - padL) / 70)))) {
+        const px = xs(v), anchor = px < padL + 20 ? 'start' : px > W - padR - 20 ? 'end' : 'middle';
+        g.push(s('text', { class: 'tn-axis', x: px, y: height - 6, 'text-anchor': anchor }, fmtNum(v)));
+      }
     }
     // Series (area first, then line)
     series.forEach((r, i) => {

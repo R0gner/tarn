@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  extent, linear, niceStep, niceDomain, ticks, timeTicks, tzOffset, nearestIndex, stack, linePath, areaPath, arcPath, findConflicts,
+  extent, linear, niceStep, niceDomain, ticks, timeTicks, timeAxis, timeLabel, tzOffset, nearestIndex, stack, linePath, areaPath, arcPath, findConflicts,
 } from '../js/charts/scale.js';
 
 test('extent and linear scale', () => {
@@ -36,6 +36,33 @@ test('time ticks on local full hours (Europe/Berlin)', () => {
   for (const x of t.ticks) assert.equal(((x + tzOffset(x)) / 3600e3) % 3, 0, 'on full 3-hour marks');
   const d = timeTicks([a, a + 14 * 24 * 3600e3], 7);
   assert.equal(d.unit, 'day');
+});
+
+test('time axis: labels follow the span, ticks follow the width, no label is cut or overlaps (1 h – 30 d, phone and desktop, en and de)', async () => {
+  const { setLocale } = await import('../js/i18n.js');
+  const { fmtDay, fmtTime } = await import('../js/format.js');
+  const now = Date.UTC(2026, 10, 15, 13, 0);
+  for (const loc of ['en', 'de']) {
+    setLocale(loc);
+    for (const W of [340, 950]) for (const sec of [3600, 6 * 3600, 86400, 7 * 86400, 30 * 86400]) {
+      const where = `${loc} ${W} px ${sec / 3600} h`;
+      const ax = timeAxis([now - sec * 1000, now], { left: 38, right: W - 8, width: W, charW: 6.82 });
+      assert.ok(ax.ticks.length >= 2, `${where}: at least two ticks (${ax.ticks.length})`);
+      ax.ticks.forEach((k, i) => {
+        assert.ok(k.l >= 0 && k.r <= W, `${where}: “${k.text}” leaves the axis`);
+        if (i) assert.ok(k.l - ax.ticks[i - 1].r >= 10, `${where}: “${k.text}” touches “${ax.ticks[i - 1].text}”`);
+        assert.equal(k.text, ax.step >= 864e5 || (k.t + tzOffset(k.t)) % 864e5 === 0 ? fmtDay(k.t) : fmtTime(k.t), `${where}: label through Intl`);
+      });
+      if (sec >= 7 * 86400) assert.equal(ax.unit, 'day', `${where}: day and month for long spans`);
+      if (sec <= 6 * 3600) assert.notEqual(ax.unit, 'day', `${where}: time of day for short spans`);
+    }
+    const narrow = timeAxis([now - 7 * 864e5, now], { left: 38, right: 332, width: 340, charW: 6.82 }).ticks.length;
+    const wide = timeAxis([now - 7 * 864e5, now], { left: 38, right: 942, width: 950, charW: 6.82 }).ticks.length;
+    assert.ok(wide > narrow, `${loc}: more ticks on a wider axis (${narrow} → ${wide})`);
+  }
+  setLocale('en');
+  assert.equal(timeLabel(Date.UTC(2026, 10, 12, 11), 864e5), fmtDay(Date.UTC(2026, 10, 12, 11)), 'whole day and month, never a cut date');
+  assert.doesNotMatch(timeLabel(Date.UTC(2026, 10, 12, 11), 864e5), /\/$/);
 });
 
 test('nearest index (scrubbing)', () => {

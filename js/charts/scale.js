@@ -1,6 +1,7 @@
 // @ts-check
 // tarn · chart math without DOM (testable with node --test): scales, ticks, stacks, conflicts.
 import { getTimeZone } from '../i18n.js';
+import { fmtTime, fmtDay } from '../format.js';
 
 /** @typedef {number[]} Pair Two numbers [from, to]. */
 /** @typedef {{ (v: number): number, invert: (px: number) => number, domain: number[], range: number[] }} LinearScale */
@@ -76,6 +77,7 @@ export function ticks([lo, hi], count = 4) {
 
 const H = 3600e3, D = 24 * H;
 const TIME_STEPS = [5 * 60e3, 10 * 60e3, 15 * 60e3, 30 * 60e3, H, 2 * H, 3 * H, 6 * H, 12 * H, D, 2 * D, 7 * D];
+const AXIS_STEPS = [60e3, 2 * 60e3, ...TIME_STEPS, 14 * D, 28 * D];
 
 /** Offset of the active time zone (ms) at a point in time – for ticks on local full hours/days. */
 const offFmts = new Map();
@@ -99,6 +101,16 @@ export function tzOffset(ms) {
 export function timeTicks([a, b], count = 6) {
   const span = Math.max(1, b - a);
   const step = TIME_STEPS.find((s) => span / s <= count) || TIME_STEPS[TIME_STEPS.length - 1];
+  return { step, ticks: ticksAt([a, b], step), unit: step >= D ? 'day' : step >= H ? 'hour' : 'min' };
+}
+
+/**
+ * Ticks (ms) every `step` on round local times (active time zone) within [a, b].
+ * @param {number[]} range
+ * @param {number} step
+ * @returns {number[]}
+ */
+function ticksAt([a, b], step) {
   const out = [];
   // align locally: local time = ms + offset
   let t = a + tzOffset(a);
@@ -109,7 +121,53 @@ export function timeTicks([a, b], count = 6) {
     if (ms > b) break;
     if (ms >= a) out.push(ms);
   }
-  return { step, ticks: out, unit: step >= D ? 'day' : step >= H ? 'hour' : 'min' };
+  return out;
+}
+
+/**
+ * Label of a time tick: day and month for day steps and at local midnight, otherwise the time of day (Intl, active locale and time zone).
+ * @param {number} t
+ * @param {number} step
+ * @returns {string}
+ */
+export function timeLabel(t, step) {
+  return step >= D || (t + tzOffset(t)) % D === 0 ? fmtDay(t) : fmtTime(t);
+}
+
+/** @typedef {{ t: number, px: number, text: string, anchor: 'start' | 'middle' | 'end', l: number, r: number }} AxisTick One labelled tick: position, text, text-anchor and the label's estimated box [l, r]. */
+
+/**
+ * Time axis that fits its width: the smallest round step whose labels neither leave [0, width] nor come closer than `gap` to their neighbour,
+ * with ticks at least `minSpacing` px apart. Labels near an edge are anchored to it instead of being cut. The label width is estimated as
+ * characters × `charW` (the caller derives it from the axis font size).
+ * @param {number[]} range [a, b] in ms
+ * @param {{ left: number, right: number, width: number, charW: number, gap?: number, minSpacing?: number }} o plot from `left` to `right` px inside an axis `width` px wide
+ * @returns {{ step: number, unit: 'min' | 'hour' | 'day', ticks: AxisTick[] }}
+ */
+export function timeAxis([a, b], { left, right, width, charW, gap = 10, minSpacing = 72 }) {
+  const span = Math.max(1, b - a), plotW = Math.max(1, right - left);
+  /** @param {number} step @returns {AxisTick[]} */
+  const place = (step) => ticksAt([a, b], step).map((t) => {
+    const text = timeLabel(t, step), w = text.length * charW, px = left + ((t - a) / span) * plotW;
+    /** @type {'start' | 'middle' | 'end'} */
+    let anchor = 'middle', l = px - w / 2;
+    if (l < 0) { anchor = 'start'; l = px; }
+    if (l + w > width) { anchor = 'end'; l = px - w; }
+    return { t, px, text, anchor, l, r: l + w };
+  });
+  const fits = (/** @type {AxisTick[]} */ ts) => ts.every((x, i) => x.l >= 0 && x.r <= width && (i === 0 || (x.px - ts[i - 1].px >= minSpacing && x.l - ts[i - 1].r >= gap)));
+  const unit = (/** @type {number} */ step) => (step >= D ? 'day' : step >= H ? 'hour' : 'min');
+  for (const step of AXIS_STEPS) {
+    if (span / step > 200) continue;
+    const ts = place(step);
+    if (ts.length && fits(ts)) return { step, unit: unit(step), ticks: ts };
+  }
+  // nothing fits (a very narrow chart): the largest step, keeping only labels that fit
+  const step = AXIS_STEPS[AXIS_STEPS.length - 1];
+  /** @type {AxisTick[]} */
+  const kept = [];
+  for (const x of place(step)) if (x.l >= 0 && x.r <= width && (!kept.length || x.l - kept[kept.length - 1].r >= gap)) kept.push(x);
+  return { step, unit: unit(step), ticks: kept };
 }
 
 /**
