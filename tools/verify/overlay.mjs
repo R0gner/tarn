@@ -37,6 +37,31 @@ export const SCENARIOS = [
       const shut = await io.until(`document.querySelector('.tn-app').dataset.drawer !== 'open'`, 500);
       return shut ? [] : ['a tap on the current entry leaves the drawer open'];
     } },
+  { id: 'timeline-pan', page: 'gallery', hash: 'charts', overlay: '.tn-tl-scroll', focus: false, when: (sz) => sz.mobile,
+    open: (io) => io.eval(`(() => { document.querySelector('.tn-tl-scroll').scrollIntoView({ block: 'center', behavior: 'instant' }); return null; })()`),
+    // a vertical swipe that starts on the timeline scrolls the page, never the timeline; a horizontal swipe on a wide timeline scrolls it sideways
+    assert: async (io) => {
+      const left = [];
+      const drag = async (x, y, dx, dy) => {
+        const tp = (type, px, py) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: px, y: py, id: 0 }] });
+        await tp('touchStart', x, y); await sleep(30);
+        for (let i = 1; i <= 10; i++) { await tp('touchMove', x + (dx * i) / 10, y + (dy * i) / 10); await sleep(16); }
+        await tp('touchEnd', x + dx, y + dy); await sleep(250);
+      };
+      // room below the timeline (the gallery may end right after it): the finger moves up, the page must scroll down. A timeline that can scroll
+      // a few px down takes the whole gesture (scroll latching), which is the fault on the phone
+      const at = await io.eval(`(() => { const sp = document.createElement('div'); sp.style.height = '1200px'; sp.setAttribute('data-verify-ignore', ''); document.querySelector('.tn-content').append(sp);
+        const r = document.querySelector('.tn-tl-scroll').getBoundingClientRect(); return { x: Math.round(r.left + r.width * 0.6), y: Math.round(r.top + r.height / 2), sy: scrollY }; })()`);
+      await drag(at.x, at.y, 0, -160);
+      const v = await io.eval(`({ sy: scrollY, top: document.querySelector('.tn-tl-scroll').scrollTop })`);
+      if (v.top !== 0) left.push(`a vertical swipe scrolls the timeline by ${v.top} px`);
+      if (v.sy <= at.sy) left.push(`a vertical swipe on the timeline does not scroll the page (${at.sy} → ${v.sy})`);
+      await io.eval(`(() => { document.querySelector('.tn-tl-grid').style.minWidth = '900px'; document.querySelector('.tn-tl-scroll').scrollIntoView({ block: 'center', behavior: 'instant' }); return true; })()`);
+      const at2 = await io.eval(`(() => { const r = document.querySelector('.tn-tl-scroll').getBoundingClientRect(); return { x: Math.round(r.left + r.width * 0.8), y: Math.round(r.top + r.height / 2) }; })()`);
+      await drag(at2.x, at2.y, -160, 0);
+      if (!((await io.eval(`document.querySelector('.tn-tl-scroll').scrollLeft`)) > 0)) left.push('a horizontal swipe does not scroll a wide timeline sideways');
+      return left;
+    } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync') },
   { id: 'sheet', page: 'gallery', hash: 'states', overlay: 'dialog.tn-sheet[open]', focus: true,

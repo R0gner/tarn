@@ -143,7 +143,9 @@ button.tn-heat-cell:hover { opacity: .75; }
 /* ============ Schedule / Gantt ============ */
 .tn-tl { min-width: 0; border: 1px solid var(--tn-border); border-radius: var(--tn-r); background: var(--tn-card); overflow: hidden; }
 .tn-tl { --tn-tl-name: min(var(--tn-sz-180), 25%); }
-.tn-tl-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+/* overflow-y hidden: with overflow-x auto alone, overflow-y computes to auto and the box scrolled a few px vertically (the enlarged hit area of the
+   bars in the last row sticks out below the grid); a vertical swipe on the timeline then moved the timeline, not the page. Verify rule `scroll-y`. */
+.tn-tl-scroll { overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; }
 .tn-tl-grid { position: relative; overflow-x: clip; } /* hit-area extensions of the bars at the edge must not cause scrolling */
 .tn-tl-row { display: grid; grid-template-columns: var(--tn-tl-name) 1fr; min-height: var(--tn-sz-30); border-top: 1px solid var(--tn-sep); }
 .tn-tl-row:nth-child(odd of .tn-tl-row:not(.tn-tl-group, .tn-tl-head)) .tn-tl-track { background: var(--tn-hover); }

@@ -12,6 +12,7 @@
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   scroll-trap  a box inside the page or inside another scroller keeps the swipe to itself (overscroll-behavior); only the one scroller of an overlay layer may
+//   scroll-y   a scroller (overflow-y auto/scroll) can scroll vertically by a small accidental amount (1–24 px)
 //   select-chrome  shell chrome (board/view title, navigation, tab/segment labels, badges in controls) is selectable, or content is not
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
@@ -437,6 +438,20 @@
     let outer = layer === document.body ? de : null;
     for (let p = el === layer ? null : el.parentElement; !outer && p; p = p === layer ? null : p.parentElement) if (isScroll(S(p).overflowY)) outer = p;
     if (outer) push(findings, { rule: 'scroll-trap', sel: path(el), where: where(el), text: `overscroll-behavior ${s.overscrollBehaviorY} on a box inside ${outer === de ? 'the page' : desc(outer)}: a swipe on it does not scroll what is around it`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- scroll-y: no scroller is vertically scrollable by a small accidental amount ----
+     A box with overflow-y auto/scroll (also the one overflow-x auto makes: overflow-y then computes to auto) whose content is 1–24 px taller than
+     the box catches a vertical swipe and moves by that much while the page stays put (the timeline fault). Either the content fits or the box
+     does not scroll vertically (overflow-y hidden). The page itself and the root are not checked, nor a box that caps its own height with max-height
+     (log, menu, list popup): there the amount depends on the data and scrolling is the purpose. */
+  for (const el of all) {
+    if (el === de || el === document.body) continue;
+    const s = S(el);
+    if (!isScroll(s.overflowY) || s.maxHeight !== 'none') continue;
+    const extra = el.scrollHeight - el.clientHeight;
+    if (extra < 1 || extra > 24) continue;
+    push(findings, { rule: 'scroll-y', sel: path(el), where: where(el), px: extra, text: `scrolls ${extra} px vertically (overflow-y ${s.overflowY}${isScroll(s.overflowX) ? `, overflow-x ${s.overflowX}` : ''}): a vertical swipe on it moves the box, not the page`, rect: R(el.getBoundingClientRect()), el });
   }
 
   /* ---- select-chrome: shell chrome is interface, content stays selectable ----

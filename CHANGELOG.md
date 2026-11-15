@@ -14,6 +14,15 @@ While the major version is 0, minor versions may change the API; every change is
   callout (`user-select: none`, `-webkit-touch-callout: none` on sidebar head, navigation, sidebar foot, toolbar, tabs, segmented, buttons).
   Fields a board puts into the toolbar stay editable. Content (table cells, values, detail text, logs, Markdown, code) stays selectable.
   verify geometry rule `select-chrome` checks both sides; mutants `title-selectable` and `cells-unselectable`.
+- `timeline()`: a vertical swipe that starts on a timeline scrolls the page. Before, the box scrolled itself by a few px (phone 390 px: 5 px
+  compact, 10 px comfortable; measured scrollHeight 411/416 against clientHeight 406) and the page did not move: `overflow-x: auto` made
+  `overflow-y` compute to `auto`, and in the narrow layout the enlarged hit area of the bars in the last row sticks out below the grid.
+  `.tn-tl-scroll` now has `overflow-y: hidden`; the horizontal pan of a wide timeline keeps working. The same fault was in `tabs()` (the tab
+  strip scrolled 1 px vertically through the tab's -1 px margin); `.tn-tabs` and `.tn-seg` get `overflow-y: hidden` as well.
+- verify, geometry rule `scroll-y` (all pages and views): a scroller (`overflow-y` auto or scroll, also the one `overflow-x: auto` creates) must
+  not be vertically scrollable by 1–24 px. Not checked: the page itself and boxes that cap their own height with `max-height` (log, menus, list
+  popups), where the amount depends on the data. Mutant `timeline-scrolls-vertically` restores the old timeline and is detected; overlay scenario
+  `timeline-pan` (touch sizes) drives a real vertical and horizontal swipe, mutant `timeline-catches-pan`.
 
 ## 0.5.3
 

@@ -161,6 +161,19 @@ export const MUTANTS = [
     patch: [{ file: 'js/form.js', from: "if (pending) return;", to: "" }],
   },
   {
+    // earlier timeline fault: overflow-x auto alone makes overflow-y auto; the bars' hit area sticks out a few px below the grid, so a vertical
+    // swipe on the timeline scrolled the timeline by about a millimetre and the page did not move
+    id: 'timeline-scrolls-vertically',
+    page: 'gallery', views: ['charts'], sizes: ['phone'], expect: ['scroll-y'],
+    css: '.tn-tl-scroll { overflow-y: visible !important; }',
+  },
+  {
+    // the same fault, driven by a real finger: the vertical swipe on the old timeline moves the timeline and not the page
+    id: 'timeline-catches-pan',
+    check: 'overlay', scenarios: ['timeline-pan'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    css: '.tn-tl-scroll { overflow-y: visible !important; }',
+  },
+  {
     // earlier chrome fault: a long press on the board title or the view title selects it (the text was selectable like content)
     id: 'title-selectable',
     page: 'board', views: ['overview'], sizes: ['phone', 'desktop'], expect: ['select-chrome'],

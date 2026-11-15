@@ -93,7 +93,7 @@
 /* ============ Segmented ============ */
 .tn-seg {
   display: inline-flex; gap: var(--tn-sp-2); padding: var(--tn-seg-py) var(--tn-sp-2); border-radius: var(--tn-r);
-  background: var(--tn-bg-sunken); border: 1px solid var(--tn-border); max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  background: var(--tn-bg-sunken); border: 1px solid var(--tn-border); max-width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; /* a horizontal scroller never scrolls vertically (verify rule scroll-y) */
 }
 .tn-seg-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--tn-sp-6); flex: 1 0 auto;
@@ -108,7 +108,7 @@
 
 /* ============ Tabs ============ */
 .tn-tabset { display: grid; gap: var(--tn-s3); min-width: 0; }
-.tn-tabs { display: flex; gap: var(--tn-s1); border-bottom: 1px solid var(--tn-sep); overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.tn-tabs { display: flex; gap: var(--tn-s1); border-bottom: 1px solid var(--tn-sep); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; min-width: 0; } /* the tab's -1 px margin made it scroll 1 px vertically (verify rule scroll-y) */
 .tn-tabs::-webkit-scrollbar { display: none; }
 .tn-tab {
   position: relative; display: inline-flex; align-items: center; gap: var(--tn-sp-6); flex: none;
