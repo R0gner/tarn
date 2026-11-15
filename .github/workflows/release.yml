@@ -1,0 +1,39 @@
+# Tarn · a pushed tag vX.Y.Z creates a GitHub release; its text is the CHANGELOG section of that version.
+# The tag has to equal "v" + the file VERSION, otherwise the run fails before anything is published.
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tag matches VERSION
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          expected="v$(tr -d '[:space:]' < VERSION)"
+          if [ "$TAG" != "$expected" ]; then
+            echo "Tag $TAG does not match VERSION (expected $expected)." >&2
+            exit 1
+          fi
+      - name: Write the release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: node tools/release-notes.mjs "${TAG#v}" > "$RUNNER_TEMP/notes.md"
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release create "$TAG" --title "Tarn ${TAG#v}" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag

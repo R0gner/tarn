@@ -84,6 +84,12 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
 | `node <kit>/tools/verify.mjs --board <board> --base http://127.0.0.1:<port>` | the same checks for a board outside the kit (its own lint, vendor copy, geometry, snapshots, overlays, inventory) | ≈ 10–60 s |
 | `node <kit>/tools/lint.mjs --board <board>` | lint of the board's own CSS, JS, HTML with its allow file | < 1 s |
 
+## Releasing
+
+1. Set the same version in `VERSION`, `js/version.js` and `package.json`; move the changes into a `## X.Y.Z` section of `CHANGELOG.md` (the section is the text of the release).
+2. `node --test` and `node tools/verify.mjs` green; `node tools/release-notes.mjs` prints the section.
+3. Commit, tag `vX.Y.Z`, push the branch and the tag. `.github/workflows/release.yml` checks that the tag equals `v` + `VERSION` and creates the GitHub release by itself; do not create it by hand.
+
 ## Create a new board
 
 1. Copy `example/` as the template (`index.html`, `board.js`, `messages.js`, `favicon.svg`, `manifest.webmanifest`, icons), switch the
