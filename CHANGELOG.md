@@ -3,6 +3,35 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.7.0
+
+### Added
+- `promSource({ base, queries, interval?, staleAfter?, minStep?, maxPoints? })`: named PromQL queries against the Prometheus HTTP API
+  (`GET {base}/api/v1/query` and `/api/v1/query_range`, same origin; VictoriaMetrics answers it as well). A range query (`range: true`) gives
+  `{ x, series: [{ label, labels, values }] }` on one time grid with `null` in gaps, what `lineChart`/`barChart` take; an instant query gives rows
+  `[{ label, labels, value }]`, `promValue(rows, match?)` picks the one number. `legend` is a template (`'{{instance}}'`) or a function of the
+  labels; `expr` a string or a function of the current range. The step keeps a series at most about 300 points long (`minStep` as lower bound);
+  without `interval` the refresh follows the range. Errors per query (HTTP, `status: "error"` with its text, not JSON, timeout): the other queries
+  still update, the failing one keeps its last good data and the message names it; age is that of the oldest query.
+- `promEscape(value, { regex? })` escapes label values for a PromQL string; `RANGE_PRESETS` (1 h, 6 h, 24 h, 7 d, 30 d).
+- `combineSources({ a, b })`: one source with `data = { a, b }`; in error or stale when a part is (the message and `staleParts` name it, the stale
+  banner says which part), age of the oldest part, every part keeps its last good data.
+- Time range: one per app, a kit menu in the toolbar while the shown view's source follows the range (`createApp({ ranges?, range? })`,
+  `app.range`, `app.setRange(id)`). Kept as the view parameter `range`; a choice replaces the history entry. Changing it aborts requests in flight
+  and drops the old range's data before the view renders. Texts en/de/es/fr.
+- Sources of one view: `views[].source` starts when the view is shown, stops when it is left, and is merged with the app's source for `ctx.data`,
+  the freshness text and the banners. Queries of one view do not run while another view is shown.
+- `dataSource({ timeout })` (default 30 s); `stop()` aborts a request in flight. All sources share one polling engine.
+- Gallery view “Data sources” on a simulated Prometheus (`gallery/prom-sim.js`, a `fetch` replacement computed from the time asked for; also used by
+  the unit tests, no request reaches a real metrics server).
+- verify: overlay scenarios `range-menu` and `range-change` (the range choice replaces the history entry and the chart never shows the old
+  range's data under the new label), mutant `range-keeps-old-data`.
+
+### Docs
+- docs/data.md rewritten around the source kinds (JSON, PromQL, combined, view sources; stream planned), the two server options for the Prometheus
+  API (reverse-proxy route with a sample, or a board backend with its own expressions) and a walk-through from a Grafana panel to a Tarn view;
+  pointers in docs/charts.md, docs/building-a-board.md and the AGENTS.md building-block table.
+
 ## 0.6.1
 
 ### Fixed

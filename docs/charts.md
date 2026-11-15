@@ -6,7 +6,7 @@ their values in a data card on hover or touch.
 
 | You have … | use |
 |---|---|
-| a time series, one or several lines | `lineChart({ x, series })` |
+| a time series, one or several lines | `lineChart({ x, series })`; from a metrics server: a `promSource` range query gives exactly this shape ([data](data.md#promql-promsource)) |
 | counts per day, per category, a ranking with long names | `barChart({ labels, series })`, `horizontal: true` for rankings |
 | a trend to put inside a tile or a row | `sparkline({ values })` |
 | a share or a fill level | `donut({ segments })` or `donut({ value, max })` |

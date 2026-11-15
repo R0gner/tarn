@@ -12,15 +12,20 @@ Answer these before you write a line.
 **What is being built?** Name the views (a start view with the status of everything, then one view per thing the user looks at or does) and what a row
 opens (a detail). A board with no actions only displays; one that starts a process, saves a setting or sends a message needs forms and a backend.
 
-**Where does the data come from?** Two ways exist today; pick one per board.
+**Where does the data come from?** Three ways exist; pick one per board, or combine them.
 
 | Way | Fits when | What you build |
 |---|---|---|
 | A collector writes a JSON snapshot next to a static server | numbers that change every few minutes, a read-only board, the data already exists as files or a script can produce it | a script (cron, a timer, anything) that writes one JSON document atomically (write a temp file, rename it), a static file server with the strict CSP, the board folder. `dataSource` fetches the file |
+| A Prometheus-compatible metrics server (Prometheus, VictoriaMetrics) | time series and current values that already live there, a board that replaces dashboards of a monitoring tool | a same-origin route that passes only `GET /api/v1/query` and `/api/v1/query_range` (reverse proxy, or a backend that allows only its own expressions), named queries in `promSource` |
 | An active backend | actions (start, stop, save), forms with server-side validation, running jobs with a live log, push notifications | a small server that answers the JSON calls the views need, takes the form posts, serves the kit and the board files, and (for push) answers the five notification calls |
 
 Both end at the same place: the browser fetches JSON from its own origin. Pick the first one when it is enough; a backend can come later without
-changing the views. A PromQL data source for an existing Prometheus or VictoriaMetrics is planned, not available.
+changing the views. Metrics come through `promSource`: declare each panel's query by name in board code (`queries: { cpu: { expr, range: true,
+legend: '{{instance}}' } }`), and the view gets chart-ready data (`ctx.data.cpu` goes straight into `lineChart`, `promValue(ctx.data.load)` into a tile)
+over the time range the toolbar control sets. Queries only one view needs go into that view's own `source`, so they do not run while another view is
+shown; collector JSON and metrics are joined with `combineSources`. The server options, a reverse-proxy sample and a walk-through from a Grafana panel are in
+[data](data.md#promql-promsource).
 
 **One board or several?** One board is the default. Several boards on one host get the same icon in the header and a switcher between them
 ([several boards](shell.md#several-boards)); decide the shared `boards.json` once, not per board.

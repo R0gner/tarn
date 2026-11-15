@@ -132,6 +132,7 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 | feedback after an action | `toast(text, { tone, action })` |
 | usage, progress | `usageBar({ used, total, label })`, `progress({ value })` |
 | a time series | `lineChart({ x, series })` (scrubbing built in), runs per day `barChart({ stacked: true })` |
+| metrics from Prometheus/VictoriaMetrics | `promSource({ base, queries: { cpu: { expr, range: true, legend } } })` → `lineChart(ctx.data.cpu)`, `promValue(ctx.data.load)`; one view's queries as that view's `source`; with JSON `combineSources()` (docs/data.md) |
 | a ranking with names | `barChart({ horizontal: true })` |
 | last runs ok/fail | `heatRow({ items })` |
 | a schedule, overlaps | `timeline({ rows, conflicts: 'auto' })` (heavy runs `heavy: true`) |
