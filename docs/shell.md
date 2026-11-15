@@ -35,6 +35,8 @@ source.start();
 | `densitySwitch` | `true` adds a compact ↔ comfortable button next to the theme button |
 | `notifications` | `{ api, … }` adds the Notifications entry to the sidebar, see [notifications](notifications.md) |
 | `toolbarExtra` | one extra element in the toolbar |
+| `back` | `'levels'` (default): Back goes by levels, see [Back](#back); `'history'`: every view change is a history entry (before 0.6.0) |
+| `exitHint` | `false` turns off the "Press back again to close" hint of an installed app (default on; only with `back: 'levels'`) |
 | `inspector` | `false` shows details as a panel or sheet on every width instead of the inspector on wide screens |
 | `root` | element the app is built into (default `document.body`) |
 
@@ -60,7 +62,7 @@ source.start();
 
 | Call | Does |
 |---|---|
-| `app.go(view, { open?, params? })` | navigates (`#/view?open=id`) |
+| `app.go(view, { open?, params? })` | navigates (`#/view?open=id`); same view with other `params` replaces the entry |
 | `app.open(id)` | opens the detail of `id` in the current view |
 | `app.closeDetail()` | closes the detail |
 | `app.refresh()` | redraws the current view and detail |
@@ -70,8 +72,50 @@ source.start();
 
 ### Routing
 
-The state lives in the hash: `#/<view>?open=<id>&<more>`. `parseHash(hash)` and `buildHash(view, params)` are exported. Back closes a detail; a link to a
-view or a detail is an ordinary URL.
+The state lives in the hash: `#/<view>?open=<id>&<more>`. `parseHash(hash)` and `buildHash(view, params)` are exported. A link to a view or a detail is
+an ordinary URL; links to `#/view` in content, typed URLs and `app.go()`/`app.open()` all go through the same navigation.
+
+### Back
+
+With `back: 'levels'` (the default) the browser's Back, and in an installed app the Android back button, goes by levels, not through everything
+the user visited:
+
+| Level | What |
+|---|---|
+| 0 | the default view (`defaultView`, else the first view) |
+| 1 | any other view |
+| 2 | an open layer: a detail (`?open=`), a sheet or panel (`openSheet`), a `confirm()` dialog, the phone/tablet drawer |
+
+- Back with an open layer closes the topmost layer only and changes nothing else (a `confirm()` answers `false`). Back on another view goes to
+  the default view. Back on the default view leaves the page.
+- The history never grows with use: default → A adds one entry, A → B replaces it, A → default returns to the base entry; filter, sort and tab
+  parameters of the same view replace. A detail opened in A sits on top of A; "Open in …" from a detail replaces. The base entry keeps the
+  default view's own parameters.
+- Installed app (display-mode `standalone`, `minimal-ui` or `fullscreen`): Back on the default view first shows the toast "Press back again to
+  close"; a second Back within 2.5 s leaves. A page cannot close an installed app reliably, so there is no dialog. `exitHint: false` turns it off.
+- Deep links (`#/jobs`, `#/jobs?open=id`, also from a notification) get the missing lower entries, so Back walks down the levels. Chrome's
+  history-manipulation intervention makes its back button skip entries a page adds before the user has activated it, so the shell adds them with
+  the first touch, click or key (all at once). **Back before the first touch leaves the page directly**: in a browser tab to the page before, in
+  an installed app it closes the app, without the exit hint. Measured in Chrome 157 with the browser's own Back (Alt+Left, which honours the
+  intervention like the Android back button), on the example board:
+
+  | Start | Then | Back, Back, Back |
+  |---|---|---|
+  | `#/jobs?open=offsite-sync` | nothing | page before |
+  | `#/jobs?open=offsite-sync` | one tap | `#/jobs`, `#/overview`, page before |
+  | `#/hosts` | nothing | page before |
+  | `#/hosts` | one tap | `#/overview`, page before |
+  | `#/overview` → `jobs` → `hosts` → `deploy` (taps) | – | `#/overview`, page before |
+  | control: a script pushes `#/jobs` without activation | – | page before (`#/overview` skipped) |
+
+- A reload keeps the levels (they are stored in `history.state`); open sheets and dialogs are not restored. Forward is not broken, but nothing more
+  is promised for it.
+- Sheets and dialogs take a history entry only inside a `createApp()` page; on a plain page (core only) they take none. `openSheet({ back: false })`
+  opts a sheet out; its `onClose` reason for Back is `'back'`.
+- `back: 'history'` keeps the behaviour before 0.6.0: every view change and every detail is its own entry.
+
+The level logic is the pure module `js/levels.js` (unit tests in `tests/levels.test.mjs`); verify drives the real history in its overlay scenarios
+`back-views`, `back-detail`, `back-deeplink`, `back-sheet`, `back-confirm`, `back-drawer` and `exit-hint` (see [checks](checks.md)).
 
 ## Layout behaviour
 
@@ -83,6 +127,13 @@ view or a detail is an ordinary URL.
 
 - Tables turn into the two-line list when their container is narrower than 600 px or the columns no longer fit (measured; no sideways scrolling).
 - Touch targets are at least 40 px (`pointer: coarse`); `prefers-reduced-motion` switches motion off.
+- Below 1000 px a tap on any navigation entry closes the drawer, also on the entry of the view already shown; Back closes it as well (see
+  [Back](#back)). The desktop sidebar stays as it is.
+- Shell chrome is not selectable and shows no touch callout: board title, view title and freshness text, navigation entries and group headings,
+  tab and segment labels, badges inside controls. Content (table cells, values, detail text, logs, Markdown, code) stays selectable. verify rule
+  `select-chrome`.
+- Horizontal scrollers (timeline, tabs, segmented) never scroll vertically and their content fits the box exactly; a vertical swipe on them scrolls
+  the page. verify rule `scroll-y`.
 - Phone toolbar (< 600 px): burger, view title, freshness text and one settings entry (theme, density, language in one sheet). The freshness text gives way
   before the view title does. Do not add more toolbar buttons; verify rule `toolbar-title` fails when a toolbar crowds the title out.
 

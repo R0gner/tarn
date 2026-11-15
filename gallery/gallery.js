@@ -1,5 +1,5 @@
 // tarn · gallery: every building block in all its states, grouped by level (tokens, primitives, components, shell); the navigation
-// groups say which part a view shows: "Core · …" (works without the shell) or "Shell · …" (boards only), see README "Core and shell".
+// groups say which part a view shows: "Core · …" (works without the shell) or "Shell · …" (boards only), see docs/getting-started.md "Core and shell".
 // Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
