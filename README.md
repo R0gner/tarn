@@ -86,6 +86,8 @@ Then give your agent [docs/building-a-board.md](docs/building-a-board.md); the `
 
 Changing the kit itself: [AGENTS.md](AGENTS.md) and [CHANGELOG.md](CHANGELOG.md).
 
+**Status:** pre-1.0, not announced yet. Pull requests are not accepted for now; issues are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md), the [issue tracker](https://github.com/R0gner/tarn/issues) and the [releases](https://github.com/R0gner/tarn/releases).
+
 ## Licence
 
 [MIT](LICENSE), copyright (c) 2026 R0gner. The bundled Lucide icons (ISC), Inter and IBM Plex Mono (SIL Open Font License 1.1) keep their own licences; see
