@@ -32,10 +32,10 @@ export const SIM_METRICS = [
 
 /**
  * fetch replacement answering GET {base}/api/v1/query and /api/v1/query_range from `metrics`.
- * @param {{ metrics?: SimMetric[], log?: string[] }} [o] `log` collects the requested URLs (tests)
+ * @param {{ metrics?: SimMetric[], log?: string[], delay?: number }} [o] `log` collects the requested URLs (tests); `delay` (ms) answers later, like a network
  * @returns {typeof fetch}
  */
-export function promSim({ metrics = SIM_METRICS, log } = {}) {
+export function promSim({ metrics = SIM_METRICS, log, delay = 0 } = {}) {
   /** @param {unknown} body @param {number} [status] */
   const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
   return /** @type {typeof fetch} */ (async (input, init) => {
@@ -44,6 +44,7 @@ export function promSim({ metrics = SIM_METRICS, log } = {}) {
     const u = new URL(href, 'http://sim.invalid');
     const kind = u.pathname.endsWith('/api/v1/query_range') ? 'range' : u.pathname.endsWith('/api/v1/query') ? 'instant' : null;
     if (!kind) return json({ status: 'error', errorType: 'not_found', error: 'not found' }, 404);
+    if (delay > 0) await new Promise((r) => setTimeout(r, delay));
     const expr = u.searchParams.get('query') || '';
     const m = metrics.find((x) => expr.includes(x.match));
     if (!m) return json({ status: 'error', errorType: 'bad_data', error: `unknown expression: ${expr}` }, 400);

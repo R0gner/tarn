@@ -254,14 +254,23 @@ export function combineSources(parts, { flat = false } = {}) {
   const names = Object.keys(parts);
   /** @type {Set<(state: DataState) => void>} */
   const subs = new Set();
+  /* the combined data object is rebuilt only when a part's data changes, so `state.data !== before` means new data */
+  /** @type {any[]} */
+  let memoKey = [];
+  /** @type {Record<string, any> | null} */
+  let memo = null;
   /** @returns {DataState} */
   function snapshot() {
     const states = names.map((n) => /** @type {[string, DataState]} */ ([n, parts[n].state]));
     const withData = states.filter(([, s]) => s.data != null);
-    /** @type {Record<string, any> | null} */
-    const data = !withData.length ? null
-      : flat ? Object.assign({}, ...withData.map(([, s]) => (typeof s.data === 'object' && !Array.isArray(s.data) ? s.data : {})))
-        : Object.fromEntries(states.map(([n, s]) => [n, s.data]));
+    const key = states.map(([, s]) => s.data);
+    if (key.some((d, i) => d !== memoKey[i])) {
+      memoKey = key;
+      memo = !withData.length ? null
+        : flat ? Object.assign({}, ...withData.map(([, s]) => (typeof s.data === 'object' && !Array.isArray(s.data) ? s.data : {})))
+          : Object.fromEntries(states.map(([n, s]) => [n, s.data]));
+    }
+    const data = memo;
     const errors = states.filter(([, s]) => s.error).map(([n, s]) => (flat ? String(s.error) : `${n}: ${s.error}`));
     const staleParts = states.filter(([, s]) => s.stale).flatMap(([n, s]) => (flat ? s.staleParts || [] : [n]));
     const dated = states.filter(([, s]) => s.fetchedAt != null && s.age != null);

@@ -11,6 +11,7 @@ import { viewInputs } from './gallery-inputs.js';
 import { viewForms, viewActions } from './gallery-forms.js';
 import { REPORT, SECURITY_CASES } from './markdown-sample.js';
 import { mockPush } from './mock-push.js';
+import { viewDataSources, dataSourcesSource, dataSourcesReady } from './gallery-data.js';
 
 /* ---- helpers ---- */
 const code = (txt) => h('pre', { class: 'g-code' }, txt.trim());
@@ -287,6 +288,7 @@ const app = createApp({
     { id: 'charts', label: 'Charts', icon: 'chart', render: viewCharts },
     { id: 'markdown', label: 'Markdown', icon: 'list', render: viewMarkdown },
     { id: 'states', label: 'States and sheets', icon: 'alert', render: viewStates },
+    { id: 'datasources', label: 'Data sources', icon: 'database', render: viewDataSources, source: dataSourcesSource },
     { id: 'shell', group: 'Shell · App frame', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
   ],
 });
@@ -298,4 +300,5 @@ function tableCount(ctx) {
   return { n: bad || jobs.length, tone: bad ? 'bad' : null };
 }
 src.start();
+dataSourcesReady.then(() => app.refresh());
 window.tnApp = app; // for scripts/console

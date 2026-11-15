@@ -1,0 +1,145 @@
+# gallery #/datasources · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x1212
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x588
+      div.tn-nav-group [presentation] "Core · Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Core · Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      a.tn-nav-item @8,248 192x28
+        svg.tn-icon @16,252 16x16
+        span.tn-ellipsis "Forms" @40,252 40x20
+      div.tn-nav-group [presentation] "Shell · Components" @8,276 192x32
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Cards and tiles" @40,316 92x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Rows and facts" @40,344 96x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Table and filter" @40,372 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,372 24x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Confirm and actions" @40,400 124x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Menus and feedback" @40,432 132x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Charts" @40,460 40x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "Markdown" @40,488 64x20
+      a.tn-nav-item @8,512 192x28
+        svg.tn-icon @16,520 16x16
+        span.tn-ellipsis "States and sheets" @40,516 112x20
+      a.tn-nav-item.is-active {current=page} @8,540 192x28
+        svg.tn-icon @16,548 16x16
+        span.tn-ellipsis "Data sources" @40,548 80x20
+      div.tn-nav-group [presentation] "Shell · App frame" @8,572 192x32
+      a.tn-nav-item @8,604 192x28
+        svg.tn-icon @16,608 16x16
+        span.tn-ellipsis "Shell and boards" @40,608 104x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x1212
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "Data sources" @252,12 84x20
+      div.tn-toolbar-spacer @340,20 784x0
+      div.tn-range @1128,8 60x28
+        button.tn-btn.tn-btn-ghost.tn-range-btn {expanded=false} "Time range: Last hour" @1128,8 60x28
+          svg.tn-icon @1140,12 16x16
+      button.tn-fresh "Updated now" @1192,8 92x28
+      button.tn-iconbtn.tn-hide-phone "Reload" @1288,8 28x28
+        svg.tn-icon @1296,12 16x16
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn.tn-hide-phone "Density: Compact (switch)" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x1168
+      section.tn-card @224,60 1184x384
+        header.tn-card-head @224,60 1184x40
+          div.tn-card-heading @236,72 1160x20
+            h3.tn-card-title "promSource(): a range query" @236,72 1160x20
+        div.tn-card-body @224,100 1184x340
+          div.tn-chart.tn-chart-line [img] "Busy CPU per node over 1 h" @236,112 1160x204
+            div.tn-chart-plot @236,112 1160x180
+              svg.tn-svg @236,112 1160x180
+            div.tn-legend @236,300 1160x16
+              span.tn-legend-item "node-a" @236,300 56x16
+                span.tn-tip-sw.tn-c-blue @236,304 8x8
+              span.tn-legend-item "node-b" @304,300 56x16
+                span.tn-tip-sw.tn-c-green @304,304 8x8
+              span.tn-legend-item "node-c" @372,300 56x16
+                span.tn-tip-sw.tn-c-orange @372,304 8x8
+      section.tn-card @224,464 1184x212
+        header.tn-card-head @224,464 1184x40
+          div.tn-card-heading @236,476 1160x20
+            h3.tn-card-title "An instant query in a tile" @236,476 1160x20
+        div.tn-card-body @224,504 1184x172
+          div.tn-tiles @236,516 1160x84
+            div.tn-stat @236,516 576x84
+              div.tn-stat-label @252,524 548x16
+                span.tn-ellipsis "Max queue depth" @252,524 100x16
+              div.tn-stat-value.tn-num "50" @252,544 548x24
+              div.tn-stat-sub "over 1h" @252,572 548x16
+            div.tn-stat @820,516 576x84
+              div.tn-stat-label @832,524 548x16
+                span.tn-ellipsis "Nodes reporting" @832,524 92x16
+              div.tn-stat-value.tn-num "3" @832,544 548x24
+      section.tn-card @224,696 1184x232
+        header.tn-card-head @224,696 1184x40
+          div.tn-card-heading @236,708 1160x20
+            h3.tn-card-title "combineSources()" @236,708 1160x20
+        div.tn-card-body @224,736 1184x192
+          dl.tn-kv @236,748 380x88
+            dt "Parts" @236,748 104x20
+            dd "metrics, snapshot" @356,748 260x20
+            dt "snapshot" @236,772 104x20
+            dd "12 jobs" @356,772 260x20
+            dt "metrics" @236,796 104x20
+            dd "241 points × 3 series" @356,796 260x20
+            dt "Age (oldest part)" @236,820 104x20
+            dd "now" @356,820 260x20
+      section.tn-card @224,952 1184x232
+        header.tn-card-head @224,952 1184x40
+          div.tn-card-heading @236,960 1160x20
+            h3.tn-card-title "Error and stale states" @236,960 1160x20
+        div.tn-card-body @224,992 1184x188
+          div.tn-banner.tn-banner-warn [status] @236,1004 368x36
+            svg.tn-icon @252,1016 16x16
+            div.tn-banner-text "Update failed (errors: HTTP 503), showing the last data." @276,1016 316x16
+          dl.tn-kv @236,1040 368x40
+            dt "cpu" @236,1040 96x20
+            dd "3 series" @348,1040 256x20
+            dt "errors" @236,1064 96x20
+            dd "–" @348,1064 256x20
+          div.tn-banner.tn-banner-bad [alert] @616,1004 236x36
+            svg.tn-icon @628,1012 16x16
+            div.tn-banner-text "Data is stale (updated 2 hr. ago)." @652,1012 184x16
+          dl.tn-kv @616,1040 236x44
+            dt "queue" @616,1040 236x20
+            dd "50" @616,1060 236x20

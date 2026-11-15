@@ -68,3 +68,17 @@ test('combineSources flat: data objects merged, no part names in messages, inner
   assert.equal(src.state.stale, true);
   assert.deepEqual(src.state.staleParts, ['metrics']);
 });
+
+test('combineSources: the data object changes only when a part has new data', async () => {
+  let t = NOW;
+  const a = dataSource({ url: '/a', fetch: async () => new Response('{"v":1}'), now: () => t });
+  const b = dataSource({ url: '/b', fetch: async () => new Response('{"w":2}'), now: () => t });
+  const src = combineSources({ a, b });
+  await a.reload();
+  const d1 = src.state.data;
+  assert.equal(src.state.data, d1, 'same object while nothing changed');
+  t += 1000;
+  await b.reload();
+  assert.notEqual(src.state.data, d1, 'a younger part with new data gives a new object (the oldest fetchedAt did not move)');
+  assert.equal(src.state.fetchedAt, NOW);
+});
