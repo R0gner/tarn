@@ -236,4 +236,10 @@ export const MUTANTS = [
     page: 'gallery', views: ['feedback'], sizes: ['phone', 'desktop'], expect: ['scroll-trap'],
     css: '.tn-log { overscroll-behavior: contain; }',
   },
+  {
+    // the explanation hangs on the body instead of in the sheet and is not lifted into the top layer → under the sheet, inert
+    id: 'info-below-sheet',
+    check: 'overlay', scenarios: ['sheet-info'], sizes: ['phone', 'desktop'], expect: ['overlay-missing', 'overlay-top', 'overlay-inert', 'overlay-behaviour'],
+    patch: [{ file: 'js/components.js', from: "    showOverlay(el);\n    const r = btn.getBoundingClientRect()", to: "    document.body.append(el);\n    const r = btn.getBoundingClientRect()" }],
+  },
 ];

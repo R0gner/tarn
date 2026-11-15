@@ -4,7 +4,7 @@
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
   metricRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
-  cols, stack, openSheet, markdown, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
+  cols, stack, openSheet, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
@@ -19,6 +19,11 @@ const demo = (title, usage, ...stage) => card({ title }, h('div', { class: 'g-de
 const state = (label, el) => h('div', { class: 'g-state' }, el, h('span', { class: 'g-state-l' }, label));
 const stage = (...k) => h('div', { class: 'g-stage' }, k);
 const noop = () => {};
+/** The longest info text the guide allows: plain sentences cut at INFO_MAX characters. */
+const INFO_TEXT_MAX = (() => {
+  const base = 'Jobs that failed at least once in their last 30 runs and are OK now. The figure is the number of failed runs. A job leaves the list after 30 runs without a failure. Tap a row to see the runs and the reports. The list is sorted by the number of failures, most first, and holds at most ten jobs.';
+  return base.slice(0, INFO_MAX - 1).replace(/\s+\S*$/, '') + '.';
+})();
 
 const src = dataSource({ url: './fixture.json', interval: 60_000, staleAfter: 900 });
 const jobsOf = (ctx) => ctx.data?.jobs || [];
@@ -101,6 +106,14 @@ function viewCards(ctx) {
           card({ flush: true }, list(jobs.filter((j) => ['bad', 'warn'].includes(j.status)), (j) => jobRow(j, ctx)))),
         card({ title: 'Card title', sub: 'Subtitle with context', actions: [iconButton('refresh', { label: 'Reload' }), iconButton('more', { label: 'More' })] },
           h('p', { class: 'tn-muted' }, 'The card is the only container with a hairline. No shadow, radius 6 px.')))),
+    demo('An explanation behind the "i": card({ info }), section(…, { info })', `card({ title: 'Schedule today', info: t('board.info.schedule') }, timeline(…))   // closed by default; a few plain sentences, at most INFO_MAX (${INFO_MAX}) characters
+section('Recently failed', { count: 3, info: t('board.info.failed') }, card(…))           // only for a display that needs a key; never a disclaimer`,
+      h('div', { class: 'g-grid2' },
+        state('short text', card({ title: 'Schedule today', info: 'Bars are runs today. A red edge marks an overlap with a heavy run.' }, h('p', { class: 'tn-muted' }, 'Content of the card.'))),
+        state(`longest allowed text (${INFO_MAX.toFixed(0)} characters)`, section('Recently failed', { count: 2, info: INFO_TEXT_MAX },
+          card({ flush: true }, list(jobs.slice(0, 2), (j) => jobRow(j, ctx))))),
+        state('infoButton() on its own', toolbarRow(h('span', null, 'Retention'), infoButton('Days a backup is kept before it is pruned.'))),
+        state('inside a sheet', stage(button('Open sheet with an explanation', { onClick: () => openSheet({ title: 'Run history', body: [card({ title: 'Last 30 runs', info: 'Each square is one run, oldest on the left. Red failed, grey did not run.' }, h('p', { class: 'tn-muted' }, 'Content of the card.'))] }) }))))),
     demo('tiles() with any number of tiles', `tiles(a, b, c, d, e)               // wide: 5 in a row · medium: 3 + 2 · phone: 2 + 2 + 1 – every row ends at the same edge
 tiles({ className: 'my-tiles' }, …)   // an own class next to tn-tiles`,
       h('div', { class: 'g-stack' }, [3, 5, 7].map((n) => state(`${n} tiles`, tiles({ className: 'g-tiles-demo' }, ...Array.from({ length: n }, (_, i) => statTile({ label: `Tile ${i + 1}`, value: String(10 * (i + 1)), sub: i % 3 === 0 ? 'with a sub line' : null, status: i === 1 ? 'warn' : 'ok' }))))))),

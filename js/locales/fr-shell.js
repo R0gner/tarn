@@ -2,6 +2,7 @@
 // tarn · kit texts, shell part (fr): shell, table, filters, charts, confirm, actions. Merged into the kit catalog by js/locales/shell.js (the ops shell and the barrel load it).
 export default {
   "common.close": "Fermer",
+  "common.info": "Explication",
   "common.retry": "Réessayer",
   "table.more": "Afficher plus",
   "table.shown": "{shown} sur {total} lignes",

@@ -156,6 +156,20 @@
 }
 .tn-section-count { font-weight: var(--tn-fw-label); color: var(--tn-text-3-tint); font-variant-numeric: tabular-nums; }
 .tn-section-actions { display: flex; gap: var(--tn-s1); }
+/* The small "i" next to a card or section title (infoButton) and the explanation it opens: a floating layer like the menu, plain text */
+.tn-info-btn { flex: none; }
+.tn-card-titlerow { display: flex; align-items: center; gap: var(--tn-s1); min-width: 0; }
+.tn-card-titlerow > .tn-card-title { min-width: 0; }
+.tn-section-title:has(+ .tn-info-btn) { flex: 0 1 auto; }
+.tn-section-title + .tn-info-btn { margin-right: auto; margin-left: calc(-1 * var(--tn-s1)); }
+.tn-info {
+  position: fixed; inset: 0 auto auto 0; z-index: var(--tn-z-toast); margin: 0; width: max-content; height: auto; overflow: visible;
+  max-width: min(var(--tn-sz-320), calc(100vw - var(--tn-s2))); padding: var(--tn-s2) var(--tn-s3);
+  border-radius: var(--tn-r); background: var(--tn-popover); border: 1px solid var(--tn-border); color: var(--tn-text);
+  box-shadow: var(--tn-shadow-menu); font-size: var(--tn-fs-body); line-height: 1.45; overflow-wrap: anywhere;
+}
+.tn-info:focus { outline: none; }
+.tn-info-text { margin: 0; }
 /* Quiet footer line under a card or section ("+13 frequent runs hidden"): small, muted, wraps; in a card it sits under a hairline like the table's "Show more" */
 .tn-foot { padding: var(--tn-s2) var(--tn-s3); color: var(--tn-text-2); font-size: var(--tn-fs-label); border-top: 1px solid var(--tn-sep); overflow-wrap: anywhere; min-width: 0; }
 .tn-foot-plain { border-top: 0; padding: 0 var(--tn-sp-2); }

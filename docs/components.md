@@ -45,8 +45,14 @@ There is no `innerHTML` anywhere; text is set as text.
 | `cols(...kids)` | columns side by side when there is room, stacked otherwise. `cols({ min: 280 }, a, b, c)` sets the minimum column width |
 | `stack(...kids)` | vertical stack with the default spacing |
 | `toolbarRow(...kids)` | button group inside a card or detail |
-| `card({ title, sub, actions, flush, footer, className }, ...kids)` | the container; `flush: true` removes the padding for lists and tables; `footer` is one quiet line under the content (“+13 frequent runs hidden”) |
-| `section(title, { count, actions, footer, className }, ...kids)` | a titled group without a box, optional counter |
+| `card({ title, sub, actions, flush, footer, info, className }, ...kids)` | the container; `flush: true` removes the padding for lists and tables; `footer` is one quiet line under the content (“+13 frequent runs hidden”); `info` see below |
+| `section(title, { count, actions, footer, info, className }, ...kids)` | a titled group without a box, optional counter |
+
+**`info`: an explanation behind a small “i”.** For a display that cannot be read without a key (what a colour, an edge or an axis means): a string or node
+(boards pass `t()` text), a few plain sentences, at most `INFO_MAX` (280) characters. The “i” sits next to the title; a tap, Enter or Space opens the text
+in a floating layer (above sheets, like a menu), Escape, a tap outside, Tab and a width change close it, the focus goes back to the “i”. Closed by default.
+Never a disclaimer or a method note ([what goes on a view](dashboard-guidelines.md)). A chart gets its explanation through the card or section around it.
+`infoButton(text)` is the button on its own, for a place the kit does not cover yet.
 
 ## Rows, lists and facts
 

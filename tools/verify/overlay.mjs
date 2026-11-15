@@ -262,6 +262,24 @@ export const SCENARIOS = [
       if (await open()) left.push('Back does not close the panel');
       return left;
     } },
+  { id: 'info', page: 'gallery', hash: 'cards', overlay: '.tn-info', focus: true,
+    open: (io) => io.press('.tn-card .tn-card-head .tn-info-btn') },
+  { id: 'sheet-info', page: 'gallery', hash: 'cards', overlay: '.tn-info', focus: true,
+    open: async (io) => {
+      // a card with an info inside a sheet, through the public API (as a board would), then tap the "i"
+      await io.eval(`${MOD}.then((m) => { m.openSheet({ title: 'Check', body: [m.card({ title: 'Runs', info: 'Explanation in the sheet' }, m.h('p', null, 'x'))] }); return true; })`);
+      await io.settle();
+      return io.press('dialog.tn-sheet[open] .tn-info-btn');
+    },
+    // Esc closes the explanation first, not the sheet, and the focus is back on the "i"; a second tap on the "i" opens it again
+    assert: async (io) => {
+      await io.key('Escape'); await sleep(120);
+      const left = [];
+      if (await io.count('.tn-info')) left.push('Esc does not close the explanation');
+      if (!(await io.count('dialog.tn-sheet[open]'))) left.push('Esc closes the sheet instead of the explanation first');
+      if (!(await io.eval(`document.activeElement?.classList.contains('tn-info-btn')`))) left.push('focus is not back on the "i" after Esc');
+      return left;
+    } },
   // ---- time range (0.7.0): the control in the toolbar is a kit menu; a choice replaces the history entry and never shows the old range's data under the new label ----
   { id: 'range-menu', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true,
     open: (io) => io.press('.tn-range-btn') },
