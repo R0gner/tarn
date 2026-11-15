@@ -112,6 +112,12 @@ export const MUTANTS = [
     patch: [{ file: 'example/board.js', from: "onClick: () => ctx.app.open(p.id),", to: "onClick: () => ctx.app.go(p.kind === 'job' ? 'jobs' : 'hosts', { open: p.id })," }],
   },
   {
+    // a range change keeps the data of the old range until the new answer arrives: the chart shows 1 h of data under "7 d"
+    id: 'range-keeps-old-data',
+    check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/data.js', from: 'p.st.data = null; p.st.error = null;', to: 'p.st.error = null;' }],
+  },
+  {
     // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)
     id: 'redraw-loses-focus',
     check: 'overlay', scenarios: ['filter-refresh'], sizes: ['desktop'], expect: ['overlay-behaviour'],

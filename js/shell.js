@@ -15,7 +15,7 @@ import { banner, empty, toolbarRow } from './components.js';
 import { openSheet, lockScroll, setBackHook } from './sheet.js';
 import { parseHash, buildHash, resolveViews } from './router.js';
 import { stackFor, withLayer, withoutLayer, backStep, plan } from './levels.js';
-import { fmtAgo, fmtFull } from './format.js';
+import { fmtAgo, fmtFull, fmtDuration } from './format.js';
 import { favicon } from './favicon.js';
 import { getDensity, setDensity, watchDensity } from './density.js';
 import { menu, toast } from './widgets.js';
@@ -338,9 +338,10 @@ export function createApp(cfg0) {
   /** @param {TimeRange} r @param {boolean} [long] */
   function rangeText(r, long) {
     if (r.label) return r.label;
+    if (!long) return fmtDuration(r.seconds);
     const s = r.seconds;
     const [count, unit] = s % 86400 === 0 ? [s / 86400, 'Days'] : s % 3600 === 0 ? [s / 3600, 'Hours'] : [Math.max(1, Math.round(s / 60)), 'Minutes'];
-    return long ? t(`shell.range${unit}`, { count }) : t(`shell.rangeShort${unit}`, { count });
+    return t(`shell.range${unit}`, { count });
   }
   /* ---- Sources: the app's, and a view's own (`views[].source`), started while the view is shown and merged with the app's ---- */
   /** @type {DataSource | null} */
@@ -361,10 +362,10 @@ export function createApp(cfg0) {
   }
   /** @param {DataState} s */
   function onSource(s) {
-    const hadData = srcState?.fetchedAt; srcState = s;
+    const had = srcState; srcState = s;
     renderFresh(); renderBanners();
     if (rangeSync) return;   // inside a route: the view renders right after
-    if (s.fetchedAt !== hadData || (!s.data && !s.loading)) api.refresh();
+    if (s.fetchedAt !== had?.fetchedAt || s.data !== had?.data || (!s.data && !s.loading)) api.refresh();
   }
   /** Follow the current view: subscribe to its source, stop the source of the view that was left. Range first, then start (one request). */
   function routeSource() {

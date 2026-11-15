@@ -262,6 +262,30 @@ export const SCENARIOS = [
       if (await open()) left.push('Back does not close the panel');
       return left;
     } },
+  // ---- time range (0.7.0): the control in the toolbar is a kit menu; a choice replaces the history entry and never shows the old range's data under the new label ----
+  { id: 'range-menu', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true,
+    open: (io) => io.press('.tn-range-btn') },
+  { id: 'range-change', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true,
+    open: async (io) => { await io.until(`!!document.querySelector('[aria-label^="Busy CPU"]')`, 3000); await io.press('.tn-range-btn'); },
+    // every redraw is recorded (range button text, span the chart says it shows); while the button says the new range the chart is either
+    // absent (loading) or shows the new range's data
+    assert: async (io) => {
+      const left = [];
+      await io.eval(`(() => { window.__h0 = history.length; window.__rs = [];
+        const rec = () => window.__rs.push([document.querySelector('.tn-range-btn')?.textContent || '', document.querySelector('[aria-label^="Busy CPU"]')?.getAttribute('aria-label') || null]);
+        rec(); new MutationObserver(rec).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true }); return true; })()`);
+      const before = await io.eval(`window.__rs[0]`);
+      await io.press('.tn-menu-item', '7');
+      const done = await io.until(`(() => { const l = document.querySelector('[aria-label^="Busy CPU"]')?.getAttribute('aria-label'); return !!l && l !== ${JSON.stringify('')} + window.__rs[0][1]; })()`, 3000);
+      if (!done) { left.push('after choosing 7 days the chart does not show a new range'); return left; }
+      const st = await io.eval(`({ hash: location.hash, grew: history.length - window.__h0, rs: window.__rs, now: [document.querySelector('.tn-range-btn')?.textContent, document.querySelector('[aria-label^="Busy CPU"]')?.getAttribute('aria-label')] })`);
+      if (!/[?&]range=7d\b/.test(st.hash)) left.push(`the hash after choosing 7 days is ${st.hash} (range=7d expected)`);
+      if (st.grew > 0) left.push(`choosing a range added ${st.grew} history entries (it replaces)`);
+      if (st.now[0] === before[0]) left.push(`the range button still says “${st.now[0]}”`);
+      const wrong = st.rs.filter(([btn, chart]) => btn === st.now[0] && chart && chart !== st.now[1]);
+      if (wrong.length) left.push(`under “${st.now[0]}” the chart showed “${wrong[0][1]}” (data of the old range)`);
+      return left;
+    } },
   { id: 'menu-height', page: 'gallery', hash: 'feedback', overlay: '.tn-menu', focus: true,
     open: (io) => io.press('button[aria-label="Actions"]'),
     // the address bar slides in/out: only the height changes, the menu stays
