@@ -148,4 +148,5 @@ export default {
   "notif.install.intro.ios": "This browser has no install button. Add the app to your home screen:",
   "notif.install.intro.mac": "Safari has no install button. Add the app to your Dock:",
   "shell.openInView": "Open in {view}",
+  "shell.backAgain": "Press back again to close",
 };

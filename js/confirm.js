@@ -5,7 +5,7 @@ import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { t } from './i18n.js';
 import { button } from './primitives.js';
-import { lockScroll } from './sheet.js';
+import { lockScroll, backLayer } from './sheet.js';
 import { field, textField } from './inputs.js';
 import { confirmMatches } from './actions-data.js';
 
@@ -36,10 +36,11 @@ export function confirm({ title, text, confirmLabel, cancelLabel, danger, typeTo
       h('div', { class: 'tn-confirm-actions' }, no, ok));
     typed?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (!ok.disabled) done(true); } });
     d.addEventListener('click', (e) => { if (e.target === d) done(false); });
-    d.addEventListener('close', () => { lockScroll(false); d.remove(); resolve(answer); });
+    d.addEventListener('close', () => { lockScroll(false); release(); d.remove(); resolve(answer); });
     document.body.append(d);
     d.showModal();
     lockScroll(true);
+    const release = backLayer(() => done(false));   // Back answers “Cancel” (createApp with back: 'levels')
     (typed ? typed.focusEl : danger ? no : ok).focus({ preventScroll: true });
   });
 }

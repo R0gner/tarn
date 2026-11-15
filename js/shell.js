@@ -12,12 +12,13 @@ import { iconButton, button, badge } from './primitives.js';
 import { segmented } from './controls.js';
 import { field, select } from './inputs.js';
 import { banner, empty, toolbarRow } from './components.js';
-import { openSheet, lockScroll } from './sheet.js';
+import { openSheet, lockScroll, setBackHook } from './sheet.js';
 import { parseHash, buildHash, resolveViews } from './router.js';
+import { stackFor, withLayer, withoutLayer, backStep, plan } from './levels.js';
 import { fmtAgo, fmtFull } from './format.js';
 import { favicon } from './favicon.js';
 import { getDensity, setDensity, watchDensity } from './density.js';
-import { menu } from './widgets.js';
+import { menu, toast } from './widgets.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
 import { normalizeBoards } from './boards-data.js';
@@ -56,15 +57,21 @@ import { detectPlatform, manualInstall, browserEnv } from './notifications-data.
  *   toolbarExtra?: Child,
  *   densitySwitch?: boolean,   // button next to the theme switch: compact ↔ comfortable (stored; for galleries and boards that offer both)
  *   notifications?: import('./notifications-data.js').NotificationsOptions,   // adds the entry "Notifications" (web push, browser half) to the sidebar; README "Notifications"
+ *   back?: 'levels' | 'history',   // 'levels' (default): Back closes the topmost layer, then goes to the default view, then leaves; 'history': every view change is a history entry (before 0.6.0)
+ *   exitHint?: boolean,   // installed app (display-mode standalone, minimal-ui, fullscreen) with back 'levels': Back on the default view first shows "Press back again to close" (default true)
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
 /** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null }} App Returned by createApp(). */
 
 const DESKTOP = window.matchMedia('(min-width: 1000px)');
+/** Installed app: after the exit hint a second Back within this many ms leaves (the hint shows as long). */
+const EXIT_MS = 2500;
 
 /* “Install as app”: only visible when the browser offers beforeinstallprompt; gone after installation and in
    standalone mode. The event often fires before createApp(), so it is captured here at module load. */
 const STANDALONE = window.matchMedia('(display-mode: standalone)');
+/* Installed app in any display mode without browser UI: Back on the default view would close it, so the shell shows the exit hint first. */
+const APP_MODE = window.matchMedia('(display-mode: standalone), (display-mode: minimal-ui), (display-mode: fullscreen)');
 const isStandalone = () => STANDALONE.matches || /** @type {any} */ (navigator).standalone === true; // iOS Safari only knows navigator.standalone
 /** @type {(Event & { prompt: () => Promise<void>, userChoice: Promise<unknown> }) | null} */
 let installEvent = null;
@@ -108,6 +115,7 @@ export function createApp(cfg0) {
   const views = new Map(cfg.views.map((v) => [v.id, v]));
   const defaultView = cfg.defaultView || cfg.views[0].id;
   const useInspector = cfg.inspector !== false;
+  const levels = cfg.back !== 'history';
   const counts = new Map();
   /** @type {{ view: string | null, params: Record<string, string>, open: string | null }} */
   const cur = { view: null, params: {}, open: null };
@@ -197,11 +205,16 @@ export function createApp(cfg0) {
     if (!DESKTOP.matches && appEl.dataset.drawer === 'open' && /** @type {Element} */ (e.target).closest?.('a.tn-nav-item')) setDrawer(false);
   });
   let drawerLocked = false;
+  /** @type {(() => void) | null} */
+  let drawerRelease = null;
   /** @param {boolean} open */
   function setDrawer(open) {
     appEl.dataset.drawer = open ? 'open' : '';
     scrim.classList.toggle('is-on', open);
     if (open !== drawerLocked) { drawerLocked = open; lockScroll(open); }
+    /* back 'levels': the open drawer is a layer, Back closes it */
+    if (open && !drawerRelease && levels) drawerRelease = addLayer(() => setDrawer(false));
+    else if (!open && drawerRelease) { const r = drawerRelease; drawerRelease = null; r(); }
     syncSidebarA11y();
     if (open) /** @type {HTMLElement | null} */ (navEl.querySelector('.is-active, a'))?.focus({ preventScroll: true });
   }
@@ -370,7 +383,7 @@ export function createApp(cfg0) {
     } else {
       hideInspector();
       if (sheet) sheet.update({ title: d.title, sub: d.sub, body: d.body, keepScroll });
-      else sheet = openSheet({ title: d.title, sub: d.sub, body: d.body, kind: 'detail', onClose: () => { sheet = null; if (!closing) closeDetail(); } });
+      else sheet = openSheet({ title: d.title, sub: d.sub, body: d.body, kind: 'detail', back: false, onClose: () => { sheet = null; if (!closing) closeDetail(); } });
     }
     markSelected();
   }
@@ -382,14 +395,20 @@ export function createApp(cfg0) {
   }
   function closeDetail() {
     if (!cur.open) { hideDetail(); return; }
+    if (levels) { const { open: _o, ...rest } = cur.params; navigate({ view: /** @type {string} */ (cur.view), params: rest }); return; }
     if (pushedOpen) { pushedOpen = false; history.back(); }
     else { history.replaceState(history.state, '', buildHash(cur.view, { ...cur.params, open: null })); onRoute(); }
   }
 
   /* ---- Router ---- */
+  /* back 'history' (before 0.6.0): every hash change is a history entry, the router follows hashchange. */
   function onRoute() {
     const { view, params } = parseHash(location.hash, defaultView);
     if (!views.has(view)) { history.replaceState(null, '', buildHash(defaultView)); return onRoute(); }
+    applyRoute({ view, params });
+  }
+  /** Show a route (view, detail); the URL is the caller's business. @param {import('./levels.js').Route} route */
+  function applyRoute({ view, params }) {
     const open = params.open || null;
     const viewChanged = view !== cur.view;
     cur.params = params;
@@ -405,7 +424,86 @@ export function createApp(cfg0) {
       open ? showDetail(open) : hideDetail();
     }
   }
-  window.addEventListener('hashchange', onRoute);
+  /* back 'levels' (default): the history holds what Back should walk through – base entry (default view), the other view, one entry per open
+     layer (detail, sheet, dialog, drawer); js/levels.js computes it. `model` is that stack, `phys` the browser's position in our entries (stamped
+     into history.state), `guard` the extra entry below the base in an installed app that catches Back for the exit hint. History operations
+     are batched per task (a layer that closes and one that opens in the same tap replace each other) and wait for a running traversal. */
+  /** @type {import('./levels.js').Entry[]} */
+  let model = [];
+  let phys = 0, expected = 0, queued = false, touched = false, layerSeq = 0, exitUntil = 0;
+  const layerClose = new Map();
+  const guard = () => (levels && cfg.exitHint !== false && APP_MODE.matches && Date.now() >= exitUntil ? 1 : 0);
+  const state = () => ({ tnp: phys, tns: model.filter((e) => e.layer == null) });
+  /** @param {import('./levels.js').Route} route */
+  function navigate(route) {
+    if (!views.has(route.view)) route = { view: defaultView, params: {} };
+    const dropped = model.filter((e) => e.layer != null);   // a route change closes sheets, dialogs and the drawer
+    model = stackFor(route, defaultView, model[0]);
+    for (const e of dropped) closeLayer(e.layer);
+    applyRoute(route);
+    schedule();
+  }
+  /** @param {number | undefined} id */
+  function closeLayer(id) { const f = layerClose.get(id); layerClose.delete(id); f?.(); }
+  /** A sheet, dialog or the drawer opened: one entry on top; returns its release. @param {() => void} close @returns {() => void} */
+  function addLayer(close) {
+    const id = ++layerSeq;
+    layerClose.set(id, close);
+    model = withLayer(model, id); schedule();
+    return () => { if (!layerClose.has(id)) return; layerClose.delete(id); model = withoutLayer(model, id); schedule(); };
+  }
+  function schedule() { if (!queued) { queued = true; queueMicrotask(sync); } }
+  function sync() {
+    queued = false;
+    if (expected) return;   // a traversal is running: popstate syncs again
+    /* entries are only added once the user has touched the page: Chrome's back button skips entries a page adds before any user activation */
+    const ua = /** @type {any} */ (navigator).userActivation;
+    const p = plan({ phys, stack: model, guard: guard(), canPush: ua ? ua.hasBeenActive : touched });
+    const top = model[model.length - 1].hash;
+    if (p.go) { expected++; phys += p.go; history.go(p.go); return; }
+    for (let i = 0; i < p.push; i++) { phys++; history.pushState(state(), '', top); }
+    if (p.push) return;
+    history.replaceState(state(), '', top);
+  }
+  function onPop() {
+    const st = history.state, want = () => model.length - 1 + guard();
+    const ours = typeof st?.tnp === 'number';
+    if (expected && ours) { expected--; phys = st.tnp; if (!expected) sync(); return; }   // our own history.go()
+    if (!ours || st.tnp > phys) {
+      /* an entry the browser added (typed URL, location.hash, a link we did not catch) or Forward: folded into the model without a traversal (a
+         history.go() here races with the next fragment navigation); entries below it that the model does not need stay as they are */
+      phys = ours ? st.tnp : location.hash === model[model.length - 1]?.hash ? phys : phys + 1;   // the same URL again replaces the entry, it adds none
+      navigate(parseHash(location.hash, defaultView));
+      phys = Math.min(phys, want());
+      return;
+    }
+    const step = backStep(model, Math.max(1, phys - st.tnp));   // the same position again: an entry folded in above, one step back as well
+    model = step.stack;
+    for (const e of step.closed) if (e.layer != null) closeLayer(e.layer);
+    applyRoute(parseHash(model[model.length - 1].hash, defaultView));
+    phys = Math.min(st.tnp, want());
+    if (step.exit && guard()) {   // installed app, Back on the default view: the hint; a second Back within EXIT_MS leaves, after that the guard is back
+      exitUntil = Date.now() + EXIT_MS;
+      toast(t('shell.backAgain'), { duration: EXIT_MS });
+      setTimeout(schedule, EXIT_MS);
+    } else if (step.exit) { history.back(); return; }   // Back on the default view leaves the page, also from an entry folded in above the base
+    sync();
+  }
+  if (levels) {
+    setBackHook(addLayer);
+    window.addEventListener('popstate', onPop);
+    /* the first touch or key adds the entries a deep link (or the installed app's guard) is missing; navigator.userActivation where it exists */
+    const act = (/** @type {Event} */ e) => { if (e.isTrusted) touched = true; };
+    for (const ev of ['pointerdown', 'pointerup', 'touchend', 'mousedown', 'keydown']) window.addEventListener(ev, act, { capture: true });
+    for (const ev of ['click', 'keyup']) window.addEventListener(ev, schedule);
+    /* links to #/view (navigation, content) go through the model instead of adding an entry */
+    document.addEventListener('click', (e) => {
+      const a = /** @type {Element} */ (e.target).closest?.('a[href^="#/"]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.getAttribute('target')) return;
+      e.preventDefault();
+      navigate(parseHash(a.getAttribute('href'), defaultView));
+    });
+  } else window.addEventListener('hashchange', onRoute);
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || e.defaultPrevented || document.querySelector('dialog:modal')) return; // Esc closes only the topmost layer: an open sheet first
     if (appEl.dataset.drawer === 'open') setDrawer(false);
@@ -418,11 +516,16 @@ export function createApp(cfg0) {
     get view() { return cur.view; },
     get openId() { return cur.open; },
     go(view, { open, params } = {}) {
-      // one history entry per call; with open, “Back” only closes the detail and does not stay in the new view
+      // back 'levels': the history follows the levels (js/levels.js); same view with other params replaces
+      if (levels) { if (!open && view === cur.view && !params) return; navigate({ view, params: { ...params, ...(open ? { open } : {}) } }); return; }
+      // back 'history': one history entry per call; with open, “Back” only closes the detail and does not stay in the new view
       if (open) { location.hash = buildHash(view, { ...params, open }); pushedOpen = view === cur.view; }
       else if (view !== cur.view) location.hash = buildHash(view, params);
     },
-    open(id) { location.hash = buildHash(cur.view, { ...cur.params, open: id }); pushedOpen = true; },
+    open(id) {
+      if (levels) { navigate({ view: /** @type {string} */ (cur.view), params: { ...cur.params, open: id } }); return; }
+      location.hash = buildHash(cur.view, { ...cur.params, open: id }); pushedOpen = true;
+    },
     closeDetail,
     /** Redraw the view (and open detail), e.g. after new data. */
     refresh() { if (!cur.view) return; renderView({ keepField: true }); if (cur.open) showDetail(cur.open, { keepScroll: true }); },
@@ -443,7 +546,13 @@ export function createApp(cfg0) {
   /* The buttons name the theme and density in effect, also when something else changes them (setDensity() in a board, data-density set by a page). */
   watchDensity(syncDensity);
   new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  onRoute();
+  if (levels) {
+    /* reload: the stack and position stamped into history.state come back (open sheets do not); a fresh load (deep link, notification) starts
+       with the one entry the browser has – the missing lower entries follow with the first touch (all at once; docs/shell.md "Back") */
+    const st = history.state;
+    if (typeof st?.tnp === 'number' && Array.isArray(st.tns) && st.tns.length) { phys = st.tnp; model = st.tns; }
+    navigate(parseHash(location.hash, defaultView));
+  } else onRoute();
   if (cfg.source) {
     cfg.source.subscribe((s) => {
       const hadData = srcState?.fetchedAt; srcState = s;

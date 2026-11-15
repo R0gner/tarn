@@ -161,6 +161,24 @@ export const MUTANTS = [
     patch: [{ file: 'js/form.js', from: "if (pending) return;", to: "" }],
   },
   {
+    // the old history: every view change adds an entry, so Back walks through everything the user visited instead of going to the default view
+    id: 'view-change-pushes',
+    check: 'overlay', scenarios: ['back-views'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: 'model = stackFor(route, defaultView, model[0]);', to: 'model = [...model.filter((e) => e.layer == null), ...stackFor(route, defaultView, model[0]).slice(-1)];' }],
+  },
+  {
+    // a deep link that adds its lower entries at load, before any user activation: Chrome's back button skips them, so Back leaves the board
+    id: 'deeplink-seeds-untouched',
+    check: 'overlay', scenarios: ['back-deeplink'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: 'canPush: ua ? ua.hasBeenActive : touched', to: 'canPush: true' }],
+  },
+  {
+    // a sheet that takes no history entry: Back passes it by and changes the view underneath, the sheet stays open
+    id: 'sheet-ignores-back',
+    check: 'overlay', scenarios: ['back-sheet'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/sheet.js', from: "const release = opts.back === false ? null : backLayer(() => close('back'));", to: 'const release = null;' }],
+  },
+  {
     // earlier timeline fault: overflow-x auto alone makes overflow-y auto; the bars' hit area sticks out a few px below the grid, so a vertical
     // swipe on the timeline scrolled the timeline by about a millimetre and the page did not move
     id: 'timeline-scrolls-vertically',
@@ -189,7 +207,9 @@ export const MUTANTS = [
     // earlier drawer fault: a tap on the entry of the view already shown changes nothing, the drawer stays open
     id: 'drawer-stays-on-current',
     check: 'overlay', scenarios: ['drawer-current'], sizes: ['phone'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'js/shell.js', from: "if (!DESKTOP.matches && appEl.dataset.drawer === 'open' && ", to: "if (false && " }],
+    // (both ways the shell closes it: the drawer listener and, with back 'levels', a route change that closes the open layers)
+    patch: [{ file: 'js/shell.js', from: "if (!DESKTOP.matches && appEl.dataset.drawer === 'open' && ", to: "if (false && " },
+      { file: 'js/shell.js', from: 'const dropped = model.filter((e) => e.layer != null);', to: 'const dropped = [];' }],
   },
   {
     // earlier log fault: the log box kept the swipe to itself, so a sheet (or the page) did not scroll while the finger was on the log – also when the log had nothing to scroll

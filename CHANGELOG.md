@@ -5,6 +5,38 @@ While the major version is 0, minor versions may change the API; every change is
 
 ## 0.6.0
 
+### Added
+- Back goes by levels, not through the history (`createApp({ back: 'levels' | 'history' })`, default `'levels'`). Levels: 0 = the default view,
+  1 = any other view, 2 = an open layer (detail via `?open=`, sheet, panel, `confirm()` dialog, phone/tablet drawer). Back with an open layer
+  closes the topmost layer only; Back on another view goes to the default view; Back on the default view leaves the page. The history never
+  grows with use: default → A adds one entry, A → B replaces it, A → default returns to the base entry, a detail opened in A sits on top of A,
+  “Open in …” from a detail replaces, same view with other parameters (`app.go(view, { params })`, filter, sort, tab) replaces. The base entry
+  keeps the default view's parameters. Typed URLs, `location.hash = …`, in-content links to `#/view` (caught on click) and `ctx.app.go/open`
+  are folded into the model. An entry the browser added itself (typed URL, `location.hash`) is folded without a traversal; entries below it that
+  the model does not need stay, and a Back that reaches one of them on the default view leaves the page on its own. Forward is folded like a
+  typed URL; nothing more is promised for it. `'history'` keeps the behaviour before 0.6.0 (every view change is an entry).
+- Installed app (display-mode `standalone`, `minimal-ui` or `fullscreen`): Back on the default view first shows the toast “Press back again to
+  close” (en/de/es/fr) and leaves on a second Back within 2.5 s; after 2.5 s the catching entry is set again. No dialog: a page cannot close an
+  installed app reliably, a second Back can. On by default, off with `createApp({ exitHint: false })`.
+- Deep links at level 1 or 2 (also from a notification) get the missing lower entries, so Back walks down the levels. Chrome's history
+  manipulation intervention skips entries a page adds before the user ever activated it, so the shell adds them with the first touch or key
+  (`navigator.userActivation.hasBeenActive`; all missing entries at once). **Back before the first touch** leaves the page directly: in a browser
+  tab to the previous page, in an installed app it closes the app, without the exit hint. Measured in Chrome 157 with the browser's own Back
+  (Alt+Left, which honours the intervention like the Android back button): deep link `#/jobs?open=…`, Back untouched → previous page; one tap,
+  then Back → `#/jobs` → `#/overview` → previous page; an entry pushed by a script without activation is skipped by Back. A reload restores the stack from `history.state`
+  (open sheets and dialogs are not restored).
+- `openSheet({ back: false })`: a sheet without a history entry (the shell's own detail sheet lives in the URL). `onClose` reason `'back'`.
+  Without `createApp()` (starter pages) sheets and dialogs take no entry, as before. Chrome on Android closes an open modal dialog on Back by
+  itself (close request); the shell then removes its entry, the result is the same.
+- Pure module `js/levels.js` (shell profile: `levelOf`, `stackFor`, `withLayer`, `withoutLayer`, `backStep`, `plan`) with `tests/levels.test.mjs`.
+- verify overlay scenarios on the real history of the test Chrome: `back-views` (three view changes, one Back = default view, history grew by
+  at most one entry), `back-detail` (detail, Back = same view without detail, Back = default view), `back-sheet`, `back-confirm`, `back-drawer`
+  (each closes on Back, nothing else changes), `back-deeplink` (deep link, touch, Back, Back), `exit-hint` (installed app). Chrome 157 ignores
+  the CDP emulated media feature `display-mode`; the scenario tries it and otherwise answers `matchMedia` for display-mode by a script added
+  before the page loads. `back-views`, `back-detail` and `back-deeplink` press the browser's Back (Alt+Left through CDP), not `history.back()`,
+  so entries the intervention skips count as missing. Mutants `view-change-pushes` (the growing history), `sheet-ignores-back` and
+  `deeplink-seeds-untouched` (lower entries added at load, before any activation).
+
 ### Fixed
 - Shell, phone and tablet drawer: a tap on any navigation entry closes the drawer, also on the entry of the view already shown (before, the hash
   did not change and the drawer stayed open). The desktop sidebar is unchanged. verify overlay scenario `drawer-current`, mutant

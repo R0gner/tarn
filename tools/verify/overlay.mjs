@@ -18,6 +18,12 @@ import { PAGES, parseSize } from './targets.mjs';
 export const OVERLAY_SIZES = ['phone', 'tablet-s', 'desktop'];
 export const kitModule = (url) => `import(new URL(${JSON.stringify(url)}, location.href).href)`;
 const MOD = kitModule('../js/tarn.js');
+/* The browser's own Back (Alt+Left goes through the browser like the Android back button): unlike history.back() it skips the entries Chrome's
+   history-manipulation intervention marks (added without a user activation), so the deep-link and view scenarios see what a user sees. */
+const browserBack = async (io) => {
+  for (const type of ['rawKeyDown', 'keyUp']) await io.page.send('Input.dispatchKeyEvent', { type, modifiers: 1, key: 'ArrowLeft', code: 'ArrowLeft', windowsVirtualKeyCode: 37, nativeVirtualKeyCode: 37 });
+  await sleep(150);
+};
 
 /* Scenarios: page, hash, open(io) opens the overlay, overlay = selector of the expected overlay, focus = check focus. */
 export const SCENARIOS = [
@@ -60,6 +66,106 @@ export const SCENARIOS = [
       const at2 = await io.eval(`(() => { const r = document.querySelector('.tn-tl-scroll').getBoundingClientRect(); return { x: Math.round(r.left + r.width * 0.8), y: Math.round(r.top + r.height / 2) }; })()`);
       await drag(at2.x, at2.y, -160, 0);
       if (!((await io.eval(`document.querySelector('.tn-tl-scroll').scrollLeft`)) > 0)) left.push('a horizontal swipe does not scroll a wide timeline sideways');
+      return left;
+    } },
+  // ---- Back by levels (createApp back: 'levels', js/levels.js): the real browser history, driven with taps and history.back() ----
+  { id: 'back-views', page: 'board', hash: 'overview', overlay: '.tn-nav-item.is-active', focus: false, when: (sz) => sz.w >= 1000,
+    // three view changes, then one Back: the default view; the history grew by one entry at most
+    open: async (io) => {
+      await io.eval('(() => { window.__h0 = history.length; return true; })()');
+      for (const v of ['jobs', 'hosts', 'deploy']) { await io.press(`.tn-nav-item[href="#/${v}"]`); await io.settle(); }
+    },
+    assert: async (io) => {
+      const left = [];
+      const st = await io.eval(`({ hash: location.hash, grew: history.length - window.__h0 })`);
+      if (st.hash !== '#/deploy') left.push(`after three view changes the hash is ${st.hash}`);
+      if (st.grew > 1) left.push(`three view changes added ${st.grew} history entries (at most 1)`);
+      await browserBack(io);
+      const back = await io.until(`location.hash === '#/overview' && document.querySelector('.tn-nav-item.is-active')?.getAttribute('href') === '#/overview'`, 1000);
+      if (!back) left.push(`Back after three view changes shows ${await io.eval('location.hash')} instead of the default view`);
+      return left;
+    } },
+  { id: 'back-detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
+    open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync'),
+    // detail, then Back: the same view without the detail; Back again: the default view
+    assert: async (io) => {
+      const left = [];
+      await browserBack(io); await io.gone('dialog.tn-sheet[open], .tn-inspector:not([hidden])', 600);
+      if (await io.count('dialog.tn-sheet[open], .tn-inspector:not([hidden])')) left.push('Back does not close the detail');
+      const h1 = await io.eval('location.hash');
+      if (h1 !== '#/jobs') left.push(`Back from the detail shows ${h1} instead of #/jobs`);
+      await browserBack(io);
+      if (!(await io.until(`location.hash === '#/overview'`, 1000))) left.push(`second Back shows ${await io.eval('location.hash')} instead of the default view`);
+      return left;
+    } },
+  { id: 'back-deeplink', page: 'board', hash: 'jobs?open=offsite-sync', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: false,
+    // a deep link at level 2 (also from a notification), then one touch (it adds both missing entries), then the browser's Back walks down the levels
+    open: async (io) => { await io.press('dialog.tn-sheet[open] .tn-sheet-title, .tn-inspector:not([hidden]) .tn-sheet-title'); await sleep(60); },
+    assert: async (io) => {
+      const left = [];
+      await browserBack(io); await io.gone('dialog.tn-sheet[open], .tn-inspector:not([hidden])', 600);
+      if (await io.count('dialog.tn-sheet[open], .tn-inspector:not([hidden])')) left.push('Back does not close the deep-linked detail');
+      if ((await io.eval('location.hash')) !== '#/jobs') left.push(`Back from the deep link shows ${await io.eval('location.hash')} instead of #/jobs`);
+      await browserBack(io);
+      if (!(await io.until(`location.hash === '#/overview'`, 1000))) left.push(`second Back shows ${await io.eval('location.hash')} instead of the default view`);
+      return left;
+    } },
+  { id: 'back-sheet', page: 'gallery', hash: 'states', overlay: 'dialog.tn-sheet[open]', focus: true,
+    open: (io) => io.press('.tn-btn', 'Open sheet'),
+    // a sheet closes on Back and nothing else changes
+    assert: async (io) => {
+      const left = [];
+      await io.eval('history.back()'); await io.gone('dialog.tn-sheet[open]', 600);
+      if (await io.count('dialog.tn-sheet[open]')) left.push('Back does not close the sheet');
+      if ((await io.eval('location.hash')) !== '#/states') left.push(`Back on a sheet changes the view to ${await io.eval('location.hash')}`);
+      return left;
+    } },
+  { id: 'back-confirm', page: 'gallery', hash: 'states', overlay: 'dialog.tn-confirm[open]', focus: 'modal',
+    open: async (io) => {
+      await io.eval(`${MOD}.then((m) => { window.__ans = 'open'; const b = m.button('Delete …', { variant: 'danger', onClick: () => m.confirm({ title: 'Delete?', danger: true }).then((v) => { window.__ans = v; }) });
+        b.id = 'verify-delete'; document.querySelector('.tn-content').prepend(b); return true; })`);
+      await io.press('#verify-delete'); await sleep(80);
+    },
+    // a confirm dialog closes on Back (answer: no) and nothing else changes
+    assert: async (io) => {
+      const left = [];
+      await io.eval('history.back()'); await io.gone('dialog.tn-confirm[open]', 600);
+      if (await io.count('dialog.tn-confirm[open]')) left.push('Back does not close the confirm dialog');
+      if (!(await io.until('window.__ans === false', 500))) left.push('Back does not answer false');   // the dialog's close event comes one task later
+      if ((await io.eval('location.hash')) !== '#/states') left.push(`Back on a confirm dialog changes the view to ${await io.eval('location.hash')}`);
+      return left;
+    } },
+  { id: 'back-drawer', page: 'board', hash: 'jobs', overlay: '.tn-sidebar', when: (sz) => sz.w < 1000,
+    open: (io) => io.press('.tn-sb-toggle'),
+    // the phone drawer closes on Back and nothing else changes
+    assert: async (io) => {
+      const left = [];
+      await io.eval('history.back()');
+      if (!(await io.until(`document.querySelector('.tn-app').dataset.drawer !== 'open'`, 800))) left.push('Back does not close the drawer');
+      if ((await io.eval('location.hash')) !== '#/jobs') left.push(`Back on the drawer changes the view to ${await io.eval('location.hash')}`);
+      return left;
+    } },
+  { id: 'exit-hint', page: 'board', hash: 'overview', overlay: '.tn-toolbar-title', focus: false, when: (sz) => sz.mobile,
+    // installed app (emulated display-mode standalone): Back on the default view shows the exit hint and stays; a browser tab has none
+    open: async (io) => {
+      await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'display-mode', value: 'standalone' }] });
+      if (!(await io.eval(`matchMedia('(display-mode: standalone)').matches`))) {
+        // this Chrome ignores the emulated display-mode (157 does): a script answers matchMedia for display-mode as an installed app, before the kit loads
+        const { identifier } = await io.page.send('Page.addScriptToEvaluateOnNewDocument', { source: `(() => { const mm = window.matchMedia.bind(window);
+          window.matchMedia = (q) => /display-mode/.test(q) ? { matches: /standalone/.test(q), media: q, onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false } : mm(q); })()` });
+        await io.page.send('Page.reload', {});
+        await sleep(200); await io.until(`document.readyState === 'complete' && !!document.querySelector('.tn-toolbar-title')?.textContent`, 3000); await io.settle();
+        await io.page.send('Page.removeScriptToEvaluateOnNewDocument', { identifier });
+      }
+      await io.press('.tn-toolbar-title');   // the first touch sets the entry that catches Back
+    },
+    assert: async (io) => {
+      const left = [];
+      if (!(await io.eval(`matchMedia('(display-mode: standalone)').matches`))) return ['display-mode standalone could not be emulated'];
+      await io.eval('history.back()');
+      const hint = await io.until(`[...document.querySelectorAll('.tn-toast')].some((e) => e.textContent.includes('Press back again to close'))`, 1000);
+      if (!hint) left.push('Back on the default view of an installed app shows no exit hint');
+      if ((await io.eval('location.hash')) !== '#/overview') left.push(`the exit hint changed the view to ${await io.eval('location.hash')}`);
       return left;
     } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',

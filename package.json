@@ -106,6 +106,7 @@
     "js/icons.js",
     "js/inputs-data.js",
     "js/inputs.js",
+    "js/levels.js",
     "js/locales/de-shell.js",
     "js/locales/de.js",
     "js/locales/en-shell.js",

@@ -10,7 +10,7 @@ import { icon } from './icons.js';
 import { t } from './i18n.js';
 
 /** @typedef {import('./dom.js').Child} Child */
-/** @typedef {{ title?: string, sub?: string, body?: Child, footer?: Child | null, kind?: string, onClose?: (reason: 'x' | 'esc' | 'scrim' | 'swipe' | 'api') => void }} SheetOptions kind goes to data-kind (styling hook). */
+/** @typedef {{ title?: string, sub?: string, body?: Child, footer?: Child | null, kind?: string, back?: boolean, onClose?: (reason: 'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back') => void }} SheetOptions kind goes to data-kind (styling hook). back: false = the sheet takes no history entry (the shell's detail sheet lives in the URL). */
 /** @typedef {{ title?: string, sub?: string, body?: Child, footer?: Child | null, keepScroll?: boolean }} SheetUpdate Only the keys that are present change; keepScroll keeps the body scroll position when the body is replaced. */
 /** @typedef {{ el: HTMLDialogElement, body: HTMLElement, update: (o?: SheetUpdate) => void, close: (reason?: string) => void }} Sheet */
 
@@ -18,6 +18,19 @@ import { t } from './i18n.js';
 export const SHEET_BREAKPOINT = 700;
 export const PHONE = window.matchMedia(`(max-width: ${SHEET_BREAKPOINT - 1}px)`);
 let locks = 0;
+/** @type {((close: () => void) => () => void) | null} */
+let backHook = null;
+/**
+ * createApp({ back: 'levels' }) installs this: every sheet, panel and dialog takes one history entry, Back closes the topmost one (js/levels.js).
+ * @param {((close: () => void) => () => void) | null} fn called with the layer's close function, returns the release that removes its entry
+ */
+export function setBackHook(fn) { backHook = fn; }
+/**
+ * A layer (sheet, dialog) opens: Back calls `close`. Returns the release for when it closes in another way. Without createApp() nothing happens.
+ * @param {() => void} close
+ * @returns {() => void}
+ */
+export function backLayer(close) { return backHook ? backHook(close) : () => {}; }
 /**
  * Lock background scrolling (counted: sheet and sidebar overlay can overlap).
  * @param {boolean} on
@@ -33,7 +46,7 @@ function lock(on) {
 
 /**
  * openSheet({ title, sub, body, footer, kind, onClose }) → { el, body, update(opts), close(reason) }
- * body/footer: Node, string or array. onClose(reason) fires once: 'x' | 'esc' | 'scrim' | 'swipe' | 'api'.
+ * body/footer: Node, string or array. onClose(reason) fires once: 'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back'.
  * @param {SheetOptions} [opts]
  * @returns {Sheet}
  */
@@ -63,10 +76,11 @@ export function openSheet(opts = {}) {
     closed = true;
     d.classList.remove('is-open');
     lock(false);
+    release?.();
     const done = () => { d.close(); d.remove(); };
     const ms = tokenMs('--tn-t-close'); // duration comes from the token (reduced-motion: 0 ms → immediate)
     if (ms <= 0) done(); else setTimeout(done, ms + 30);
-    opts.onClose?.(/** @type {'x' | 'esc' | 'scrim' | 'swipe' | 'api'} */ (reason));
+    opts.onClose?.(/** @type {'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back'} */ (reason));
   }
   update({ title: opts.title, sub: opts.sub, body: opts.body, footer: opts.footer ?? null });
 
@@ -77,6 +91,7 @@ export function openSheet(opts = {}) {
   document.body.append(d);
   d.showModal();
   lock(true);
+  const release = opts.back === false ? null : backLayer(() => close('back'));
   bodyEl.focus({ preventScroll: true }); // focus into the content, no ring on the close button
   void d.offsetWidth; // commit the initial state, then start in the same frame (no requestAnimationFrame)
   d.classList.add('is-open');
