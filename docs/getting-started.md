@@ -36,6 +36,8 @@ fixture data in four languages and the template for new ones.
 
 ## Start a board
 
+The step-by-step guide for an agent or person is [Building a board](building-a-board.md); this is the short version.
+
 Copy `example/` as the template, put a fixed copy of the kit into it (below) and give your coding agent [AGENTS.md](../AGENTS.md) together with the
 gallery. A board is a folder with an `index.html`, a module script that imports `/tarn/js/tarn.js` (`board.js` in the sample board), a data source and its texts.
 

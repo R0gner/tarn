@@ -43,3 +43,21 @@ test('docs: docs/ is not part of the runtime (vendor copy and package files)', (
   const pkg = JSON.parse(read(path.join(ROOT, 'package.json')));
   for (const f of pkg.files) assert.ok(!f.startsWith('docs/'), `package.json files contains ${f}`);
 });
+
+test('README: a short front page that links the guide and every picture it shows; docs/img stays small', () => {
+  const readme = read(path.join(ROOT, 'README.md'));
+  assert.ok(readme.split('\n').length <= 150, 'README.md is at most 150 lines');
+  assert.ok(readme.includes('docs/building-a-board.md'), 'README links the guide for agents');
+  assert.ok(!/promql/i.test(readme.replace(/\*\*Planned:\*\*[^\n]*/, '')), 'PromQL appears only in the “Planned” line');
+  const imgDir = path.join(DOCS, 'img');
+  const imgs = fs.readdirSync(imgDir).filter((f) => f.endsWith('.png'));
+  assert.ok(imgs.length <= 8, 'at most 8 pictures');
+  let total = 0;
+  for (const f of imgs) {
+    const size = fs.statSync(path.join(imgDir, f)).size;
+    total += size;
+    assert.ok(size < 250 * 1024, `${f} is under 250 KB`);
+    assert.ok(readme.includes(`docs/img/${f}`), `README shows ${f}`);
+  }
+  assert.ok(total < 1.5 * 1024 * 1024, 'pictures together under 1.5 MB');
+});

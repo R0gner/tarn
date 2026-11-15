@@ -1,5 +1,7 @@
 # Tarn – guide for agents that build or change a board
 
+> You are here to change the kit or to follow its rules. **To build a new board with the kit, read [docs/building-a-board.md](docs/building-a-board.md) first.**
+
 > **Information over decoration. Dense, calm, unambiguous, instant.**
 > Overview first, details on tap. Colour only when it means something. Motion short and only for orientation.
 > The kit is the shared base. What only one board needs, that board builds itself from kit parts.
