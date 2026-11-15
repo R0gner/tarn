@@ -53,10 +53,12 @@ Two more options exist for tests: `fetch` (replaces `globalThis.fetch`) and `now
 
 ## What the server has to give
 
-A snapshot endpoint: one JSON document with everything the views need, plus the age of the data (`ageSec`) when the document is produced by a collector
-that runs now and then. Keep display decisions (status of a job, which rows are problems) in `parse` on the client or in the document, not in the view
-code. The sample board's `example/fixture.json` is a complete invented snapshot (`schemaVersion`, `ageSec`, jobs with their run history and
-timestamps relative to the fetch); `example/board.js` shows `prepare()` turning it into the display model. Use it as the template for your own.
+A snapshot endpoint: one JSON document with everything the views need. When a collector writes it now and then, put the time it was made into the document
+(`generatedAt`, epoch milliseconds) and let the source compute the age from it: `ageOf: (d) => (Date.now() - d.generatedAt) / 1000`. A fixed `ageSec` in a file
+would go stale, because the source only counts on from the moment of the fetch; a server that builds the document on request can send the real `ageSec`.
+Keep display decisions (status of a job, which rows are problems) in `parse` on the client or in the document, not in the view code. The sample board's
+`example/fixture.json` is a complete invented snapshot (`schemaVersion`, `ageSec`, jobs with their run history and timestamps relative to the fetch, which
+suits a fixture); `example/board.js` shows `prepare()` turning it into the display model. Use it as the template for your own.
 
 For several endpoints use several sources and `app.refresh()`, or one source whose `parse` merges them. A board that only reads JSON files can be served
 by any static server with the same-origin rule and a CSP of `'self'` (`tools/serve.py` is an example); a board that runs processes, validates forms or
