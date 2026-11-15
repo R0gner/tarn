@@ -27,7 +27,8 @@ source.start();
 | `views` | array of views (below); required. The first one is the start view |
 | `defaultView` | id of the start view (default: the first) |
 | `title` | string or function; becomes the page title `View · Board` |
-| `source` | a [`dataSource`](data.md); the toolbar shows its freshness and reload button |
+| `source` | the app's source: a [`dataSource`, `promSource` or `combineSources`](data.md); the toolbar shows its freshness and reload button |
+| `ranges`, `range` | presets of the [time range](#time-range) control (default 1 h, 6 h, 24 h, 7 d, 30 d) and the id at start (default: the first preset) |
 | `icon` | board icon next to the title: a URL (file from `tools/brand.mjs`) or `{ icon, color }`, which also sets the favicon |
 | `favicon` | `{ icon, color }` for the page icon only |
 | `boards`, `categories`, `boardId` | board switcher, see [Several boards](#several-boards) |
@@ -45,7 +46,7 @@ source.start();
 ### Views
 
 ```js
-{ id, label, group?, icon?, hidden?, count?(ctx), render(ctx) → Node, detail?(id, ctx) → { title, sub?, body? } | null }
+{ id, label, group?, icon?, hidden?, count?(ctx), render(ctx) → Node, detail?(id, ctx) → { title, sub?, body? } | null, source? }
 ```
 
 - `group` is a heading in the navigation; consecutive views with the same `group` share it. `hidden: true` keeps a view reachable (`app.go`) but out of
@@ -54,6 +55,10 @@ source.start();
   a side effect of `render()`. `app.setCount(id, n, tone)` is only for counters that cannot be derived from data (live events).
 - `ctx = { app, view, params, open, data, src }`: `data` is the parsed data of the source, `src` its full [state](data.md#state), `params` the query part of
   the hash, `open` the id of the open detail.
+- `source` is a source only this view needs (its queries do not run while another view is shown). The shell starts it when the view is shown and
+  stops it when the view is left (a request in flight is aborted); the app does not call `start()` for it. While the view is shown it is merged with
+  the app's source: `ctx.data` holds the keys of both (the view's win), the freshness text, reload button and banners cover both. Sidebar counters
+  (`count(ctx)`) only see the app's source. Details in [data](data.md#sources-of-one-view).
 - Every view handles `!ctx.data`: `loading()` while there is none, `error({ onRetry })` when the load failed.
 - The view is rebuilt on every new data (`app.refresh()`, every poll). The field the user is typing in keeps focus and caret, so a filter bar that is
   built again from the board's state does not interrupt typing.
@@ -68,12 +73,22 @@ source.start();
 | `app.refresh()` | redraws the current view and detail |
 | `app.setCount(view, n, tone?)` | sets a sidebar counter |
 | `app.detailOf(view, id, { link? })` | what another view's `detail()` returns, see [Detail in place](#detail-in-place) |
+| `app.range` | the current [time range](#time-range) `{ id, seconds, label? }` |
+| `app.setRange(id)` | sets the time range (as the toolbar control does) |
 | `app.view`, `app.openId`, `app.isDesktop`, `app.el` | current view id, open detail id, wide layout, root element |
 
 ### Routing
 
 The state lives in the hash: `#/<view>?open=<id>&<more>`. `parseHash(hash)` and `buildHash(view, params)` are exported. A link to a view or a detail is
 an ordinary URL; links to `#/view` in content, typed URLs and `app.go()`/`app.open()` all go through the same navigation.
+
+### Time range
+
+One range per app. The toolbar shows a control (clock and range, a kit menu with the presets) only while the shown view's source follows the range
+(a `promSource` with a range query, or a `combineSources` over one); a board without such a source shows none. The choice is the view parameter
+`range` (`#/metrics?range=7d`): choosing replaces the current history entry like a filter does, so it never adds a level for [Back](#back); a deep link
+with `?range=` starts in that range. The shell hands the range to the source before the view renders: requests in flight are aborted and the old
+range's data is dropped, so a view never shows it under the new label. Step, refresh and the presets' details: [data](data.md#time-range).
 
 ### Back
 
