@@ -38,7 +38,7 @@ source.start();                     // the shell subscribes, it does not start t
 | `source.subscribe(fn)` | calls `fn(state)` now and on every change; returns the unsubscribe function |
 | `source.state` | the current [state](#state) |
 
-More options: `timeout` (ms, default 30 000; the error then reads “Timed out after 30 s”), and for tests `fetch` (replaces `globalThis.fetch`) and `now`
+More options: `timeout` (ms, default 30 000; the error then reads “Timed out after 30 s” in the active language), and for tests `fetch` (replaces `globalThis.fetch`) and `now`
 (replaces `Date.now`).
 
 - The request is `GET url` with `Accept: application/json` and `cache: 'no-store'`; the browser handles `gzip`. A non-2xx answer is an error; if the body is
@@ -90,7 +90,7 @@ const metrics = promSource({
 - **Escaping.** `promEscape(value)` escapes a value for a double-quoted label matcher (`{job="…"}`): backslash, double quote, line breaks.
   `promEscape(value, { regex: true })` also escapes regex metacharacters for `=~`. Put only escaped values into an expression.
 - **Errors.** An HTTP error (`HTTP 502`), `status: "error"` in the body (its `error` text is shown), a body that is not JSON, a timeout: each makes the query
-  fail. Several queries run in parallel; when one fails the others still update, its last good data stays and `error` names it
+  fail. The kit's own texts (timeout, not JSON) follow the active language; `HTTP <status>` and a server's `error` text are shown as they are. Several queries run in parallel; when one fails the others still update, its last good data stays and `error` names it
   (`queue: HTTP 502`; several are joined by `; `). `age` is that of the oldest query, so a query that keeps failing makes the source stale.
 - **Range changes** abort the requests in flight, drop the data of the old range (the view shows `loading()`), and fetch again. An answer for the old
   range never lands.

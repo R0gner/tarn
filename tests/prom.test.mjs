@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { promMatrix, promVector, promLegend, promStep, promRangeParams, promEscape, promValue, findRange, promInterval, RANGE_PRESETS } from '../js/prom-data.js';
 import { promSim } from '../gallery/prom-sim.js';
 
-globalThis.document ??= /** @type {any} */ ({ hidden: false, addEventListener() {}, removeEventListener() {} });
-const { promSource } = await import('../js/data.js');
+globalThis.document ??= /** @type {any} */ ({ hidden: false, documentElement: {}, addEventListener() {}, removeEventListener() {} });
+const { promSource, dataSource } = await import('../js/data.js');
 
 const NOW = Date.UTC(2026, 0, 15, 12, 0, 0);
 
@@ -162,4 +162,20 @@ test('promSource: interval and staleAfter follow the range unless set; no range 
   assert.equal(src.ranged, false);
   assert.equal(src.range, null);
   assert.equal(src.state.staleAfter, 900, '24 h: step 300 s, three missed refreshes');
+});
+
+test('source error texts go through the kit catalog; HTTP status and server texts stay as they are', async () => {
+  const { setLocale } = await import('../js/i18n.js');
+  setLocale('de');
+  try {
+    const src = promSource({ base: '/p', fetch: promSim(), now: () => NOW, timeout: 20, queries: { slow: { expr: 'demo_slow' }, html: { expr: 'demo_html' }, down: { expr: 'demo_unavailable' }, bad: { expr: 'demo_bad_query' } } });
+    await src.reload();
+    assert.match(src.state.error, /^Keine Antwort nach/);
+    const ds = dataSource({ url: '/x', fetch: async () => new Response('<html>'), now: () => NOW });
+    await ds.reload();
+    assert.equal(ds.state.error, 'Antwort ist kein JSON');
+    const all = promSource({ base: '/p', fetch: promSim(), now: () => NOW, queries: { html: { expr: 'demo_html' }, down: { expr: 'demo_unavailable' }, bad: { expr: 'demo_bad_query' } } });
+    await all.reload();
+    assert.equal(all.state.error, 'html: Antwort ist kein JSON; down: HTTP 503; bad: parse error: unexpected end of input');
+  } finally { setLocale('en'); }
 });

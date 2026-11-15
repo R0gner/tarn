@@ -27,10 +27,18 @@ While the major version is 0, minor versions may change the API; every change is
 - verify: overlay scenarios `range-menu` and `range-change` (the range choice replaces the history entry and the chart never shows the old
   range's data under the new label), mutant `range-keeps-old-data`.
 
+### Fixed
+- `lineChart` time axis: the tick step follows the width and the labels (no label leaves the chart or touches its neighbour; a 7 d range on a
+  phone showed one tick), labels through Intl (day and month for day steps and at local midnight, time of day otherwise) instead of a cut date
+  (“11/12/”). New verify rule `axis` with mutant `axis-labels-crowd`.
+- Source error texts of the kit (timeout, not JSON, unexpected response) go through the catalog (en/de/es/fr); `HTTP <status>` and a server's
+  own `error` text stay as they are.
+
 ### Docs
 - docs/data.md rewritten around the source kinds (JSON, PromQL, combined, view sources; stream planned), the two server options for the Prometheus
   API (reverse-proxy route with a sample, or a board backend with its own expressions) and a walk-through from a Grafana panel to a Tarn view;
-  pointers in docs/charts.md, docs/building-a-board.md and the AGENTS.md building-block table.
+  pointers in docs/charts.md, docs/building-a-board.md and the AGENTS.md building-block table. docs/shell.md: the time range (options `ranges`,
+  `range`, `app.range`, `app.setRange`, the `range` parameter and its history rule) and `views[].source`.
 
 ## 0.6.1
 

@@ -5,6 +5,9 @@
 //   promSource     – named PromQL queries against the Prometheus HTTP API (VictoriaMetrics answers it as well)
 //   combineSources – several sources as one: data = { name: data of that source }
 // The browser handles gzip (Content-Encoding). Polling pauses while the tab is hidden and reloads on return if the interval has elapsed.
+import './locales/shell.js';   // texts of the error messages (data.*)
+import { t } from './i18n.js';
+import { fmtDuration } from './format.js';
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
 /** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
@@ -82,7 +85,7 @@ function poller({ run, interval, staleAfter, now, timeout }) {
         st.baseAge = r.baseAge ?? 0;
       } catch (e) {
         if (my !== gen) return;
-        st.error = ac.signal.reason === TIMEOUT ? `Timed out after ${Math.round(timeout / 1000)} s` : msg(e);
+        st.error = ac.signal.reason === TIMEOUT ? t('data.timeout', { duration: fmtDuration(timeout / 1000) }) : msg(e);
       } finally {
         clearTimeout(tid);
         if (my === gen) { st.loading = false; inflight = null; ctrl = null; schedule(); emit(); }
@@ -133,7 +136,7 @@ export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (
       const r = await fx(url, { cache: 'no-store', headers: { Accept: 'application/json' }, signal });
       const body = await r.json().catch(() => null);
       if (!r.ok) throw new Error(body?.error || `HTTP ${r.status}`);
-      if (body == null) throw new Error('Response is not JSON');
+      if (body == null) throw new Error(t('data.notJson'));
       const data = parse(body);
       return { data, baseAge: ageOf ? ageOf(data) : 0 };
     },
@@ -158,8 +161,8 @@ async function promGet(fx, url, signal) {
   const body = await r.json().catch(() => null);
   if (body?.status === 'error') throw new Error(body.error || body.errorType || `HTTP ${r.status}`);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  if (body == null || typeof body !== 'object') throw new Error('Response is not JSON');
-  if (body.status !== 'success' || !body.data) throw new Error('Unexpected response');
+  if (body == null || typeof body !== 'object') throw new Error(t('data.notJson'));
+  if (body.status !== 'success' || !body.data) throw new Error(t('data.unexpected'));
   return body.data;
 }
 
