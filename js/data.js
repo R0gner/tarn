@@ -8,7 +8,7 @@
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
 /** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
-/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number }} DataState State handed to subscribers. */
+/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[] }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts). */
 /** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /**
  * @typedef {{
@@ -235,5 +235,52 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
       p.st.data = null; p.st.error = null; p.st.fetchedAt = null; p.st.baseAge = null;
       if (p.running) p.reload(); else p.emit();
     },
+  };
+}
+
+/**
+ * const src = combineSources({ jobs: dataSource({ url }), metrics: promSource({ … }) })
+ * One source over several: state.data = { jobs: data of jobs, metrics: data of metrics } (null while no part has data; a part without
+ * data yet is null). It is loading while a part loads, in error when a part is (`metrics: HTTP 502`, one line per part, joined by `; `)
+ * and stale when a part is (`staleParts` names them); age is that of the oldest part, and every part keeps its last good data.
+ * start/stop/reload act on all parts; setRange reaches the parts that follow the time range.
+ * @param {Record<string, DataSource>} parts
+ * @returns {DataSource}
+ */
+export function combineSources(parts) {
+  const names = Object.keys(parts);
+  /** @type {Set<(state: DataState) => void>} */
+  const subs = new Set();
+  /** @returns {DataState} */
+  function snapshot() {
+    const states = names.map((n) => /** @type {[string, DataState]} */ ([n, parts[n].state]));
+    const withData = states.filter(([, s]) => s.data != null);
+    /** @type {Record<string, any> | null} */
+    const data = withData.length ? Object.fromEntries(states.map(([n, s]) => [n, s.data])) : null;
+    const errors = states.filter(([, s]) => s.error).map(([n, s]) => `${n}: ${s.error}`);
+    const staleParts = states.filter(([, s]) => s.stale).map(([n]) => n);
+    const dated = states.filter(([, s]) => s.fetchedAt != null && s.age != null);
+    const oldest = dated.reduce((/** @type {[string, DataState] | null} */ a, b) => (!a || /** @type {number} */ (b[1].age) > /** @type {number} */ (a[1].age) ? b : a), null);
+    const staleOne = states.find(([, s]) => s.stale);
+    return {
+      data, error: errors.length ? errors.join('; ') : null, loading: states.some(([, s]) => s.loading),
+      fetchedAt: oldest ? oldest[1].fetchedAt : null, age: oldest ? oldest[1].age : null,
+      stale: staleParts.length > 0, staleAfter: (staleOne || oldest || states[0])?.[1].staleAfter ?? 0, staleParts,
+    };
+  }
+  const emit = () => { if (!subs.size) return; const s = snapshot(); for (const f of subs) f(s); };
+  let ready = false;
+  for (const n of names) parts[n].subscribe(() => { if (ready) emit(); });
+  ready = true;
+  const rangedParts = () => names.map((n) => parts[n]).filter((p) => p.ranged);
+  return {
+    get state() { return snapshot(); },
+    subscribe(f) { subs.add(f); f(snapshot()); return () => { subs.delete(f); }; },
+    async reload() { await Promise.all(names.map((n) => parts[n].reload())); },
+    start() { for (const n of names) parts[n].start(); return this; },
+    stop() { for (const n of names) parts[n].stop(); return this; },
+    get ranged() { return rangedParts().length > 0; },
+    get range() { return rangedParts()[0]?.range ?? null; },
+    setRange(r) { for (const p of rangedParts()) p.setRange?.(r); },
   };
 }
