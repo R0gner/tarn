@@ -25,6 +25,7 @@ import { normalizeBoards } from './boards-data.js';
 import { notifications, openInstallHint } from './notifications.js';
 import { detectPlatform, manualInstall, browserEnv } from './notifications-data.js';
 import { findRange, RANGE_PRESETS } from './prom-data.js';
+import { combineSources } from './data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
@@ -37,7 +38,7 @@ import { findRange, RANGE_PRESETS } from './prom-data.js';
 /** @typedef {{ title: string, sub?: string, body?: Child }} DetailContent What detail() returns for the inspector, panel or bottom sheet. */
 /** @typedef {{ n: number | string | null | undefined, tone?: Status }} CountSpec Nav counter with a colour. */
 /** @typedef {{ app: App, view: string | undefined, params: Record<string, string>, open: string | null, src: DataState | null, data: any }} ViewContext Argument of render(), detail() and count(). */
-/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined }} ViewDef One view of the app (a navigation entry). */
+/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, freshness, banners). */
 /**
  * @typedef {{
  *   views: ViewDef[],
@@ -161,8 +162,8 @@ export function createApp(cfg0) {
   const scrim = h('div', { class: 'tn-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
   const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'tn-sb-toggle' });
   const viewTitle = h('h1', { class: 'tn-toolbar-title tn-ellipsis' });
-  const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => cfg.source?.reload(), hidden: !cfg.source });
-  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => cfg.source?.reload(), className: 'tn-hide-phone' });   // phone: the freshness text is a reload button too
+  const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => activeSrc?.reload(), hidden: !cfg.source });
+  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => activeSrc?.reload(), className: 'tn-hide-phone' });   // phone: the freshness text is a reload button too
   reloadBtn.hidden = !cfg.source;
   const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme, className: 'tn-hide-phone' });
   const densityBtn = cfg.densitySwitch ? iconButton('list', { label: t('shell.density'), onClick: cycleDensity, className: 'tn-hide-phone' }) : null;
@@ -314,8 +315,8 @@ export function createApp(cfg0) {
 
   /* ---- Data status ---- */
   function renderFresh() {
-    if (!cfg.source) return;
-    const s = cfg.source.state;
+    if (!activeSrc) return;
+    const s = activeSrc.state;
     fresh.classList.toggle('is-stale', !!(s.stale && (s.data || s.error)));
     fresh.classList.toggle('is-loading', !!s.loading);
     fresh.textContent = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
@@ -341,8 +342,47 @@ export function createApp(cfg0) {
     const [count, unit] = s % 86400 === 0 ? [s / 86400, 'Days'] : s % 3600 === 0 ? [s / 3600, 'Hours'] : [Math.max(1, Math.round(s / 60)), 'Minutes'];
     return long ? t(`shell.range${unit}`, { count }) : t(`shell.rangeShort${unit}`, { count });
   }
-  /** The source the shell shows: the app's. */
-  const activeSource = () => cfg.source || null;
+  /* ---- Sources: the app's, and a view's own (`views[].source`), started while the view is shown and merged with the app's ---- */
+  /** @type {DataSource | null} */
+  let activeSrc = null;
+  /** @type {DataSource | null} */
+  let viewRunning = null;
+  /** @type {(() => void) | null} */
+  let unsubSrc = null;
+  /** @type {Map<string, DataSource>} */
+  const merged = new Map();
+  /** The source the current view shows. @returns {DataSource | null} */
+  function activeSource() {
+    const v = cur.view ? views.get(cur.view) : undefined;
+    if (!v?.source) return cfg.source || null;
+    if (!cfg.source) return v.source;
+    if (!merged.has(v.id)) merged.set(v.id, combineSources({ app: cfg.source, view: v.source }, { flat: true }));
+    return /** @type {DataSource} */ (merged.get(v.id));
+  }
+  /** @param {DataState} s */
+  function onSource(s) {
+    const hadData = srcState?.fetchedAt; srcState = s;
+    renderFresh(); renderBanners();
+    if (rangeSync) return;   // inside a route: the view renders right after
+    if (s.fetchedAt !== hadData || (!s.data && !s.loading)) api.refresh();
+  }
+  /** Follow the current view: subscribe to its source, stop the source of the view that was left. Range first, then start (one request). */
+  function routeSource() {
+    const src = activeSource();
+    const own = (cur.view && views.get(cur.view)?.source) || null;
+    if (viewRunning && viewRunning !== own) { viewRunning.stop(); viewRunning = null; }
+    if (src !== activeSrc) {
+      unsubSrc?.(); unsubSrc = null; activeSrc = src;
+      fresh.hidden = reloadBtn.hidden = !src;
+      rangeSync = true;
+      try { unsubSrc = src ? src.subscribe(onSource) : null; } finally { rangeSync = false; }
+      srcState = src?.state || null;
+      renderFresh(); renderBanners();
+    }
+    const changed = syncRange();
+    if (own && viewRunning !== own) { viewRunning = own; own.start(); srcState = activeSrc?.state || null; }
+    return changed;
+  }
   /** Hand the range to the active source and show the control (or hide it). Called on every route before the view renders; true when the
       source dropped its data for a new range. @returns {boolean} */
   function syncRange() {
@@ -456,7 +496,7 @@ export function createApp(cfg0) {
     const viewChanged = view !== cur.view;
     cur.params = params;
     if (viewChanged) cur.view = view;
-    const rangeChanged = syncRange();
+    const rangeChanged = routeSource();
     if (viewChanged) {
       cur.open = null; hideDetail();
       renderView();
@@ -607,15 +647,6 @@ export function createApp(cfg0) {
     if (typeof st?.tnp === 'number' && Array.isArray(st.tns) && st.tns.length) { phys = st.tnp; model = st.tns; }
     navigate(parseHash(location.hash, defaultView));
   } else onRoute();
-  if (cfg.source) {
-    cfg.source.subscribe((s) => {
-      const hadData = srcState?.fetchedAt; srcState = s;
-      renderFresh(); renderBanners();
-      if (rangeSync) return;   // syncRange() runs inside a route; the view renders right after
-      if (s.fetchedAt !== hadData || (!s.data && !s.loading)) api.refresh();
-    });
-    const source = cfg.source;
-    setInterval(() => { srcState = source.state; renderFresh(); renderBanners(); }, 15_000);
-  }
+  if (cfg.source || cfg.views.some((v) => v.source)) setInterval(() => { if (!activeSrc) return; srcState = activeSrc.state; renderFresh(); renderBanners(); }, 15_000);
   return api;
 }

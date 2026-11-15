@@ -244,10 +244,13 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
  * data yet is null). It is loading while a part loads, in error when a part is (`metrics: HTTP 502`, one line per part, joined by `; `)
  * and stale when a part is (`staleParts` names them); age is that of the oldest part, and every part keeps its last good data.
  * start/stop/reload act on all parts; setRange reaches the parts that follow the time range.
+ * `{ flat: true }` merges the parts' data objects into one (later parts win) and leaves the part names out of the messages; the shell uses
+ * it to merge a view's own source with the app's.
  * @param {Record<string, DataSource>} parts
+ * @param {{ flat?: boolean }} [o]
  * @returns {DataSource}
  */
-export function combineSources(parts) {
+export function combineSources(parts, { flat = false } = {}) {
   const names = Object.keys(parts);
   /** @type {Set<(state: DataState) => void>} */
   const subs = new Set();
@@ -256,16 +259,18 @@ export function combineSources(parts) {
     const states = names.map((n) => /** @type {[string, DataState]} */ ([n, parts[n].state]));
     const withData = states.filter(([, s]) => s.data != null);
     /** @type {Record<string, any> | null} */
-    const data = withData.length ? Object.fromEntries(states.map(([n, s]) => [n, s.data])) : null;
-    const errors = states.filter(([, s]) => s.error).map(([n, s]) => `${n}: ${s.error}`);
-    const staleParts = states.filter(([, s]) => s.stale).map(([n]) => n);
+    const data = !withData.length ? null
+      : flat ? Object.assign({}, ...withData.map(([, s]) => (typeof s.data === 'object' && !Array.isArray(s.data) ? s.data : {})))
+        : Object.fromEntries(states.map(([n, s]) => [n, s.data]));
+    const errors = states.filter(([, s]) => s.error).map(([n, s]) => (flat ? String(s.error) : `${n}: ${s.error}`));
+    const staleParts = states.filter(([, s]) => s.stale).flatMap(([n, s]) => (flat ? s.staleParts || [] : [n]));
     const dated = states.filter(([, s]) => s.fetchedAt != null && s.age != null);
     const oldest = dated.reduce((/** @type {[string, DataState] | null} */ a, b) => (!a || /** @type {number} */ (b[1].age) > /** @type {number} */ (a[1].age) ? b : a), null);
     const staleOne = states.find(([, s]) => s.stale);
     return {
       data, error: errors.length ? errors.join('; ') : null, loading: states.some(([, s]) => s.loading),
       fetchedAt: oldest ? oldest[1].fetchedAt : null, age: oldest ? oldest[1].age : null,
-      stale: staleParts.length > 0, staleAfter: (staleOne || oldest || states[0])?.[1].staleAfter ?? 0, staleParts,
+      stale: states.some(([, s]) => s.stale), staleAfter: (staleOne || oldest || states[0])?.[1].staleAfter ?? 0, staleParts,
     };
   }
   const emit = () => { if (!subs.size) return; const s = snapshot(); for (const f of subs) f(s); };

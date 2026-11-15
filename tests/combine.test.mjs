@@ -56,3 +56,15 @@ test('combineSources: range reaches the ranged parts only; start/stop act on all
   assert.deepEqual(calls, ['b.range=7d', 'a.start', 'b.start', 'a.stop', 'b.stop', 'a.reload', 'b.reload']);
   assert.equal(combineSources({ a: fake('a', false) }).ranged, false);
 });
+
+test('combineSources flat: data objects merged, no part names in messages, inner staleParts kept', async () => {
+  const mk = (data, extra = {}) => ({
+    get state() { return { data, error: null, loading: false, fetchedAt: 1, age: 5, stale: false, staleAfter: 60, ...extra }; },
+    subscribe(f) { f(this.state); return () => {}; }, reload: async () => {}, start() { return this; }, stop() { return this; },
+  });
+  const src = combineSources({ app: mk({ jobs: [1], n: 1 }), view: mk({ cpu: 'x', n: 2 }, { error: 'cpu: HTTP 502', stale: true, staleParts: ['metrics'] }) }, { flat: true });
+  assert.deepEqual(src.state.data, { jobs: [1], n: 2, cpu: 'x' });
+  assert.equal(src.state.error, 'cpu: HTTP 502');
+  assert.equal(src.state.stale, true);
+  assert.deepEqual(src.state.staleParts, ['metrics']);
+});
