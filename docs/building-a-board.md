@@ -218,6 +218,8 @@ intended. Hand in only with a green run, and say which command and which report 
   toasts, tooltips and data cards come from the kit.
 - **Inputs, filters and actions through the kit:** `field()` with `textField`, `select` (up to about eight options) or `combobox`; `form()` for fields sent
   together; `filterBar()` with `matchFilters()`; `confirm()` for anything dangerous. No bare `<input>`, no `window.confirm`, `alert` or `prompt`.
+- **A count on a view with tabs is split over the tabs.** When a navigation entry shows a count and the view has tabs (`segmented`), every option carries its
+  share of that count: `segmented({ options: [{ value, label, count, tone }] })`, with the same tone the sidebar counter has, so a problem never hides behind a tab.
 - **Phone first:** it works at 390 px without sideways scrolling; the shell and the kit parts do the rest. Never branch on the density in board code.
 - **Data through `dataSource`**, with its freshness text and stale banner; the last state stays visible when a fetch fails.
 - **Never edit `tarn/` (the vendor copy).** An update is a deliberate step: `vendor.mjs` again, read the `CHANGELOG.md`, run the checks, commit the copy
