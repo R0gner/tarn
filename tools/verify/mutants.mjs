@@ -242,4 +242,22 @@ export const MUTANTS = [
     check: 'overlay', scenarios: ['sheet-info'], sizes: ['phone', 'desktop'], expect: ['overlay-missing', 'overlay-top', 'overlay-inert', 'overlay-behaviour'],
     patch: [{ file: 'js/components.js', from: "    showOverlay(el);\n    const r = btn.getBoundingClientRect()", to: "    document.body.append(el);\n    const r = btn.getBoundingClientRect()" }],
   },
+  {
+    // an explanation under a list on the overview (docs/dashboard-guidelines.md rule 2): always-visible running text beyond the section limit
+    id: 'prose-on-view',
+    page: 'board', views: ['overview'], sizes: ['phone', 'desktop'], expect: ['prose'],
+    patch: [{ file: 'example/board.js', from: "section(t('board.sec.problems'), { count: problems.length },", to: "section(t('board.sec.problems'), { count: problems.length, footer: 'This list shows every job and host that is red or yellow right now, worst first. Tap a row to see why.' }," }],
+  },
+  {
+    // a disclaimer banner that is on the view whatever the data says (rule 3)
+    id: 'disclaimer-banner',
+    page: 'board', views: ['overview'], sizes: ['phone', 'desktop'], expect: ['banner-info'],
+    patch: [{ file: 'example/board.js', from: "  return [\n    tiles(", to: "  return [\n    banner('Note: the values on this page are estimates and may be incomplete.', { tone: 'info' }),\n    tiles(" }],
+  },
+  {
+    // an info text far over INFO_MAX: a manual instead of a key (rule 5)
+    id: 'info-too-long',
+    page: 'gallery', views: ['cards'], sizes: ['phone', 'desktop'], expect: ['info-length'],
+    patch: [{ file: 'gallery/gallery.js', from: "info: 'Bars are runs today. A red edge marks an overlap with a heavy run.' }", to: "info: 'Bars are runs today. A red edge marks an overlap with a heavy run. '.repeat(6) }" }],
+  },
 ];

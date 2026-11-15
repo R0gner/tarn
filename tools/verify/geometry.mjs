@@ -6,6 +6,8 @@ import { emulate, evaluate, sleep } from '../lib/cdp.mjs';
 
 const PROBE = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'probe-geometry.js'), 'utf8')
   .replace(/^\s*\/\/.*$/gm, '').trim();
+const CONTENT = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'probe-content.js'), 'utf8')
+  .replace(/^\s*\/\/.*$/gm, '').trim();
 
 /**
  * Until data is loaded and finite animations are done. Calm must hold for 4 checks in a row (≈ 130 ms),
@@ -121,6 +123,10 @@ export async function geometryTask(w, task, opts) {
     await settle(page);
     const t1 = Date.now();
     const res = await evaluate(page, `(${PROBE})(${JSON.stringify({ touch: size.mobile, strictTouch: pg.density === 'comfortable' ? 48 : 0 })})`, { timeout: 60000 });
+    // content rules (docs/dashboard-guidelines.md); TN_CONTENT_MEASURE=<file> appends every text run as a JSON line, to measure the limits again
+    const content = await evaluate(page, `(${CONTENT})(${JSON.stringify({ measure: !!process.env.TN_CONTENT_MEASURE })})`, { timeout: 60000 });
+    res.findings.push(...content.findings);
+    if (process.env.TN_CONTENT_MEASURE) fs.appendFileSync(process.env.TN_CONTENT_MEASURE, content.runs.map((r) => JSON.stringify({ page: pg.id, view, size: size.name, ...r })).join('\n') + '\n');
     const t2 = Date.now();
     states++;
     const ctx = { page: pg.id, view, size: size.name, theme };

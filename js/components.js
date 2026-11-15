@@ -40,6 +40,7 @@ export function infoButton(text) {
   const btn = /** @type {HTMLButtonElement} */ (h('button', {
     class: 'tn-iconbtn tn-info-btn', type: 'button', 'aria-label': t('common.info'), 'aria-expanded': 'false', 'aria-controls': pid,
   }, icon('info')));
+  /** @type {any} */ (btn).tnInfo = text;   // read by verify (rule info-length) without opening it
   /** @type {HTMLElement | null} */
   let el = null;
   let width0 = 0;

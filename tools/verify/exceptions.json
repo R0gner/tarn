@@ -3,6 +3,16 @@
   "known": [],
   "exceptions": [
     {
+      "id": "gallery-demo-text",
+      "match": {
+        "check": "^geometry$",
+        "rule": "^(prose|banner-info)$",
+        "page": "^gallery",
+        "view": "^(cards|rows|states|shell|inputs)$"
+      },
+      "reason": "The gallery shows building blocks, not a board: deliberately long labels, rows and footers prove truncation and wrapping, the banner demo shows every tone including info, the notification states show the sheet texts inline, and the inputs view has an intro for the reader of the gallery. The content rules apply to boards; the sample board runs without this exception."
+    },
+    {
       "id": "timeline-bars-touch",
       "match": {
         "check": "^geometry$",

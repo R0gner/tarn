@@ -44,10 +44,27 @@ when focus, frames or a headed browser matter.
 | `tests` | `node --test tests/*.test.mjs` |
 | `lint` | `tools/lint.mjs`, below |
 | `types` | TypeScript as a pure type checker over the JSDoc types of `js/` (`jsconfig.json`: `checkJs`, `strict` except `noImplicitAny`). The version is pinned in `tools/verify/types.mjs` (`TS_VERSION`) and fetched with `npx` on demand; offline the check is skipped with a note. Every file starts with `// @ts-check`; new building blocks need typed options |
-| `geometry` | per page × size × theme × view (read from the navigation) and open detail: a child sticks out of its container, the page is wider than the viewport, text is cut off without “…”, text boxes or flex/grid siblings overlap, siblings in a row are misaligned, words are broken letter by letter (`wordbreak`), a chart axis label is cut at the chart edge or touches its neighbour (`axis`), a scroller traps the swipe (`scroll-trap`), a timeline scrolls sideways, a touch target is smaller than 40 px (hit area measured by `elementFromPoint`), a translation is missing (`i18n`), a page lacks `<link rel="icon">` or a title “View · Board” (`identity`), a toolbar crowds out the view title at 360–599 px (`toolbar-title`), console errors. Contrast below 4.5 is a warning only |
+| `geometry` | per page × size × theme × view (read from the navigation) and open detail: a child sticks out of its container, the page is wider than the viewport, text is cut off without “…”, text boxes or flex/grid siblings overlap, siblings in a row are misaligned, words are broken letter by letter (`wordbreak`), a chart axis label is cut at the chart edge or touches its neighbour (`axis`), a scroller traps the swipe (`scroll-trap`), a timeline scrolls sideways, a touch target is smaller than 40 px (hit area measured by `elementFromPoint`), a translation is missing (`i18n`), a page lacks `<link rel="icon">` or a title “View · Board” (`identity`), a toolbar crowds out the view title at 360–599 px (`toolbar-title`), console errors, and the content rules (`prose`, `banner-info`, `info-length`, below). Contrast below 4.5 is a warning only |
 | `overlay` | opens menu, toast, tooltip, info explanation, detail, sheet, sidebar, board switcher and install button with real input (tap, click, hover, long press), also from an open sheet, and checks: on top (`elementFromPoint`), not inert, focus in the menu or modal sheet. Plus behaviour cases (panel from the right closes by swipe, Esc and Back; a menu does not close on a height change but on a width change; Esc closes a menu inside a sheet first; a tooltip stays on touch; combobox, confirm over a sheet, filter sheet, form submit; notifications flow; Back by levels on the real history of the test Chrome: `back-views`, `back-detail`, `back-deeplink` (these press the browser's own Back, Alt+Left, so entries Chrome's history intervention skips count as missing), `back-sheet`, `back-confirm`, `back-drawer`, `exit-hint` (installed app, emulated `display-mode`); `drawer-current`, `timeline-pan`) |
 | `snapshots` | per page × view (plus open details) × `phone` and `desktop` a text outline (element, role, `tn-*` and `is-*` classes, text, box rounded to 4 px) under `tests/snapshots/`, clock fixed to 2026-11-09 10:00 (Europe/Berlin). A difference is a finding with a diff file. All declared fonts are loaded before measuring |
 | `tempo` | animation inventory: `document.getAnimations()` during every test interaction. Only `transform` and `opacity`, durations equal motion tokens, duration within the class budget, plus endless animations. Runs headless |
+
+### Content
+
+The `geometry` check also runs the rules of [what goes on a view](dashboard-guidelines.md) that a machine can measure (`tools/verify/probe-content.js`), on every
+view, not in details, sheets or other overlay layers:
+
+| Rule | Fails when |
+|---|---|
+| `prose` | a card, section, tile or row holds more always-visible running text than its limit: card 100, section 60 (title and footer; its cards count on their own), tile 40, row 120 characters. A text run counts as prose from 5 words on; data does not count: values (`.tn-num`), table cells, logs, code, Markdown, key–value facts, form fields, buttons, badges, charts |
+| `banner-info` | a banner with tone `info` or `off` sits on a view: a note that is there whatever the data says. Status banners (`warn`, `bad`) and the shell's data banners are not affected |
+| `info-length` | the text behind an “i” (`card({ info })`, `section(…, { info })`) is longer than `INFO_MAX` (280 characters) |
+
+The limits come from measuring the gallery and the sample board: the longest prose on the sample board is a problem row's reason (92 characters, data
+from the collector) and a deploy run message in a card (66); tiles hold no prose at all. A board that needs more for a reason states it in its exceptions file
+(match on `rule` and `view`). The gallery is excepted for `prose` and `banner-info` in the views that demonstrate long texts and every banner tone. What a machine
+cannot check: rules 1, 6, 8 and 9 of the guide (one question, state not process, a number once, overview first) not at all; rules 2, 3, 4 and 7 only by
+length and placement (a short disclaimer in a row passes), never by meaning.
 
 **Pages and sizes:** the gallery, the sample board in en, de and fr, and the starter page in en and de, in the sizes `phone` 390×844 (touch), `desktop`
 1440×900, `phone-s` 340×740, `tablet-s` 700×900 (touch), `desktop-s` 1000×800, each in dark and light; `--sizes` also takes `WxH[@DPR][t]`. The pages
@@ -110,7 +127,7 @@ node <kit>/tools/lint.mjs --board <board folder> [-v] [--write-known]           
 |---|---|
 | `lint` | the board's own CSS, JS and HTML: token-only literals, transitions, no `innerHTML`, no number timers, no `title` attribute, no emoji, visible texts via `t()` (the files in `lint.messages` are exempt), favicon and title on every page |
 | `vendor` | `tools/vendor.mjs --check` on the board's copy (`kit`): local changes, missing or foreign files are findings; names the kit version found (and notes a newer checkout); the server must deliver the same `VERSION` under the kit URL |
-| `geometry` | the geometry rules above for every page, size, theme, view and detail |
+| `geometry` | the geometry and content rules above for every page, size, theme, view and detail |
 | `snapshots` | text outline of every view and state against `snapshots`, with the board's fixed `clock` |
 | `overlay` | the scenarios that are generic for any shell board: `sidebar` (below 1000 px), `detail` (the first `details` entry with `?open=`), `menu` (opened inside a sheet), `sheet` |
 | `tempo` | animation inventory: endless animations in every view and the animations of those scenarios |

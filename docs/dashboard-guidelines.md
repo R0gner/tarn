@@ -70,6 +70,6 @@ wrong block: fix that first (rule 2). The one exception is a display that cannot
 
 ## What the checks find
 
-`verify` fails on three things: running text that is always visible inside cards, sections, tiles and rows beyond a limit, an info or neutral banner
-that is on a view regardless of the data, and an `info` text over its limit (numbers and the exceptions file: [checks](checks.md#content)). Rules 1, 3,
-6 and 8 (and the judgement in 2, 4 and 9) cannot be checked by a machine; you check them yourself before handing in.
+`verify` fails on running text that is always visible in a card, section, tile or row beyond a limit, on an info banner that sits on a view, and on an
+`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6, 8 and 9 cannot be checked by a machine, rules 2, 3, 4
+and 7 only by length and placement: check those yourself before handing in.
