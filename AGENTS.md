@@ -56,6 +56,11 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
     asks first** with `confirm({ danger: true })` (`typeToConfirm` when a name or data is at stake, e.g. a host). Never `window.confirm`, `alert`
     or `prompt`.
 
+14. **A view answers one question and needs no explanation** ([docs/dashboard-guidelines.md](docs/dashboard-guidelines.md)). What does not serve the
+    question goes into a detail or is left out. Labels are short nouns, values carry their unit, a sub-line is one fact; status says what is the case.
+    No always-visible explanations, disclaimers, caveats or method notes: those go into your hand-in report. A complex display may carry one optional
+    `info` (`card({ info })`, `section(title, { info })`). Empty and error states: one line, one action. A number appears once per view.
+
 ## Verification
 
 1. **Name the check before the code:** command and expected output (e.g. `node tools/verify.mjs --quick --views jobs` → “GREEN ·
@@ -148,6 +153,7 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 
 ## Checklist before handing in
 
+- [ ] Every view against [docs/dashboard-guidelines.md](docs/dashboard-guidelines.md): one question, no explanatory or disclaimer text on the screen, no sentences in tiles, rows, cells or titles, no number twice; your caveats and open points are in the hand-in report.
 - [ ] Imports only from `/tarn/js/tarn.js`; no own CSS with colours/sizes; no new components in the board.
 - [ ] No visible text in the code (only `t()` and `messages`); a catalog per offered language with the same keys.
 - [ ] `node --test tests/*.test.mjs` green (for kit changes also new tests for pure functions).

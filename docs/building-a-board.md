@@ -214,6 +214,7 @@ intended. Hand in only with a green run, and say which command and which report 
 
 ## 3. Rules that keep boards consistent
 
+- **One question per view, no explanations on the screen.** What goes on a view, and where your caveats go instead: [what goes on a view](dashboard-guidelines.md).
 - **Kit parts and tokens only.** No own colours, sizes, radii, shadows or fonts; no `style` with pixel or colour values; own CSS only for placement that
   `cols()`, `stack()` and `tiles()` do not cover, and then with tokens ([design language](design.md)). Lint fails on literals.
 - **Every visible text through `t()`**, numbers, bytes and times through `fmt*`, with the active locale and time zone. No emoji; icons from `icon()`. Data

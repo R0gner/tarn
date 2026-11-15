@@ -7,6 +7,7 @@ at the [gallery](https://r0gner.github.io/tarn/gallery/) and the [demo board](ht
 | Page | Covers |
 |---|---|
 | [Building a board](building-a-board.md) | the guide for an agent or person who uses the kit: decisions, steps from nothing to a checked board, rules, kit gaps |
+| [What goes on a view](dashboard-guidelines.md) | the content rules: one question per view, no explanations or caveats on the screen, short labels, a number once, where caveats go |
 | [Getting started](getting-started.md) | running the kit locally, the four levels, core and shell, what belongs in the kit, including it in a project (git dependency, fixed copy with `vendor.mjs`) |
 | [The shell](shell.md) | `createApp`, views and details, routing, layout on phone, tablet and desktop, detail in place, languages and time zones, theme and density, several boards |
 | [Components](components.md) | primitives, layout, cards, rows, table, toast, menu, sheets, Markdown, formatters |

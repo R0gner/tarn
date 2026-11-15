@@ -81,7 +81,7 @@ Then give your agent [docs/building-a-board.md](docs/building-a-board.md); the `
 
 ## Documentation
 
-[Getting started](docs/getting-started.md) · [The shell](docs/shell.md) · [Components](docs/components.md) · [Charts](docs/charts.md) · [Data](docs/data.md) ·
+[What goes on a view](docs/dashboard-guidelines.md) · [Getting started](docs/getting-started.md) · [The shell](docs/shell.md) · [Components](docs/components.md) · [Charts](docs/charts.md) · [Data](docs/data.md) ·
 [Inputs, filters, forms and actions](docs/inputs-and-actions.md) · [Notifications](docs/notifications.md) · [Identity, icons, installing](docs/identity.md) ·
 [Checks](docs/checks.md) · [Design language and tokens](docs/design.md) · [Visual judge](docs/visual-judge.md) (optional, experimental)
 
