@@ -1,11 +1,118 @@
 // @ts-check
-// tarn · dataSource: fetch JSON with interval, age, error state.
-// The browser handles gzip (Content-Encoding). Pauses while the tab is hidden,
-// and reloads immediately on return if the interval has elapsed.
+// tarn · data sources. Every source has the same state contract and the same methods, so the shell's freshness text, the banners and
+// ctx.data work alike for all of them:
+//   dataSource     – one JSON URL (collector output, a board backend)
+//   promSource     – named PromQL queries against the Prometheus HTTP API (VictoriaMetrics answers it as well)
+//   combineSources – several sources as one: data = { name: data of that source }
+// The browser handles gzip (Content-Encoding). Polling pauses while the tab is hidden and reloads on return if the interval has elapsed.
+import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
-/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number }} DataSourceOptions interval in ms, staleAfter in seconds; ageOf returns seconds. */
+/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
 /** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number }} DataState State handed to subscribers. */
-/** @typedef {{ readonly state: DataState, subscribe: (f: (state: DataState) => void) => () => void, reload: () => Promise<void>, start: () => DataSource, stop: () => DataSource }} DataSource */
+/** @typedef {import('./prom-data.js').TimeRange} TimeRange */
+/**
+ * @typedef {{
+ *   readonly state: DataState,
+ *   subscribe: (f: (state: DataState) => void) => () => void,
+ *   reload: () => Promise<void>,
+ *   start: () => DataSource,
+ *   stop: () => DataSource,
+ *   readonly ranged?: boolean,
+ *   readonly range?: TimeRange | null,
+ *   setRange?: (range: TimeRange) => void,
+ * }} DataSource `ranged`/`range`/`setRange` only on sources that follow the app's time range (promSource with a range query, combineSources over one).
+ */
+/** @typedef {{ start: number, end: number, step: number, seconds: number, id: string, window: string }} PromRangeInfo What an `expr` function gets: the current range (seconds since the epoch) and `window` as a PromQL duration (`'21600s'`). */
+/** @typedef {{ expr: string | ((r: PromRangeInfo) => string), range?: boolean, legend?: import('./prom-data.js').PromLegend, step?: number }} PromQuery `range: true` = range query (matrix to `{ x, series }`), otherwise instant (rows). `step` fixes the step in seconds. */
+/**
+ * @typedef {{
+ *   base: string, queries: Record<string, PromQuery>, interval?: number, staleAfter?: number, minStep?: number, maxPoints?: number,
+ *   range?: TimeRange | string, ranges?: TimeRange[], timeout?: number, fetch?: typeof fetch, now?: () => number,
+ * }} PromSourceOptions `base` = same-origin path in front of `/api/v1/…`; interval/timeout in ms, staleAfter in seconds. Without `interval` the refresh follows the range.
+ */
+
+const TIMEOUT = Symbol('timeout');
+
+/** @param {unknown} e @returns {string} */
+const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error: /, '');
+
+/**
+ * Shared engine of the polling sources: state, subscribers, interval, visibility pause, abort, timeout.
+ * `run(signal)` fetches once and returns the new data (or throws); `onResult` may merge partial results itself.
+ * @param {{
+ *   run: (signal: AbortSignal) => Promise<{ data: any, baseAge?: number | null, error?: string | null, fetchedAt?: number | null }>,
+ *   interval: () => number, staleAfter: () => number, now: () => number, timeout: number,
+ * }} o
+ */
+function poller({ run, interval, staleAfter, now, timeout }) {
+  /** @type {Set<(state: DataState) => void>} */
+  const subs = new Set();
+  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null }} */
+  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null };
+  /** @type {ReturnType<typeof setTimeout> | undefined} */
+  let timer;
+  let running = false;
+  /** @type {Promise<void> | null} */
+  let inflight = null;
+  /** @type {AbortController | null} */
+  let ctrl = null;
+  let gen = 0;
+
+  /** @returns {DataState} */
+  function snapshot() {
+    const age = st.fetchedAt == null ? null : (st.baseAge ?? 0) + (now() - st.fetchedAt) / 1000;
+    const sa = staleAfter();
+    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > sa, staleAfter: sa };
+  }
+  const emit = () => { const s = snapshot(); for (const f of subs) f(s); };
+
+  /** @returns {Promise<void>} */
+  function reload() {
+    if (inflight) return inflight;
+    const my = ++gen;
+    const ac = ctrl = new AbortController();
+    const tid = timeout > 0 ? setTimeout(() => ac.abort(TIMEOUT), timeout) : undefined;
+    st.loading = true; emit();
+    inflight = (async () => {
+      try {
+        const r = await run(ac.signal);
+        if (my !== gen) return;
+        st.data = r.data; st.error = r.error ?? null;
+        if (r.fetchedAt !== null) st.fetchedAt = r.fetchedAt ?? now();
+        st.baseAge = r.baseAge ?? 0;
+      } catch (e) {
+        if (my !== gen) return;
+        st.error = ac.signal.reason === TIMEOUT ? `Timed out after ${Math.round(timeout / 1000)} s` : msg(e);
+      } finally {
+        clearTimeout(tid);
+        if (my === gen) { st.loading = false; inflight = null; ctrl = null; schedule(); emit(); }
+      }
+    })();
+    return inflight;
+  }
+  /** Abort a request in flight; its answer is dropped. */
+  function abort() {
+    gen++; ctrl?.abort(); ctrl = null; inflight = null; st.loading = false;
+  }
+  function schedule() {
+    clearTimeout(timer);
+    const iv = interval();
+    if (running && iv > 0 && !document.hidden) timer = setTimeout(reload, st.error ? Math.min(iv, 15_000) : iv);
+  }
+  function onVis() {
+    if (document.hidden) { clearTimeout(timer); return; }
+    const due = st.fetchedAt == null || now() - st.fetchedAt >= interval();
+    if (running && due) reload(); else schedule();
+  }
+  return {
+    st, emit, snapshot, reload, abort, schedule,
+    get running() { return running; },
+    /** @param {(state: DataState) => void} f */
+    subscribe(f) { subs.add(f); f(snapshot()); return () => { subs.delete(f); }; },
+    start() { if (running) return; running = true; document.addEventListener('visibilitychange', onVis); reload(); },
+    stop() { running = false; clearTimeout(timer); abort(); document.removeEventListener('visibilitychange', onVis); },
+  };
+}
 
 /**
  * const ds = dataSource({ url, interval: 60_000, staleAfter: 900, parse?(json) → data, ageOf?(data) → sec.|null, fetch? })
@@ -19,58 +126,114 @@
  * @param {DataSourceOptions} o
  * @returns {DataSource}
  */
-export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now() }) {
-  /** @type {Set<(state: DataState) => void>} */
-  const subs = new Set();
-  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null }} */
-  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null };
-  /** @type {ReturnType<typeof setTimeout> | undefined} */
-  let timer;
-  let running = false;
-  /** @type {Promise<void> | null} */
-  let inflight = null;
-
-  /** @returns {DataState} */
-  function snapshot() {
-    const age = st.fetchedAt == null ? null : (st.baseAge ?? 0) + (now() - st.fetchedAt) / 1000;
-    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > staleAfter, staleAfter };
-  }
-  const emit = () => { const s = snapshot(); for (const f of subs) f(s); };
-
-  /** @returns {Promise<void>} */
-  async function reload() {
-    if (inflight) return inflight;
-    st.loading = true; emit();
-    inflight = (async () => {
-      try {
-        const r = await fx(url, { cache: 'no-store', headers: { Accept: 'application/json' } });
-        const body = await r.json().catch(() => null);
-        if (!r.ok) throw new Error(body?.error || `HTTP ${r.status}`);
-        if (body == null) throw new Error('Response is not JSON');
-        st.data = parse(body); st.error = null; st.fetchedAt = now();
-        st.baseAge = ageOf ? ageOf(st.data) : 0;
-      } catch (e) {
-        st.error = String(/** @type {any} */ (e)?.message || e).replace(/^Error: /, '');
-      } finally {
-        st.loading = false; inflight = null; schedule(); emit();
-      }
-    })();
-    return inflight;
-  }
-  function schedule() {
-    clearTimeout(timer);
-    if (running && interval > 0 && !document.hidden) timer = setTimeout(reload, st.error ? Math.min(interval, 15_000) : interval);
-  }
-  function onVis() {
-    if (document.hidden) { clearTimeout(timer); return; }
-    const due = st.fetchedAt == null || now() - st.fetchedAt >= interval;
-    if (running && due) reload(); else schedule();
-  }
+export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000 }) {
+  const p = poller({
+    interval: () => interval, staleAfter: () => staleAfter, now, timeout,
+    async run(signal) {
+      const r = await fx(url, { cache: 'no-store', headers: { Accept: 'application/json' }, signal });
+      const body = await r.json().catch(() => null);
+      if (!r.ok) throw new Error(body?.error || `HTTP ${r.status}`);
+      if (body == null) throw new Error('Response is not JSON');
+      const data = parse(body);
+      return { data, baseAge: ageOf ? ageOf(data) : 0 };
+    },
+  });
   return {
-    get state() { return snapshot(); },
-    subscribe(f) { subs.add(f); f(snapshot()); return () => subs.delete(f); },
-    reload,
-    start() { if (running) return this; running = true; document.addEventListener('visibilitychange', onVis); reload(); return this; },
-    stop() { running = false; clearTimeout(timer); document.removeEventListener('visibilitychange', onVis); return this; },
+    get state() { return p.snapshot(); },
+    subscribe: p.subscribe,
+    reload: p.reload,
+    start() { p.start(); return this; },
+    stop() { p.stop(); return this; },
+  };
+}
+
+/**
+ * One GET against the Prometheus HTTP API; returns the `data` member or throws with the server's `error` text.
+ * @param {typeof fetch} fx
+ * @param {string} url
+ * @param {AbortSignal} signal
+ */
+async function promGet(fx, url, signal) {
+  const r = await fx(url, { cache: 'no-store', headers: { Accept: 'application/json' }, signal });
+  const body = await r.json().catch(() => null);
+  if (body?.status === 'error') throw new Error(body.error || body.errorType || `HTTP ${r.status}`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  if (body == null || typeof body !== 'object') throw new Error('Response is not JSON');
+  if (body.status !== 'success' || !body.data) throw new Error('Unexpected response');
+  return body.data;
+}
+
+/**
+ * const prom = promSource({ base: '/prom', queries: { cpu: { expr, range: true, legend: '{{instance}}' }, up: { expr: 'up' } } })
+ * state.data = { cpu: { x: [ms], series: [{ label, labels, values }] }, up: [{ label, labels, value }] }
+ *
+ * Range queries follow the app's time range (`setRange`, set by the shell's range control; default the first preset): start/end are the
+ * last `range.seconds`, the step keeps a series at most `maxPoints` (300) long and never below `minStep`. Changing the range aborts the
+ * request in flight and drops the data of the old range. Without `interval` the refresh follows the step (15 s … 5 min), and without
+ * `staleAfter` data counts as stale after three missed refreshes. One failing query does not take the others down: its last good data
+ * stays, the error names it (`cpu: HTTP 502`), and the age is that of the oldest query.
+ * @param {PromSourceOptions} o
+ * @returns {DataSource}
+ */
+export function promSource({ base, queries, interval, staleAfter, minStep = 0, maxPoints = 300, range, ranges = RANGE_PRESETS, timeout = 30_000, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now() }) {
+  const root = String(base || '').replace(/\/+$/, '');
+  const names = Object.keys(queries);
+  const ranged = names.some((n) => queries[n].range);
+  /** @type {TimeRange} */
+  let cur = typeof range === 'object' && range ? range : findRange(/** @type {string | undefined} */ (range), ranges);
+  /** @type {Map<string, { data: any, at: number }>} last good answer per query */
+  const good = new Map();
+  const autoStep = () => promStep(cur.seconds, { minStep, maxPoints });
+  const iv = () => interval ?? promInterval(autoStep());
+  const sa = () => staleAfter ?? Math.max(60, Math.round((3 * iv()) / 1000));
+
+  const p = poller({
+    interval: iv, staleAfter: sa, now, timeout,
+    async run(signal) {
+      const t = now();
+      const shared = promRangeParams(cur, t, { minStep, maxPoints });
+      const results = await Promise.allSettled(names.map(async (name) => {
+        const q = queries[name];
+        const rp = q.step ? promRangeParams(cur, t, { step: q.step }) : shared;
+        /** @type {PromRangeInfo} */
+        const info = { ...rp, seconds: cur.seconds, id: cur.id, window: `${cur.seconds}s` };
+        const expr = typeof q.expr === 'function' ? q.expr(info) : q.expr;
+        const qs = new URLSearchParams({ query: expr });
+        if (q.range) { qs.set('start', String(rp.start)); qs.set('end', String(rp.end)); qs.set('step', String(rp.step)); }
+        else qs.set('time', String(t / 1000));
+        const data = await promGet(fx, `${root}/api/v1/${q.range ? 'query_range' : 'query'}?${qs}`, signal);
+        return q.range ? promMatrix(data.resultType === 'matrix' ? data.result : [], { legend: q.legend, name }) : promVector(data, { legend: q.legend, name });
+      }));
+      if (signal.aborted) throw new Error(signal.reason === TIMEOUT ? 'timeout' : 'aborted');
+      /** @type {string[]} */
+      const errors = [];
+      results.forEach((r, i) => {
+        if (r.status === 'fulfilled') good.set(names[i], { data: r.value, at: t });
+        else errors.push(`${names[i]}: ${msg(r.reason)}`);
+      });
+      if (!good.size) throw new Error(errors.join('; '));
+      /** @type {Record<string, any>} */
+      const data = {};
+      for (const n of names) data[n] = good.get(n)?.data ?? null;
+      const oldest = Math.min(...names.map((n) => good.get(n)?.at ?? -Infinity));
+      return { data, error: errors.length ? errors.join('; ') : null, fetchedAt: Number.isFinite(oldest) ? oldest : Math.min(...[...good.values()].map((g) => g.at)) };
+    },
+  });
+  return {
+    get state() { return p.snapshot(); },
+    subscribe: p.subscribe,
+    reload: p.reload,
+    start() { p.start(); return this; },
+    stop() { p.stop(); return this; },
+    get ranged() { return ranged; },
+    get range() { return ranged ? cur : null; },
+    setRange(r) {
+      if (!r || (r.id === cur.id && r.seconds === cur.seconds)) return;
+      cur = r;
+      if (!ranged) return;
+      p.abort(); good.clear();
+      p.st.data = null; p.st.error = null; p.st.fetchedAt = null; p.st.baseAge = null;
+      if (p.running) p.reload(); else p.emit();
+    },
   };
 }

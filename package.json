@@ -122,6 +122,7 @@
     "js/overlay.js",
     "js/press.js",
     "js/primitives.js",
+    "js/prom-data.js",
     "js/push-sw.js",
     "js/router.js",
     "js/sheet.js",
