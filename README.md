@@ -4,7 +4,7 @@
 
 [Live demo](https://r0gner.github.io/tarn/example/) · [Component gallery](https://r0gner.github.io/tarn/gallery/) · [Docs](docs/README.md) · [Build a board (for agents)](docs/building-a-board.md)
 
-![The demo board on a desktop (dark) and on a phone (light)](docs/img/hero.png)
+![The demo board: the History view with line chart, stacked bars, ranking and timeline on a desktop (dark), a job detail with run strip and Markdown run report on a phone (light), and the jobs table with status and run strips on a tablet (dark)](docs/img/hero.png)
 
 > **Building something with Tarn? Read [docs/building-a-board.md](docs/building-a-board.md) first.** It takes an agent from nothing to a board that has
 > passed its own checks.

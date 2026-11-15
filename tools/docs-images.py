@@ -16,8 +16,8 @@ CLICK_FILTER = "[...document.querySelectorAll('button')].find(b=>/^\\s*Filter/.t
 
 # key: (url, size, theme, eval, full)
 SHOTS = {
-    'ov-d': (f'{EX}#/overview', 'desktop', 'dark', None, False),
-    'ov-p-light': (f'{EX}#/overview', 'phone', 'light', None, False),
+    'detail-p-light': (f'{EX}#/jobs?open=offsite-sync', 'phone', 'light', None, False),
+    'jobs-t': (f'{EX}#/jobs', 'tablet', 'dark', None, False),
     'ov-p': (f'{EX}#/overview', 'phone', 'dark', None, False),
     'jobs-p': (f'{EX}#/jobs', 'phone', 'dark', None, False),
     'detail-p': (f'{EX}#/jobs?open=offsite-sync', 'phone', 'dark', None, False),
@@ -80,15 +80,20 @@ def main():
     os.makedirs(tmp, exist_ok=True); os.makedirs(a.out, exist_ok=True)
     try:
         s = {k: shoot(k, v, tmp) for k, v in SHOTS.items()}
-        bg = s['ov-d'].getpixel((1400, 880))
+        bg = s['hist-d'].getpixel((1430, 1180))
         sizes = {}
 
-        # 1. hero: the demo board on a desktop (dark) and on a phone (light)
-        d = scale(s['ov-d'].crop((0, 0, 1440, 690)), w=960)
-        p = scale(s['ov-p-light'], h=560)
-        cv = canvas(30 + d.width + 30 + p.width + 30, 590, bg)
-        paste_round(cv, d, (30, 40), r=10)
-        paste_round(cv, p, (30 + d.width + 30, 20), r=22)
+        # 1. hero: the range of the kit in one frame. Main frame: the History view (dark, desktop: line chart, stacked bars, ranking, timeline); on its right edge a
+        #    job detail as a bottom sheet (light, phone: run strip and Markdown run report); below it a narrow view of the jobs table (dark, tablet: status, run strips).
+        #    Only the right margin of the main frame is overlapped, the charts stay free.
+        W, H = 1700, 1030
+        d = scale(s['hist-d'], w=1070)
+        p = scale(s['detail-p-light'].crop((0, 0, 1170, 2054)), w=420)
+        t = scale(s['jobs-t'].crop((0, 0, 1640, 738)), w=560)
+        cv = canvas(W, H, bg)
+        paste_round(cv, d, (24, (H - d.height) // 2), r=10)
+        paste_round(cv, p, (1090, 20), r=22)
+        paste_round(cv, t, (W - t.width - 24, H - t.height - 26), r=12)
         sizes['hero.png'] = save(cv, os.path.join(a.out, 'hero.png'))
 
         # 2. charts: the history view (line, stacked bars, ranking, schedule), cropped
