@@ -3,6 +3,14 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.6.1
+
+### Fixed
+- verify rule `scroll-y` no longer reports the scroller of an overlay layer (sheet body, inspector body, sidebar: the boxes that set
+  `overscroll-behavior`). A detail whose content is a few px taller than the sheet scrolls by that much on purpose; the rule is meant for boxes
+  inside the page (timeline, tabs, segmented). Found on the first board checked with 0.6.0: three detail panes were reported, none was a fault.
+  The kit's own pages did not have a detail of that height, so the selftest did not see it.
+
 ## 0.6.0
 
 ### Added
