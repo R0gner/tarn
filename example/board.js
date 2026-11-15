@@ -233,7 +233,7 @@ function showRun(rec) {
 function viewDeploy(ctx) {
   if (!ctx.data) return waiting(ctx);
   if (!deploy.form) {
-    deploy.box = h('div', null, empty({ title: t('board.dep.noRun'), text: t('board.dep.noRunText'), icon: 'rocket', compact: true }));
+    deploy.box = h('div', null, empty({ title: t('board.dep.noRun'), icon: 'rocket', compact: true }));
     deploy.form = form({
       fields: [
         { name: 'host', type: 'combobox', label: t('board.dep.host'), required: true, search: true, placeholder: t('board.dep.hostPlaceholder'), options: ctx.data.hosts.map((x) => ({ value: x.id, label: x.name, hint: x.role })) },
@@ -283,7 +283,7 @@ function viewHistory(ctx) {
       card({ title: t('board.h.runsPerDay'), sub: t('board.h.days7') }, barChart({ labels: days, stacked: true, height: 170, yFormat: (v) => fmtNum(v, 0), series: [
         { label: t('board.h.success'), values: runsPerDay.map((d) => d[0]), color: 'ok' }, { label: t('board.h.warning'), values: runsPerDay.map((d) => d[1]), color: 'warn' }, { label: t('board.h.error'), values: runsPerDay.map((d) => d[2]), color: 'bad' }] })),
       card({ title: t('board.h.storageHost') }, barChart({ horizontal: true, labels: hosts.map((x) => x.name), yFormat: fmtBytes, series: [{ label: t('board.h.used'), values: hosts.map((x) => x.disk.used), color: 'blue' }] }))),
-    section(t('board.h.todaySchedule'), {}, timeline({
+    section(t('board.h.todaySchedule'), { info: t('board.h.scheduleInfo') }, timeline({
       start: a, end: b, now, rows: scheduleRows(jobs, a, b),
       groups: [...new Set(jobs.map((j) => j.kind))].map((k) => ({ id: k, label: t(`board.kind.${k}`) })),
       windows: [{ start: a + 2 * HOUR, end: a + 6 * HOUR, label: t('board.h.window') }],

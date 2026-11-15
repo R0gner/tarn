@@ -35,7 +35,7 @@ div.tn-app @0,0 392x844
       button.tn-fresh "Mis à jour il y a 2 min" @204,4 136x40
       button.tn-iconbtn.tn-settings-btn "Réglages" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x548
+    main.tn-content @0,48 392x524
       section.tn-section @12,60 368x344
         header.tn-section-head @12,60 368x24
           h2.tn-section-title "Nouveau déploiement" @16,64 364x16
@@ -66,13 +66,12 @@ div.tn-app @0,0 392x844
                     span.tn-tick-help "Simuler le déploiement sans rien modifier." @56,316 236x16
               div.tn-form-actions @24,352 340x40
                 button.tn-btn.tn-btn-primary @212,352 152x40
-      section.tn-section @12,420 368x160
+      section.tn-section @12,420 368x140
         header.tn-section-head @12,420 368x24
           h2.tn-section-title "Dernière exécution" @16,424 364x16
-        section.tn-card @12,452 368x128
-          div.tn-card-body @12,456 364x128
-            div.tn-empty.tn-empty-compact @24,468 340x104
+        section.tn-card @12,452 368x108
+          div.tn-card-body @12,456 364x104
+            div.tn-empty.tn-empty-compact @24,468 340x80
               span.tn-empty-icon @188,488 16x16
                 svg.tn-icon @188,488 16x16
               div.tn-empty-title "Aucun déploiement lancé pour l’instant" @72,508 244x20
-              div.tn-empty-text "Remplissez le formulaire pour en lancer un." @72,532 244x16

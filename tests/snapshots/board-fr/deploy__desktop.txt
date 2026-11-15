@@ -39,7 +39,7 @@ div.tn-app @0,0 1424x900
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Apparence : système (changer)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x532
+    main.tn-content @208,44 1216x508
       section.tn-section @224,60 1184x300
         header.tn-section-head @224,60 1184x24
           h2.tn-section-title "Nouveau déploiement" @228,64 1180x16
@@ -70,13 +70,12 @@ div.tn-app @0,0 1424x900
                     span.tn-tick-help "Simuler le déploiement sans rien modifier." @264,284 236x16
               div.tn-form-actions @236,320 1160x28
                 button.tn-btn.tn-btn-primary @1244,320 152x28
-      section.tn-section @224,380 1184x160
+      section.tn-section @224,380 1184x140
         header.tn-section-head @224,380 1184x24
           h2.tn-section-title "Dernière exécution" @228,384 1180x16
-        section.tn-card @224,412 1184x128
-          div.tn-card-body @224,416 1184x128
-            div.tn-empty.tn-empty-compact @236,428 1160x104
+        section.tn-card @224,412 1184x108
+          div.tn-card-body @224,416 1184x104
+            div.tn-empty.tn-empty-compact @236,428 1160x80
               span.tn-empty-icon @808,448 16x16
                 svg.tn-icon @808,448 16x16
               div.tn-empty-title "Aucun déploiement lancé pour l’instant" @696,468 244x20
-              div.tn-empty-text "Remplissez le formulaire pour en lancer un." @696,492 244x16

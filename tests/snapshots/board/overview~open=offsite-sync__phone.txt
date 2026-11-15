@@ -59,7 +59,7 @@ div.tn-app @0,0 392x1116
             span.tn-ellipsis "Storage" @40,160 44x16
           div.tn-stat-value.tn-num "2.54" @24,180 140x24
             span.tn-stat-unit "TB" @72,188 16x16
-          div.tn-stat-sub.tn-t-bad "app-2 is 94% full" @24,208 140x16
+          div.tn-stat-sub.tn-t-bad "app-2 · 94%" @24,208 140x16
           span.tn-go @168,160 16x16
             svg.tn-icon @168,160 16x16
         button.tn-stat.tn-stat-btn @200,152 180x92

@@ -27,7 +27,7 @@ function render() {
       { name: 'copy', type: 'checkbox', label: t('starter.form.copy') },
     ],
     submitLabel: t('starter.form.send'),
-    onSubmit: async () => { statusText.textContent = t('starter.status.sent'); },
+    onSubmit: async () => { statusText.textContent = t('starter.status.sent'); },   // demo: nothing is sent anywhere
   });
   const discard = button(t('starter.btn.danger'), { variant: 'danger', onClick: () => { render(); } });
   mount(document.body,

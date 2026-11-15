@@ -39,7 +39,7 @@ div.tn-app @0,0 1424x900
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Darstellung: System (umschalten)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x532
+    main.tn-content @208,44 1216x508
       section.tn-section @224,60 1184x300
         header.tn-section-head @224,60 1184x24
           h2.tn-section-title "Neues Deployment" @228,64 1180x16
@@ -70,13 +70,12 @@ div.tn-app @0,0 1424x900
                     span.tn-tick-help "Das Deployment simulieren, nichts ändern." @264,284 244x16
               div.tn-form-actions @236,320 1160x28
                 button.tn-btn.tn-btn-primary @1260,320 136x28
-      section.tn-section @224,380 1184x160
+      section.tn-section @224,380 1184x140
         header.tn-section-head @224,380 1184x24
           h2.tn-section-title "Letzter Lauf" @228,384 1180x16
-        section.tn-card @224,412 1184x128
-          div.tn-card-body @224,416 1184x128
-            div.tn-empty.tn-empty-compact @236,428 1160x104
+        section.tn-card @224,412 1184x108
+          div.tn-card-body @224,416 1184x104
+            div.tn-empty.tn-empty-compact @236,428 1160x80
               span.tn-empty-icon @808,448 16x16
                 svg.tn-icon @808,448 16x16
               div.tn-empty-title "Noch kein Deployment gestartet" @716,468 200x20
-              div.tn-empty-text "Formular ausfüllen und eines starten." @712,492 212x16
