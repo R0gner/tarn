@@ -6,7 +6,7 @@ div.tn-app @0,0 1424x960
         span.tn-bicon @16,12 24x24
           img.tn-bicon-img @16,12 24x24
         span.tn-ellipsis "Tarn Gallery" @48,12 76x20
-    nav.tn-nav "Views" @8,44 192x560
+    nav.tn-nav "Views" @8,44 192x588
       div.tn-nav-group [presentation] "Core · Tokens" @8,44 192x24
       a.tn-nav-item @8,68 192x28
         svg.tn-icon @16,76 16x16
@@ -53,10 +53,13 @@ div.tn-app @0,0 1424x960
       a.tn-nav-item.is-active {current=page} @8,512 192x28
         svg.tn-icon @16,520 16x16
         span.tn-ellipsis "States and sheets" @40,516 112x20
-      div.tn-nav-group [presentation] "Shell · App frame" @8,540 192x32
-      a.tn-nav-item @8,576 192x28
-        svg.tn-icon @16,580 16x16
-        span.tn-ellipsis "Shell and boards" @40,580 104x20
+      a.tn-nav-item @8,540 192x28
+        svg.tn-icon @16,548 16x16
+        span.tn-ellipsis "Data sources" @40,548 80x20
+      div.tn-nav-group [presentation] "Shell · App frame" @8,572 192x32
+      a.tn-nav-item @8,604 192x28
+        svg.tn-icon @16,608 16x16
+        span.tn-ellipsis "Shell and boards" @40,608 104x20
   div.tn-scrim @0,0 1424x900
   div.tn-main @208,0 1216x960
     header.tn-toolbar @208,0 1216x44
