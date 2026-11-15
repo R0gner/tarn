@@ -108,11 +108,11 @@
 
 /* ============ Tabs ============ */
 .tn-tabset { display: grid; gap: var(--tn-s3); min-width: 0; }
-.tn-tabs { display: flex; gap: var(--tn-s1); border-bottom: 1px solid var(--tn-sep); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; min-width: 0; } /* the tab's -1 px margin made it scroll 1 px vertically (verify rule scroll-y) */
+.tn-tabs { display: flex; gap: var(--tn-s1); box-shadow: inset 0 -1px 0 var(--tn-sep); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; min-width: 0; } /* the separator is an inset shadow under the tabs, not a border the tabs overlap with a -1 px margin: the content fits the box exactly (verify rule scroll-y) */
 .tn-tabs::-webkit-scrollbar { display: none; }
 .tn-tab {
   position: relative; display: inline-flex; align-items: center; gap: var(--tn-sp-6); flex: none;
-  min-height: var(--tn-hit); min-width: var(--tn-min-w); padding: 0 var(--tn-s2); margin-bottom: calc(-1 * var(--tn-sp-1));
+  min-height: var(--tn-hit); min-width: var(--tn-min-w); padding: 0 var(--tn-s2);
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); border-radius: var(--tn-r-sm) var(--tn-r-sm) 0 0;
   touch-action: manipulation;
 }

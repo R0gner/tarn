@@ -183,13 +183,20 @@ export const MUTANTS = [
     // swipe on the timeline scrolled the timeline by about a millimetre and the page did not move
     id: 'timeline-scrolls-vertically',
     page: 'gallery', views: ['charts'], sizes: ['phone'], expect: ['scroll-y'],
-    css: '.tn-tl-scroll { overflow-y: visible !important; }',
+    css: '.tn-tl-scroll { overflow-y: visible !important; } .tn-tl-grid { overflow-y: visible !important; }',
+  },
+  {
+    // the half fix: overflow-y hidden on the scroller, but the bars' hit area still sticks out below the grid (scrollHeight 5–10 px above
+    // clientHeight at phone size); focus or scrollIntoView on a bar in the last row moves the box vertically
+    id: 'timeline-hidden-overflow',
+    page: 'gallery', views: ['charts'], sizes: ['phone'], expect: ['scroll-y'],
+    css: '.tn-tl-grid { overflow-y: visible !important; }',
   },
   {
     // the same fault, driven by a real finger: the vertical swipe on the old timeline moves the timeline and not the page
     id: 'timeline-catches-pan',
     check: 'overlay', scenarios: ['timeline-pan'], sizes: ['phone'], expect: ['overlay-behaviour'],
-    css: '.tn-tl-scroll { overflow-y: visible !important; }',
+    css: '.tn-tl-scroll { overflow-y: visible !important; } .tn-tl-grid { overflow-y: visible !important; }',
   },
   {
     // earlier chrome fault: a long press on the board title or the view title selects it (the text was selectable like content)

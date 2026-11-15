@@ -49,10 +49,15 @@ While the major version is 0, minor versions may change the API; every change is
 - `timeline()`: a vertical swipe that starts on a timeline scrolls the page. Before, the box scrolled itself by a few px (phone 390 px: 5 px
   compact, 10 px comfortable; measured scrollHeight 411/416 against clientHeight 406) and the page did not move: `overflow-x: auto` made
   `overflow-y` compute to `auto`, and in the narrow layout the enlarged hit area of the bars in the last row sticks out below the grid.
-  `.tn-tl-scroll` now has `overflow-y: hidden`; the horizontal pan of a wide timeline keeps working. The same fault was in `tabs()` (the tab
-  strip scrolled 1 px vertically through the tab's -1 px margin); `.tn-tabs` and `.tn-seg` get `overflow-y: hidden` as well.
+  `.tn-tl-scroll` now has `overflow-y: hidden` and `.tn-tl-grid` clips in both directions (`overflow: clip`), so the content fits the box
+  exactly: measured at 390 px in compact and comfortable, the example board's timeline (history view) 499/499, the gallery timeline 406/406
+  and a one-row timeline 67/67 (scrollHeight/clientHeight); a vertical touch drag on each scrolls the page by about 186 px and leaves the
+  timeline at scrollTop 0. The horizontal pan of a wide timeline keeps working. The same fault was in `tabs()` (the tab strip was 1 px taller
+  inside through the tab's -1 px margin over the border): the separator is now an inset shadow and the margin is gone (same height);
+  `.tn-tabs` and `.tn-seg` get `overflow-y: hidden` as well.
 - verify, geometry rule `scroll-y` (all pages and views): a scroller (`overflow-y` auto or scroll, also the one `overflow-x: auto` creates) must
-  not be vertically scrollable by 1–24 px. Not checked: the page itself and boxes that cap their own height with `max-height` (log, menus, list
+  not be vertically scrollable by 1–24 px; a horizontal scroller with `overflow-y: hidden` must not hide 1–24 px either (focus or
+  `scrollIntoView` would still move it). Mutant `timeline-hidden-overflow` (the scroller hidden, the grid not clipped) is detected. Not checked: the page itself and boxes that cap their own height with `max-height` (log, menus, list
   popups), where the amount depends on the data. Mutant `timeline-scrolls-vertically` restores the old timeline and is detected; overlay scenario
   `timeline-pan` (touch sizes) drives a real vertical and horizontal swipe, mutant `timeline-catches-pan`.
 

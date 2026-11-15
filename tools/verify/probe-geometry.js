@@ -12,7 +12,7 @@
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   scroll-trap  a box inside the page or inside another scroller keeps the swipe to itself (overscroll-behavior); only the one scroller of an overlay layer may
-//   scroll-y   a scroller (overflow-y auto/scroll) can scroll vertically by a small accidental amount (1–24 px)
+//   scroll-y   a scroller (overflow-y auto/scroll, or a horizontal scroller with overflow-y hidden) is 1–24 px taller inside than its box
 //   select-chrome  shell chrome (board/view title, navigation, tab/segment labels, badges in controls) is selectable, or content is not
 //   touch48    comfortable density (opts.strictTouch): interactive element, own box < 48 px; no exceptions
 //   contrast   text/background contrast below 4.5 (large 3) – warning
@@ -448,7 +448,9 @@
   for (const el of all) {
     if (el === de || el === document.body) continue;
     const s = S(el);
-    if (!isScroll(s.overflowY) || s.maxHeight !== 'none') continue;
+    /* a horizontal scroller with overflow-y hidden counts as well: the hidden few px still move it vertically on focus or scrollIntoView, and its
+       content must fit (scrollHeight === clientHeight) */
+    if (!(isScroll(s.overflowY) || (isScroll(s.overflowX) && s.overflowY === 'hidden')) || s.maxHeight !== 'none') continue;
     const extra = el.scrollHeight - el.clientHeight;
     if (extra < 1 || extra > 24) continue;
     push(findings, { rule: 'scroll-y', sel: path(el), where: where(el), px: extra, text: `scrolls ${extra} px vertically (overflow-y ${s.overflowY}${isScroll(s.overflowX) ? `, overflow-x ${s.overflowX}` : ''}): a vertical swipe on it moves the box, not the page`, rect: R(el.getBoundingClientRect()), el });
