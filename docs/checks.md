@@ -63,7 +63,7 @@ view, not in details, sheets or other overlay layers:
 The limits come from measuring the gallery and the sample board: the longest prose on the sample board is a problem row's reason (92 characters, data
 from the collector) and a deploy run message in a card (66); tiles hold no prose at all. A board that needs more for a reason states it in its exceptions file
 (match on `rule` and `view`). The gallery is excepted for `prose` and `banner-info` in the views that demonstrate long texts and every banner tone. What a machine
-cannot check: rules 1, 6, 8 and 9 of the guide (one question, state not process, a number once, overview first) not at all; rules 2, 3, 4 and 7 only by
+cannot check: rules 1, 6 and 8 to 13 of the guide (one question, state not process, a number once, overview first, control names, unavailable actions, nothing opens unasked, unsaved input) not at all; rules 2, 3, 4 and 7 only by
 length and placement (a short disclaimer in a row passes), never by meaning.
 
 **Pages and sizes:** the gallery, the sample board in en, de and fr, and the starter page in en and de, in the sizes `phone` 390×844 (touch), `desktop`

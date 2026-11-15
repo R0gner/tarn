@@ -54,6 +54,30 @@ Why: the overview answers "do I need to act?"; the detail answers "why?".
 Do: a problem row carries the reason in one line (`metricRow({ wrapSub: true })`) and opens the detail on tap.
 Don't: log excerpts, charts per job or a "how to fix" text on the overview.
 
+**10. Every control has a name that is unique on its view.** An icon button always has one (`label`); two buttons that do different things never
+share a name.
+Why: a screen reader, a voice command and a test find a control by its name; "Refresh" three times is no name.
+Do: `iconButton('refresh', { label: 'Reload backups' })` and `iconButton('refresh', { label: 'Reload hosts' })` in two cards.
+Don't: three `iconButton('more', { label: 'More' })` on one view.
+
+**11. An action that is not available right now is shown with its reason, not hidden.**
+Why: a missing button makes the reader search; a greyed one without a reason makes them guess.
+Do: `{ label: 'Pause', disabled: true, hint: 'Already off' }` in a `menu()`.
+Don't: drop "Pause" from the menu when the job is off, or show it disabled with nothing next to it.
+
+**12. Nothing opens unasked.** No sheet, menu, toast or explanation opens when a view loads; secondary content stays in the detail, behind a tab or behind
+an "i".
+Why: what opens by itself covers what the reader came for and has to be closed first.
+Do: a detail opens on a tap or from `?open=` in the address; "Technical" facts sit at the bottom of the detail.
+Don't: a "What's new" sheet on the first load, or a toast that greets.
+
+**13. A sheet with unsaved input is not closed silently.** The kit closes a sheet on Escape, a swipe or a tap outside, and `onClose(reason)` only
+reports it, so keep what was typed or do not put it there.
+Why: a swipe that throws away five filled fields is lost work.
+Do: a long form on a view of its own (the sample board's Deploy view); a short one in a sheet keeps its values in board state and fills them in again
+when it reopens; a "Discard" button asks with `confirm()`.
+Don't: a ten-field form in a sheet that starts empty again after an accidental swipe.
+
 ## How much goes on the overview
 
 Start from the question "do I need to act, and where?". That gives tiles for the few figures with a goal (four to six), a Problems list, and at most
@@ -71,5 +95,5 @@ wrong block: fix that first (rule 2). The one exception is a display that cannot
 ## What the checks find
 
 `verify` fails on running text that is always visible in a card, section, tile or row beyond a limit, on an info banner that sits on a view, and on an
-`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6, 8 and 9 cannot be checked by a machine, rules 2, 3, 4
-and 7 only by length and placement: check those yourself before handing in.
+`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6 and 8 to 13 cannot be checked by a machine, rules
+2, 3, 4 and 7 only by length and placement: check those yourself before handing in.

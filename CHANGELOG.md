@@ -26,6 +26,18 @@ While the major version is 0, minor versions may change the API; every change is
   the unit tests, no request reaches a real metrics server).
 - verify: overlay scenarios `range-menu` and `range-change` (the range choice replaces the history entry and the chart never shows the old
   range's data under the new label), mutant `range-keeps-old-data`.
+- `card({ info })`, `section(title, { info })` and `infoButton(text)`: an optional explanation behind a small “i” next to the title, closed by
+  default, opened in a kit overlay above sheets (tap and keyboard; Escape, a tap outside, Tab and a width change close it, the focus goes back to the
+  “i”). `INFO_MAX` (280 characters). Kit text `common.info` in en/de/es/fr. Gallery entry in “Cards and tiles”.
+- verify content rules in the geometry check (kit and `--board`), from docs/dashboard-guidelines.md: `prose` (always-visible running text from five
+  words on beyond card 100, section 60, tile 40, row 120 characters; values, table cells, logs, code, Markdown and facts do not count), `banner-info`
+  (an info or neutral banner on a view), `info-length` (an `info` text over `INFO_MAX`). Limits measured on the gallery and the sample board; the
+  gallery views that demonstrate long texts and every banner tone are excepted (`gallery-demo-text`). Overlay scenarios `info` and `sheet-info`,
+  mutants `info-below-sheet`, `prose-on-view`, `disclaimer-banner`, `info-too-long`.
+
+### Changed
+- Sample board: the deploy empty state is one line, the storage tile's sub line is “name · percent” instead of a sentence, the schedule explains its
+  colours behind an “i”. Starter: the sent status no longer carries a demo note.
 
 ### Fixed
 - `lineChart` time axis: the tick step follows the width and the labels (no label leaves the chart or touches its neighbour; a 7 d range on a
@@ -39,6 +51,10 @@ While the major version is 0, minor versions may change the API; every change is
   API (reverse-proxy route with a sample, or a board backend with its own expressions) and a walk-through from a Grafana panel to a Tarn view;
   pointers in docs/charts.md, docs/building-a-board.md and the AGENTS.md building-block table. docs/shell.md: the time range (options `ranges`,
   `range`, `app.range`, `app.setRange`, the `range` parameter and its history rule) and `views[].source`.
+- docs/dashboard-guidelines.md: what goes on a view – one question per view, no explanations, disclaimers or method notes on the screen (they go
+  into the hand-in report), short labels with units, status as state, one-line empty states, a number once, overview first, a unique name for every
+  control, unavailable actions shown with their reason, nothing opens unasked, no silent loss of input in a sheet; each rule with a do and a don't.
+  Linked from the README, the docs index, AGENTS.md (principle 14, checklist) and docs/building-a-board.md; docs/checks.md “Content”.
 
 ## 0.6.1
 
