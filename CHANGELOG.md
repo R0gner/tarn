@@ -61,6 +61,12 @@ While the major version is 0, minor versions may change the API; every change is
   popups), where the amount depends on the data. Mutant `timeline-scrolls-vertically` restores the old timeline and is detected; overlay scenario
   `timeline-pan` (touch sizes) drives a real vertical and horizontal swipe, mutant `timeline-catches-pan`.
 
+### Docs
+- `docs/shell.md`: section "Back" (levels, history rules, exit hint, deep links and the measured behaviour of Chrome's history intervention),
+  options `back` and `exitHint` in the `createApp` table, drawer, chrome selection and scroller behaviour under "Layout behaviour";
+  `docs/checks.md` names the Back scenarios. README: one feature bullet for Back by levels. The comments in `gallery/gallery.js`,
+  `example/index.html` and `starter/index.html` point to `docs/getting-started.md` instead of the README.
+
 ## 0.5.3
 
 ### Added

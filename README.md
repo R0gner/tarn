@@ -23,6 +23,7 @@ coding agent assembles a board from these parts, and the kit's own tools measure
 - Six chart types: line, bar, sparkline, donut, heat row and a timeline for schedules.
 - Inputs, validation, filter bar, forms, confirm dialogs and live views of running actions.
 - Installable as an app: icons and manifest come from `tools/brand.mjs`.
+- Back goes by levels (open layer, then the start view, then out), so the back button of an installed app does what you expect.
 - Web push notifications: the browser half (settings sheet, service worker) is built in; your backend sends.
 - Light and dark, two densities (compact, and comfortable for touch screens), set by tokens.
 - English, German, Spanish and French for the kit's texts; boards add their own.
