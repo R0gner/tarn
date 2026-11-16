@@ -124,6 +124,12 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "if (s.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
   },
   {
+    // a reload that answers at once shows nothing: no minimum time for the turning icon
+    id: 'reload-invisible',
+    check: 'overlay', scenarios: ['fresh-sources'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: 'const MIN_SPIN = 600;', to: 'const MIN_SPIN = 0;' }],
+  },
+  {
     // the old behaviour (0.7.x): a range change drops the data, the view draws its loading state for a moment and the blocks jump
     id: 'range-drops-data',
     check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-shift'],

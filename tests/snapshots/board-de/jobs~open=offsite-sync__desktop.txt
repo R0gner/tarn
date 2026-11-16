@@ -32,7 +32,7 @@ div.tn-app @0,0 1424x900
         svg.tn-icon @224,12 16x16
       h1.tn-toolbar-title.tn-ellipsis "Jobs" @252,12 32x20
       div.tn-toolbar-spacer @288,20 536x0
-      button.tn-fresh "Stand vor 2 Min." @828,8 108x28
+      button.tn-fresh {expanded=false} "Stand vor 2 Min." @828,8 108x28
       button.tn-iconbtn.tn-hide-phone "Neu laden" @940,8 28x28
         svg.tn-icon @948,12 16x16
       button.tn-iconbtn.tn-hide-phone {expanded=false} "Sprache" @972,8 28x28

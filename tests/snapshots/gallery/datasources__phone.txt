@@ -70,7 +70,7 @@ div.tn-app @0,0 392x1604
       div.tn-range @180,4 60x40
         button.tn-btn.tn-btn-ghost.tn-range-btn {expanded=false} "Time range: Last hour" @180,4 60x40
           svg.tn-icon @192,16 16x16
-      button.tn-fresh "Updated now" @248,4 92x40
+      button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x1556

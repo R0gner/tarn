@@ -19,6 +19,7 @@ import { fmtAgo, fmtFull, fmtDuration } from './format.js';
 import { favicon } from './favicon.js';
 import { getDensity, setDensity, watchDensity } from './density.js';
 import { menu, toast } from './widgets.js';
+import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { t, setLocale, setTimeZone, addMessages, resolveLocale, KIT_LOCALES, LOCALE_NAMES } from './i18n.js';
 import { boardSwitcher, boardIcon } from './boards.js';
 import { normalizeBoards } from './boards-data.js';
@@ -38,7 +39,7 @@ import { combineSources } from './data.js';
 /** @typedef {{ title: string, sub?: string, body?: Child }} DetailContent What detail() returns for the inspector, panel or bottom sheet. */
 /** @typedef {{ n: number | string | null | undefined, tone?: Status }} CountSpec Nav counter with a colour. */
 /** @typedef {{ app: App, view: string | undefined, params: Record<string, string>, open: string | null, src: DataState | null, data: any }} ViewContext Argument of render(), detail() and count(). */
-/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, freshness, banners). */
+/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource, freshness?: 'view' | 'app' }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, banners, source list). `freshness`: whose age the toolbar text shows – the view's own source (default when it has one) or the app's. */
 /**
  * @typedef {{
  *   views: ViewDef[],
@@ -162,8 +163,10 @@ export function createApp(cfg0) {
   const scrim = h('div', { class: 'tn-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
   const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'tn-sb-toggle' });
   const viewTitle = h('h1', { class: 'tn-toolbar-title tn-ellipsis' });
-  const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => activeSrc?.reload(), hidden: !cfg.source });
-  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => activeSrc?.reload(), className: 'tn-hide-phone' });   // phone: the freshness text is a reload button too
+  /* the freshness text opens the source list (every source of the view: name, age, interval, note) with a reload button; on the phone that
+     is the way to reload, the toolbar's reload button is hidden there */
+  const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => (pop ? closePop(false) : openPop()), hidden: !cfg.source, 'aria-haspopup': 'dialog', 'aria-expanded': 'false' });
+  const reloadBtn = iconButton('refresh', { label: t('common.reload'), onClick: () => doReload(), className: 'tn-hide-phone' });
   reloadBtn.hidden = !cfg.source;
   const themeBtn = iconButton('contrast', { label: t('shell.theme'), onClick: cycleTheme, className: 'tn-hide-phone' });
   const densityBtn = cfg.densitySwitch ? iconButton('list', { label: t('shell.density'), onClick: cycleDensity, className: 'tn-hide-phone' }) : null;
@@ -315,12 +318,13 @@ export function createApp(cfg0) {
 
   /* ---- Data status ---- */
   function renderFresh() {
+    renderPop();
     if (!activeSrc) { content.removeAttribute('aria-busy'); return; }
-    const s = activeSrc.state;
+    const s = (mainSource() || activeSrc).state;
     fresh.classList.toggle('is-stale', !!(s.stale && (s.data || s.error)));
-    fresh.classList.toggle('is-loading', !!s.loading);
+    fresh.classList.toggle('is-loading', !!s.loading || reloading);
     /* a range change keeps the old range's data until the new one arrives: the view keeps its layout, the charts show they are refreshing */
-    if (s.refreshing) content.setAttribute('aria-busy', 'true'); else content.removeAttribute('aria-busy');
+    if (activeSrc.state.refreshing) content.setAttribute('aria-busy', 'true'); else content.removeAttribute('aria-busy');
     fresh.textContent = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
     fresh.setAttribute('aria-label', s.fetchedAt ? t('shell.freshAriaAt', { text: fresh.textContent, time: fmtFull(s.fetchedAt) }) : t('shell.freshAria', { text: fresh.textContent }));
   }
@@ -329,6 +333,95 @@ export function createApp(cfg0) {
     if (s?.error && s.data) items.push(banner(t('shell.updateFailed', { error: s.error }), { tone: 'warn' }));
     if (s?.data && s.stale) items.push(banner(s.staleParts?.length ? t('shell.dataStaleParts', { parts: s.staleParts.join(', '), age: fmtAgo(s.age) }) : t('shell.dataStale', { age: fmtAgo(s.age) }), { tone: 'bad' }));
     mount(banners, items);
+  }
+
+  /* ---- Source list: the popover of the freshness text, and the reload ---- */
+  /** The source whose age the freshness text shows: the view's own (unless the view says `freshness: 'app'`), otherwise the app's. */
+  function mainSource() {
+    const v = cur.view ? views.get(cur.view) : undefined;
+    if (v?.source && (v.freshness !== 'app' || !cfg.source)) return v.source;
+    return cfg.source || null;
+  }
+  /** Every source of the current view, combineSources split into their parts. @returns {[string, DataSource][]} */
+  function sourceList() {
+    const v = cur.view ? views.get(cur.view) : undefined;
+    /** @type {[string, DataSource][]} */
+    const out = [];
+    /** @param {string} name @param {DataSource | null | undefined} src */
+    const add = (name, src) => { if (!src) return; if (src.parts) for (const [n, p] of src.parts) add(n, p); else out.push([src.label || name, src]); };
+    add(t('shell.sourceApp'), cfg.source); add(t('shell.sourceView'), v?.source);
+    return out;
+  }
+  let reloading = false;
+  /** @type {WeakMap<DataSource, 'newer' | 'same' | 'error'>} outcome of the last reload per source */
+  const lastReload = new WeakMap();
+  const MIN_SPIN = 600;   // the reload stays visible this long even when the answer takes 20 ms
+  /** Reload every source of the view; the button turns while it runs, then the text shows the new age, and a reload that brought nothing
+      newer says so (the source list says why). */
+  async function doReload() {
+    if (!activeSrc || reloading) return;
+    reloading = true; syncReload();
+    const before = new Map(sourceList().map(([, src]) => [src, src.state]));
+    try { await Promise.all([activeSrc.reload(), new Promise((r) => setTimeout(r, MIN_SPIN))]); } catch { /* the error is in the state */ }
+    for (const [src, b] of before) {
+      const a = src.state;
+      lastReload.set(src, a.error && a.error !== b.error ? 'error' : a.age != null && (b.age == null || a.age < b.age - 1) ? 'newer' : 'same');
+    }
+    reloading = false;
+    if (activeSrc) srcState = activeSrc.state;
+    syncReload(); renderFresh(); renderBanners();
+    const main = mainSource();
+    const leaves = sourceList().filter(([, src]) => src === main || main?.parts?.some(([, p]) => p === src));
+    if (leaves.length && leaves.every(([, src]) => lastReload.get(src) === 'same') && !pop) toast(t('shell.reloadSame'), { action: { label: t('shell.sources'), onClick: openPop } });
+  }
+  function syncReload() {
+    for (const b of [reloadBtn, popReload]) { b.classList.toggle('is-busy', reloading); b.setAttribute('aria-busy', String(reloading)); b.querySelector('svg')?.classList.toggle('tn-spin', reloading); }
+    fresh.classList.toggle('is-loading', reloading || !!activeSrc?.state.loading);
+  }
+  /** @type {HTMLElement | null} */
+  let pop = null;
+  const popRows = h('div', { class: 'tn-pop-rows' });
+  const popReload = button(t('common.reload'), { variant: 'ghost', icon: 'refresh', className: 'tn-pop-reload', onClick: () => doReload() });
+  /** @param {[string, DataSource]} e */
+  function sourceRow([name, src]) {
+    const st = src.state, last = lastReload.get(src);
+    const age = st.data == null ? (st.error ? t('shell.noData') : t('shell.loadingShort')) : t('shell.updated', { age: fmtAgo(st.age) });
+    const every = src.interval ? t('shell.sourceEvery', { interval: fmtDuration(src.interval / 1000) }) : null;
+    return h('div', { class: cls('tn-pop-src', st.stale && (st.data || st.error) && 'is-stale') },
+      h('div', { class: 'tn-pop-head' }, h('span', { class: 'tn-pop-name tn-ellipsis' }, name), st.stale && (st.data || st.error) ? badge(t('shell.sourceStale'), { tone: 'bad' }) : null),
+      h('div', { class: 'tn-pop-line' }, every ? `${age} · ${every}` : age),
+      st.error ? h('div', { class: 'tn-pop-line is-error' }, st.error) : null,
+      last === 'same' ? h('div', { class: 'tn-pop-line' }, t('shell.reloadSameSource')) : null,
+      src.note ? h('div', { class: 'tn-pop-note' }, src.note) : null);
+  }
+  function renderPop() { if (pop) mount(popRows, sourceList().map(sourceRow)); }
+  /** @param {Event} e */
+  const popOutside = (e) => { if (pop && !pop.contains(/** @type {Node} */ (e.target)) && !fresh.contains(/** @type {Node} */ (e.target))) closePop(false); };
+  /** @param {KeyboardEvent} e */
+  const popEsc = (e) => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closePop(true); } };
+  let popW = 0;
+  const popResize = () => { if (Math.abs(document.documentElement.clientWidth - popW) >= 1) closePop(false); };
+  function openPop() {
+    if (pop || !activeSrc) return;
+    pop = h('div', { class: 'tn-pop', role: 'dialog', 'aria-label': t('shell.sources') }, h('div', { class: 'tn-pop-title' }, t('shell.sources')), popRows, popReload);
+    renderPop();
+    showOverlay(pop);
+    placeOverlay(pop, fresh.getBoundingClientRect(), { align: 'end' });
+    fresh.setAttribute('aria-expanded', 'true');
+    popW = document.documentElement.clientWidth;
+    document.addEventListener('pointerdown', popOutside, true);
+    document.addEventListener('keydown', popEsc, true);
+    window.addEventListener('resize', popResize);
+    popReload.focus({ preventScroll: true });
+  }
+  /** @param {boolean} refocus */
+  function closePop(refocus) {
+    if (!pop) return;
+    removeOverlay(pop); pop = null; fresh.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', popOutside, true);
+    document.removeEventListener('keydown', popEsc, true);
+    window.removeEventListener('resize', popResize);
+    if (refocus && fresh.isConnected) fresh.focus();
   }
 
   /* ---- Time range: one per app, kept as the view parameter `range` (a change replaces the history entry). Sources that follow it
@@ -504,7 +597,7 @@ export function createApp(cfg0) {
     if (viewChanged) cur.view = view;
     const rangeChanged = routeSource();
     if (viewChanged) {
-      cur.open = null; hideDetail();
+      cur.open = null; hideDetail(); closePop(false);
       renderView();
       if (!DESKTOP.matches) setDrawer(false);
       window.scrollTo(0, 0);

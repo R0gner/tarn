@@ -308,6 +308,29 @@ export const SCENARIOS = [
       if (!st.rs.some(([btn, chart, busy]) => btn === st.now[0] && chart && busy) && st.rs.some(([btn, chart]) => btn === st.now[0] && !chart)) left.push(`under “${st.now[0]}” the chart was gone while the new range loaded (loading state instead of the old values)`);
       return left;
     } },
+  // ---- freshness text (0.8.0): a click opens the source list of the view (every source with age and interval, the note); reload turns visibly
+  //      for at least ~0.5 s even when the answer is instant, then the text shows the new age; the view's blocks do not move ----
+  { id: 'fresh-sources', page: 'gallery', hash: 'datasources', overlay: '.tn-pop', focus: true, steady: true,
+    open: async (io) => { await io.until(`!!document.querySelector('[aria-label^="Busy CPU"]')`, 3000); await io.press('.tn-fresh'); },
+    assert: async (io) => {
+      const left = [];
+      const rows = await io.eval(`[...document.querySelectorAll('.tn-pop-src')].map((r) => r.textContent)`);
+      if (rows.length < 3) left.push(`the source list shows ${rows.length} sources (app, metrics, snapshot expected)`);
+      if (!rows.some((r) => /Snapshot/.test(r) && /collector/.test(r))) left.push('the snapshot source shows neither its label nor its note');
+      if (!rows.every((r) => /every /.test(r))) left.push('a source in the list has no refresh interval');
+      await io.eval(`(() => { window.__rl = []; const b = document.querySelector('.tn-pop-reload'); const rec = () => window.__rl.push([performance.now(), b.classList.contains('is-busy'), !!b.querySelector('svg.tn-spin')]);
+        new MutationObserver(rec).observe(b, { subtree: true, attributes: true }); return true; })()`);
+      await io.press('.tn-pop-reload');
+      const done = await io.until(`!document.querySelector('.tn-pop-reload')?.classList.contains('is-busy')`, 4000);
+      const rl = await io.eval(`window.__rl`);
+      const on = rl.find((r) => r[1]), off = rl.findLast((r) => !r[1]);
+      if (!on) left.push('the reload button shows no busy state');
+      else if (!on[2]) left.push('the reload icon does not turn while the reload runs');
+      if (!done) left.push('the reload button stays busy for more than 4 s');
+      else if (on && off && off[0] - on[0] < 450) left.push(`the reload was visible for ${Math.round(off[0] - on[0])} ms only (≥ 500 ms expected)`);
+      if (!(await io.count('.tn-pop'))) left.push('the source list closed on reload');
+      return left;
+    } },
   { id: 'menu-height', page: 'gallery', hash: 'feedback', overlay: '.tn-menu', focus: true,
     open: (io) => io.press('button[aria-label="Actions"]'),
     // the address bar slides in/out: only the height changes, the menu stays

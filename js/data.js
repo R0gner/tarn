@@ -10,7 +10,7 @@ import { t } from './i18n.js';
 import { fmtDuration } from './format.js';
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
-/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
+/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number, label?: string, note?: string }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. `label`/`note`: name and one line for the shell's source list (through `t()`). */
 /** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[], refreshing?: boolean }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts); `refreshing`: the data is still that of the previous time range while the new one loads (the shell marks the charts). */
 /** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /**
@@ -22,15 +22,19 @@ import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRa
  *   stop: () => DataSource,
  *   readonly ranged?: boolean,
  *   readonly range?: TimeRange | null,
+ *   readonly label?: string,
+ *   readonly note?: string,
+ *   readonly interval?: number,
+ *   readonly parts?: [string, DataSource][],
  *   setRange?: (range: TimeRange) => void,
- * }} DataSource `ranged`/`range`/`setRange` only on sources that follow the app's time range (promSource with a range query, combineSources over one).
+ * }} DataSource `ranged`/`range`/`setRange` only on sources that follow the app's time range (promSource with a range query, combineSources over one). `label`, `note`, `interval` (ms) describe the source in the shell's source list; `parts` only on combineSources.
  */
 /** @typedef {{ start: number, end: number, step: number, seconds: number, id: string, window: string }} PromRangeInfo What an `expr` function gets: the current range (seconds since the epoch) and `window` as a PromQL duration (`'21600s'`). */
 /** @typedef {{ expr: string | ((r: PromRangeInfo) => string), range?: boolean, legend?: import('./prom-data.js').PromLegend, step?: number }} PromQuery `range: true` = range query (matrix to `{ x, series }`), otherwise instant (rows). `step` fixes the step in seconds. */
 /**
  * @typedef {{
  *   base: string, queries: Record<string, PromQuery>, interval?: number, staleAfter?: number, minStep?: number, maxPoints?: number,
- *   range?: TimeRange | string, ranges?: TimeRange[], timeout?: number, fetch?: typeof fetch, now?: () => number,
+ *   range?: TimeRange | string, ranges?: TimeRange[], timeout?: number, fetch?: typeof fetch, now?: () => number, label?: string, note?: string,
  * }} PromSourceOptions `base` = same-origin path in front of `/api/v1/…`; interval/timeout in ms, staleAfter in seconds. Without `interval` the refresh follows the range.
  */
 
@@ -129,7 +133,7 @@ function poller({ run, interval, staleAfter, now, timeout }) {
  * @param {DataSourceOptions} o
  * @returns {DataSource}
  */
-export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000 }) {
+export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000, label, note }) {
   const p = poller({
     interval: () => interval, staleAfter: () => staleAfter, now, timeout,
     async run(signal) {
@@ -147,6 +151,7 @@ export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (
     reload: p.reload,
     start() { p.start(); return this; },
     stop() { p.stop(); return this; },
+    label, note, interval,
   };
 }
 
@@ -179,7 +184,7 @@ async function promGet(fx, url, signal) {
  * @param {PromSourceOptions} o
  * @returns {DataSource}
  */
-export function promSource({ base, queries, interval, staleAfter, minStep = 0, maxPoints = 300, range, ranges = RANGE_PRESETS, timeout = 30_000, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now() }) {
+export function promSource({ base, queries, interval, staleAfter, minStep = 0, maxPoints = 300, range, ranges = RANGE_PRESETS, timeout = 30_000, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), label, note }) {
   const root = String(base || '').replace(/\/+$/, '');
   const names = Object.keys(queries);
   const ranged = names.some((n) => queries[n].range);
@@ -229,6 +234,8 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
     reload: p.reload,
     start() { p.start(); return this; },
     stop() { p.stop(); return this; },
+    label, note,
+    get interval() { return iv(); },
     get ranged() { return ranged; },
     get range() { return ranged ? cur : null; },
     setRange(r) {
@@ -298,6 +305,7 @@ export function combineSources(parts, { flat = false } = {}) {
     async reload() { await Promise.all(names.map((n) => parts[n].reload())); },
     start() { for (const n of names) parts[n].start(); return this; },
     stop() { for (const n of names) parts[n].stop(); return this; },
+    get parts() { return names.map((n) => /** @type {[string, DataSource]} */ ([n, parts[n]])); },
     get ranged() { return rangedParts().length > 0; },
     get range() { return rangedParts()[0]?.range ?? null; },
     setRange(r) { for (const p of rangedParts()) p.setRange?.(r); },
