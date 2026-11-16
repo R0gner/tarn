@@ -79,6 +79,8 @@
 .tn-fresh:hover { background: var(--tn-hover); }
 .tn-fresh.is-stale { color: var(--tn-bad-text); font-weight: var(--tn-fw-label); }
 .tn-fresh.is-loading { opacity: .6; }
+/* time range control: a selector (clock, range, chevron), long form where there is room, short on the phone (media query below) */
+.tn-range-short { display: none; }
 /* source list of the freshness text: every source of the view with age, interval, note; reload at the bottom */
 .tn-pop {
   position: fixed; inset: 0 auto auto 0; z-index: var(--tn-z-toast); margin: 0; width: max-content; height: auto; overflow: visible;
@@ -141,6 +143,8 @@
 }
 @media (max-width: 599px) {
   .tn-hide-phone { display: none; }
+  .tn-range-long { display: none; }
+  .tn-range-short { display: inline; }
   .tn-toolbar .tn-settings-btn { display: inline-grid; }
   .tn-content { padding: var(--tn-s3); gap: var(--tn-s4); }
   .tn-banners { padding: var(--tn-s2) var(--tn-s3) 0; }

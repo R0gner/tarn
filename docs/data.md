@@ -97,7 +97,7 @@ const metrics = promSource({
 
 ### Time range
 
-One range per app. The shell shows a control in the toolbar (a clock with the range, a kit menu with the presets) while the shown view's source follows
+One range per app. The shell shows a control in the toolbar (clock, range and chevron – the long form “Last 24 hours” from 600 px, the short “1 d” on the phone – a kit menu with the presets) while the shown view's source follows
 the range: a `promSource` with at least one `range: true` query, or a `combineSources` over one. Other boards show no control.
 
 - Presets: 1 h, 6 h, 24 h, 7 d, 30 d (`RANGE_PRESETS`). A board passes its own as `createApp({ ranges: [{ id, seconds, label? }], range: '6h' })`;

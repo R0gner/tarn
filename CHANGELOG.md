@@ -6,6 +6,8 @@ While the major version is 0, minor versions may change the API; every change is
 ## 0.8.0 (unreleased)
 
 ### Changed
+- The time range control reads as a selector: clock, range and chevron, the long form of the menu items (“Last 24 hours”) from 600 px, the short
+  one (“1 d”) on the phone.
 - The freshness text shows the age of the source the view mainly shows (its own source, else the app's; `views[].freshness: 'app'` overrides),
   not the oldest of both. Reload turns its icon while it runs (at least about 0.5 s, reduced motion respected), the text shows the new age at
   once, and a reload that brought nothing newer says so (toast; the source list names the source and shows its note).
@@ -14,6 +16,8 @@ While the major version is 0, minor versions may change the API; every change is
   "Time range"
 
 ### Added
+- `menu()` gives a text button as anchor the chevron (`chevron-down`) when it has none; verify rule `trigger-chevron` (geometry) finds a dropdown
+  trigger with text and no chevron, mutant `menu-no-chevron`.
 - The freshness text opens a source list: every source of the current view with name, age, refresh interval and note, stale ones marked, and a
   reload button (on the phone the only way to reload; the text is no reload button any more). `label`/`note` on `dataSource` and `promSource`,
   `parts` on `combineSources`, `interval` on every source. verify scenario `fresh-sources`, mutant `reload-invisible`. docs/shell.md

@@ -496,7 +496,9 @@ export function createApp(cfg0) {
     if (rangeSlot.hidden) { rangeSlot.replaceChildren(); return changed; }
     if (rangeSlot.dataset.range === range.id && rangeSlot.firstChild) return changed;
     rangeSlot.dataset.range = range.id;
-    const btn = button(rangeText(range), { variant: 'ghost', icon: 'clock', className: 'tn-range-btn' });
+    /* a selector, not status: the long form the menu items use where there is room (≥ 600 px), the short one on the phone; menu() adds the chevron */
+    const btn = button(rangeText(range, true), { variant: 'ghost', icon: 'clock', className: 'tn-range-btn' });
+    btn.querySelector('span')?.replaceWith(h('span', { class: 'tn-range-long' }, rangeText(range, true)), h('span', { class: 'tn-range-short' }, rangeText(range)));
     btn.setAttribute('aria-label', t('shell.rangeAria', { range: rangeText(range, true) }));
     mount(rangeSlot, menu(btn, ranges.map((r) => ({ label: rangeText(r, true), checked: r.id === range.id, onClick: () => api.setRange(r.id) })), { label: t('shell.range') }));
     return changed;

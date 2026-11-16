@@ -124,6 +124,12 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "if (s.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
   },
   {
+    // the range control without its chevron (0.7.x): clock and "1 d" next to the freshness text read as status, not as a selector
+    id: 'menu-no-chevron',
+    page: 'gallery', views: ['datasources'], sizes: ['phone', 'desktop'], expect: ['trigger-chevron'],
+    patch: [{ file: 'js/widgets.js', from: "&& !anchor.querySelector(CHEVRON)) anchor.append(icon('chevron-down'));", to: "&& false) anchor.append(icon('chevron-down'));" }],
+  },
+  {
     // a reload that answers at once shows nothing: no minimum time for the turning icon
     id: 'reload-invisible',
     check: 'overlay', scenarios: ['fresh-sources'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

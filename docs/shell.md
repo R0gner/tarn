@@ -93,7 +93,7 @@ the board and redraw themselves.
 
 ### Time range
 
-One range per app. The toolbar shows a control (clock and range, a kit menu with the presets) only while the shown view's source follows the range
+One range per app. The toolbar shows a control (clock, range, chevron: a selector, not status; “Last 24 hours” from 600 px, “1 d” on the phone; a kit menu with the presets) only while the shown view's source follows the range
 (a `promSource` with a range query, or a `combineSources` over one); a board without such a source shows none. The choice is the view parameter
 `range` (`#/metrics?range=7d`): choosing replaces the current history entry like a filter does, so it never adds a level for [Back](#back); a deep link
 with `?range=` starts in that range. The shell hands the range to the source before the view renders: requests in flight are aborted and the old
