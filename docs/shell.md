@@ -82,6 +82,14 @@ source.start();
 The state lives in the hash: `#/<view>?open=<id>&<more>`. `parseHash(hash)` and `buildHash(view, params)` are exported. A link to a view or a detail is
 an ordinary URL; links to `#/view` in content, typed URLs and `app.go()`/`app.open()` all go through the same navigation.
 
+A view parameter is the way to keep a tab, filter or sort in the URL: `segmented({ value: ctx.params.tab || 'a', onChange: (v) => ctx.app.go('jobs',
+{ params: { tab: v } }) })` and `render(ctx)` reads `ctx.params.tab` (the sample board's history view does it with `?cpu=48h`). When the parameters
+other than `open` differ from the ones shown, the shell redraws the same view at once, the way `app.refresh()` does: the field being typed in keeps
+focus and caret, the scroll position stays, an open detail is redrawn in place. The same parameters again draw nothing, opening or closing a detail
+draws only the detail, a range change draws the view once. `app.go()` replaces the parameters it is given (`open` included): pass
+`{ ...ctx.params, tab: v }` to keep the others. Kit controls (`filterBar`, `tabs`, table sorting) do not write parameters; they keep their state in
+the board and redraw themselves.
+
 ### Time range
 
 One range per app. The toolbar shows a control (clock and range, a kit menu with the presets) only while the shown view's source follows the range

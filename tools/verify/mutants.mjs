@@ -127,7 +127,19 @@ export const MUTANTS = [
     // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)
     id: 'redraw-loses-focus',
     check: 'overlay', scenarios: ['filter-refresh'], sizes: ['desktop'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'js/shell.js', from: "renderView({ keepField: true });", to: "renderView();" }],
+    patch: [{ file: 'js/shell.js', from: "refresh() { if (!cur.view) return; renderView({ keepField: true });", to: "refresh() { if (!cur.view) return; renderView();" }],
+  },
+  {
+    // the 0.7.0 fault: a parameter change on the same view (a switch that calls app.go(view, { params })) changes the hash but draws nothing
+    id: 'param-no-redraw',
+    check: 'overlay', scenarios: ['param-redraw'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "if (!viewChanged && (paramsChanged || rangeChanged)) {", to: "if (!viewChanged && rangeChanged) {" }],
+  },
+  {
+    // the opposite: every route of the same view redraws it, also opening or closing a detail and the same parameters again
+    id: 'param-redraw-always',
+    check: 'overlay', scenarios: ['param-redraw'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "const paramsChanged = !viewChanged && viewParamsDiffer(cur.params, params);", to: "const paramsChanged = !viewChanged;" }],
   },
   {
     // the old tile grid: every tile one cell, so five tiles leave an empty cell in the last row

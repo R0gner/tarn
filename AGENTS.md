@@ -167,4 +167,5 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 - [ ] Empty, loading and error state of every view checked (e.g. empty the fixture, wrong URL).
 - [ ] Long names/paths wrap or are truncated (`…`), nothing makes the page wider; long words are never broken letter by letter.
 - [ ] Back closes the detail; `#/view?open=id` opened directly shows it.
+- [ ] A control that changes what a view shows (tab, switch, filter, sort) is clicked in the check and the content read afterwards, not only opened by link.
 - [ ] For kit changes: gallery entry added and gallery + sample board re-checked (it affects all boards).

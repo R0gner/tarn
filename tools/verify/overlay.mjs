@@ -449,6 +449,40 @@ export const SCENARIOS = [
       return left;
     } },
 
+  { id: 'param-redraw', page: 'board', hash: 'history', overlay: '.tn-seg', focus: false,
+    // a switch that writes a view parameter (app.go(view, { params })) redraws the same view at once: clicked, not opened by link; the same
+    // parameters again, opening and closing a detail draw nothing; the history does not grow, the page does not jump
+    open: (io) => io.until(`!!document.querySelector('.tn-seg-btn[data-value="48h"]') && !!document.querySelector('.tn-chart .tn-line')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const pts = `(document.querySelector('.tn-chart .tn-line')?.getAttribute('d') || '').split('L').length`;
+      const st0 = await io.eval(`(() => { window.__y0 = scrollY; document.querySelector('.tn-chart').__old = true; return { pts: ${pts} }; })()`);
+      if (st0.pts !== 24) left.push(`the CPU chart shows ${st0.pts} points before the switch (24 expected)`);
+      await io.press('.tn-seg-btn[data-value="48h"]');
+      const drawn = await io.until(`${pts} === 48`, 2000);
+      const st = await io.eval(`(() => { const c = document.querySelector('.tn-chart');
+        return { hash: location.hash, rebuilt: !!c && !c.__old, pts: ${pts}, checked: document.querySelector('.tn-seg-btn[aria-checked="true"]')?.dataset.value, dy: scrollY - window.__y0 }; })()`);
+      if (!/[?&]cpu=48h\b/.test(st.hash)) left.push(`the hash after the switch is ${st.hash} (cpu=48h expected)`);
+      if (!drawn || !st.rebuilt) left.push(`after the switch the view still shows ${st.pts} points (the parameter changed, the view was not redrawn)`);
+      if (st.checked !== '48h') left.push(`the switch shows “${st.checked}” after the redraw (48h expected)`);
+      if (st.dy) left.push(`the page scrolled by ${st.dy} px on the redraw`);
+      // the first touch adds the entries the deep link is missing (Back by levels); the history is measured from there: switching back replaces
+      await io.eval(`(() => { window.__h1 = history.length; return true; })()`);
+      await io.press('.tn-seg-btn[data-value="24h"]');
+      const back = await io.until(`${pts} === 24`, 2000);
+      const st2 = await io.eval(`({ hash: location.hash, grew: history.length - window.__h1 })`);
+      if (!back) left.push('switching back to 24 h did not redraw the view');
+      if (/[?&]cpu=48h\b/.test(st2.hash)) left.push(`the hash after switching back is ${st2.hash}`);
+      if (st2.grew > 0) left.push(`switching added ${st2.grew} history entries (a parameter replaces)`);
+      await io.eval(`(() => { document.querySelector('.tn-chart').__mark = 1; window.tnApp.go('history', { params: { cpu: '24h' } }); return true; })()`);
+      await sleep(120);
+      if (!(await io.eval(`document.querySelector('.tn-chart')?.__mark === 1`))) left.push('the same parameters again redrew the view');
+      await io.eval(`(() => { window.tnApp.open('x-none'); return true; })()`); await sleep(200);
+      await io.eval(`(() => { window.tnApp.closeDetail(); return true; })()`); await sleep(200);
+      if (!(await io.eval(`document.querySelector('.tn-chart')?.__mark === 1`))) left.push('opening or closing a detail redrew the view');
+      return left;
+    } },
+
   // ---- Gb: detail in place – a row that stands for a thing another view owns opens that thing's detail HERE; the way to the other view is a link inside ----
   { id: 'detail-in-place', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('.tn-row-btn[data-key]'),

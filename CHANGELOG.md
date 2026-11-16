@@ -3,6 +3,19 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.7.1
+
+### Fixed
+- A view parameter changed on the same view redraws the view at once (`app.go(view, { params })`, e.g. a `segmented()` that keeps its tab in
+  the URL): before, the hash changed and the content stayed until the next data fetch. The redraw is the one of `app.refresh()` (focus and caret
+  of the field being typed in, scroll position and an open detail stay); the same parameters again, opening or closing a detail draw nothing, a
+  range change draws once. With `back: 'history'` the same call now replaces the entry as documented (it did nothing). docs/shell.md "Routing"
+  says what a parameter change does. Overlay scenario `param-redraw` (clicks the sample board's CPU switch and reads the chart), mutants
+  `param-no-redraw` and `param-redraw-always`; the mutant `redraw-loses-focus` now names the `refresh()` line it patches.
+- Sample board: the history view's 24 h / 48 h switch is a view parameter (`#/history?cpu=48h`); the overview tile "Runs (7 days)" opened an
+  unknown view (and landed on the overview) instead of History.
+- AGENTS.md checklist: a control that changes what a view shows is clicked in the check, not only opened by link.
+
 ## 0.7.0
 
 ### Added

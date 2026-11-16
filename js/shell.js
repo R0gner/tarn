@@ -13,7 +13,7 @@ import { segmented } from './controls.js';
 import { field, select } from './inputs.js';
 import { banner, empty, toolbarRow } from './components.js';
 import { openSheet, lockScroll, setBackHook } from './sheet.js';
-import { parseHash, buildHash, resolveViews } from './router.js';
+import { parseHash, buildHash, resolveViews, viewParamsDiffer } from './router.js';
 import { stackFor, withLayer, withoutLayer, backStep, plan } from './levels.js';
 import { fmtAgo, fmtFull, fmtDuration } from './format.js';
 import { favicon } from './favicon.js';
@@ -495,6 +495,7 @@ export function createApp(cfg0) {
   function applyRoute({ view, params }) {
     const open = params.open || null;
     const viewChanged = view !== cur.view;
+    const paramsChanged = !viewChanged && viewParamsDiffer(cur.params, params);   // filter, tab, sort, range of the same view: redraw it
     cur.params = params;
     if (viewChanged) cur.view = view;
     const rangeChanged = routeSource();
@@ -504,12 +505,18 @@ export function createApp(cfg0) {
       if (!DESKTOP.matches) setDrawer(false);
       window.scrollTo(0, 0);
     }
-    if (open !== cur.open || viewChanged) {
+    const openChanged = open !== cur.open || viewChanged;
+    if (openChanged) {
       cur.open = open;
       if (!open) pushedOpen = false;
       open ? showDetail(open) : hideDetail();
     }
-    if (rangeChanged && !viewChanged) api.refresh();
+    /* same view, other parameters (or a range the source took): one redraw like refresh(): focus, caret, scroll and the open detail stay;
+       opening or closing a detail alone draws nothing */
+    if (!viewChanged && (paramsChanged || rangeChanged)) {
+      renderView({ keepField: true });
+      if (cur.open && !openChanged) showDetail(cur.open, { keepScroll: true });
+    }
   }
   /* back 'levels' (default): the history holds what Back should walk through – base entry (default view), the other view, one entry per open
      layer (detail, sheet, dialog, drawer); js/levels.js computes it. `model` is that stack, `phys` the browser's position in our entries (stamped
@@ -608,6 +615,7 @@ export function createApp(cfg0) {
       // back 'history': one history entry per call; with open, “Back” only closes the detail and does not stay in the new view
       if (open) { location.hash = buildHash(view, { ...params, open }); pushedOpen = view === cur.view; }
       else if (view !== cur.view) location.hash = buildHash(view, params);
+      else if (params) { history.replaceState(history.state, '', buildHash(view, params)); onRoute(); }   // same view, other params: replace
     },
     open(id) {
       if (levels) { navigate({ view: /** @type {string} */ (cur.view), params: { ...cur.params, open: id } }); return; }

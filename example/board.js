@@ -92,7 +92,7 @@ function viewOverview(ctx) {
       statTile({ label: t('board.jobs'), value: jobs.length, status: nBad ? 'bad' : nWarn ? 'warn' : 'ok', sub: nBad ? t('board.tile.jobsSub', { errors: t('board.tile.errors', { count: nBad }), warnings: t('board.tile.warnings', { count: nWarn }) }) : t('board.tile.allOk'), onClick: () => ctx.app.go('jobs') }),
       statTile({ label: t('board.hosts'), value: hosts.length, status: hosts.some((x) => x.status === 'bad') ? 'bad' : 'ok', sub: t('board.tile.hostsOk', { n: hosts.filter((x) => x.status === 'ok').length }), onClick: () => ctx.app.go('hosts') }),
       statTile({ label: t('board.tile.storage'), value: fmtBytes(used).split(' ')[0], unit: fmtBytes(used).split(' ')[1], sub: t('board.tile.storageSub', { name: fullest.name, pct: fmtPct(fullest.diskRatio, 0) }), status: fullest.diskRatio >= 0.9 ? 'bad' : fullest.diskRatio >= 0.8 ? 'warn' : 'ok', onClick: () => ctx.app.go('hosts', { open: fullest.id }) }),
-      statTile({ label: t('board.tile.runs7'), value: fmtNum(ctx.data.runsPerDay.reduce((s, d) => s + d[0] + d[1] + d[2], 0), 0), sub: sparkline({ values: ctx.data.runsPerDay.map((d) => d[2]), color: 'bad', area: false }), onClick: () => ctx.app.go('verlauf') })),
+      statTile({ label: t('board.tile.runs7'), value: fmtNum(ctx.data.runsPerDay.reduce((s, d) => s + d[0] + d[1] + d[2], 0), 0), sub: sparkline({ values: ctx.data.runsPerDay.map((d) => d[2]), color: 'bad', area: false }), onClick: () => ctx.app.go('history') })),
     cols(
       section(t('board.sec.problems'), { count: problems.length },
         card({ flush: true }, list(problems, (p) => metricRow({
@@ -266,19 +266,19 @@ function viewDeploy(ctx) {
 }
 
 /* ---- History (charts) ---- */
-const histState = { range: '24h' };
 function viewHistory(ctx) {
   if (!ctx.data) return waiting(ctx);
+  const span = ctx.params.cpu === '48h' ? '48h' : '24h';   // a view parameter (#/history?cpu=48h): the switch writes it, the shell redraws
   const { jobs, hosts, runsPerDay, now } = ctx.data;
   const day0 = new Date(now); day0.setHours(0, 0, 0, 0);
   const a = +day0, b = a + DAY;
   const days = Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat(getLocale(), { weekday: 'short', timeZone: getTimeZone() }).format(now - (6 - i) * DAY).replace('.', ''));
-  const n = histState.range === '24h' ? 24 : 48;
+  const n = span === '24h' ? 24 : 48;
   const xs = Array.from({ length: n }, (_, i) => now - (n - 1 - i) * HOUR);
   const cpu = () => lineChart({ x: xs, series: hosts.filter((x) => ['nas-a', 'media-1', 'app-2'].includes(x.id)).map((x, i) => ({ label: x.name, values: x.cpu.slice(-n), color: ['blue', 'orange', 'purple'][i] })), yMax: 100, height: 180, yFormat: (v) => `${fmtNum(v, 0)} %` });
   const chartHost = h('div', null, cpu());
   return [
-    card({ title: t('board.h.cpuLoad'), actions: segmented({ small: true, label: t('board.h.range'), options: [{ value: '24h', label: t('board.h.range24') }, { value: '48h', label: t('board.h.range48') }], value: histState.range, onChange: (v) => { histState.range = v; ctx.app.refresh(); } }) }, chartHost),
+    card({ title: t('board.h.cpuLoad'), actions: segmented({ small: true, label: t('board.h.range'), options: [{ value: '24h', label: t('board.h.range24') }, { value: '48h', label: t('board.h.range48') }], value: span, onChange: (v) => ctx.app.go('history', { params: { cpu: v } }) }) }, chartHost),
     cols(
       card({ title: t('board.h.runsPerDay'), sub: t('board.h.days7') }, barChart({ labels: days, stacked: true, height: 170, yFormat: (v) => fmtNum(v, 0), series: [
         { label: t('board.h.success'), values: runsPerDay.map((d) => d[0]), color: 'ok' }, { label: t('board.h.warning'), values: runsPerDay.map((d) => d[1]), color: 'warn' }, { label: t('board.h.error'), values: runsPerDay.map((d) => d[2]), color: 'bad' }] })),

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {
   fmtNum, fmtPct, fmtBytes, fmtDuration, fmtAgo, fmtTime, fmtDate, fmtWhen, fmtDay, sortRows, compareValues, matchQuery, STATUS_RANK,
 } from '../js/format.js';
-import { parseHash, buildHash, resolveViews } from '../js/router.js';
+import { parseHash, buildHash, resolveViews, viewParamsDiffer } from '../js/router.js';
 import { setLocale, setTimeZone, getLocale } from '../js/i18n.js';
 
 setLocale('de');
@@ -79,6 +79,19 @@ test('router: read and build the hash', () => {
   assert.equal(buildHash('zeilen & fakten'), '#/zeilen%20%26%20fakten');
   const h = buildHash('jobs', { open: 'a/b?c' });
   assert.deepEqual(parseHash(h), { view: 'jobs', params: { open: 'a/b?c' } });
+});
+
+test('router: viewParamsDiffer ignores open and empty values, sees every other parameter', () => {
+  assert.equal(viewParamsDiffer({}, {}), false);
+  assert.equal(viewParamsDiffer({ tab: 'a' }, { tab: 'a', open: 'x' }), false, 'opening a detail is no view change');
+  assert.equal(viewParamsDiffer({ tab: 'a', open: 'x' }, { tab: 'a' }), false, 'closing one neither');
+  assert.equal(viewParamsDiffer({ q: '' }, {}), false, 'an empty value never reaches the URL');
+  assert.equal(viewParamsDiffer(null, undefined), false);
+  assert.equal(viewParamsDiffer({ tab: 'a' }, { tab: 'b' }), true);
+  assert.equal(viewParamsDiffer({}, { tab: 'b' }), true);
+  assert.equal(viewParamsDiffer({ tab: 'a' }, {}), true);
+  assert.equal(viewParamsDiffer({ tab: 'a', sort: 'x' }, { sort: 'x', tab: 'a' }), false, 'order does not matter');
+  assert.equal(viewParamsDiffer({ range: '1h' }, { range: '24h', open: 'x' }), true);
 });
 
 test('fmtWhen and fmtDay in the other languages keep Intl\'s own patterns', () => {

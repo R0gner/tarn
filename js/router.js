@@ -31,6 +31,20 @@ export function buildHash(view, params = {}) {
 }
 
 /**
+ * Do two parameter sets of the same view show different content? Every parameter counts except `open` (the detail on top) and empty values
+ * (buildHash drops them, so they never reach the URL). The shell redraws the view when this is true.
+ * @param {Record<string, string | undefined> | null | undefined} a
+ * @param {Record<string, string | undefined> | null | undefined} b
+ * @returns {boolean}
+ */
+export function viewParamsDiffer(a, b) {
+  /** @param {Record<string, string | undefined> | null | undefined} p @returns {[string, string][]} */
+  const norm = (p) => Object.entries(p || {}).filter(([k, v]) => k !== 'open' && v != null && v !== '').map(([k, v]) => [k, String(v)]);
+  const x = norm(a), y = new Map(norm(b));
+  return x.length !== y.size || x.some(([k, v]) => y.get(k) !== v);
+}
+
+/**
  * The views of createApp() with `label` and `group` as plain strings: both may be functions (so they can call t() after the language is set), evaluated here, once.
  * @template {{ label: string | (() => string), group?: string | (() => string | undefined) }} V
  * @param {V[]} views
