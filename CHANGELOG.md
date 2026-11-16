@@ -15,6 +15,11 @@ While the major version is 0, minor versions may change the API; every change is
   the charts. Before, `promSource.setRange()` dropped the data, the view drew its loading state for a moment and the blocks jumped. docs/data.md
   "Time range"
 
+### Fixed
+- A view whose own source fails completely after a view change shows its error with “retry” at once; before, the shell only redrew on new data, so
+  the view kept its loading state until the app's next fetch (up to 60 s).
+- Equal errors of a `promSource`'s queries are merged into one line with a count (`19 queries: HTTP 502`) instead of one line per query.
+
 ### Added
 - `menu()` gives a text button as anchor the chevron (`chevron-down`) when it has none; verify rule `trigger-chevron` (geometry) finds a dropdown
   trigger with text and no chevron, mutant `menu-no-chevron`.

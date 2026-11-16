@@ -91,7 +91,9 @@ const metrics = promSource({
   `promEscape(value, { regex: true })` also escapes regex metacharacters for `=~`. Put only escaped values into an expression.
 - **Errors.** An HTTP error (`HTTP 502`), `status: "error"` in the body (its `error` text is shown), a body that is not JSON, a timeout: each makes the query
   fail. The kit's own texts (timeout, not JSON) follow the active language; `HTTP <status>` and a server's `error` text are shown as they are. Several queries run in parallel; when one fails the others still update, its last good data stays and `error` names it
-  (`queue: HTTP 502`; several are joined by `; `). `age` is that of the oldest query, so a query that keeps failing makes the source stale.
+  (`queue: HTTP 502`; several are joined by `; `, equal errors are merged into one with a count: `19 queries: HTTP 502`). When every query fails the
+  source has no data and its error at once; the shell redraws the view on every change of `error`, so a view source that fails completely shows
+  `error({ onRetry })`, not its loading state. `age` is that of the oldest query, so a query that keeps failing makes the source stale.
 - **Range changes** abort the requests in flight and fetch again; the data of the old range stays until the new answer arrives, marked with
   `state.refreshing: true` (the view keeps its layout, no `loading()` in between). An answer for the old range never lands.
 

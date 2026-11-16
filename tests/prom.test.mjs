@@ -5,7 +5,7 @@ import { promMatrix, promVector, promLegend, promStep, promRangeParams, promEsca
 import { promSim } from '../gallery/prom-sim.js';
 
 globalThis.document ??= /** @type {any} */ ({ hidden: false, documentElement: {}, addEventListener() {}, removeEventListener() {} });
-const { promSource, dataSource } = await import('../js/data.js');
+const { promSource, dataSource, mergeErrors } = await import('../js/data.js');
 
 const NOW = Date.UTC(2026, 0, 15, 12, 0, 0);
 
@@ -192,4 +192,15 @@ test('source error texts go through the kit catalog; HTTP status and server text
     await all.reload();
     assert.equal(all.state.error, 'html: Antwort ist kein JSON; down: HTTP 503; bad: parse error: unexpected end of input');
   } finally { setLocale('en'); }
+});
+
+test('promSource: equal errors of several queries are merged into one line with a count; all failing = error state', async () => {
+  assert.equal(mergeErrors([['a', 'HTTP 502'], ['b', 'HTTP 502'], ['c', 'HTTP 404']]), '2 queries: HTTP 502; c: HTTP 404');
+  assert.equal(mergeErrors([['cpu', 'HTTP 502']]), 'cpu: HTTP 502');
+  const queries = Object.fromEntries(Array.from({ length: 19 }, (_, i) => [`q${i}`, { expr: 'demo_cpu_busy', range: true }]));
+  const src = promSource({ base: '/prom', fetch: async () => new Response('', { status: 502 }), now: () => NOW, queries });
+  await src.reload();
+  assert.equal(src.state.data, null);
+  assert.equal(src.state.loading, false);
+  assert.equal(src.state.error, '19 queries: HTTP 502', 'one line, not 19');
 });

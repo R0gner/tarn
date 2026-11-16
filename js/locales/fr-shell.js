@@ -47,6 +47,7 @@ export default {
   "shell.rangeDays": {"one": "Dernier jour", "other": "{count} derniers jours"},
   "shell.dataStaleParts": "Données obsolètes : {parts} (mises à jour {age}).",
   "data.timeout": "Pas de réponse après {duration}",
+  "data.queriesFailed": {"one": "{count} requête : {error}", "other": "{count} requêtes : {error}"},
   "data.notJson": "La réponse n’est pas du JSON",
   "data.unexpected": "Réponse inattendue",
   "shell.notFound": "Introuvable",

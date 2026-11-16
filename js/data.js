@@ -43,6 +43,15 @@ const TIMEOUT = Symbol('timeout');
 /** @param {unknown} e @returns {string} */
 const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error: /, '');
 
+/** Failed queries as one line: equal errors merged with a count (`19 queries: HTTP 502`), a single one named (`cpu: HTTP 502`).
+    @param {[string, string][]} failed [query name, error] @returns {string} */
+export function mergeErrors(failed) {
+  /** @type {Map<string, string[]>} */
+  const by = new Map();
+  for (const [name, e] of failed) by.set(e, [...(by.get(e) || []), name]);
+  return [...by].map(([e, names]) => (names.length > 1 ? t('data.queriesFailed', { count: names.length, error: e }) : `${names[0]}: ${e}`)).join('; ');
+}
+
 /**
  * Shared engine of the polling sources: state, subscribers, interval, visibility pause, abort, timeout.
  * `run(signal)` fetches once and returns the new data (or throws); `onResult` may merge partial results itself.
@@ -180,7 +189,8 @@ async function promGet(fx, url, signal) {
  * request in flight and loads the new range at once; the data of the old range stays until the answer arrives (`state.refreshing`, the
  * shell marks the charts), so the view keeps its layout. Without `interval` the refresh follows the step (15 s … 5 min), and without
  * `staleAfter` data counts as stale after three missed refreshes. One failing query does not take the others down: its last good data
- * stays, the error names it (`cpu: HTTP 502`), and the age is that of the oldest query.
+ * stays, the error names it (`cpu: HTTP 502`; equal errors of several queries are merged into one with a count, `19 queries: HTTP 502`),
+ * and the age is that of the oldest query.
  * @param {PromSourceOptions} o
  * @returns {DataSource}
  */
@@ -214,18 +224,18 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
         return q.range ? promMatrix(data.resultType === 'matrix' ? data.result : [], { legend: q.legend, name }) : promVector(data, { legend: q.legend, name });
       }));
       if (signal.aborted) throw new Error(signal.reason === TIMEOUT ? 'timeout' : 'aborted');
-      /** @type {string[]} */
-      const errors = [];
+      /** @type {[string, string][]} */
+      const failed = [];
       results.forEach((r, i) => {
         if (r.status === 'fulfilled') good.set(names[i], { data: r.value, at: t });
-        else errors.push(`${names[i]}: ${msg(r.reason)}`);
+        else failed.push([names[i], msg(r.reason)]);
       });
-      if (!good.size) throw new Error(errors.join('; '));
+      if (!good.size) throw new Error(mergeErrors(failed));
       /** @type {Record<string, any>} */
       const data = {};
       for (const n of names) data[n] = good.get(n)?.data ?? null;
       const oldest = Math.min(...names.map((n) => good.get(n)?.at ?? -Infinity));
-      return { data, error: errors.length ? errors.join('; ') : null, fetchedAt: Number.isFinite(oldest) ? oldest : Math.min(...[...good.values()].map((g) => g.at)) };
+      return { data, error: failed.length ? mergeErrors(failed) : null, fetchedAt: Number.isFinite(oldest) ? oldest : Math.min(...[...good.values()].map((g) => g.at)) };
     },
   });
   return {

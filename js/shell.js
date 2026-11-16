@@ -460,7 +460,9 @@ export function createApp(cfg0) {
     const had = srcState; srcState = s;
     renderFresh(); renderBanners();
     if (rangeSync) return;   // inside a route: the view renders right after
-    if (s.fetchedAt !== had?.fetchedAt || s.data !== had?.data || (!s.data && !s.loading)) api.refresh();
+    /* new data, or an error that appeared, changed or went away: a view whose own source failed completely (its part of ctx.data stays null, the
+       merged data and the app's fetchedAt do not change) shows its error with "retry" at once, not its loading state until the next app fetch */
+    if (s.fetchedAt !== had?.fetchedAt || s.data !== had?.data || s.error !== had?.error || (!s.data && !s.loading)) api.refresh();
   }
   /** Follow the current view: subscribe to its source, stop the source of the view that was left. Range first, then start (one request). */
   function routeSource() {
