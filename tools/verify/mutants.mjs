@@ -121,7 +121,7 @@ export const MUTANTS = [
     // a range change keeps the data of the old range but the charts are not marked: 1 h of data under "7 d" as if it were current
     id: 'range-keeps-old-data',
     check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'js/shell.js', from: "if (s.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
+    patch: [{ file: 'js/shell.js', from: "if (activeSrc.state.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
   },
   {
     // the range control without its chevron (0.7.x): clock and "1 d" next to the freshness text read as status, not as a selector
