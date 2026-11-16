@@ -483,6 +483,40 @@ export const SCENARIOS = [
       return left;
     } },
 
+  { id: 'edge-scrollbar', page: 'board', hash: 'jobs', overlay: '.tn-tooltip:not([hidden])', focus: false, when: (sz) => !sz.mobile && sz.w >= 1000,
+    // a control at the right edge with a scrollbar that takes space: the hint and the menu stay inside the laid-out page, both while the page
+    // does not scroll (html { scrollbar-gutter: stable } reserves the gutter, documentElement.clientWidth still counts it) and while it scrolls
+    open: async (io) => {
+      await io.eval(`(() => { const bs = [...document.querySelectorAll('.tn-toolbar button')].filter((b) => b.checkVisibility());
+        bs[bs.length - 1].dataset.tnProbe = 'tip'; const m = bs.filter((b) => b.hasAttribute('aria-haspopup')).pop(); if (m) m.dataset.tnProbe = 'menu'; return true; })()`);
+      await io.hover('[data-tn-probe="tip"]');
+    },
+    assert: async (io) => {
+      const left = [];
+      const box = `(() => { const d = document.documentElement, r = d.getBoundingClientRect(), o = document.querySelector(SEL); const q = o && o.checkVisibility() ? o.getBoundingClientRect() : null;
+        return { page: r.right, gutter: innerWidth - r.width, scrolls: d.scrollHeight > d.clientHeight, right: q ? q.right : null }; })()`;
+      for (const scroll of [false, true]) {
+        if (scroll) {
+          await io.eval(`(() => { document.querySelector('.tn-main').append(Object.assign(document.createElement('div'), { className: 'tn-probe-tall' })); document.querySelector('.tn-probe-tall').style.height = '3000px'; return true; })()`);
+          await io.hover('[data-tn-probe="tip"]', { away: true }); await io.hover('[data-tn-probe="tip"]');
+        }
+        const how = scroll ? 'page scrolls' : 'page does not scroll';
+        const tip = await io.eval(box.replace('SEL', JSON.stringify('.tn-tooltip:not([hidden])')));
+        if (tip.gutter < 1) { left.push('the test Chrome shows no scrollbar that takes space (the check proves nothing)'); return left; }
+        if (tip.scrolls !== scroll) left.push(`${how} expected, the page ${tip.scrolls ? 'scrolls' : 'does not scroll'} (the check proves nothing)`);
+        if (tip.right == null) left.push(`${how}: the hint of the last toolbar button does not appear`);
+        else if (tip.right > tip.page + 0.5) left.push(`${how}: the hint ends at ${Math.round(tip.right)} px, the page at ${Math.round(tip.page)} px (cut by the ${Math.round(tip.gutter)} px scrollbar)`);
+        if (!(await io.eval(`!!document.querySelector('[data-tn-probe="menu"]')`))) continue;
+        await io.press('[data-tn-probe="menu"]'); await sleep(150);
+        const m = await io.eval(box.replace('SEL', JSON.stringify('.tn-menu')));
+        if (m.right == null) left.push(`${how}: the menu at the right edge does not open`);
+        else if (m.right > m.page + 0.5) left.push(`${how}: the menu ends at ${Math.round(m.right)} px, the page at ${Math.round(m.page)} px`);
+        await io.key('Escape'); await sleep(100);
+      }
+      await io.eval(`(() => { document.querySelector('.tn-probe-tall')?.remove(); return true; })()`);
+      return left;
+    } },
+
   // ---- Gb: detail in place – a row that stands for a thing another view owns opens that thing's detail HERE; the way to the other view is a link inside ----
   { id: 'detail-in-place', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('.tn-row-btn[data-key]'),

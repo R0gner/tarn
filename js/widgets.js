@@ -4,7 +4,7 @@ import './locales/shell.js';   // shell texts
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { fmtBytes, fmtPct, fmtTime, fmtWhen } from './format.js';
-import { overlayHost, showOverlay, removeOverlay } from './overlay.js';
+import { overlayHost, showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { dataCard } from './datacard.js';
 import { tipRow } from './charts/base.js';
 import { progress, hideTooltip } from './controls.js';
@@ -140,15 +140,9 @@ export function menu(anchor, items, { align = 'end', label } = {}) {
         return b;
       }));
     showOverlay(el);
-    const r = anchor.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
-    const mw = el.offsetWidth, mh = el.offsetHeight;
-    let x = align === 'end' ? r.right - mw : r.left;
-    x = Math.max(4, Math.min(vw - mw - 4, x));
-    let y = r.bottom + 4;
-    if (y + mh > vh - 4 && r.top - mh - 4 > 4) y = r.top - mh - 4;
-    el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    placeOverlay(el, anchor.getBoundingClientRect(), { align });
     anchor.setAttribute('aria-expanded', 'true');
-    width0 = vw;
+    width0 = document.documentElement.clientWidth;
     document.addEventListener('pointerdown', outside, true);
     document.addEventListener('keydown', esc, true);
     window.addEventListener('resize', onResize);

@@ -6,7 +6,7 @@ import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';
 import { t } from './i18n.js';
-import { showOverlay, removeOverlay } from './overlay.js';
+import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { hideTooltip } from './controls.js';
 import { fitTiles } from './tiles-data.js';
 
@@ -66,14 +66,9 @@ export function infoButton(text) {
     el = h('div', { class: 'tn-info', role: 'dialog', id: pid, 'aria-label': t('common.info'), tabindex: '-1' },
       typeof text === 'string' ? h('p', { class: 'tn-info-text' }, text) : text);
     showOverlay(el);
-    const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
-    const w = el.offsetWidth, ht = el.offsetHeight;
-    const x = Math.max(4, Math.min(vw - w - 4, r.left));
-    let y = r.bottom + 4;
-    if (y + ht > vh - 4 && r.top - ht - 4 > 4) y = r.top - ht - 4;
-    el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    placeOverlay(el, btn.getBoundingClientRect());
     btn.setAttribute('aria-expanded', 'true');
-    width0 = vw;
+    width0 = document.documentElement.clientWidth;
     document.addEventListener('pointerdown', outside, true);
     document.addEventListener('keydown', key, true);
     window.addEventListener('resize', onResize);

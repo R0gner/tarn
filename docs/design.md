@@ -72,6 +72,8 @@ applies without exceptions.
 - **Overlay layer** (`js/overlay.js`): menu, toast, tooltip and data card hang in the topmost open modal dialog (else `<body>`) and are lifted into the
   top layer with the Popover API (`popover="manual"`). They sit above open sheets, are not inert and refer to the viewport (a sheet has a `transform`).
   Where the browser lacks the Popover API (`showPopover()` is feature-detected) they stay ordinary positioned elements in the host, without the top layer. Esc closes the topmost. Never build your own popups.
+  Every anchored overlay (tooltip, data card, menu, info popover, combobox list, board switcher) is placed by one function, `placeOverlay()`, which keeps
+  it 4 px inside the laid-out page: the viewport without the scrollbar and without the reserved gutter (below).
 - **Two kinds of hover, in the same card style.** The **data card** (`dataCard()`: line and area charts, bars, heat map, timeline bars, usage segments)
   shows content you only see by pointing: with a mouse instantly and gone on leave; on touch a tap shows it, a drag scrubs, a tap elsewhere or scrolling
   closes it, and if the element has an action the second tap triggers it. The **hint** (`tooltip()`, automatic for `.tn-ellipsis`) is smaller and delayed
@@ -88,7 +90,8 @@ applies without exceptions.
 - **Lead** `--tn-t-lead` (−16 ms): panels, sheets and the sidebar start with a negative transition delay so that the first painted frame already shows
   motion; otherwise “first change” exceeds the 50 ms budget on phones.
 - **Scrollbar space:** `html { scrollbar-gutter: stable }`, so that locking the background does not shift the layout by the scrollbar width and force a
-  full relayout.
+  full relayout. Where scrollbars take space (Windows, Linux desktops) the gutter is reserved even while the page does not scroll, and
+  `document.documentElement.clientWidth` still counts it then: overlays measure the root's box instead (`placeOverlay()`).
 - Overscroll: only the one scroller of an overlay layer (sheet body, sidebar, inspector, popover) may set `overscroll-behavior`; verify rule `scroll-trap`
   fails otherwise, because a scroller inside a page or another scroller would trap the swipe.
 

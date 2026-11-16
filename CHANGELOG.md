@@ -15,6 +15,12 @@ While the major version is 0, minor versions may change the API; every change is
 - Sample board: the history view's 24 h / 48 h switch is a view parameter (`#/history?cpu=48h`); the overview tile "Runs (7 days)" opened an
   unknown view (and landed on the overview) instead of History.
 - AGENTS.md checklist: a control that changes what a view shows is clicked in the check, not only opened by link.
+- Overlays at the right edge were cut by the scrollbar gutter on desktops with scrollbars that take space (Windows, Linux): while the page does not
+  scroll, `html { scrollbar-gutter: stable }` reserves the gutter but `documentElement.clientWidth` still counts it, so a hint under the theme
+  button reached 11 px into it (measured at 1440 px: page 1425 px, hint to 1436 px). All anchored overlays (tooltip, data card, menu, info popover,
+  combobox list, board switcher) are now placed by one function in `js/overlay.js` (`placeOverlay()`, `viewWidth()`) against the root's laid-out
+  box. Toasts were not affected (CSS-positioned). Overlay scenario `edge-scrollbar` (hint and menu at the right edge, page not scrolling and
+  scrolling, with the test Chrome's space-taking scrollbars), mutant `overlay-gutter`.
 
 ## 0.7.0
 

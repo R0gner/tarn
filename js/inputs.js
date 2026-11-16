@@ -15,7 +15,7 @@
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { t, getTimeZone } from './i18n.js';
-import { showOverlay, removeOverlay } from './overlay.js';
+import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { hideTooltip } from './controls.js';
 import { parseNumber, roundTo, validateValue, validationText, filterOptions, rangeFromPreset, presetOf } from './inputs-data.js';
 
@@ -376,15 +376,11 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
         h('button', { class: 'tn-btn tn-btn-default tn-btn-sm', type: 'button', onclick: () => close(true) }, t('common.done'))));
     showOverlay(pop);
     renderList();
-    const r = btn.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
+    const r = btn.getBoundingClientRect();
     pop.style.setProperty('min-width', `${Math.round(r.width)}px`);
-    const pw = pop.offsetWidth, ph = pop.offsetHeight;
-    const x = Math.max(4, Math.min(vw - pw - 4, r.left));
-    let y = r.bottom + 4;
-    if (y + ph > vh - 4 && r.top - ph - 4 > 4) y = r.top - ph - 4;
-    pop.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    placeOverlay(pop, r);
     btn.setAttribute('aria-expanded', 'true');
-    width0 = vw;
+    width0 = document.documentElement.clientWidth;
     document.addEventListener('pointerdown', outside, true);
     document.addEventListener('keydown', esc, true);
     window.addEventListener('resize', onResize);

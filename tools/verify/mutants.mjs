@@ -130,6 +130,13 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "refresh() { if (!cur.view) return; renderView({ keepField: true });", to: "refresh() { if (!cur.view) return; renderView();" }],
   },
   {
+    // the 0.7.0 fault: overlays clamped against documentElement.clientWidth, which still counts the scrollbar gutter html reserves while the page
+    // does not scroll; a hint at the right edge reached into the gutter and was cut
+    id: 'overlay-gutter',
+    check: 'overlay', scenarios: ['edge-scrollbar'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/overlay.js', from: "return w > 0 ? Math.min(d.clientWidth, Math.floor(w)) : d.clientWidth;", to: "return d.clientWidth;" }],
+  },
+  {
     // the 0.7.0 fault: a parameter change on the same view (a switch that calls app.go(view, { params })) changes the hash but draws nothing
     id: 'param-no-redraw',
     check: 'overlay', scenarios: ['param-redraw'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
@@ -252,7 +259,7 @@ export const MUTANTS = [
     // the explanation hangs on the body instead of in the sheet and is not lifted into the top layer → under the sheet, inert
     id: 'info-below-sheet',
     check: 'overlay', scenarios: ['sheet-info'], sizes: ['phone', 'desktop'], expect: ['overlay-missing', 'overlay-top', 'overlay-inert', 'overlay-behaviour'],
-    patch: [{ file: 'js/components.js', from: "    showOverlay(el);\n    const r = btn.getBoundingClientRect()", to: "    document.body.append(el);\n    const r = btn.getBoundingClientRect()" }],
+    patch: [{ file: 'js/components.js', from: "    showOverlay(el);\n    placeOverlay(el, btn.getBoundingClientRect());", to: "    document.body.append(el);\n    placeOverlay(el, btn.getBoundingClientRect());" }],
   },
   {
     // an explanation under a list on the overview (docs/dashboard-guidelines.md rule 2): always-visible running text beyond the section limit

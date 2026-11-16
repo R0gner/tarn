@@ -11,7 +11,7 @@ import { h, tokenMs } from './dom.js';
 import { icon } from './icons.js';
 import { empty, loading } from './components.js';
 import { openSheet, PHONE } from './sheet.js';
-import { showOverlay, removeOverlay } from './overlay.js';
+import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { faviconHref } from './favicon.js';
 import { normalizeBoards, normalizeIcon, letterOf, colorOf } from './boards-data.js';
 import { t } from './i18n.js';
@@ -148,13 +148,8 @@ export function boardSwitcher(anchor, opts) {
     if (t) t.focus({ preventScroll: true });
   }
   function place() {
-    const r = anchor.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
     if (!el) return;
-    const w = el.offsetWidth, hgt = el.offsetHeight;
-    const x = Math.max(4, Math.min(vw - w - 4, r.left));
-    let y = r.bottom + 4;
-    if (y + hgt > vh - 4) y = Math.max(4, vh - 4 - hgt);
-    el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    placeOverlay(el, anchor.getBoundingClientRect(), { fit: 'clamp' });
   }
 
   /** @param {Event} e */
