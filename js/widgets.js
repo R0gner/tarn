@@ -92,7 +92,8 @@ export function usageBar({ used, total, label, format = fmtBytes, warnAt = 0.8, 
 /* ---- Menu ---- */
 /**
  * Dropdown menu on a button. menu(anchor, items, { align = 'end' })
- * items: [{ label, icon?, onClick, danger?, disabled?, checked? } | '-' (separator)]
+ * items: [{ label, icon?, onClick, danger?, disabled?, hint?, checked? } | '-' (separator)]; a disabled item stays in the menu, reachable and read
+ * by assistive tech (aria-disabled), and shows its reason as `hint` (dashboard-guidelines rule 11)
  * Opens on click on anchor (visible immediately, focus in the menu); arrow keys, Esc (closes the menu first),
  * a click outside and a real width change close it – not the address bar sliding in/out (only the height changes).
  * Sits above open sheets (overlay layer). Returns anchor.
@@ -133,10 +134,10 @@ export function menu(anchor, items, { align = 'end', label } = {}) {
         if (it === '-') return h('div', { class: 'tn-menu-sep', role: 'separator' });
         const b = h('button', {
           class: cls('tn-menu-item', it.danger && 'is-danger'), type: 'button', role: it.checked != null ? 'menuitemcheckbox' : 'menuitem',
-          'aria-checked': it.checked != null ? String(!!it.checked) : null, disabled: !!it.disabled,
-          onclick: () => { close(true); it.onClick?.(); },
+          'aria-checked': it.checked != null ? String(!!it.checked) : null, 'aria-disabled': it.disabled ? 'true' : null,
+          onclick: () => { if (it.disabled) return; close(true); it.onClick?.(); },
         }, h('span', { class: 'tn-menu-ic' }, it.checked ? icon('check') : it.icon ? icon(it.icon) : null), h('span', { class: 'tn-ellipsis' }, it.label), it.hint && h('span', { class: 'tn-menu-hint' }, it.hint));
-        if (!it.disabled) btns.push(b);
+        btns.push(b);   // a disabled item stays reachable with the arrow keys and is read with its reason (`hint`)
         return b;
       }));
     showOverlay(el);

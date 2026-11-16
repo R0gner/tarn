@@ -517,6 +517,82 @@ export const SCENARIOS = [
       return left;
     } },
 
+  { id: 'confirm-typed', page: 'gallery', hash: 'states', overlay: 'dialog.tn-confirm[open]', focus: 'modal', when: (sz) => !sz.mobile,
+    // confirm({ typeToConfirm }): a click beside the dialog keeps it and the typed text; Enter while an input method composes a character does
+    // not confirm; the real Enter does
+    open: async (io) => {
+      await io.eval(`${MOD}.then((m) => { window.__ans = 'open'; const b = m.button('Remove …', { variant: 'danger', onClick: () => m.confirm({ title: 'Remove?', danger: true, typeToConfirm: 'nas-a' }).then((v) => { window.__ans = v; }) });
+        b.id = 'verify-typed'; document.querySelector('.tn-content').prepend(b); return true; })`);
+      await io.press('#verify-typed'); await sleep(80);
+    },
+    assert: async (io) => {
+      const left = [];
+      await io.page.send('Input.insertText', { text: 'nas-' }); await sleep(60);
+      for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased']) await io.page.send('Input.dispatchMouseEvent', { type, x: 6, y: 6, button: type === 'mouseMoved' ? 'none' : 'left', clickCount: 1 });
+      await sleep(150);
+      const st = await io.eval(`({ open: !!document.querySelector('dialog.tn-confirm[open]'), ans: window.__ans, value: document.querySelector('dialog.tn-confirm input')?.value })`);
+      if (!st.open) left.push(`a click beside the dialog closed it (answer ${st.ans}) and dropped the typed text`);
+      else if (st.value !== 'nas-') left.push(`the typed text is “${st.value}” after a click beside the dialog (“nas-” expected)`);
+      if (!st.open) return left;
+      await io.eval(`(() => { const q = document.querySelector('dialog.tn-confirm input'); q.focus(); return true; })()`);
+      await io.page.send('Input.insertText', { text: 'a' }); await sleep(60);
+      await io.eval(`(() => { document.querySelector('dialog.tn-confirm input').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, isComposing: true, bubbles: true, cancelable: true })); return true; })()`);
+      await sleep(120);
+      if (!(await io.eval(`!!document.querySelector('dialog.tn-confirm[open]') && window.__ans === 'open'`))) left.push('Enter during an input method composition confirmed');
+      await io.key('Enter', 13); await sleep(150);
+      const end = await io.eval(`({ open: !!document.querySelector('dialog.tn-confirm[open]'), ans: window.__ans })`);
+      if (end.open || end.ans !== true) left.push(`Enter after the composition did not confirm (open ${end.open}, answer ${end.ans})`);
+      return left;
+    } },
+  { id: 'combobox-ime', page: 'gallery', hash: 'inputs', overlay: '.tn-combo-pop', focus: false, when: (sz) => !sz.mobile,
+    // Enter in the combobox search while an input method composes a character does not choose; the real Enter does
+    open: (io) => io.press('.tn-combo-btn'),
+    assert: async (io) => {
+      const left = [];
+      await io.key('ArrowDown', 40); await sleep(60);
+      await io.eval(`(() => { document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', keyCode: 229, isComposing: true, bubbles: true, cancelable: true })); return true; })()`);
+      await sleep(120);
+      if (!(await io.eval(`!!document.querySelector('.tn-combo-pop') && document.querySelector('.tn-combo-pop').checkVisibility()`))) left.push('Enter during an input method composition chose an option and closed the list');
+      await io.key('Enter', 13); await sleep(150);
+      if (await io.eval(`!!document.querySelector('.tn-combo-pop')?.checkVisibility()`)) left.push('the real Enter did not choose');
+      return left;
+    } },
+
+  { id: 'menu-disabled', page: 'gallery', hash: 'feedback', overlay: '.tn-menu', focus: true, when: (sz) => !sz.mobile,
+    // a disabled menu item stays in the menu with its reason: reachable with the arrow keys, aria-disabled (not the disabled attribute, which hides
+    // it from the arrow keys and from some screen readers), its reason in its text; choosing it does nothing
+    open: (io) => io.press('button[aria-label="Actions"]'),
+    assert: async (io) => {
+      const left = [];
+      const st = await io.eval(`(() => { const it = [...document.querySelectorAll('.tn-menu .tn-menu-item')].find((b) => b.textContent.includes('Pause'));
+        return it ? { aria: it.getAttribute('aria-disabled'), attr: it.disabled, text: it.textContent } : null; })()`);
+      if (!st) { left.push('the gallery menu has no “Pause” item'); return left; }
+      if (st.aria !== 'true') left.push('the disabled item has no aria-disabled="true"');
+      if (st.attr) left.push('the disabled item carries the disabled attribute (arrow keys and some screen readers skip it)');
+      if (!/Already off/.test(st.text)) left.push(`the disabled item does not show its reason (“${st.text}”)`);
+      let reached = false;
+      for (let i = 0; i < 6 && !reached; i++) { await io.key('ArrowDown', 40); await sleep(40); reached = await io.eval(`!!document.activeElement?.textContent.includes('Pause')`); }
+      if (!reached) left.push('the arrow keys never reach the disabled item');
+      else {
+        await io.key('Enter', 13); await sleep(120);
+        if (!(await io.eval(`!!document.querySelector('.tn-menu')?.checkVisibility()`))) left.push('Enter on the disabled item closed the menu (it acted)');
+      }
+      return left;
+    } },
+
+  { id: 'row-refresh', page: 'board', hash: 'jobs', overlay: '.tn-table [data-key]', focus: false, when: (sz) => !sz.mobile,
+    // a row focused with the keyboard keeps the focus when new data redraws the view (app.refresh())
+    open: async (io) => { await io.until(`!!document.querySelector('.tn-table [data-key]')`, 3000); },
+    assert: async (io) => {
+      const left = [];
+      const key = await io.eval(`(() => { const r = document.querySelectorAll('.tn-table [data-key]')[2]; r.focus(); r.__old = true; window.tnApp.refresh(); return r.dataset.key; })()`);
+      await sleep(120);
+      const st = await io.eval(`(() => { const a = document.activeElement; return { key: a?.dataset?.key ?? null, rebuilt: !a?.__old, tag: a?.tagName }; })()`);
+      if (st.key !== key) left.push(`after a redraw the focus is on ${st.tag}${st.key ? ` (${st.key})` : ''}, not on the row ${key}`);
+      else if (!st.rebuilt) left.push('the redraw did not rebuild the row (the check proves nothing)');
+      return left;
+    } },
+
   // ---- Gb: detail in place – a row that stands for a thing another view owns opens that thing's detail HERE; the way to the other view is a link inside ----
   { id: 'detail-in-place', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('.tn-row-btn[data-key]'),

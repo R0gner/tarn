@@ -90,7 +90,7 @@ export function viewFeedback() {
     { label: 'Run now', icon: 'refresh', onClick: () => toast('Run started', { tone: 'ok' }) },
     { label: 'Open log', icon: 'external', hint: 'L', onClick: () => toast('Log opened') },
     { label: 'Errors only', checked: true, onClick: () => {} },
-    { label: 'Disabled', icon: 'x', disabled: true },
+    { label: 'Pause', icon: 'minus', disabled: true, hint: 'Already off' },   // unavailable: shown with its reason
     '-',
     { label: 'Remove job', icon: 'x', danger: true, onClick: () => toast('Removal cancelled', { tone: 'warn', action: { label: 'Undo', onClick: () => {} } }) },
   ]);

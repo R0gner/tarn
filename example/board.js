@@ -146,7 +146,7 @@ function jobDetail(id, ctx) {
   const nRuns = j.runs?.length || 0, nBad = j.runs?.filter((r) => r === 'bad').length || 0;
   const more = menu(iconButton('more', { label: t('board.act.moreLabel') }), [
     { label: t('board.act.openLog'), icon: 'external', onClick: () => toast(t('board.act.noFunction')) },
-    { label: t('board.act.pause'), icon: 'minus', disabled: j.status === 'off' },
+    { label: t('board.act.pause'), icon: 'minus', disabled: j.status === 'off', hint: j.status === 'off' ? t('board.act.pauseOff') : undefined, onClick: () => toast(t('board.act.noFunction')) },
     '-', { label: t('board.act.remove'), icon: 'x', danger: true, onClick: () => toast(t('board.act.demoOnly'), { tone: 'warn' }) },
   ]);
   return {

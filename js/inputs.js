@@ -17,7 +17,7 @@ import { icon } from './icons.js';
 import { t, getTimeZone } from './i18n.js';
 import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { hideTooltip } from './controls.js';
-import { parseNumber, roundTo, validateValue, validationText, filterOptions, rangeFromPreset, presetOf } from './inputs-data.js';
+import { parseNumber, roundTo, validateValue, validationText, filterOptions, rangeFromPreset, presetOf, imeComposing } from './inputs-data.js';
 
 /**
  * @typedef {HTMLElement & {
@@ -352,6 +352,7 @@ export function combobox({ options = [], value, multiple, placeholder, searchPla
     if (refocus && btn.isConnected) btn.focus({ preventScroll: true });
   }
   function key(e) {
+    if (imeComposing(e)) return;   // the input method owns Enter and the arrows while it composes a character
     const last = Math.min(shown.length, MAX_RENDER) - 1;
     const d = { ArrowDown: 1, ArrowUp: -1, PageDown: 5, PageUp: -5 }[e.key];
     if (d) { e.preventDefault(); if (last >= 0) setActive(Math.max(0, Math.min(last, active + d)), true); }

@@ -436,8 +436,10 @@ export function createApp(cfg0) {
     viewTitle.textContent = v.label;
     document.title = cfg.title ? `${v.label} · ${cfg.title}` : v.label;
     const field = keepField ? captureField() : null;
+    const a = document.activeElement, row = keepField && a instanceof HTMLElement && content.contains(a) ? a.dataset.key ?? null : null;   // a focused row (metricRow, table row)
     mount(content, v.render(/** @type {ViewContext} */ (ctx(v))));
     restoreField(field);
+    if (row != null) [.../** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key]'))].find((el) => el.dataset.key === row)?.focus({ preventScroll: true });
     markSelected();
     renderNav();
   }

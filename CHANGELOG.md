@@ -21,6 +21,17 @@ While the major version is 0, minor versions may change the API; every change is
   combobox list, board switcher) are now placed by one function in `js/overlay.js` (`placeOverlay()`, `viewWidth()`) against the root's laid-out
   box. Toasts were not affected (CSS-positioned). Overlay scenario `edge-scrollbar` (hint and menu at the right edge, page not scrolling and
   scrolling, with the test Chrome's space-taking scrollbars), mutant `overlay-gutter`.
+- Enter in the `confirm({ typeToConfirm })` field and in the combobox search does nothing while an input method composes a character
+  (`isComposing`, keyCode 229; `imeComposing()` in js/inputs-data.js, unit-tested). Overlay scenarios `confirm-typed` and `combobox-ime`, mutant
+  `ime-enter`.
+- `confirm({ typeToConfirm })`: a tap beside the dialog no longer cancels it (a half-typed name was lost); Esc, Back and *Cancel* still do. Dialogs
+  without the field are unchanged. Mutant `confirm-typed-outside`.
+- `menu()`: a disabled item is `aria-disabled` instead of `disabled`: it stays reachable with the arrow keys and is read by assistive tech, choosing
+  it does nothing, its `hint` (the reason) keeps full contrast. The sample board's "Pause" on a job that is off says "Already off" (and gives
+  feedback when it is available); the gallery menu shows the same case; dashboard-guidelines rule 11 points to it. Overlay scenario
+  `menu-disabled`, mutant `menu-disabled-hidden`.
+- A focused row (`metricRow`, table row) keeps the focus when the view is redrawn (`app.refresh()` after new data, a parameter change); before,
+  the focus fell back to the page. Overlay scenario `row-refresh`, mutant `redraw-loses-row`.
 
 ## 0.7.0
 

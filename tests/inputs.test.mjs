@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { setLocale } from '../js/i18n.js';
-import { parseNumber, roundTo, validateValue, validationText, filterOptions, isoDay, addDays, rangeFromPreset, presetOf, dayStart } from '../js/inputs-data.js';
+import { parseNumber, roundTo, validateValue, validationText, filterOptions, isoDay, addDays, rangeFromPreset, presetOf, dayStart, imeComposing } from '../js/inputs-data.js';
 
 test('parseNumber: decimal comma and point, empty, junk', () => {
   assert.equal(parseNumber('1,5'), 1.5);
@@ -73,4 +73,11 @@ test('dayStart: start of a calendar day in a time zone, DST days', () => {
   assert.equal(dayStart('2026-07-01', 'Europe/Berlin'), Date.UTC(2026, 5, 30, 22));       // CEST = UTC+2
   assert.equal(dayStart('2026-03-29', 'Europe/Berlin'), Date.UTC(2026, 2, 28, 23));       // day of the spring change: starts in CET
   assert.equal(dayStart('2026-03-30', 'Europe/Berlin') - dayStart('2026-03-29', 'Europe/Berlin'), 23 * 3600000);   // a 23-hour day
+});
+
+test('imeComposing: Enter that commits an input method character is not a submit', () => {
+  assert.equal(imeComposing({ isComposing: true, keyCode: 13 }), true);
+  assert.equal(imeComposing({ isComposing: false, keyCode: 229 }), true, 'the keydown Chrome and Safari send around a composition');
+  assert.equal(imeComposing({ isComposing: false, keyCode: 13 }), false);
+  assert.equal(imeComposing({}), false);
 });

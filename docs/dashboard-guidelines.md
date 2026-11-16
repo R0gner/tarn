@@ -64,6 +64,8 @@ Don't: three `iconButton('more', { label: 'More' })` on one view.
 Why: a missing button makes the reader search; a greyed one without a reason makes them guess.
 Do: `{ label: 'Pause', disabled: true, hint: 'Already off' }` in a `menu()`.
 Don't: drop "Pause" from the menu when the job is off, or show it disabled with nothing next to it.
+The disabled item stays in the menu, reachable with the arrow keys and read by a screen reader with its reason; the sample board's job menu shows it
+(“Pause” on a job that is off).
 
 **12. Nothing opens unasked.** No sheet, menu, toast or explanation opens when a view loads; secondary content stays in the detail, behind a tab or behind
 an "i".

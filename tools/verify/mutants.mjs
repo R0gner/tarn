@@ -130,6 +130,29 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "refresh() { if (!cur.view) return; renderView({ keepField: true });", to: "refresh() { if (!cur.view) return; renderView();" }],
   },
   {
+    // the 0.7.0 redraw: a focused row lost the focus when new data arrived
+    id: 'redraw-loses-row',
+    check: 'overlay', scenarios: ['row-refresh'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "if (row != null) [", to: "if (row == null && row != null) [" }],
+  },
+  {
+    // the 0.7.0 menu: a disabled item carried the disabled attribute and was left out of the arrow keys
+    id: 'menu-disabled-hidden',
+    check: 'overlay', scenarios: ['menu-disabled'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/widgets.js', from: "'aria-disabled': it.disabled ? 'true' : null,", to: "disabled: !!it.disabled," }],
+  },
+  {
+    // the 0.7.0 faults: a click beside a type-to-confirm dialog cancelled it; Enter during an input method composition confirmed or chose
+    id: 'confirm-typed-outside',
+    check: 'overlay', scenarios: ['confirm-typed'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/confirm.js', from: "if (e.target === d && !typed) done(false);", to: "if (e.target === d) done(false);" }],
+  },
+  {
+    id: 'ime-enter',
+    check: 'overlay', scenarios: ['confirm-typed', 'combobox-ime'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/inputs-data.js', from: "export const imeComposing = (e) => !!e.isComposing || e.keyCode === 229;", to: "export const imeComposing = (e) => false;" }],
+  },
+  {
     // the 0.7.0 fault: overlays clamped against documentElement.clientWidth, which still counts the scrollbar gutter html reserves while the page
     // does not scroll; a hint at the right edge reached into the gutter and was cut
     id: 'overlay-gutter',

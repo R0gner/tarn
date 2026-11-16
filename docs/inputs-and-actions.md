@@ -116,7 +116,9 @@ const f = form({
 
 `confirm({ title, text, danger, typeToConfirm, confirmLabel, cancelLabel })` → `Promise<boolean>`: a centred modal dialog above everything, open sheets
 included. `danger` puts the focus on *Cancel*. `typeToConfirm` keeps the confirm button disabled until the text (the host name, say) is typed exactly; case
-matters, surrounding spaces do not.
+matters, surrounding spaces do not. Esc, Back, *Cancel* and a tap beside the dialog answer `false`; with `typeToConfirm` a tap beside it does nothing,
+so a half-typed name is not lost. Enter in the field confirms once the text matches, but not while an input method is composing a character (the
+same holds for Enter in the combobox search).
 
 ## Running an action
 

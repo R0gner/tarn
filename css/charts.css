@@ -71,7 +71,8 @@
 }
 .tn-menu-item:hover, .tn-menu-item:focus-visible { background: var(--tn-hover); outline: none; }
 .tn-menu-item:is(:active, .is-down) { background: var(--tn-press); }
-.tn-menu-item:disabled { opacity: .45; }
+.tn-menu-item[aria-disabled="true"] { cursor: default; }
+.tn-menu-item[aria-disabled="true"] > :not(.tn-menu-hint) { opacity: .45; }   /* the reason stays readable */
 .tn-menu-item.is-danger { color: var(--tn-bad-text); }
 .tn-menu-ic { display: inline-grid; place-items: center; width: var(--tn-s4); color: var(--tn-text-2); flex: none; }
 .tn-menu-hint { margin-left: auto; padding-left: var(--tn-s3); color: var(--tn-text-3); font-size: var(--tn-fs-label); }

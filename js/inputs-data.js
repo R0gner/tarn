@@ -67,6 +67,14 @@ export function validateValue(value, rules = {}) {
 export const validationText = (r) => (r ? (r.text ?? t(/** @type {string} */ (r.key), r.vars)) : null);
 
 /**
+ * Is this key event part of an input method composition (a character being put together, e.g. Japanese, Chinese, Korean, dead keys)? Then Enter
+ * commits the character and must not submit, confirm or choose. `isComposing`, and keyCode 229 for the keydown some browsers send around it.
+ * @param {{ isComposing?: boolean, keyCode?: number }} e
+ * @returns {boolean}
+ */
+export const imeComposing = (e) => !!e.isComposing || e.keyCode === 229;
+
+/**
  * Options that match the search text (all words, accent- and case-insensitive via matchQuery); empty query → all.
  * @template {{ label: string, hint?: string, value: any }} O
  * @param {O[]} options

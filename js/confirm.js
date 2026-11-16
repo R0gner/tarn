@@ -8,6 +8,7 @@ import { button } from './primitives.js';
 import { lockScroll, backLayer } from './sheet.js';
 import { field, textField } from './inputs.js';
 import { confirmMatches } from './actions-data.js';
+import { imeComposing } from './inputs-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {{ title: string, text?: Child, confirmLabel?: string, cancelLabel?: string, danger?: boolean, typeToConfirm?: string }} ConfirmOptions */
@@ -15,7 +16,8 @@ import { confirmMatches } from './actions-data.js';
 /**
  * Confirm a dangerous action. confirm({ title, text, confirmLabel?, cancelLabel?, danger?, typeToConfirm?: 'text' }) → Promise<boolean>
  * A small modal dialog (centred, on top of open sheets); Esc, a tap outside and “Cancel” answer false. With `danger` the focus starts on “Cancel”;
- * with `typeToConfirm` the confirm button stays off until the text has been typed exactly (e.g. the host name).
+ * with `typeToConfirm` the confirm button stays off until the text has been typed exactly (e.g. the host name), and a tap outside does nothing
+ * (Esc, Back and “Cancel” still answer false). Enter while an input method composes a character does not confirm.
  * @param {ConfirmOptions} o
  * @returns {Promise<boolean>}
  */
@@ -34,8 +36,8 @@ export function confirm({ title, text, confirmLabel, cancelLabel, danger, typeTo
       text && h('div', { class: 'tn-confirm-text', id: `${id}-d` }, text),
       typed && field({ label: t('confirm.type', { text: String(typeToConfirm) }) }, typed),
       h('div', { class: 'tn-confirm-actions' }, no, ok));
-    typed?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); if (!ok.disabled) done(true); } });
-    d.addEventListener('click', (e) => { if (e.target === d) done(false); });
+    typed?.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !imeComposing(e)) { e.preventDefault(); if (!ok.disabled) done(true); } });
+    d.addEventListener('click', (e) => { if (e.target === d && !typed) done(false); });   // with a typed text a tap beside it does not throw the text away
     d.addEventListener('close', () => { lockScroll(false); release(); d.remove(); resolve(answer); });
     document.body.append(d);
     d.showModal();
