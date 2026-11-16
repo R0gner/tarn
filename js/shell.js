@@ -315,10 +315,12 @@ export function createApp(cfg0) {
 
   /* ---- Data status ---- */
   function renderFresh() {
-    if (!activeSrc) return;
+    if (!activeSrc) { content.removeAttribute('aria-busy'); return; }
     const s = activeSrc.state;
     fresh.classList.toggle('is-stale', !!(s.stale && (s.data || s.error)));
     fresh.classList.toggle('is-loading', !!s.loading);
+    /* a range change keeps the old range's data until the new one arrives: the view keeps its layout, the charts show they are refreshing */
+    if (s.refreshing) content.setAttribute('aria-busy', 'true'); else content.removeAttribute('aria-busy');
     fresh.textContent = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
     fresh.setAttribute('aria-label', s.fetchedAt ? t('shell.freshAriaAt', { text: fresh.textContent, time: fmtFull(s.fetchedAt) }) : t('shell.freshAria', { text: fresh.textContent }));
   }
@@ -330,8 +332,8 @@ export function createApp(cfg0) {
   }
 
   /* ---- Time range: one per app, kept as the view parameter `range` (a change replaces the history entry). Sources that follow it
-     (promSource with a range query, combineSources over one) get it through setRange(), which aborts requests in flight and drops the
-     data of the old range; the control only shows while such a source is active. ---- */
+     (promSource with a range query, combineSources over one) get it through setRange(), which aborts requests in flight and keeps the
+     data of the old range (marked `refreshing`) until the new one arrives; the control only shows while such a source is active. ---- */
   const ranges = cfg.ranges?.length ? cfg.ranges : RANGE_PRESETS;
   let range = findRange(cfg.range, ranges);
   let rangeSync = false;

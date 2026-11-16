@@ -86,6 +86,8 @@
   padding-bottom: max(var(--tn-s8), env(safe-area-inset-bottom));
   display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s5); align-content: start;
 }
+/* the source loads a new time range and still holds the old one's data (state.refreshing): the charts stay in place, dimmed, no motion */
+.tn-content[aria-busy="true"] :is(.tn-chart, .tn-spark, .tn-heat, .tn-donut) { opacity: .5; }
 
 .tn-inspector {
   position: sticky; top: 0; height: 100dvh;

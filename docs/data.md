@@ -92,8 +92,8 @@ const metrics = promSource({
 - **Errors.** An HTTP error (`HTTP 502`), `status: "error"` in the body (its `error` text is shown), a body that is not JSON, a timeout: each makes the query
   fail. The kit's own texts (timeout, not JSON) follow the active language; `HTTP <status>` and a server's `error` text are shown as they are. Several queries run in parallel; when one fails the others still update, its last good data stays and `error` names it
   (`queue: HTTP 502`; several are joined by `; `). `age` is that of the oldest query, so a query that keeps failing makes the source stale.
-- **Range changes** abort the requests in flight, drop the data of the old range (the view shows `loading()`), and fetch again. An answer for the old
-  range never lands.
+- **Range changes** abort the requests in flight and fetch again; the data of the old range stays until the new answer arrives, marked with
+  `state.refreshing: true` (the view keeps its layout, no `loading()` in between). An answer for the old range never lands.
 
 ### Time range
 
@@ -104,7 +104,10 @@ the range: a `promSource` with at least one `range: true` query, or a `combineSo
   `label` is shown instead of the generated text (pass it through `t()`), `range` is the id at start (default: the first preset).
 - The choice is the view parameter `range` (`#/metrics?range=7d`); choosing replaces the history entry like a filter does (Back by levels, see
   [shell](shell.md)). A deep link with `?range=` starts in that range. `app.range` is the current range, `app.setRange(id)` sets it.
-- The shell hands the range to the source before the view renders, so a view never sees data of the old range under the new label.
+- The shell hands the range to the source before the view renders. Until the new range has arrived the view still gets the old range's data
+  with `ctx.src.refreshing`; the shell marks the content `aria-busy` and dims its charts, so no block moves or changes size and nothing passes
+  for the new range. verify checks it (`overlay-shift`: a scenario that clicks a control which does not change what the view contains must not
+  move or resize a block).
 
 ## Several sources: combineSources
 

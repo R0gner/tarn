@@ -118,10 +118,16 @@ export const MUTANTS = [
     patch: [{ file: 'js/charts/scale.js', from: 'gap = 10, minSpacing = 72 }', to: 'gap = -40, minSpacing = 20 }' }],
   },
   {
-    // a range change keeps the data of the old range until the new answer arrives: the chart shows 1 h of data under "7 d"
+    // a range change keeps the data of the old range but the charts are not marked: 1 h of data under "7 d" as if it were current
     id: 'range-keeps-old-data',
     check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'js/data.js', from: 'p.st.data = null; p.st.error = null;', to: 'p.st.error = null;' }],
+    patch: [{ file: 'js/shell.js', from: "if (s.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
+  },
+  {
+    // the old behaviour (0.7.x): a range change drops the data, the view draws its loading state for a moment and the blocks jump
+    id: 'range-drops-data',
+    check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-shift'],
+    patch: [{ file: 'js/data.js', from: 'p.st.refreshing = p.st.data != null; p.st.error = null;', to: 'p.st.data = null; p.st.error = null; p.st.fetchedAt = null;' }],
   },
   {
     // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)

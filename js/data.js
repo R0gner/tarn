@@ -11,7 +11,7 @@ import { fmtDuration } from './format.js';
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
 /** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
-/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[] }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts). */
+/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[], refreshing?: boolean }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts); `refreshing`: the data is still that of the previous time range while the new one loads (the shell marks the charts). */
 /** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /**
  * @typedef {{
@@ -50,8 +50,8 @@ const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error:
 function poller({ run, interval, staleAfter, now, timeout }) {
   /** @type {Set<(state: DataState) => void>} */
   const subs = new Set();
-  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null }} */
-  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null };
+  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null, refreshing: boolean }} */
+  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null, refreshing: false };
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let timer;
   let running = false;
@@ -65,7 +65,7 @@ function poller({ run, interval, staleAfter, now, timeout }) {
   function snapshot() {
     const age = st.fetchedAt == null ? null : (st.baseAge ?? 0) + (now() - st.fetchedAt) / 1000;
     const sa = staleAfter();
-    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > sa, staleAfter: sa };
+    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > sa, staleAfter: sa, refreshing: st.refreshing && st.data != null };
   }
   const emit = () => { const s = snapshot(); for (const f of subs) f(s); };
 
@@ -80,7 +80,7 @@ function poller({ run, interval, staleAfter, now, timeout }) {
       try {
         const r = await run(ac.signal);
         if (my !== gen) return;
-        st.data = r.data; st.error = r.error ?? null;
+        st.data = r.data; st.error = r.error ?? null; st.refreshing = false;
         if (r.fetchedAt !== null) st.fetchedAt = r.fetchedAt ?? now();
         st.baseAge = r.baseAge ?? 0;
       } catch (e) {
@@ -172,7 +172,8 @@ async function promGet(fx, url, signal) {
  *
  * Range queries follow the app's time range (`setRange`, set by the shell's range control; default the first preset): start/end are the
  * last `range.seconds`, the step keeps a series at most `maxPoints` (300) long and never below `minStep`. Changing the range aborts the
- * request in flight and drops the data of the old range. Without `interval` the refresh follows the step (15 s … 5 min), and without
+ * request in flight and loads the new range at once; the data of the old range stays until the answer arrives (`state.refreshing`, the
+ * shell marks the charts), so the view keeps its layout. Without `interval` the refresh follows the step (15 s … 5 min), and without
  * `staleAfter` data counts as stale after three missed refreshes. One failing query does not take the others down: its last good data
  * stays, the error names it (`cpu: HTTP 502`), and the age is that of the oldest query.
  * @param {PromSourceOptions} o
@@ -235,7 +236,7 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
       cur = r;
       if (!ranged) return;
       p.abort(); good.clear();
-      p.st.data = null; p.st.error = null; p.st.fetchedAt = null; p.st.baseAge = null;
+      p.st.refreshing = p.st.data != null; p.st.error = null;   // the old range's data stays (marked) until the new one arrives: no loading state, no jump
       if (p.running) p.reload(); else p.emit();
     },
   };
@@ -283,6 +284,7 @@ export function combineSources(parts, { flat = false } = {}) {
       data, error: errors.length ? errors.join('; ') : null, loading: states.some(([, s]) => s.loading),
       fetchedAt: oldest ? oldest[1].fetchedAt : null, age: oldest ? oldest[1].age : null,
       stale: states.some(([, s]) => s.stale), staleAfter: (staleOne || oldest || states[0])?.[1].staleAfter ?? 0, staleParts,
+      refreshing: states.some(([, s]) => s.refreshing),
     };
   }
   const emit = () => { if (!subs.size) return; const s = snapshot(); for (const f of subs) f(s); };

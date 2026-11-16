@@ -9,6 +9,9 @@
 //                    width change; Esc closes the menu inside a sheet first; a tooltip stays on touch after
 //                    release and closes by tapping elsewhere; data card appears (mouse/touch); hint only
 //                    on truncated text
+//   overlay-shift    a scenario marked `steady` (its control does not change what the view contains: a menu, a range choice) moved or
+//                    resized a block of the view: the boxes of the view's blocks are recorded every frame and on every DOM change from
+//                    before the first click until the assert is done
 import fs from 'node:fs';
 import path from 'node:path';
 import { emulate, evaluate, sleep } from '../lib/cdp.mjs';
@@ -281,16 +284,16 @@ export const SCENARIOS = [
       return left;
     } },
   // ---- time range (0.7.0): the control in the toolbar is a kit menu; a choice replaces the history entry and never shows the old range's data under the new label ----
-  { id: 'range-menu', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true,
+  { id: 'range-menu', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true, steady: true,
     open: (io) => io.press('.tn-range-btn') },
-  { id: 'range-change', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true,
+  { id: 'range-change', page: 'gallery', hash: 'datasources', overlay: '.tn-menu', focus: true, steady: true,
     open: async (io) => { await io.until(`!!document.querySelector('[aria-label^="Busy CPU"]')`, 3000); await io.press('.tn-range-btn'); },
-    // every redraw is recorded (range button text, span the chart says it shows); while the button says the new range the chart is either
-    // absent (loading) or shows the new range's data
+    // every redraw is recorded (range button text, span the chart says it shows, whether it is marked refreshing); while the button says the
+    // new range the chart shows the new range's data or is marked as refreshing (aria-busy); its box does not move (steady)
     assert: async (io) => {
       const left = [];
       await io.eval(`(() => { window.__h0 = history.length; window.__rs = [];
-        const rec = () => window.__rs.push([document.querySelector('.tn-range-btn')?.textContent || '', document.querySelector('[aria-label^="Busy CPU"]')?.getAttribute('aria-label') || null]);
+        const rec = () => { const c = document.querySelector('[aria-label^="Busy CPU"]'); window.__rs.push([document.querySelector('.tn-range-btn')?.textContent || '', c?.getAttribute('aria-label') || null, !!c?.closest('[aria-busy="true"]')]); };
         rec(); new MutationObserver(rec).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true }); return true; })()`);
       const before = await io.eval(`window.__rs[0]`);
       await io.press('.tn-menu-item', '7');
@@ -300,8 +303,9 @@ export const SCENARIOS = [
       if (!/[?&]range=7d\b/.test(st.hash)) left.push(`the hash after choosing 7 days is ${st.hash} (range=7d expected)`);
       if (st.grew > 0) left.push(`choosing a range added ${st.grew} history entries (it replaces)`);
       if (st.now[0] === before[0]) left.push(`the range button still says “${st.now[0]}”`);
-      const wrong = st.rs.filter(([btn, chart]) => btn === st.now[0] && chart && chart !== st.now[1]);
-      if (wrong.length) left.push(`under “${st.now[0]}” the chart showed “${wrong[0][1]}” (data of the old range)`);
+      const wrong = st.rs.filter(([btn, chart, busy]) => btn === st.now[0] && chart && chart !== st.now[1] && !busy);
+      if (wrong.length) left.push(`under “${st.now[0]}” the chart showed “${wrong[0][1]}” (data of the old range) without the refreshing mark`);
+      if (!st.rs.some(([btn, chart, busy]) => btn === st.now[0] && chart && busy) && st.rs.some(([btn, chart]) => btn === st.now[0] && !chart)) left.push(`under “${st.now[0]}” the chart was gone while the new range loaded (loading state instead of the old values)`);
       return left;
     } },
   { id: 'menu-height', page: 'gallery', hash: 'feedback', overlay: '.tn-menu', focus: true,
@@ -882,6 +886,7 @@ export async function overlayTask(w, task, opts = {}) {
   let release = null;
   try {
     if (sc.setup) await sc.setup(io);   // preparation that is not the overlay under test (a board's generic menu scenario opens its sheet here)
+    if (sc.steady) await evaluate(page, STEADY_START_JS);
     release = await sc.open(io);
   } catch (e) {
     if (!e.missing) throw e;
@@ -894,6 +899,7 @@ export async function overlayTask(w, task, opts = {}) {
   if (typeof release === 'function') await release();
   const add = (rule, text) => findings.push({ ...ctx, rule, where: sc.hash, text });
   if (sc.assert) for (const text of await sc.assert(io, size)) add('overlay-behaviour', text);
+  if (sc.steady) { await sleep(120); for (const text of await evaluate(page, STEADY_END_JS)) add('overlay-shift', text); }
   if (st.missing) add('overlay-missing', `${sc.overlay} does not appear`);
   else {
     if (!st.top) add('overlay-top', `lies under ${st.hit}${st.modal ? ` (open: ${st.modal})` : ''}`);
@@ -910,6 +916,23 @@ export async function overlayTask(w, task, opts = {}) {
   con.take();
   return { findings, scenarios: 1 };
 }
+
+/* Steady scenarios: the blocks of the view (elements in .tn-content up to four levels deep, at least 24 px high, keyed by their place in the
+   tree) are recorded before the first click, on every DOM change and every frame until the end; a block that moves, resizes, disappears or
+   appears is a finding (1 px tolerance; scroll is taken out, the boxes are page coordinates). */
+const STEADY_START_JS = `(() => {
+  const root = document.querySelector('.tn-content'); if (!root) return false;
+  const key = (el) => { const p = []; for (let e = el; e && e !== root; e = e.parentElement) p.unshift(e.tagName + '.' + ([...e.classList].filter((c) => !c.startsWith('is-')).join('.')) + ':' + [...e.parentElement.children].indexOf(e)); return p.join('>'); };
+  const boxes = () => { const m = new Map(); const walk = (el, d) => { for (const c of el.children) { if (!(c instanceof HTMLElement)) continue; const r = c.getBoundingClientRect(); if (r.height >= 24 && r.width > 0) m.set(key(c), [Math.round(r.x), Math.round(r.y + scrollY), Math.round(r.width), Math.round(r.height)]); if (d < 4) walk(c, d + 1); } }; walk(root, 1); return m; };
+  const s = window.__steady = { base: boxes(), bad: [], on: true };
+  const cmp = () => { if (!s.on || s.bad.length > 4) return; const now = boxes();
+    for (const [k, b] of s.base) { const n = now.get(k); if (!n) { s.bad.push('block ' + k.split('>').pop() + ' disappeared'); return; }
+      if (b.some((v, i) => Math.abs(v - n[i]) > 1)) { s.bad.push('block ' + k.split('>').pop() + ' moved or resized from ' + b.join(',') + ' to ' + n.join(',')); return; } }
+    for (const k of now.keys()) if (!s.base.has(k)) { s.bad.push('block ' + k.split('>').pop() + ' appeared'); return; } };
+  s.mo = new MutationObserver(cmp); s.mo.observe(root, { subtree: true, childList: true, attributes: true, characterData: true });
+  const loop = () => { if (!s.on) return; cmp(); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
+  return true; })()`;
+const STEADY_END_JS = `(() => { const s = window.__steady; if (!s) return ['steady: the view has no .tn-content']; s.on = false; s.mo.disconnect(); return [...new Set(s.bad)].slice(0, 3); })()`;
 
 /** Scenarios one after the other on one worker (mutants). opts: { sizes, only, scenarios, base, css, js } */
 export async function runOverlayOn(w, opts = {}) {

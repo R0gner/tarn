@@ -157,6 +157,20 @@ test('promSource: timeout, and a range change aborts and drops the old data', as
   assert.match(log.at(-1), /step=3600/);
 });
 
+test('promSource: a range change keeps the old data marked refreshing until the new range arrives', async () => {
+  const s = promSource({ base: '/p', fetch: promSim(), now: () => NOW, range: '1h', queries: { cpu: { expr: 'demo_cpu_busy', range: true } } });
+  await s.reload();
+  const old = s.state.data;
+  assert.ok(old?.cpu && s.state.refreshing === false);
+  s.setRange(findRange('7d'));
+  assert.equal(s.state.data, old, 'the old range stays while the new one loads (no loading state, no jump)');
+  assert.equal(s.state.refreshing, true);
+  await s.reload();
+  assert.notEqual(s.state.data, old);
+  assert.equal(s.state.refreshing, false);
+  assert.equal(s.state.data.cpu.x.length, 169);
+});
+
 test('promSource: interval and staleAfter follow the range unless set; no range query = not ranged', () => {
   const src = promSource({ base: '/p', fetch: promSim(), now: () => NOW, range: '24h', queries: { q: { expr: 'demo_queue_depth' } } });
   assert.equal(src.ranged, false);

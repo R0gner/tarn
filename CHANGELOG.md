@@ -3,6 +3,18 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.0 (unreleased)
+
+### Changed
+- A range change keeps the old range's values until the new ones arrive (`state.refreshing`); the shell marks the content `aria-busy` and dims
+  the charts. Before, `promSource.setRange()` dropped the data, the view drew its loading state for a moment and the blocks jumped. docs/data.md
+  "Time range"
+
+### Added
+- verify `overlay-shift`: overlay scenarios marked `steady` record the boxes of the view's blocks before, during and after the interaction; a
+  block that moves, resizes, appears or disappears is a finding (`range-menu`, `range-change`). New mutant `range-drops-data` (the old behaviour);
+  `range-keeps-old-data` now drops only the refreshing mark.
+
 ## 0.7.1
 
 ### Fixed
