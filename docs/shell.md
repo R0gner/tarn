@@ -107,7 +107,7 @@ the user visited:
 |---|---|
 | 0 | the default view (`defaultView`, else the first view) |
 | 1 | any other view |
-| 2 | an open layer: a detail (`?open=`), a sheet or panel (`openSheet`), a `confirm()` dialog, the phone/tablet drawer |
+| 2 | an open layer: a detail (`?open=`), a sheet or panel (`openSheet`), a `confirm()` dialog, the image viewer (`openImageViewer`), the phone/tablet drawer |
 
 - Back with an open layer closes the topmost layer only and changes nothing else (a `confirm()` answers `false`). Back on another view goes to
   the default view. Back on the default view leaves the page.
@@ -138,7 +138,7 @@ the user visited:
 - `back: 'history'` keeps the behaviour before 0.6.0: every view change and every detail is its own entry.
 
 The level logic is the pure module `js/levels.js` (unit tests in `tests/levels.test.mjs`); verify drives the real history in its overlay scenarios
-`back-views`, `back-detail`, `back-deeplink`, `back-sheet`, `back-confirm`, `back-drawer` and `exit-hint` (see [checks](checks.md)).
+`back-views`, `back-detail`, `back-deeplink`, `back-sheet`, `back-confirm`, `back-viewer` (image viewer over a detail), `back-drawer` and `exit-hint` (see [checks](checks.md)).
 
 ## Layout behaviour
 

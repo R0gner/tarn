@@ -23,7 +23,7 @@ export const SHELL = {
   css: ['css/components.css', 'css/charts.css'],
   js: [
     'js/tarn.js', 'js/components.js', 'js/widgets.js', 'js/table.js', 'js/filterbar.js', 'js/filters-data.js',
-    'js/confirm.js', 'js/actionrun.js', 'js/actions-data.js', 'js/sheet.js', 'js/datacard.js', 'js/markdown.js',
+    'js/confirm.js', 'js/actionrun.js', 'js/actions-data.js', 'js/sheet.js', 'js/images.js', 'js/images-data.js', 'js/datacard.js', 'js/markdown.js',
     'js/data.js', 'js/prom-data.js', 'js/boards.js', 'js/boards-data.js', 'js/router.js', 'js/levels.js', 'js/shell.js',
     'js/notifications.js', 'js/notifications-data.js', 'js/push-sw.js', 'js/tiles-data.js',
     'js/locales/shell.js', 'js/locales/en-shell.js', 'js/locales/de-shell.js', 'js/locales/es-shell.js', 'js/locales/fr-shell.js',

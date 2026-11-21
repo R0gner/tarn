@@ -3,6 +3,23 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.0
+
+### Added
+- Images: `imageStrip(images, { label, onOpen })` – a row of thumbnails of the same size that scrolls sideways (scroll snap), a list "Images" with
+  buttons "Image n of m", arrow keys, Home and End along the row; an empty list draws nothing. A tap opens `openImageViewer(images, { index, onChange,
+  onClose, returnFocus, back })` – the image large above everything (a modal dialog, always dark), counter "n / m", paging by swipe (touch, pen,
+  mouse), arrow keys, Home/End and two buttons (no wrap), preloading of the neighbours; *x*, Esc, a tap beside the image, a swipe down and Back close
+  it. The viewer takes one history entry like a sheet, so the Android back button of an installed app closes the viewer, then the detail, then the
+  view – a board that opened photos with `<a target="_blank">` left the app instead, and Back closed it. After closing, the focus is on the thumbnail
+  of the image shown last. No zoom (a pinch would fight the swipe). Pure helpers in `js/images-data.js` (`normalizeImages` is exported), unit tests
+  `tests/images.test.mjs`; texts `images.*` in en/de/es/fr. Gallery: "States and sheets" shows several images, one, a thumbnail that does not load,
+  the empty list and the viewer opened directly (sample images `gallery/img/`). Docs: docs/components.md "Images", docs/shell.md "Back" (level 2),
+  AGENTS.md "Choosing building blocks".
+- verify: overlay scenarios `image-viewer` (paging by keys and swipe without wrapping, the whole image fits below the head, Esc and a tap beside
+  close, the focus comes back to the thumbnail) and `back-viewer` (a viewer over a detail: Back closes the viewer, then the detail, then the view);
+  mutants `viewer-ignores-back` and `viewer-wraps`.
+
 ## 0.7.1
 
 ### Fixed

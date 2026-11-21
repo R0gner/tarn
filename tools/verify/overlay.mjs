@@ -135,6 +135,70 @@ export const SCENARIOS = [
       if ((await io.eval('location.hash')) !== '#/states') left.push(`Back on a confirm dialog changes the view to ${await io.eval('location.hash')}`);
       return left;
     } },
+  { id: 'back-viewer', page: 'gallery', hash: 'table?open=offsite-sync', overlay: 'dialog.tn-viewer[open]', focus: true,
+    // the image viewer opened from a detail (a board's photos): one touch first (it adds the missing entries), then the browser's Back closes the
+    // viewer only, the next Back the detail, the next one goes to the default view
+    open: async (io) => {
+      await io.press('dialog.tn-sheet[open] .tn-sheet-title, .tn-inspector:not([hidden]) .tn-sheet-title'); await sleep(60);
+      await io.eval(`${MOD}.then((m) => { m.openImageViewer(['./img/photo-1.svg', './img/photo-2.svg'], { index: 1 }); return true; })`);
+      await sleep(80);
+    },
+    assert: async (io) => {
+      const left = [], detail = 'dialog.tn-sheet[open], .tn-inspector:not([hidden])';
+      await browserBack(io); await io.gone('dialog.tn-viewer[open]', 600);
+      if (await io.count('dialog.tn-viewer[open]')) left.push('Back does not close the image viewer');
+      if (!(await io.count(detail))) left.push('Back on the image viewer also closed the detail');
+      if ((await io.eval('location.hash')) !== '#/table?open=offsite-sync') left.push(`Back on the image viewer changes the hash to ${await io.eval('location.hash')}`);
+      await browserBack(io); await io.gone(detail, 600);
+      if (await io.count(detail)) left.push('second Back does not close the detail');
+      if ((await io.eval('location.hash')) !== '#/table') left.push(`second Back shows ${await io.eval('location.hash')} instead of #/table`);
+      await browserBack(io);
+      if (!(await io.until(`location.hash === '#/foundations'`, 1000))) left.push(`third Back shows ${await io.eval('location.hash')} instead of the default view`);
+      return left;
+    } },
+  { id: 'image-viewer', page: 'gallery', hash: 'states', overlay: 'dialog.tn-viewer[open]', focus: true,
+    open: (io) => io.press('.tn-imgstrip-btn'),
+    // a thumbnail opens the viewer at its image; arrow keys page (no wrap, the button at an end is hidden), a swipe pages on touch, Esc closes and
+    // gives the focus back to the thumbnail of the image last shown, a tap beside the image closes, a swipe down closes
+    assert: async (io) => {
+      const left = [];
+      const st = () => io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]'); if (!d) return null;
+        return { count: d.querySelector('.tn-viewer-count').textContent, src: d.querySelector('.tn-viewer-img').getAttribute('src'),
+          prev: d.querySelector('.tn-viewer-prev').checkVisibility(), next: d.querySelector('.tn-viewer-next').checkVisibility(), alt: d.querySelector('.tn-viewer-img').alt }; })()`);
+      let s = await st();
+      if (!s || s.count !== '1 / 6' || !/photo-1/.test(s.src)) return [`the first thumbnail opens ${JSON.stringify(s)}`];
+      if (s.prev || !s.next) left.push('on the first image the previous button shows or the next button is missing');
+      // the whole image is visible below the head (a larger file is scaled down, never cut)
+      const fit = await io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]'); const i = d.querySelector('.tn-viewer-img').getBoundingClientRect(), hd = d.querySelector('.tn-viewer-head').getBoundingClientRect();
+        const vw = document.documentElement.clientWidth, n = d.querySelector('.tn-viewer-next').getBoundingClientRect();   // never under a reserved scrollbar gutter
+        return { ok: i.width > 0 && i.top >= hd.bottom - 1 && i.bottom <= innerHeight + 1 && i.left >= -1 && i.right <= vw + 1 && n.right <= vw + 1, r: [i.left, i.top, i.right, i.bottom, n.right, vw].map(Math.round).join(',') }; })()`);
+      if (!fit.ok) left.push(`the image does not fit the free area below the head (${fit.r})`);
+      if (s.alt !== 'Front view, image 1 of 6') left.push(`image name is “${s.alt}”`);
+      await io.key('ArrowRight', 39); await sleep(40);
+      s = await st();
+      if (s.count !== '2 / 6' || !/photo-2/.test(s.src)) left.push(`ArrowRight shows ${s.count}`);
+      await io.key('End', 35); await sleep(40);
+      s = await st();
+      if (s.count !== '6 / 6' || s.next || !s.prev) left.push(`End shows ${s.count}, next button ${s.next ? 'visible' : 'hidden'}`);
+      await io.key('ArrowRight', 39); await sleep(40);
+      if ((await st()).count !== '6 / 6') left.push('ArrowRight on the last image wraps');
+      if (io.mobile) {
+        const c = await io.eval(`(() => { const r = document.querySelector('dialog.tn-viewer[open] .tn-viewer-stage').getBoundingClientRect(); return { x: Math.round(r.left + r.width * 0.7), y: Math.round(r.top + r.height / 2) }; })()`);
+        await io.swipe(c.x, c.y, 160); await sleep(250);
+        if ((await st()).count !== '5 / 6') left.push(`a swipe to the right shows ${(await st()).count} instead of 5 / 6`);
+      }
+      await io.key('Escape'); await io.gone('dialog.tn-viewer[open]', 600);
+      if (await io.count('dialog.tn-viewer[open]')) return [...left, 'Esc does not close the viewer'];
+      const back = await io.eval(`(() => { const b = [...document.querySelectorAll('.tn-imgstrip-btn')]; return b.indexOf(document.activeElement); })()`);
+      if (back !== (io.mobile ? 4 : 5)) left.push(`after Esc the focus is on thumbnail ${back + 1}, not on the image last shown`);
+      if ((await io.eval('location.hash')) !== '#/states') left.push(`closing the viewer changed the hash to ${await io.eval('location.hash')}`);
+      // a tap beside the image (the stage's left edge, below the head, the image is centred and narrower) closes
+      await io.press('.tn-imgstrip-btn', ''); await io.until(`!!document.querySelector('dialog.tn-viewer.is-open')`, 500); await sleep(60);
+      const edge = await io.eval(`(() => { const r = document.querySelector('dialog.tn-viewer[open] .tn-viewer-img').getBoundingClientRect(); return { x: Math.round(innerWidth / 2), y: Math.round(innerHeight - 6), hit: document.elementFromPoint(innerWidth / 2, innerHeight - 6)?.className || '' }; })()`);
+      await io.tapAt(edge.x, edge.y); await io.gone('dialog.tn-viewer[open]', 600);
+      if (await io.count('dialog.tn-viewer[open]')) left.push(`a tap beside the image (on ${edge.hit}) does not close the viewer`);
+      return left;
+    } },
   { id: 'back-drawer', page: 'board', hash: 'jobs', overlay: '.tn-sidebar', when: (sz) => sz.w < 1000,
     open: (io) => io.press('.tn-sb-toggle'),
     // the phone drawer closes on Back and nothing else changes

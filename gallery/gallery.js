@@ -4,7 +4,7 @@
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
   metricRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
-  cols, stack, openSheet, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
+  cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
@@ -257,7 +257,11 @@ function viewMarkdown() {
   ];
 }
 
-/* ================= Components: states, sheets ================= */
+/* ================= Components: states, sheets, images ================= */
+const PHOTOS = [
+  { src: './img/photo-1.svg', alt: 'Front view' }, { src: './img/photo-2.svg', alt: 'Side view' }, { src: './img/photo-3.svg', alt: 'Panorama' },
+  './img/photo-4.svg', './img/photo-5.svg', { src: './img/photo-6.svg', alt: 'Label with a long description that a screen reader reads in full' },
+];
 function viewStates() {
   return [
     h('div', { class: 'g-grid2' },
@@ -273,6 +277,14 @@ function viewStates() {
           banner('Update failed, showing the last data.', { tone: 'warn' }),
           banner('New data format, display may be incomplete.', { tone: 'info' }),
           banner('A very long notice with an-unbreakable-path/opt/stack/compose/services/something/backup.yml that has to wrap.', { tone: 'warn' })))),
+    demo('imageStrip() and openImageViewer()', `imageStrip(item.images.map((p) => ({ src: '/api/img/' + p, alt })))   // [] or null draws nothing (returns null)
+openImageViewer(images, { index: 2, onClose: (reason, index) => … })   // swipe, arrow keys; x, Esc, tap beside, swipe down, Back close`,
+      h('div', { class: 'g-stage-col' },
+        state('several images: scrolls sideways, tap opens the viewer', imageStrip(PHOTOS)),
+        state('one image', imageStrip(PHOTOS.slice(0, 1))),
+        state('a thumbnail that does not load', imageStrip([PHOTOS[1], 'data:image/png;base64,AA=='])),
+        state(`empty list: nothing (${normalizeImages([]).length} images)`, imageStrip([])),
+        state('viewer opened directly', stage(button('Open image 3 of 6', { onClick: () => openImageViewer(PHOTOS, { index: 2 }) }))))),
     demo('openSheet() directly', `openSheet({ title, sub, body, footer: [button(…)], onClose })   // for non-detail dialogs (e.g. filter)`,
       stage(button('Open sheet', { onClick: () => { const sh = openSheet({ title: 'Example sheet', sub: 'Phone: swipe down closes; wider: panel from the right', body: [kv([['Width', '< 700 px bottom sheet'], ['otherwise', 'panel from the right']]), loading({ rows: 8 })], footer: [button('Close', { variant: 'primary', onClick: () => sh.close() })] }); } }))),
   ];

@@ -107,6 +107,30 @@ closes), a panel from the right from 700 px (swipe right, scrim, Esc and Back cl
 `'x' | 'esc' | 'scrim' | 'swipe' | 'api'`. `update({ title, sub, body, footer, keepScroll })` changes only the keys present. `kind` goes to `data-kind`
 (a styling hook). The shell uses the same sheet for details below 1000 px.
 
+### Images
+
+`imageStrip(images, { label, onOpen, className })` draws a row of thumbnails of the same size (4:3, cropped) that scrolls sideways with scroll snap.
+`images` are URLs or `{ src, thumb?, alt? }` (`thumb`: a smaller file for the row; `alt`: what the image shows, data, not translated); entries
+without `src` are dropped, and **an empty list draws nothing** (`imageStrip()` returns `null`, `h()` skips it). The row is a list named "Images"; every
+thumbnail is a button "Image n of m" (with `alt`: "Front view, image n of m"), the arrow keys, Home and End move along the row. A tap opens the viewer
+at that image; `onOpen(index, images)` replaces that.
+
+`openImageViewer(images, { index, label, onChange, onClose, returnFocus, back })` → `{ el, show(i), close(reason), index() }` (or `null` for an empty
+list) shows the images large above everything: a modal dialog over the whole screen, always dark, with the counter "n / m" (hidden for one image), *x*
+and previous/next buttons (hidden at the ends; the list does not wrap).
+
+- Paging: swipe left/right (touch, pen and mouse; the image follows the finger), the arrow keys, Home/End, the buttons. The neighbours are preloaded.
+- Closing: *x*, Esc, a tap beside the image, a swipe down and **Back**: inside a `createApp()` page the viewer takes one history entry like a sheet
+  ([Back](shell.md#back)), so the Android back button of an installed app closes the viewer first, then the detail it was opened from. `back: false`
+  opts out. `onClose(reason, index)` fires once with `'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back'`.
+- After closing the focus goes back to the opener; the strip moves it to the thumbnail of the image shown last (`returnFocus(index)` for your own opener).
+- An image that does not load shows "The image could not be loaded"; a thumbnail that does not load stays an empty tile.
+- No zoom: a pinch would fight the swipe. A board that needs the full resolution links the file in its detail.
+- The pure helpers (`normalizeImages`, stepping, preloading, the swipe decision) are in `js/images-data.js`; unit tests `tests/images.test.mjs`, overlay
+  scenarios `image-viewer` and `back-viewer` ([checks](checks.md)).
+
+Do not open images with `<a target="_blank">` in a board: in an installed app that leaves the app, and Back closes it.
+
 ## Markdown
 
 `markdown(text, { compact, images, className })` shows agent reports: headings, paragraphs, **bold**, *italic*, ~~strikethrough~~, `code` and code blocks

@@ -159,4 +159,12 @@ export default {
   "notif.install.intro.mac": "Safari n'a pas de bouton d'installation. Ajoutez l'application à votre Dock :",
   "shell.openInView": "Ouvrir dans {view}",
   "shell.backAgain": "Appuyez à nouveau sur retour pour fermer",
+  "images.strip": "Images",
+  "images.item": "Image {n} sur {m}",
+  "images.itemAlt": "{alt}, image {n} sur {m}",
+  "images.viewer": "Visionneuse d'images",
+  "images.count": "{n} / {m}",
+  "images.prev": "Image précédente",
+  "images.next": "Image suivante",
+  "images.failed": "L'image n'a pas pu être chargée",
 };

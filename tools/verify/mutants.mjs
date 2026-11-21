@@ -233,6 +233,18 @@ export const MUTANTS = [
     patch: [{ file: 'js/sheet.js', from: "const release = opts.back === false ? null : backLayer(() => close('back'));", to: 'const release = null;' }],
   },
   {
+    // an image viewer that takes no history entry: Back passes it by and closes the detail underneath (in an installed app: the app)
+    id: 'viewer-ignores-back',
+    check: 'overlay', scenarios: ['back-viewer'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: "const release = opts.back === false ? null : backLayer(() => close('back'));", to: 'const release = null;' }],
+  },
+  {
+    // a viewer whose arrow keys wrap round from the last image to the first
+    id: 'viewer-wraps',
+    check: 'overlay', scenarios: ['image-viewer'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: 'const to = stepIndex(cur, m, dir);', to: 'const to = (cur + dir + m) % m;' }],
+  },
+  {
     // earlier timeline fault: overflow-x auto alone makes overflow-y auto; the bars' hit area sticks out a few px below the grid, so a vertical
     // swipe on the timeline scrolled the timeline by about a millimetre and the page did not move
     id: 'timeline-scrolls-vertically',

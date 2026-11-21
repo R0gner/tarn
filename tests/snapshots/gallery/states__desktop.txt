@@ -1,5 +1,5 @@
 # gallery #/states · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x960
+div.tn-app @0,0 1424x1592
   aside.tn-sidebar @0,0 208x900
     div.tn-sidebar-head @8,0 192x44
       div.tn-brand @16,12 108x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 1424x960
         svg.tn-icon @16,608 16x16
         span.tn-ellipsis "Shell and boards" @40,608 104x20
   div.tn-scrim @0,0 1424x900
-  div.tn-main @208,0 1216x960
+  div.tn-main @208,0 1216x1592
     header.tn-toolbar @208,0 1216x44
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
@@ -76,7 +76,7 @@ div.tn-app @0,0 1424x960
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x916
+    main.tn-content @208,44 1216x1548
       section.tn-card @224,60 384x280
         header.tn-card-head @224,60 384x40
           div.tn-card-heading @236,72 360x20
@@ -144,9 +144,45 @@ div.tn-app @0,0 1424x960
           div.tn-banner.tn-banner-warn [status] @236,608 360x68
             svg.tn-icon @252,616 16x16
             div.tn-banner-text "A very long notice with an-unbreakable-path/opt/stack/compos" @276,616 308x52
-      section.tn-card @224,788 1184x140
+      section.tn-card @224,788 1184x612
         header.tn-card-head @224,788 1184x40
           div.tn-card-heading @236,800 1160x20
-            h3.tn-card-title "openSheet() directly" @236,800 1160x20
-        div.tn-card-body @224,828 1184x100
-          button.tn-btn.tn-btn-default @236,840 92x28
+            h3.tn-card-title "imageStrip() and openImageViewer()" @236,800 1160x20
+        div.tn-card-body @224,828 1184x568
+          ul.tn-imgstrip [list] "Images" @236,840 816x104
+            li.tn-imgstrip-item @240,844 128x96
+              button.tn-imgstrip-btn "Front view, image 1 of 6" @240,844 128x96
+                img.tn-imgstrip-img @240,844 128x96
+            li.tn-imgstrip-item @376,844 128x96
+              button.tn-imgstrip-btn "Side view, image 2 of 6" @376,844 128x96
+                img.tn-imgstrip-img @376,844 128x96
+            li.tn-imgstrip-item @512,844 128x96
+              button.tn-imgstrip-btn "Panorama, image 3 of 6" @512,844 128x96
+                img.tn-imgstrip-img @512,844 128x96
+            li.tn-imgstrip-item @648,844 128x96
+              button.tn-imgstrip-btn "Image 4 of 6" @648,844 128x96
+                img.tn-imgstrip-img @648,844 128x96
+            li.tn-imgstrip-item @784,844 128x96
+              button.tn-imgstrip-btn "Image 5 of 6" @784,844 128x96
+                img.tn-imgstrip-img @784,844 128x96
+            li.tn-imgstrip-item @920,844 128x96
+              button.tn-imgstrip-btn "Label with a long description that a screen reader reads in " @920,844 128x96
+                img.tn-imgstrip-img @920,844 128x96
+          ul.tn-imgstrip [list] "Images" @236,976 136x104
+            li.tn-imgstrip-item @240,980 128x96
+              button.tn-imgstrip-btn "Front view, image 1 of 1" @240,980 128x96
+                img.tn-imgstrip-img @240,980 128x96
+          ul.tn-imgstrip [list] "Images" @236,1112 272x104
+            li.tn-imgstrip-item @240,1116 128x96
+              button.tn-imgstrip-btn "Side view, image 1 of 2" @240,1116 128x96
+                img.tn-imgstrip-img @240,1116 128x96
+            li.tn-imgstrip-item @376,1116 128x96
+              button.tn-imgstrip-btn "Image 2 of 2" @376,1116 128x96
+                img.tn-imgstrip-img.is-broken @376,1116 128x96
+          button.tn-btn.tn-btn-default @236,1276 132x28
+      section.tn-card @224,1420 1184x140
+        header.tn-card-head @224,1420 1184x40
+          div.tn-card-heading @236,1432 1160x20
+            h3.tn-card-title "openSheet() directly" @236,1432 1160x20
+        div.tn-card-body @224,1460 1184x100
+          button.tn-btn.tn-btn-default @236,1472 92x28

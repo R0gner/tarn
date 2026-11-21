@@ -13,6 +13,8 @@ export { filterBar, matchFilters } from './filterbar.js';
 export { confirm } from './confirm.js';
 export { actionRun } from './actionrun.js';
 export { openSheet } from './sheet.js';
+export { imageStrip, openImageViewer } from './images.js';
+export { normalizeImages } from './images-data.js';
 export { markdown } from './markdown.js';
 export { dataCard } from './datacard.js';
 export { dataSource, promSource, combineSources } from './data.js';
