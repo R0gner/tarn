@@ -3,6 +3,17 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.9.2
+
+### Changed
+- The title of a detail (inspector, panel, bottom sheet) and of `openSheet()` is always whole: it wraps over as many lines as it needs instead
+  of ending in "…" (Markt-Scout: long listing titles were cut). The inspector head grows with it. Overlay scenario `detail-long-title`, mutant
+  `detail-title-ellipsis`.
+- `table()`: 50 rows at first instead of 20 (`PAGE_SIZE`), and the next ones load by themselves while scrolling – an `IntersectionObserver`
+  draws the next step when the footer comes within 600 px (`MORE_AHEAD`) of the visible area; the *Show more* button stays as the fallback
+  (no observer, or the user prefers to tap). `pageSize` keeps working (`0` = all). Overlay scenario `table-load-more`, mutant
+  `table-no-auto-more`.
+
 ## 0.9.1
 
 ### Fixed

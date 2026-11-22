@@ -166,6 +166,19 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "if (!viewChanged && (paramsChanged || rangeChanged)) {", to: "if (!viewChanged && rangeChanged) {" }],
   },
   {
+    // the 0.9.1 table: only the "Show more" button loads more rows
+    id: 'table-no-auto-more',
+    check: 'overlay', scenarios: ['table-load-more'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/table.js', from: '    drawMore();\n    watchMore();\n', to: '    drawMore();\n' }],
+  },
+  {
+    // the 0.9.1 detail head: the title in one line ending in "…"
+    id: 'detail-title-ellipsis',
+    check: 'overlay', scenarios: ['detail-long-title'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "const inspTitle = h('h2', { class: 'tn-sheet-title' });", to: "const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });" },
+      { file: 'js/sheet.js', from: "const titleEl = h('h2', { class: 'tn-sheet-title' });", to: "const titleEl = h('h2', { class: 'tn-sheet-title tn-ellipsis' });" }],
+  },
+  {
     // the 0.9.0 fault: ctx.params holds the open detail and go() takes it from params; a switch built from them reopens a detail that was
     // closed meanwhile (both guards off – each alone already keeps the detail closed)
     id: 'stale-open-in-params',

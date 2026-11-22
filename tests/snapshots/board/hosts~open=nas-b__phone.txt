@@ -157,7 +157,7 @@ dialog.tn-sheet.is-open @0,284 392x560
   div.tn-sheet-grip @0,284 392x16
   header.tn-sheet-head @0,300 392x48
     div.tn-sheet-heading @16,300 320x36
-      h2.tn-sheet-title.tn-ellipsis "nas-b" @16,300 320x20
+      h2.tn-sheet-title "nas-b" @16,300 320x20
       div.tn-sheet-sub "Offsite archive" @16,320 320x16
     button.tn-iconbtn "Close" @344,300 40x40
       svg.tn-icon @356,312 16x16

@@ -279,7 +279,7 @@ div.tn-app @0,0 1424x1340
   aside.tn-inspector "Details" @1044,0 380x900
     header.tn-sheet-head @1048,0 380x44
       div.tn-sheet-heading @1064,4 320x36
-        h2.tn-sheet-title.tn-ellipsis "Offsite archive sync" @1064,4 320x20
+        h2.tn-sheet-title "Offsite archive sync" @1064,4 320x20
         div.tn-sheet-sub "nas-b · Backup" @1064,24 320x16
       button.tn-iconbtn "Close details" @1388,8 28x28
         svg.tn-icon @1396,12 16x16

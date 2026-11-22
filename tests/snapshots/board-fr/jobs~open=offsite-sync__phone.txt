@@ -149,7 +149,7 @@ dialog.tn-sheet.is-open @0,100 392x744
   div.tn-sheet-grip @0,100 392x16
   header.tn-sheet-head @0,116 392x48
     div.tn-sheet-heading @16,120 320x36
-      h2.tn-sheet-title.tn-ellipsis "Offsite archive sync" @16,120 320x20
+      h2.tn-sheet-title "Offsite archive sync" @16,120 320x20
       div.tn-sheet-sub "nas-b · backup" @16,140 320x16
     button.tn-iconbtn "Fermer" @344,116 40x40
       svg.tn-icon @356,128 16x16

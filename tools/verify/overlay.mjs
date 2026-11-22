@@ -465,6 +465,52 @@ export const SCENARIOS = [
     } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync') },
+  { id: 'table-load-more', page: 'gallery', hash: 'table?rows=300', overlay: '.tn-toolbar-title', focus: false,
+    // long tables (0.9.2): 50 rows at first, the next 50 come by themselves when the footer scrolls near the visible area; the "Show more"
+    // button stays and still works (fallback); at the end the footer disappears
+    open: (io) => io.until(`!!document.querySelector('.tn-table-more:not([hidden])')`, 4000),
+    assert: async (io) => {
+      const left = [];
+      const n = () => io.eval(`Math.max(...[...document.querySelectorAll('.tn-table')].map((t) => t.tBodies[0]?.rows.length || 0))`);
+      const n0 = await n();
+      if (n0 !== 50) left.push(`the table draws ${n0} rows at first (50 expected)`);
+      await io.eval(`(() => { document.querySelector('.tn-table-more').scrollIntoView({ block: 'end', behavior: 'instant' }); return null; })()`);
+      if (!(await io.until(`Math.max(...[...document.querySelectorAll('.tn-table')].map((t) => t.tBodies[0]?.rows.length || 0)) >= 100`, 2000))) left.push(`scrolling to the end of the table loaded nothing (${await n()} rows)`);
+      const n1 = await n();
+      await io.press('.tn-table-more .tn-btn');
+      await sleep(200);
+      if (!((await n()) > n1)) left.push('the "Show more" button no longer adds rows');
+      for (let i = 0; i < 10 && (await n()) < 300; i++) {
+        await io.eval(`(() => { const m = document.querySelector('.tn-table-more'); if (m && !m.hidden) m.scrollIntoView({ block: 'end', behavior: 'instant' }); return null; })()`);
+        await sleep(150);
+      }
+      if ((await n()) !== 300) left.push(`scrolling down did not reach all rows (${await n()} of 300)`);
+      if (!(await io.eval(`!!document.querySelector('.tn-table-more')?.hidden`))) left.push('the footer stays after the last row');
+      return left;
+    } },
+  { id: 'detail-long-title', page: 'board', hash: 'jobs?open=offsite-sync', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: false,
+    // the title of a detail is always whole (0.9.2, Markt-Scout: long listing titles ended in "…"): it wraps, nothing is cut, the close button
+    // keeps its place; also in a sheet opened through openSheet()
+    open: (io) => io.until(`!!document.querySelector('dialog.tn-sheet[open] .tn-sheet-title, .tn-inspector:not([hidden]) .tn-sheet-title')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const LONG = 'Offsite archive sync of the complete photo library and all family videos to the second NAS in the garage, weekly full run with checksum verification';
+      const probe = (sel) => io.eval(`(() => { const el = document.querySelector(${JSON.stringify(sel)}); if (!el) return null; el.textContent = ${JSON.stringify(LONG)};
+        const s = getComputedStyle(el), r = el.getBoundingClientRect(), lh = parseFloat(s.lineHeight) || parseFloat(s.fontSize) * 1.3;
+        const x = el.closest('.tn-sheet-head')?.querySelector('button')?.getBoundingClientRect();
+        return { cut: el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1 || s.textOverflow === 'ellipsis' || s.whiteSpace === 'nowrap',
+          lines: Math.round(r.height / lh), inside: r.right <= innerWidth + 1, xOk: !x || (x.width >= 24 && x.left >= r.right - 1) }; })()`);
+      const a = await probe('dialog.tn-sheet[open] .tn-sheet-title, .tn-inspector:not([hidden]) .tn-sheet-title');
+      if (!a) return ['no detail title'];
+      if (a.cut) left.push('the detail title is cut off instead of wrapping');
+      if (a.lines < 2) left.push(`the long detail title takes ${a.lines} line(s)`);
+      if (!a.inside || !a.xOk) left.push('the wrapped title pushes the close button away or leaves the screen');
+      await io.eval(`(() => { window.tnApp.closeDetail(); return true; })()`); await sleep(300);
+      await io.eval(`${MOD}.then((m) => { m.openSheet({ title: 'x', body: ['text'] }); return true; })`); await sleep(400);
+      const b = await probe('dialog.tn-sheet[open] .tn-sheet-title');
+      if (b && b.cut) left.push('the title of openSheet() is cut off instead of wrapping');
+      return left;
+    } },
   { id: 'sheet', page: 'gallery', hash: 'states', overlay: 'dialog.tn-sheet[open]', focus: true,
     open: (io) => io.press('.tn-btn', 'Open sheet') },
   { id: 'sheet-menu', page: 'board', hash: 'jobs?open=offsite-sync', overlay: '.tn-menu', focus: true,

@@ -79,7 +79,7 @@ rows.filter((row) => matchFilters(row, state.f, (row, key) => ({ failing: row.fa
 - The filter sheet has one calm group per filter with its own *Clear*. Its controls are built once and only synchronised afterwards, so the focus stays
   where the user is. When a view is redrawn for new data the filter bar is built again from the board's state (`filterBar({ value: state })`): the shell
   gives focus and caret back to the field the user was typing in.
-- Long results: `table({ pageSize })` draws the first 20 rows (`0` = all) and *Show more* adds the next ones. Drawing rows, not filtering, is what costs time.
+- Long results: `table({ pageSize })` draws the first 50 rows (`0` = all) and loads the next ones while scrolling (*Show more* as the fallback). Drawing rows, not filtering, is what costs time.
 
 ## Forms
 

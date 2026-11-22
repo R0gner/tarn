@@ -77,7 +77,7 @@ actions (`toolbarRow`, `menu`).
 table({
   columns: [{ key, label, get?, render?, align?: 'right', width?, mono?, wrap?, sortable?: true, mobile?: 'title' | 'value' | 'sub' | 'hide' }],
   rows, rowKey?, onRow?, status?: (row) => Status, sort?: { key, dir }, onSort?, selected?: key,
-  empty?: 'text', caption?, pageSize?: 20,
+  empty?: 'text', caption?, pageSize?: 50,
 })  // → element with .update({ rows, selected })
 ```
 
@@ -86,7 +86,7 @@ table({
 - Cells do not wrap except the title column and columns with `wrap: true` (schedules, long texts).
 - It becomes a two-line list (`.is-list`) when the container is narrower than 600 px or the columns no longer fit. `mobile` assigns a column its place
   there; without it the first column is the title, the last right-aligned one the value, the rest the sub line (joined with “·”).
-- `pageSize` rows are drawn at first (default 20, `0` = all) and a *Show more* footer adds the next ones. Drawing rows, not filtering, is what costs time.
+- `pageSize` rows are drawn at first (default 50, `0` = all); the next ones load by themselves when the footer comes near the visible area while scrolling (`IntersectionObserver`), the *Show more* button stays as the fallback. Drawing rows, not filtering, is what costs time.
 - Sorting uses `sortRows()` (stable, numbers and dates numerically, text in the locale's natural order, empty values last).
 
 ## Feedback and overlays

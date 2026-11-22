@@ -19,12 +19,17 @@ import { t } from './i18n.js';
 /** @typedef {{ columns: TableColumn[], rows?: any[], rowKey?: (row: any) => string | number | null | undefined, onRow?: (row: any) => void, onSort?: (sort: SortState) => void, status?: (row: any) => Status | undefined, sort?: SortState | null, selected?: string | number | null, empty?: string, caption?: string, pageSize?: number }} TableOptions */
 /** @typedef {HTMLElement & { update: (o?: { rows?: any[], selected?: string | number | null }) => void }} TableElement */
 
+/** Rows drawn at first and per step (0.9.2: 50 instead of 20; the next ones come by themselves while scrolling). */
+export const PAGE_SIZE = 50;
+/** The next rows are drawn when the footer comes within this many px below the visible area. */
+export const MORE_AHEAD = 600;
+
 /**
  * table({
  *   columns: [{ key, label, get?(row), render?(row), align?: 'right', width?, mono?, wrap?, sortable?: true,
  *               mobile?: 'title' | 'value' | 'sub' | 'hide' }],
  *   rows, rowKey?(row), onRow?(row), status?(row) → Status, sort?: { key, dir }, selected?: key,
- *   empty?: 'text', caption?, pageSize?: 20 (rows drawn at first; “Show more” adds the next ones; 0 = all)
+ *   empty?: 'text', caption?, pageSize?: 50 (rows drawn at first and per step; the next ones load while scrolling, “Show more” stays as the fallback; 0 = all)
  * }) → element with .update({ rows, selected })
  * Cells do not wrap (except the title column and wrap: true for longer texts such as schedules).
  * Without mobile: first column = title, last right-aligned = value, rest = sub.
@@ -50,7 +55,8 @@ export function table(opts) {
   /** @type {string | number | null} */
   let selected = opts.selected ?? null;
   const key = opts.rowKey || ((r) => r.id);
-  const pageSize = opts.pageSize ?? 20;   // drawing many rows is the expensive part (layout), not filtering: stay within the “direct” budget
+  const pageSize = opts.pageSize ?? PAGE_SIZE;   // drawing many rows is the expensive part (layout), not filtering: stay within the “direct” budget
+  /** @type {IntersectionObserver | null} */ let io = null;
   /** @type {any[]} */ let shown = [];
   /** @type {HTMLElement | null} */ let tbody = null;
   /** @type {HTMLElement | null} */ let more = null;
@@ -121,12 +127,24 @@ export function table(opts) {
     const left = shown.length - drawn;
     more.hidden = left <= 0;
     /** @type {HTMLElement} */ (more.querySelector('.tn-table-more-n')).textContent = t('table.shown', { shown: drawn, total: shown.length });
+    // still near the visible area after these rows (short rows, a tall screen): observe anew, the observer reports the current state at once
+    if (io && left > 0) { io.unobserve(more); io.observe(more); }
+  }
+  /** Load on scroll: the footer coming within MORE_AHEAD px of the visible area draws the next rows; the button stays as the fallback. */
+  function watchMore() {
+    io?.disconnect();
+    io = null;
+    if (!more || pageSize <= 0 || typeof IntersectionObserver !== 'function') return;
+    io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting) && more && !more.hidden && more.isConnected) drawMore();
+    }, { rootMargin: `0px 0px ${MORE_AHEAD}px 0px` });
+    io.observe(more);
   }
   function render() {
     shown = rows;
     if (sort) { const sk = sort; const c = cols.find((x) => x.key === sk.key); if (c) shown = sortRows(rows, (/** @type {any} */ r) => val(c, r), sk.dir); }
     drawn = 0;
-    if (!shown.length) { wrap.replaceChildren(empty({ title: opts.empty || t('common.noEntries'), compact: true })); return; }
+    if (!shown.length) { io?.disconnect(); io = null; wrap.replaceChildren(empty({ title: opts.empty || t('common.noEntries'), compact: true })); return; }
     tbody = h('tbody');
     more = h('div', { class: 'tn-table-more', hidden: true },
       h('span', { class: 'tn-table-more-n' }),
@@ -136,6 +154,7 @@ export function table(opts) {
       h('thead', null, h('tr', null, opts.status && h('th', { class: 'tn-td-status', 'aria-label': 'Status' }), cols.map(headCell), h('th', { class: 'tn-td-m' }), opts.onRow && h('th', { class: 'tn-td-go' }))),
       tbody), more);
     drawMore();
+    watchMore();
     natural = 0; setList(false); fit();
   }
   const tableEl = Object.assign(wrap, {

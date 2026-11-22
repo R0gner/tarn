@@ -93,7 +93,7 @@
   border-left: 1px solid var(--tn-sep);
   background: var(--tn-bg);
 }
-.tn-inspector .tn-sheet-head { height: var(--tn-toolbar-h); padding-top: 0; padding-bottom: 0; border-bottom: 1px solid var(--tn-sep); }
+.tn-inspector .tn-sheet-head { min-height: var(--tn-toolbar-h); padding-top: 0; padding-bottom: 0; border-bottom: 1px solid var(--tn-sep); }
 .tn-inspector-body { flex: 1; overflow: auto; overscroll-behavior: contain; padding: var(--tn-s4); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; }
 
 .tn-scrim {
@@ -425,7 +425,8 @@ dialog.tn-confirm::backdrop { background: var(--tn-scrim); }
 .tn-sheet-grip { display: none; }
 .tn-sheet-head { display: flex; align-items: center; gap: var(--tn-s2); padding: var(--tn-s2) var(--tn-s2) var(--tn-s2) var(--tn-s4); border-bottom: 1px solid var(--tn-sep); flex: none; min-height: var(--tn-toolbar-h); }
 .tn-sheet-heading { flex: 1; min-width: 0; }
-.tn-sheet-title { font-size: var(--tn-fs-lg); font-weight: var(--tn-fw-strong); }
+/* the title of a sheet or detail is always whole: it wraps over as many lines as it needs (a long listing title), never "…" */
+.tn-sheet-title { font-size: var(--tn-fs-lg); font-weight: var(--tn-fw-strong); overflow-wrap: break-word; text-wrap: pretty; }
 .tn-sheet-sub { font-size: var(--tn-fs-label); color: var(--tn-text-2); overflow-wrap: anywhere; }
 .tn-sheet-body { flex: 1; overflow: auto; overscroll-behavior: contain; padding: var(--tn-s4); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; padding-bottom: max(var(--tn-s4), env(safe-area-inset-bottom)); }
 .tn-sheet-foot { display: flex; justify-content: flex-end; gap: var(--tn-s2); padding: var(--tn-s2) var(--tn-s3); border-top: 1px solid var(--tn-sep); flex: none; }

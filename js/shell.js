@@ -180,7 +180,7 @@ export function createApp(cfg0) {
   const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
-  const inspTitle = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
+  const inspTitle = h('h2', { class: 'tn-sheet-title' });
   const inspSub = h('div', { class: 'tn-sheet-sub' });
   const inspBody = h('div', { class: 'tn-inspector-body' });
   const inspector = h('aside', { class: 'tn-inspector', 'aria-label': t('shell.details'), hidden: true },

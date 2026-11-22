@@ -51,7 +51,7 @@ function lock(on) {
  * @returns {Sheet}
  */
 export function openSheet(opts = {}) {
-  const titleEl = h('h2', { class: 'tn-sheet-title tn-ellipsis' });
+  const titleEl = h('h2', { class: 'tn-sheet-title' });
   const subEl = h('div', { class: 'tn-sheet-sub' });
   const bodyEl = h('div', { class: 'tn-sheet-body', tabindex: '-1' });
   const footEl = h('div', { class: 'tn-sheet-foot' });
