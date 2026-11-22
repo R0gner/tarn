@@ -3,6 +3,13 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.10.1
+
+### Fixed
+- A view opened again while its own source still fails showed its loading state until the next fetch of the app source (up to its
+  interval): the second failure brought the same error, so nothing changed and the view was not drawn again. The shell now redraws the view
+  when a load ends in an error, also an unchanged one (found by the Homelab Board's check with failing metrics, which opens that view twice).
+
 ## 0.10.0
 
 ### Changed
