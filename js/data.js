@@ -4,13 +4,14 @@
 //   dataSource     – one JSON URL (collector output, a board backend)
 //   promSource     – named PromQL queries against the Prometheus HTTP API (VictoriaMetrics answers it as well)
 //   combineSources – several sources as one: data = { name: data of that source }
-// The browser handles gzip (Content-Encoding). Polling pauses while the tab is hidden and reloads on return if the interval has elapsed.
+// The browser handles gzip (Content-Encoding). Polling pauses while the tab is hidden and reloads on return if the interval has elapsed
+// (dataSource refreshOnShow: at once). dataSource revalidate: conditional GET with the last ETag; a 304 keeps the data (no parse, same object).
 import './locales/shell.js';   // texts of the error messages (data.*)
 import { t } from './i18n.js';
 import { fmtDuration } from './format.js';
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
-/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. */
+/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number, revalidate?: boolean, refreshOnShow?: boolean }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. `revalidate`: send the last ETag as If-None-Match, a 304 keeps the data and counts as current (a live backend). `refreshOnShow`: fetch at once when the tab becomes visible again, not only after the interval. */
 /** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[] }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts). */
 /** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /**
@@ -44,10 +45,10 @@ const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error:
  * `run(signal)` fetches once and returns the new data (or throws); `onResult` may merge partial results itself.
  * @param {{
  *   run: (signal: AbortSignal) => Promise<{ data: any, baseAge?: number | null, error?: string | null, fetchedAt?: number | null }>,
- *   interval: () => number, staleAfter: () => number, now: () => number, timeout: number,
+ *   interval: () => number, staleAfter: () => number, now: () => number, timeout: number, refreshOnShow?: boolean,
  * }} o
  */
-function poller({ run, interval, staleAfter, now, timeout }) {
+function poller({ run, interval, staleAfter, now, timeout, refreshOnShow = false }) {
   /** @type {Set<(state: DataState) => void>} */
   const subs = new Set();
   /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null }} */
@@ -104,7 +105,7 @@ function poller({ run, interval, staleAfter, now, timeout }) {
   }
   function onVis() {
     if (document.hidden) { clearTimeout(timer); return; }
-    const due = st.fetchedAt == null || now() - st.fetchedAt >= interval();
+    const due = refreshOnShow || st.fetchedAt == null || now() - st.fetchedAt >= interval();
     if (running && due) reload(); else schedule();
   }
   return {
@@ -129,15 +130,23 @@ function poller({ run, interval, staleAfter, now, timeout }) {
  * @param {DataSourceOptions} o
  * @returns {DataSource}
  */
-export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000 }) {
+export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000, revalidate = false, refreshOnShow = false }) {
+  /** @type {string | null} ETag of the data held (revalidate only) */
+  let etag = null;
   const p = poller({
-    interval: () => interval, staleAfter: () => staleAfter, now, timeout,
+    interval: () => interval, staleAfter: () => staleAfter, now, timeout, refreshOnShow,
     async run(signal) {
-      const r = await fx(url, { cache: 'no-store', headers: { Accept: 'application/json' }, signal });
+      /** @type {Record<string, string>} */
+      const headers = { Accept: 'application/json' };
+      if (revalidate && etag && p.st.data != null) headers['If-None-Match'] = etag;
+      const r = await fx(url, { cache: 'no-store', headers, signal });
+      // 304: the server confirms the data held is still current – keep it (same object, no parse), age restarts
+      if (r.status === 304 && headers['If-None-Match']) return { data: p.st.data, baseAge: 0 };
       const body = await r.json().catch(() => null);
       if (!r.ok) throw new Error(body?.error || `HTTP ${r.status}`);
       if (body == null) throw new Error(t('data.notJson'));
       const data = parse(body);
+      if (revalidate) etag = r.headers?.get?.('ETag') || null;
       return { data, baseAge: ageOf ? ageOf(data) : 0 };
     },
   });

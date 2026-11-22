@@ -6,4 +6,4 @@ export const NAME = 'tarn';
 /** CSS class / custom property / storage key prefix. */
 export const PREFIX = 'tn-';
 /** Kit version (semver). */
-export const VERSION = '0.8.3';
+export const VERSION = '0.8.4';

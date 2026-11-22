@@ -3,6 +3,15 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.4
+
+### Added
+- `dataSource({ revalidate, refreshOnShow })` for live backends (Markt-Scout: the dashboard reads straight from its database instead of a
+  snapshot file). `revalidate: true` sends the ETag of the data held as `If-None-Match`; a `304` keeps the data – the same object, `parse` does
+  not run – and confirms it as current (`fetchedAt` now, age 0), a `200` replaces it and remembers the new ETag. `refreshOnShow: true` fetches at
+  once when the tab becomes visible again instead of only when the interval has passed; hidden tabs still never poll. Both default to `false`,
+  so existing boards behave as before. Docs: docs/data.md "JSON: dataSource"; tests `tests/datasource.test.mjs`.
+
 ## 0.8.3
 
 ### Fixed

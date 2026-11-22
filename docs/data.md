@@ -41,9 +41,24 @@ source.start();                     // the shell subscribes, it does not start t
 More options: `timeout` (ms, default 30 000; the error then reads “Timed out after 30 s” in the active language), and for tests `fetch` (replaces `globalThis.fetch`) and `now`
 (replaces `Date.now`).
 
+For a **live backend** (the server builds the answer from its database on request and sends an `ETag`):
+
+```js
+const source = dataSource({ url: '/api/snapshot', interval: 30_000, staleAfter: 600, ageOf: (d) => d.ageSec,
+  revalidate: true,                 // If-None-Match with the last ETag; 304 = nothing changed
+  refreshOnShow: true });           // back in the tab: fetch at once, not only when the interval has passed
+```
+
+- `revalidate` (default `false`): every request after the first carries `If-None-Match` with the ETag of the data held. A `304` keeps the data
+  (the same object, `parse` does not run) and counts as confirmation that it is current: `fetchedAt` is now and the age starts again at 0. So
+  `ageOf` must describe the data at the time of the answer (a live server answers `0`); a file snapshot that only gets older is not a case for
+  `revalidate`. A `200` replaces the data and remembers its `ETag`.
+- `refreshOnShow` (default `false`): on return to the tab the source fetches at once (with `revalidate` usually a 304 of a few hundred bytes).
+  Hidden, it never polls either way.
+
 - The request is `GET url` with `Accept: application/json` and `cache: 'no-store'`; the browser handles `gzip`. A non-2xx answer is an error; if the body is
   JSON with an `error` field, that text is shown, otherwise `HTTP <status>`. A body that is not JSON is an error too.
-- While the tab is hidden the timer pauses; on return it fetches at once if the interval has passed.
+- While the tab is hidden the timer pauses; on return it fetches at once if the interval has passed (with `refreshOnShow`: always).
 - After an error the next try comes after the shorter of `interval` and 15 s.
 - Prepare raw data once in `parse` (points in time, problems, sorting): views do not calculate.
 
