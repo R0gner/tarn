@@ -1,6 +1,6 @@
 {
   "name": "@r0gner/tarn",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "private": true,
   "description": "Tarn: a small design system for dense, calm operations interfaces. Plain ES modules and CSS, no build step. Core (primitives, inputs) and ops shell.",
   "license": "MIT",
@@ -40,6 +40,7 @@
     "icons/bookmark.svg",
     "icons/box.svg",
     "icons/calendar.svg",
+    "icons/camera.svg",
     "icons/chart-column.svg",
     "icons/check.svg",
     "icons/chevron-down.svg",

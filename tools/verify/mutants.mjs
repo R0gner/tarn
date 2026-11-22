@@ -239,6 +239,12 @@ export const MUTANTS = [
     patch: [{ file: 'js/images.js', from: "const release = opts.back === false ? null : backLayer(() => close('back'));", to: 'const release = null;' }],
   },
   {
+    // the 0.8.2 head: counter and close button straight on the picture (light grey, no veil), unreadable on a light image
+    id: 'viewer-controls-no-veil',
+    check: 'overlay', scenarios: ['image-viewer'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'css/components.css', from: 'border-radius: var(--tn-pill-h); background: var(--tn-media-veil); color: var(--tn-text-on-media);', to: 'border-radius: var(--tn-pill-h); color: var(--tn-text-2);' }],
+  },
+  {
     // a viewer whose arrow keys wrap round from the last image to the first
     id: 'viewer-wraps',
     check: 'overlay', scenarios: ['image-viewer'], sizes: ['desktop'], expect: ['overlay-behaviour'],

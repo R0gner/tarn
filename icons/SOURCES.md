@@ -16,6 +16,7 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `bookmark` | `bookmark.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bookmark.svg | `1d5023760db81f21c3b5a63f012ef540acc01932731c733e4645012a876d39f4` |
 | `box` | `box.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/box.svg | `511862693d914d2bf1947c9ccc513595f2a256541f5dd4f6f9ac8383cd41ac4f` |
 | `calendar` | `calendar.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/calendar.svg | `312ac8e715ac2b71bcc942dec2e8de9c1929085474f08885af35b563f6aa7a0b` |
+| `camera` | `camera.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/camera.svg | `ebbb3178dd80dfd942770a2237fe7bfc3515c55c7daa9d3666933a656d2790e3` |
 | `chart` | `chart-column.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chart-column.svg | `80664a4c5ca1bca10bcb88c1a99f62593c94d61d72d3a4bbf577eb3f3ea4da57` |
 | `check` | `check.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/check.svg | `7f33acc9a77a61659531044525fc008edebe215bf4dcf1c789c8674ad3277db0` |
 | `chevron-down` | `chevron-down.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chevron-down.svg | `66ea878e72ed3488bb3b464c39dfdccee8d1f78e560dccea40e5e12da0e87e87` |

@@ -174,6 +174,23 @@ export const SCENARIOS = [
         return { ok: i.width > 0 && i.top >= hd.bottom - 1 && i.bottom <= innerHeight + 1 && i.left >= -1 && i.right <= vw + 1 && n.right <= vw + 1, r: [i.left, i.top, i.right, i.bottom, n.right, vw].map(Math.round).join(',') }; })()`);
       if (!fit.ok) left.push(`the image does not fit the free area below the head (${fit.r})`);
       if (s.alt !== 'Front view, image 1 of 6') left.push(`image name is “${s.alt}”`);
+      // counter, close and paging lie over the picture (a zoomed image reaches under the head): each has its own dark veil, so white text and
+      // icons stay readable on any picture – contrast ≥ 4.5 over a white and over a black image, targets ≥ 44 px, outside the zooming stage
+      const chrome = await io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]');
+        const rgba = (c) => { const m = c.match(/[\\d.]+/g).map(Number); return { r: m[0], g: m[1], b: m[2], a: m.length > 3 ? m[3] : 1 }; };
+        const over = (c, base) => [c.r, c.g, c.b].map((v, i) => v * c.a + base[i] * (1 - c.a));
+        const lum = (rgb) => { const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]); };
+        const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+        return [['counter', '.tn-viewer-badge'], ['close', '.tn-viewer-x'], ['next', '.tn-viewer-next']].map(([name, sel]) => {
+          const el = d.querySelector(sel), s = getComputedStyle(el), bg = rgba(s.backgroundColor), fg = rgba(s.color), r = el.getBoundingClientRect();
+          const worst = Math.min(...[[255, 255, 255], [0, 0, 0]].map((img) => { const b = over(bg, img); return ratio(over(fg, b), b); }));
+          return { name, veil: bg.a, worst: Math.round(worst * 100) / 100, w: Math.round(r.width), h: Math.round(r.height), inStage: !!el.closest('.tn-viewer-stage'), button: el.tagName === 'BUTTON' };
+        }); })()`);
+      for (const c of chrome) {
+        if (c.veil < 0.5 || c.worst < 4.5) left.push(`the ${c.name} is not readable on every picture (veil alpha ${c.veil}, worst contrast ${c.worst} over a white or black image)`);
+        if (c.button && (c.w < 44 || c.h < 44)) left.push(`the ${c.name} button is ${c.w}×${c.h} px, below 44 px`);
+        if (c.inStage) left.push(`the ${c.name} lies inside the stage and zooms with the picture`);
+      }
       await io.key('ArrowRight', 39); await sleep(40);
       s = await st();
       if (s.count !== '2 / 6' || !/photo-2/.test(s.src)) left.push(`ArrowRight shows ${s.count}`);

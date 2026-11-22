@@ -470,6 +470,8 @@ dialog.tn-viewer {
   opacity: 0; transition: opacity var(--tn-t-close) var(--tn-ease);
 }
 dialog.tn-viewer:not([open]) { display: none; }
+/* head: the toolbar height plus a margin so the round buttons do not touch the edge; buttons at least 44 px (48 with the comfortable density) */
+dialog.tn-viewer { --tn-viewer-btn: max(var(--tn-sz-44), var(--tn-hit)); --tn-viewer-head-h: calc(max(var(--tn-toolbar-h), var(--tn-viewer-btn)) + var(--tn-s2)); }
 dialog.tn-viewer.is-open { opacity: 1; transition-duration: var(--tn-t-open); transition-delay: var(--tn-t-lead); }
 dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
 .tn-viewer-stage { position: absolute; inset: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
@@ -480,7 +482,7 @@ dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
 /* the frame has a definite size (inset), so the image's max-width/max-height in % fit it into the free area below the head */
 .tn-viewer-frame {
   position: absolute; display: flex; align-items: center; justify-content: center;
-  inset: calc(var(--tn-toolbar-h) + env(safe-area-inset-top)) max(var(--tn-s2), env(safe-area-inset-right)) max(var(--tn-s2), env(safe-area-inset-bottom)) max(var(--tn-s2), env(safe-area-inset-left));
+  inset: calc(var(--tn-viewer-head-h) + env(safe-area-inset-top)) max(var(--tn-s2), env(safe-area-inset-right)) max(var(--tn-s2), env(safe-area-inset-bottom)) max(var(--tn-s2), env(safe-area-inset-left));
 }
 .tn-viewer-frame.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
 .tn-viewer-img { display: block; min-width: 0; min-height: 0; max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -489,13 +491,28 @@ dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
 .tn-viewer-img.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
 .tn-viewer-failed { margin: 0; color: var(--tn-text-2); text-align: center; }
 .tn-viewer-head {
-  position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: var(--tn-s2); min-height: var(--tn-toolbar-h);
-  padding: env(safe-area-inset-top) max(var(--tn-s2), env(safe-area-inset-right)) 0 max(var(--tn-s4), env(safe-area-inset-left));
+  position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: var(--tn-s2); min-height: var(--tn-viewer-head-h);
+  padding: env(safe-area-inset-top) max(var(--tn-s2), env(safe-area-inset-right)) 0 max(var(--tn-s2), env(safe-area-inset-left));
 }
-.tn-viewer-count { flex: 1; min-width: 0; color: var(--tn-text-2); font-variant-numeric: tabular-nums; }
+/* counter, close and paging lie over the picture and do not zoom with it: a dark veil behind white text and icons (--tn-media-*), thicker
+   strokes, round targets of at least 44 px (also with a mouse) */
+.tn-viewer-badge {
+  display: inline-flex; align-items: center; gap: var(--tn-sp-6); min-width: 0; height: var(--tn-pill-h); padding: 0 var(--tn-s3);
+  border-radius: var(--tn-pill-h); background: var(--tn-media-veil); color: var(--tn-text-on-media);
+  font-size: var(--tn-fs-body); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.tn-viewer-badge[hidden] { display: none; }
+.tn-viewer-badge > .tn-icon { stroke-width: 2.25; }
+.tn-viewer-count { min-width: 0; }
+.tn-viewer .tn-viewer-x, .tn-viewer .tn-viewer-nav {
+  width: var(--tn-viewer-btn); height: var(--tn-viewer-btn); border-radius: 50%;
+  background: var(--tn-media-veil); color: var(--tn-text-on-media);
+}
+.tn-viewer .tn-viewer-x > .tn-icon, .tn-viewer .tn-viewer-nav > .tn-icon { width: var(--tn-sz-20); height: var(--tn-sz-20); stroke-width: 2.4; }
+.tn-viewer .tn-viewer-x:is(:hover, .is-hover, :active, .is-down), .tn-viewer .tn-viewer-nav:is(:hover, .is-hover, :active, .is-down) { background: var(--tn-media-veil-hover); color: var(--tn-text-on-media); }
 .tn-viewer-x { margin-left: auto; }
-.tn-viewer-nav { position: absolute; top: 50%; transform: translateY(-50%); background: var(--tn-popover); color: var(--tn-text); }
-.tn-viewer .tn-viewer-nav:hover, .tn-viewer .tn-viewer-nav.is-hover { background: var(--tn-card-2); }
+.tn-viewer-nav { position: absolute; top: 50%; transform: translateY(-50%); }
+.tn-viewer-nav[hidden] { display: none; }
 .tn-viewer-prev { left: max(var(--tn-s2), env(safe-area-inset-left)); }
 .tn-viewer-next { right: max(var(--tn-s2), env(safe-area-inset-right)); }
 

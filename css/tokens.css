@@ -27,6 +27,11 @@
   --tn-indicator:     light-dark(oklch(0.70 0.006 265),  oklch(0.43 0.006 265));
   --tn-scrim:         light-dark(rgb(20 22 28 / .32),    rgb(0 0 0 / .5));
   --tn-skeleton:      light-dark(oklch(0.2 0.01 265 / .07), rgb(255 255 255 / .06));
+  /* controls lying over photos (image viewer: counter, close, paging): a fixed dark veil with white text and icons in both themes, readable on any
+     picture – white on the veil over a white image ≥ 5.7:1 (verify image-viewer) */
+  --tn-media-veil:       rgb(0 0 0 / .6);
+  --tn-media-veil-hover: rgb(0 0 0 / .78);
+  --tn-text-on-media:    #fff;
 
   /* Text */
   --tn-text:          light-dark(oklch(0.225 0.006 265), oklch(0.955 0.003 265));

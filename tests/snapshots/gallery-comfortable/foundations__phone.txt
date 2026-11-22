@@ -1,5 +1,5 @@
 # gallery-comfortable #/foundations · phone 390×844 · dunkel
-div.tn-app @0,0 392x2920
+div.tn-app @0,0 392x2960
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-272,0 256x56
       div.tn-brand @-260,16 136x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 392x2920
         svg.tn-icon @-260,968 20x20
         span.tn-ellipsis "Shell and boards" @-228,964 136x24
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x2920
+  div.tn-main @0,0 392x2960
     header.tn-toolbar @0,0 392x56
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
         svg.tn-icon @20,16 20x20
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x2920
       button.tn-fresh "Updated now" @204,4 120x48
       button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
-    main.tn-content @0,56 392x2864
+    main.tn-content @0,56 392x2904
       section.tn-section @16,264 360x324
         header.tn-section-head @16,264 360x24
           h2.tn-section-title "Status" @20,268 356x20
@@ -101,12 +101,12 @@ div.tn-app @0,0 392x2920
             span.tn-stat-label "Label, subtitle" @168,2016 100x20
             span.tn-section-title "Section" @168,2052 188x20
             span.tn-mono "rsync exit 12 · 02:30:00" @168,2100 188x44
-      section.tn-section @16,2184 360x724
+      section.tn-section @16,2184 360x760
         header.tn-section-head @16,2184 360x24
           h2.tn-section-title "Icons" @20,2184 356x20
-            span.tn-section-count "45" @68,2184 20x20
-        section.tn-card @16,2220 360x688
-          div.tn-card-body @16,2220 356x684
+            span.tn-section-count "46" @68,2184 20x20
+        section.tn-card @16,2220 360x724
+          div.tn-card-body @16,2220 356x724
             svg.tn-icon @40,2252 20x20
             svg.tn-icon @148,2252 20x20
             svg.tn-icon @260,2252 20x20
@@ -116,15 +116,15 @@ div.tn-app @0,0 392x2920
             svg.tn-icon @40,2336 20x20
             svg.tn-icon @148,2336 20x20
             svg.tn-icon @260,2336 20x20
-            svg.tn-icon @40,2380 20x20
-            svg.tn-icon @148,2380 20x20
-            svg.tn-icon @260,2380 20x20
-            svg.tn-icon @40,2436 20x20
-            svg.tn-icon @148,2436 20x20
-            svg.tn-icon @260,2436 20x20
-            svg.tn-icon @40,2484 20x20
-            svg.tn-icon @148,2484 20x20
-            svg.tn-icon @260,2484 20x20
+            svg.tn-icon @40,2372 20x20
+            svg.tn-icon @148,2372 20x20
+            svg.tn-icon @260,2372 20x20
+            svg.tn-icon @40,2420 20x20
+            svg.tn-icon @148,2420 20x20
+            svg.tn-icon @260,2420 20x20
+            svg.tn-icon @40,2476 20x20
+            svg.tn-icon @148,2476 20x20
+            svg.tn-icon @260,2476 20x20
             svg.tn-icon @40,2524 20x20
             svg.tn-icon @148,2524 20x20
             svg.tn-icon @260,2524 20x20
@@ -152,3 +152,4 @@ div.tn-app @0,0 392x2920
             svg.tn-icon @40,2852 20x20
             svg.tn-icon @148,2852 20x20
             svg.tn-icon @260,2852 20x20
+            svg.tn-icon @40,2900 20x20

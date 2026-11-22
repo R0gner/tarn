@@ -3,6 +3,22 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.3
+
+### Fixed
+- Image viewer: the counter "1 / 2" and the *x* stood straight on the picture, thin and light grey – on a light photo, and on a zoomed one that
+  reaches under the head, they were hard to see (Markt-Scout on Android). Now the counter is a dark pill with a camera icon, *x* and the paging
+  arrows are dark round buttons; all three have a fixed veil `rgb(0 0 0 / .6)` behind white text and icons with thicker strokes, independent of
+  the picture and its zoom (they lie above the stage and do not zoom). White on the veil over a white image is 5.7:1. The buttons are at least
+  44 px (48 with the comfortable density) with every pointer; the head is the toolbar height plus a margin and keeps clear of the status bar and
+  a notch (`env(safe-area-inset-*)`); the image frame starts below it as before.
+
+### Added
+- Tokens `--tn-media-veil`, `--tn-media-veil-hover`, `--tn-text-on-media` (controls over photos; same value in both themes). Icon `camera`
+  (Lucide).
+- verify: the `image-viewer` scenario checks counter, *x* and the next button – each has its own veil (alpha ≥ .5), contrast ≥ 4.5 over a white
+  and over a black picture, buttons ≥ 44 px, none inside the zooming stage; mutant `viewer-controls-no-veil` (the 0.8.2 head).
+
 ## 0.8.2
 
 ### Added

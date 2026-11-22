@@ -12,6 +12,7 @@ import { h, tokenMs } from './dom.js';
 import { t } from './i18n.js';
 import { fmtNum } from './format.js';
 import { iconButton } from './primitives.js';
+import { icon } from './icons.js';
 import { backLayer, lockScroll } from './sheet.js';
 import {
   normalizeImages, clampIndex, stepIndex, neighbours, swipeResult, nextZoomStep, clampScale, panLimits, clampPan, zoomAt, panHandoff, isDoubleTap,
@@ -109,12 +110,15 @@ export function openImageViewer(images, opts = {}) {
   };
   const track = h('div', { class: 'tn-viewer-track' }, slides.map((sl) => sl.el));
   const stage = h('div', { class: 'tn-viewer-stage', tabindex: '-1' }, track);
+  // counter and buttons lie over the picture (a zoomed image reaches under the head): each sits on a fixed dark veil (pill, circles) with white
+  // text and icons, readable on any picture (verify: image-viewer checks the contrast over a white and a black image)
   const count = h('span', { class: 'tn-viewer-count', 'aria-live': 'polite' });
+  const badge = h('span', { class: 'tn-viewer-badge' }, icon('camera'), count);
   const prev = iconButton('chevron-left', { label: t('images.prev'), onClick: () => go(-1), className: 'tn-viewer-nav tn-viewer-prev' });
   const next = iconButton('chevron-right', { label: t('images.next'), onClick: () => go(1), className: 'tn-viewer-nav tn-viewer-next' });
   const x = iconButton('x', { label: t('common.close'), onClick: () => close('x'), className: 'tn-viewer-x' });
   const d = h('dialog', { class: 'tn-viewer', 'aria-label': opts.label || t('images.viewer') },
-    stage, h('header', { class: 'tn-viewer-head' }, count, x), prev, next);
+    stage, h('header', { class: 'tn-viewer-head' }, badge, x), prev, next);
 
   /** an element animates to its next transform with the closing duration (0 with reduced motion), then the class goes again */
   const settle = (/** @type {HTMLElement} */ el, /** @type {string} */ tr) => {
@@ -168,7 +172,7 @@ export function openImageViewer(images, opts = {}) {
     const n = fmtNum(cur + 1, 0), total = fmtNum(m, 0);
     sl.img.alt = sl.it.alt ? t('images.itemAlt', { alt: sl.it.alt, n, m: total }) : t('images.item', { n, m: total });
     count.textContent = t('images.count', { n, m: total });
-    count.hidden = m < 2;
+    badge.hidden = m < 2;
     prev.hidden = cur === 0;
     next.hidden = cur === m - 1;
     trackAt(0, animate);

@@ -117,7 +117,9 @@ at that image; `onOpen(index, images)` replaces that.
 
 `openImageViewer(images, { index, label, onChange, onClose, returnFocus, back })` → `{ el, show(i), close(reason), index() }` (or `null` for an empty
 list) shows the images large above everything: a modal dialog over the whole screen, always dark, with the counter "n / m" (hidden for one image), *x*
-and previous/next buttons (hidden at the ends; the list does not wrap).
+and previous/next buttons (hidden at the ends; the list does not wrap). Counter, *x* and the buttons lie over the picture and do not zoom with it; each
+sits on a fixed dark veil (a pill with a camera icon, round buttons of at least 44 px) with white text and icons (`--tn-media-veil`,
+`--tn-text-on-media`), so they stay readable on a white image too; the head keeps clear of the status bar and a notch (safe area).
 
 - Paging: a carousel – every image is a slide on one track that follows the finger (touch, pen and mouse), so the previous or next image slides in
   while you drag; on release the track settles on the new image or back (short, the closing duration; instant with reduced motion). The arrow keys,
