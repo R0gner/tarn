@@ -30,6 +30,17 @@ export function listLabelled(c, place) {
 }
 
 /**
+ * The sort choices offered in list mode (where the header is hidden): every sortable column with a label, in column order.
+ * @param {{ key: string, label?: any, short?: string, sortable?: boolean }[]} cols
+ * @param {{ key: string, dir: 'asc' | 'desc' } | null | undefined} sort
+ * @returns {{ key: string, label: any, checked: boolean }[]}
+ */
+export function sortChoices(cols, sort) {
+  return cols.filter((c) => c.sortable !== false && c.label != null && c.label !== '')
+    .map((c) => ({ key: c.key, label: c.label, checked: sort?.key === c.key }));
+}
+
+/**
  * The next sort after choosing column `key`: the same column flips the direction, another starts descending for numbers (right-aligned), ascending otherwise.
  * @param {{ key: string, dir: 'asc' | 'desc' } | null | undefined} sort
  * @param {{ key: string, align?: 'right' }} c

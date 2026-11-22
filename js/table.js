@@ -9,7 +9,8 @@ import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';
 import { empty } from './components.js';
-import { listPlaces, listLabelled, nextSort, opensRow } from './table-data.js';
+import { menu } from './widgets.js';
+import { listPlaces, listLabelled, sortChoices, nextSort, opensRow } from './table-data.js';
 import { sortRows } from './format.js';
 import { t } from './i18n.js';
 
@@ -99,6 +100,21 @@ export function table(opts) {
     opts.onSort?.(sort);
     render();
   }
+  /** List mode hides the header: a sort control above the rows shows the order and offers the sortable columns (a choice flips the direction of the current one). */
+  function sortBar() {
+    const choices = sortChoices(cols, sort);
+    if (choices.length < 2) return null;
+    const cur = sort && cols.find((c) => c.key === sort?.key);
+    const btn = button(cur ? t('table.sortedBy', { col: String(listName(cur) ?? '') }) : t('table.sort'), {
+      variant: 'ghost', small: true, icon: cur && sort ? (sort.dir === 'desc' ? 'arrow-down' : 'arrow-up') : 'list',
+    });
+    btn.setAttribute('aria-label', cur && sort ? t(sort.dir === 'desc' ? 'table.sortedDesc' : 'table.sortedAsc', { col: String(listName(cur) ?? '') }) : t('table.sort'));
+    menu(btn, choices.map((o) => {
+      const c = /** @type {TableColumn} */ (cols.find((x) => x.key === o.key));
+      return { label: String(o.label), checked: o.checked, icon: o.checked && sort ? (sort.dir === 'desc' ? 'arrow-up' : 'arrow-down') : undefined, onClick: () => toggleSort(c) };
+    }), { label: t('table.sort') });
+    return h('div', { class: 'tn-table-sortbar' }, btn);
+  }
   /** @param {TableColumn} c @param {any} r @param {Child} content */
   function labelled(c, r, content) {
     return h('span', { class: 'tn-lv' }, h('span', { class: 'tn-lv-k' }, listName(c)), h('span', { class: 'tn-lv-v' }, content ?? '–'));
@@ -158,7 +174,7 @@ export function table(opts) {
     more = h('div', { class: 'tn-table-more', hidden: true },
       h('span', { class: 'tn-table-more-n' }),
       button(t('table.more'), { variant: 'ghost', small: true, onClick: () => drawMore() }));
-    wrap.replaceChildren(h('table', { class: 'tn-table' },
+    wrap.replaceChildren(...[sortBar()].filter((x) => x != null), h('table', { class: 'tn-table' },
       opts.caption && h('caption', { class: 'tn-sr' }, opts.caption),
       h('thead', null, h('tr', null, opts.status && h('th', { class: 'tn-td-status', 'aria-label': 'Status' }), cols.map(headCell), metrics.length ? h('th', { class: 'tn-td-metrics' }) : null, h('th', { class: 'tn-td-m' }), opts.onRow && h('th', { class: 'tn-td-go' }))),
       tbody), more);

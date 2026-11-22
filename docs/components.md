@@ -98,6 +98,8 @@ table({
 - `listLabel: true` puts the column label in front of a value or sub-line value in list mode where the number alone does not say what it is
   (“Size 45 GB”); default: only metrics carry their label.
 - A control inside a row (a button, a link, a field) does not open the row: neither its click nor Enter/Space on it.
+- **Sorting in list mode:** the header is hidden there, so a sort button above the rows shows the current order (“Sorted by CPU” with the direction
+  arrow) and opens a menu of the sortable columns; choosing the current one flips the direction. It appears when at least two columns are sortable.
 - `pageSize` rows are drawn at first (default 50, `0` = all); the next ones load by themselves when the footer comes near the visible area while scrolling (`IntersectionObserver`), the *Show more* button stays as the fallback. Drawing rows, not filtering, is what costs time.
 - Sorting uses `sortRows()` (stable, numbers and dates numerically, text in the locale's natural order, empty values last).
 
