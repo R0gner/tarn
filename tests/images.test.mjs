@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {
   normalizeImages, clampIndex, stepIndex, neighbours, swipeResult, SWIPE_MIN, nextZoomStep, clampScale, panLimits, clampPan, zoomAt, panHandoff,
   isDoubleTap, trackOffset, ZOOM_STEPS, ZOOM_MAX, DOUBLE_TAP_MS, DOUBLE_TAP_PX,
+  releaseVelocity, flingStart, flingStep, FLING_TAU, FLING_WINDOW, FLING_IDLE, FLING_MIN, FLING_STOP, FLING_MAX,
 } from '../js/images-data.js';
 
 test('normalizeImages: strings become { src }, entries without src are dropped, thumb and alt are kept when not blank', () => {
@@ -144,4 +145,124 @@ test('trackOffset: follows the drag, damped where there is no neighbour', () => 
   assert.equal(trackOffset(-100, 2, 3), -20);   // last image: sqrt(100) × 2
   assert.equal(trackOffset(100, 0, 3), 20);
   assert.equal(trackOffset(0, 0, 1), 0);
+});
+
+// ---- fling
+
+const near = (a, b, eps = 1e-6) => assert.ok(Math.abs(a - b) <= eps, `${a} is not ${b} (±${eps})`);
+/** a glide run frame by frame (16 ms) until it is done; returns the end state and the number of frames */
+const glide = (f, lim, max = 1000) => {
+  let n = 0, cur = { ...f, done: false };
+  while (!cur.done && n < max) { cur = flingStep(cur, 16, lim); n++; }
+  return { ...cur, frames: n };
+};
+const WIDE = { x: 10000, y: 10000 };
+
+test('releaseVelocity: the way over the last FLING_WINDOW ms, older samples do not count', () => {
+  // slow at first (1 px/ms), then fast (3 px/ms) in the last 100 ms
+  const s = [];
+  for (let t = 0; t <= 200; t += 10) s.push({ t, x: t <= 100 ? t : 100 + 3 * (t - 100), y: 0 });
+  const v = releaseVelocity(s, 200);
+  near(v.vx, 3); near(v.vy, 0);
+  const d = releaseVelocity([{ t: 0, x: 0, y: 0 }, { t: 50, x: -50, y: 25 }], 50);
+  near(d.vx, -1); near(d.vy, 0.5);
+  assert.equal(FLING_WINDOW, 100);
+});
+
+test('releaseVelocity: 0 when the finger rested before it lifted, for a single sample and for samples too close in time', () => {
+  const s = [{ t: 0, x: 0, y: 0 }, { t: 50, x: 100, y: 0 }];
+  assert.deepEqual(releaseVelocity(s, 50 + FLING_IDLE + 1), { vx: 0, vy: 0 });
+  assert.ok(releaseVelocity(s, 50 + FLING_IDLE).vx > 0);
+  assert.deepEqual(releaseVelocity([{ t: 0, x: 0, y: 0 }], 0), { vx: 0, vy: 0 });
+  assert.deepEqual(releaseVelocity([{ t: 0, x: 0, y: 0 }, { t: 4, x: 40, y: 0 }], 4), { vx: 0, vy: 0 });
+  assert.deepEqual(releaseVelocity([], 0), { vx: 0, vy: 0 });
+  // @ts-expect-error no list
+  assert.deepEqual(releaseVelocity(null, 0), { vx: 0, vy: 0 });
+});
+
+test('releaseVelocity: capped at FLING_MAX, the direction stays', () => {
+  const v = releaseVelocity([{ t: 0, x: 0, y: 0 }, { t: 10, x: 300, y: -400 }], 10);
+  near(Math.hypot(v.vx, v.vy), FLING_MAX);
+  near(v.vx / v.vy, -0.75);
+});
+
+test('flingStart: no glide below FLING_MIN, a glide from it on', () => {
+  assert.equal(flingStart({ tx: 0, ty: 0 }, { vx: FLING_MIN * 0.9, vy: 0 }, WIDE), null);
+  assert.equal(flingStart({ tx: 0, ty: 0 }, { vx: 0, vy: 0 }, WIDE), null);
+  assert.deepEqual(flingStart({ tx: 5, ty: -5 }, { vx: 1, vy: -0.5 }, WIDE), { tx: 5, ty: -5, vx: 1, vy: -0.5 });
+});
+
+test('flingStart: towards a near edge the speed is lowered so the glide ends at the limit; at the limit that axis does not glide', () => {
+  const lim = { x: 200, y: 50 };
+  const f = flingStart({ tx: -100, ty: 0 }, { vx: -2, vy: 0 }, lim);
+  assert.ok(f);
+  near(f.vx * FLING_TAU, -100);   // the whole glide covers exactly the 100 px left to the edge
+  const away = flingStart({ tx: -100, ty: 0 }, { vx: 0.5, vy: 0 }, lim);   // away from the edge: 162 px of 300 room, unchanged
+  assert.equal(away && away.vx, 0.5);
+  const atEdge = flingStart({ tx: 200, ty: 0 }, { vx: 2, vy: 1 }, lim);   // x at its limit: only y glides (and only the 50 px it has)
+  assert.ok(atEdge);
+  assert.equal(atEdge.vx, 0);
+  near(atEdge.vy * FLING_TAU, 50);
+  assert.equal(flingStart({ tx: 200, ty: 50 }, { vx: 2, vy: 1 }, lim), null);   // in the corner: nothing left
+  assert.equal(flingStart({ tx: 0, ty: 0 }, { vx: 2, vy: 1 }, { x: 0, y: 0 }), null);   // nothing to pan (not zoomed)
+});
+
+test('flingStep: exponential decay with FLING_TAU – after tau ms the speed is 1/e, the way v · tau · (1 − 1/e)', () => {
+  assert.ok(FLING_TAU >= 300 && FLING_TAU <= 350);
+  const s = flingStep({ tx: 0, ty: 0, vx: 2, vy: -1 }, FLING_TAU, WIDE);
+  near(s.vx, 2 / Math.E); near(s.vy, -1 / Math.E);
+  near(s.tx, 2 * FLING_TAU * (1 - 1 / Math.E)); near(s.ty, -FLING_TAU * (1 - 1 / Math.E));
+  assert.equal(s.done, false);
+  // frame size does not matter: 20 steps of 16 ms land where one step of 320 ms lands
+  let a = { tx: 0, ty: 0, vx: 1.5, vy: 0 };
+  for (let i = 0; i < 20; i++) a = flingStep(a, 16, WIDE);
+  const b = flingStep({ tx: 0, ty: 0, vx: 1.5, vy: 0 }, 320, WIDE);
+  near(a.tx, b.tx, 1e-6); near(a.vx, b.vx, 1e-9);
+});
+
+test('flingStep: the glide runs on in the release direction, slows down every frame and ends below FLING_STOP after about v · tau', () => {
+  const lim = { x: 2000, y: 2000 };
+  let cur = { tx: 0, ty: 0, vx: -2, vy: 0, done: false }, prevV = 2, prevX = 0;
+  for (let i = 0; i < 5; i++) {
+    cur = flingStep(cur, 16, lim);
+    assert.ok(cur.tx < prevX, 'moves on to the left');
+    assert.ok(Math.abs(cur.vx) < prevV, 'slows down');
+    prevV = Math.abs(cur.vx); prevX = cur.tx;
+  }
+  const end = glide({ tx: 0, ty: 0, vx: -2, vy: 0 }, lim);
+  assert.ok(end.done);
+  assert.ok(Math.abs(end.vx) < FLING_STOP);
+  near(end.tx, -2 * FLING_TAU, FLING_STOP * FLING_TAU + 1);   // short of v · tau only by the rest below FLING_STOP
+  assert.ok(end.frames * 16 > 1000 && end.frames * 16 < 3000, `glides ${end.frames * 16} ms`);
+});
+
+test('flingStep: never beyond the limits – an axis that reaches its limit stops there, the other one glides on', () => {
+  const lim = { x: 100, y: 1000 };
+  const s = flingStep({ tx: 90, ty: 0, vx: 3, vy: 1 }, 64, lim);
+  assert.equal(s.tx, 100); assert.equal(s.vx, 0);
+  assert.ok(s.ty > 0 && s.vy > 0);
+  const end = glide({ tx: 90, ty: 0, vx: 3, vy: 1 }, lim);
+  assert.equal(end.tx, 100);
+  assert.ok(Math.abs(end.ty) <= 1000);
+  const neg = flingStep({ tx: -95, ty: 0, vx: -3, vy: 0 }, 16, lim);
+  assert.equal(neg.tx, -100); assert.ok(neg.done);
+});
+
+test('flingStart + flingStep: a fast fling towards a near edge comes to rest at it, softly (slowing down on every frame, no jump to the edge)', () => {
+  const lim = { x: 300, y: 0 };
+  const f = flingStart({ tx: 200, ty: 0 }, { vx: 4, vy: 0 }, lim);
+  assert.ok(f);
+  let cur = { ...f, done: false }, step = Infinity, n = 0;
+  while (!cur.done && n < 1000) {
+    const nx = flingStep(cur, 16, lim);
+    const d = nx.tx - cur.tx;
+    assert.ok(d >= 0 && d <= step + 1e-9, 'every frame moves less than the one before');
+    step = d; cur = nx; n++;
+  }
+  assert.ok(cur.tx <= 300 && cur.tx > 300 - FLING_STOP * FLING_TAU - 1, `rests at ${cur.tx}`);
+  assert.ok(step < 0.5, 'the last frame barely moves');
+});
+
+test('flingStep: no time constant means no glide', () => {
+  assert.equal(flingStep({ tx: 1, ty: 2, vx: 3, vy: 4 }, 16, WIDE, 0).done, true);
 });

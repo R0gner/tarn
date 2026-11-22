@@ -203,7 +203,8 @@ export const SCENARIOS = [
     open: (io) => io.press('.tn-imgstrip-btn'),
     // the carousel and the zoom, on image 2 of 6 (neighbours on both sides): a double tap steps 1× → 2× → 3.5× → 1× and never closes; on touch
     // the neighbour is loaded and in view while a finger drags; zoomed, a drag pans inside the limits, a drag down does not close, and only a
-    // drag beyond the image's edge pages (the new image at 1×); a pinch zooms; a single tap beside the image closes after the double-tap wait
+    // drag beyond the image's edge pages (the new image at 1×); a pinch zooms; zoomed, a fast drag glides on (not with reduced motion) and a new
+    // finger holds it; a single tap beside the image closes after the double-tap wait
     assert: async (io) => {
       const left = [];
       const VIEW = 'dialog.tn-viewer[open]';
@@ -265,6 +266,42 @@ export const SCENARIOS = [
         await lift();
         const p = await st();
         if (!p || !(p.s > 2)) left.push(`a pinch to the 3.7-fold distance gives scale ${p && p.s}`);
+        // fling: zoomed, a fast drag that is released while moving glides on in its direction and slows down; it never pages; a new finger holds
+        // it where it is (and that press does not close); with reduced motion the image stops where the finger lifted
+        const fast = async (dx) => {   // 60 px in 6 moves of 8 ms (about 1 px/ms), released at once
+          await tp('touchStart', [{ x: p.cx, y: p.cy }]); await sleep(20);
+          for (let i = 1; i <= 6; i++) { await tp('touchMove', [{ x: p.cx + (dx * i) / 6, y: p.cy }]); await sleep(8); }
+          await tp('touchEnd', []);
+        };
+        if (p && p.s > 2 && p.lx > 300) {
+          let f0 = await st();
+          if (f0.count !== '3 / 6') f0 = null;
+          if (f0) {
+            await fast(-60); await sleep(30);
+            const a1 = await st(); await sleep(600);
+            const a2 = await st();
+            if (a2.count !== f0.count) left.push(`a fling inside the zoomed image pages to ${a2.count}`);
+            else if (!(a2.tx < a1.tx - 20)) left.push(`a fast drag on a zoomed image stops where the finger lifts (${a1.tx} → ${a2.tx} px, no glide)`);
+            else if (Math.abs(a2.tx) > a2.lx + 1) left.push(`the glide goes beyond the image's edge (${a2.tx}, limit ${a2.lx})`);
+            await sleep(1600);
+            // a new finger during the glide holds the image
+            await fast(60); await sleep(30);
+            await tp('touchStart', [{ x: p.cx, y: p.cy }]); await sleep(30);
+            const h1 = await st(); await sleep(250);
+            const h2 = await st();
+            if (Math.abs(h2.tx - h1.tx) > 1) left.push(`a finger on a gliding image does not stop it (${h1.tx} → ${h2.tx} px)`);
+            await tp('touchEnd', []); await sleep(450);
+            if (!(await io.count(VIEW))) return [...left, 'the finger that stopped a glide closed the viewer'];
+            // reduced motion: no glide
+            await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
+            await fast(-60); await sleep(30);
+            const r1 = await st(); await sleep(400);
+            const r2 = await st();
+            await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }] });
+            if (Math.abs(r2.tx - r1.tx) > 1) left.push(`with reduced motion a zoomed image still glides (${r1.tx} → ${r2.tx} px)`);
+            await sleep(1800);   // a faulty glide is over before the next taps (a press on a gliding image is no tap)
+          } else left.push('before the fling check the viewer is not on image 3 / 6');
+        } else left.push(`the pinch left no room for a fling check (${JSON.stringify(p)})`);
       }
       // a double tap beside the image zooms there and never closes; a single tap beside it closes, but only after the double-tap wait
       s = await st();

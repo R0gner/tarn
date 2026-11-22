@@ -3,7 +3,8 @@
 // images large above everything (a modal dialog in the top layer, like sheets). The viewer is a carousel: every image is a slide on one track that
 // follows the finger, so the neighbour slides in while you drag and the track settles on release. The neighbours are loaded and decoded ahead.
 // Zoom: pinch about the fingers' centre, double tap (double click) steps 1× → 2× → 3.5× → 1× at the tapped spot, the wheel zooms at the pointer;
-// a zoomed image pans inside its limits and only a drag beyond the left/right edge moves on to the neighbour (which starts at 1×). Arrow keys,
+// a zoomed image pans inside its limits (after a fast drag it glides on and slows down, js/images-data.js flingStep) and only a drag beyond the
+// left/right edge moves on to the neighbour (which starts at 1×). Arrow keys,
 // Home/End and two buttons page; x, Esc, a single tap beside the image (after the double-tap wait), a swipe down at 1× and Back close it (it takes
 // one history entry inside createApp(), js/levels.js).
 import './locales/shell.js';   // shell texts
@@ -14,7 +15,7 @@ import { iconButton } from './primitives.js';
 import { backLayer, lockScroll } from './sheet.js';
 import {
   normalizeImages, clampIndex, stepIndex, neighbours, swipeResult, nextZoomStep, clampScale, panLimits, clampPan, zoomAt, panHandoff, isDoubleTap,
-  trackOffset, ZOOM_EPS, DOUBLE_TAP_MS,
+  trackOffset, releaseVelocity, flingStart, flingStep, ZOOM_EPS, DOUBLE_TAP_MS, FLING_WINDOW,
 } from './images-data.js';
 
 /** @typedef {import('./images-data.js').ImageInput} ImageInput */
@@ -252,7 +253,9 @@ export function openImageViewer(images, opts = {}) {
 
 /**
  * Pointer gestures on the stage (touch, pen and mouse alike). One pointer at 1×: a horizontal drag moves the carousel and pages on release, a
- * drag down closes. Zoomed: a drag pans the image; beyond its left/right edge the rest moves the carousel. Two pointers: pinch zoom about their
+ * drag down closes. Zoomed: a drag pans the image; beyond its left/right edge the rest moves the carousel; released while still moving fast (and
+ * not paging), the image glides on in that direction and slows down (FLING_TAU), softly up to its limits; a new finger, the wheel, paging or
+ * another zoom stop it; with reduced motion there is no glide. Two pointers: pinch zoom about their
  * centre (which may move as well). A press without movement is a tap; two taps close together are a double tap (zoom step at the spot); a single
  * tap acts only after DOUBLE_TAP_MS. The wheel zooms at the pointer. Buttons keep their own clicks.
  * @param {HTMLElement} stage
@@ -271,6 +274,39 @@ function initGesture(stage, on) {
   /** @type {ReturnType<typeof setTimeout> | null} */
   let tapTimer = null;
   const cancelTap = () => { if (tapTimer) clearTimeout(tapTimer); tapTimer = null; lastTap = null; };
+  /** pointer positions of the current pan (the last FLING_WINDOW ms) for the speed at release @type {import('./images-data.js').PanSample[]} */
+  let samples = [];
+  const sample = (/** @type {number} */ t, /** @type {number} */ x, /** @type {number} */ y) => {
+    samples.push({ t, x, y });
+    while (samples.length > 2 && t - samples[1].t > FLING_WINDOW) samples.shift();
+  };
+  /** the running glide: requestAnimationFrame id, 0 = none */
+  let raf = 0;
+  /** the current press stopped a glide */
+  let held = false;
+  const stopFling = () => { if (raf) cancelAnimationFrame(raf); raf = 0; };
+  /** after a pan: glide on with the release speed (not with reduced motion: the closing duration is 0 then) */
+  const fling = (/** @type {number} */ now) => {
+    stopFling();
+    if (tokenMs('--tn-t-close') <= 0) return;
+    const { index, zoom } = on.at();
+    if (zoom.s <= 1) return;
+    let f = flingStart(zoom, releaseVelocity(samples, now), on.limits(zoom.s));
+    if (!f) return;
+    let last = -1;
+    const frame = (/** @type {number} */ ts) => {
+      const at = on.at();
+      // paged, zoomed or moved by someone else in the meantime: the glide is over
+      if (!f || at.index !== index || at.zoom.s !== zoom.s || Math.abs(at.zoom.tx - f.tx) > 1 || Math.abs(at.zoom.ty - f.ty) > 1) { raf = 0; return; }
+      const next = flingStep(f, last < 0 ? 16 : Math.min(64, ts - last), on.limits(zoom.s));
+      last = ts;
+      on.zoom({ s: zoom.s, tx: next.tx, ty: next.ty });
+      const z2 = on.at().zoom;   // the viewer clamps; follow what it shows
+      f = next.done ? null : { tx: z2.tx, ty: z2.ty, vx: next.vx, vy: next.vy };
+      raf = f ? requestAnimationFrame(frame) : 0;
+    };
+    raf = requestAnimationFrame(frame);
+  };
   const capture = (/** @type {number} */ id) => { try { stage.setPointerCapture(id); } catch { /* the pointer is already gone */ } };
   const pinchStart = () => {
     const [a, b] = [...pts.values()];
@@ -284,10 +320,13 @@ function initGesture(stage, on) {
   /** one pointer (again) as the start of a drag: after a pinch the remaining finger pans on from where the image is */
   const single = (/** @type {number} */ id, /** @type {number} */ x, /** @type {number} */ y, /** @type {number} */ t0, /** @type {Mode} */ mode, /** @type {EventTarget | null} */ target) => {
     g = { id, mode, x0: x, y0: y, t0, dx: 0, dy: 0, over: 0, target, z0: on.at().zoom, d0: 0, mx0: 0, my0: 0 };
+    samples = [{ t: t0, x, y }];
   };
 
   const down = (/** @type {PointerEvent} */ e) => {
     if (e.button > 0 || pts.size >= 2) return;
+    held = raf !== 0;   // a new finger holds a gliding image where it is; that press is no tap (it must not close the viewer)
+    stopFling();
     pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pts.size === 2) { cancelTap(); pinchStart(); return; }
     single(e.pointerId, e.clientX, e.clientY, e.timeStamp, 'pending', e.target);
@@ -318,6 +357,7 @@ function initGesture(stage, on) {
     if (g.mode === 'track') on.track(trackOffset(g.dx, index, n));
     else if (g.mode === 'drop') on.drop(g.dy > 0 ? g.dy : trackOffset(g.dy, 0, 1));   // upwards: damped
     else if (g.mode === 'pan') {
+      sample(e.timeStamp, e.clientX, e.clientY);
       const r = panHandoff({ tx: g.z0.tx, ty: g.z0.ty, dx: g.dx, dy: g.dy, lim: on.limits(zoom.s) });
       on.zoom({ s: zoom.s, tx: r.tx, ty: r.ty });
       g.over = r.over;
@@ -339,7 +379,7 @@ function initGesture(stage, on) {
     g = null;
     if (done.mode === 'idle') return;
     if (done.mode === 'pending') {
-      if (e.type !== 'pointerup') return;
+      if (e.type !== 'pointerup' || held) return;
       const tap = { t: e.timeStamp, x: e.clientX, y: e.clientY };
       if (isDoubleTap(lastTap, tap)) {
         cancelTap();
@@ -364,11 +404,13 @@ function initGesture(stage, on) {
     }
     const dx = done.mode === 'track' ? done.dx : done.over;
     const res = ok && dx ? swipeResult({ dx, dy: 0, dt, width: r.width, height: r.height, index, n }) : null;
-    if (res === 'next' || res === 'prev') on.step(res === 'next' ? 1 : -1);
-    else on.track(0, true);
+    if (res === 'next' || res === 'prev') { on.step(res === 'next' ? 1 : -1); return; }
+    on.track(0, true);
+    if (ok && done.mode === 'pan') fling(e.timeStamp);
   };
   const wheel = (/** @type {WheelEvent} */ e) => {
     e.preventDefault();
+    stopFling();
     const px = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;   // lines, pages
     const { zoom } = on.at();
     on.zoomTo(zoom.s * Math.exp(-e.deltaY * px * WHEEL_ZOOM), e.clientX, e.clientY, false);
@@ -378,5 +420,5 @@ function initGesture(stage, on) {
   stage.addEventListener('pointerup', up);
   stage.addEventListener('pointercancel', up);
   stage.addEventListener('wheel', wheel, { passive: false });
-  return { stop: () => { cancelTap(); g = null; pts.clear(); } };
+  return { stop: () => { cancelTap(); stopFling(); g = null; pts.clear(); } };
 }

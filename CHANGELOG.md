@@ -3,6 +3,20 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.2
+
+### Added
+- Image viewer fling: zoomed, a pan released while the finger still moves fast glides on in that direction and slows down exponentially (time
+  constant 325 ms, `FLING_TAU`, like the iOS and Android scrollers), driven by `requestAnimationFrame`. In 0.8.1 the image stopped dead where the
+  finger lifted. The speed is measured over the last 100 ms of the drag (0 when the finger rested 40 ms before it lifted, capped at 6 px/ms);
+  towards a near edge the start speed is lowered so the glide comes to rest at the edge instead of hitting it. A new finger holds the image where
+  it is (that press is no tap and never closes the viewer); the wheel, paging, another zoom and a resize stop it. It never pages (only a drag
+  beyond the edge does), there is none at 1× (the carousel settles there) and none with reduced motion. Pure helpers in `js/images-data.js`:
+  `releaseVelocity`, `flingStart`, `flingStep` (unit tests: speed window, rest, cap, decay, frame-size independence, limits, soft stop).
+- verify: the `image-zoom` scenario checks the glide on touch (goes on after release, no paging, inside the limits), the hold by a new finger
+  and no glide with reduced motion (emulated); mutants `viewer-no-fling` (the 0.8.1 behaviour), `viewer-fling-ignores-reduced-motion`,
+  `viewer-fling-not-held`.
+
 ## 0.8.1
 
 ### Fixed

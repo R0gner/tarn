@@ -149,7 +149,7 @@ settings entry; do not add more toolbar buttons (verify rule `toolbar-title`).
 | filters by data type | `filterBar({ filters: [{ key, label, type: 'options' \| 'bool' \| 'range' \| 'time', … }] })` + `matchFilters(row, state.f, get, { now })` |
 | ask before a dangerous action | `await confirm({ title, text, danger: true, typeToConfirm?: name })` |
 | an action that takes time (status, progress, live log) | `actionRun({ source: fn \| url, title, onCancel, onDone })` |
-| photos of a thing (a listing, a device) | `imageStrip(images)` in the detail; a tap opens `openImageViewer()` (carousel swipe, pinch and double-tap zoom, keys, Back closes it); never `<a target="_blank">` |
+| photos of a thing (a listing, a device) | `imageStrip(images)` in the detail; a tap opens `openImageViewer()` (carousel swipe, pinch and double-tap zoom with fling when panning, keys, Back closes it); never `<a target="_blank">` |
 | a report, running text of an agent | `markdown(text, { compact: true })` (in the detail: `facts('Run report', markdown(…, { compact: true }))`); raw HTML becomes text, links only http(s)/mailto/relative, images off |
 
 ## Checklist before handing in

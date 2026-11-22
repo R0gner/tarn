@@ -127,13 +127,18 @@ and previous/next buttons (hidden at the ends; the list does not wrap).
   Ctrl, also a trackpad pinch) zooms at the pointer; `+` steps in, `-` or `0` goes back to 1×. Zoomed, a drag pans the image inside its limits (it
   never leaves an empty edge) and a drag down does not close; only a drag beyond the image's left or right edge moves on to the neighbour, which
   starts at 1×. At 1× a horizontal drag pages and a drag down closes.
+- Fling: zoomed, a drag released while still moving fast glides on in that direction and slows down exponentially (time constant `FLING_TAU`,
+  325 ms, like the scrollers of iOS and Android; the speed is measured over the last 100 ms of the drag, 0 when the finger rested before it lifted).
+  Towards a near edge it slows down softly and comes to rest at the edge, never beyond. A new finger holds the image where it is (that press is no
+  tap, so it never closes the viewer); the wheel, paging and another zoom stop it too. It never pages – only a drag beyond the edge does. No glide
+  at 1× (there the carousel settles) and none with reduced motion.
 - Closing: *x*, Esc, a single tap beside the image (it waits for the double-tap time first, so a double tap never closes), a swipe down at 1× and **Back**: inside a `createApp()` page the viewer takes one history entry like a sheet
   ([Back](shell.md#back)), so the Android back button of an installed app closes the viewer first, then the detail it was opened from. `back: false`
   opts out. `onClose(reason, index)` fires once with `'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back'`.
 - After closing the focus goes back to the opener; the strip moves it to the thumbnail of the image shown last (`returnFocus(index)` for your own opener).
 - An image that does not load shows "The image could not be loaded"; a thumbnail that does not load stays an empty tile.
 - The pure helpers (`normalizeImages`, stepping, preloading, the swipe decision, zoom steps, pan limits, zooming about a point, the hand-over at the
-  edge, double taps) are in `js/images-data.js`; unit tests `tests/images.test.mjs`, overlay scenarios `image-viewer`, `image-zoom` and `back-viewer`
+  edge, double taps, the fling: `releaseVelocity`, `flingStart`, `flingStep`) are in `js/images-data.js`; unit tests `tests/images.test.mjs`, overlay scenarios `image-viewer`, `image-zoom` and `back-viewer`
   ([checks](checks.md)).
 
 Do not open images with `<a target="_blank">` in a board: in an installed app that leaves the app, and Back closes it.

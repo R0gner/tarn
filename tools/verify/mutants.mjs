@@ -263,6 +263,24 @@ export const MUTANTS = [
     patch: [{ file: 'js/images.js', from: 'tapTimer = setTimeout(() => { tapTimer = null; lastTap = null; on.tap(target); }, DOUBLE_TAP_MS);', to: 'on.tap(target);' }],
   },
   {
+    // the 0.8.1 behaviour: a zoomed image stops where the finger lifts, however fast the drag was (no glide)
+    id: 'viewer-no-fling',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: "if (ok && done.mode === 'pan') fling(e.timeStamp);", to: '' }],
+  },
+  {
+    // a glide that ignores reduced motion
+    id: 'viewer-fling-ignores-reduced-motion',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: "if (tokenMs('--tn-t-close') <= 0) return;", to: '' }],
+  },
+  {
+    // a glide that a new finger does not stop
+    id: 'viewer-fling-not-held',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: 'held = raf !== 0;   // a new finger holds a gliding image where it is; that press is no tap (it must not close the viewer)\n    stopFling();', to: 'held = raf !== 0;' }],
+  },
+  {
     // double taps that wrap from 3.5× to 2× instead of going back to 1×
     id: 'viewer-zoom-no-reset',
     check: 'overlay', scenarios: ['image-zoom'], sizes: ['desktop'], expect: ['overlay-behaviour'],

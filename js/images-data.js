@@ -198,3 +198,77 @@ export function trackOffset(dx, index, n) {
   const blocked = (dx < 0 && index >= n - 1) || (dx > 0 && index <= 0);
   return blocked ? Math.sign(dx) * Math.sqrt(Math.abs(dx)) * 2 : dx;
 }
+
+// ---- fling (momentum after a fast pan on a zoomed image): the speed of the last moments of the drag carries on and decays exponentially, like
+// the scrollers of iOS and Android. Speeds in px/ms, times in ms.
+
+/** @typedef {{ t: number, x: number, y: number }} PanSample a pointer position at time t (ms) */
+/** @typedef {{ tx: number, ty: number, vx: number, vy: number }} Fling the shift (px) and the speed (px/ms) of a gliding image */
+
+/** Time constant of the decay (ms): after this time the speed has dropped to 1/e, the whole glide covers speed × FLING_TAU. */
+export const FLING_TAU = 325;
+/** The speed at release is measured over the last FLING_WINDOW ms of the drag … */
+export const FLING_WINDOW = 100;
+/** … and is 0 when the finger has rested this long (ms) before it lifted (no move events while it is still). */
+export const FLING_IDLE = 40;
+/** A glide starts from this speed (px/ms) … */
+export const FLING_MIN = 0.1;
+/** … ends below this one … */
+export const FLING_STOP = 0.01;
+/** … and is capped at this one. */
+export const FLING_MAX = 6;
+
+/**
+ * The speed of a drag at its release: the way between the first and the last sample of the last FLING_WINDOW ms, divided by their time. 0 when
+ * there are not two such samples, when they are less than 8 ms apart, or when the last one is older than FLING_IDLE (the finger rested).
+ * Capped at FLING_MAX (the direction stays).
+ * @param {PanSample[]} samples in time order
+ * @param {number} now the release time
+ * @returns {{ vx: number, vy: number }}
+ */
+export function releaseVelocity(samples, now) {
+  const recent = (samples || []).filter((p) => p.t <= now && now - p.t <= FLING_WINDOW);
+  if (recent.length < 2) return { vx: 0, vy: 0 };
+  const a = recent[0], b = recent[recent.length - 1];
+  const dt = b.t - a.t;
+  if (dt < 8 || now - b.t > FLING_IDLE) return { vx: 0, vy: 0 };
+  let vx = (b.x - a.x) / dt, vy = (b.y - a.y) / dt;
+  const v = Math.hypot(vx, vy);
+  if (v > FLING_MAX) { vx *= FLING_MAX / v; vy *= FLING_MAX / v; }
+  return { vx, vy };
+}
+
+/**
+ * The start of a glide, or null when the speed is below FLING_MIN. On each axis the speed is lowered so that the glide (speed × tau) ends at the
+ * pan limit at the latest: towards a near edge the image slows down softly and comes to rest there instead of hitting it.
+ * @param {{ tx: number, ty: number }} z the shift at release
+ * @param {{ vx: number, vy: number }} v the release speed
+ * @param {PanLimits} lim
+ * @param {number} [tau]
+ * @returns {Fling | null}
+ */
+export function flingStart(z, v, lim, tau = FLING_TAU) {
+  if (!(Math.hypot(v.vx, v.vy) >= FLING_MIN)) return null;
+  /** @param {number} p @param {number} s @param {number} l */
+  const room = (p, s, l) => (s === 0 ? 0 : Math.sign(s) * Math.min(Math.abs(s), Math.max(0, l - Math.sign(s) * p) / tau));
+  const f = { tx: z.tx, ty: z.ty, vx: room(z.tx, v.vx, lim.x), vy: room(z.ty, v.vy, lim.y) };
+  return Math.hypot(f.vx, f.vy) >= FLING_STOP ? f : null;
+}
+
+/**
+ * One frame of a glide: dt ms of exponential decay (way = v · tau · (1 − e^(−dt/tau)), speed · e^(−dt/tau)), kept inside the limits (an axis
+ * that reaches its limit stops). done: the speed is below FLING_STOP (or there is no time constant).
+ * @param {Fling} f
+ * @param {number} dt
+ * @param {PanLimits} lim
+ * @param {number} [tau]
+ * @returns {Fling & { done: boolean }}
+ */
+export function flingStep(f, dt, lim, tau = FLING_TAU) {
+  if (!(tau > 0)) return { ...f, vx: 0, vy: 0, done: true };
+  const k = Math.exp(-Math.max(0, dt) / tau), way = tau * (1 - k);
+  let tx = f.tx + f.vx * way, ty = f.ty + f.vy * way, vx = f.vx * k, vy = f.vy * k;
+  if (Math.abs(tx) >= lim.x) { tx = clampAxis(tx, lim.x); vx = 0; }
+  if (Math.abs(ty) >= lim.y) { ty = clampAxis(ty, lim.y); vy = 0; }
+  return { tx, ty, vx, vy, done: Math.hypot(vx, vy) < FLING_STOP };
+}
