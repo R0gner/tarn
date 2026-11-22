@@ -217,6 +217,22 @@
 .tn-row-sub-wrap { min-width: 0; white-space: normal; overflow-wrap: anywhere; }   /* metricRow({ wrapSub }): the sub line wraps instead of ending in "…" */
 .tn-row-value { flex: none; display: grid; justify-items: end; text-align: right; font-variant-numeric: tabular-nums; max-width: 45%; }
 .tn-row-value > .tn-num { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+/* mediaRow(): picture left, title over the full width (clamped to 2–4 lines), the board's lines below; the whole row is the button */
+.tn-mrow { align-items: start; gap: var(--tn-s3); padding: var(--tn-s3); }
+.tn-mrow-media {
+  flex: none; width: var(--tn-mrow-media, var(--tn-sz-72)); aspect-ratio: 1; border-radius: var(--tn-r-sm); overflow: hidden;
+  background: var(--tn-card-2); display: grid; place-items: center; color: var(--tn-text-3);
+}
+.tn-mrow-media:empty { display: none; }
+.tn-mrow-media > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tn-mrow-main { flex: 1; min-width: 0; display: grid; gap: var(--tn-sp-2); align-content: start; }
+.tn-mrow-title { font-size: var(--tn-fs-body); line-height: var(--tn-lh); overflow-wrap: anywhere; }
+.tn-mrow-line {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--tn-sp-2) var(--tn-s2); min-width: 0;
+  font-size: var(--tn-fs-label); color: var(--tn-text-2); font-variant-numeric: tabular-nums;
+}
+.tn-clamp.tn-clamp-3 { -webkit-line-clamp: 3; line-clamp: 3; }
+.tn-clamp.tn-clamp-4 { -webkit-line-clamp: 4; line-clamp: 4; }
 .tn-go { display: inline-grid; place-items: center; flex: none; color: var(--tn-text-3); }
 .tn-row-btn:hover .tn-go, .tn-stat-btn:hover .tn-go { color: var(--tn-text-2); }
 

@@ -3,6 +3,15 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.9.3
+
+### Added
+- `mediaRow({ media, title, lines, onClick, key, selected, label, titleLines })`: a row with a picture – the picture on the left (a square,
+  `--tn-mrow-media`, 72 px), the title over the whole remaining width (up to three lines, then "…" with the full text as hint), the board's
+  lines below (a value line, a line of badges). The whole row is the button; no chevron, no status dot, no value column – on a phone those
+  took the title's room (Markt-Scout listing rows: titles cut after a few words, a dot and a verdict word saying the same thing twice).
+  Gallery Rows "mediaRow()", docs/components.md; overlay scenario `media-row`, mutant `media-row-two-lines`. `.tn-clamp-3`/`.tn-clamp-4`.
+
 ## 0.9.2
 
 ### Changed

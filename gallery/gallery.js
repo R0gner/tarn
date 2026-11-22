@@ -3,7 +3,7 @@
 // Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
-  metricRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
+  metricRow, mediaRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
   cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
@@ -155,6 +155,15 @@ function viewRows(ctx) {
       card({ flush: true }, h('div', { class: 'tn-list' },
         metricRow({ title: 'Offsite archive sync of the photo library to the second NAS in the garage, weekly full run', sub: 'nas-b · weekly', value: '3 h', status: 'ok', onClick: noop, wrapTitle: true }),
         metricRow({ title: 'Short title', sub: 'one line stays one line', value: '12', status: 'ok', onClick: noop, wrapTitle: true })))),
+    demo('mediaRow()', `mediaRow({ media: img, title, lines: [valueLine, [badge(…), text]], onClick, key })   // picture left, the title over the full width
+// (up to 3 lines, titleLines), the board's lines below; the whole row is the button – no chevron, no status dot (say the state with a badge)`,
+      card({ flush: true }, h('div', { class: 'tn-list' },
+        mediaRow({ key: 'm1', media: h('img', { src: './img/photo-1.svg', alt: '' }), onClick: noop,
+          title: 'Offsite archive appliance, 4 bays, 2 × 8 TB already inside, barely used, with the original box and both keys for the front door',
+          lines: [[h('strong', null, '€420'), ' · + €1.99 shipping · €26/TB'], [badge('Good', { tone: 'ok' }), badge('Price cut', { tone: 'info' }), 'posted 2 days ago']] }),
+        mediaRow({ key: 'm2', media: h('img', { src: './img/photo-2.svg', alt: '' }), onClick: noop, selected: true,
+          title: 'Short title', lines: [[h('strong', null, '€60'), ' · pickup · 45 km'], [badge('Reserved', { tone: 'warn' })]] }),
+        mediaRow({ key: 'm3', media: icon('camera'), onClick: noop, title: 'Without a picture: a calm placeholder', lines: ['no badges, one line'] })))),
     demo('metricRow({ wrapSub })', `metricRow({ title: 'Offsite archive sync', sub: reason, status: 'bad', wrapSub: true })   // the sub line wraps instead of ending in "…"`,
       h('div', { class: 'g-grid2' },
         state('default: one line, "…"', card({ flush: true }, list([0], () => metricRow({ title: 'Offsite archive sync', sub: 'Exit 23 after 41 min: 3 files could not be transferred (permission denied on /srv/archive/2026/11)', status: 'bad', value: '2 h' })))),

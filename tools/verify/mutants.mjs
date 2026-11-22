@@ -166,6 +166,12 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "if (!viewChanged && (paramsChanged || rangeChanged)) {", to: "if (!viewChanged && rangeChanged) {" }],
   },
   {
+    // a media row whose title stops after two lines (the 0.9.2 Markt-Scout rows cut long listing titles)
+    id: 'media-row-two-lines',
+    check: 'overlay', scenarios: ['media-row'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/components.js', from: "lines = [], onClick, label, selected, key, titleLines = 3, className } = {}) {", to: "lines = [], onClick, label, selected, key, titleLines = 2, className } = {}) {" }],
+  },
+  {
     // the 0.9.1 table: only the "Show more" button loads more rows
     id: 'table-no-auto-more',
     check: 'overlay', scenarios: ['table-load-more'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],

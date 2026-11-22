@@ -465,6 +465,25 @@ export const SCENARIOS = [
     } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync') },
+  { id: 'media-row', page: 'gallery', hash: 'rows', overlay: '.tn-mrow', focus: false, when: (sz) => sz.mobile,
+    // mediaRow() (0.9.3, Markt-Scout listing rows): the whole row is the button, the title takes the full width beside the picture and up to
+    // three lines, no chevron and no status dot; the picture keeps its square
+    open: (io) => io.eval(`(() => { document.querySelector('.tn-mrow').scrollIntoView({ block: 'center', behavior: 'instant' }); return true; })()`),
+    assert: async (io) => {
+      const left = [];
+      const st = await io.eval(`(() => { const row = document.querySelector('.tn-mrow'), title = row.querySelector('.tn-mrow-title'), main = row.querySelector('.tn-mrow-main');
+        const media = row.querySelector('.tn-mrow-media').getBoundingClientRect(), r = row.getBoundingClientRect(), tr = title.getBoundingClientRect(), mr = main.getBoundingClientRect();
+        const lh = parseFloat(getComputedStyle(title).lineHeight) || 20;
+        return { button: row.tagName === 'BUTTON', chevron: !!row.querySelector('.tn-go'), dot: !!row.querySelector('.tn-row-status'),
+          fullWidth: Math.abs(tr.right - mr.right) <= 1 && mr.right >= r.right - 24, lines: Math.round(tr.height / lh), clipped: title.scrollHeight > title.clientHeight + 1,
+          square: Math.abs(media.width - media.height) <= 1 && media.width >= 56 }; })()`);
+      if (!st.button) left.push('the media row is not a button');
+      if (st.chevron || st.dot) left.push('the media row shows a chevron or a status dot');
+      if (!st.fullWidth) left.push('the title does not take the full width beside the picture');
+      if (st.lines > 3 || (st.clipped && st.lines !== 3)) left.push(`the long title takes ${st.lines} line(s)${st.clipped ? ' and is cut' : ''} (up to 3 lines, then "…", expected)`);
+      if (!st.square) left.push('the picture is not a square of at least 56 px');
+      return left;
+    } },
   { id: 'table-load-more', page: 'gallery', hash: 'table?rows=300', overlay: '.tn-toolbar-title', focus: false,
     // long tables (0.9.2): 50 rows at first, the next 50 come by themselves when the footer scrolls near the visible area; the "Show more"
     // button stays and still works (fallback); at the end the footer disappears

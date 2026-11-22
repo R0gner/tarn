@@ -15,6 +15,7 @@ import { fitTiles } from './tiles-data.js';
 /** @typedef {{ count?: number | string | null, actions?: Child, footer?: Child, info?: Child, className?: string }} SectionOptions footer: a quiet line under the content; info: an optional explanation behind a small "i" next to the title. */
 /** @typedef {{ label?: Child, value?: Child, unit?: Child, sub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, className?: string }} StatTileOptions */
 /** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, wrapSub?: boolean, wrapTitle?: boolean, className?: string }} MetricRowOptions wrapSub: the sub line wraps instead of ending in "…" (a problem row's reason must be readable in full); wrapTitle: the title takes up to two lines. */
+/** @typedef {{ media?: Child, title?: Child, lines?: Array<Child | null | undefined | false>, onClick?: (e: MouseEvent) => void, label?: string, selected?: boolean, key?: string | number, titleLines?: 2 | 3 | 4, className?: string }} MediaRowOptions media: the picture (an <img> or a placeholder), titleLines: lines the title may take before "…" (default 3), lines: the rows below the title (a value line, a line of badges). */
 /** @typedef {{ empty?: string, zebra?: boolean }} ListOptions */
 /** @typedef {{ mono?: boolean }} KvOptions */
 /** @typedef {[Child, Child, string?]} KvPair [key, value, optional class for the value] */
@@ -165,6 +166,28 @@ export function list(items, render, { empty: emptyText, zebra = false } = {}) {
     el.setAttribute('role', el.tagName === 'BUTTON' ? 'button' : 'listitem');
     return el;
   }));
+}
+
+/**
+ * Row with a picture – a listing, a product, a camera: the picture on the left, the title over the whole remaining width (up to `titleLines`
+ * lines, default 3, then "…" with the full text as hint), below it the lines the board gives (a value line, a line of badges). The whole row is
+ * the button; there is no chevron and no status dot – say the state with a badge in a line (the dot and a verdict word side by side say the
+ * same twice). A value does not sit in its own column beside the title, it goes into a line: on a phone a right column takes the title's room.
+ * Rows without a picture: metricRow().
+ * mediaRow({ media, title, lines: [valueLine, badges], onClick, key, selected, label, titleLines })
+ * @param {MediaRowOptions} [o]
+ * @returns {HTMLElement}
+ */
+export function mediaRow({ media, title, lines = [], onClick, label, selected, key, titleLines = 3, className } = {}) {
+  const tag = onClick ? 'button' : 'div';
+  return h(tag, {
+    class: cls('tn-row', 'tn-mrow', onClick && 'tn-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
+    onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null,
+  },
+  h('span', { class: 'tn-mrow-media', 'aria-hidden': 'true' }, media),
+  h('span', { class: 'tn-mrow-main' },
+    h('span', { class: cls('tn-mrow-title', 'tn-clamp', titleLines !== 2 && `tn-clamp-${titleLines}`) }, title),
+    lines.filter((l) => l != null && l !== false && l !== '').map((l) => h('span', { class: 'tn-mrow-line' }, l))));
 }
 
 /**
