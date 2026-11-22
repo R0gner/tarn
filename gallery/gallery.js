@@ -278,7 +278,7 @@ function viewStates() {
           banner('New data format, display may be incomplete.', { tone: 'info' }),
           banner('A very long notice with an-unbreakable-path/opt/stack/compose/services/something/backup.yml that has to wrap.', { tone: 'warn' })))),
     demo('imageStrip() and openImageViewer()', `imageStrip(item.images.map((p) => ({ src: '/api/img/' + p, alt })))   // [] or null draws nothing (returns null)
-openImageViewer(images, { index: 2, onClose: (reason, index) => … })   // swipe, arrow keys; x, Esc, tap beside, swipe down, Back close`,
+openImageViewer(images, { index: 2, onClose: (reason, index) => … })   // carousel swipe, arrow keys; pinch, double tap 1×/2×/3.5×; x, Esc, tap beside, swipe down, Back close`,
       h('div', { class: 'g-stage-col' },
         state('several images: scrolls sideways, tap opens the viewer', imageStrip(PHOTOS)),
         state('one image', imageStrip(PHOTOS.slice(0, 1))),

@@ -13,6 +13,7 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `arrow-up` | `arrow-up.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-up.svg | `8c22c25874c80bb062bef985d207d8f1d4a4d7847237d0a8cf720a3235968518` |
 | `bell` | `bell.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell.svg | `394889e9631fe3a9a63be9a479a95b451b708e432d895978d21d9130b5ee5dbe` |
 | `bell-off` | `bell-off.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell-off.svg | `14ad2775c3a594f09a79c195531778ae51302f847a9c558f720340d1e450bd6a` |
+| `bookmark` | `bookmark.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bookmark.svg | `1d5023760db81f21c3b5a63f012ef540acc01932731c733e4645012a876d39f4` |
 | `box` | `box.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/box.svg | `511862693d914d2bf1947c9ccc513595f2a256541f5dd4f6f9ac8383cd41ac4f` |
 | `calendar` | `calendar.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/calendar.svg | `312ac8e715ac2b71bcc942dec2e8de9c1929085474f08885af35b563f6aa7a0b` |
 | `chart` | `chart-column.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/chart-column.svg | `80664a4c5ca1bca10bcb88c1a99f62593c94d61d72d3a4bbf577eb3f3ea4da57` |

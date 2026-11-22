@@ -3,6 +3,31 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.8.1
+
+### Fixed
+- Image viewer: paging by swipe showed black instead of the neighbour, then swapped the picture at once. The 0.8.0 viewer had a single `<img>`:
+  a drag moved only that element over the dark dialog, so the side it uncovered was empty (nothing was there to slide in); on release the same
+  element was sent back to the middle while its `src` was swapped, and the neighbour, preloaded only as a detached `new Image()` with
+  `decoding: async`, was decoded when it was set, so the old image slid back and was replaced by a different one. Now the viewer is a carousel:
+  every image is a slide on one track (slide i at i × 100 %), the track follows the finger so the previous or next image slides in while you
+  drag, and on release it settles on the new image or back (closing duration, instant with reduced motion); keys and buttons page with the same
+  slide. The current image and its neighbours get their file at once and are decoded ahead with `img.decode()`.
+
+### Added
+- Image viewer zoom: pinch about the fingers' centre; a double tap (double click) at a spot steps 1× → 2× → 3.5× → 1×; the wheel (also Ctrl+wheel,
+  a trackpad pinch) zooms at the pointer; `+` steps in, `-`/`0` back to 1×. Zoomed, a drag pans inside the image's limits (no empty edge), a drag
+  down does not close, and only a drag beyond the left or right edge hands the rest to the carousel and pages; the new image starts at 1×. At 1×
+  a horizontal drag pages and a drag down closes as before. A single tap beside the image still closes, but only after the double-tap time
+  (`DOUBLE_TAP_MS`, 300 ms), so a double tap never closes. Back (one history entry) is unchanged. Pure helpers in `js/images-data.js`:
+  `nextZoomStep`, `clampScale`, `panLimits`, `clampPan`, `zoomAt`, `panHandoff`, `isDoubleTap`, `trackOffset` (unit tests in
+  `tests/images.test.mjs`). The API of `imageStrip()`/`openImageViewer()` is unchanged.
+- verify: overlay scenario `image-zoom` (double-tap steps, never closing on a double tap, the next image loaded and in view during a drag, pan
+  limits, no close when zoomed, paging only beyond the edge with the new image at 1×, pinch, single tap closes after the wait); mutants
+  `viewer-pages-before-edge`, `viewer-no-neighbours` (the 0.8.0 fault), `viewer-doubletap-closes`, `viewer-zoom-no-reset`. The `image-viewer`
+  scenario reads the current slide.
+- Icon `bookmark` (Lucide), for "keep/save for later" actions (Markt-Scout's *Save* button).
+
 ## 0.8.0
 
 ### Added

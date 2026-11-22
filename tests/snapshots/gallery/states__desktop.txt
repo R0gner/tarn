@@ -1,5 +1,5 @@
 # gallery #/states · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x1592
+div.tn-app @0,0 1424x1608
   aside.tn-sidebar @0,0 208x900
     div.tn-sidebar-head @8,0 192x44
       div.tn-brand @16,12 108x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 1424x1592
         svg.tn-icon @16,608 16x16
         span.tn-ellipsis "Shell and boards" @40,608 104x20
   div.tn-scrim @0,0 1424x900
-  div.tn-main @208,0 1216x1592
+  div.tn-main @208,0 1216x1608
     header.tn-toolbar @208,0 1216x44
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
@@ -76,7 +76,7 @@ div.tn-app @0,0 1424x1592
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x1548
+    main.tn-content @208,44 1216x1564
       section.tn-card @224,60 384x280
         header.tn-card-head @224,60 384x40
           div.tn-card-heading @236,72 360x20
@@ -144,11 +144,11 @@ div.tn-app @0,0 1424x1592
           div.tn-banner.tn-banner-warn [status] @236,608 360x68
             svg.tn-icon @252,616 16x16
             div.tn-banner-text "A very long notice with an-unbreakable-path/opt/stack/compos" @276,616 308x52
-      section.tn-card @224,788 1184x612
+      section.tn-card @224,788 1184x628
         header.tn-card-head @224,788 1184x40
           div.tn-card-heading @236,800 1160x20
             h3.tn-card-title "imageStrip() and openImageViewer()" @236,800 1160x20
-        div.tn-card-body @224,828 1184x568
+        div.tn-card-body @224,828 1184x588
           ul.tn-imgstrip [list] "Images" @236,840 816x104
             li.tn-imgstrip-item @240,844 128x96
               button.tn-imgstrip-btn "Front view, image 1 of 6" @240,844 128x96
@@ -180,9 +180,9 @@ div.tn-app @0,0 1424x1592
               button.tn-imgstrip-btn "Image 2 of 2" @376,1116 128x96
                 img.tn-imgstrip-img.is-broken @376,1116 128x96
           button.tn-btn.tn-btn-default @236,1276 132x28
-      section.tn-card @224,1420 1184x140
-        header.tn-card-head @224,1420 1184x40
-          div.tn-card-heading @236,1432 1160x20
-            h3.tn-card-title "openSheet() directly" @236,1432 1160x20
-        div.tn-card-body @224,1460 1184x100
-          button.tn-btn.tn-btn-default @236,1472 92x28
+      section.tn-card @224,1436 1184x140
+        header.tn-card-head @224,1436 1184x40
+          div.tn-card-heading @236,1448 1160x20
+            h3.tn-card-title "openSheet() directly" @236,1448 1160x20
+        div.tn-card-body @224,1476 1184x100
+          button.tn-btn.tn-btn-default @236,1488 92x28

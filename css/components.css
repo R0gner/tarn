@@ -450,7 +450,8 @@ dialog.tn-confirm::backdrop { background: var(--tn-scrim); }
 
 /* ============ Images (images.js): strip of thumbnails and the viewer ============
    Strip: thumbnails of the same size (4:3, cropped), sideways scrolling with scroll snap; the padding keeps the focus ring inside the scroller.
-   Viewer: a modal dialog over the whole screen, always dark (color-scheme: dark turns every token inside into its dark value). */
+   Viewer: a modal dialog over the whole screen, always dark (color-scheme: dark turns every token inside into its dark value); a carousel of slides
+   with zoom (transform only, durations from the tokens, so reduced motion makes every settle instant). */
 .tn-imgstrip {
   display: flex; gap: var(--tn-s2); margin: 0; padding: var(--tn-sp-3); list-style: none; min-width: 0; max-width: 100%;
   overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: var(--tn-sp-3); scrollbar-width: thin;
@@ -471,13 +472,20 @@ dialog.tn-viewer {
 dialog.tn-viewer:not([open]) { display: none; }
 dialog.tn-viewer.is-open { opacity: 1; transition-duration: var(--tn-t-open); transition-delay: var(--tn-t-lead); }
 dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
-.tn-viewer-stage { position: absolute; inset: 0; touch-action: none; user-select: none; }
+.tn-viewer-stage { position: absolute; inset: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+/* the carousel: one slide per image side by side (slide i at i × 100 %), the track is moved by the viewer (translate in % of the stage plus the drag) */
+.tn-viewer-track { position: absolute; inset: 0; will-change: transform; }
+.tn-viewer-track.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
+.tn-viewer-slide { position: absolute; top: 0; bottom: 0; width: 100%; left: calc(var(--tn-slide, 0) * 100%); overflow: hidden; }
 /* the frame has a definite size (inset), so the image's max-width/max-height in % fit it into the free area below the head */
 .tn-viewer-frame {
   position: absolute; display: flex; align-items: center; justify-content: center;
   inset: calc(var(--tn-toolbar-h) + env(safe-area-inset-top)) max(var(--tn-s2), env(safe-area-inset-right)) max(var(--tn-s2), env(safe-area-inset-bottom)) max(var(--tn-s2), env(safe-area-inset-left));
 }
-.tn-viewer-img { display: block; min-width: 0; min-height: 0; max-width: 100%; max-height: 100%; object-fit: contain; will-change: transform; }
+.tn-viewer-frame.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
+.tn-viewer-img { display: block; min-width: 0; min-height: 0; max-width: 100%; max-height: 100%; object-fit: contain; }
+.tn-viewer-slide.is-current .tn-viewer-img { will-change: transform; cursor: zoom-in; }
+.tn-viewer.is-zoomed .tn-viewer-slide.is-current .tn-viewer-img { cursor: grab; }
 .tn-viewer-img.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
 .tn-viewer-failed { margin: 0; color: var(--tn-text-2); text-align: center; }
 .tn-viewer-head {

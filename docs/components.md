@@ -119,15 +119,22 @@ at that image; `onOpen(index, images)` replaces that.
 list) shows the images large above everything: a modal dialog over the whole screen, always dark, with the counter "n / m" (hidden for one image), *x*
 and previous/next buttons (hidden at the ends; the list does not wrap).
 
-- Paging: swipe left/right (touch, pen and mouse; the image follows the finger), the arrow keys, Home/End, the buttons. The neighbours are preloaded.
-- Closing: *x*, Esc, a tap beside the image, a swipe down and **Back**: inside a `createApp()` page the viewer takes one history entry like a sheet
+- Paging: a carousel – every image is a slide on one track that follows the finger (touch, pen and mouse), so the previous or next image slides in
+  while you drag; on release the track settles on the new image or back (short, the closing duration; instant with reduced motion). The arrow keys,
+  Home/End and the buttons page with the same slide. The neighbours of the current image are loaded and decoded ahead (`img.decode()`), so a drag
+  never pulls in an empty slide.
+- Zoom: pinch about the fingers' centre; a double tap (double click) at a spot steps 1× → 2× → 3.5× and back to 1×; the wheel (with or without
+  Ctrl, also a trackpad pinch) zooms at the pointer; `+` steps in, `-` or `0` goes back to 1×. Zoomed, a drag pans the image inside its limits (it
+  never leaves an empty edge) and a drag down does not close; only a drag beyond the image's left or right edge moves on to the neighbour, which
+  starts at 1×. At 1× a horizontal drag pages and a drag down closes.
+- Closing: *x*, Esc, a single tap beside the image (it waits for the double-tap time first, so a double tap never closes), a swipe down at 1× and **Back**: inside a `createApp()` page the viewer takes one history entry like a sheet
   ([Back](shell.md#back)), so the Android back button of an installed app closes the viewer first, then the detail it was opened from. `back: false`
   opts out. `onClose(reason, index)` fires once with `'x' | 'esc' | 'scrim' | 'swipe' | 'api' | 'back'`.
 - After closing the focus goes back to the opener; the strip moves it to the thumbnail of the image shown last (`returnFocus(index)` for your own opener).
 - An image that does not load shows "The image could not be loaded"; a thumbnail that does not load stays an empty tile.
-- No zoom: a pinch would fight the swipe. A board that needs the full resolution links the file in its detail.
-- The pure helpers (`normalizeImages`, stepping, preloading, the swipe decision) are in `js/images-data.js`; unit tests `tests/images.test.mjs`, overlay
-  scenarios `image-viewer` and `back-viewer` ([checks](checks.md)).
+- The pure helpers (`normalizeImages`, stepping, preloading, the swipe decision, zoom steps, pan limits, zooming about a point, the hand-over at the
+  edge, double taps) are in `js/images-data.js`; unit tests `tests/images.test.mjs`, overlay scenarios `image-viewer`, `image-zoom` and `back-viewer`
+  ([checks](checks.md)).
 
 Do not open images with `<a target="_blank">` in a board: in an installed app that leaves the app, and Back closes it.
 

@@ -163,13 +163,13 @@ export const SCENARIOS = [
     assert: async (io) => {
       const left = [];
       const st = () => io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]'); if (!d) return null;
-        return { count: d.querySelector('.tn-viewer-count').textContent, src: d.querySelector('.tn-viewer-img').getAttribute('src'),
-          prev: d.querySelector('.tn-viewer-prev').checkVisibility(), next: d.querySelector('.tn-viewer-next').checkVisibility(), alt: d.querySelector('.tn-viewer-img').alt }; })()`);
+        return { count: d.querySelector('.tn-viewer-count').textContent, src: d.querySelector('.tn-viewer-slide.is-current .tn-viewer-img').getAttribute('src'),
+          prev: d.querySelector('.tn-viewer-prev').checkVisibility(), next: d.querySelector('.tn-viewer-next').checkVisibility(), alt: d.querySelector('.tn-viewer-slide.is-current .tn-viewer-img').alt }; })()`);
       let s = await st();
       if (!s || s.count !== '1 / 6' || !/photo-1/.test(s.src)) return [`the first thumbnail opens ${JSON.stringify(s)}`];
       if (s.prev || !s.next) left.push('on the first image the previous button shows or the next button is missing');
       // the whole image is visible below the head (a larger file is scaled down, never cut)
-      const fit = await io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]'); const i = d.querySelector('.tn-viewer-img').getBoundingClientRect(), hd = d.querySelector('.tn-viewer-head').getBoundingClientRect();
+      const fit = await io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]'); const i = d.querySelector('.tn-viewer-slide.is-current .tn-viewer-img').getBoundingClientRect(), hd = d.querySelector('.tn-viewer-head').getBoundingClientRect();
         const vw = document.documentElement.clientWidth, n = d.querySelector('.tn-viewer-next').getBoundingClientRect();   // never under a reserved scrollbar gutter
         return { ok: i.width > 0 && i.top >= hd.bottom - 1 && i.bottom <= innerHeight + 1 && i.left >= -1 && i.right <= vw + 1 && n.right <= vw + 1, r: [i.left, i.top, i.right, i.bottom, n.right, vw].map(Math.round).join(',') }; })()`);
       if (!fit.ok) left.push(`the image does not fit the free area below the head (${fit.r})`);
@@ -194,9 +194,88 @@ export const SCENARIOS = [
       if ((await io.eval('location.hash')) !== '#/states') left.push(`closing the viewer changed the hash to ${await io.eval('location.hash')}`);
       // a tap beside the image (the stage's left edge, below the head, the image is centred and narrower) closes
       await io.press('.tn-imgstrip-btn', ''); await io.until(`!!document.querySelector('dialog.tn-viewer.is-open')`, 500); await sleep(60);
-      const edge = await io.eval(`(() => { const r = document.querySelector('dialog.tn-viewer[open] .tn-viewer-img').getBoundingClientRect(); return { x: Math.round(innerWidth / 2), y: Math.round(innerHeight - 6), hit: document.elementFromPoint(innerWidth / 2, innerHeight - 6)?.className || '' }; })()`);
-      await io.tapAt(edge.x, edge.y); await io.gone('dialog.tn-viewer[open]', 600);
+      const edge = await io.eval(`(() => { return { x: Math.round(innerWidth / 2), y: Math.round(innerHeight - 6), hit: document.elementFromPoint(innerWidth / 2, innerHeight - 6)?.className || '' }; })()`);
+      await io.tapAt(edge.x, edge.y); await io.gone('dialog.tn-viewer[open]', 900);   // a single tap waits for a possible second one first
       if (await io.count('dialog.tn-viewer[open]')) left.push(`a tap beside the image (on ${edge.hit}) does not close the viewer`);
+      return left;
+    } },
+  { id: 'image-zoom', page: 'gallery', hash: 'states', overlay: 'dialog.tn-viewer[open]', focus: true,
+    open: (io) => io.press('.tn-imgstrip-btn'),
+    // the carousel and the zoom, on image 2 of 6 (neighbours on both sides): a double tap steps 1× → 2× → 3.5× → 1× and never closes; on touch
+    // the neighbour is loaded and in view while a finger drags; zoomed, a drag pans inside the limits, a drag down does not close, and only a
+    // drag beyond the image's edge pages (the new image at 1×); a pinch zooms; a single tap beside the image closes after the double-tap wait
+    assert: async (io) => {
+      const left = [];
+      const VIEW = 'dialog.tn-viewer[open]';
+      const st = () => io.eval(`(() => { const d = document.querySelector('${VIEW}'); if (!d) return null;
+        const sl = d.querySelector('.tn-viewer-slide.is-current'), img = sl.querySelector('.tn-viewer-img'), tr = getComputedStyle(img).transform;
+        const m = new DOMMatrix(tr === 'none' ? undefined : tr), f = sl.querySelector('.tn-viewer-frame').getBoundingClientRect(), r = img.getBoundingClientRect();
+        return { count: d.querySelector('.tn-viewer-count').textContent, s: Math.round(m.a * 100) / 100, tx: Math.round(m.e), ty: Math.round(m.f),
+          lx: Math.round(Math.max(0, (m.a * img.offsetWidth - f.width) / 2)), ly: Math.round(Math.max(0, (m.a * img.offsetHeight - f.height) / 2)),
+          cx: Math.round(f.left + f.width / 2), cy: Math.round(f.top + f.height / 2), bottom: Math.round(Math.min(innerHeight - 6, r.bottom + (innerHeight - r.bottom) / 2)) }; })()`);
+      // the slide after the current one: its image loaded and decoded, and (while a finger drags) partly in view
+      const nextSlide = () => io.eval(`(() => { const d = document.querySelector('${VIEW}'); const sl = d.querySelector('.tn-viewer-slide.is-current + .tn-viewer-slide'); if (!sl) return null;
+        const img = sl.querySelector('.tn-viewer-img'), r = img.getBoundingClientRect();
+        return { ready: img.complete && img.naturalWidth > 0, inView: r.width > 0 && r.left < document.documentElement.clientWidth - 20 && r.right > 0, left: Math.round(r.left) }; })()`);
+      const dbl = async (x, y) => { await io.tapAt(x, y); await sleep(60); await io.tapAt(x, y); await sleep(320); };
+      const tp = (type, pts) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: pts.map((p, id) => ({ x: Math.round(p.x), y: Math.round(p.y), id })) });
+      // a finger drag in 8 steps; end: false keeps the finger down (for a look during the drag), finish() lifts it
+      const drag = async (x, y, dx, dy, end = true) => {
+        await tp('touchStart', [{ x, y }]); await sleep(30);
+        for (let i = 1; i <= 8; i++) { await tp('touchMove', [{ x: x + (dx * i) / 8, y: y + (dy * i) / 8 }]); await sleep(16); }
+        if (end) { await tp('touchEnd', []); await sleep(250); }
+      };
+      const lift = async () => { await tp('touchEnd', []); await sleep(250); };
+      await io.key('ArrowRight', 39); await sleep(250);
+      let s = await st();
+      if (!s || s.count !== '2 / 6') return [`ArrowRight shows ${JSON.stringify(s)} instead of 2 / 6`];
+      const steps = [];
+      for (let i = 0; i < 4; i++) { await dbl(s.cx, s.cy); const z = await st(); steps.push(z ? z.s : 'closed'); }
+      if (steps.join(' ') !== '2 3.5 1 2') left.push(`double taps step through ${steps.join(' → ')} instead of 2 → 3.5 → 1 → 2`);
+      if (!(await io.count(VIEW))) return [...left, 'a double tap closed the viewer'];
+      if (io.mobile) {
+        // zoomed 2×: a drag down pans (here: nothing to pan vertically) and does not close
+        s = await st();
+        await drag(s.cx, s.cy, 0, 200);
+        let z = await st();
+        if (!z) return [...left, 'a drag down on a zoomed image closes the viewer'];
+        if (z.s !== 2 || Math.abs(z.ty) > z.ly + 1) left.push(`a drag down at 2× leaves scale ${z.s}, shift ${z.ty} (limit ${z.ly})`);
+        // a short drag left pans the image and stays on it (its edge is not reached)
+        await drag(s.cx, s.cy, -Math.round(z.lx * 0.6), 0);
+        z = await st();
+        if (z.count !== '2 / 6') left.push(`a drag inside the zoomed image pages to ${z.count} before its edge`);
+        else if (!(z.tx < -5) || Math.abs(z.tx) > z.lx + 1) left.push(`a drag inside the zoomed image shifts it by ${z.tx} (limit ${z.lx})`);
+        // a long drag on: the image stops at its edge, the rest pulls the next slide in; on release it pages and the new image is at 1×
+        await drag(s.cx, s.cy, -Math.round(z.lx + 200), 0, false);
+        const mid = await st(), nb = await nextSlide();
+        if (Math.abs(mid.tx + mid.lx) > 1) left.push(`the zoomed image does not stop at its edge (${mid.tx}, limit -${mid.lx})`);
+        if (!nb || !nb.ready || !nb.inView) left.push(`dragging beyond the zoomed image's edge does not pull the next image in (${JSON.stringify(nb)})`);
+        await lift();
+        z = await st();
+        if (z.count !== '3 / 6' || z.s !== 1) left.push(`a drag beyond the zoomed image's edge shows ${z.count} at ${z.s}× instead of 3 / 6 at 1×`);
+        // at 1×: the neighbour is loaded and slides in with the finger (never black); dragged back, nothing pages
+        await drag(z.cx, z.cy, -120, 0, false);
+        const nb2 = await nextSlide();
+        if (!nb2 || !nb2.ready || !nb2.inView) left.push(`while a finger drags, the next image is not in view or not loaded (${JSON.stringify(nb2)})`);
+        await tp('touchMove', [{ x: z.cx, y: z.cy }]); await lift();
+        if ((await st()).count !== '3 / 6') left.push('a drag that comes back to its start pages');
+        // a pinch from 60 to 220 px apart zooms in about the fingers' centre
+        await tp('touchStart', [{ x: z.cx - 30, y: z.cy }, { x: z.cx + 30, y: z.cy }]); await sleep(30);
+        for (let i = 1; i <= 8; i++) { const h2 = 30 + (80 * i) / 8; await tp('touchMove', [{ x: z.cx - h2, y: z.cy }, { x: z.cx + h2, y: z.cy }]); await sleep(16); }
+        await lift();
+        const p = await st();
+        if (!p || !(p.s > 2)) left.push(`a pinch to the 3.7-fold distance gives scale ${p && p.s}`);
+      }
+      // a double tap beside the image zooms there and never closes; a single tap beside it closes, but only after the double-tap wait
+      s = await st();
+      await dbl(s.cx, s.bottom);
+      if (!(await io.count(VIEW))) return [...left, 'a double tap beside the image closes the viewer'];
+      await io.key('-'); await sleep(250);   // back to 1× (zoomed on a wide screen the image covers everything: no "beside" left)
+      if ((await st()).s !== 1) left.push('the - key does not zoom back to 1×');
+      await io.tapAt(s.cx, (await st()).bottom); await sleep(120);
+      if (!(await io.count(VIEW))) left.push('a single tap closes before the double-tap wait is over');
+      await io.gone(VIEW, 900);
+      if (await io.count(VIEW)) left.push('a single tap beside the image does not close the viewer');
       return left;
     } },
   { id: 'back-drawer', page: 'board', hash: 'jobs', overlay: '.tn-sidebar', when: (sz) => sz.w < 1000,

@@ -245,6 +245,30 @@ export const MUTANTS = [
     patch: [{ file: 'js/images.js', from: 'const to = stepIndex(cur, m, dir);', to: 'const to = (cur + dir + m) % m;' }],
   },
   {
+    // a zoomed image that does not pan: every drag goes to the carousel, so it pages before the image's edge is reached
+    id: 'viewer-pages-before-edge',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: 'lim: on.limits(zoom.s) });', to: 'lim: { x: 0, y: 0 } });' }],
+  },
+  {
+    // the 0.8.0 fault: the neighbours are not loaded ahead, so a drag pulls in an empty (black) slide
+    id: 'viewer-no-neighbours',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: 'for (const k of neighbours(cur, m)) load(k);', to: '' }],
+  },
+  {
+    // a single tap that acts at once: the first half of a double tap beside the image closes the viewer
+    id: 'viewer-doubletap-closes',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images.js', from: 'tapTimer = setTimeout(() => { tapTimer = null; lastTap = null; on.tap(target); }, DOUBLE_TAP_MS);', to: 'on.tap(target);' }],
+  },
+  {
+    // double taps that wrap from 3.5× to 2× instead of going back to 1×
+    id: 'viewer-zoom-no-reset',
+    check: 'overlay', scenarios: ['image-zoom'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/images-data.js', from: 'return steps[0];\n}', to: 'return steps[1];\n}' }],
+  },
+  {
     // earlier timeline fault: overflow-x auto alone makes overflow-y auto; the bars' hit area sticks out a few px below the grid, so a vertical
     // swipe on the timeline scrolled the timeline by about a millimetre and the page did not move
     id: 'timeline-scrolls-vertically',

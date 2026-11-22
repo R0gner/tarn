@@ -1,5 +1,6 @@
 // @ts-check
-// tarn · images, pure functions (no DOM): the image list, stepping through it, which neighbours to preload and what a swipe in the viewer means.
+// tarn · images, pure functions (no DOM): the image list, stepping through it, which neighbours to preload, what a swipe in the viewer means,
+// and the zoom: double-tap steps, pan limits, zooming about a point and the hand-over to the next image at the edge.
 // js/images.js (imageStrip, openImageViewer) draws with them; unit tests in tests/images.test.mjs.
 
 /** @typedef {{ src: string, thumb?: string, alt?: string }} ImageItem src: the full image; thumb: a smaller file for the strip (else src); alt: what the image shows (data, not translated). */
@@ -81,4 +82,119 @@ export function swipeResult({ dx, dy, dt, width, height, index, n }) {
   }
   if (dy > 0 && (dy >= SWIPE_SHARE * height || fast(dy))) return 'close';
   return null;
+}
+
+// ---- zoom and pan (the viewer's current image). Coordinates are px relative to the centre of the frame the image is fitted into; the image is
+// drawn with `transform: translate(tx, ty) scale(s)` around its own centre, which at rest is the frame's centre.
+
+/** @typedef {{ s: number, tx: number, ty: number }} Zoom s: scale (1 = fitted); tx/ty: shift of the image centre from the frame centre in px. */
+/** @typedef {{ x: number, y: number }} PanLimits the largest shift in each direction that keeps the image edge at or beyond the frame edge. */
+
+/** Zoom steps a double tap walks through; after the last one it goes back to the first. */
+export const ZOOM_STEPS = [1, 2, 3.5];
+/** The largest scale a pinch or the wheel reaches. */
+export const ZOOM_MAX = 4;
+/** Below this scale the image counts as not zoomed (1×). */
+export const ZOOM_EPS = 0.02;
+/** Two taps count as a double tap within this time (ms) … */
+export const DOUBLE_TAP_MS = 300;
+/** … and this distance (px). A single tap waits DOUBLE_TAP_MS before it acts, so a double tap never closes the viewer. */
+export const DOUBLE_TAP_PX = 30;
+
+/**
+ * The next double-tap step after scale `s`: the first step that is clearly larger; at or above the last step back to the first (1×).
+ * A scale between steps (after a pinch) goes to the next step up.
+ * @param {number} s
+ * @param {number[]} [steps]
+ * @returns {number}
+ */
+export function nextZoomStep(s, steps = ZOOM_STEPS) {
+  const cur = Number.isFinite(s) ? s : 1;
+  for (const z of steps) if (z > cur + ZOOM_EPS) return z;
+  return steps[0];
+}
+
+/**
+ * A scale inside 1 … max (1 for anything that is not a finite number).
+ * @param {number} s
+ * @param {number} [max]
+ * @returns {number}
+ */
+export function clampScale(s, max = ZOOM_MAX) {
+  if (!Number.isFinite(s)) return 1;
+  return Math.min(max, Math.max(1, s));
+}
+
+/**
+ * How far the image may be shifted at scale `s`: half of what sticks out over the frame, 0 on an axis where the scaled image still fits
+ * (it stays centred there).
+ * @param {{ s: number, iw: number, ih: number, w: number, h: number }} g iw/ih: the fitted image size at 1×; w/h: the frame size
+ * @returns {PanLimits}
+ */
+export function panLimits({ s, iw, ih, w, h }) {
+  return { x: Math.max(0, (s * iw - w) / 2), y: Math.max(0, (s * ih - h) / 2) };
+}
+
+/** @param {number} v @param {number} lim */
+const clampAxis = (v, lim) => (Math.abs(v) <= lim ? v : Math.sign(v) * lim) || 0;
+
+/**
+ * Keep a shift inside the limits.
+ * @param {Zoom} z
+ * @param {PanLimits} lim
+ * @returns {Zoom}
+ */
+export function clampPan(z, lim) {
+  return { s: z.s, tx: clampAxis(z.tx, lim.x), ty: clampAxis(z.ty, lim.y) };
+}
+
+/**
+ * Change the scale to `s2` so that the point (px, py) stays under the finger (pinch centre, tapped spot). Not clamped: pass the result through
+ * clampPan() with the limits of the new scale. At 1× the shift is 0.
+ * @param {Zoom} z the current state
+ * @param {number} s2 the new scale
+ * @param {number} px
+ * @param {number} py
+ * @returns {Zoom}
+ */
+export function zoomAt(z, s2, px, py) {
+  if (s2 <= 1 + ZOOM_EPS) return { s: 1, tx: 0, ty: 0 };
+  const k = s2 / z.s;
+  return { s: s2, tx: px - (px - z.tx) * k, ty: py - (py - z.ty) * k };
+}
+
+/**
+ * A drag on a zoomed image: the image moves with the finger up to its edge; what the finger travels beyond the left or right edge is handed
+ * to the carousel (`over`, px, negative = towards the next image). Beyond the top or bottom edge nothing happens (a zoomed image never closes).
+ * @param {{ tx: number, ty: number, dx: number, dy: number, lim: PanLimits }} g tx/ty: the shift when the drag started; dx/dy: the drag so far
+ * @returns {{ tx: number, ty: number, over: number }}
+ */
+export function panHandoff({ tx, ty, dx, dy, lim }) {
+  const wantX = tx + dx;
+  const x = clampAxis(wantX, lim.x);
+  return { tx: x, ty: clampAxis(ty + dy, lim.y), over: (wantX - x) || 0 };
+}
+
+/**
+ * Whether a tap is the second half of a double tap.
+ * @param {{ t: number, x: number, y: number } | null} prev the tap before (null: none waiting)
+ * @param {{ t: number, x: number, y: number }} cur
+ * @returns {boolean}
+ */
+export function isDoubleTap(prev, cur) {
+  if (!prev) return false;
+  const dt = cur.t - prev.t;
+  return dt >= 0 && dt <= DOUBLE_TAP_MS && Math.hypot(cur.x - prev.x, cur.y - prev.y) <= DOUBLE_TAP_PX;
+}
+
+/**
+ * The carousel offset while a drag pulls where there is no image (before the first, after the last): damped so it moves, but clearly less.
+ * @param {number} dx the drag (or the part handed over by panHandoff)
+ * @param {number} index
+ * @param {number} n
+ * @returns {number}
+ */
+export function trackOffset(dx, index, n) {
+  const blocked = (dx < 0 && index >= n - 1) || (dx > 0 && index <= 0);
+  return blocked ? Math.sign(dx) * Math.sqrt(Math.abs(dx)) * 2 : dx;
 }
