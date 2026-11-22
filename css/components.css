@@ -329,11 +329,14 @@ th.is-sorted { color: var(--tn-text); }
 /* a control in a row is drawn small (it must not make the title line taller); on touch its target stays 44 px (core.css .tn-iconbtn::before) */
 .tn-table td[data-m="action"] .tn-iconbtn { width: var(--tn-sz-28); height: var(--tn-sz-28); }
 .tn-table-wrap.is-list.has-metrics .tn-table td.tn-td-go { display: none; }
-.tn-table-wrap.is-list .tn-table td.tn-td-metrics { display: grid; grid-area: met; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); column-gap: var(--tn-s3); }
+/* one template for the whole list (table.js sets --tn-met-tracks from the widest label + value of every measurement): the same measurement at the
+   same x in every row; more measurements than fit wrap to a second line of the same grid; a value longer than its cell is cut with “…” (hint shows it) */
+.tn-table-wrap.is-list .tn-table td.tn-td-metrics { display: grid; grid-area: met; grid-template-columns: var(--tn-met-tracks, repeat(3, minmax(0, 1fr))); gap: var(--tn-sp-2) var(--tn-s3); }
 .tn-table .tn-td-metrics { display: none; }
 .tn-lv { display: inline-flex; align-items: baseline; gap: var(--tn-s1); min-width: 0; white-space: nowrap; }
 .tn-lv-k { font-size: var(--tn-fs-label); color: var(--tn-text-3); }
-.tn-lv-v { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; }
+.tn-lv-v { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tn-lv-k { flex: none; }
 .tn-td-metrics .tn-lv-v { color: var(--tn-text); }
 .tn-list-only { display: none; }
 .tn-table-wrap.is-list .tn-list-only { display: inline; }

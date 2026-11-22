@@ -3,6 +3,8 @@ export const PAGES = [
   // details: additionally checked states with an open detail (hash without #/)
   // ?lang= pins the language (the host browser's language must not decide); `only` limits sizes/themes of extra language runs
   { id: 'gallery', path: '/gallery/?lang=en', details: ['table?open=offsite-sync'] },
+  // gallery table in German: the measurement grid of a list row with long German labels (five measurements must wrap, never overflow)
+  { id: 'gallery-de', path: '/gallery/?lang=de', views: ['table'], sizes: ['phone', 'phone-s'], themes: ['dark'] },
   { id: 'board', path: '/example/?lang=en', details: ['jobs?open=offsite-sync', 'hosts?open=nas-b', 'overview?open=offsite-sync', 'overview?open=nas-b', 'deploy?run=ok', 'deploy?run=bad'] },
   // sample board in German and French: long words, other number/date formats (geometry and snapshots)
   { id: 'board-de', path: '/example/?lang=de', details: ['jobs?open=offsite-sync', 'deploy?run=bad'], sizes: ['phone', 'phone-s', 'desktop'], themes: ['dark'] },

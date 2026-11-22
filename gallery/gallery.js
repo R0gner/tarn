@@ -4,7 +4,7 @@
 import {
   h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, toast, card, section, statTile,
   metricRow, mediaRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
-  cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT,
+  cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT, getLocale,
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
@@ -197,12 +197,13 @@ function jobColumns() {
   ];
 }
 // host services (invented): a thing with a state, measurements and a watch toggle – the list mode with mobile: 'metric' and 'action'
+const D = 86400;
 const SERVICES = [
-  { id: 'svc-1', name: 'tv-layout-heal-watch', status: 'ok', cpu: 0.214, mem: 7.12 * 2 ** 30, restarts: 0, watched: true },
-  { id: 'svc-2', name: 'homelab-board-updater', status: 'bad', state: 'failed', cpu: null, mem: 312 * 2 ** 20, restarts: 14, watched: true },
-  { id: 'svc-3', name: 'victoria-metrics', status: 'ok', cpu: 0.038, mem: 1.4 * 2 ** 30, restarts: 0, watched: false },
-  { id: 'svc-4', name: 'backup-offsite-rclone-nightly', status: 'off', state: 'stopped', cpu: null, mem: null, restarts: 2, watched: false },
-  { id: 'svc-5', name: 'caddy', status: 'ok', cpu: 0.006, mem: 48 * 2 ** 20, restarts: 1, watched: false },
+  { id: 'svc-1', name: 'tv-layout-heal-watch', status: 'ok', cpu: 0.214, mem: 7.12 * 2 ** 30, procs: 43, up: 3 * D, restarts: 0, watched: true },
+  { id: 'svc-2', name: 'homelab-board-updater', status: 'bad', state: 'failed', cpu: null, mem: 312 * 2 ** 20, procs: 1, up: 95, restarts: 14, watched: true },
+  { id: 'svc-3', name: 'victoria-metrics', status: 'ok', cpu: 0.038, mem: 1.4 * 2 ** 30, procs: 12, up: 41 * D, restarts: 0, watched: false },
+  { id: 'svc-4', name: 'backup-offsite-rclone-nightly', status: 'off', state: 'stopped', cpu: null, mem: null, procs: null, up: null, restarts: 2, watched: false },
+  { id: 'svc-5', name: 'caddy', status: 'ok', cpu: 0.006, mem: 48 * 2 ** 20, procs: 1287, up: 6 * 3600, restarts: 1, watched: false },
 ];
 export function serviceColumns(onWatch) {
   return [
@@ -214,6 +215,21 @@ export function serviceColumns(onWatch) {
     { key: 'watched', label: 'Watch', sortable: false, mobile: 'action', get: (r) => (r.watched ? 1 : 0),
       render: (r) => iconButton('eye-off', { label: `Watch ${r.name}`, iconPressed: 'eye', pressed: r.watched, onToggle: (on) => { r.watched = on; onWatch?.(r); } }) },
   ];
+}
+
+// the same services with five measurements and the labels of a German board (the first real user): the grid wraps to a second, aligned line
+const LABELS5 = {
+  en: { procs: 'Processes', up: 'Running since', restarts: 'Restarts' },
+  de: { procs: 'Prozesse', up: 'Läuft seit', restarts: 'Neustarts' },
+};
+function serviceColumns5(onWatch) {
+  const l = LABELS5[getLocale()] ?? LABELS5.en;
+  const [name, state, cpu, mem, , watch] = serviceColumns(onWatch);
+  return [name, state, cpu, mem,
+    { key: 'procs', label: l.procs, align: 'right', mobile: 'metric', render: (r) => (r.procs == null ? '–' : fmtNum(r.procs)) },
+    { key: 'up', label: l.up, align: 'right', mobile: 'metric', render: (r) => (r.up == null ? '–' : fmtDuration(r.up)) },
+    { key: 'restarts', label: l.restarts, align: 'right', mobile: 'metric', render: (r) => fmtNum(r.restarts) },
+    watch];
 }
 
 function viewTable(ctx) {
@@ -259,6 +275,10 @@ rows.filter((row) => matchFilters(row, state.f, (row, key) => row[key], { now })
     section('Things with measurements', { className: 'g-services' }, card({ flush: true }, table({
       columns: serviceColumns((r) => toast(r.watched ? `Watching ${r.name}` : `Not watching ${r.name}`)), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
       onRow: (r) => toast(r.name), sort: { key: 'cpu', dir: 'desc' }, caption: 'Host services',
+    }))),
+    section('Five measurements, long labels', { className: 'g-services5' }, card({ flush: true }, table({
+      columns: serviceColumns5((r) => toast(r.watched ? `Watching ${r.name}` : `Not watching ${r.name}`)), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
+      onRow: (r) => toast(r.name), sort: { key: 'cpu', dir: 'desc' }, caption: 'Host services, five measurements',
     }))),
     code(`// a thing with measurements: title over the full width, the measurements labelled in a fixed order, a toggle that does not open the row
 table({ columns: [

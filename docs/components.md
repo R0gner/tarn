@@ -95,6 +95,13 @@ table({
   `short: 'RAM'` for “Memory”; a missing value shows “–”); a state text only when it is not the normal one (a column whose `get` returns `null` for the
   normal state lands in the sub line); one control `mobile: 'action'` (e.g. the watch toggle `iconButton('eye-off', { iconPressed: 'eye', onToggle })`)
   top right beside the title. Such a list has no chevron (the row is the button; the chevron took the title's room). On a desktop it is a normal table.
+- **The measurement line** (two to six metrics) is one grid with **one column template for the whole list**, so the same measurement stands at the
+  same x in every row. The rule, measured once the rows are drawn (again on a width change and when more rows load): each measurement needs its
+  label plus the value width that 80 % of the rows reach (`METRIC_FIT_SHARE`); as many measurements stand side by side as fit, each track as wide as
+  the widest measurement in it, at most six; then the lines are balanced (five where four fit → 3 + 2). More measurements wrap to a second line
+  of the same grid, aligned like the first. Spare room is shared in proportion to the needs. **A value longer than its cell is cut with “…”**
+  (the hint shows it in full); it never pushes the other measurements and never takes two cells, since that would move every later
+  measurement in that row. Pure parts: `metricNeed`, `metricLayout`, `metricTemplate` in `js/table-data.js`.
 - `listLabel: true` puts the column label in front of a value or sub-line value in list mode where the number alone does not say what it is
   (“Size 45 GB”); default: only metrics carry their label.
 - A control inside a row (a button, a link, a field) does not open the row: neither its click nor Enter/Space on it.

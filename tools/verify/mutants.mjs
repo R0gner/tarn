@@ -13,6 +13,12 @@ export const MUTANTS = [
     css: '.tn-row-title { text-overflow: clip; }',
   },
   {
+    // TN-26 follow-up: the measurement line as one row of max-content cells (each row its own grid) runs out of the card with five measurements
+    id: 'metrics-one-line',
+    page: 'gallery', views: ['table'], sizes: ['phone', 'phone-s'], expect: ['overflow'],
+    css: '.tn-table-wrap.is-list .tn-table td.tn-td-metrics { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: max-content; }',
+  },
+  {
     id: 'button-misaligned',
     page: 'gallery', views: ['table'], sizes: ['phone', 'desktop'], expect: ['align'],
     css: '.tn-toolrow > .tn-btn:nth-child(2) { position: relative; top: 3px; }',

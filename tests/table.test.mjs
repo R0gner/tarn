@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { listPlaces, listLabelled, sortChoices, nextSort, opensRow } from '../js/table-data.js';
+import { metricLayout, metricTemplate, metricNeed, listPlaces, listLabelled, sortChoices, nextSort, opensRow } from '../js/table-data.js';
 
 test('list places: defaults of 0.10 stay (title, last right-aligned value, rest sub)', () => {
   assert.deepEqual(listPlaces([{}, {}, { align: 'right' }, { align: 'right' }]), ['title', 'sub', 'sub', 'value']);
@@ -31,4 +31,25 @@ test('a control inside a row does not open the row', () => {
   assert.equal(opensRow({ closest: () => null }, row), true);
   assert.equal(opensRow({ closest: () => row }, row), true);
   assert.equal(opensRow(null, row), true);
+});
+
+test('measurement grid: as many per line as fit, balanced, at most six', () => {
+  assert.equal(metricLayout([70, 80, 90], 300, 12).cols, 3);                 // three fit in one line
+  assert.equal(metricLayout([70, 80, 90, 100, 85], 300, 12).cols, 3);        // 3 + 2, tracks per position
+  assert.deepEqual(metricLayout([70, 80, 90, 100, 85], 300, 12).tracks, [100, 85, 90]);
+  assert.equal(metricLayout([60, 60, 60, 60, 60], 300, 12).cols, 3);         // four fit, 4 + 1 is balanced to 3 + 2
+  assert.equal(metricLayout([70, 80, 125, 95, 90], 252, 12).cols, 2);        // a long label widens only its own track
+  assert.equal(metricLayout([200, 80], 150, 12).cols, 1);                    // nothing fits: one per line, cut
+  assert.equal(metricLayout(Array(6).fill(40), 2000, 12).cols, 6);           // six in one line
+  assert.equal(metricLayout(Array(8).fill(40), 2000, 12).cols, 4);           // never more than six: 8 → 4 + 4
+  assert.equal(metricLayout([50], 300, 12).cols, 1);
+});
+test('measurement grid: the template is fr shares (no px), cells never narrower than 0', () => {
+  assert.equal(metricTemplate([100, 85.4]), 'minmax(0, 100fr) minmax(0, 85fr)');
+});
+
+test('measurement need: label + the value 80 % of the rows reach; an outlier is cut, it does not widen the grid', () => {
+  assert.equal(metricNeed(90, [20, 25, 22, 70, 24], 4), 90 + 4 + 25);       // five rows: the second widest value
+  assert.equal(metricNeed(30, [40], 4), 74);
+  assert.equal(metricNeed(30, [], 4), 30);
 });

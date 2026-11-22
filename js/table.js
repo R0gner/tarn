@@ -10,7 +10,7 @@ import { icon } from './icons.js';
 import { statusDot, button } from './primitives.js';
 import { empty } from './components.js';
 import { menu } from './widgets.js';
-import { listPlaces, listLabelled, sortChoices, nextSort, opensRow } from './table-data.js';
+import { listPlaces, listLabelled, sortChoices, nextSort, opensRow, metricLayout, metricTemplate, metricNeed } from './table-data.js';
 import { sortRows } from './format.js';
 import { t } from './i18n.js';
 
@@ -78,6 +78,30 @@ export function table(opts) {
       setList(false);
     }
     if (w < LIST_BELOW || t.offsetWidth > w + 0.5) { natural = t.offsetWidth; setList(true); }
+    fitMetrics();
+  }
+  /** One column template for the measurement grid of the whole list (--tn-met-tracks on the wrap): the same measurement at the same x in every row. */
+  function fitMetrics() {
+    if (!list || !metrics.length) return;
+    const cells = /** @type {HTMLElement[]} */ ([...wrap.querySelectorAll('td.tn-td-metrics')]);
+    if (!cells.length) return;
+    const labels = metrics.map(() => 0);
+    const values = metrics.map(() => /** @type {number[]} */ ([]));
+    let inner = 0;
+    for (const td of cells) {
+      [...td.children].forEach((lv, i) => {
+        const [k, v] = /** @type {HTMLElement[]} */ ([...lv.children]);
+        if (i >= metrics.length) return;
+        labels[i] = Math.max(labels[i], k?.scrollWidth || 0);
+        values[i].push(v?.scrollWidth || 0);
+        inner ||= parseFloat(getComputedStyle(lv).columnGap) || 0;
+      });
+    }
+    const needs = metrics.map((_, i) => metricNeed(labels[i], values[i], inner));
+    const { cols: n, tracks } = metricLayout(needs, cells[0].clientWidth, parseFloat(getComputedStyle(cells[0]).columnGap) || 0);
+    const tpl = metricTemplate(tracks);
+    if (wrap.style.getPropertyValue('--tn-met-tracks') !== tpl) wrap.style.setProperty('--tn-met-tracks', tpl);
+    if (wrap.dataset.metCols !== String(n)) wrap.dataset.metCols = String(n);
   }
   new ResizeObserver(fit).observe(wrap);
 
@@ -117,7 +141,7 @@ export function table(opts) {
   }
   /** @param {TableColumn} c @param {any} r @param {Child} content */
   function labelled(c, r, content) {
-    return h('span', { class: 'tn-lv' }, h('span', { class: 'tn-lv-k' }, listName(c)), h('span', { class: 'tn-lv-v' }, content ?? '–'));
+    return h('span', { class: 'tn-lv' }, h('span', { class: 'tn-lv-k' }, listName(c)), h('span', { class: 'tn-lv-v tn-ellipsis' }, content ?? '–'));
   }
   /** @param {any} r */
   function bodyRow(r) {
@@ -149,6 +173,7 @@ export function table(opts) {
     const next = shown.slice(drawn, pageSize > 0 ? drawn + pageSize : undefined);
     tbody.append(...next.map(bodyRow));
     drawn += next.length;
+    fitMetrics();
     const left = shown.length - drawn;
     more.hidden = left <= 0;
     /** @type {HTMLElement} */ (more.querySelector('.tn-table-more-n')).textContent = t('table.shown', { shown: drawn, total: shown.length });

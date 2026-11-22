@@ -1,5 +1,5 @@
 # gallery #/table · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x1632
+div.tn-app @0,0 1424x1896
   aside.tn-sidebar @0,0 208x900
     div.tn-sidebar-head @8,0 192x44
       div.tn-brand @16,12 108x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 1424x1632
         svg.tn-icon @16,608 16x16
         span.tn-ellipsis "Shell and boards" @40,608 104x20
   div.tn-scrim @0,0 1424x900
-  div.tn-main @208,0 1216x1632
+  div.tn-main @208,0 1216x1896
     header.tn-toolbar @208,0 1216x44
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
@@ -76,7 +76,7 @@ div.tn-app @0,0 1424x1632
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x1588
+    main.tn-content @208,44 1216x1852
       div.tn-filterbar @224,152 1184x52
         div.tn-filter-row @224,152 1184x28
           label.tn-search @224,152 1100x28
@@ -300,62 +300,157 @@ div.tn-app @0,0 1424x1632
                   svg.tn-icon @1276,1108 16x16
                 td.tn-td-go @1380,1100 28x36
                   svg.tn-icon @1380,1108 16x16
-      section.tn-section @224,1340 584x92
-        header.tn-section-head @224,1340 584x24
-          h2.tn-section-title "Empty" @228,1344 580x16
-        section.tn-card.tn-card-flush @224,1372 584x60
-          div.tn-card-body @224,1376 584x60
-            div.tn-table-wrap @224,1376 584x60
-              div.tn-empty.tn-empty-compact @224,1376 584x60
-                div.tn-empty-title "No jobs in this selection" @444,1396 148x20
-      section.tn-section @824,1340 584x256
-        header.tn-section-head @824,1340 584x24
-          h2.tn-section-title "Narrow container (list mode)" @828,1344 580x16
-        section.tn-card.tn-card-flush @824,1372 380x224
-          div.tn-card-body @824,1376 380x224
-            div.tn-table-wrap.tn-table-click.is-list @824,1376 380x224
-              div.tn-table-sortbar @824,1376 380x32
-                button.tn-btn.tn-btn-ghost.tn-btn-sm {expanded=false} "Sort" @1112,1380 84x24
-                  svg.tn-icon @1120,1384 16x16
-                  svg.tn-icon @1172,1384 16x16
-              table.tn-table @824,1408 380x192
-                td.tn-td-status @836,1428 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @840,1428 8x8
-                td.tn-td-title "Photo backup" @856,1412 240x20
-                td.tn-right "4 hr. ago" @1108,1412 56x20
-                td.tn-td-m "nas-a Backup daily 02:30 45 GB" @856,1432 308x16
-                  span.tn-sep-dot "·" @892,1432 8x16
-                  span.tn-sep-dot "·" @944,1432 8x16
-                  span.tn-sep-dot "·" @1020,1432 8x16
-                td.tn-td-go @1176,1424 16x16
-                  svg.tn-icon @1176,1424 16x16
-                td.tn-td-status @836,1476 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @840,1476 8x8
-                td.tn-td-title "Document backup" @856,1460 240x20
-                td.tn-right "4 hr. ago" @1108,1460 56x20
-                td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @856,1480 308x16
-                  span.tn-sep-dot "·" @892,1480 8x16
-                  span.tn-sep-dot "·" @944,1480 8x16
-                  span.tn-sep-dot "·" @1020,1480 8x16
-                td.tn-td-go @1176,1472 16x16
-                  svg.tn-icon @1176,1472 16x16
-                td.tn-td-status @836,1524 8x8
-                  span.tn-dot.tn-s-bad [img] "Error" @840,1524 8x8
-                td.tn-td-title "Offsite archive sync" @856,1508 240x20
-                td.tn-right "3 hr. ago" @1108,1508 56x20
-                td.tn-td-m "nas-b Backup daily 04:15 –" @856,1528 308x16
-                  span.tn-sep-dot "·" @892,1528 8x16
-                  span.tn-sep-dot "·" @944,1528 8x16
-                  span.tn-sep-dot "·" @1020,1528 8x16
-                td.tn-td-go @1176,1520 16x16
-                  svg.tn-icon @1176,1520 16x16
-                td.tn-td-status @836,1572 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @840,1572 8x8
-                td.tn-td-title "Certificate renewal" @856,1556 232x20
-                td.tn-right "yesterday" @1104,1556 60x20
-                td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @856,1576 308x16
-                  span.tn-sep-dot "·" @900,1576 8x16
-                  span.tn-sep-dot "·" @984,1576 8x16
-                  span.tn-sep-dot "·" @1056,1576 8x16
-                td.tn-td-go @1176,1568 16x16
-                  svg.tn-icon @1176,1568 16x16
+      section.tn-section @224,1156 1184x244
+        header.tn-section-head @224,1156 1184x24
+          h2.tn-section-title "Five measurements, long labels" @228,1160 1180x16
+        section.tn-card.tn-card-flush @224,1188 1184x212
+          div.tn-card-body @224,1188 1184x212
+            div.tn-table-wrap.tn-table-click @224,1188 1184x212
+              table.tn-table @224,1188 1184x212
+                caption.tn-sr "Host services, five measurements" @224,1220 0x0
+                th.tn-td-status "Status" @224,1188 28x32
+                th @252,1188 252x32
+                  button.tn-th-btn @264,1188 60x32
+                    span.tn-sort @312,1204 12x0
+                th @504,1188 116x32
+                  button.tn-th-btn @516,1188 44x32
+                    span.tn-sort @552,1204 12x0
+                th.tn-right.is-sorted {sort=descending} @620,1188 96x32
+                  button.tn-th-btn @664,1188 40x32
+                    span.tn-sort @664,1196 12x12
+                      svg.tn-icon @664,1196 12x12
+                th.tn-right @716,1188 128x32
+                  button.tn-th-btn @768,1188 64x32
+                    span.tn-sort @768,1204 12x0
+                th.tn-right @844,1188 144x32
+                  button.tn-th-btn @900,1188 76x32
+                    span.tn-sort @900,1204 12x0
+                th.tn-right @988,1188 176x32
+                  button.tn-th-btn @1056,1188 96x32
+                    span.tn-sort @1056,1204 12x0
+                th.tn-right @1164,1188 128x32
+                  button.tn-th-btn @1216,1188 64x32
+                    span.tn-sort @1216,1204 12x0
+                th "Watch" @1292,1188 88x32
+                th.tn-td-go @1380,1188 28x32
+                td.tn-td-status @224,1220 28x36
+                  span.tn-dot.tn-s-ok [img] "OK" @236,1236 8x8
+                td.tn-mono.tn-td-title "tv-layout-heal-watch" @252,1220 252x36
+                td.tn-right "21.4%" @620,1220 96x36
+                td.tn-right "7.12 GB" @716,1220 128x36
+                td.tn-right "43" @844,1220 144x36
+                td.tn-right "3 d" @988,1220 176x36
+                td.tn-right "0" @1164,1220 128x36
+                button.tn-iconbtn "Watch tv-layout-heal-watch" @1304,1224 28x28
+                  svg.tn-icon @1312,1228 16x16
+                td.tn-td-go @1380,1220 28x36
+                  svg.tn-icon @1380,1228 16x16
+                td.tn-td-status @224,1256 28x36
+                  span.tn-dot.tn-s-ok [img] "OK" @236,1272 8x8
+                td.tn-mono.tn-td-title "victoria-metrics" @252,1256 252x36
+                td.tn-right "3.8%" @620,1256 96x36
+                td.tn-right "1.4 GB" @716,1256 128x36
+                td.tn-right "12" @844,1256 144x36
+                td.tn-right "41 d" @988,1256 176x36
+                td.tn-right "0" @1164,1256 128x36
+                button.tn-iconbtn "Watch victoria-metrics" @1304,1260 28x28
+                  svg.tn-icon @1312,1264 16x16
+                td.tn-td-go @1380,1256 28x36
+                  svg.tn-icon @1380,1264 16x16
+                td.tn-td-status @224,1292 28x36
+                  span.tn-dot.tn-s-ok [img] "OK" @236,1308 8x8
+                td.tn-mono.tn-td-title "caddy" @252,1292 252x36
+                td.tn-right "0.6%" @620,1292 96x36
+                td.tn-right "48 MB" @716,1292 128x36
+                td.tn-right "1,287" @844,1292 144x36
+                td.tn-right "6 h" @988,1292 176x36
+                td.tn-right "1" @1164,1292 128x36
+                button.tn-iconbtn "Watch caddy" @1304,1296 28x28
+                  svg.tn-icon @1312,1300 16x16
+                td.tn-td-go @1380,1292 28x36
+                  svg.tn-icon @1380,1300 16x16
+                td.tn-td-status @224,1328 28x36
+                  span.tn-dot.tn-s-bad [img] "Error" @236,1344 8x8
+                td.tn-mono.tn-td-title "homelab-board-updater" @252,1328 252x36
+                span.tn-badge.tn-badge-bad "failed" @516,1336 40x20
+                td.tn-right "–" @620,1328 96x36
+                td.tn-right "312 MB" @716,1328 128x36
+                td.tn-right "1" @844,1328 144x36
+                td.tn-right "1 min 35 s" @988,1328 176x36
+                td.tn-right "14" @1164,1328 128x36
+                button.tn-iconbtn "Watch homelab-board-updater" @1304,1332 28x28
+                  svg.tn-icon @1312,1336 16x16
+                td.tn-td-go @1380,1328 28x36
+                  svg.tn-icon @1380,1336 16x16
+                td.tn-td-status @224,1364 28x36
+                  span.tn-dot.tn-s-off [img] "Off" @236,1380 8x8
+                td.tn-mono.tn-td-title "backup-offsite-rclone-nightly" @252,1364 252x36
+                span.tn-badge.tn-badge-off "stopped" @516,1372 56x20
+                td.tn-right "–" @620,1364 96x36
+                td.tn-right "–" @716,1364 128x36
+                td.tn-right "–" @844,1364 144x36
+                td.tn-right "–" @988,1364 176x36
+                td.tn-right "2" @1164,1364 128x36
+                button.tn-iconbtn "Watch backup-offsite-rclone-nightly" @1304,1368 28x28
+                  svg.tn-icon @1312,1372 16x16
+                td.tn-td-go @1380,1364 28x36
+                  svg.tn-icon @1380,1372 16x16
+      section.tn-section @224,1608 584x92
+        header.tn-section-head @224,1608 584x24
+          h2.tn-section-title "Empty" @228,1612 580x16
+        section.tn-card.tn-card-flush @224,1640 584x60
+          div.tn-card-body @224,1640 584x60
+            div.tn-table-wrap @224,1640 584x60
+              div.tn-empty.tn-empty-compact @224,1640 584x60
+                div.tn-empty-title "No jobs in this selection" @444,1660 148x20
+      section.tn-section @824,1608 584x256
+        header.tn-section-head @824,1608 584x24
+          h2.tn-section-title "Narrow container (list mode)" @828,1612 580x16
+        section.tn-card.tn-card-flush @824,1640 380x224
+          div.tn-card-body @824,1640 380x224
+            div.tn-table-wrap.tn-table-click.is-list @824,1640 380x224
+              div.tn-table-sortbar @824,1640 380x32
+                button.tn-btn.tn-btn-ghost.tn-btn-sm {expanded=false} "Sort" @1112,1644 84x24
+                  svg.tn-icon @1120,1648 16x16
+                  svg.tn-icon @1172,1648 16x16
+              table.tn-table @824,1672 380x192
+                td.tn-td-status @836,1692 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @840,1692 8x8
+                td.tn-td-title "Photo backup" @856,1680 240x20
+                td.tn-right "4 hr. ago" @1108,1680 56x20
+                td.tn-td-m "nas-a Backup daily 02:30 45 GB" @856,1696 308x16
+                  span.tn-sep-dot "·" @892,1696 8x16
+                  span.tn-sep-dot "·" @944,1696 8x16
+                  span.tn-sep-dot "·" @1020,1696 8x16
+                td.tn-td-go @1176,1688 16x16
+                  svg.tn-icon @1176,1688 16x16
+                td.tn-td-status @836,1740 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @840,1740 8x8
+                td.tn-td-title "Document backup" @856,1728 240x20
+                td.tn-right "4 hr. ago" @1108,1728 56x20
+                td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @856,1744 308x16
+                  span.tn-sep-dot "·" @892,1744 8x16
+                  span.tn-sep-dot "·" @944,1744 8x16
+                  span.tn-sep-dot "·" @1020,1744 8x16
+                td.tn-td-go @1176,1736 16x16
+                  svg.tn-icon @1176,1736 16x16
+                td.tn-td-status @836,1788 8x8
+                  span.tn-dot.tn-s-bad [img] "Error" @840,1788 8x8
+                td.tn-td-title "Offsite archive sync" @856,1776 240x20
+                td.tn-right "3 hr. ago" @1108,1776 56x20
+                td.tn-td-m "nas-b Backup daily 04:15 –" @856,1792 308x16
+                  span.tn-sep-dot "·" @892,1792 8x16
+                  span.tn-sep-dot "·" @944,1792 8x16
+                  span.tn-sep-dot "·" @1020,1792 8x16
+                td.tn-td-go @1176,1784 16x16
+                  svg.tn-icon @1176,1784 16x16
+                td.tn-td-status @836,1836 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @840,1836 8x8
+                td.tn-td-title "Certificate renewal" @856,1824 232x20
+                td.tn-right "yesterday" @1104,1824 60x20
+                td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @856,1840 308x16
+                  span.tn-sep-dot "·" @900,1840 8x16
+                  span.tn-sep-dot "·" @984,1840 8x16
+                  span.tn-sep-dot "·" @1056,1840 8x16
+                td.tn-td-go @1176,1832 16x16
+                  svg.tn-icon @1176,1832 16x16
