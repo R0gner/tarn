@@ -41,6 +41,8 @@
 .tn-iconbtn:hover, .tn-iconbtn.is-hover { background: var(--tn-hover); color: var(--tn-text); }
 .tn-iconbtn:is(:active, .is-down), .tn-iconbtn.is-pressed { background: var(--tn-press); }
 .tn-iconbtn[aria-pressed="true"] { background: var(--tn-selected); color: var(--tn-text); }
+/* touch: the target of an icon button is at least 44 px, also when it is drawn smaller (a toggle in a table row) */
+@media (pointer: coarse) { .tn-iconbtn::before { content: ''; position: absolute; inset: min(0px, calc(50% - var(--tn-sz-44) / 2)); } }
 
 /* ============ Status, Badges ============ */
 .tn-dot { display: inline-block; flex: none; width: var(--tn-dot); height: var(--tn-dot); border-radius: 50%; background: var(--tn-unknown); }

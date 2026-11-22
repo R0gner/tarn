@@ -12,7 +12,7 @@ import { t } from './i18n.js';
 /** @typedef {{ label?: string, title?: string }} StatusDotOptions */
 /** @typedef {{ tone?: Tone, count?: boolean }} BadgeOptions */
 /** @typedef {{ variant?: 'default' | 'primary' | 'ghost' | 'danger', icon?: string, iconAfter?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, type?: 'button' | 'submit' | 'reset', title?: string, small?: boolean, className?: string }} ButtonOptions */
-/** @typedef {{ label: string, hint?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, pressed?: boolean | null, className?: string }} IconButtonOptions */
+/** @typedef {{ label: string, hint?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, pressed?: boolean | null, className?: string, onToggle?: (pressed: boolean, e: MouseEvent) => void, iconPressed?: string }} IconButtonOptions onToggle makes it a toggle that flips its own state (aria-pressed) and icon (iconPressed while pressed) on a click; inside a table row it does not open the row. */
 
 
 /** Status names in the active language (getters: always current, also after a language switch). */
@@ -59,9 +59,16 @@ export function button(label, { variant = 'default', icon: ic, iconAfter, onClic
  * @param {IconButtonOptions} o
  * @returns {HTMLButtonElement}
  */
-export function iconButton(name, { label, hint, onClick, disabled, pressed, className }) {
-  return tooltip(h('button', {
+export function iconButton(name, { label, hint, onClick, disabled, pressed, className, onToggle, iconPressed }) {
+  const toggle = onToggle ? (/** @type {MouseEvent} */ e) => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', String(on));
+    if (iconPressed) b.replaceChildren(icon(on ? iconPressed : name));
+    onToggle(on, e);
+  } : null;
+  const b = /** @type {HTMLButtonElement} */ (h('button', {
     class: cls('tn-iconbtn', className), type: 'button', 'aria-label': label, disabled: !!disabled,
-    'aria-pressed': pressed == null ? null : String(!!pressed), onclick: onClick || null,
-  }, icon(name)), hint || label);
+    'aria-pressed': pressed == null && !onToggle ? null : String(!!pressed), onclick: toggle || onClick || null,
+  }, icon(pressed && iconPressed ? iconPressed : name)));
+  return tooltip(b, hint || label);
 }

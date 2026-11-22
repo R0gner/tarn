@@ -30,6 +30,8 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `download` | `download.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/download.svg | `3daeee13ded5a3afa2198b1bb4e2262d163922f97d96ac6ff9953e8ed4fe039d` |
 | `edit` | `square-pen.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/square-pen.svg | `09bdac7fdb94058246a5d3132eea0976e690d01694179ab6f474faa2c21de59a` |
 | `external` | `external-link.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/external-link.svg | `3891241b8c3bfc3a8a930078f26ffc5a7e9763da6d0162ace2050b28d4c1d1fe` |
+| `eye` | `eye.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/eye.svg | `5bf90197dd7629cad64a2e48d1186a71559deb6121207d10e3dc5b19ebaffdcf` |
+| `eye-off` | `eye-off.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/eye-off.svg | `774bcd975c5de781a4ee778c76e5591bcdeb409955f7054847e7e6003da0a520` |
 | `filter` | `funnel.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/funnel.svg | `288f869330602e29a640099ffc5d6ac01caadad2ef6f8aac1138b8bf91ccd752` |
 | `grid` | `layout-grid.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/layout-grid.svg | `b8903f61d09b1d75e55c71158277d26570962f69c2099446a251871e0a2d6678` |
 | `hard-drive` | `hard-drive.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/hard-drive.svg | `324363c40f54e4ca843de0ad1d023b063b70a26a83bb2e0a9e9f4aad9af37378` |

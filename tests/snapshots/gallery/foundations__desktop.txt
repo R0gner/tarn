@@ -110,7 +110,7 @@ div.tn-app @0,0 1424x1240
       section.tn-section @224,980 1184x228
         header.tn-section-head @224,980 1184x24
           h2.tn-section-title "Icons" @228,984 1180x16
-            span.tn-section-count "46" @264,984 16x16
+            span.tn-section-count "48" @264,984 16x16
         section.tn-card @224,1012 1184x196
           div.tn-card-body @224,1012 1184x196
             svg.tn-icon @244,1028 16x16
@@ -159,3 +159,5 @@ div.tn-app @0,0 1424x1240
             svg.tn-icon @1300,1140 16x16
             svg.tn-icon @244,1172 16x16
             svg.tn-icon @348,1172 16x16
+            svg.tn-icon @456,1172 16x16
+            svg.tn-icon @560,1172 16x16
