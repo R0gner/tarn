@@ -118,10 +118,28 @@ export const MUTANTS = [
     patch: [{ file: 'js/charts/scale.js', from: 'gap = 10, minSpacing = 72 }', to: 'gap = -40, minSpacing = 20 }' }],
   },
   {
-    // a range change keeps the data of the old range until the new answer arrives: the chart shows 1 h of data under "7 d"
+    // a range change keeps the data of the old range but the charts are not marked: 1 h of data under "7 d" as if it were current
     id: 'range-keeps-old-data',
     check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'js/data.js', from: 'p.st.data = null; p.st.error = null;', to: 'p.st.error = null;' }],
+    patch: [{ file: 'js/shell.js', from: "if (activeSrc.state.refreshing) content.setAttribute('aria-busy', 'true');", to: "if (false) content.setAttribute('aria-busy', 'true');" }],
+  },
+  {
+    // the range control without its chevron (0.7.x): clock and "1 d" next to the freshness text read as status, not as a selector
+    id: 'menu-no-chevron',
+    page: 'gallery', views: ['datasources'], sizes: ['phone', 'desktop'], expect: ['trigger-chevron'],
+    patch: [{ file: 'js/widgets.js', from: "&& !anchor.querySelector(CHEVRON)) anchor.append(icon('chevron-down'));", to: "&& false) anchor.append(icon('chevron-down'));" }],
+  },
+  {
+    // a reload that answers at once shows nothing: no minimum time for the turning icon
+    id: 'reload-invisible',
+    check: 'overlay', scenarios: ['fresh-sources'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: 'const MIN_SPIN = 600;', to: 'const MIN_SPIN = 0;' }],
+  },
+  {
+    // the old behaviour (0.7.x): a range change drops the data, the view draws its loading state for a moment and the blocks jump
+    id: 'range-drops-data',
+    check: 'overlay', scenarios: ['range-change'], sizes: ['phone', 'desktop'], expect: ['overlay-shift'],
+    patch: [{ file: 'js/data.js', from: 'p.st.refreshing = p.st.data != null; p.st.error = null;', to: 'p.st.data = null; p.st.error = null; p.st.fetchedAt = null;' }],
   },
   {
     // the shell no longer keeps the focused field across a redraw (the old behaviour: the filter bar is rebuilt, the focus is gone)

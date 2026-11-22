@@ -106,20 +106,25 @@ const metrics = promSource({
   `promEscape(value, { regex: true })` also escapes regex metacharacters for `=~`. Put only escaped values into an expression.
 - **Errors.** An HTTP error (`HTTP 502`), `status: "error"` in the body (its `error` text is shown), a body that is not JSON, a timeout: each makes the query
   fail. The kit's own texts (timeout, not JSON) follow the active language; `HTTP <status>` and a server's `error` text are shown as they are. Several queries run in parallel; when one fails the others still update, its last good data stays and `error` names it
-  (`queue: HTTP 502`; several are joined by `; `). `age` is that of the oldest query, so a query that keeps failing makes the source stale.
-- **Range changes** abort the requests in flight, drop the data of the old range (the view shows `loading()`), and fetch again. An answer for the old
-  range never lands.
+  (`queue: HTTP 502`; several are joined by `; `, equal errors are merged into one with a count: `19 queries: HTTP 502`). When every query fails the
+  source has no data and its error at once; the shell redraws the view on every change of `error`, so a view source that fails completely shows
+  `error({ onRetry })`, not its loading state. `age` is that of the oldest query, so a query that keeps failing makes the source stale.
+- **Range changes** abort the requests in flight and fetch again; the data of the old range stays until the new answer arrives, marked with
+  `state.refreshing: true` (the view keeps its layout, no `loading()` in between). An answer for the old range never lands.
 
 ### Time range
 
-One range per app. The shell shows a control in the toolbar (a clock with the range, a kit menu with the presets) while the shown view's source follows
+One range per app. The shell shows a control in the toolbar (clock, range and chevron – the long form “Last 24 hours” from 600 px, the short “1 d” on the phone – a kit menu with the presets) while the shown view's source follows
 the range: a `promSource` with at least one `range: true` query, or a `combineSources` over one. Other boards show no control.
 
 - Presets: 1 h, 6 h, 24 h, 7 d, 30 d (`RANGE_PRESETS`). A board passes its own as `createApp({ ranges: [{ id, seconds, label? }], range: '6h' })`;
   `label` is shown instead of the generated text (pass it through `t()`), `range` is the id at start (default: the first preset).
 - The choice is the view parameter `range` (`#/metrics?range=7d`); choosing replaces the history entry like a filter does (Back by levels, see
   [shell](shell.md)). A deep link with `?range=` starts in that range. `app.range` is the current range, `app.setRange(id)` sets it.
-- The shell hands the range to the source before the view renders, so a view never sees data of the old range under the new label.
+- The shell hands the range to the source before the view renders. Until the new range has arrived the view still gets the old range's data
+  with `ctx.src.refreshing`; the shell marks the content `aria-busy` and dims its charts, so no block moves or changes size and nothing passes
+  for the new range. verify checks it (`overlay-shift`: a scenario that clicks a control which does not change what the view contains must not
+  move or resize a block).
 
 ## Several sources: combineSources
 
@@ -146,8 +151,8 @@ createApp({ source, views: [
 ```
 
 The shell starts the view's source when the view is shown and stops it when the view is left (a request in flight is aborted). While the view is shown
-its source is merged with the app's: `ctx.data` holds the keys of both (the view's win), the freshness text, the reload button and the banners cover
-both. Pick key names that do not collide with the app's data. A view source can itself be a `combineSources`. Counters in the sidebar (`count(ctx)`)
+its source is merged with the app's: `ctx.data` holds the keys of both (the view's win), the reload button, the source list and the banners cover
+both; the freshness text shows the age of the view's own source (what the view mainly shows; `views[].freshness: 'app'` switches it to the app's). Pick key names that do not collide with the app's data. A view source can itself be a `combineSources`. Counters in the sidebar (`count(ctx)`)
 only see the app's source.
 
 ## State
@@ -160,7 +165,13 @@ only see the app's source.
 
 ### What the shell does with it
 
-- The toolbar shows “Updated … ago” (a button: tap to reload); from `staleAfter` it reads “Stale · … ago” in red.
+- The toolbar shows “Updated … ago” of the source the view mainly shows (its own source, else the app's); from `staleAfter` it reads “Stale · … ago”
+  in red. A tap opens the source list: every source of the view with its name, age and refresh interval, stale ones marked, and a reload button.
+  `label` and `note` on `dataSource`/`promSource` name a source there and add one line about it (e.g. “Written every 5 minutes by the collector;
+  reloading fetches the same file until then.”, through `t()`); parts of a `combineSources` are listed one by one under their key or `label`.
+- Reload (the toolbar button, or the one in the source list) turns its icon while it runs, at least about half a second, then the text shows the
+  new age at once. When it brought nothing newer (the age did not drop, e.g. a snapshot file that is only rewritten every 5 minutes) a toast says
+  so and the source list names the source that stayed and shows its note.
 - A warning banner appears when a fetch failed but data exists; an error banner when the data is stale. The views keep showing the last state.
 - A view gets the state as `ctx.src` and the data as `ctx.data`. Handle `!ctx.data` with `loading()` (first load) or `error({ onRetry:
   () => source.reload() })`, and a part or query that is `null` the same way. The view is rebuilt on every new data, see [shell](shell.md#views).

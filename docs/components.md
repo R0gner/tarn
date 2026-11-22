@@ -95,7 +95,7 @@ table({
 | Function | Options |
 |---|---|
 | `toast(text, { tone = 'info', action, duration = 4000 })` | brief message above everything; `action: { label, onClick }`; `duration: 0` stays until closed |
-| `menu(anchor, items, { align = 'end', label })` | popover menu on a button; items `{ label, hint?, icon?, onClick, danger?, disabled?, checked? }` |
+| `menu(anchor, items, { align = 'end', label })` | popover menu on a button; items `{ label, hint?, icon?, onClick, danger?, disabled?, checked? }`; a text button as anchor gets the chevron if it has none (icon-only triggers stay as they are) |
 | `usageBar({ used, total, label, format = fmtBytes, warnAt = 0.8, badAt = 0.9, sub, segments })` | fill level; turns warn/bad at the limits; `segments: [{ value, label, color? }]` splits it |
 | `log(entries, { max = 200, wrap, newestFirst = true, empty, time })` | event list in monospace; entries `{ t (epoch ms), level?: 'info'\|'warn'\|'bad'\|'ok'\|'debug', text, src? }`; `time`: `'auto'` or `'time'` |
 | `dataCard(el, () => content, { onItem })` | the hover/tap card for content you only see by pointing; `onItem` is the element's own action (on touch the second tap) |

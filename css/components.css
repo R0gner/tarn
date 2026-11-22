@@ -79,6 +79,24 @@
 .tn-fresh:hover { background: var(--tn-hover); }
 .tn-fresh.is-stale { color: var(--tn-bad-text); font-weight: var(--tn-fw-label); }
 .tn-fresh.is-loading { opacity: .6; }
+/* time range control: a selector (clock, range, chevron), long form where there is room, short on the phone (media query below) */
+.tn-range-short { display: none; }
+/* source list of the freshness text: every source of the view with age, interval, note; reload at the bottom */
+.tn-pop {
+  position: fixed; inset: 0 auto auto 0; z-index: var(--tn-z-toast); margin: 0; width: max-content; height: auto; overflow: visible;
+  min-width: var(--tn-sz-180); max-width: min(var(--tn-sz-320), calc(100vw - var(--tn-s2)));
+  padding: var(--tn-s2); border-radius: var(--tn-r); background: var(--tn-popover); border: 1px solid var(--tn-border); color: var(--tn-text);
+  box-shadow: var(--tn-shadow-menu); display: grid; gap: var(--tn-s2);
+}
+.tn-pop-title { font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); padding: 0 var(--tn-s1); }
+.tn-pop-rows { display: grid; gap: var(--tn-s2); }
+.tn-pop-src { display: grid; gap: var(--tn-s1); padding: 0 var(--tn-s1); min-width: 0; }
+.tn-pop-head { display: flex; align-items: center; gap: var(--tn-s2); min-width: 0; }
+.tn-pop-name { font-weight: var(--tn-fw-strong); min-width: 0; }
+.tn-pop-line { font-size: var(--tn-fs-label); color: var(--tn-text-2); font-variant-numeric: tabular-nums; }
+.tn-pop-line.is-error { color: var(--tn-bad-text); }
+.tn-pop-note { font-size: var(--tn-fs-label); color: var(--tn-text-2); }
+.tn-pop-reload { justify-self: start; }
 .tn-banners:empty { display: none; }
 .tn-banners { display: grid; gap: var(--tn-s2); padding: var(--tn-s3) var(--tn-s4) 0; }
 .tn-content {
@@ -86,6 +104,8 @@
   padding-bottom: max(var(--tn-s8), env(safe-area-inset-bottom));
   display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s5); align-content: start;
 }
+/* the source loads a new time range and still holds the old one's data (state.refreshing): the charts stay in place, dimmed, no motion */
+.tn-content[aria-busy="true"] :is(.tn-chart, .tn-spark, .tn-heat, .tn-donut) { opacity: .5; }
 
 .tn-inspector {
   position: sticky; top: 0; height: 100dvh;
@@ -123,6 +143,8 @@
 }
 @media (max-width: 599px) {
   .tn-hide-phone { display: none; }
+  .tn-range-long { display: none; }
+  .tn-range-short { display: inline; }
   .tn-toolbar .tn-settings-btn { display: inline-grid; }
   .tn-content { padding: var(--tn-s3); gap: var(--tn-s4); }
   .tn-banners { padding: var(--tn-s2) var(--tn-s3) 0; }

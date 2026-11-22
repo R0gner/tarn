@@ -17,13 +17,13 @@ const QUEUE = 'ingest';
 /** The view's own source: metrics (promSource) and snapshot (the JSON fixture), combined; the shell starts it while the view is shown. */
 export const dataSourcesSource = combineSources({
   metrics: promSource({
-    base: '/prom', fetch: sim,
+    base: '/prom', fetch: sim, label: 'Metrics',
     queries: {
       cpu: { expr: 'avg by (instance) (demo_cpu_busy)', range: true, legend: '{{instance}}' },
       queue: { expr: (r) => `max_over_time(demo_queue_depth{queue="${promEscape(QUEUE)}"}[${r.window}])` },
     },
   }),
-  snapshot: dataSource({ url: './fixture.json', interval: 60_000, staleAfter: 900 }),
+  snapshot: dataSource({ url: './fixture.json', interval: 60_000, staleAfter: 900, label: 'Snapshot', note: 'Written every 5 minutes by the collector; reloading fetches the same file until then.' }),
 });
 
 /* Two sources that only exist to show the error and the stale state: fetched once, never polled. */

@@ -82,3 +82,13 @@ test('combineSources: the data object changes only when a part has new data', as
   assert.notEqual(src.state.data, d1, 'a younger part with new data gives a new object (the oldest fetchedAt did not move)');
   assert.equal(src.state.fetchedAt, NOW);
 });
+
+test('sources describe themselves for the shell\'s source list: label, note, interval, parts', () => {
+  const snap = dataSource({ url: '/x.json', interval: 300_000, label: 'Snapshot', note: 'written every 5 minutes', fetch: async () => new Response('{}') });
+  const metrics = promSource({ base: '/prom', fetch: promSim(), label: 'Metrics', queries: { cpu: { expr: 'demo_cpu_busy', range: true } } });
+  assert.equal(snap.label, 'Snapshot'); assert.equal(snap.note, 'written every 5 minutes'); assert.equal(snap.interval, 300_000);
+  assert.equal(metrics.label, 'Metrics'); assert.ok(metrics.interval > 0, 'the interval follows the range');
+  const both = combineSources({ snap, metrics });
+  assert.deepEqual(both.parts?.map(([n, p]) => [n, p.label]), [['snap', 'Snapshot'], ['metrics', 'Metrics']]);
+  assert.equal(snap.parts, undefined);
+});

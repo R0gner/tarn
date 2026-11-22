@@ -90,8 +90,11 @@ export function usageBar({ used, total, label, format = fmtBytes, warnAt = 0.8, 
 }
 
 /* ---- Menu ---- */
+/** The chevron-down icon, found by its path (a trigger may bring its own through `iconAfter`). */
+const CHEVRON = 'svg path[d="m6 9 6 6 6-6"]';
+
 /**
- * Dropdown menu on a button. menu(anchor, items, { align = 'end' })
+ * Dropdown menu on a button. menu(anchor, items, { align = 'end' }). A text button as anchor gets the chevron (chevron-down) if it has none.
  * items: [{ label, icon?, onClick, danger?, disabled?, hint?, checked? } | '-' (separator)]; a disabled item stays in the menu, reachable and read
  * by assistive tech (aria-disabled), and shows its reason as `hint` (dashboard-guidelines rule 11)
  * Opens on click on anchor (visible immediately, focus in the menu); arrow keys, Esc (closes the menu first),
@@ -105,6 +108,8 @@ export function usageBar({ used, total, label, format = fmtBytes, warnAt = 0.8, 
  */
 export function menu(anchor, items, { align = 'end', label } = {}) {
   const mid = nextId('menu');
+  /* a trigger with text reads as a selector: it gets the chevron unless it brings one (icon-only triggers like “more” stay as they are) */
+  if (anchor.classList.contains('tn-btn') && !anchor.classList.contains('tn-btn-icononly') && !anchor.querySelector(CHEVRON)) anchor.append(icon('chevron-down'));
   anchor.setAttribute('aria-haspopup', 'menu');
   anchor.setAttribute('aria-expanded', 'false');
   anchor.setAttribute('aria-controls', mid);

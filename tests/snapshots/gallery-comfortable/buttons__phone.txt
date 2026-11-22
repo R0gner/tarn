@@ -67,7 +67,7 @@ div.tn-app @0,0 392x2112
         svg.tn-icon @20,16 20x20
       h1.tn-toolbar-title.tn-ellipsis "Buttons and status" @68,16 152x24
       div.tn-toolbar-spacer @224,28 0x0
-      button.tn-fresh "Updated now" @232,4 92x48
+      button.tn-fresh {expanded=false} "Updated now" @232,4 92x48
       button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
     main.tn-content @0,56 392x2056

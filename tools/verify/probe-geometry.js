@@ -10,6 +10,7 @@
 //   tiles-ragged  a row of tiles() does not end at the grid's right edge (empty cell, narrow last tile)
 //   wrap-sub   a row sub line with wrapSub is cut off or ends in an ellipsis
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
+//   trigger-chevron a dropdown trigger with visible text (aria-haspopup menu or listbox) has no chevron: it reads as status, not as a selector
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
 //   scroll-trap  a box inside the page or inside another scroller keeps the swipe to itself (overscroll-behavior); only the one scroller of an overlay layer may
 //   scroll-y   a scroller (overflow-y auto/scroll, or a horizontal scroller with overflow-y hidden) is 1–24 px taller inside than its box (not the scroller of an overlay layer)
@@ -112,6 +113,12 @@
       if (!visible(el) || el.scrollWidth <= el.clientWidth + o.tol) continue;
       push(findings, { rule: 'toolbar-title', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `view title cut off in the toolbar (“${el.textContent.trim().slice(0, 30)}”, ${el.scrollWidth} px of ${el.clientWidth})`, rect: R(el.getBoundingClientRect()), el });
     }
+  }
+
+  /* ---- trigger-chevron: a dropdown trigger with text shows the chevron (icon-only triggers like “more” are exempt) ---- */
+  for (const el of document.querySelectorAll('[aria-haspopup="menu"], [aria-haspopup="listbox"]')) {
+    if (!visible(el) || !el.textContent.trim() || el.querySelector('svg path[d="m6 9 6 6 6-6"]')) continue;
+    push(findings, { rule: 'trigger-chevron', sel: path(el), where: where(el), text: `dropdown trigger “${el.textContent.trim().slice(0, 30)}” has no chevron`, rect: R(el.getBoundingClientRect()) });
   }
 
   /* ---- identity: every board has a favicon and a meaningful title “View · Board” ---- */

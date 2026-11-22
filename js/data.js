@@ -11,8 +11,8 @@ import { t } from './i18n.js';
 import { fmtDuration } from './format.js';
 import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRange, RANGE_PRESETS } from './prom-data.js';
 
-/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number, revalidate?: boolean, refreshOnShow?: boolean }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. `revalidate`: send the last ETag as If-None-Match, a 304 keeps the data and counts as current (a live backend). `refreshOnShow`: fetch at once when the tab becomes visible again, not only after the interval. */
-/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[] }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts). */
+/** @typedef {{ url: string, interval?: number, staleAfter?: number, parse?: (json: any) => any, ageOf?: ((data: any) => number | null) | null, fetch?: typeof fetch, now?: () => number, timeout?: number, revalidate?: boolean, refreshOnShow?: boolean, label?: string, note?: string }} DataSourceOptions interval and timeout in ms, staleAfter in seconds; ageOf returns seconds. `revalidate`: send the last ETag as If-None-Match, a 304 keeps the data and counts as current (a live backend). `refreshOnShow`: fetch at once when the tab becomes visible again, not only after the interval. `label`/`note`: name and one line for the shell's source list (through `t()`). */
+/** @typedef {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, age: number | null, stale: boolean, staleAfter: number, staleParts?: string[], refreshing?: boolean }} DataState State handed to subscribers; `staleParts` only from combineSources (the names of the stale parts); `refreshing`: the data is still that of the previous time range while the new one loads (the shell marks the charts). */
 /** @typedef {import('./prom-data.js').TimeRange} TimeRange */
 /**
  * @typedef {{
@@ -23,15 +23,19 @@ import { promMatrix, promVector, promRangeParams, promStep, promInterval, findRa
  *   stop: () => DataSource,
  *   readonly ranged?: boolean,
  *   readonly range?: TimeRange | null,
+ *   readonly label?: string,
+ *   readonly note?: string,
+ *   readonly interval?: number,
+ *   readonly parts?: [string, DataSource][],
  *   setRange?: (range: TimeRange) => void,
- * }} DataSource `ranged`/`range`/`setRange` only on sources that follow the app's time range (promSource with a range query, combineSources over one).
+ * }} DataSource `ranged`/`range`/`setRange` only on sources that follow the app's time range (promSource with a range query, combineSources over one). `label`, `note`, `interval` (ms) describe the source in the shell's source list; `parts` only on combineSources.
  */
 /** @typedef {{ start: number, end: number, step: number, seconds: number, id: string, window: string }} PromRangeInfo What an `expr` function gets: the current range (seconds since the epoch) and `window` as a PromQL duration (`'21600s'`). */
 /** @typedef {{ expr: string | ((r: PromRangeInfo) => string), range?: boolean, legend?: import('./prom-data.js').PromLegend, step?: number }} PromQuery `range: true` = range query (matrix to `{ x, series }`), otherwise instant (rows). `step` fixes the step in seconds. */
 /**
  * @typedef {{
  *   base: string, queries: Record<string, PromQuery>, interval?: number, staleAfter?: number, minStep?: number, maxPoints?: number,
- *   range?: TimeRange | string, ranges?: TimeRange[], timeout?: number, fetch?: typeof fetch, now?: () => number,
+ *   range?: TimeRange | string, ranges?: TimeRange[], timeout?: number, fetch?: typeof fetch, now?: () => number, label?: string, note?: string,
  * }} PromSourceOptions `base` = same-origin path in front of `/api/v1/…`; interval/timeout in ms, staleAfter in seconds. Without `interval` the refresh follows the range.
  */
 
@@ -39,6 +43,15 @@ const TIMEOUT = Symbol('timeout');
 
 /** @param {unknown} e @returns {string} */
 const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error: /, '');
+
+/** Failed queries as one line: equal errors merged with a count (`19 queries: HTTP 502`), a single one named (`cpu: HTTP 502`).
+    @param {[string, string][]} failed [query name, error] @returns {string} */
+export function mergeErrors(failed) {
+  /** @type {Map<string, string[]>} */
+  const by = new Map();
+  for (const [name, e] of failed) by.set(e, [...(by.get(e) || []), name]);
+  return [...by].map(([e, names]) => (names.length > 1 ? t('data.queriesFailed', { count: names.length, error: e }) : `${names[0]}: ${e}`)).join('; ');
+}
 
 /**
  * Shared engine of the polling sources: state, subscribers, interval, visibility pause, abort, timeout.
@@ -51,8 +64,8 @@ const msg = (e) => String(/** @type {any} */ (e)?.message || e).replace(/^Error:
 function poller({ run, interval, staleAfter, now, timeout, refreshOnShow = false }) {
   /** @type {Set<(state: DataState) => void>} */
   const subs = new Set();
-  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null }} */
-  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null };
+  /** @type {{ data: any, error: string | null, loading: boolean, fetchedAt: number | null, baseAge: number | null, refreshing: boolean }} */
+  const st = { data: null, error: null, loading: false, fetchedAt: null, baseAge: null, refreshing: false };
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let timer;
   let running = false;
@@ -66,7 +79,7 @@ function poller({ run, interval, staleAfter, now, timeout, refreshOnShow = false
   function snapshot() {
     const age = st.fetchedAt == null ? null : (st.baseAge ?? 0) + (now() - st.fetchedAt) / 1000;
     const sa = staleAfter();
-    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > sa, staleAfter: sa };
+    return { data: st.data, error: st.error, loading: st.loading, fetchedAt: st.fetchedAt, age, stale: st.data == null || age == null || age > sa, staleAfter: sa, refreshing: st.refreshing && st.data != null };
   }
   const emit = () => { const s = snapshot(); for (const f of subs) f(s); };
 
@@ -81,7 +94,7 @@ function poller({ run, interval, staleAfter, now, timeout, refreshOnShow = false
       try {
         const r = await run(ac.signal);
         if (my !== gen) return;
-        st.data = r.data; st.error = r.error ?? null;
+        st.data = r.data; st.error = r.error ?? null; st.refreshing = false;
         if (r.fetchedAt !== null) st.fetchedAt = r.fetchedAt ?? now();
         st.baseAge = r.baseAge ?? 0;
       } catch (e) {
@@ -130,7 +143,7 @@ function poller({ run, interval, staleAfter, now, timeout, refreshOnShow = false
  * @param {DataSourceOptions} o
  * @returns {DataSource}
  */
-export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000, revalidate = false, refreshOnShow = false }) {
+export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (x) => x, ageOf = null, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), timeout = 30_000, revalidate = false, refreshOnShow = false, label, note }) {
   /** @type {string | null} ETag of the data held (revalidate only) */
   let etag = null;
   const p = poller({
@@ -156,6 +169,7 @@ export function dataSource({ url, interval = 60_000, staleAfter = 900, parse = (
     reload: p.reload,
     start() { p.start(); return this; },
     stop() { p.stop(); return this; },
+    label, note, interval,
   };
 }
 
@@ -181,13 +195,15 @@ async function promGet(fx, url, signal) {
  *
  * Range queries follow the app's time range (`setRange`, set by the shell's range control; default the first preset): start/end are the
  * last `range.seconds`, the step keeps a series at most `maxPoints` (300) long and never below `minStep`. Changing the range aborts the
- * request in flight and drops the data of the old range. Without `interval` the refresh follows the step (15 s … 5 min), and without
+ * request in flight and loads the new range at once; the data of the old range stays until the answer arrives (`state.refreshing`, the
+ * shell marks the charts), so the view keeps its layout. Without `interval` the refresh follows the step (15 s … 5 min), and without
  * `staleAfter` data counts as stale after three missed refreshes. One failing query does not take the others down: its last good data
- * stays, the error names it (`cpu: HTTP 502`), and the age is that of the oldest query.
+ * stays, the error names it (`cpu: HTTP 502`; equal errors of several queries are merged into one with a count, `19 queries: HTTP 502`),
+ * and the age is that of the oldest query.
  * @param {PromSourceOptions} o
  * @returns {DataSource}
  */
-export function promSource({ base, queries, interval, staleAfter, minStep = 0, maxPoints = 300, range, ranges = RANGE_PRESETS, timeout = 30_000, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now() }) {
+export function promSource({ base, queries, interval, staleAfter, minStep = 0, maxPoints = 300, range, ranges = RANGE_PRESETS, timeout = 30_000, fetch: fx = globalThis.fetch?.bind(globalThis), now = () => Date.now(), label, note }) {
   const root = String(base || '').replace(/\/+$/, '');
   const names = Object.keys(queries);
   const ranged = names.some((n) => queries[n].range);
@@ -217,18 +233,18 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
         return q.range ? promMatrix(data.resultType === 'matrix' ? data.result : [], { legend: q.legend, name }) : promVector(data, { legend: q.legend, name });
       }));
       if (signal.aborted) throw new Error(signal.reason === TIMEOUT ? 'timeout' : 'aborted');
-      /** @type {string[]} */
-      const errors = [];
+      /** @type {[string, string][]} */
+      const failed = [];
       results.forEach((r, i) => {
         if (r.status === 'fulfilled') good.set(names[i], { data: r.value, at: t });
-        else errors.push(`${names[i]}: ${msg(r.reason)}`);
+        else failed.push([names[i], msg(r.reason)]);
       });
-      if (!good.size) throw new Error(errors.join('; '));
+      if (!good.size) throw new Error(mergeErrors(failed));
       /** @type {Record<string, any>} */
       const data = {};
       for (const n of names) data[n] = good.get(n)?.data ?? null;
       const oldest = Math.min(...names.map((n) => good.get(n)?.at ?? -Infinity));
-      return { data, error: errors.length ? errors.join('; ') : null, fetchedAt: Number.isFinite(oldest) ? oldest : Math.min(...[...good.values()].map((g) => g.at)) };
+      return { data, error: failed.length ? mergeErrors(failed) : null, fetchedAt: Number.isFinite(oldest) ? oldest : Math.min(...[...good.values()].map((g) => g.at)) };
     },
   });
   return {
@@ -237,6 +253,8 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
     reload: p.reload,
     start() { p.start(); return this; },
     stop() { p.stop(); return this; },
+    label, note,
+    get interval() { return iv(); },
     get ranged() { return ranged; },
     get range() { return ranged ? cur : null; },
     setRange(r) {
@@ -244,7 +262,7 @@ export function promSource({ base, queries, interval, staleAfter, minStep = 0, m
       cur = r;
       if (!ranged) return;
       p.abort(); good.clear();
-      p.st.data = null; p.st.error = null; p.st.fetchedAt = null; p.st.baseAge = null;
+      p.st.refreshing = p.st.data != null; p.st.error = null;   // the old range's data stays (marked) until the new one arrives: no loading state, no jump
       if (p.running) p.reload(); else p.emit();
     },
   };
@@ -292,6 +310,7 @@ export function combineSources(parts, { flat = false } = {}) {
       data, error: errors.length ? errors.join('; ') : null, loading: states.some(([, s]) => s.loading),
       fetchedAt: oldest ? oldest[1].fetchedAt : null, age: oldest ? oldest[1].age : null,
       stale: states.some(([, s]) => s.stale), staleAfter: (staleOne || oldest || states[0])?.[1].staleAfter ?? 0, staleParts,
+      refreshing: states.some(([, s]) => s.refreshing),
     };
   }
   const emit = () => { if (!subs.size) return; const s = snapshot(); for (const f of subs) f(s); };
@@ -305,6 +324,7 @@ export function combineSources(parts, { flat = false } = {}) {
     async reload() { await Promise.all(names.map((n) => parts[n].reload())); },
     start() { for (const n of names) parts[n].start(); return this; },
     stop() { for (const n of names) parts[n].stop(); return this; },
+    get parts() { return names.map((n) => /** @type {[string, DataSource]} */ ([n, parts[n]])); },
     get ranged() { return rangedParts().length > 0; },
     get range() { return rangedParts()[0]?.range ?? null; },
     setRange(r) { for (const p of rangedParts()) p.setRange?.(r); },

@@ -67,7 +67,7 @@ div.tn-app @0,0 1424x1104
         svg.tn-icon @308,16 20x20
       h1.tn-toolbar-title.tn-ellipsis "Light and dark" @352,16 116x24
       div.tn-toolbar-spacer @476,28 592x0
-      button.tn-fresh "Updated now" @1076,4 120x48
+      button.tn-fresh {expanded=false} "Updated now" @1076,4 120x48
       button.tn-iconbtn.tn-hide-phone "Reload" @1200,4 48x48
         svg.tn-icon @1212,16 20x20
       button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @1252,4 48x48

@@ -66,11 +66,13 @@ div.tn-app @0,0 392x1604
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
       h1.tn-toolbar-title.tn-ellipsis "Data sources" @52,16 84x20
-      div.tn-toolbar-spacer @140,24 40x0
-      div.tn-range @180,4 60x40
-        button.tn-btn.tn-btn-ghost.tn-range-btn {expanded=false} "Time range: Last hour" @180,4 60x40
-          svg.tn-icon @192,16 16x16
-      button.tn-fresh "Updated now" @248,4 92x40
+      div.tn-toolbar-spacer @140,24 16x0
+      div.tn-range @160,4 84x40
+        button.tn-btn.tn-btn-ghost.tn-range-btn {expanded=false} "Time range: Last hour" @160,4 84x40
+          svg.tn-icon @172,16 16x16
+          span.tn-range-short "1 h" @192,16 16x16
+          svg.tn-icon @216,16 16x16
+      button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x1556
