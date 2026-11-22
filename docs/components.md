@@ -29,7 +29,7 @@ There is no `innerHTML` anywhere; text is set as text.
 | `statusDot(status, { label, title })` | traffic-light dot; with `label` the text sits next to it |
 | `badge(text, { tone = 'neutral', count })` | `tone`: a status, `'neutral'` or `'accent'`; `count: true` for a counter |
 | `button(label, o)` | `variant` `'default' \| 'primary' \| 'ghost' \| 'danger'`, `icon`, `iconAfter`, `onClick`, `disabled`, `type`, `title` (the name and hint of an icon-only button), `small`, `className` |
-| `iconButton(name, { label, hint, onClick, disabled, pressed, className })` | `label` is required (aria-label and hint); `pressed` makes it a toggle button |
+| `iconButton(name, { label, hint, onClick, disabled, pressed, className, onToggle, iconPressed })` | `label` is required (aria-label and hint); `pressed` makes it a toggle button. `onToggle(pressed, e)` makes it a toggle that flips its own `aria-pressed` on a click and shows `iconPressed` while pressed (watch: `iconButton('eye-off', { label: t('…watch'), iconPressed: 'eye', pressed, onToggle })`); the label stays the same, the state is `aria-pressed`. On touch every icon button has a target of at least 44 px, also when it is drawn smaller (in a table row 28 px); inside a `table({ onRow })` row it does not open the row |
 | `segmented({ options, value, onChange, label, small, pane?, swipe? })` | 2–5 options `{ value, label?, icon?, title?, count?, tone? }`; `count` shows a counter behind the label, coloured by `tone` as in the sidebar; an icon-only option needs `title`. `el.setValue(v)` (no `onChange`), `el.value`. With `pane: (value) => content` it returns the control with the content of the chosen option below it ([Swipe between parts](#swipe-between-parts)); `swipe: true` adds the touch gesture |
 | `tabs({ tabs, value, onChange })` | `tabs: [{ id, label, count?, tone?, render? }]`; sub-areas inside a detail. `el.setValue(id)` |
 | `progress({ value, tone, label, showValue })` | `value` 0–1, `null` = indeterminate |
@@ -76,7 +76,8 @@ actions (`toolbarRow`, `menu`).
 
 ```js
 table({
-  columns: [{ key, label, get?, render?, align?: 'right', width?, mono?, wrap?, sortable?: true, mobile?: 'title' | 'value' | 'sub' | 'hide' }],
+  columns: [{ key, label, get?, render?, align?: 'right', width?, mono?, wrap?, sortable?: true,
+             mobile?: 'title' | 'value' | 'sub' | 'metric' | 'action' | 'hide', short?, listLabel? }],
   rows, rowKey?, onRow?, status?: (row) => Status, sort?: { key, dir }, onSort?, selected?: key,
   empty?: 'text', caption?, pageSize?: 50,
 })  // → element with .update({ rows, selected })
@@ -85,8 +86,18 @@ table({
 - Sortable, sticky header, zebra rows, tappable rows (`onRow`: the whole row is the button). `get(row)` gives the sort value and the default text,
   `render(row)` the cell content.
 - Cells do not wrap except the title column and columns with `wrap: true` (schedules, long texts).
-- It becomes a two-line list (`.is-list`) when the container is narrower than 600 px or the columns no longer fit. `mobile` assigns a column its place
-  there; without it the first column is the title, the last right-aligned one the value, the rest the sub line (joined with “·”).
+- It becomes a list (`.is-list`) when the container is narrower than 600 px or the columns no longer fit. `mobile` assigns a column its place
+  there; without it the first column is the title, the last right-aligned one the value (unless a column is a `metric`), the rest the sub line (joined with “·”).
+  The title takes up to two lines before it ends in “…”.
+- **A thing with measurements** (services, containers, processes, devices: a name, a state, two to four numbers, maybe a toggle) – the one recommended row:
+  `status` for the dot (its name is the state, so no “running” text beside it); the measurements `mobile: 'metric'` – in list mode they stand under
+  the title over the full width as label + value pairs in a fixed column order (CPU at the same place in every row; `short` is the label there, e.g.
+  `short: 'RAM'` for “Memory”; a missing value shows “–”); a state text only when it is not the normal one (a column whose `get` returns `null` for the
+  normal state lands in the sub line); one control `mobile: 'action'` (e.g. the watch toggle `iconButton('eye-off', { iconPressed: 'eye', onToggle })`)
+  top right beside the title. Such a list has no chevron (the row is the button; the chevron took the title's room). On a desktop it is a normal table.
+- `listLabel: true` puts the column label in front of a value or sub-line value in list mode where the number alone does not say what it is
+  (“Size 45 GB”); default: only metrics carry their label.
+- A control inside a row (a button, a link, a field) does not open the row: neither its click nor Enter/Space on it.
 - `pageSize` rows are drawn at first (default 50, `0` = all); the next ones load by themselves when the footer comes near the visible area while scrolling (`IntersectionObserver`), the *Show more* button stays as the fallback. Drawing rows, not filtering, is what costs time.
 - Sorting uses `sortRows()` (stable, numbers and dates numerically, text in the locale's natural order, empty values last).
 
