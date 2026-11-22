@@ -198,6 +198,10 @@ function jobColumns() {
 }
 // host services (invented): a thing with a state, measurements and a watch toggle – the list mode with mobile: 'metric' and 'action'
 const D = 86400;
+// watch toggle: saving the stopped service fails (invented) – the toggle goes back by itself because the promise rejects
+const watchSave = (r, on) => (r.status === 'off'
+  ? new Promise((_, no) => setTimeout(no, 600)).catch((err) => { toast(`Could not save the watch for ${r.name}`, { tone: 'bad' }); throw err; })
+  : (r.watched = on, toast(on ? `Watching ${r.name}` : `Not watching ${r.name}`), undefined));
 const SERVICES = [
   { id: 'svc-1', name: 'tv-layout-heal-watch', status: 'ok', cpu: 0.214, mem: 7.12 * 2 ** 30, procs: 43, up: 3 * D, restarts: 0, watched: true },
   { id: 'svc-2', name: 'homelab-board-updater', status: 'bad', state: 'failed', cpu: null, mem: 312 * 2 ** 20, procs: 1, up: 95, restarts: 14, watched: true },
@@ -213,7 +217,7 @@ export function serviceColumns(onWatch) {
     { key: 'mem', label: 'Memory', short: 'RAM', align: 'right', mobile: 'metric', render: (r) => (r.mem == null ? '–' : fmtBytes(r.mem)) },
     { key: 'restarts', label: 'Restarts', short: 'Restarts', align: 'right', mobile: 'metric', render: (r) => fmtNum(r.restarts) },
     { key: 'watched', label: 'Watch', sortable: false, mobile: 'action', get: (r) => (r.watched ? 1 : 0),
-      render: (r) => iconButton('eye-off', { label: `Watch ${r.name}`, iconPressed: 'eye', pressed: r.watched, onToggle: (on) => { r.watched = on; onWatch?.(r); } }) },
+      render: (r) => iconButton('eye-off', { label: `Watch ${r.name}`, iconPressed: 'eye', pressed: r.watched, onToggle: (on) => onWatch(r, on) }) },
   ];
 }
 
@@ -273,11 +277,11 @@ filterBar({ placeholder, onChange, count: (state) => '5 of 12', filters: [
 rows.filter((row) => matchFilters(row, state.f, (row, key) => row[key], { now }))   // every type
 // Detail: view.detail(id, ctx) → { title, sub, body } – the shell decides inspector/panel/sheet`),
     section('Things with measurements', { className: 'g-services' }, card({ flush: true }, table({
-      columns: serviceColumns((r) => toast(r.watched ? `Watching ${r.name}` : `Not watching ${r.name}`)), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
+      columns: serviceColumns(watchSave), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
       onRow: (r) => toast(r.name), sort: { key: 'cpu', dir: 'desc' }, caption: 'Host services',
     }))),
     section('Five measurements, long labels', { className: 'g-services5' }, card({ flush: true }, table({
-      columns: serviceColumns5((r) => toast(r.watched ? `Watching ${r.name}` : `Not watching ${r.name}`)), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
+      columns: serviceColumns5(watchSave), rows: SERVICES, status: (r) => r.status, rowKey: (r) => r.id,
       onRow: (r) => toast(r.name), sort: { key: 'cpu', dir: 'desc' }, caption: 'Host services, five measurements',
     }))),
     code(`// a thing with measurements: title over the full width, the measurements labelled in a fixed order, a toggle that does not open the row
@@ -287,7 +291,7 @@ table({ columns: [
   { key: 'cpu', label: 'CPU', align: 'right', mobile: 'metric', render: (r) => fmtPct(r.cpu, 1) },
   { key: 'mem', label: 'Memory', short: 'RAM', align: 'right', mobile: 'metric', render: (r) => fmtBytes(r.mem) },
   { key: 'watched', label: 'Watch', sortable: false, mobile: 'action',
-    render: (r) => iconButton('eye-off', { label: t('…'), iconPressed: 'eye', pressed: r.watched, onToggle: (on) => save(r, on) }) },
+    render: (r) => iconButton('eye-off', { label: t('…'), iconPressed: 'eye', pressed: r.watched, onToggle: (on) => save(r, on) }) },  // save rejects → back
 ], rows, status: (r) => r.status, onRow: (r) => app.open(r.id) })`),
     h('div', { class: 'g-grid2' },
       section('Empty', {}, card({ flush: true }, table({ columns: jobColumns(), rows: [], empty: 'No jobs in this selection' }))),

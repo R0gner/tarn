@@ -5,6 +5,7 @@ import { h, cls } from './dom.js';
 import { icon } from './icons.js';
 import { tooltip } from './controls.js';
 import { t } from './i18n.js';
+import { toggleKept } from './inputs-data.js';
 
 /** @import { Child } from './dom.js' */
 /** @typedef {'ok' | 'warn' | 'bad' | 'unknown' | 'pending' | 'info' | 'off'} Status The only status names. */
@@ -12,7 +13,7 @@ import { t } from './i18n.js';
 /** @typedef {{ label?: string, title?: string }} StatusDotOptions */
 /** @typedef {{ tone?: Tone, count?: boolean }} BadgeOptions */
 /** @typedef {{ variant?: 'default' | 'primary' | 'ghost' | 'danger', icon?: string, iconAfter?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, type?: 'button' | 'submit' | 'reset', title?: string, small?: boolean, className?: string }} ButtonOptions */
-/** @typedef {{ label: string, hint?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, pressed?: boolean | null, className?: string, onToggle?: (pressed: boolean, e: MouseEvent) => void, iconPressed?: string }} IconButtonOptions onToggle makes it a toggle that flips its own state (aria-pressed) and icon (iconPressed while pressed) on a click; inside a table row it does not open the row. */
+/** @typedef {{ label: string, hint?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, pressed?: boolean | null, className?: string, onToggle?: (pressed: boolean, e: MouseEvent) => (void | boolean | Promise<unknown>), iconPressed?: string }} IconButtonOptions onToggle makes it a toggle that flips its own state (aria-pressed) and icon (iconPressed while pressed) on a click; returning false or a promise that rejects (or resolves to false) puts it back; inside a table row it does not open the row. */
 
 
 /** Status names in the active language (getters: always current, also after a language switch). */
@@ -60,11 +61,21 @@ export function button(label, { variant = 'default', icon: ic, iconAfter, onClic
  * @returns {HTMLButtonElement}
  */
 export function iconButton(name, { label, hint, onClick, disabled, pressed, className, onToggle, iconPressed }) {
-  const toggle = onToggle ? (/** @type {MouseEvent} */ e) => {
-    const on = b.getAttribute('aria-pressed') !== 'true';
+  /** @param {boolean} on */
+  const show = (on) => {
     b.setAttribute('aria-pressed', String(on));
     if (iconPressed) b.replaceChildren(icon(on ? iconPressed : name));
-    onToggle(on, e);
+  };
+  const toggle = onToggle ? (/** @type {MouseEvent} */ e) => {
+    if (b.getAttribute('aria-busy') === 'true') return;   // the last change is still being saved
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    show(on);
+    const kept = toggleKept(onToggle(on, e));
+    if (kept === false) { show(!on); return; }
+    if (kept !== true) {
+      b.setAttribute('aria-busy', 'true');
+      kept.then((ok) => { b.removeAttribute('aria-busy'); if (!ok) show(!on); });
+    }
   } : null;
   const b = /** @type {HTMLButtonElement} */ (h('button', {
     class: cls('tn-iconbtn', className), type: 'button', 'aria-label': label, disabled: !!disabled,

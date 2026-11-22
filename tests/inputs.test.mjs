@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { setLocale } from '../js/i18n.js';
-import { parseNumber, roundTo, validateValue, validationText, filterOptions, isoDay, addDays, rangeFromPreset, presetOf, dayStart, imeComposing } from '../js/inputs-data.js';
+import { parseNumber, roundTo, validateValue, validationText, filterOptions, isoDay, addDays, rangeFromPreset, presetOf, dayStart, imeComposing, toggleKept } from '../js/inputs-data.js';
 
 test('parseNumber: decimal comma and point, empty, junk', () => {
   assert.equal(parseNumber('1,5'), 1.5);
@@ -80,4 +80,13 @@ test('imeComposing: Enter that commits an input method character is not a submit
   assert.equal(imeComposing({ isComposing: false, keyCode: 229 }), true, 'the keydown Chrome and Safari send around a composition');
   assert.equal(imeComposing({ isComposing: false, keyCode: 13 }), false);
   assert.equal(imeComposing({}), false);
+});
+
+test('toggle: false or a failed save puts the button back, anything else keeps the new state', async () => {
+  assert.equal(toggleKept(undefined), true);
+  assert.equal(toggleKept(true), true);
+  assert.equal(toggleKept(false), false);
+  assert.equal(await toggleKept(Promise.resolve()), true);
+  assert.equal(await toggleKept(Promise.resolve(false)), false);
+  assert.equal(await toggleKept(Promise.reject(new Error('save failed'))), false);
 });

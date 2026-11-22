@@ -162,3 +162,17 @@ export function validateFields(fields, values) {
   }
   return { errors, first: fields.find((f) => errors[f.name])?.name ?? null };
 }
+
+/**
+ * Does a toggle keep its new state? What a toggle's `onToggle` returned: `false` → no (go back at once); a promise → it settles to whether it
+ * resolved to anything but `false` (a rejection or `false` → go back); anything else → yes.
+ * @param {unknown} result
+ * @returns {boolean | Promise<boolean>}
+ */
+export function toggleKept(result) {
+  if (result === false) return false;
+  if (result && typeof (/** @type {any} */ (result)).then === 'function') {
+    return Promise.resolve(/** @type {PromiseLike<unknown>} */ (result)).then((v) => v !== false, () => false);
+  }
+  return true;
+}
