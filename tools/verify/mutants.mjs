@@ -166,6 +166,20 @@ export const MUTANTS = [
     patch: [{ file: 'js/shell.js', from: "if (!viewChanged && (paramsChanged || rangeChanged)) {", to: "if (!viewChanged && rangeChanged) {" }],
   },
   {
+    // the 0.9.0 fault: ctx.params holds the open detail and go() takes it from params; a switch built from them reopens a detail that was
+    // closed meanwhile (both guards off – each alone already keeps the detail closed)
+    id: 'stale-open-in-params',
+    check: 'overlay', scenarios: ['param-stale-open'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: 'params: viewParams(cur.params), open: cur.open', to: 'params: cur.params, open: cur.open' },
+      { file: 'js/shell.js', from: '      if (params) params = viewParams(params);\n', to: '' }],
+  },
+  {
+    // go() that takes `open` from params as well
+    id: 'go-open-from-params',
+    check: 'overlay', scenarios: ['param-stale-open'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: '      if (params) params = viewParams(params);\n', to: '' }],
+  },
+  {
     // the opposite: every route of the same view redraws it, also opening or closing a detail and the same parameters again
     id: 'param-redraw-always',
     check: 'overlay', scenarios: ['param-redraw'], sizes: ['desktop'], expect: ['overlay-behaviour'],

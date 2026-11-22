@@ -87,7 +87,7 @@ A view parameter is the way to keep a tab, filter or sort in the URL: `segmented
 other than `open` differ from the ones shown, the shell redraws the same view at once, the way `app.refresh()` does: the field being typed in keeps
 focus and caret, the scroll position stays, an open detail is redrawn in place. The same parameters again draw nothing, opening or closing a detail
 draws only the detail, a range change draws the view once. `app.go()` replaces the parameters it is given (`open` included): pass
-`{ ...ctx.params, tab: v }` to keep the others. Kit controls (`filterBar`, `tabs`, table sorting) do not write parameters; they keep their state in
+`{ ...ctx.params, tab: v }` to keep the others. `ctx.params` never holds `open` (the detail is `ctx.open`), and `go()` opens a detail only through its `open` option – a copy of the params of a view drawn while a detail was open does not reopen it (0.9.1). Kit controls (`filterBar`, `tabs`, table sorting) do not write parameters; they keep their state in
 the board and redraw themselves.
 
 ### Time range

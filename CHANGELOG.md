@@ -3,6 +3,16 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.9.1
+
+### Fixed
+- Shell: `ctx.params` no longer holds `open` (the detail stays `ctx.open`), and `app.go(view, { params })` drops an `open` inside `params` – only
+  the `open` option opens a detail. A view drawn while a detail was open (new data, `refresh()`) kept `open` in `ctx.params`; a switch built
+  from it (`go(view, { params: { ...ctx.params, tab } })`) reopened the detail after it had been closed (Markt-Scout: close a listing with a
+  swipe down, swipe to the next tab, the listing came back). Pure part `viewParams()` in `js/router.js` (unit test); overlay scenario
+  `param-stale-open` with the mutants `stale-open-in-params` (the 0.9.0 state) and `go-open-from-params`. The sample board's history switch
+  now keeps the other parameters (`{ ...ctx.params, cpu }`), as docs/shell.md recommends.
+
 ## 0.9.0
 
 ### Added

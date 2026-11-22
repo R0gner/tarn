@@ -278,7 +278,7 @@ function viewHistory(ctx) {
   const cpu = () => lineChart({ x: xs, series: hosts.filter((x) => ['nas-a', 'media-1', 'app-2'].includes(x.id)).map((x, i) => ({ label: x.name, values: x.cpu.slice(-n), color: ['blue', 'orange', 'purple'][i] })), yMax: 100, height: 180, yFormat: (v) => `${fmtNum(v, 0)} %` });
   const chartHost = h('div', null, cpu());
   return [
-    card({ title: t('board.h.cpuLoad'), actions: segmented({ small: true, label: t('board.h.range'), options: [{ value: '24h', label: t('board.h.range24') }, { value: '48h', label: t('board.h.range48') }], value: span, onChange: (v) => ctx.app.go('history', { params: { cpu: v } }) }) }, chartHost),
+    card({ title: t('board.h.cpuLoad'), actions: segmented({ small: true, label: t('board.h.range'), options: [{ value: '24h', label: t('board.h.range24') }, { value: '48h', label: t('board.h.range48') }], value: span, onChange: (v) => ctx.app.go('history', { params: { ...ctx.params, cpu: v } }) }) }, chartHost),
     cols(
       card({ title: t('board.h.runsPerDay'), sub: t('board.h.days7') }, barChart({ labels: days, stacked: true, height: 170, yFormat: (v) => fmtNum(v, 0), series: [
         { label: t('board.h.success'), values: runsPerDay.map((d) => d[0]), color: 'ok' }, { label: t('board.h.warning'), values: runsPerDay.map((d) => d[1]), color: 'warn' }, { label: t('board.h.error'), values: runsPerDay.map((d) => d[2]), color: 'bad' }] })),

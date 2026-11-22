@@ -13,7 +13,7 @@ import { segmented } from './controls.js';
 import { field, select } from './inputs.js';
 import { banner, empty, toolbarRow } from './components.js';
 import { openSheet, lockScroll, setBackHook } from './sheet.js';
-import { parseHash, buildHash, resolveViews, viewParamsDiffer } from './router.js';
+import { parseHash, buildHash, resolveViews, viewParamsDiffer, viewParams } from './router.js';
 import { stackFor, withLayer, withoutLayer, backStep, plan } from './levels.js';
 import { fmtAgo, fmtFull, fmtDuration } from './format.js';
 import { favicon } from './favicon.js';
@@ -410,7 +410,8 @@ export function createApp(cfg0) {
   /* ---- Views ---- */
   /** @param {{ id: string } | undefined} [v] */
   function ctx(v = views.get(/** @type {string} */ (cur.view))) {
-    return { app: api, view: v?.id, params: cur.params, open: cur.open, src: srcState, data: srcState?.data ?? null };
+    // params without `open` (the detail is ctx.open): a view that copies them into app.go() does not carry a detail along
+    return { app: api, view: v?.id, params: viewParams(cur.params), open: cur.open, src: srcState, data: srcState?.data ?? null };
   }
   /* A redraw of the same view (new data: refresh()) rebuilds every control; the field the user is typing in keeps focus and caret
      (matched by position, tag, type and label; its text is the board's state, as filterBar({ value }) keeps it). */
@@ -612,6 +613,8 @@ export function createApp(cfg0) {
     get view() { return cur.view; },
     get openId() { return cur.open; },
     go(view, { open, params } = {}) {
+      // a detail opens only through `open`; an `open` inside params (a copy of an older route) is dropped
+      if (params) params = viewParams(params);
       // back 'levels': the history follows the levels (js/levels.js); same view with other params replaces
       if (levels) { if (!open && view === cur.view && !params) return; navigate({ view, params: { ...params, ...(open ? { open } : {}) } }); return; }
       // back 'history': one history entry per call; with open, “Back” only closes the detail and does not stay in the new view

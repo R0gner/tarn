@@ -31,6 +31,18 @@ export function buildHash(view, params = {}) {
 }
 
 /**
+ * The parameters of a view without the detail on top (`open`): what ctx.params holds and what app.go() takes as `params`. A view that copies
+ * ctx.params into a link (`go(view, { params: { ...ctx.params, tab } })`) must never carry the detail along – a view drawn while a detail was
+ * open would otherwise reopen it on the next switch (0.9.1, Markt-Scout: swipe to the next tab after closing a detail reopened it).
+ * @param {Record<string, string> | null | undefined} params
+ * @returns {Record<string, string>}
+ */
+export function viewParams(params) {
+  const { open: _open, ...rest } = params || {};
+  return rest;
+}
+
+/**
  * Do two parameter sets of the same view show different content? Every parameter counts except `open` (the detail on top) and empty values
  * (buildHash drops them, so they never reach the URL). The shell redraws the view when this is true.
  * @param {Record<string, string | undefined> | null | undefined} a

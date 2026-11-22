@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {
   fmtNum, fmtPct, fmtBytes, fmtDuration, fmtAgo, fmtTime, fmtDate, fmtWhen, fmtDay, sortRows, compareValues, matchQuery, STATUS_RANK,
 } from '../js/format.js';
-import { parseHash, buildHash, resolveViews, viewParamsDiffer } from '../js/router.js';
+import { parseHash, buildHash, resolveViews, viewParamsDiffer, viewParams } from '../js/router.js';
 import { setLocale, setTimeZone, getLocale } from '../js/i18n.js';
 
 setLocale('de');
@@ -96,6 +96,17 @@ test('router: viewParamsDiffer ignores open and empty values, sees every other p
   assert.equal(viewParamsDiffer({ tab: 'a' }, {}), true);
   assert.equal(viewParamsDiffer({ tab: 'a', sort: 'x' }, { sort: 'x', tab: 'a' }), false, 'order does not matter');
   assert.equal(viewParamsDiffer({ range: '1h' }, { range: '24h', open: 'x' }), true);
+});
+
+test('router: viewParams drops the detail, keeps every view parameter and never changes its argument', () => {
+  const p = { m: 'nas', tab: 'lists', open: 'kleinanzeigen:1' };
+  assert.deepEqual(viewParams(p), { m: 'nas', tab: 'lists' });
+  assert.equal(p.open, 'kleinanzeigen:1');
+  assert.deepEqual(viewParams({ tab: 'a' }), { tab: 'a' });
+  assert.deepEqual(viewParams(null), {});
+  assert.deepEqual(viewParams(undefined), {});
+  // the 0.9.0 fault: a switch built from the params of a view drawn while a detail was open
+  assert.equal(parseHash(buildHash('mission', { ...viewParams(p), tab: 'searches' })).params.open, undefined);
 });
 
 test('fmtWhen and fmtDay in the other languages keep Intl\'s own patterns', () => {

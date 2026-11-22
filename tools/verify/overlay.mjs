@@ -778,6 +778,30 @@ export const SCENARIOS = [
       return left;
     } },
 
+  { id: 'param-stale-open', page: 'board', hash: 'history', overlay: '.tn-seg', focus: false,
+    // a view drawn while a detail is open (new data: refresh()) and a switch that keeps the other parameters (go(view, { params: { ...ctx.params,
+    // x } })): after the detail is closed, the switch must not open it again – ctx.params never holds `open` (0.9.1, Markt-Scout: swiping to the
+    // next tab after closing a listing reopened it). go() also drops an `open` handed in through params.
+    open: (io) => io.until(`!!document.querySelector('.tn-seg-btn[data-value="48h"]')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const shown = `!!document.querySelector('dialog.tn-sheet[open], .tn-inspector:not([hidden])')`;
+      await io.eval(`(() => { window.tnApp.open('offsite-sync'); return true; })()`);
+      if (!(await io.until(shown, 2000))) return ['the detail did not open'];
+      await io.eval(`(() => { window.tnApp.refresh(); return true; })()`); await sleep(150);   // the view is drawn anew while the detail is open
+      await io.eval(`(() => { window.tnApp.closeDetail(); return true; })()`);
+      if (!(await io.until(`!(${shown})`, 2000))) left.push('the detail did not close');
+      await sleep(300);
+      await io.press('.tn-seg-btn[data-value="48h"]');
+      await sleep(400);
+      const st = await io.eval(`({ hash: location.hash, open: ${shown}, id: window.tnApp.openId })`);
+      if (!/[?&]cpu=48h\b/.test(st.hash)) left.push(`the switch did not take (hash ${st.hash})`);
+      if (st.open || st.id || /[?&]open=/.test(st.hash)) left.push(`the switch after closing the detail opened it again (hash ${st.hash}, open ${st.id})`);
+      await io.eval(`(() => { window.tnApp.go('history', { params: { cpu: '24h', open: 'offsite-sync' } }); return true; })()`); await sleep(400);
+      if (await io.eval(`${shown} || !!window.tnApp.openId`)) left.push('go() opened a detail handed in through params (only `open` opens one)');
+      return left;
+    } },
+
   { id: 'edge-scrollbar', page: 'board', hash: 'jobs', overlay: '.tn-tooltip:not([hidden])', focus: false, when: (sz) => !sz.mobile && sz.w >= 1000,
     // a control at the right edge with a scrollbar that takes space: the hint and the menu stay inside the laid-out page, both while the page
     // does not scroll (html { scrollbar-gutter: stable } reserves the gutter, documentElement.clientWidth still counts it) and while it scrolls
