@@ -239,10 +239,22 @@ export const MUTANTS = [
     patch: [{ file: 'js/images.js', from: "const release = opts.back === false ? null : backLayer(() => close('back'));", to: 'const release = null;' }],
   },
   {
-    // the 0.8.2 head: counter and close button straight on the picture (light grey, no veil), unreadable on a light image
+    // the 0.8.2 head: counter and close button straight on the picture (light grey, no background), unreadable on a light image
     id: 'viewer-controls-no-veil',
     check: 'overlay', scenarios: ['image-viewer'], sizes: ['phone'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'css/components.css', from: 'border-radius: var(--tn-pill-h); background: var(--tn-media-veil); color: var(--tn-text-on-media);', to: 'border-radius: var(--tn-pill-h); color: var(--tn-text-2);' }],
+    patch: [{ file: 'css/components.css', from: 'border-radius: var(--tn-pill-h); background: var(--tn-bg-sunken); color: var(--tn-text);', to: 'border-radius: var(--tn-pill-h); color: var(--tn-text-2);' }],
+  },
+  {
+    // the 0.8.3 controls: a half-transparent black veil, a slightly different black over the viewer's grey margin
+    id: 'viewer-controls-dark-veil',
+    check: 'overlay', scenarios: ['image-viewer'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'css/components.css', from: '  background: var(--tn-bg-sunken); color: var(--tn-text);\n}', to: '  background: var(--tn-media-veil); color: var(--tn-text-on-media);\n}' }],
+  },
+  {
+    // the 0.8.4 paging buttons: a full 44 px circle right at the screen edge
+    id: 'viewer-nav-at-edge',
+    check: 'overlay', scenarios: ['image-viewer'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'css/components.css', from: 'padding: calc((var(--tn-viewer-btn) - var(--tn-sz-36)) / 2); background-clip: content-box;', to: '' }],
   },
   {
     // a viewer whose arrow keys wrap round from the last image to the first
@@ -291,6 +303,26 @@ export const MUTANTS = [
     id: 'viewer-zoom-no-reset',
     check: 'overlay', scenarios: ['image-zoom'], sizes: ['desktop'], expect: ['overlay-behaviour'],
     patch: [{ file: 'js/images-data.js', from: 'return steps[0];\n}', to: 'return steps[1];\n}' }],
+  },
+  {
+    // content that leaves sideways moves to the browser (no touch-action pan-y): it takes the touch as a pan and cancels it, no swipe switches.
+    // (A swipe that ignores sideways scrollers is no mutant here: Chromium hands such a touch to the scroller and cancels the pointer anyway; the
+    // check in js/swipe.js covers browsers that do not, the scenario checks the behaviour.)
+    id: 'swipe-no-touch-action',
+    check: 'overlay', scenarios: ['segmented-swipe'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'css/core.css', from: '.tn-segpane-swipe { touch-action: pan-y pinch-zoom; overflow-x: clip; }', to: '.tn-segpane-swipe { overflow-x: clip; }' }],
+  },
+  {
+    // parts that wrap round: a swipe to the right on the first part shows the last one instead of a rubber band
+    id: 'swipe-wraps',
+    check: 'overlay', scenarios: ['segmented-swipe'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/swipe-data.js', from: 'return to < 0 || to >= n ? index : to;', to: 'return (to + n) % n;' }],
+  },
+  {
+    // a swipe that moves the content with the finger although the user asked for reduced motion
+    id: 'swipe-ignores-reduced-motion',
+    check: 'overlay', scenarios: ['segmented-swipe'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/swipe.js', from: "const still = () => tokenMs('--tn-t-close') <= 0;", to: 'const still = () => false;' }],
   },
   {
     // earlier timeline fault: overflow-x auto alone makes overflow-y auto; the bars' hit area sticks out a few px below the grid, so a vertical

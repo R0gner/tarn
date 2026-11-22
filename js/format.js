@@ -19,18 +19,19 @@ function fmt(kind, make, opts) {
   if (!f) { f = make(); cache.set(k, f); }
   return f;
 }
-const numFmt = (digits) => fmt('n', () => new Intl.NumberFormat(getLocale(), { minimumFractionDigits: 0, maximumFractionDigits: digits }), digits);
+const numFmt = (digits, min = 0) => fmt('n', () => new Intl.NumberFormat(getLocale(), { minimumFractionDigits: Math.min(min, digits), maximumFractionDigits: digits }), `${digits}/${min}`);
 const dtf = (kind, o) => fmt(`d${kind}`, () => new Intl.DateTimeFormat(getLocale(), { timeZone: getTimeZone(), ...o }), kind);
 
 /**
- * 12345.678 → "12,345.68" (en) / "12.345,68" (de); at most `digits` decimals. null → "–"
+ * 12345.678 → "12,345.68" (en) / "12.345,68" (de); at most `digits` decimals, at least `min` (amounts: fmtNum(9.9, 2, 2) → "9.90"). null → "–"
  * @param {number | null | undefined} n
  * @param {number} [digits]
+ * @param {number} [min]
  * @returns {string}
  */
-export function fmtNum(n, digits = 2) {
+export function fmtNum(n, digits = 2, min = 0) {
   if (n == null || Number.isNaN(n)) return '–';
-  return (digits === 0 ? numFmt(0).format(Math.round(n)) : numFmt(digits).format(n));
+  return (digits === 0 ? numFmt(0).format(Math.round(n)) : numFmt(digits, min).format(n));
 }
 
 /**

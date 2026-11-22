@@ -16,7 +16,7 @@ export const CORE = {
     'js/core.js', 'js/version.js', 'js/theme-init.js', 'js/density.js', 'js/dom.js', 'js/press.js', 'js/overlay.js', 'js/format.js',
     'js/i18n.js', 'js/locales/en.js', 'js/locales/de.js', 'js/locales/es.js', 'js/locales/fr.js',
     'js/icons.js', 'js/icons-data.js', 'js/favicon.js',
-    'js/primitives.js', 'js/controls.js', 'js/inputs.js', 'js/inputs-data.js', 'js/form.js',
+    'js/primitives.js', 'js/controls.js', 'js/swipe.js', 'js/swipe-data.js', 'js/inputs.js', 'js/inputs-data.js', 'js/form.js',
   ],
 };
 export const SHELL = {

@@ -105,6 +105,26 @@
 .tn-seg-btn:is(:active, .is-down) { background: var(--tn-press); }
 .tn-seg-btn[aria-checked="true"] { background: var(--tn-card); color: var(--tn-text); box-shadow: 0 0 0 1px var(--tn-border); }
 .tn-seg-sm .tn-seg-btn { min-height: var(--tn-seg-sm-h); padding: 0 var(--tn-s2); }
+/* segmented with its content (segmented({ pane })): the control above the content of the chosen option, the same gap as stack() */
+.tn-segset { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; min-width: 0; }
+.tn-segset > .tn-seg { justify-self: start; }
+.tn-segpane, .tn-segpane-track { min-width: 0; }
+.tn-segpane-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; min-width: 0; }
+/* swipe (segmented({ pane, swipe: true })): the browser keeps vertical scrolling and pinch zoom, sideways belongs to the gesture (js/swipe.js);
+   the neighbour lies beside the content (left ±100 %) and the track moves both; nothing sticks out sideways */
+.tn-segpane-swipe { touch-action: pan-y pinch-zoom; overflow-x: clip; }
+.tn-segpane-track { position: relative; }
+.tn-segpane-track.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
+.tn-segpane-next { position: absolute; top: 0; width: 100%; }
+/* the marker of the active option while a finger swipes: it glides from the option to the neighbour, the option itself looks plain meanwhile */
+.tn-seg:has(> .tn-seg-marker) { position: relative; }
+.tn-seg-marker {
+  display: none; position: absolute; left: 0; top: var(--tn-seg-py); bottom: var(--tn-seg-py); border-radius: var(--tn-r-sm);
+  background: var(--tn-card); box-shadow: 0 0 0 1px var(--tn-border); transform-origin: left center; pointer-events: none;
+}
+.tn-seg-marker.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
+.tn-seg.is-swiping > .tn-seg-marker { display: block; }
+.tn-seg.is-swiping .tn-seg-btn[aria-checked="true"] { background: transparent; box-shadow: none; }
 
 /* ============ Tabs ============ */
 .tn-tabset { display: grid; gap: var(--tn-s3); min-width: 0; }

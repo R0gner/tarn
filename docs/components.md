@@ -30,7 +30,7 @@ There is no `innerHTML` anywhere; text is set as text.
 | `badge(text, { tone = 'neutral', count })` | `tone`: a status, `'neutral'` or `'accent'`; `count: true` for a counter |
 | `button(label, o)` | `variant` `'default' \| 'primary' \| 'ghost' \| 'danger'`, `icon`, `iconAfter`, `onClick`, `disabled`, `type`, `title` (the name and hint of an icon-only button), `small`, `className` |
 | `iconButton(name, { label, hint, onClick, disabled, pressed, className })` | `label` is required (aria-label and hint); `pressed` makes it a toggle button |
-| `segmented({ options, value, onChange, label, small })` | 2–5 options `{ value, label?, icon?, title?, count?, tone? }`; `count` shows a counter behind the label, coloured by `tone` as in the sidebar; an icon-only option needs `title`. `el.setValue(v)` (no `onChange`), `el.value` |
+| `segmented({ options, value, onChange, label, small, pane?, swipe? })` | 2–5 options `{ value, label?, icon?, title?, count?, tone? }`; `count` shows a counter behind the label, coloured by `tone` as in the sidebar; an icon-only option needs `title`. `el.setValue(v)` (no `onChange`), `el.value`. With `pane: (value) => content` it returns the control with the content of the chosen option below it ([Swipe between parts](#swipe-between-parts)); `swipe: true` adds the touch gesture |
 | `tabs({ tabs, value, onChange })` | `tabs: [{ id, label, count?, tone?, render? }]`; sub-areas inside a detail. `el.setValue(id)` |
 | `progress({ value, tone, label, showValue })` | `value` 0–1, `null` = indeterminate |
 | `tooltip(el, text)` | the small hint, see [design language](design.md#hover-hints-and-overlays); `hideTooltip()` closes it |
@@ -59,7 +59,7 @@ Never a disclaimer or a method note ([what goes on a view](dashboard-guidelines.
 | Function | Options |
 |---|---|
 | `statTile({ label, value, unit, sub, status, onClick })` | a key figure; `sub` may be text or a `sparkline`; with `onClick` the whole tile is the button |
-| `metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, wrapSub })` | one row; with `onClick` the whole row is the button with a chevron on the right; `wrapSub` lets the sub line wrap (a problem row's reason must be readable in full); `key` identifies the row for the selection in the inspector |
+| `metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, wrapSub, wrapTitle })` | one row; with `onClick` the whole row is the button with a chevron on the right; `wrapSub` lets the sub line wrap (a problem row's reason must be readable in full); `wrapTitle` gives the title up to two lines before it ends in “…” (long names, e.g. listing titles on a phone); `key` identifies the row for the selection in the inspector |
 | `list(items, render, { empty, zebra })` | rows from items; `empty` is the text for no items |
 | `kv(pairs, { mono })` | key–value pairs `[key, value, class?]`; `null` pairs and empty values are dropped |
 | `facts(title, ...kids)` | a titled group inside a detail, usually around `kv` |
@@ -118,8 +118,10 @@ at that image; `onOpen(index, images)` replaces that.
 `openImageViewer(images, { index, label, onChange, onClose, returnFocus, back })` → `{ el, show(i), close(reason), index() }` (or `null` for an empty
 list) shows the images large above everything: a modal dialog over the whole screen, always dark, with the counter "n / m" (hidden for one image), *x*
 and previous/next buttons (hidden at the ends; the list does not wrap). Counter, *x* and the buttons lie over the picture and do not zoom with it; each
-sits on a fixed dark veil (a pill with a camera icon, round buttons of at least 44 px) with white text and icons (`--tn-media-veil`,
-`--tn-text-on-media`), so they stay readable on a white image too; the head keeps clear of the status bar and a notch (safe area).
+wears the viewer's own background, opaque (`--tn-bg-sunken` in the dark scheme, light text): on the margin beside an image of another aspect
+ratio they melt into it, over the picture they stay readable. The counter is a pill with a camera icon, *x* a round button of at least 44 px; the
+paging arrows show a circle of 36 px inside a target of at least 44 px, 10 px from the screen edge plus the safe area. The head keeps clear of the
+status bar and a notch (safe area).
 
 - Paging: a carousel – every image is a slide on one track that follows the finger (touch, pen and mouse), so the previous or next image slides in
   while you drag; on release the track settles on the new image or back (short, the closing duration; instant with reduced motion). The arrow keys,
@@ -159,6 +161,27 @@ Do not open images with `<a target="_blank">` in a board: in an installed app th
 
 ## Format and sort helpers
 
-`fmtNum(n, digits)`, `fmtPct(ratio, digits)`, `fmtBytes(b)` (binary), `fmtDuration(sec)`, `fmtAgo(sec)`, `fmtTime`, `fmtDate`, `fmtDay`, `fmtShort`, `fmtFull`
+`fmtNum(n, digits, min?)` (at most `digits`, at least `min` decimals: `fmtNum(9.9, 2, 2)` → “9.90”), `fmtPct(ratio, digits)`, `fmtBytes(b)` (binary), `fmtDuration(sec)`, `fmtAgo(sec)`, `fmtTime`, `fmtDate`, `fmtDay`, `fmtShort`, `fmtFull`
 and `fmtWhen(t, now)` format with the active locale and time zone; they return “–” for `null`. `sortRows(rows, get, dir)`, `compareValues(a, b)`,
 `matchQuery(text, query)` (all words, accent- and case-insensitive) are the matching sort and search helpers.
+
+## Swipe between parts
+
+`segmented({ options, value, onChange, label, pane: (value) => content, swipe: true })` – the tabs of a view (e.g. Lists · Searches · Strategy)
+with their content: the control on top, below it the content `pane(value)` draws (anew on every switch; `.tn-segset`, the same gap as `stack()`).
+With `swipe: true`, on touch a sideways swipe on the content switches to the neighbouring option:
+
+- The neighbour is drawn when the finger pulls it in and comes from the side of the swipe; it follows the finger and settles on release (closing
+  duration); the marker of the active option glides from option to option at the same time. A slow drag switches from a quarter of the width, a
+  flick from 30 px at 0.4 px/ms. `onChange(value)` fires once the new part is in (a board that keeps the tab in the URL draws the view anew then,
+  as after a click).
+- Vertical scrolling has priority: the gesture decides its axis after 10 px, sideways only when clearly flatter than about 34° (`|dx| ≥ 1.5 |dy|`);
+  the content leaves only vertical panning and pinch zoom to the browser (`touch-action: pan-y pinch-zoom`).
+- A touch that starts in something that scrolls sideways by itself (a table, an image strip, a row of chips), in a field or in an element with
+  `data-tn-noswipe` belongs to it and switches nothing.
+- At the first and the last part a rubber band (the content moves a little and springs back), no wrap.
+- Reduced motion: nothing follows the finger, nothing slides; a swipe switches on release.
+- Mouse, pen, keyboard and clicks are unchanged. When the page is scrolled past the top of the content, the new part is shown from its start.
+
+Pure parts (axis, rubber band, release, marker, sideways scrollers) in `js/swipe-data.js`, unit tests `tests/swipe.test.mjs`; overlay scenario
+`segmented-swipe` (mutants `swipe-wraps`, `swipe-no-touch-action`, `swipe-ignores-reduced-motion`).

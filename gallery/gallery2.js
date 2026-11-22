@@ -4,7 +4,7 @@ import {
   segmented, tabs, log, toast, progress, usageBar, tooltip, menu, dataCard, boardSwitcher, boardGrid, boardIcon, normalizeBoards,
   lineChart, barChart, sparkline, donut, heatRow, timeline, openSheet, fmtBytes, fmtNum, fmtWhen, fmtTime, fmtDuration, fmtDate, fmtDay, fmtAgo, fmtPct,
   STATUS_TEXT, favicon, t, getLocale, getTimeZone, KIT_LOCALES, LOCALE_NAMES, DENSITIES, getDensity, setDensity,
-  notifications, openNotifications, notificationsPanel, createNotifications, openInstallHint, manualInstall,
+  notifications, openNotifications, notificationsPanel, createNotifications, openInstallHint, manualInstall, imageStrip,
 } from '../js/tarn.js';
 import { mockPush } from './mock-push.js';
 
@@ -40,6 +40,7 @@ const DEMO_CATEGORIES = [{ id: 'operations', label: 'Operations' }, { id: 'home'
 const flat = DEMO_BOARDS.map(({ category, ...x }) => x);
 
 /* ================= Primitives: controls ================= */
+const SWIPE_PHOTOS = ['./img/photo-1.svg', './img/photo-2.svg', './img/photo-3.svg', './img/photo-4.svg', './img/photo-5.svg', './img/photo-6.svg'];
 export function viewControls() {
   const out = h('span', { class: 'g-state-l' }, 'Selection: 24h');
   const seg = segmented({ options: [{ value: '24h', label: '24 h' }, { value: '7d', label: '7 days' }, { value: '30d', label: '30 days' }], value: '24h', label: 'Time range', onChange: (v) => { out.textContent = `Selection: ${v}`; } });
@@ -66,6 +67,18 @@ export function viewControls() {
         { id: 'errors', label: 'Errors', count: 3, tone: 'bad', render: () => list(demoLog().filter((e) => e.level === 'bad'), (e) => metricRow({ title: e.text, status: 'bad' })) },
         { id: 'empty', label: 'Empty', count: 0, render: () => empty({ title: 'No notes', compact: true }) },
       ] })),
+    demo('segmented() with panes and swipe', `segmented({ options, value, onChange, label, pane: (v) => content, swipe: true })   // the control with its content below
+// touch: a sideways swipe on the content switches to the neighbour – it follows the finger, the marker glides along; vertical scrolling wins,
+// a swipe that starts in something that scrolls sideways (table, image strip, chips) belongs to it; rubber band at the first and the last part`,
+      segmented({
+        options: [{ value: 'runs', label: 'Runs', count: 3 }, { value: 'photos', label: 'Photos' }, { value: 'notes', label: 'Notes' }], value: 'runs', label: 'Parts',
+        swipe: true, className: 'g-swipe',
+        pane: (v) => (v === 'runs'
+          ? card({ flush: true }, list(demoLog().slice(0, 3), (e) => metricRow({ title: e.text, status: e.level === 'bad' ? 'bad' : 'ok' })))
+          : v === 'photos'
+            ? [imageStrip(SWIPE_PHOTOS), card({}, h('p', { class: 'g-state-l' }, 'The strip scrolls by itself; swipe below it to switch.'))]
+            : empty({ title: 'No notes', compact: true })),
+      })),
     demo('progress()', `progress({ value: 0.42, label: 'Upload', showValue: true })\nprogress({ value: null })   // indeterminate · tone: 'ok' | 'warn' | 'bad'`,
       h('div', { class: 'g-stage-col' }, progress({ value: 0.42, label: 'Offsite upload', showValue: true }), progress({ value: 0.93, tone: 'bad', label: 'Error rate', showValue: true }),
         progress({ value: null, label: 'Indexing …' }), progress({ value: 0, label: 'Empty', showValue: true }))),

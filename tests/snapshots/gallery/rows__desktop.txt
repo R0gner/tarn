@@ -1,5 +1,5 @@
 # gallery #/rows · desktop 1440×900 · dunkel
-div.tn-app @0,0 1424x2196
+div.tn-app @0,0 1424x2424
   aside.tn-sidebar @0,0 208x900
     div.tn-sidebar-head @8,0 192x44
       div.tn-brand @16,12 108x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 1424x2196
         svg.tn-icon @16,608 16x16
         span.tn-ellipsis "Shell and boards" @40,608 104x20
   div.tn-scrim @0,0 1424x900
-  div.tn-main @208,0 1216x2196
+  div.tn-main @208,0 1216x2424
     header.tn-toolbar @208,0 1216x44
       button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
         svg.tn-icon @224,12 16x16
@@ -76,7 +76,7 @@ div.tn-app @0,0 1424x2196
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x2152
+    main.tn-content @208,44 1216x2380
       section.tn-card @224,60 1184x400
         header.tn-card-head @224,60 1184x40
           div.tn-card-heading @236,72 1160x20
@@ -228,98 +228,126 @@ div.tn-app @0,0 1424x2196
                     span.tn-num "0 B" @1336,824 20x20
                   span.tn-go @1368,824 16x16
                     svg.tn-icon @1368,824 16x16
-      section.tn-card @224,888 1184x196
+      section.tn-card @224,888 1184x204
         header.tn-card-head @224,892 1184x40
           div.tn-card-heading @236,900 1160x20
-            h3.tn-card-title "metricRow({ wrapSub })" @236,900 1160x20
-        div.tn-card-body @224,932 1184x156
-          section.tn-card.tn-card-flush @236,944 572x48
-            div.tn-card-body @240,944 568x44
-              div.tn-list [list] @240,944 568x44
-                div.tn-row [listitem] @240,944 568x44
+            h3.tn-card-title "metricRow({ wrapTitle })" @236,900 1160x20
+        div.tn-card-body @224,932 1184x164
+          section.tn-card.tn-card-flush @236,944 1160x92
+            div.tn-card-body @240,944 1156x92
+              div.tn-list @240,944 1156x92
+                button.tn-row.tn-row-btn @240,944 1156x44
                   span.tn-row-status @252,964 8x8
-                    span.tn-dot.tn-s-bad [img] "Error" @252,964 8x8
-                  span.tn-row-main @272,948 492x36
-                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @272,948 492x20
-                    span.tn-row-sub.tn-ellipsis "Exit 23 after 41 min: 3 files could not be transferred (perm" @272,968 492x16
-                  span.tn-row-value @776,956 20x20
-                    span.tn-num "2 h" @776,956 20x20
-          section.tn-card.tn-card-flush @824,944 572x64
-            div.tn-card-body @824,944 568x60
-              div.tn-list [list] @824,944 568x60
-                div.tn-row [listitem] @824,944 568x60
-                  span.tn-row-status @836,972 8x8
-                    span.tn-dot.tn-s-bad [img] "Error" @840,972 8x8
-                  span.tn-row-main @856,948 492x52
-                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @856,948 492x20
-                    span.tn-row-sub.tn-row-sub-wrap "Exit 23 after 41 min: 3 files could not be transferred (perm" @856,968 492x32
-                  span.tn-row-value @1364,964 20x20
-                    span.tn-num "2 h" @1364,964 20x20
-      section.tn-card @224,1108 1184x172
-        header.tn-card-head @224,1108 1184x40
-          div.tn-card-heading @236,1120 1160x20
-            h3.tn-card-title "list() empty" @236,1120 1160x20
-        div.tn-card-body @224,1148 1184x132
-          section.tn-card.tn-card-flush @236,1160 1160x60
-            div.tn-card-body @240,1160 1156x60
-              div.tn-empty.tn-empty-compact @240,1160 1156x60
-                div.tn-empty-title "No problems" @776,1180 80x20
-      section.tn-card @224,1300 1184x248
-        header.tn-card-head @224,1300 1184x40
-          div.tn-card-heading @236,1312 1160x20
-            h3.tn-card-title "kv() and facts()" @236,1312 1160x20
-        div.tn-card-body @224,1340 1184x204
-          section.tn-facts @236,1352 380x136
-            h3.tn-facts-title "Run" @236,1352 380x16
-            dl.tn-kv @236,1376 380x112
-              dt "Host" @236,1376 96x20
-              dd "nas-b" @348,1376 268x20
-              dt "Schedule" @236,1400 96x20
-              dd "daily 04:15" @348,1400 268x20
-              dt "Last run" @236,1424 96x20
-              dd "06:55 AM" @348,1424 268x20
-              dt "Duration" @236,1448 96x20
-              dd "31 s" @348,1448 268x20
-              dt "Error" @236,1472 96x20
-              dd.tn-t-bad "rsync: connection unexpectedly closed" @348,1472 268x20
-      section.tn-card @224,1568 1184x600
-        header.tn-card-head @224,1568 1184x40
-          div.tn-card-heading @236,1580 1160x20
-            h3.tn-card-title "Long words" @236,1580 1160x20
-        div.tn-card-body @224,1608 1184x556
-          div.tn-stack @236,1620 300x468
-            div.tn-banner.tn-banner-warn [status] @236,1620 300x52
-              svg.tn-icon @252,1632 16x16
-              div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @276,1628 252x32
-            section.tn-card.tn-card-flush @236,1688 300x48
-              div.tn-card-body @240,1688 300x44
-                div.tn-list [list] @240,1688 300x44
-                  button.tn-row.tn-row-btn @240,1688 300x44
-                    span.tn-row-status @252,1708 8x8
-                      span.tn-dot.tn-s-warn [img] "Warning" @252,1708 8x8
-                    span.tn-row-main @272,1696 92x36
-                      span.tn-row-title.tn-ellipsis "Occupational safety regulation" @272,1696 92x20
-                      span.tn-row-sub.tn-ellipsis "Donaudampfschifffahrtsgesellschaft" @272,1712 92x16
-                    span.tn-row-value @372,1704 124x20
-                      span.tn-num "Betriebssicherheitsverordnung" @372,1704 124x20
-                    span.tn-go @508,1704 16x16
-                      svg.tn-icon @508,1704 16x16
-            div.tn-tiles @236,1752 300x72
-              div.tn-stat @236,1752 148x72
-                div.tn-stat-label @252,1760 120x16
-                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @252,1760 120x16
-                div.tn-stat-value.tn-num "3" @252,1780 120x24
-              div.tn-stat @392,1752 148x72
-                div.tn-stat-label @404,1760 120x16
-                  span.tn-ellipsis "Short" @404,1760 32x16
-                div.tn-stat-value.tn-num "4" @404,1780 120x24
-            section.tn-facts @236,1840 300x120
-              h3.tn-facts-title "Values" @236,1840 300x16
-              dl.tn-kv @236,1864 300x96
-                dt "Administration" @236,1864 96x20
-                dd "Medienbibliotheksverwaltung" @348,1864 188x20
-                dt "Path" @236,1888 96x72
-                dd "/srv/stack/compose/services/media-library/config/filters/exc" @348,1888 188x72
-            div.tn-empty.tn-empty-compact @236,1976 300x116
-              div.tn-empty-title "No entries" @356,1996 64x20
-              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,2020 276x52
+                    span.tn-dot.tn-s-ok [img] "OK" @252,964 8x8
+                  span.tn-row-main @272,948 1052x36
+                    span.tn-row-title.tn-clamp "Offsite archive sync of the photo library to the second NAS " @272,948 1052x20
+                    span.tn-row-sub.tn-ellipsis "nas-b · weekly" @272,968 1052x16
+                  span.tn-row-value @1336,956 20x20
+                    span.tn-num "3 h" @1336,956 20x20
+                  span.tn-go @1368,960 16x16
+                    svg.tn-icon @1368,960 16x16
+                button.tn-row.tn-row-btn @240,988 1156x44
+                  span.tn-row-status @252,1008 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @252,1008 8x8
+                  span.tn-row-main @272,996 1056x36
+                    span.tn-row-title.tn-clamp "Short title" @272,996 1056x20
+                    span.tn-row-sub.tn-ellipsis "one line stays one line" @272,1012 1056x16
+                  span.tn-row-value @1340,1004 16x20
+                    span.tn-num "12" @1340,1004 16x20
+                  span.tn-go @1368,1004 16x16
+                    svg.tn-icon @1368,1004 16x16
+      section.tn-card @224,1116 1184x196
+        header.tn-card-head @224,1116 1184x40
+          div.tn-card-heading @236,1128 1160x20
+            h3.tn-card-title "metricRow({ wrapSub })" @236,1128 1160x20
+        div.tn-card-body @224,1156 1184x156
+          section.tn-card.tn-card-flush @236,1168 572x48
+            div.tn-card-body @240,1168 568x44
+              div.tn-list [list] @240,1168 568x44
+                div.tn-row [listitem] @240,1168 568x44
+                  span.tn-row-status @252,1188 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @252,1188 8x8
+                  span.tn-row-main @272,1176 492x36
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @272,1176 492x20
+                    span.tn-row-sub.tn-ellipsis "Exit 23 after 41 min: 3 files could not be transferred (perm" @272,1192 492x16
+                  span.tn-row-value @776,1184 20x20
+                    span.tn-num "2 h" @776,1184 20x20
+          section.tn-card.tn-card-flush @824,1168 572x64
+            div.tn-card-body @824,1168 568x60
+              div.tn-list [list] @824,1168 568x60
+                div.tn-row [listitem] @824,1168 568x60
+                  span.tn-row-status @836,1196 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @840,1196 8x8
+                  span.tn-row-main @856,1176 492x52
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @856,1176 492x20
+                    span.tn-row-sub.tn-row-sub-wrap "Exit 23 after 41 min: 3 files could not be transferred (perm" @856,1192 492x32
+                  span.tn-row-value @1364,1192 20x20
+                    span.tn-num "2 h" @1364,1192 20x20
+      section.tn-card @224,1332 1184x172
+        header.tn-card-head @224,1332 1184x40
+          div.tn-card-heading @236,1344 1160x20
+            h3.tn-card-title "list() empty" @236,1344 1160x20
+        div.tn-card-body @224,1372 1184x132
+          section.tn-card.tn-card-flush @236,1384 1160x60
+            div.tn-card-body @240,1388 1156x60
+              div.tn-empty.tn-empty-compact @240,1388 1156x60
+                div.tn-empty-title "No problems" @776,1408 80x20
+      section.tn-card @224,1524 1184x248
+        header.tn-card-head @224,1528 1184x40
+          div.tn-card-heading @236,1536 1160x20
+            h3.tn-card-title "kv() and facts()" @236,1536 1160x20
+        div.tn-card-body @224,1568 1184x204
+          section.tn-facts @236,1580 380x136
+            h3.tn-facts-title "Run" @236,1580 380x16
+            dl.tn-kv @236,1604 380x112
+              dt "Host" @236,1604 96x20
+              dd "nas-b" @348,1604 268x20
+              dt "Schedule" @236,1624 96x20
+              dd "daily 04:15" @348,1624 268x20
+              dt "Last run" @236,1648 96x20
+              dd "06:55 AM" @348,1648 268x20
+              dt "Duration" @236,1672 96x20
+              dd "31 s" @348,1672 268x20
+              dt "Error" @236,1696 96x20
+              dd.tn-t-bad "rsync: connection unexpectedly closed" @348,1696 268x20
+      section.tn-card @224,1792 1184x600
+        header.tn-card-head @224,1796 1184x40
+          div.tn-card-heading @236,1804 1160x20
+            h3.tn-card-title "Long words" @236,1804 1160x20
+        div.tn-card-body @224,1836 1184x556
+          div.tn-stack @236,1848 300x468
+            div.tn-banner.tn-banner-warn [status] @236,1848 300x52
+              svg.tn-icon @252,1856 16x16
+              div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @276,1856 252x32
+            section.tn-card.tn-card-flush @236,1912 300x48
+              div.tn-card-body @240,1916 300x44
+                div.tn-list [list] @240,1916 300x44
+                  button.tn-row.tn-row-btn @240,1916 300x44
+                    span.tn-row-status @252,1932 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @252,1932 8x8
+                    span.tn-row-main @272,1920 92x36
+                      span.tn-row-title.tn-ellipsis "Occupational safety regulation" @272,1920 92x20
+                      span.tn-row-sub.tn-ellipsis "Donaudampfschifffahrtsgesellschaft" @272,1936 92x16
+                    span.tn-row-value @372,1928 124x20
+                      span.tn-num "Betriebssicherheitsverordnung" @372,1928 124x20
+                    span.tn-go @508,1928 16x16
+                      svg.tn-icon @508,1928 16x16
+            div.tn-tiles @236,1976 300x72
+              div.tn-stat @236,1976 148x72
+                div.tn-stat-label @252,1984 120x16
+                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @252,1984 120x16
+                div.tn-stat-value.tn-num "3" @252,2004 120x24
+              div.tn-stat @392,1976 148x72
+                div.tn-stat-label @404,1984 120x16
+                  span.tn-ellipsis "Short" @404,1984 32x16
+                div.tn-stat-value.tn-num "4" @404,2004 120x24
+            section.tn-facts @236,2064 300x120
+              h3.tn-facts-title "Values" @236,2064 300x16
+              dl.tn-kv @236,2088 300x96
+                dt "Administration" @236,2088 96x20
+                dd "Medienbibliotheksverwaltung" @348,2088 188x20
+                dt "Path" @236,2112 96x72
+                dd "/srv/stack/compose/services/media-library/config/filters/exc" @348,2112 188x72
+            div.tn-empty.tn-empty-compact @236,2200 300x116
+              div.tn-empty-title "No entries" @356,2220 64x20
+              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @248,2244 276x52

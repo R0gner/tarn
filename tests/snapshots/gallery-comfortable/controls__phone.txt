@@ -1,5 +1,5 @@
 # gallery-comfortable #/controls · phone 390×844 · dunkel
-div.tn-app @0,0 392x2084
+div.tn-app @0,0 392x2732
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-272,0 256x56
       div.tn-brand @-260,16 136x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 392x2084
         svg.tn-icon @-260,968 20x20
         span.tn-ellipsis "Shell and boards" @-228,964 136x24
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x2084
+  div.tn-main @0,0 392x2732
     header.tn-toolbar @0,0 392x56
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
         svg.tn-icon @20,16 20x20
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x2084
       button.tn-fresh "Updated now" @204,4 120x48
       button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
-    main.tn-content @0,56 392x2028
+    main.tn-content @0,56 392x2676
       section.tn-card @16,164 360x696
         header.tn-card-head @16,168 356x48
           div.tn-card-heading @32,180 324x24
@@ -153,31 +153,63 @@ div.tn-app @0,0 392x2084
                 span.tn-heat-cell.tn-s-bad @328,1492 8x24
                 span.tn-heat-cell.tn-s-ok @340,1492 8x24
                 span.tn-heat-cell.tn-s-ok @352,1492 8x24
-      section.tn-card @16,1652 360x416
+      section.tn-card @16,1652 360x628
         header.tn-card-head @16,1652 356x48
           div.tn-card-heading @32,1664 324x24
-            h3.tn-card-title "progress()" @32,1664 324x24
-        div.tn-card-body @16,1704 356x364
-          div.tn-progress-wrap @32,1720 324x36
-            div.tn-progress-head @32,1720 324x20
-              span.tn-ellipsis "Offsite upload" @32,1720 100x20
-              span.tn-num "42%" @324,1720 36x20
-            div.tn-progress [progressbar] "Offsite upload" @32,1748 324x8
-              span.tn-progress-fill @32,1748 136x8
-          div.tn-progress-wrap @32,1772 324x36
-            div.tn-progress-head @32,1772 324x20
-              span.tn-ellipsis "Error rate" @32,1772 68x20
-              span.tn-num "93%" @324,1772 36x20
-            div.tn-progress.tn-tone-bad [progressbar] "Error rate" @32,1800 324x8
-              span.tn-progress-fill @32,1800 300x8
-          div.tn-progress-wrap @32,1824 324x36
-            div.tn-progress-head @32,1824 324x20
-              span.tn-ellipsis "Indexing …" @32,1824 76x20
-            div.tn-progress.is-indeterminate [progressbar] "Indexing …" @32,1852 324x8
-              span.tn-progress-fill @-292,1852 96x8
-          div.tn-progress-wrap @32,1876 324x36
-            div.tn-progress-head @32,1876 324x20
-              span.tn-ellipsis "Empty" @32,1876 44x20
-              span.tn-num "0%" @332,1876 24x20
-            div.tn-progress [progressbar] "Empty" @32,1904 324x8
-              span.tn-progress-fill @32,1904 0x8
+            h3.tn-card-title "segmented() with panes and swipe" @32,1664 324x24
+        div.tn-card-body @16,1704 356x576
+          div.tn-segset @32,1720 324x248
+            div.tn-seg [radiogroup] "Parts" @32,1720 268x60
+              button.tn-seg-btn [radio] {checked=true} @36,1724 100x48
+                span.tn-badge.tn-badge-neutral.tn-badge-count "3" @96,1736 24x24
+              button.tn-seg-btn [radio] {checked=false} @140,1724 84x48
+              button.tn-seg-btn [radio] {checked=false} @224,1724 76x48
+            div.tn-segpane.tn-segpane-swipe @32,1796 324x172
+              div.tn-segpane-track @32,1796 324x172
+                div.tn-segpane-body @32,1796 324x172
+                  section.tn-card.tn-card-flush @32,1796 324x172
+                    div.tn-card-body @36,1800 324x168
+                      div.tn-list [list] @36,1800 324x168
+                        div.tn-row [listitem] @36,1800 324x56
+                          span.tn-row-status @52,1820 12x12
+                            span.tn-dot.tn-s-ok [img] "OK" @52,1820 12x12
+                          span.tn-row-main @80,1816 264x24
+                            span.tn-row-title.tn-ellipsis "Start rsync to nas-b:/archive (3 targets)" @80,1816 264x24
+                        div.tn-row [listitem] @36,1856 324x56
+                          span.tn-row-status @52,1880 12x12
+                            span.tn-dot.tn-s-ok [img] "OK" @52,1880 12x12
+                          span.tn-row-main @80,1872 264x24
+                            span.tn-row-title.tn-ellipsis "sending incremental file list" @80,1872 264x24
+                        div.tn-row [listitem] @36,1912 324x56
+                          span.tn-row-status @52,1936 12x12
+                            span.tn-dot.tn-s-ok [img] "OK" @52,1936 12x12
+                          span.tn-row-main @80,1928 264x24
+                            span.tn-row-title.tn-ellipsis "Connection slow: 1.2 MB/s (threshold 5 MB/s)" @80,1928 264x24
+      section.tn-card @16,2300 360x416
+        header.tn-card-head @16,2300 356x48
+          div.tn-card-heading @32,2312 324x24
+            h3.tn-card-title "progress()" @32,2312 324x24
+        div.tn-card-body @16,2352 356x364
+          div.tn-progress-wrap @32,2368 324x36
+            div.tn-progress-head @32,2368 324x20
+              span.tn-ellipsis "Offsite upload" @32,2368 100x20
+              span.tn-num "42%" @324,2368 36x20
+            div.tn-progress [progressbar] "Offsite upload" @32,2396 324x8
+              span.tn-progress-fill @32,2396 136x8
+          div.tn-progress-wrap @32,2420 324x36
+            div.tn-progress-head @32,2420 324x20
+              span.tn-ellipsis "Error rate" @32,2420 68x20
+              span.tn-num "93%" @324,2420 36x20
+            div.tn-progress.tn-tone-bad [progressbar] "Error rate" @32,2448 324x8
+              span.tn-progress-fill @32,2448 300x8
+          div.tn-progress-wrap @32,2472 324x36
+            div.tn-progress-head @32,2472 324x20
+              span.tn-ellipsis "Indexing …" @32,2472 76x20
+            div.tn-progress.is-indeterminate [progressbar] "Indexing …" @32,2500 324x8
+              span.tn-progress-fill @-292,2500 96x8
+          div.tn-progress-wrap @32,2520 324x36
+            div.tn-progress-head @32,2520 324x20
+              span.tn-ellipsis "Empty" @32,2520 44x20
+              span.tn-num "0%" @332,2520 24x20
+            div.tn-progress [progressbar] "Empty" @32,2552 324x8
+              span.tn-progress-fill @32,2552 0x8

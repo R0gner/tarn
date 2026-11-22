@@ -68,6 +68,94 @@ export const SCENARIOS = [
       if (!((await io.eval(`document.querySelector('.tn-tl-scroll').scrollLeft`)) > 0)) left.push('a horizontal swipe does not scroll a wide timeline sideways');
       return left;
     } },
+  { id: 'segmented-swipe', page: 'gallery', hash: 'controls', overlay: '.g-swipe .tn-segpane', focus: false, when: (sz) => sz.mobile,
+    open: (io) => io.eval(`(() => { document.querySelector('.g-swipe').scrollIntoView({ block: 'start', behavior: 'instant' }); return null; })()`),
+    // segmented({ pane, swipe }): a sideways swipe on the content switches to the neighbour, which follows the finger while the marker glides;
+    // a swipe in the image strip scrolls the strip and switches nothing; at the first part a rubber band, no wrap; a vertical drag scrolls the
+    // page and switches nothing; with reduced motion nothing moves with the finger and the swipe switches on release
+    assert: async (io) => {
+      const left = [];
+      const tp = (type, px, py) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: px, y: py, id: 0 }] });
+      const drag = async (x, y, dx, dy, { hold = false } = {}) => {
+        await tp('touchStart', x, y); await sleep(30);
+        for (let i = 1; i <= 10; i++) { await tp('touchMove', x + (dx * i) / 10, y + (dy * i) / 10); await sleep(16); }
+        if (!hold) { await tp('touchEnd', x + dx, y + dy); await sleep(350); }
+      };
+      const st = () => io.eval(`(() => { const s = document.querySelector('.g-swipe'); const on = s.querySelector('.tn-seg-btn[aria-checked="true"]');
+        const tr = s.querySelector('.tn-segpane-track'), m = s.querySelector('.tn-seg-marker');
+        return { on: on && on.textContent.trim(), track: tr.style.transform, next: !!s.querySelector('.tn-segpane-next'), marker: !!m && m.checkVisibility(),
+          dx: Math.round(new DOMMatrix(getComputedStyle(tr).transform).m41), strip: !!s.querySelector('.tn-segpane-body > .tn-imgstrip, .tn-segpane-body .tn-imgstrip') }; })()`);
+      const point = async (sel, fx = 0.7) => {
+        const p = await io.eval(`(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return null; const r = e.getBoundingClientRect(); return { x: Math.round(r.left + r.width * ${fx}), y: Math.round(r.top + Math.min(r.height / 2, 40)) }; })()`);
+        if (!p) throw Object.assign(new Error(`segmented-swipe: ${sel} is missing`), { missing: true });
+        return p;
+      };
+      let s = await st();
+      if (!/^Runs/.test(s.on || '')) return [`the demo does not start on Runs (${s.on})`];
+      // to the left, held: the neighbour is drawn beside the content and follows the finger, the marker glides
+      // a held pull of 40 % of the width (a slow drag switches from a quarter)
+      const pull = Math.round(0.4 * (await io.eval(`document.querySelector('.g-swipe .tn-segpane').clientWidth`)));
+      let p = await point('.g-swipe .tn-segpane-body .tn-list, .g-swipe .tn-segpane-body');
+      await drag(p.x, p.y, -pull, 0, { hold: true });
+      s = await st();
+      if (!s.next) left.push('while the finger pulls, no neighbour is drawn beside the content');
+      if (!(s.dx < -pull / 2)) left.push(`the content does not follow the finger (offset ${s.dx} px for a ${pull} px pull)`);
+      if (!s.marker) left.push('the marker does not glide while the finger pulls');
+      await tp('touchEnd', p.x - pull, p.y); await sleep(350);
+      s = await st();
+      if (!/^Photos/.test(s.on || '')) return [...left, `a swipe to the left on Runs shows ${s.on} instead of Photos`];
+      if (s.next || s.track) left.push(`after the swipe the panes do not rest (neighbour ${s.next}, transform “${s.track}”)`);
+      if (!s.strip) left.push('Photos does not show its content after the swipe');
+      // a swipe that starts in the image strip (it scrolls sideways itself) belongs to the strip
+      p = await point('.g-swipe .tn-imgstrip', 0.8);
+      await drag(p.x, p.y, -150, 0);
+      s = await st();
+      if (!/^Photos/.test(s.on || '')) left.push(`a swipe in the image strip switched to ${s.on}`);
+      if (!((await io.eval(`document.querySelector('.g-swipe .tn-imgstrip').scrollLeft`)) > 0)) left.push('a swipe in the image strip does not scroll the strip');
+      // … also at its end, where the strip has nothing left to scroll
+      await io.eval(`(() => { const e = document.querySelector('.g-swipe .tn-imgstrip'); e.scrollLeft = e.scrollWidth; return null; })()`); await sleep(60);
+      p = await point('.g-swipe .tn-imgstrip', 0.8);
+      await drag(p.x, p.y, -150, 0);
+      s = await st();
+      if (!/^Photos/.test(s.on || '')) return [...left, `a swipe in the image strip at its end switched to ${s.on}`];
+      // back to the right from below the strip
+      p = await point('.g-swipe .tn-segpane-body > .tn-card', 0.3);
+      await drag(p.x, p.y, 160, 0);
+      s = await st();
+      if (!/^Runs/.test(s.on || '')) left.push(`a swipe to the right on Photos shows ${s.on} instead of Runs`);
+      // the first part: a rubber band (moves a little), no wrap to the last part
+      p = await point('.g-swipe .tn-segpane-body', 0.3);
+      await drag(p.x, p.y, 200, 0, { hold: true });
+      s = await st();
+      if (!(s.dx > 0 && s.dx < 60)) left.push(`at the first part the content moves ${s.dx} px for a 200 px pull (rubber band expected)`);
+      await tp('touchEnd', p.x + 200, p.y); await sleep(350);
+      s = await st();
+      if (!/^Runs/.test(s.on || '')) left.push(`a swipe to the right on the first part shows ${s.on}`);
+      // vertical drag: the page scrolls, nothing switches (room below: the gallery may end soon after the demo)
+      await io.eval(`(() => { const sp = document.createElement('div'); sp.style.height = '1200px'; sp.setAttribute('data-verify-ignore', ''); document.querySelector('.tn-content').append(sp); return null; })()`);
+      await io.eval(`(() => { document.querySelector('.g-swipe').scrollIntoView({ block: 'start', behavior: 'instant' }); return null; })()`);
+      const y0 = await io.eval('scrollY');
+      p = await point('.g-swipe .tn-segpane-body', 0.5);
+      await drag(p.x, p.y + 40, 40, -160);
+      s = await st();
+      if (!/^Runs/.test(s.on || '')) left.push(`a mostly vertical drag switched to ${s.on}`);
+      if (!((await io.eval('scrollY')) > y0)) left.push('a mostly vertical drag on the content does not scroll the page');
+      // reduced motion: nothing moves with the finger, the swipe switches on release
+      await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+      try {
+        await io.eval(`(() => { document.querySelector('.g-swipe').scrollIntoView({ block: 'start', behavior: 'instant' }); return null; })()`);
+        p = await point('.g-swipe .tn-segpane-body', 0.7);
+        await drag(p.x, p.y, -pull, 0, { hold: true });
+        s = await st();
+        if (s.track || s.next) left.push(`with reduced motion the content moves with the finger (transform “${s.track}”)`);
+        await tp('touchEnd', p.x - pull, p.y); await sleep(120);
+        s = await st();
+        if (!/^Photos/.test(s.on || '')) left.push(`with reduced motion a swipe to the left shows ${s.on} instead of Photos`);
+      } finally {
+        await io.page.send('Emulation.setEmulatedMedia', { features: [] });
+      }
+      return left;
+    } },
   // ---- Back by levels (createApp back: 'levels', js/levels.js): the real browser history, driven with taps and history.back() ----
   { id: 'back-views', page: 'board', hash: 'overview', overlay: '.tn-nav-item.is-active', focus: false, when: (sz) => sz.w >= 1000,
     // three view changes, then one Back: the default view; the history grew by one entry at most
@@ -174,22 +262,32 @@ export const SCENARIOS = [
         return { ok: i.width > 0 && i.top >= hd.bottom - 1 && i.bottom <= innerHeight + 1 && i.left >= -1 && i.right <= vw + 1 && n.right <= vw + 1, r: [i.left, i.top, i.right, i.bottom, n.right, vw].map(Math.round).join(',') }; })()`);
       if (!fit.ok) left.push(`the image does not fit the free area below the head (${fit.r})`);
       if (s.alt !== 'Front view, image 1 of 6') left.push(`image name is “${s.alt}”`);
-      // counter, close and paging lie over the picture (a zoomed image reaches under the head): each has its own dark veil, so white text and
-      // icons stay readable on any picture – contrast ≥ 4.5 over a white and over a black image, targets ≥ 44 px, outside the zooming stage
+      // counter, close and paging lie over the picture (a zoomed image reaches under the head): each wears the viewer's own background, opaque –
+      // beside an image of another aspect ratio it melts into the margin, over the picture the text stays readable (contrast ≥ 4.5 on that
+      // background); targets ≥ 44 px, outside the zooming stage. Paging: a visible circle of about 36 px (the background's content box), 8–14 px
+      // from the screen edge
       const chrome = await io.eval(`(() => { const d = document.querySelector('dialog.tn-viewer[open]');
-        const rgba = (c) => { const m = c.match(/[\\d.]+/g).map(Number); return { r: m[0], g: m[1], b: m[2], a: m.length > 3 ? m[3] : 1 }; };
-        const over = (c, base) => [c.r, c.g, c.b].map((v, i) => v * c.a + base[i] * (1 - c.a));
+        const cv = document.createElement('canvas'); cv.width = cv.height = 1; const cx = cv.getContext('2d', { willReadFrequently: true });
+        const rgba = (c) => { cx.clearRect(0, 0, 1, 1); cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); const p = cx.getImageData(0, 0, 1, 1).data; return { r: p[0], g: p[1], b: p[2], a: Math.round(p[3] / 2.55) / 100 }; };   // any CSS colour (oklch too) as sRGB
         const lum = (rgb) => { const f = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]); };
         const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+        const own = rgba(getComputedStyle(d).backgroundColor), vw = Math.min(document.documentElement.clientWidth, d.getBoundingClientRect().right);
         return [['counter', '.tn-viewer-badge'], ['close', '.tn-viewer-x'], ['next', '.tn-viewer-next']].map(([name, sel]) => {
           const el = d.querySelector(sel), s = getComputedStyle(el), bg = rgba(s.backgroundColor), fg = rgba(s.color), r = el.getBoundingClientRect();
-          const worst = Math.min(...[[255, 255, 255], [0, 0, 0]].map((img) => { const b = over(bg, img); return ratio(over(fg, b), b); }));
-          return { name, veil: bg.a, worst: Math.round(worst * 100) / 100, w: Math.round(r.width), h: Math.round(r.height), inStage: !!el.closest('.tn-viewer-stage'), button: el.tagName === 'BUTTON' };
+          const same = bg.a === 1 && ['r', 'g', 'b'].every((k) => Math.abs(bg[k] - own[k]) <= 1);
+          const fgOn = [fg.r, fg.g, fg.b].map((v, i) => v * fg.a + [bg.r, bg.g, bg.b][i] * (1 - fg.a));
+          const pad = s.backgroundClip === 'content-box' ? parseFloat(s.paddingRight) || 0 : 0;
+          return { name, same, bg: s.backgroundColor, own: getComputedStyle(d).backgroundColor, contrast: Math.round(ratio(fgOn, [bg.r, bg.g, bg.b]) * 100) / 100,
+            w: Math.round(r.width), h: Math.round(r.height), circle: Math.round(r.width - 2 * pad), gap: Math.round(vw - (r.right - pad)),
+            inStage: !!el.closest('.tn-viewer-stage'), button: el.tagName === 'BUTTON' };
         }); })()`);
       for (const c of chrome) {
-        if (c.veil < 0.5 || c.worst < 4.5) left.push(`the ${c.name} is not readable on every picture (veil alpha ${c.veil}, worst contrast ${c.worst} over a white or black image)`);
+        if (!c.same) left.push(`the ${c.name} does not wear the viewer background (${c.bg} on ${c.own})`);
+        if (c.contrast < 4.5) left.push(`the ${c.name} is not readable (contrast ${c.contrast} on its background)`);
         if (c.button && (c.w < 44 || c.h < 44)) left.push(`the ${c.name} button is ${c.w}×${c.h} px, below 44 px`);
         if (c.inStage) left.push(`the ${c.name} lies inside the stage and zooms with the picture`);
+        if (c.name === 'next' && (c.circle < 34 || c.circle > 38)) left.push(`the paging circle is ${c.circle} px, not about 36 px`);
+        if (c.name === 'next' && (c.gap < 8 || c.gap > 14)) left.push(`the paging circle is ${c.gap} px from the screen edge, not 8–14 px`);
       }
       await io.key('ArrowRight', 39); await sleep(40);
       s = await st();

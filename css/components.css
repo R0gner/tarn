@@ -494,11 +494,12 @@ dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
   position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: var(--tn-s2); min-height: var(--tn-viewer-head-h);
   padding: env(safe-area-inset-top) max(var(--tn-s2), env(safe-area-inset-right)) 0 max(var(--tn-s2), env(safe-area-inset-left));
 }
-/* counter, close and paging lie over the picture and do not zoom with it: a dark veil behind white text and icons (--tn-media-*), thicker
-   strokes, round targets of at least 44 px (also with a mouse) */
+/* counter, close and paging lie over the picture and do not zoom with it. They wear the viewer's own background, opaque: on the margin beside
+   an image of another aspect ratio they disappear into it, over the picture they stay readable (light text on the dark viewer background, verify
+   image-viewer). Thicker strokes, targets of at least 44 px (also with a mouse) */
 .tn-viewer-badge {
   display: inline-flex; align-items: center; gap: var(--tn-sp-6); min-width: 0; height: var(--tn-pill-h); padding: 0 var(--tn-s3);
-  border-radius: var(--tn-pill-h); background: var(--tn-media-veil); color: var(--tn-text-on-media);
+  border-radius: var(--tn-pill-h); background: var(--tn-bg-sunken); color: var(--tn-text);
   font-size: var(--tn-fs-body); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .tn-viewer-badge[hidden] { display: none; }
@@ -506,15 +507,20 @@ dialog.tn-viewer::backdrop { background: var(--tn-scrim); }
 .tn-viewer-count { min-width: 0; }
 .tn-viewer .tn-viewer-x, .tn-viewer .tn-viewer-nav {
   width: var(--tn-viewer-btn); height: var(--tn-viewer-btn); border-radius: 50%;
-  background: var(--tn-media-veil); color: var(--tn-text-on-media);
+  background: var(--tn-bg-sunken); color: var(--tn-text);
 }
 .tn-viewer .tn-viewer-x > .tn-icon, .tn-viewer .tn-viewer-nav > .tn-icon { width: var(--tn-sz-20); height: var(--tn-sz-20); stroke-width: 2.4; }
-.tn-viewer .tn-viewer-x:is(:hover, .is-hover, :active, .is-down), .tn-viewer .tn-viewer-nav:is(:hover, .is-hover, :active, .is-down) { background: var(--tn-media-veil-hover); color: var(--tn-text-on-media); }
+.tn-viewer .tn-viewer-x:is(:hover, .is-hover, :active, .is-down), .tn-viewer .tn-viewer-nav:is(:hover, .is-hover, :active, .is-down) { background-color: var(--tn-card); color: var(--tn-text); }
 .tn-viewer-x { margin-left: auto; }
-.tn-viewer-nav { position: absolute; top: 50%; transform: translateY(-50%); }
+/* paging: a visible circle of 36 px inside the 44 px target (the background only fills the content box, the padding is the rest of the target),
+   the circle 10 px from the screen edge plus the safe area */
+.tn-viewer .tn-viewer-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  padding: calc((var(--tn-viewer-btn) - var(--tn-sz-36)) / 2); background-clip: content-box;
+}
 .tn-viewer-nav[hidden] { display: none; }
-.tn-viewer-prev { left: max(var(--tn-s2), env(safe-area-inset-left)); }
-.tn-viewer-next { right: max(var(--tn-s2), env(safe-area-inset-right)); }
+.tn-viewer-prev { left: calc(env(safe-area-inset-left) + var(--tn-sp-10) - (var(--tn-viewer-btn) - var(--tn-sz-36)) / 2); }
+.tn-viewer-next { right: calc(env(safe-area-inset-right) + var(--tn-sp-10) - (var(--tn-viewer-btn) - var(--tn-sz-36)) / 2); }
 
 /* ============ Layout helpers ============ */
 .tn-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--tn-col-min, var(--tn-sz-340))), 1fr)); gap: var(--tn-s4); align-items: start; min-width: 0; }

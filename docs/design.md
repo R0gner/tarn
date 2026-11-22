@@ -23,7 +23,7 @@ follows `prefers-color-scheme`; manual: `<html data-theme="light|dark">`).
 
 | Group | Tokens |
 |---|---|
-| Surfaces | `--tn-bg`, `--tn-bg-sunken`, `--tn-card`, `--tn-card-2` (zebra, input fields), `--tn-popover`, `--tn-border`, `--tn-sep`, `--tn-hover`, `--tn-press`, `--tn-selected`, `--tn-indicator`, `--tn-scrim`, `--tn-skeleton`; over photos `--tn-media-veil`, `--tn-media-veil-hover`, `--tn-text-on-media` (image viewer) |
+| Surfaces | `--tn-bg`, `--tn-bg-sunken`, `--tn-card`, `--tn-card-2` (zebra, input fields), `--tn-popover`, `--tn-border`, `--tn-sep`, `--tn-hover`, `--tn-press`, `--tn-selected`, `--tn-indicator`, `--tn-scrim`, `--tn-skeleton`; over photos `--tn-media-veil`, `--tn-media-veil-hover`, `--tn-text-on-media` (a fixed dark veil; the image viewer itself uses its own background since 0.9.0) |
 | Text | `--tn-text`, `--tn-text-2`, `--tn-text-3`, `--tn-text-3-tint` (on tinted surfaces), `--tn-placeholder`, `--tn-text-on-accent` |
 | Accents (chart and tile colours) | `--tn-blue`, `--tn-purple`, `--tn-pink`, `--tn-orange`, `--tn-green`, `--tn-graphite`; `--tn-accent` (blue) |
 | Status | `--tn-ok`, `--tn-warn`, `--tn-bad`, `--tn-unknown`, `--tn-pending`, `--tn-info`; as text `--tn-*-text` (darker in light for ≥ 4.5:1); as surface `--tn-*-bg` |

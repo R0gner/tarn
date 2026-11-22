@@ -1,6 +1,6 @@
 {
   "name": "@r0gner/tarn",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "private": true,
   "description": "Tarn: a small design system for dense, calm operations interfaces. Plain ES modules and CSS, no build step. Core (primitives, inputs) and ops shell.",
   "license": "MIT",
@@ -131,6 +131,8 @@
     "js/router.js",
     "js/sheet.js",
     "js/shell.js",
+    "js/swipe-data.js",
+    "js/swipe.js",
     "js/table.js",
     "js/tarn.js",
     "js/theme-init.js",

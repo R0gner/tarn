@@ -4,11 +4,13 @@ import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
 import { fmtPct } from './format.js';
 import { showOverlay, hideOverlay, placeAbove } from './overlay.js';
+import { paneSwipe } from './swipe.js';
+import { markerAt } from './swipe-data.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
 /** @typedef {{ value: any, label?: string, icon?: string, title?: string, count?: number | string | null, tone?: Status }} SegmentedOption An option without a label is icon-only and needs a title (aria-label and hint). count shows a counter behind the label, coloured by tone (as in the sidebar). */
-/** @typedef {{ options: SegmentedOption[], value?: any, onChange?: (value: any) => void, label?: string, small?: boolean, className?: string }} SegmentedOptions */
+/** @typedef {{ options: SegmentedOption[], value?: any, onChange?: (value: any) => void, label?: string, small?: boolean, className?: string, pane?: (value: any) => Child, swipe?: boolean }} SegmentedOptions pane: draws the content of an option – segmented() then returns the control with the content below it; swipe (with pane): on touch a sideways swipe on the content switches to the neighbour. */
 /** @typedef {HTMLElement & { setValue: (value: any) => void, readonly value: any }} SegmentedElement setValue() fires no onChange. */
 /** @typedef {{ id: string, label: Child, count?: number | string | null, tone?: Status, render?: () => Child }} TabDef */
 /** @typedef {{ tabs: TabDef[], value?: string, onChange?: (id: string) => void, className?: string }} TabsOptions */
@@ -21,10 +23,13 @@ import { showOverlay, hideOverlay, placeAbove } from './overlay.js';
  * segmented({ options: [{ value, label, icon?, count?, tone? }], value, onChange(value), label, small })
  * count: a counter behind the label (e.g. the problems in that part); tone colours it like the sidebar counter.
  * Keyboard: arrow keys switch (radio group).
+ * pane(value) → content: the control comes with its content below it (one wrapper, `.tn-segset`), drawn anew on every switch. swipe: true adds the
+ * touch gesture between the parts (js/swipe.js): the neighbour follows the finger, the marker glides, vertical scrolling has priority, a touch in
+ * a sideways scroller belongs to it, a rubber band at the ends; clicks, keys and onChange stay the same (onChange fires once the part is in).
  * @param {SegmentedOptions} o
  * @returns {SegmentedElement}
  */
-export function segmented({ options, value, onChange, label, small, className }) {
+export function segmented({ options, value, onChange, label, small, className, pane, swipe }) {
   let cur = value ?? options[0]?.value;
   const btns = options.map((o) => {
     const b = h('button', {
@@ -34,12 +39,47 @@ export function segmented({ options, value, onChange, label, small, className })
     o.count != null && o.count !== '' && h('span', { class: cls('tn-badge', 'tn-badge-' + (o.tone || 'neutral'), 'tn-badge-count') }, String(o.count)));
     return o.label ? b : tooltip(b, o.title || String(o.value)); // icon-only button: hint
   });
-  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (h('div', { class: cls('tn-seg', small && 'tn-seg-sm', className), role: 'radiogroup', 'aria-label': label || null, onkeydown: key }, btns)));
+  const marker = pane && swipe ? h('span', { class: 'tn-seg-marker', 'aria-hidden': 'true' }) : null;
+  const ctl = h('div', { class: cls('tn-seg', small && 'tn-seg-sm', !pane && className), role: 'radiogroup', 'aria-label': label || null, onkeydown: key }, marker, btns);
+  /** the content of the current option (only with pane) */
+  const body = pane ? h('div', { class: 'tn-segpane-body' }) : null;
+  const track = body ? h('div', { class: 'tn-segpane-track' }, body) : null;
+  const area = track ? h('div', { class: cls('tn-segpane', swipe && 'tn-segpane-swipe') }, track) : null;
+  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (area ? h('div', { class: cls('tn-segset', className) }, ctl, area) : ctl));
+  const draw = (/** @type {any} */ v) => [pane?.(v)].flat().filter((x) => x != null && x !== false && x !== '');
   function sync() {
     btns.forEach((b, i) => { const on = options[i].value === cur; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
   }
-  /** @param {any} v @param {boolean} [fire] */
-  function set(v, fire) { if (v === cur) return; cur = v; sync(); if (fire) onChange?.(v); }
+  /** @param {any} v @param {boolean} [fire] @param {Node[] | null} [drawn] the content already drawn by the swipe */
+  function set(v, fire, drawn = null) {
+    if (v === cur) return;
+    cur = v; sync();
+    if (body) body.replaceChildren(...(drawn || draw(v)));
+    if (fire) onChange?.(v);
+  }
+  if (body) body.replaceChildren(...draw(cur));
+  if (area && track && marker) {
+    const idx = () => options.findIndex((o) => o.value === cur);
+    const span = (/** @type {number} */ i) => ({ x: btns[i].offsetLeft, w: btns[i].offsetWidth });
+    paneSwipe(area, track, {
+      at: () => ({ index: idx(), n: options.length }),
+      render: (i) => h('div', { class: 'tn-segpane-body' }, draw(options[i].value)),
+      marker: (from, to, p, animate) => {
+        const a = span(from), m = markerAt(a, span(to), p);
+        ctl.classList.add('is-swiping');
+        marker.classList.toggle('is-settling', animate);
+        marker.style.width = `${a.w}px`;
+        marker.style.transform = `translateX(${m.x}px) scaleX(${a.w ? m.w / a.w : 1})`;
+      },
+      commit: (i, slide) => {
+        ctl.classList.remove('is-swiping');
+        marker.classList.remove('is-settling');
+        marker.style.transform = '';
+        set(options[i].value, true, slide ? [...slide.childNodes] : null);
+      },
+      rest: () => { ctl.classList.remove('is-swiping'); marker.classList.remove('is-settling'); marker.style.transform = ''; },
+    });
+  }
   function key(e) {
     const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
     if (!d) return;

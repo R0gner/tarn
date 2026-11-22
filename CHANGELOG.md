@@ -3,6 +3,32 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.9.0
+
+### Added
+- Swipe between parts: `segmented({ pane, swipe })`. `pane: (value) => content` returns the control with the content of the chosen option below
+  it (`.tn-segset`); `swipe: true` adds a touch gesture on that content: the neighbouring part comes in from the side of the swipe, follows the
+  finger and settles on release, the marker of the active option glides along. Vertical scrolling has priority (axis after 10 px, sideways only
+  when `|dx| ≥ 1.5 |dy|`; the content leaves pan-y and pinch zoom to the browser); a touch that starts in a sideways scroller (table, image strip,
+  chips), a field or `[data-tn-noswipe]` switches nothing; a rubber band at the first and the last part, no wrap; with reduced motion nothing
+  moves and the swipe switches on release. Clicks, keys and `onChange` are unchanged (it fires once the part is in). Pure parts in
+  `js/swipe-data.js` (core), unit tests `tests/swipe.test.mjs`; gallery Controls "segmented() with panes and swipe"; overlay scenario
+  `segmented-swipe` with the mutants `swipe-wraps`, `swipe-no-touch-action`, `swipe-ignores-reduced-motion`. Docs: docs/components.md
+  "Swipe between parts".
+- `metricRow({ wrapTitle: true })`: the title takes up to two lines before it ends in "…" (long listing titles on a phone; full text as hint).
+  Gallery Rows "metricRow({ wrapTitle })".
+- `fmtNum(n, digits, min)`: at least `min` decimals (amounts: `fmtNum(9.9, 2, 2)` → "9,90" instead of "9,9").
+
+### Changed
+- Image viewer: counter, *x* and the paging arrows wear the viewer's own background, opaque (`--tn-bg-sunken` in the dark scheme, light text)
+  instead of the half-transparent black veil of 0.8.3 – on the grey margin beside an image of another aspect ratio the veil was a slightly
+  different black that looked odd (Markt-Scout on Android); now they melt into the margin and stay readable over the picture. The paging
+  arrows are smaller: a visible circle of 36 px inside a target of at least 44 px, 10 px from the screen edge plus the safe area (they sat at
+  the edge and covered too much of the picture). The tokens `--tn-media-veil*` stay for boards.
+- verify `image-viewer`: counter, *x* and next button must wear the viewer background (opaque, same colour), contrast ≥ 4.5 on it, buttons ≥ 44 px;
+  the paging circle about 36 px and 8–14 px from the edge. Mutants `viewer-controls-no-veil` (adapted), `viewer-controls-dark-veil` (the 0.8.3
+  veil), `viewer-nav-at-edge` (the 0.8.4 arrows).
+
 ## 0.8.4
 
 ### Added

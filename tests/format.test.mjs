@@ -14,6 +14,10 @@ test('numbers in German', () => {
   assert.equal(fmtNum(12345.678), '12.345,68');
   assert.equal(fmtNum(12345.678, 0), '12.346');
   assert.equal(fmtNum(null), '–');
+  assert.equal(fmtNum(9.9, 2), '9,9');          // at most two decimals …
+  assert.equal(fmtNum(9.9, 2, 2), '9,90');      // … at least two: amounts
+  assert.equal(fmtNum(12, 2, 2), '12,00');
+  assert.equal(fmtNum(1.234, 1, 2), '1,2');     // min never above digits
   assert.equal(fmtPct(0.4567), '45,7\u00a0%');
   assert.equal(fmtPct(1, 0), '100\u00a0%');
 });
