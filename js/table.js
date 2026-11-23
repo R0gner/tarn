@@ -74,7 +74,7 @@ export function table(opts) {
     const t = /** @type {HTMLElement | null} */ (wrap.querySelector(':scope > table'));
     if (!w || !t) return;
     if (list) {
-      if (w < LIST_BELOW || w < natural) return;
+      if (w < LIST_BELOW || w < natural) { fitMetrics(); return; }   // still a list, but its width changed (e.g. an inspector opened): the grid again
       setList(false);
     }
     if (w < LIST_BELOW || t.offsetWidth > w + 0.5) { natural = t.offsetWidth; setList(true); }
