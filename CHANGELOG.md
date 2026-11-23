@@ -3,6 +3,20 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.13.0
+
+### Added
+- `growList(items, render, { load, more, key, step, id, empty, zebra })`: a list that is never cut. It draws 50 rows at first and the next ones
+  while the reader scrolls (IntersectionObserver on the end of the list); with `load(offset)` and `more` it asks the board for the rest by itself
+  (loading row, compact error with "Try again"). `key` drops rows that arrive twice, `id` keeps drawn and loaded rows across redraws of the view.
+  Bookkeeping without the DOM in `js/growlist-data.js` (tests/growlist.test.mjs). Gallery "Cards and tiles". docs/components.md
+- Icons `file-text` (a document: details of a thing, next to the ⓘ that stays for explanations) and `pin` (pinned rows).
+
+### Changed
+- New content rule 14 "A list is never cut" (docs/dashboard-guidelines.md) and principle 15 in AGENTS.md: every list shows all rows or grows by
+  itself while scrolling; no "Show more" button, never a "26 more" line that cannot be tapped; a folded section holds the whole list. Found on the
+  Markt-Scout ("26 more candidates" under 40 rows).
+
 ## 0.12.1
 
 ### Changed

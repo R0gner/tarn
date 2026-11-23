@@ -9,6 +9,7 @@ export { normalizeBoards } from './boards-data.js';
 export { parseHash, buildHash } from './router.js';
 export * from './components.js';
 export { table } from './table.js';
+export { growList } from './growlist.js';
 export { filterBar, matchFilters } from './filterbar.js';
 export { confirm } from './confirm.js';
 export { actionRun } from './actionrun.js';

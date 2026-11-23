@@ -283,6 +283,8 @@
 .tn-table-wrap { min-width: 0; }
 .tn-table-more { display: flex; align-items: center; justify-content: space-between; gap: var(--tn-s3); padding: var(--tn-s2) var(--tn-s3); color: var(--tn-text-2); font-size: var(--tn-fs-label); border-top: 1px solid var(--tn-sep); }
 .tn-table-more[hidden] { display: none; }
+/* growList: the end of the list the observer watches; one pixel so it intersects even when empty */
+.tn-grow-end { min-height: var(--tn-sz-1); }
 .tn-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--tn-fs-body); }
 .tn-table th {
   position: sticky; top: var(--tn-toolbar-h); z-index: 1;
