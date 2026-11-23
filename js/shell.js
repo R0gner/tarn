@@ -39,7 +39,9 @@ import { combineSources } from './data.js';
 /** @typedef {{ title: string, sub?: string, body?: Child }} DetailContent What detail() returns for the inspector, panel or bottom sheet. */
 /** @typedef {{ n: number | string | null | undefined, tone?: Status }} CountSpec Nav counter with a colour. */
 /** @typedef {{ app: App, view: string | undefined, params: Record<string, string>, open: string | null, src: DataState | null, data: any }} ViewContext Argument of render(), detail() and count(). */
-/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource, freshness?: 'view' | 'app' }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, banners, source list). `freshness`: whose age the toolbar text shows – the view's own source (default when it has one) or the app's. */
+/** @typedef {{ key: string, label: string, params?: Record<string, string>, icon?: string, count?: number | string | CountSpec | null, active?: boolean }} NavEntry One navigation entry of a view with `entries` (e.g. one per order): links to the view with `params`; active when the view is shown and every param matches, or when `active` says so. */
+/** @typedef {{ label?: string | (() => string), collapsible?: boolean, collapsed?: boolean }} NavGroupDef A navigation group (`createApp({ navGroups: { id: … } })`, views refer to it with `group: id`): heading text, and whether a tap on the heading folds the group (the choice is kept per browser). */
+/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource, freshness?: 'view' | 'app', entries?: (ctx: ViewContext) => NavEntry[] | null | undefined, title?: (ctx: ViewContext) => string | null | undefined, info?: (ctx: ViewContext) => (() => void) | null | undefined }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, banners, source list). `freshness`: whose age the toolbar text shows – the view's own source (default when it has one) or the app's. `entries`: the view appears in the navigation as these entries (one per thing it shows, e.g. per order) instead of one entry. `title`: toolbar title from the data (default: label). `info`: returns what a tap on the ⓘ next to the toolbar title does (e.g. open a sheet with details); null hides the button. */
 /**
  * @typedef {{
  *   views: ViewDef[],
@@ -65,6 +67,7 @@ import { combineSources } from './data.js';
  *   ranges?: TimeRange[],   // presets of the time range control (default 1 h, 6 h, 24 h, 7 d, 30 d); a preset with `label` shows that text
  *   range?: string,   // id of the range at start (default: the first preset); the control only shows while a source follows the range
  *   exitHint?: boolean,   // installed app (display-mode standalone, minimal-ui, fullscreen) with back 'levels': Back on the default view first shows "Press back again to close" (default true)
+ *   navGroups?: Record<string, NavGroupDef>,   // navigation groups by id (views: `group: id`): label, collapsible (0.11.0)
  * }} AppConfig Options of createApp(). title, boards, categories and view labels may be functions (evaluated after the locale is set).
  */
 /** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null, readonly range: TimeRange, setRange: (id: string) => void }} App Returned by createApp(). */
@@ -163,6 +166,10 @@ export function createApp(cfg0) {
   const scrim = h('div', { class: 'tn-scrim', 'aria-hidden': 'true', onclick: () => setDrawer(false) });
   const sbBtn = iconButton('sidebar', { label: t('shell.toggleSidebar'), onClick: toggleSidebar, className: 'tn-sb-toggle' });
   const viewTitle = h('h1', { class: 'tn-toolbar-title tn-ellipsis' });
+  /* ⓘ next to the title (view.info): opens what the view says, e.g. a sheet with the details of the thing the view shows */
+  let infoAction = /** @type {(() => void) | null} */ (null);
+  const infoBtn = iconButton('info', { label: t('shell.viewInfo'), onClick: () => infoAction?.(), className: 'tn-toolbar-info' });
+  infoBtn.hidden = true;
   /* the freshness text opens the source list (every source of the view: name, age, interval, note) with a reload button; on the phone that
      is the way to reload, the toolbar's reload button is hidden there */
   const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => (pop ? closePop(false) : openPop()), hidden: !cfg.source, 'aria-haspopup': 'dialog', 'aria-expanded': 'false' });
@@ -180,7 +187,7 @@ export function createApp(cfg0) {
   /* Phone (< 600 px): theme, density and language leave the toolbar for ONE settings entry; otherwise the view title is cut off. */
   const settingsBtn = iconButton('settings', { label: t('shell.settings'), onClick: openSettings, className: 'tn-settings-btn' });
   const rangeSlot = h('div', { class: 'tn-range', hidden: true });
-  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, infoBtn, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
   const inspTitle = h('h2', { class: 'tn-sheet-title' });
@@ -196,17 +203,54 @@ export function createApp(cfg0) {
   appEl.dataset.sb = sbCollapsed ? 'closed' : 'open';
 
   /* ---- Sidebar ---- */
+  /* Groups (navGroups): a collapsible group folds on a tap on its heading; the choice is kept per browser (localStorage tn-nav-<id>). */
+  /** @param {string} g @returns {NavGroupDef | null} */
+  const groupDef = (g) => (cfg.navGroups && Object.hasOwn(cfg.navGroups, g) ? cfg.navGroups[g] : null);
+  /** @param {string} g */
+  function groupFolded(g) {
+    const def = groupDef(g);
+    if (!def?.collapsible) return false;
+    /** @type {string | null} */
+    let stored = null;
+    try { stored = localStorage.getItem(`tn-nav-${g}`); } catch {}
+    return stored ? stored === 'closed' : !!def.collapsed;
+  }
+  /** @param {string} g */
+  function toggleGroup(g) {
+    const folded = !groupFolded(g);
+    try { localStorage.setItem(`tn-nav-${g}`, folded ? 'closed' : 'open'); } catch {}
+    renderNav();
+    /** @type {HTMLElement | null} */ (navEl.querySelector(`[data-group="${CSS.escape(g)}"]`))?.focus({ preventScroll: true });
+  }
+  /** @param {string} g */
+  function groupHead(g) {
+    const def = groupDef(g);
+    const label = def?.label != null ? val(def.label) : g;
+    if (!def?.collapsible) return h('div', { class: 'tn-nav-group', role: 'presentation' }, label);
+    const folded = groupFolded(g);
+    return h('button', { class: 'tn-nav-group tn-nav-group-btn', type: 'button', 'data-group': g, 'aria-expanded': String(!folded), onclick: () => toggleGroup(g) },
+      h('span', { class: 'tn-ellipsis' }, label), icon('chevron-down', { size: 14 }));
+  }
+  /** @param {any} c */
+  const countBadge = (c) => { const n = c && typeof c === 'object' ? c : { n: c }; return n.n != null && n.n !== '' ? badge(String(n.n), { tone: n.tone || 'neutral', count: true }) : null; };
+  /** @param {ViewDef & { label: string }} v @param {NavEntry} [e] */
+  function navLink(v, e) {
+    const params = e?.params || {};
+    const active = e ? (e.active ?? (v.id === cur.view && Object.entries(params).every(([k, x]) => String(cur.params[k] ?? '') === String(x ?? '')))) : v.id === cur.view;
+    const c = e ? e.count : (counts.get(v.id) ?? (typeof v.count === 'function' ? v.count(ctx(v)) : v.count));
+    const ic = e ? e.icon : v.icon;
+    return h('a', { class: cls('tn-nav-item', active && 'is-active'), href: buildHash(v.id, params), 'aria-current': active ? 'page' : null, 'data-entry': e ? e.key : null },
+      ic && icon(ic), h('span', { class: 'tn-ellipsis' }, e ? e.label : v.label), countBadge(c));
+  }
   function renderNav() {
     /** @type {string | null | undefined} */
     let lastGroup = null;
     mount(navEl, cfg.views.filter((v) => !v.hidden).flatMap((v) => {
-      const c = counts.get(v.id) ?? (typeof v.count === 'function' ? v.count(ctx(v)) : v.count);
-      const n = c && typeof c === 'object' ? c : { n: c };
-      const head = v.group && v.group !== lastGroup ? h('div', { class: 'tn-nav-group', role: 'presentation' }, v.group) : null; // optional heading (view.group)
+      const head = v.group && v.group !== lastGroup ? groupHead(v.group) : null; // optional heading (view.group)
       lastGroup = v.group ?? lastGroup;
-      return [head, h('a', { class: cls('tn-nav-item', v.id === cur.view && 'is-active'), href: buildHash(v.id), 'aria-current': v.id === cur.view ? 'page' : null },
-        v.icon && icon(v.icon), h('span', { class: 'tn-ellipsis' }, v.label),
-        n.n != null && n.n !== '' && badge(String(n.n), { tone: n.tone || 'neutral', count: true }))];
+      if (lastGroup && groupFolded(lastGroup)) return [head];
+      const links = v.entries ? (v.entries(/** @type {ViewContext} */ (ctx(v))) || []).map((e) => navLink(v, e)) : [navLink(v)];
+      return [head, ...links];
     }));
   }
   /* Phone/tablet drawer: a tap on any entry closes it, also on the view already shown (its hash does not change, so onRoute() does not run). */
@@ -535,8 +579,13 @@ export function createApp(cfg0) {
   /** @param {{ keepField?: boolean }} [o] */
   function renderView({ keepField = false } = {}) {
     const v = /** @type {NonNullable<ReturnType<typeof views.get>>} */ (views.get(/** @type {string} */ (cur.view)));
-    viewTitle.textContent = v.label;
-    document.title = cfg.title ? `${v.label} · ${cfg.title}` : v.label;
+    const vc = /** @type {ViewContext} */ (ctx(v));
+    const title = (v.title && v.title(vc)) || v.label;
+    viewTitle.textContent = title;
+    document.title = cfg.title ? `${title} · ${cfg.title}` : title;
+    infoAction = v.info ? v.info(vc) || null : null;
+    infoBtn.hidden = !infoAction;
+    infoBtn.setAttribute('aria-label', t('shell.viewInfoAbout', { title }));
     const field = keepField ? captureField() : null;
     const a = document.activeElement, row = keepField && a instanceof HTMLElement && content.contains(a) ? a.dataset.key ?? null : null;   // a focused row (metricRow, table row)
     mount(content, v.render(/** @type {ViewContext} */ (ctx(v))));

@@ -17,6 +17,8 @@ export default {
   "common.other": "Otros",
   "common.unknownError": "error desconocido",
   "shell.views": "Vistas",
+  "shell.viewInfo": "Detalles",
+  "shell.viewInfoAbout": "Detalles: {title}",
   "shell.toggleSidebar": "Mostrar u ocultar la barra lateral",
   "shell.theme": "Apariencia",
   "shell.themeSystem": "Apariencia: sistema",

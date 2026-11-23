@@ -6,7 +6,7 @@ div.tn-app @0,0 392x1156
         span.tn-bicon @-260,16 24x24
           img.tn-bicon-img @-260,16 24x24
         span.tn-ellipsis "Tarn Gallery" @-224,16 100x24
-    nav.tn-nav "Views" @-272,56 256x948
+    nav.tn-nav "Views" @-272,56 256x1048
       div.tn-nav-group [presentation] "Core · Tokens" @-272,56 256x32
       a.tn-nav-item @-272,88 256x48
         svg.tn-icon @-260,104 20x20
@@ -56,10 +56,19 @@ div.tn-app @0,0 392x1156
       a.tn-nav-item @-272,860 256x48
         svg.tn-icon @-260,876 20x20
         span.tn-ellipsis "Data sources" @-228,872 108x24
-      div.tn-nav-group [presentation] "Shell · App frame" @-272,912 256x44
-      a.tn-nav-item @-272,956 256x48
-        svg.tn-icon @-260,968 20x20
-        span.tn-ellipsis "Shell and boards" @-228,964 136x24
+      button.tn-nav-group.tn-nav-group-btn {expanded=true} @-272,912 256x48
+        span.tn-ellipsis "Shell · App frame" @-260,928 116x20
+        svg.tn-icon @-44,932 16x16
+      a.tn-nav-item @-272,960 256x48
+        svg.tn-icon @-260,972 20x20
+        span.tn-ellipsis "Shell and boards" @-228,972 136x24
+      a.tn-nav-item @-272,1008 256x48
+        svg.tn-icon @-260,1024 20x20
+        span.tn-ellipsis "NAS for the storeroom" @-228,1020 164x24
+        span.tn-badge.tn-badge-neutral.tn-badge-count "3" @-56,1020 24x24
+      a.tn-nav-item @-272,1056 256x48
+        svg.tn-icon @-260,1072 20x20
+        span.tn-ellipsis "Buy a switch" @-228,1068 104x24
   div.tn-scrim @0,0 392x844
   div.tn-main @0,0 392x1156
     header.tn-toolbar @0,0 392x56

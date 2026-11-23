@@ -3,7 +3,7 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
-## 0.11.0
+## 0.13.0
 
 ### Added
 - **A thing with measurements in list mode** (`table()`): a column with `mobile: 'metric'` is a labelled measurement in the row's measurement
@@ -28,6 +28,17 @@ While the major version is 0, minor versions may change the API; every change is
 - In list mode a table with at least two sortable columns gets the sort button above its rows (44 px of height; desktop tables keep their header). Opt out by marking columns `sortable: false`.
 - On touch every icon button has a hit area of at least 44 px (drawn size unchanged; in a table row the control is drawn at 28 px).
 - Without the new options nothing else changes: a table without `mobile: 'metric'` keeps its list rows (title, sub, value, chevron).
+
+## 0.11.0
+
+### Added
+- Navigation groups that fold: `createApp({ navGroups: { id: { label, collapsible, collapsed } } })`, views refer to a group by `group: id`. The heading
+  of a collapsible group is a button with a chevron; the choice is kept per browser. Groups without an entry stay plain headings. docs/shell.md "Views"
+- `views[].entries(ctx)`: a view appears in the navigation as one entry per thing it shows (e.g. per order), each linking to the view with its
+  `params`, active while those params are shown (or `active: true`), with its own icon and counter. Built for the Markt-Scout (one entry per order).
+- `views[].title(ctx)` (toolbar and page title from the data) and `views[].info(ctx)` (an ⓘ next to the title that opens, for example, a sheet with
+  the details of what the view shows). New texts `shell.viewInfo`, `shell.viewInfoAbout` in all four languages.
+- Gallery: the group "Shell · App frame" folds, and the view "Entries per thing" shows `entries`, `title` and `info`.
 
 ## 0.10.1
 

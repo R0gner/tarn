@@ -26,6 +26,10 @@ const INFO_TEXT_MAX = (() => {
 })();
 
 const src = dataSource({ url: './fixture.json', interval: 60_000, staleAfter: 900 });
+const THINGS = [
+  { id: 'nas', label: 'NAS for the storeroom', text: 'Two disks and a quiet tower.', budget: '600 €', n: 3 },
+  { id: 'switch', label: 'Buy a switch', text: '8 ports, fanless.', budget: '80 €', n: 0 },
+];
 const jobsOf = (ctx) => ctx.data?.jobs || [];
 const now = () => Date.now();
 const lastAt = (j) => (j.lastAgoSec == null ? null : now() - j.lastAgoSec * 1000);
@@ -385,7 +389,10 @@ const app = createApp({
     { id: 'states', label: 'States and sheets', icon: 'alert', render: viewStates },
     { id: 'datasources', label: 'Data sources', icon: 'database', render: viewDataSources, source: dataSourcesSource },
     { id: 'shell', group: 'Shell · App frame', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
+    // one navigation entry per thing (views[].entries), title from the data and ⓘ next to it (0.11.0)
+    { id: 'things', label: 'Entries per thing', icon: 'list', render: viewThings, entries: thingEntries, title: thingTitle, info: thingInfo },
   ],
+  navGroups: { 'Shell · App frame': { collapsible: true } },
 });
 /* The sidebar counter comes from the data, not from whether the view was already drawn (that would depend on the order). */
 function tableCount(ctx) {
@@ -397,3 +404,25 @@ function tableCount(ctx) {
 src.start();
 dataSourcesReady.then(() => app.refresh());
 window.tnApp = app; // for scripts/console
+
+/* ---- views[].entries, title, info (0.11.0): one navigation entry per thing ---- */
+function thingOf(ctx) { return THINGS.find((x) => x.id === ctx.params.t) || THINGS[0]; }
+function thingEntries(ctx) {
+  return THINGS.map((x) => ({ key: x.id, label: x.label, params: { t: x.id }, icon: 'list', count: x.n || null, active: ctx.app.view === 'things' && thingOf(ctx).id === x.id }));
+}
+function thingTitle(ctx) { return thingOf(ctx).label; }
+function thingInfo(ctx) {
+  const x = thingOf(ctx);
+  return () => openSheet({ title: x.label, sub: 'Details', body: kv([['Text', x.text], ['Budget', x.budget], ['Entries', String(x.n)]]) });
+}
+function viewThings(ctx) {
+  const x = thingOf(ctx);
+  return [
+    h('p', { class: 'g-intro' }, 'views[].entries(ctx) makes one navigation entry per thing (here: per order); title(ctx) puts its name into the toolbar, info(ctx) the ⓘ that opens its details. The group heading above folds (navGroups[id].collapsible).'),
+    demo('entries, title, info', `createApp({ navGroups: { orders: { label: 'Orders', collapsible: true } }, views: [
+  { id: 'order', group: 'orders', label: 'Order', render, entries: (ctx) => orders.map((o) => ({ key: o.id, label: o.title, params: { m: o.id } })),
+    title: (ctx) => orderOf(ctx).title, info: (ctx) => () => openSheet({ title: orderOf(ctx).title, body: details(orderOf(ctx)) }) },
+  { id: 'new', group: 'orders', label: 'New order', icon: 'square-plus', render: viewNew },
+] })`, card({ title: x.label }, kv([['Text', x.text], ['Budget', x.budget]]))),
+  ];
+}
