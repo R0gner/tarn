@@ -111,6 +111,7 @@
   if (VW >= 360 && VW < 600) {
     for (const el of document.querySelectorAll('.tn-toolbar-title')) {
       if (!visible(el) || el.scrollWidth <= el.clientWidth + o.tol) continue;
+      if (el.hasAttribute('data-title-data')) continue;   // views[].title(): a name from the data may end in …, the ⓘ shows it in full (0.12.1)
       push(findings, { rule: 'toolbar-title', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `view title cut off in the toolbar (“${el.textContent.trim().slice(0, 30)}”, ${el.scrollWidth} px of ${el.clientWidth})`, rect: R(el.getBoundingClientRect()), el });
     }
   }

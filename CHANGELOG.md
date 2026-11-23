@@ -3,6 +3,13 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.12.1
+
+### Changed
+- A toolbar title from the data (`views[].title(ctx)`, e.g. an order's long name) may end in … on the phone; the ⓘ next to it shows the details.
+  verify's `toolbar-title` rule keeps holding the board's own view labels to the full width (the shell marks a data title with `data-title-data`).
+  Found by the Markt-Scout with a real order name.
+
 ## 0.12.0
 
 ### Added

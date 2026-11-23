@@ -582,6 +582,9 @@ export function createApp(cfg0) {
     const vc = /** @type {ViewContext} */ (ctx(v));
     const title = (v.title && v.title(vc)) || v.label;
     viewTitle.textContent = title;
+    /* a title from the data (an order's name) may be long: on the phone it ends in … (the ⓘ sheet shows it in full); verify's toolbar-title rule
+       only holds the board's own labels to the full width */
+    viewTitle.toggleAttribute('data-title-data', title !== v.label);
     document.title = cfg.title ? `${title} · ${cfg.title}` : title;
     infoAction = v.info ? v.info(vc) || null : null;
     infoBtn.hidden = !infoAction;
