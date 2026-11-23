@@ -1,5 +1,5 @@
 # gallery #/cards · phone 390×844 · dunkel
-div.tn-app @0,0 392x4228
+div.tn-app @0,0 392x4568
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x4228
         svg.tn-icon @-268,888 16x16
         span.tn-ellipsis "Buy a switch" @-244,888 80x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x4228
+  div.tn-main @0,0 392x4568
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
@@ -79,342 +79,365 @@ div.tn-app @0,0 392x4228
       button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x4180
-      section.tn-card @12,60 368x612
+    main.tn-content @0,48 392x4520
+      section.tn-card @12,60 368x324
         header.tn-card-head @12,60 364x40
           div.tn-card-heading @24,72 340x20
-            h3.tn-card-title "statTile()" @24,72 340x20
-        div.tn-card-body @12,100 364x572
-          div.tn-tiles @24,112 340x268
-            button.tn-stat.tn-stat-btn @24,112 168x84
-              div.tn-stat-label @40,124 128x16
-                span.tn-dot.tn-s-bad [img] "Error" @40,128 8x8
-                span.tn-ellipsis "Jobs" @52,124 28x16
-              div.tn-stat-value.tn-num "12" @40,140 128x24
-              div.tn-stat-sub.tn-t-bad "1 error · 1 warning" @40,168 128x16
-              span.tn-go @168,124 16x16
-                svg.tn-icon @168,124 16x16
-            div.tn-stat @200,112 168x84
-              div.tn-stat-label @212,124 140x16
-                span.tn-dot.tn-s-ok [img] "OK" @212,128 8x8
-                span.tn-ellipsis "Storage used" @224,124 76x16
-              div.tn-stat-value.tn-num "7.3" @212,140 140x24
-                span.tn-stat-unit "TB" @244,148 16x16
-              div.tn-stat-sub "of 12 TB · 61%" @212,168 140x16
-            button.tn-stat.tn-stat-btn @24,204 168x84
-              div.tn-stat-label @40,216 128x16
-                span.tn-dot.tn-s-warn [img] "Warning" @40,220 8x8
-                span.tn-ellipsis "Media scan" @52,216 68x16
-              div.tn-stat-value.tn-num "49 min 10 s" @40,232 128x24
-              div.tn-stat-sub.tn-t-warn "above threshold" @40,260 128x16
-              span.tn-go @168,216 16x16
-                svg.tn-icon @168,216 16x16
-            div.tn-stat @200,204 168x84
-              div.tn-stat-label @212,216 140x16
-                span.tn-dot.tn-s-pending [img] "Pending" @212,220 8x8
-                span.tn-ellipsis "Next run" @224,216 48x16
-              div.tn-stat-value.tn-num "09:00" @212,232 140x24
-              div.tn-stat-sub.tn-t-pending "Update check" @212,260 140x16
-            div.tn-stat @24,300 168x84
-              div.tn-stat-label @40,308 140x16
-                span.tn-dot.tn-s-unknown [img] "Unknown" @40,312 8x8
-                span.tn-ellipsis "A very long label of a tile that gets truncated" @52,308 128x16
-              div.tn-stat-value.tn-num "123,456,789.12" @40,324 140x24
-              div.tn-stat-sub.tn-t-unknown "equally long subtitle with overflow" @40,352 140x16
-            button.tn-stat.tn-stat-btn.is-hover @200,300 168x84
-              div.tn-stat-label @212,308 128x16
-                span.tn-ellipsis "Hover" @212,308 36x16
-              div.tn-stat-value.tn-num "42" @212,324 128x24
-              div.tn-stat-sub "state forced" @212,352 128x16
-              span.tn-go @340,308 16x16
-                svg.tn-icon @340,308 16x16
-          div.tn-tiles "Loading …" @24,396 340x152
-            div.tn-stat.tn-skel-tile @24,396 168x72
-              span.tn-skel.tn-skel-s @40,408 72x12
-              span.tn-skel.tn-skel-l @40,428 100x16
-            div.tn-stat.tn-skel-tile @200,396 168x72
-              span.tn-skel.tn-skel-s @212,408 72x12
-              span.tn-skel.tn-skel-l @212,428 100x16
-            div.tn-stat.tn-skel-tile @24,476 340x72
-              span.tn-skel.tn-skel-s @40,488 156x12
-              span.tn-skel.tn-skel-l @40,508 220x16
-      section.tn-card @12,688 368x452
-        header.tn-card-head @12,688 364x40
-          div.tn-card-heading @24,700 340x20
-            h3.tn-card-title "card() and section()" @24,700 340x20
-        div.tn-card-body @12,728 364x408
-          section.tn-section @24,740 340x136
-            header.tn-section-head @24,740 340x36
-              h2.tn-section-title "Problems" @28,752 276x16
-                span.tn-section-count "2" @88,752 8x16
-              div.tn-section-actions @312,740 52x36
-                button.tn-btn.tn-btn-ghost.tn-btn-sm @312,740 52x36
-                  svg.tn-icon @340,752 16x16
-            section.tn-card.tn-card-flush @24,784 340x92
-              div.tn-card-body @28,788 340x92
-                div.tn-list [list] @28,788 340x92
-                  button.tn-row.tn-row-btn @28,788 340x44
-                    span.tn-row-status @40,804 8x8
-                      span.tn-dot.tn-s-bad [img] "Error" @40,804 8x8
-                    span.tn-row-main @60,792 200x36
-                      span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,792 200x20
-                      span.tn-row-sub.tn-ellipsis "nas-b · daily 04:15" @60,808 200x16
-                    span.tn-row-value @268,792 56x36
-                      span.tn-num "3 hr. ago" @268,792 56x20
-                      span.tn-row-sub "31 s" @300,808 24x16
-                    span.tn-go @336,800 16x16
-                      svg.tn-icon @336,800 16x16
-                  button.tn-row.tn-row-btn @28,832 340x44
-                    span.tn-row-status @40,852 8x8
-                      span.tn-dot.tn-s-warn [img] "Warning" @40,852 8x8
-                    span.tn-row-main @60,836 180x36
-                      span.tn-row-title.tn-ellipsis "Media library scan" @60,836 180x20
-                      span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @60,856 180x16
-                    span.tn-row-value @252,836 72x36
-                      span.tn-num "40 min. ago" @252,836 72x20
-                      span.tn-row-sub "49 min 10 s" @256,856 68x16
-                    span.tn-go @336,848 16x16
-                      svg.tn-icon @336,848 16x16
-          section.tn-card @24,896 340x120
-            header.tn-card-head @28,896 340x56
-              div.tn-card-heading @40,904 224x36
-                h3.tn-card-title "Card title" @40,904 224x20
-                div.tn-card-sub "Subtitle with context" @40,924 224x16
-              div.tn-card-actions @268,904 84x40
-                button.tn-iconbtn "Reload" @268,904 40x40
-                  svg.tn-icon @280,916 16x16
-                button.tn-iconbtn "More" @312,904 40x40
-                  svg.tn-icon @324,916 16x16
-            div.tn-card-body @28,952 340x60
-              p.tn-muted "The card is the only container with a hairline. No shadow, r" @40,964 316x36
-      section.tn-card @12,1156 368x696
-        header.tn-card-head @12,1156 364x52
-          div.tn-card-heading @24,1164 340x36
-            h3.tn-card-title "An explanation behind the "i": card({ info }), section(…, { " @24,1164 340x36
-        div.tn-card-body @12,1208 364x640
-          section.tn-card @24,1220 168x100
-            header.tn-card-head @28,1224 164x56
-              div.tn-card-heading @40,1232 140x40
-                div.tn-card-titlerow @40,1232 140x40
-                  h3.tn-card-title "Schedule today" @40,1240 96x20
-                  button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @140,1232 40x40
-                    svg.tn-icon @152,1244 16x16
-            div.tn-card-body @28,1280 164x44
-              p.tn-muted "Content of the card." @40,1292 140x20
-          section.tn-section @24,1360 252x140
-            header.tn-section-head @24,1360 252x40
-              h2.tn-section-title "Recently failed" @28,1372 96x16
-                span.tn-section-count "2" @116,1372 8x16
-              button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @128,1360 40x40
-                svg.tn-icon @140,1372 16x16
-            section.tn-card.tn-card-flush @24,1408 252x92
-              div.tn-card-body @28,1408 252x92
-                div.tn-list [list] @28,1408 252x92
-                  button.tn-row.tn-row-btn @28,1408 252x44
-                    span.tn-row-status @40,1428 8x8
-                      span.tn-dot.tn-s-ok [img] "OK" @40,1428 8x8
-                    span.tn-row-main @60,1416 112x36
-                      span.tn-row-title.tn-ellipsis "Photo backup" @60,1416 112x20
-                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,1432 112x16
-                    span.tn-row-value @184,1416 56x36
-                      span.tn-num "4 hr. ago" @184,1416 56x20
-                      span.tn-row-sub "21 min" @196,1432 40x16
-                    span.tn-go @248,1424 16x16
-                      svg.tn-icon @248,1424 16x16
-                  button.tn-row.tn-row-btn @28,1456 252x44
-                    span.tn-row-status @40,1476 8x8
-                      span.tn-dot.tn-s-ok [img] "OK" @40,1476 8x8
-                    span.tn-row-main @60,1460 112x36
-                      span.tn-row-title.tn-ellipsis "Document backup" @60,1460 112x20
-                      span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00" @60,1480 112x16
-                    span.tn-row-value @184,1460 56x36
-                      span.tn-num "4 hr. ago" @184,1460 56x20
-                      span.tn-row-sub "3 min 4 s" @184,1480 52x16
-                    span.tn-go @248,1468 16x16
-                      svg.tn-icon @248,1468 16x16
-          div.tn-toolrow @24,1540 108x40
-            button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @92,1540 40x40
-              svg.tn-icon @104,1552 16x16
-          button.tn-btn.tn-btn-default @24,1616 208x40
-      section.tn-card @12,1868 368x1048
-        header.tn-card-head @12,1868 364x40
-          div.tn-card-heading @24,1880 340x20
-            h3.tn-card-title "tiles() with any number of tiles" @24,1880 340x20
-        div.tn-card-body @12,1908 364x1004
-          div.tn-tiles @24,1920 224x164
-            div.tn-stat @24,1920 108x84
-              div.tn-stat-label @40,1932 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,1936 8x8
-                span.tn-ellipsis "Tile 1" @52,1932 28x16
-              div.tn-stat-value.tn-num "10" @40,1948 80x24
-              div.tn-stat-sub "with a sub line" @40,1976 80x16
-            div.tn-stat @140,1920 108x84
-              div.tn-stat-label @152,1932 80x16
-                span.tn-dot.tn-s-warn [img] "Warning" @152,1936 8x8
-                span.tn-ellipsis "Tile 2" @168,1932 32x16
-              div.tn-stat-value.tn-num "20" @152,1948 80x24
-            div.tn-stat @24,2012 224x72
-              div.tn-stat-label @40,2024 196x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2028 8x8
-                span.tn-ellipsis "Tile 3" @52,2024 32x16
-              div.tn-stat-value.tn-num "30" @40,2040 196x24
-          div.tn-tiles @24,2124 224x256
-            div.tn-stat @24,2124 108x84
-              div.tn-stat-label @40,2132 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2136 8x8
-                span.tn-ellipsis "Tile 1" @52,2132 28x16
-              div.tn-stat-value.tn-num "10" @40,2152 80x24
-              div.tn-stat-sub "with a sub line" @40,2180 80x16
-            div.tn-stat @140,2124 108x84
-              div.tn-stat-label @152,2132 80x16
-                span.tn-dot.tn-s-warn [img] "Warning" @152,2136 8x8
-                span.tn-ellipsis "Tile 2" @168,2132 32x16
-              div.tn-stat-value.tn-num "20" @152,2152 80x24
-            div.tn-stat @24,2216 108x84
-              div.tn-stat-label @40,2224 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2228 8x8
-                span.tn-ellipsis "Tile 3" @52,2224 32x16
-              div.tn-stat-value.tn-num "30" @40,2244 80x24
-            div.tn-stat @140,2216 108x84
-              div.tn-stat-label @152,2224 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @152,2228 8x8
-                span.tn-ellipsis "Tile 4" @168,2224 32x16
-              div.tn-stat-value.tn-num "40" @152,2244 80x24
-              div.tn-stat-sub "with a sub line" @152,2272 80x16
-            div.tn-stat @24,2308 224x72
-              div.tn-stat-label @40,2316 196x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2324 8x8
-                span.tn-ellipsis "Tile 5" @52,2316 32x16
-              div.tn-stat-value.tn-num "50" @40,2336 196x24
-          div.tn-tiles @24,2416 224x348
-            div.tn-stat @24,2416 108x84
-              div.tn-stat-label @40,2428 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2432 8x8
-                span.tn-ellipsis "Tile 1" @52,2428 28x16
-              div.tn-stat-value.tn-num "10" @40,2444 80x24
-              div.tn-stat-sub "with a sub line" @40,2472 80x16
-            div.tn-stat @140,2416 108x84
-              div.tn-stat-label @152,2428 80x16
-                span.tn-dot.tn-s-warn [img] "Warning" @152,2432 8x8
-                span.tn-ellipsis "Tile 2" @168,2428 32x16
-              div.tn-stat-value.tn-num "20" @152,2444 80x24
-            div.tn-stat @24,2512 108x84
-              div.tn-stat-label @40,2520 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2524 8x8
-                span.tn-ellipsis "Tile 3" @52,2520 32x16
-              div.tn-stat-value.tn-num "30" @40,2540 80x24
-            div.tn-stat @140,2512 108x84
-              div.tn-stat-label @152,2520 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @152,2524 8x8
-                span.tn-ellipsis "Tile 4" @168,2520 32x16
-              div.tn-stat-value.tn-num "40" @152,2540 80x24
-              div.tn-stat-sub "with a sub line" @152,2564 80x16
-            div.tn-stat @24,2604 108x72
-              div.tn-stat-label @40,2612 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2616 8x8
-                span.tn-ellipsis "Tile 5" @52,2612 32x16
-              div.tn-stat-value.tn-num "50" @40,2632 80x24
-            div.tn-stat @140,2604 108x72
-              div.tn-stat-label @152,2612 80x16
-                span.tn-dot.tn-s-ok [img] "OK" @152,2616 8x8
-                span.tn-ellipsis "Tile 6" @168,2612 32x16
-              div.tn-stat-value.tn-num "60" @152,2632 80x24
-            div.tn-stat @24,2684 224x84
-              div.tn-stat-label @40,2692 196x16
-                span.tn-dot.tn-s-ok [img] "OK" @40,2696 8x8
-                span.tn-ellipsis "Tile 7" @52,2692 32x16
-              div.tn-stat-value.tn-num "70" @40,2712 196x24
-              div.tn-stat-sub "with a sub line" @40,2736 196x16
-      section.tn-card @12,2932 368x852
-        header.tn-card-head @12,2932 364x52
-          div.tn-card-heading @24,2940 340x36
-            h3.tn-card-title "Quiet footer line: card({ footer }), section(…, { footer })" @24,2940 340x36
-        div.tn-card-body @12,2984 364x796
-          section.tn-card.tn-card-flush @24,2996 252x128
-            div.tn-card-body @28,2996 252x92
-              div.tn-list [list] @28,2996 252x92
-                button.tn-row.tn-row-btn @28,2996 252x44
-                  span.tn-row-status @40,3016 8x8
-                    span.tn-dot.tn-s-ok [img] "OK" @40,3016 8x8
-                  span.tn-row-main @60,3004 112x36
-                    span.tn-row-title.tn-ellipsis "Photo backup" @60,3004 112x20
-                    span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3020 112x16
-                  span.tn-row-value @184,3004 56x36
-                    span.tn-num "4 hr. ago" @184,3004 56x20
-                    span.tn-row-sub "21 min" @196,3020 40x16
-                  span.tn-go @248,3012 16x16
-                    svg.tn-icon @248,3012 16x16
-                button.tn-row.tn-row-btn @28,3044 252x44
-                  span.tn-row-status @40,3064 8x8
-                    span.tn-dot.tn-s-ok [img] "OK" @40,3064 8x8
-                  span.tn-row-main @60,3048 112x36
-                    span.tn-row-title.tn-ellipsis "Document backup" @60,3048 112x20
-                    span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00" @60,3068 112x16
-                  span.tn-row-value @184,3048 56x36
-                    span.tn-num "4 hr. ago" @184,3048 56x20
-                    span.tn-row-sub "3 min 4 s" @184,3068 52x16
-                  span.tn-go @248,3060 16x16
-                    svg.tn-icon @248,3060 16x16
-            footer.tn-foot "+13 frequent runs hidden" @28,3088 252x32
-          section.tn-card.tn-card-flush @24,3160 340x116
-            div.tn-card-body @28,3160 340x44
-              div.tn-list [list] @28,3160 340x44
-                button.tn-row.tn-row-btn @28,3160 340x44
-                  span.tn-row-status @40,3180 8x8
-                    span.tn-dot.tn-s-ok [img] "OK" @40,3180 8x8
-                  span.tn-row-main @60,3168 200x36
-                    span.tn-row-title.tn-ellipsis "Photo backup" @60,3168 200x20
-                    span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3184 200x16
-                  span.tn-row-value @268,3168 56x36
-                    span.tn-num "4 hr. ago" @268,3168 56x20
-                    span.tn-row-sub "21 min" @284,3184 40x16
-                  span.tn-go @336,3176 16x16
-                    svg.tn-icon @336,3176 16x16
-            footer.tn-foot "+13 frequent runs hidden: they succeeded every time in the l" @28,3208 340x68
-          section.tn-card @24,3312 252x96
-            div.tn-card-body @28,3312 252x44
-              p.tn-muted "Content of the card." @40,3324 228x20
-            footer.tn-foot "3 of 16 hosts are not shown." @28,3356 252x52
-              button.tn-btn.tn-btn-ghost.tn-btn-sm @200,3364 64x36
-          section.tn-section @24,3448 248x104
-            header.tn-section-head @24,3448 248x24
-              h2.tn-section-title "Problems" @28,3452 244x16
-                span.tn-section-count "1" @88,3452 8x16
-            section.tn-card.tn-card-flush @24,3480 248x48
-              div.tn-card-body @28,3480 244x44
-                div.tn-list [list] @28,3480 244x44
-                  button.tn-row.tn-row-btn @28,3480 244x44
-                    span.tn-row-status @40,3500 8x8
-                      span.tn-dot.tn-s-ok [img] "OK" @40,3500 8x8
-                    span.tn-row-main @60,3484 108x36
-                      span.tn-row-title.tn-ellipsis "Photo backup" @60,3484 108x20
-                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3504 108x16
-                    span.tn-row-value @176,3484 56x36
-                      span.tn-num "4 hr. ago" @176,3484 56x20
-                      span.tn-row-sub "21 min" @192,3504 40x16
-                    span.tn-go @244,3496 16x16
-                      svg.tn-icon @244,3496 16x16
-            div.tn-foot.tn-foot-plain "Only problems of the last 24 hours" @24,3536 248x16
-      section.tn-card @12,3796 368x420
-        header.tn-card-head @12,3796 364x40
-          div.tn-card-heading @24,3808 340x20
-            h3.tn-card-title "cols() and stack()" @24,3808 340x20
-        div.tn-card-body @12,3836 364x376
-          div.tn-cols @24,3848 340x224
-            div.tn-stack @24,3848 340x104
-              section.tn-card @24,3848 340x44
-                div.tn-card-body @28,3852 340x44
-                  span.tn-muted "stack: first" @40,3864 64x16
-              section.tn-card @24,3908 340x44
-                div.tn-card-body @28,3912 340x44
-                  span.tn-muted "stack: second" @40,3924 84x16
-            section.tn-card @24,3968 340x44
-              div.tn-card-body @28,3972 340x44
-                span.tn-muted "cols: second column" @40,3984 128x16
-            div.tn-cols @24,4032 340x44
-              section.tn-card @24,4032 164x44
-                div.tn-card-body @28,4032 160x44
-                  span.tn-muted "small 1" @40,4044 40x16
-              section.tn-card @204,4032 164x44
-                div.tn-card-body @204,4032 160x44
-                  span.tn-muted "small 2" @216,4044 44x16
+            h3.tn-card-title "section({ fold })" @24,72 340x20
+        div.tn-card-body @12,100 364x280
+          section.tn-section.tn-section-folding @24,112 340x40
+            header.tn-section-head @24,112 340x40
+              h2.tn-section-title @24,112 340x40
+                button.tn-section-toggle {expanded=false} @24,112 72x40
+                  svg.tn-icon @28,128 16x16
+                  span.tn-ellipsis "Folded" @44,124 36x16
+                  span.tn-section-count "2" @88,124 8x16
+          section.tn-section.tn-section-folding @24,164 340x92
+            header.tn-section-head @24,164 340x40
+              h2.tn-section-title @24,164 340x40
+                button.tn-section-toggle {expanded=true} @24,164 64x40
+                  svg.tn-icon @28,180 16x16
+                  span.tn-ellipsis "Open" @44,176 28x16
+                  span.tn-section-count "1" @80,176 8x16
+            div.tn-section-fold @24,212 340x44
+              section.tn-card @24,212 340x44
+                div.tn-card-body @28,216 340x44
+                  span.tn-muted "Shown, folds on a tap on the title." @40,228 204x16
+      section.tn-card @12,400 368x612
+        header.tn-card-head @12,400 364x40
+          div.tn-card-heading @24,412 340x20
+            h3.tn-card-title "statTile()" @24,412 340x20
+        div.tn-card-body @12,440 364x572
+          div.tn-tiles @24,452 340x268
+            button.tn-stat.tn-stat-btn @24,452 168x84
+              div.tn-stat-label @40,460 128x16
+                span.tn-dot.tn-s-bad [img] "Error" @40,464 8x8
+                span.tn-ellipsis "Jobs" @52,460 28x16
+              div.tn-stat-value.tn-num "12" @40,480 128x24
+              div.tn-stat-sub.tn-t-bad "1 error · 1 warning" @40,508 128x16
+              span.tn-go @168,460 16x16
+                svg.tn-icon @168,460 16x16
+            div.tn-stat @200,452 168x84
+              div.tn-stat-label @212,460 140x16
+                span.tn-dot.tn-s-ok [img] "OK" @212,464 8x8
+                span.tn-ellipsis "Storage used" @224,460 76x16
+              div.tn-stat-value.tn-num "7.3" @212,480 140x24
+                span.tn-stat-unit "TB" @244,488 16x16
+              div.tn-stat-sub "of 12 TB · 61%" @212,508 140x16
+            button.tn-stat.tn-stat-btn @24,544 168x84
+              div.tn-stat-label @40,552 128x16
+                span.tn-dot.tn-s-warn [img] "Warning" @40,560 8x8
+                span.tn-ellipsis "Media scan" @52,552 68x16
+              div.tn-stat-value.tn-num "49 min 10 s" @40,572 128x24
+              div.tn-stat-sub.tn-t-warn "above threshold" @40,600 128x16
+              span.tn-go @168,552 16x16
+                svg.tn-icon @168,552 16x16
+            div.tn-stat @200,544 168x84
+              div.tn-stat-label @212,552 140x16
+                span.tn-dot.tn-s-pending [img] "Pending" @212,560 8x8
+                span.tn-ellipsis "Next run" @224,552 48x16
+              div.tn-stat-value.tn-num "09:00" @212,572 140x24
+              div.tn-stat-sub.tn-t-pending "Update check" @212,600 140x16
+            div.tn-stat @24,636 168x84
+              div.tn-stat-label @40,644 140x16
+                span.tn-dot.tn-s-unknown [img] "Unknown" @40,652 8x8
+                span.tn-ellipsis "A very long label of a tile that gets truncated" @52,644 128x16
+              div.tn-stat-value.tn-num "123,456,789.12" @40,664 140x24
+              div.tn-stat-sub.tn-t-unknown "equally long subtitle with overflow" @40,692 140x16
+            button.tn-stat.tn-stat-btn.is-hover @200,636 168x84
+              div.tn-stat-label @212,644 128x16
+                span.tn-ellipsis "Hover" @212,644 36x16
+              div.tn-stat-value.tn-num "42" @212,664 128x24
+              div.tn-stat-sub "state forced" @212,692 128x16
+              span.tn-go @340,644 16x16
+                svg.tn-icon @340,644 16x16
+          div.tn-tiles "Loading …" @24,732 340x152
+            div.tn-stat.tn-skel-tile @24,732 168x72
+              span.tn-skel.tn-skel-s @40,748 72x12
+              span.tn-skel.tn-skel-l @40,768 100x16
+            div.tn-stat.tn-skel-tile @200,732 168x72
+              span.tn-skel.tn-skel-s @212,748 72x12
+              span.tn-skel.tn-skel-l @212,768 100x16
+            div.tn-stat.tn-skel-tile @24,812 340x72
+              span.tn-skel.tn-skel-s @40,828 156x12
+              span.tn-skel.tn-skel-l @40,848 220x16
+      section.tn-card @12,1028 368x452
+        header.tn-card-head @12,1028 364x40
+          div.tn-card-heading @24,1040 340x20
+            h3.tn-card-title "card() and section()" @24,1040 340x20
+        div.tn-card-body @12,1068 364x408
+          section.tn-section @24,1080 340x136
+            header.tn-section-head @24,1080 340x36
+              h2.tn-section-title "Problems" @28,1088 276x16
+                span.tn-section-count "2" @88,1088 8x16
+              div.tn-section-actions @312,1080 52x36
+                button.tn-btn.tn-btn-ghost.tn-btn-sm @312,1080 52x36
+                  svg.tn-icon @340,1088 16x16
+            section.tn-card.tn-card-flush @24,1124 340x92
+              div.tn-card-body @28,1124 340x92
+                div.tn-list [list] @28,1124 340x92
+                  button.tn-row.tn-row-btn @28,1124 340x44
+                    span.tn-row-status @40,1144 8x8
+                      span.tn-dot.tn-s-bad [img] "Error" @40,1144 8x8
+                    span.tn-row-main @60,1128 200x36
+                      span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,1128 200x20
+                      span.tn-row-sub.tn-ellipsis "nas-b · daily 04:15" @60,1148 200x16
+                    span.tn-row-value @268,1128 56x36
+                      span.tn-num "3 hr. ago" @268,1128 56x20
+                      span.tn-row-sub "31 s" @300,1148 24x16
+                    span.tn-go @336,1140 16x16
+                      svg.tn-icon @336,1140 16x16
+                  button.tn-row.tn-row-btn @28,1168 340x44
+                    span.tn-row-status @40,1188 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @40,1188 8x8
+                    span.tn-row-main @60,1176 180x36
+                      span.tn-row-title.tn-ellipsis "Media library scan" @60,1176 180x20
+                      span.tn-row-sub.tn-ellipsis "media-1 · every 2 h" @60,1196 180x16
+                    span.tn-row-value @252,1176 72x36
+                      span.tn-num "40 min. ago" @252,1176 72x20
+                      span.tn-row-sub "49 min 10 s" @256,1196 68x16
+                    span.tn-go @336,1184 16x16
+                      svg.tn-icon @336,1184 16x16
+          section.tn-card @24,1232 340x120
+            header.tn-card-head @28,1232 340x56
+              div.tn-card-heading @40,1244 224x36
+                h3.tn-card-title "Card title" @40,1244 224x20
+                div.tn-card-sub "Subtitle with context" @40,1264 224x16
+              div.tn-card-actions @268,1240 84x40
+                button.tn-iconbtn "Reload" @268,1240 40x40
+                  svg.tn-icon @280,1252 16x16
+                button.tn-iconbtn "More" @312,1240 40x40
+                  svg.tn-icon @324,1252 16x16
+            div.tn-card-body @28,1292 340x60
+              p.tn-muted "The card is the only container with a hairline. No shadow, r" @40,1304 316x36
+      section.tn-card @12,1492 368x696
+        header.tn-card-head @12,1496 364x52
+          div.tn-card-heading @24,1504 340x36
+            h3.tn-card-title "An explanation behind the "i": card({ info }), section(…, { " @24,1504 340x36
+        div.tn-card-body @12,1548 364x640
+          section.tn-card @24,1560 168x100
+            header.tn-card-head @28,1560 164x56
+              div.tn-card-heading @40,1568 140x40
+                div.tn-card-titlerow @40,1568 140x40
+                  h3.tn-card-title "Schedule today" @40,1580 96x20
+                  button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @140,1568 40x40
+                    svg.tn-icon @152,1580 16x16
+            div.tn-card-body @28,1620 164x44
+              p.tn-muted "Content of the card." @40,1632 140x20
+          section.tn-section @24,1700 252x140
+            header.tn-section-head @24,1700 252x40
+              h2.tn-section-title "Recently failed" @28,1712 96x16
+                span.tn-section-count "2" @116,1712 8x16
+              button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @128,1700 40x40
+                svg.tn-icon @140,1712 16x16
+            section.tn-card.tn-card-flush @24,1748 252x92
+              div.tn-card-body @28,1748 252x92
+                div.tn-list [list] @28,1748 252x92
+                  button.tn-row.tn-row-btn @28,1748 252x44
+                    span.tn-row-status @40,1768 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @40,1768 8x8
+                    span.tn-row-main @60,1752 112x36
+                      span.tn-row-title.tn-ellipsis "Photo backup" @60,1752 112x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,1772 112x16
+                    span.tn-row-value @184,1752 56x36
+                      span.tn-num "4 hr. ago" @184,1752 56x20
+                      span.tn-row-sub "21 min" @196,1772 40x16
+                    span.tn-go @248,1764 16x16
+                      svg.tn-icon @248,1764 16x16
+                  button.tn-row.tn-row-btn @28,1792 252x44
+                    span.tn-row-status @40,1812 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @40,1812 8x8
+                    span.tn-row-main @60,1800 112x36
+                      span.tn-row-title.tn-ellipsis "Document backup" @60,1800 112x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00" @60,1816 112x16
+                    span.tn-row-value @184,1800 56x36
+                      span.tn-num "4 hr. ago" @184,1800 56x20
+                      span.tn-row-sub "3 min 4 s" @184,1816 52x16
+                    span.tn-go @248,1808 16x16
+                      svg.tn-icon @248,1808 16x16
+          div.tn-toolrow @24,1876 108x40
+            button.tn-iconbtn.tn-info-btn {expanded=false} "Explanation" @92,1876 40x40
+              svg.tn-icon @104,1888 16x16
+          button.tn-btn.tn-btn-default @24,1956 208x40
+      section.tn-card @12,2208 368x1048
+        header.tn-card-head @12,2208 364x40
+          div.tn-card-heading @24,2220 340x20
+            h3.tn-card-title "tiles() with any number of tiles" @24,2220 340x20
+        div.tn-card-body @12,2248 364x1004
+          div.tn-tiles @24,2260 224x164
+            div.tn-stat @24,2260 108x84
+              div.tn-stat-label @40,2268 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2272 8x8
+                span.tn-ellipsis "Tile 1" @52,2268 28x16
+              div.tn-stat-value.tn-num "10" @40,2288 80x24
+              div.tn-stat-sub "with a sub line" @40,2316 80x16
+            div.tn-stat @140,2260 108x84
+              div.tn-stat-label @152,2268 80x16
+                span.tn-dot.tn-s-warn [img] "Warning" @152,2272 8x8
+                span.tn-ellipsis "Tile 2" @168,2268 32x16
+              div.tn-stat-value.tn-num "20" @152,2288 80x24
+            div.tn-stat @24,2352 224x72
+              div.tn-stat-label @40,2360 196x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2368 8x8
+                span.tn-ellipsis "Tile 3" @52,2360 32x16
+              div.tn-stat-value.tn-num "30" @40,2380 196x24
+          div.tn-tiles @24,2460 224x256
+            div.tn-stat @24,2460 108x84
+              div.tn-stat-label @40,2472 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2476 8x8
+                span.tn-ellipsis "Tile 1" @52,2472 28x16
+              div.tn-stat-value.tn-num "10" @40,2488 80x24
+              div.tn-stat-sub "with a sub line" @40,2516 80x16
+            div.tn-stat @140,2460 108x84
+              div.tn-stat-label @152,2472 80x16
+                span.tn-dot.tn-s-warn [img] "Warning" @152,2476 8x8
+                span.tn-ellipsis "Tile 2" @168,2472 32x16
+              div.tn-stat-value.tn-num "20" @152,2488 80x24
+            div.tn-stat @24,2556 108x84
+              div.tn-stat-label @40,2564 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2568 8x8
+                span.tn-ellipsis "Tile 3" @52,2564 32x16
+              div.tn-stat-value.tn-num "30" @40,2584 80x24
+            div.tn-stat @140,2556 108x84
+              div.tn-stat-label @152,2564 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @152,2568 8x8
+                span.tn-ellipsis "Tile 4" @168,2564 32x16
+              div.tn-stat-value.tn-num "40" @152,2584 80x24
+              div.tn-stat-sub "with a sub line" @152,2608 80x16
+            div.tn-stat @24,2648 224x72
+              div.tn-stat-label @40,2656 196x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2660 8x8
+                span.tn-ellipsis "Tile 5" @52,2656 32x16
+              div.tn-stat-value.tn-num "50" @40,2676 196x24
+          div.tn-tiles @24,2756 224x348
+            div.tn-stat @24,2756 108x84
+              div.tn-stat-label @40,2764 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2772 8x8
+                span.tn-ellipsis "Tile 1" @52,2764 28x16
+              div.tn-stat-value.tn-num "10" @40,2784 80x24
+              div.tn-stat-sub "with a sub line" @40,2812 80x16
+            div.tn-stat @140,2756 108x84
+              div.tn-stat-label @152,2764 80x16
+                span.tn-dot.tn-s-warn [img] "Warning" @152,2772 8x8
+                span.tn-ellipsis "Tile 2" @168,2764 32x16
+              div.tn-stat-value.tn-num "20" @152,2784 80x24
+            div.tn-stat @24,2848 108x84
+              div.tn-stat-label @40,2860 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2864 8x8
+                span.tn-ellipsis "Tile 3" @52,2860 32x16
+              div.tn-stat-value.tn-num "30" @40,2876 80x24
+            div.tn-stat @140,2848 108x84
+              div.tn-stat-label @152,2860 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @152,2864 8x8
+                span.tn-ellipsis "Tile 4" @168,2860 32x16
+              div.tn-stat-value.tn-num "40" @152,2876 80x24
+              div.tn-stat-sub "with a sub line" @152,2904 80x16
+            div.tn-stat @24,2940 108x72
+              div.tn-stat-label @40,2952 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,2956 8x8
+                span.tn-ellipsis "Tile 5" @52,2952 32x16
+              div.tn-stat-value.tn-num "50" @40,2968 80x24
+            div.tn-stat @140,2940 108x72
+              div.tn-stat-label @152,2952 80x16
+                span.tn-dot.tn-s-ok [img] "OK" @152,2956 8x8
+                span.tn-ellipsis "Tile 6" @168,2952 32x16
+              div.tn-stat-value.tn-num "60" @152,2968 80x24
+            div.tn-stat @24,3020 224x84
+              div.tn-stat-label @40,3032 196x16
+                span.tn-dot.tn-s-ok [img] "OK" @40,3036 8x8
+                span.tn-ellipsis "Tile 7" @52,3032 32x16
+              div.tn-stat-value.tn-num "70" @40,3048 196x24
+              div.tn-stat-sub "with a sub line" @40,3076 196x16
+      section.tn-card @12,3268 368x852
+        header.tn-card-head @12,3272 364x52
+          div.tn-card-heading @24,3280 340x36
+            h3.tn-card-title "Quiet footer line: card({ footer }), section(…, { footer })" @24,3280 340x36
+        div.tn-card-body @12,3324 364x796
+          section.tn-card.tn-card-flush @24,3336 252x128
+            div.tn-card-body @28,3336 252x92
+              div.tn-list [list] @28,3336 252x92
+                button.tn-row.tn-row-btn @28,3336 252x44
+                  span.tn-row-status @40,3356 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @40,3356 8x8
+                  span.tn-row-main @60,3340 112x36
+                    span.tn-row-title.tn-ellipsis "Photo backup" @60,3340 112x20
+                    span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3360 112x16
+                  span.tn-row-value @184,3340 56x36
+                    span.tn-num "4 hr. ago" @184,3340 56x20
+                    span.tn-row-sub "21 min" @196,3360 40x16
+                  span.tn-go @248,3352 16x16
+                    svg.tn-icon @248,3352 16x16
+                button.tn-row.tn-row-btn @28,3380 252x44
+                  span.tn-row-status @40,3400 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @40,3400 8x8
+                  span.tn-row-main @60,3388 112x36
+                    span.tn-row-title.tn-ellipsis "Document backup" @60,3388 112x20
+                    span.tn-row-sub.tn-ellipsis "nas-a · daily 03:00" @60,3404 112x16
+                  span.tn-row-value @184,3388 56x36
+                    span.tn-num "4 hr. ago" @184,3388 56x20
+                    span.tn-row-sub "3 min 4 s" @184,3404 52x16
+                  span.tn-go @248,3396 16x16
+                    svg.tn-icon @248,3396 16x16
+            footer.tn-foot "+13 frequent runs hidden" @28,3428 252x32
+          section.tn-card.tn-card-flush @24,3500 340x116
+            div.tn-card-body @28,3500 340x44
+              div.tn-list [list] @28,3500 340x44
+                button.tn-row.tn-row-btn @28,3500 340x44
+                  span.tn-row-status @40,3520 8x8
+                    span.tn-dot.tn-s-ok [img] "OK" @40,3520 8x8
+                  span.tn-row-main @60,3504 200x36
+                    span.tn-row-title.tn-ellipsis "Photo backup" @60,3504 200x20
+                    span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3524 200x16
+                  span.tn-row-value @268,3504 56x36
+                    span.tn-num "4 hr. ago" @268,3504 56x20
+                    span.tn-row-sub "21 min" @284,3524 40x16
+                  span.tn-go @336,3516 16x16
+                    svg.tn-icon @336,3516 16x16
+            footer.tn-foot "+13 frequent runs hidden: they succeeded every time in the l" @28,3544 340x68
+          section.tn-card @24,3652 252x96
+            div.tn-card-body @28,3652 252x44
+              p.tn-muted "Content of the card." @40,3664 228x20
+            footer.tn-foot "3 of 16 hosts are not shown." @28,3696 252x52
+              button.tn-btn.tn-btn-ghost.tn-btn-sm @200,3704 64x36
+          section.tn-section @24,3788 248x104
+            header.tn-section-head @24,3788 248x24
+              h2.tn-section-title "Problems" @28,3788 244x16
+                span.tn-section-count "1" @88,3788 8x16
+            section.tn-card.tn-card-flush @24,3820 248x48
+              div.tn-card-body @28,3820 244x44
+                div.tn-list [list] @28,3820 244x44
+                  button.tn-row.tn-row-btn @28,3820 244x44
+                    span.tn-row-status @40,3840 8x8
+                      span.tn-dot.tn-s-ok [img] "OK" @40,3840 8x8
+                    span.tn-row-main @60,3824 108x36
+                      span.tn-row-title.tn-ellipsis "Photo backup" @60,3824 108x20
+                      span.tn-row-sub.tn-ellipsis "nas-a · daily 02:30" @60,3844 108x16
+                    span.tn-row-value @176,3824 56x36
+                      span.tn-num "4 hr. ago" @176,3824 56x20
+                      span.tn-row-sub "21 min" @192,3844 40x16
+                    span.tn-go @244,3832 16x16
+                      svg.tn-icon @244,3832 16x16
+            div.tn-foot.tn-foot-plain "Only problems of the last 24 hours" @24,3872 248x16
+      section.tn-card @12,4136 368x420
+        header.tn-card-head @12,4136 364x40
+          div.tn-card-heading @24,4148 340x20
+            h3.tn-card-title "cols() and stack()" @24,4148 340x20
+        div.tn-card-body @12,4176 364x376
+          div.tn-cols @24,4188 340x224
+            div.tn-stack @24,4188 340x104
+              section.tn-card @24,4188 340x44
+                div.tn-card-body @28,4188 340x44
+                  span.tn-muted "stack: first" @40,4204 64x16
+              section.tn-card @24,4248 340x44
+                div.tn-card-body @28,4248 340x44
+                  span.tn-muted "stack: second" @40,4264 84x16
+            section.tn-card @24,4308 340x44
+              div.tn-card-body @28,4308 340x44
+                span.tn-muted "cols: second column" @40,4324 128x16
+            div.tn-cols @24,4368 340x44
+              section.tn-card @24,4368 164x44
+                div.tn-card-body @28,4368 160x44
+                  span.tn-muted "small 1" @40,4384 40x16
+              section.tn-card @204,4368 164x44
+                div.tn-card-body @204,4368 160x44
+                  span.tn-muted "small 2" @216,4384 44x16
