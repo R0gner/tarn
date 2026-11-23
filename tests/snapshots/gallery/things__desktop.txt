@@ -87,12 +87,12 @@ div.tn-app @0,0 1424x900
         svg.tn-icon @1360,12 16x16
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
         svg.tn-icon @1392,12 16x16
-    main.tn-content @208,44 1216x408
-      section.tn-card @224,136 1184x284
+    main.tn-content @208,44 1216x424
+      section.tn-card @224,136 1184x304
         header.tn-card-head @224,136 1184x40
           div.tn-card-heading @236,144 1160x20
             h3.tn-card-title "entries, title, info" @236,144 1160x20
-        div.tn-card-body @224,176 1184x244
+        div.tn-card-body @224,176 1184x260
           section.tn-card @236,188 1160x108
             header.tn-card-head @240,188 1156x40
               div.tn-card-heading @252,200 1132x20

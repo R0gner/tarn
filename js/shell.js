@@ -41,7 +41,7 @@ import { combineSources } from './data.js';
 /** @typedef {{ app: App, view: string | undefined, params: Record<string, string>, open: string | null, src: DataState | null, data: any }} ViewContext Argument of render(), detail() and count(). */
 /** @typedef {{ key: string, label: string, params?: Record<string, string>, icon?: string, count?: number | string | CountSpec | null, active?: boolean }} NavEntry One navigation entry of a view with `entries` (e.g. one per order): links to the view with `params`; active when the view is shown and every param matches, or when `active` says so. */
 /** @typedef {{ label?: string | (() => string), collapsible?: boolean, collapsed?: boolean }} NavGroupDef A navigation group (`createApp({ navGroups: { id: … } })`, views refer to it with `group: id`): heading text, and whether a tap on the heading folds the group (the choice is kept per browser). */
-/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource, freshness?: 'view' | 'app', entries?: (ctx: ViewContext) => NavEntry[] | null | undefined, title?: (ctx: ViewContext) => string | null | undefined, info?: (ctx: ViewContext) => (() => void) | null | undefined }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, banners, source list). `freshness`: whose age the toolbar text shows – the view's own source (default when it has one) or the app's. `entries`: the view appears in the navigation as these entries (one per thing it shows, e.g. per order) instead of one entry. `title`: toolbar title from the data (default: label). `info`: returns what a tap on the ⓘ next to the toolbar title does (e.g. open a sheet with details); null hides the button. */
+/** @typedef {{ id: string, label: string | (() => string), group?: string | (() => string), icon?: string, hidden?: boolean, count?: number | string | CountSpec | null | ((ctx: ViewContext) => number | string | CountSpec | null | undefined), render: (ctx: ViewContext) => Child, detail?: (id: string, ctx: ViewContext) => DetailContent | null | undefined, source?: DataSource, freshness?: 'view' | 'app', entries?: (ctx: ViewContext) => NavEntry[] | null | undefined, title?: (ctx: ViewContext) => string | null | undefined, info?: (ctx: ViewContext) => (() => void) | null | undefined, infoIcon?: string }} ViewDef One view of the app (a navigation entry). `source`: queries only this view needs – started when the view is shown, stopped when it is left, merged with the app's source (ctx.data, banners, source list). `freshness`: whose age the toolbar text shows – the view's own source (default when it has one) or the app's. `entries`: the view appears in the navigation as these entries (one per thing it shows, e.g. per order) instead of one entry. `title`: toolbar title from the data (default: label). `info`: returns what a tap on the ⓘ next to the toolbar title does (e.g. open a sheet with details); null hides the button. `infoIcon`: the button's icon when it opens a thing's details rather than an explanation (e.g. 'file-text'; default 'info', which stays for explanations). */
 /**
  * @typedef {{
  *   views: ViewDef[],
@@ -170,6 +170,7 @@ export function createApp(cfg0) {
   let infoAction = /** @type {(() => void) | null} */ (null);
   const infoBtn = iconButton('info', { label: t('shell.viewInfo'), onClick: () => infoAction?.(), className: 'tn-toolbar-info' });
   infoBtn.hidden = true;
+  let infoIconName = 'info';
   /* the freshness text opens the source list (every source of the view: name, age, interval, note) with a reload button; on the phone that
      is the way to reload, the toolbar's reload button is hidden there */
   const fresh = h('button', { class: 'tn-fresh', type: 'button', onclick: () => (pop ? closePop(false) : openPop()), hidden: !cfg.source, 'aria-haspopup': 'dialog', 'aria-expanded': 'false' });
@@ -588,6 +589,8 @@ export function createApp(cfg0) {
     document.title = cfg.title ? `${title} · ${cfg.title}` : title;
     infoAction = v.info ? v.info(vc) || null : null;
     infoBtn.hidden = !infoAction;
+    const wantIcon = v.infoIcon || 'info';
+    if (wantIcon !== infoIconName) { infoBtn.replaceChildren(icon(wantIcon)); infoIconName = wantIcon; }
     infoBtn.setAttribute('aria-label', t('shell.viewInfoAbout', { title }));
     const field = keepField ? captureField() : null;
     const a = document.activeElement, row = keepField && a instanceof HTMLElement && content.contains(a) ? a.dataset.key ?? null : null;   // a focused row (metricRow, table row)

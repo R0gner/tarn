@@ -3,6 +3,12 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.14.0
+
+### Added
+- `views[].infoIcon`: the icon of the button next to the toolbar title when it opens the thing's details rather than an explanation (e.g.
+  `'file-text'` for an order's text, terms and budgets); default `'info'`, which stays for explanations. Gallery "Entries per thing". docs/shell.md
+
 ## 0.13.0
 
 ### Added

@@ -345,7 +345,7 @@ const app = createApp({
     { id: 'datasources', label: 'Data sources', icon: 'database', render: viewDataSources, source: dataSourcesSource },
     { id: 'shell', group: 'Shell · App frame', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
     // one navigation entry per thing (views[].entries), title from the data and ⓘ next to it (0.11.0)
-    { id: 'things', label: 'Entries per thing', icon: 'list', render: viewThings, entries: thingEntries, title: thingTitle, info: thingInfo },
+    { id: 'things', label: 'Entries per thing', icon: 'list', render: viewThings, entries: thingEntries, title: thingTitle, info: thingInfo, infoIcon: 'file-text' },
   ],
   navGroups: { 'Shell · App frame': { collapsible: true } },
 });
@@ -376,7 +376,8 @@ function viewThings(ctx) {
     h('p', { class: 'g-intro' }, 'views[].entries(ctx) makes one navigation entry per thing (here: per order); title(ctx) puts its name into the toolbar, info(ctx) the ⓘ that opens its details. The group heading above folds (navGroups[id].collapsible).'),
     demo('entries, title, info', `createApp({ navGroups: { orders: { label: 'Orders', collapsible: true } }, views: [
   { id: 'order', group: 'orders', label: 'Order', render, entries: (ctx) => orders.map((o) => ({ key: o.id, label: o.title, params: { m: o.id } })),
-    title: (ctx) => orderOf(ctx).title, info: (ctx) => () => openSheet({ title: orderOf(ctx).title, body: details(orderOf(ctx)) }) },
+    title: (ctx) => orderOf(ctx).title, info: (ctx) => () => openSheet({ title: orderOf(ctx).title, body: details(orderOf(ctx)) }),
+    infoIcon: 'file-text' },   // a document: the order's details (the ⓘ stays for explanations)
   { id: 'new', group: 'orders', label: 'New order', icon: 'square-plus', render: viewNew },
 ] })`, card({ title: x.label }, kv([['Text', x.text], ['Budget', x.budget]]))),
   ];
