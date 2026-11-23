@@ -19,6 +19,12 @@ export const MUTANTS = [
     css: '.tn-table-wrap.is-list .tn-table td.tn-td-metrics { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: max-content; }',
   },
   {
+    // TN-26 follow-up 2: the measurement value cut with “…” again (round 9 F1: “Prozesse 1…” for 1,287, “Running since 1 min …”)
+    id: 'metric-value-ellipsis',
+    page: 'gallery', views: ['table'], sizes: ['phone', 'phone-s'], expect: ['metric-cut'],
+    css: '.tn-lv { flex-wrap: nowrap; } .tn-lv-v { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }',
+  },
+  {
     id: 'button-misaligned',
     page: 'gallery', views: ['table'], sizes: ['phone', 'desktop'], expect: ['align'],
     css: '.tn-toolrow > .tn-btn:nth-child(2) { position: relative; top: 3px; }',

@@ -9,6 +9,7 @@
 //   touch      touch target < minTouch px (hit area via elementFromPoint, only with opts.touch)
 //   tiles-ragged  a row of tiles() does not end at the grid's right edge (empty cell, narrow last tile)
 //   wrap-sub   a row sub line with wrapSub is cut off or ends in an ellipsis
+//   metric-cut a measurement (label or value, .tn-lv-k / .tn-lv-v) is cut: its content is wider than its box
 //   toolbar-title  phone 360–599 px: the toolbar's view title is cut off (the toolbar is crowded)
 //   trigger-chevron a dropdown trigger with visible text (aria-haspopup menu or listbox) has no chevron: it reads as status, not as a selector
 //   contained  moving part (toggle thumb, progress fill) sticks out of its track
@@ -104,6 +105,13 @@
     if (ignored(el) || !visible(el)) continue;
     const cs = getComputedStyle(el);
     if (el.scrollWidth > el.clientWidth + o.tol || el.scrollHeight > el.clientHeight + o.tol || cs.textOverflow === 'ellipsis' || cs.whiteSpace === 'nowrap') push(findings, { rule: 'wrap-sub', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `a sub line that wraps is cut off or ends in “…” (“${el.textContent.trim().slice(0, 40)}”)`, rect: R(el.getBoundingClientRect()), el });
+  }
+
+  /* ---- metric-cut: a measurement in the list's measurement line is never cut – a cut number is a wrong number (“1…” reads as 1); an outlier
+     moves below its label instead (TN-26). Label and value: content wider than the box ---- */
+  for (const el of document.querySelectorAll('.tn-lv-v, .tn-lv-k')) {
+    if (ignored(el) || !visible(el)) continue;
+    if (el.scrollWidth > el.clientWidth + o.tol) push(findings, { rule: 'metric-cut', sel: path(el), where: where(el), px: el.scrollWidth - el.clientWidth, text: `measurement ${el.classList.contains('tn-lv-k') ? 'label' : 'value'} cut (“${el.textContent.trim().slice(0, 30)}”, ${el.scrollWidth} px in ${el.clientWidth} px)`, rect: R(el.getBoundingClientRect()), el });
   }
 
   /* ---- toolbar-title: on a 390 px phone the view title is shown in full; buttons that crowd it out (theme, density, language, notifications) belong

@@ -87,17 +87,25 @@ export function table(opts) {
     if (!cells.length) return;
     const labels = metrics.map(() => 0);
     const values = metrics.map(() => /** @type {number[]} */ ([]));
+    const pieces = metrics.map(() => 0);
     let inner = 0;
-    for (const td of cells) {
-      [...td.children].forEach((lv, i) => {
+    /** @param {(i: number, k: HTMLElement | undefined, v: HTMLElement | undefined, lv: HTMLElement) => void} fn */
+    const each = (fn) => {
+      for (const td of cells) [...td.children].forEach((lv, i) => {
         const [k, v] = /** @type {HTMLElement[]} */ ([...lv.children]);
-        if (i >= metrics.length) return;
-        labels[i] = Math.max(labels[i], k?.scrollWidth || 0);
-        values[i].push(v?.scrollWidth || 0);
-        inner ||= parseFloat(getComputedStyle(lv).columnGap) || 0;
+        if (i < metrics.length) fn(i, k, v, /** @type {HTMLElement} */ (lv));
       });
-    }
-    const needs = metrics.map((_, i) => metricNeed(labels[i], values[i], inner));
+    };
+    wrap.classList.add('tn-met-measure');
+    each((i, k, v, lv) => {
+      labels[i] = Math.max(labels[i], k?.scrollWidth || 0);
+      values[i].push(v?.scrollWidth || 0);
+      inner ||= parseFloat(getComputedStyle(lv).columnGap) || 0;
+    });
+    wrap.classList.replace('tn-met-measure', 'tn-met-measure-min');
+    each((i, _k, v) => { pieces[i] = Math.max(pieces[i], v?.offsetWidth || 0); });
+    wrap.classList.remove('tn-met-measure-min');
+    const needs = metrics.map((_, i) => metricNeed(labels[i], values[i], inner, pieces[i]));
     const { cols: n, tracks } = metricLayout(needs, cells[0].clientWidth, parseFloat(getComputedStyle(cells[0]).columnGap) || 0);
     const tpl = metricTemplate(tracks);
     if (wrap.style.getPropertyValue('--tn-met-tracks') !== tpl) wrap.style.setProperty('--tn-met-tracks', tpl);
@@ -141,7 +149,7 @@ export function table(opts) {
   }
   /** @param {TableColumn} c @param {any} r @param {Child} content */
   function labelled(c, r, content) {
-    return h('span', { class: 'tn-lv' }, h('span', { class: 'tn-lv-k' }, listName(c)), h('span', { class: 'tn-lv-v tn-ellipsis' }, content ?? '–'));
+    return h('span', { class: 'tn-lv' }, h('span', { class: 'tn-lv-k' }, listName(c)), h('span', { class: 'tn-lv-v' }, content ?? '–'));
   }
   /** @param {any} r */
   function bodyRow(r) {

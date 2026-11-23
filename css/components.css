@@ -330,13 +330,18 @@ th.is-sorted { color: var(--tn-text); }
 .tn-table td[data-m="action"] .tn-iconbtn { width: var(--tn-sz-28); height: var(--tn-sz-28); }
 .tn-table-wrap.is-list.has-metrics .tn-table td.tn-td-go { display: none; }
 /* one template for the whole list (table.js sets --tn-met-tracks from the widest label + value of every measurement): the same measurement at the
-   same x in every row; more measurements than fit wrap to a second line of the same grid; a value longer than its cell is cut with “…” (hint shows it) */
-.tn-table-wrap.is-list .tn-table td.tn-td-metrics { display: grid; grid-area: met; grid-template-columns: var(--tn-met-tracks, repeat(3, minmax(0, 1fr))); gap: var(--tn-sp-2) var(--tn-s3); }
+   same x in every row; more measurements than fit wrap to a second line of the same grid; a value longer than its cell moves below its label (never cut) */
+.tn-table-wrap.is-list .tn-table td.tn-td-metrics { display: grid; grid-area: met; grid-template-columns: var(--tn-met-tracks, repeat(3, minmax(0, 1fr))); gap: var(--tn-sp-2) var(--tn-s3); align-items: first baseline; }
 .tn-table .tn-td-metrics { display: none; }
-.tn-lv { display: inline-flex; align-items: baseline; gap: var(--tn-s1); min-width: 0; white-space: nowrap; }
-.tn-lv-k { font-size: var(--tn-fs-label); color: var(--tn-text-3); }
-.tn-lv-v { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.tn-lv-k { flex: none; }
+/* label + value; a value never ends in “…”: does it not fit beside its label in this row, it moves below the label in its own cell (same x),
+   still too wide, it wraps at its spaces. table.js keeps every track at least as wide as the longest unbreakable piece of any of its values. */
+.tn-lv { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--tn-s1); min-width: 0; }
+.tn-lv-k { font-size: var(--tn-fs-label); color: var(--tn-text-3); flex: none; white-space: nowrap; }
+.tn-lv-v { font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: break-word; }
+/* measuring (table.js fitMetrics, one pass each): max-content of every value, then its min-content (longest unbreakable piece) */
+.tn-met-measure .tn-lv { flex-wrap: nowrap; }
+.tn-met-measure .tn-lv-v { flex: none; white-space: nowrap; }
+.tn-met-measure-min .tn-lv-v { flex: none; width: min-content; }
 .tn-td-metrics .tn-lv-v { color: var(--tn-text); }
 .tn-list-only { display: none; }
 .tn-table-wrap.is-list .tn-list-only { display: inline; }

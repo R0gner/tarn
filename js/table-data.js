@@ -68,7 +68,7 @@ export const METRIC_COLS_MAX = 6;
  * `needs[i]` is the width measurement i needs in this list (its label + its widest value, measured). The most cells per line that fit `avail`
  * win, each track as wide as the widest measurement that lands in it; the lines are then balanced (five where four fit → 3 + 2, not 4 + 1).
  * `tracks` are the needs per track: as `fr` shares they spread spare room evenly and keep every cell at least as wide as it needs.
- * Nothing fits even one per line: one per line, the value is cut with “…”.
+ * Nothing fits even one per line: one per line (a value wraps at its spaces).
  * @param {number[]} needs px per measurement, in column order
  * @param {number} avail width of the measurement line (px)
  * @param {number} gap column gap (px)
@@ -90,22 +90,24 @@ export function metricLayout(needs, avail, gap) {
   return { cols: k, tracks: tracksOf(k) };
 }
 
-/** The CSS grid template for a layout: fr shares by need, never narrower than 0 (a long value is cut, it does not push the others). */
+/** The CSS grid template for a layout: fr shares by need, never narrower than 0 (a long value moves below its label, it does not push the others). */
 export function metricTemplate(tracks) {
   return tracks.map((w) => `minmax(0, ${Math.round(w)}fr)`).join(' ');
 }
 
-/** Share of the rows whose value must fit its cell uncut; the longest rest (an outlier such as “1 min 35 s” among “3 d”) is cut with “…”. */
+/** Share of the rows whose value fits beside its label on one line; a longer one (an outlier such as “1 min 35 s” among “3 d”) moves below its label, in its own cell. */
 export const METRIC_FIT_SHARE = 0.8;
 
 /**
- * Width one measurement needs in a list: its label plus the value width that METRIC_FIT_SHARE of the rows reach (with five rows: the second widest).
+ * Width one measurement needs in a list: its label plus the value width that METRIC_FIT_SHARE of the rows reach (with five rows: the second widest),
+ * and never less than the longest unbreakable piece of any of its values (`piece`, e.g. “1,287”): a value is never cut and a number never broken.
  * @param {number} label px of the label (the same in every row)
- * @param {number[]} values px of the value in every drawn row
+ * @param {number[]} values px of the value in every drawn row (one line)
  * @param {number} inner gap between label and value (px)
+ * @param {number} [piece] px of the longest unbreakable piece of any value (min-content)
  */
-export function metricNeed(label, values, inner) {
-  if (!values.length) return Math.ceil(label);
+export function metricNeed(label, values, inner, piece = 0) {
+  if (!values.length) return Math.ceil(Math.max(label, piece));
   const v = [...values].sort((a, b) => a - b);
-  return Math.ceil(label + inner + v[Math.min(v.length - 1, Math.floor(METRIC_FIT_SHARE * (v.length - 1)))]);
+  return Math.ceil(Math.max(label + inner + v[Math.min(v.length - 1, Math.floor(METRIC_FIT_SHARE * (v.length - 1)))], piece));
 }

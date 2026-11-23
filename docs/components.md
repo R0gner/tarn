@@ -99,9 +99,13 @@ table({
   same x in every row. The rule, measured once the rows are drawn (again on a width change and when more rows load): each measurement needs its
   label plus the value width that 80 % of the rows reach (`METRIC_FIT_SHARE`); as many measurements stand side by side as fit, each track as wide as
   the widest measurement in it, at most six; then the lines are balanced (five where four fit → 3 + 2). More measurements wrap to a second line
-  of the same grid, aligned like the first. Spare room is shared in proportion to the needs. **A value longer than its cell is cut with “…”**
-  (the hint shows it in full); it never pushes the other measurements and never takes two cells, since that would move every later
-  measurement in that row. Pure parts: `metricNeed`, `metricLayout`, `metricTemplate` in `js/table-data.js`.
+  of the same grid, aligned like the first. Spare room is shared in proportion to the needs. **A measurement is never cut** (a cut number is a
+  wrong number: “1…” reads as 1): a value that does not fit beside its label in this row moves below the label, in its own cell at the same x
+  (only this row gets taller, the cells of the line keep their first lines on one baseline); still too wide, it wraps at its spaces. No track is
+  narrower than the longest unbreakable piece of any of its values (“1,287”), so a number is never broken; only that piece counts, not the
+  outlier's full width, so one outlier does not push the whole list to one measurement per line. It never takes two cells, since that would move
+  every later measurement in that row. verify rule `metric-cut` (label or value wider than its box). Pure parts: `metricNeed`, `metricLayout`,
+  `metricTemplate` in `js/table-data.js`.
 - `listLabel: true` puts the column label in front of a value or sub-line value in list mode where the number alone does not say what it is
   (“Size 45 GB”); default: only metrics carry their label.
 - A control inside a row (a button, a link, a field) does not open the row: neither its click nor Enter/Space on it.

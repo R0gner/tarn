@@ -39,7 +39,7 @@ test('measurement grid: as many per line as fit, balanced, at most six', () => {
   assert.deepEqual(metricLayout([70, 80, 90, 100, 85], 300, 12).tracks, [100, 85, 90]);
   assert.equal(metricLayout([60, 60, 60, 60, 60], 300, 12).cols, 3);         // four fit, 4 + 1 is balanced to 3 + 2
   assert.equal(metricLayout([70, 80, 125, 95, 90], 252, 12).cols, 2);        // a long label widens only its own track
-  assert.equal(metricLayout([200, 80], 150, 12).cols, 1);                    // nothing fits: one per line, cut
+  assert.equal(metricLayout([200, 80], 150, 12).cols, 1);                    // nothing fits: one per line
   assert.equal(metricLayout(Array(6).fill(40), 2000, 12).cols, 6);           // six in one line
   assert.equal(metricLayout(Array(8).fill(40), 2000, 12).cols, 4);           // never more than six: 8 → 4 + 4
   assert.equal(metricLayout([50], 300, 12).cols, 1);
@@ -48,8 +48,10 @@ test('measurement grid: the template is fr shares (no px), cells never narrower 
   assert.equal(metricTemplate([100, 85.4]), 'minmax(0, 100fr) minmax(0, 85fr)');
 });
 
-test('measurement need: label + the value 80 % of the rows reach; an outlier is cut, it does not widen the grid', () => {
+test('measurement need: label + the value 80 % of the rows reach; an outlier moves below its label, it does not widen the grid; never narrower than an unbreakable piece', () => {
   assert.equal(metricNeed(90, [20, 25, 22, 70, 24], 4), 90 + 4 + 25);       // five rows: the second widest value
   assert.equal(metricNeed(30, [40], 4), 74);
   assert.equal(metricNeed(30, [], 4), 30);
+  assert.equal(metricNeed(30, [10, 10, 10, 10, 90], 4, 60), 60);          // never narrower than the longest unbreakable piece (a number is never broken)
+  assert.equal(metricNeed(55, [14, 14, 14, 14, 32], 4, 32), 55 + 4 + 14);  // the outlier itself does not widen the track, it moves below its label
 });

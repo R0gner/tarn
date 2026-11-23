@@ -1,5 +1,5 @@
 # gallery #/table?open=offsite-sync · phone 390×844 · dunkel
-div.tn-app @0,0 392x3224
+div.tn-app @0,0 392x3260
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -61,7 +61,7 @@ div.tn-app @0,0 392x3224
         svg.tn-icon @-268,800 16x16
         span.tn-ellipsis "Shell and boards" @-244,800 104x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x3224
+  div.tn-main @0,0 392x3260
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x3224
       button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x3176
+    main.tn-content @0,48 392x3212
       div.tn-filterbar @12,184 368x64
         div.tn-filter-row @12,184 368x40
           label.tn-search @12,184 280x40
@@ -229,13 +229,13 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1500 320x20
                   span.tn-lv @44,1500 92x20
                     span.tn-lv-k "CPU" @44,1504 24x16
-                    span.tn-lv-v.tn-ellipsis "21.4%" @76,1500 40x20
+                    span.tn-lv-v "21.4%" @76,1500 40x20
                   span.tn-lv @148,1500 120x20
                     span.tn-lv-k "RAM" @148,1504 28x16
-                    span.tn-lv-v.tn-ellipsis "7.12 GB" @180,1500 52x20
+                    span.tn-lv-v "7.12 GB" @180,1500 52x20
                   span.tn-lv @280,1500 84x20
                     span.tn-lv-k "Restarts" @280,1504 48x16
-                    span.tn-lv-v.tn-ellipsis "0" @328,1500 8x20
+                    span.tn-lv-v "0" @328,1500 8x20
                 td.tn-td-status @24,1548 8x8
                   span.tn-dot.tn-s-ok [img] "OK" @24,1548 8x8
                 td.tn-mono.tn-td-title "victoria-metrics" @44,1544 172x16
@@ -244,13 +244,13 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1568 320x20
                   span.tn-lv @44,1568 92x20
                     span.tn-lv-k "CPU" @44,1572 24x16
-                    span.tn-lv-v.tn-ellipsis "3.8%" @76,1568 32x20
+                    span.tn-lv-v "3.8%" @76,1568 32x20
                   span.tn-lv @148,1568 120x20
                     span.tn-lv-k "RAM" @148,1572 28x16
-                    span.tn-lv-v.tn-ellipsis "1.4 GB" @180,1568 44x20
+                    span.tn-lv-v "1.4 GB" @180,1568 44x20
                   span.tn-lv @280,1568 84x20
                     span.tn-lv-k "Restarts" @280,1572 48x16
-                    span.tn-lv-v.tn-ellipsis "0" @328,1568 8x20
+                    span.tn-lv-v "0" @328,1568 8x20
                 td.tn-td-status @24,1616 8x8
                   span.tn-dot.tn-s-ok [img] "OK" @24,1616 8x8
                 td.tn-mono.tn-td-title "caddy" @44,1612 172x16
@@ -259,13 +259,13 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1636 320x20
                   span.tn-lv @44,1636 92x20
                     span.tn-lv-k "CPU" @44,1640 24x16
-                    span.tn-lv-v.tn-ellipsis "0.6%" @76,1636 32x20
+                    span.tn-lv-v "0.6%" @76,1636 32x20
                   span.tn-lv @148,1636 120x20
                     span.tn-lv-k "RAM" @148,1640 28x16
-                    span.tn-lv-v.tn-ellipsis "48 MB" @180,1636 40x20
+                    span.tn-lv-v "48 MB" @180,1636 40x20
                   span.tn-lv @280,1636 84x20
                     span.tn-lv-k "Restarts" @280,1640 48x16
-                    span.tn-lv-v.tn-ellipsis "1" @328,1636 8x20
+                    span.tn-lv-v "1" @328,1636 8x20
                 td.tn-td-status @24,1684 8x8
                   span.tn-dot.tn-s-bad [img] "Error" @24,1684 8x8
                 td.tn-mono.tn-td-title "homelab-board-updater" @44,1680 172x16
@@ -274,13 +274,13 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1704 320x20
                   span.tn-lv @44,1704 92x20
                     span.tn-lv-k "CPU" @44,1708 24x16
-                    span.tn-lv-v.tn-ellipsis "–" @76,1704 8x20
+                    span.tn-lv-v "–" @76,1704 8x20
                   span.tn-lv @148,1704 120x20
                     span.tn-lv-k "RAM" @148,1708 28x16
-                    span.tn-lv-v.tn-ellipsis "312 MB" @180,1704 48x20
+                    span.tn-lv-v "312 MB" @180,1704 48x20
                   span.tn-lv @280,1704 84x20
                     span.tn-lv-k "Restarts" @280,1708 48x16
-                    span.tn-lv-v.tn-ellipsis "14" @328,1704 16x20
+                    span.tn-lv-v "14" @328,1704 16x20
                 td.tn-td-m @44,1724 320x20
                   span.tn-badge.tn-badge-bad "failed" @44,1724 40x20
                 td.tn-td-status @24,1772 8x8
@@ -291,26 +291,26 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1796 320x20
                   span.tn-lv @44,1796 92x20
                     span.tn-lv-k "CPU" @44,1796 24x16
-                    span.tn-lv-v.tn-ellipsis "–" @76,1796 8x20
+                    span.tn-lv-v "–" @76,1796 8x20
                   span.tn-lv @148,1796 120x20
                     span.tn-lv-k "RAM" @148,1796 28x16
-                    span.tn-lv-v.tn-ellipsis "–" @180,1796 8x20
+                    span.tn-lv-v "–" @180,1796 8x20
                   span.tn-lv @280,1796 84x20
                     span.tn-lv-k "Restarts" @280,1796 48x16
-                    span.tn-lv-v.tn-ellipsis "2" @328,1796 8x20
+                    span.tn-lv-v "2" @328,1796 8x20
                 td.tn-td-m @44,1816 320x20
                   span.tn-badge.tn-badge-off "stopped" @44,1816 56x20
-      section.tn-section @12,1860 368x564
+      section.tn-section @12,1860 368x600
         header.tn-section-head @12,1860 368x24
           h2.tn-section-title "Five measurements, long labels" @16,1864 364x16
-        section.tn-card.tn-card-flush @12,1892 368x532
-          div.tn-card-body @12,1892 364x528
-            div.tn-table-wrap.tn-table-click.is-list @12,1892 364x528
+        section.tn-card.tn-card-flush @12,1892 368x568
+          div.tn-card-body @12,1892 364x564
+            div.tn-table-wrap.tn-table-click.is-list @12,1892 364x564
               div.tn-table-sortbar @12,1892 364x44
                 button.tn-btn.tn-btn-ghost.tn-btn-sm {expanded=false} "Sorted by CPU, descending" @224,1896 144x36
                   svg.tn-icon @232,1908 16x16
                   svg.tn-icon @344,1908 16x16
-              table.tn-table @12,1936 364x484
+              table.tn-table @12,1936 364x520
                 caption.tn-sr "Host services, five measurements" @12,1936 0x0
                 td.tn-td-status @24,1956 8x8
                   span.tn-dot.tn-s-ok [img] "OK" @24,1956 8x8
@@ -320,19 +320,19 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,1976 320x40
                   span.tn-lv @44,1976 120x20
                     span.tn-lv-k "CPU" @44,1976 24x16
-                    span.tn-lv-v.tn-ellipsis "21.4%" @76,1976 40x20
+                    span.tn-lv-v "21.4%" @76,1976 40x20
                   span.tn-lv @180,1976 88x20
                     span.tn-lv-k "RAM" @180,1976 28x16
-                    span.tn-lv-v.tn-ellipsis "7.12 GB" @208,1976 52x20
+                    span.tn-lv-v "7.12 GB" @208,1976 52x20
                   span.tn-lv @276,1976 88x20
                     span.tn-lv-k "Processes" @276,1976 60x16
-                    span.tn-lv-v.tn-ellipsis "43" @340,1976 16x20
+                    span.tn-lv-v "43" @340,1976 16x20
                   span.tn-lv @44,1996 120x20
                     span.tn-lv-k "Running since" @44,2000 80x16
-                    span.tn-lv-v.tn-ellipsis "3 d" @128,1996 20x20
+                    span.tn-lv-v "3 d" @128,1996 20x20
                   span.tn-lv @180,1996 88x20
                     span.tn-lv-k "Restarts" @180,2000 48x16
-                    span.tn-lv-v.tn-ellipsis "0" @228,1996 8x20
+                    span.tn-lv-v "0" @228,1996 8x20
                 td.tn-td-status @24,2044 8x8
                   span.tn-dot.tn-s-ok [img] "OK" @24,2044 8x8
                 td.tn-mono.tn-td-title "victoria-metrics" @44,2040 172x16
@@ -341,145 +341,145 @@ div.tn-app @0,0 392x3224
                 td.tn-td-metrics @44,2064 320x40
                   span.tn-lv @44,2064 120x20
                     span.tn-lv-k "CPU" @44,2068 24x16
-                    span.tn-lv-v.tn-ellipsis "3.8%" @76,2064 32x20
+                    span.tn-lv-v "3.8%" @76,2064 32x20
                   span.tn-lv @180,2064 88x20
                     span.tn-lv-k "RAM" @180,2068 28x16
-                    span.tn-lv-v.tn-ellipsis "1.4 GB" @208,2064 44x20
+                    span.tn-lv-v "1.4 GB" @208,2064 44x20
                   span.tn-lv @276,2064 88x20
                     span.tn-lv-k "Processes" @276,2068 60x16
-                    span.tn-lv-v.tn-ellipsis "12" @340,2064 16x20
+                    span.tn-lv-v "12" @340,2064 16x20
                   span.tn-lv @44,2084 120x20
                     span.tn-lv-k "Running since" @44,2088 80x16
-                    span.tn-lv-v.tn-ellipsis "41 d" @128,2084 28x20
+                    span.tn-lv-v "41 d" @128,2084 28x20
                   span.tn-lv @180,2084 88x20
                     span.tn-lv-k "Restarts" @180,2088 48x16
-                    span.tn-lv-v.tn-ellipsis "0" @228,2084 8x20
+                    span.tn-lv-v "0" @228,2084 8x20
                 td.tn-td-status @24,2132 8x8
                   span.tn-dot.tn-s-ok [img] "OK" @24,2132 8x8
                 td.tn-mono.tn-td-title "caddy" @44,2128 172x16
                 button.tn-iconbtn "Watch caddy" @336,2124 28x28
                   svg.tn-icon @344,2128 16x16
-                td.tn-td-metrics @44,2152 320x40
+                td.tn-td-metrics @44,2152 320x56
                   span.tn-lv @44,2152 120x20
                     span.tn-lv-k "CPU" @44,2156 24x16
-                    span.tn-lv-v.tn-ellipsis "0.6%" @76,2152 32x20
+                    span.tn-lv-v "0.6%" @76,2152 32x20
                   span.tn-lv @180,2152 88x20
                     span.tn-lv-k "RAM" @180,2156 28x16
-                    span.tn-lv-v.tn-ellipsis "48 MB" @208,2152 40x20
-                  span.tn-lv @276,2152 88x20
+                    span.tn-lv-v "48 MB" @208,2152 40x20
+                  span.tn-lv @276,2156 88x36
                     span.tn-lv-k "Processes" @276,2156 60x16
-                    span.tn-lv-v.tn-ellipsis "1,287" @340,2152 24x20
-                  span.tn-lv @44,2172 120x20
-                    span.tn-lv-k "Running since" @44,2176 80x16
-                    span.tn-lv-v.tn-ellipsis "6 h" @128,2172 20x20
-                  span.tn-lv @180,2172 88x20
-                    span.tn-lv-k "Restarts" @180,2176 48x16
-                    span.tn-lv-v.tn-ellipsis "1" @228,2172 8x20
-                td.tn-td-status @24,2220 8x8
-                  span.tn-dot.tn-s-bad [img] "Error" @24,2220 8x8
-                td.tn-mono.tn-td-title "homelab-board-updater" @44,2216 172x16
-                button.tn-iconbtn "Watch homelab-board-updater" @336,2212 28x28
-                  svg.tn-icon @344,2216 16x16
-                td.tn-td-metrics @44,2240 320x40
-                  span.tn-lv @44,2240 120x20
-                    span.tn-lv-k "CPU" @44,2244 24x16
-                    span.tn-lv-v.tn-ellipsis "–" @76,2240 8x20
-                  span.tn-lv @180,2240 88x20
-                    span.tn-lv-k "RAM" @180,2244 28x16
-                    span.tn-lv-v.tn-ellipsis "312 MB" @208,2240 48x20
-                  span.tn-lv @276,2240 88x20
-                    span.tn-lv-k "Processes" @276,2244 60x16
-                    span.tn-lv-v.tn-ellipsis "1" @340,2240 8x20
-                  span.tn-lv @44,2264 120x20
-                    span.tn-lv-k "Running since" @44,2264 80x16
-                    span.tn-lv-v.tn-ellipsis "1 min 35 s" @128,2264 40x20
-                  span.tn-lv @180,2264 88x20
-                    span.tn-lv-k "Restarts" @180,2264 48x16
-                    span.tn-lv-v.tn-ellipsis "14" @228,2264 16x20
-                td.tn-td-m @44,2284 320x20
-                  span.tn-badge.tn-badge-bad "failed" @44,2284 40x20
-                td.tn-td-status @24,2332 8x8
-                  span.tn-dot.tn-s-off [img] "Off" @24,2332 8x8
-                td.tn-mono.tn-td-title "backup-offsite-rclone-nightly" @44,2316 172x32
-                button.tn-iconbtn "Watch backup-offsite-rclone-nightly" @336,2320 28x28
-                  svg.tn-icon @344,2328 16x16
-                td.tn-td-metrics @44,2352 320x40
-                  span.tn-lv @44,2352 120x20
-                    span.tn-lv-k "CPU" @44,2356 24x16
-                    span.tn-lv-v.tn-ellipsis "–" @76,2352 8x20
-                  span.tn-lv @180,2352 88x20
-                    span.tn-lv-k "RAM" @180,2356 28x16
-                    span.tn-lv-v.tn-ellipsis "–" @208,2352 8x20
-                  span.tn-lv @276,2352 88x20
-                    span.tn-lv-k "Processes" @276,2356 60x16
-                    span.tn-lv-v.tn-ellipsis "–" @340,2352 8x20
-                  span.tn-lv @44,2376 120x20
-                    span.tn-lv-k "Running since" @44,2376 80x16
-                    span.tn-lv-v.tn-ellipsis "–" @128,2376 8x20
-                  span.tn-lv @180,2376 88x20
-                    span.tn-lv-k "Restarts" @180,2376 48x16
-                    span.tn-lv-v.tn-ellipsis "2" @228,2376 8x20
-                td.tn-td-m @44,2396 320x20
-                  span.tn-badge.tn-badge-off "stopped" @44,2396 56x20
-      section.tn-section @12,2836 368x92
-        header.tn-section-head @12,2836 368x24
-          h2.tn-section-title "Empty" @16,2840 364x16
-        section.tn-card.tn-card-flush @12,2868 368x60
-          div.tn-card-body @12,2868 364x60
-            div.tn-table-wrap @12,2868 364x60
-              div.tn-empty.tn-empty-compact @12,2868 364x60
-                div.tn-empty-title "No jobs in this selection" @120,2888 148x20
-      section.tn-section @12,2944 368x268
-        header.tn-section-head @12,2944 368x24
-          h2.tn-section-title "Narrow container (list mode)" @16,2948 364x16
-        section.tn-card.tn-card-flush @12,2976 368x236
-          div.tn-card-body @12,2976 364x236
-            div.tn-table-wrap.tn-table-click.is-list @12,2976 364x236
-              div.tn-table-sortbar @12,2976 364x44
-                button.tn-btn.tn-btn-ghost.tn-btn-sm {expanded=false} "Sort" @284,2980 84x36
-                  svg.tn-icon @292,2992 16x16
-                  svg.tn-icon @344,2992 16x16
-              table.tn-table @12,3020 364x192
-                td.tn-td-status @24,3040 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @24,3040 8x8
-                td.tn-td-title "Photo backup" @44,3028 224x20
-                td.tn-right "4 hr. ago" @284,3028 56x20
-                td.tn-td-m "nas-a Backup daily 02:30 45 GB" @44,3044 292x16
-                  span.tn-sep-dot "·" @80,3044 8x16
-                  span.tn-sep-dot "·" @132,3044 8x16
-                  span.tn-sep-dot "·" @208,3044 8x16
-                td.tn-td-go @348,3036 16x16
-                  svg.tn-icon @348,3036 16x16
-                td.tn-td-status @24,3088 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @24,3088 8x8
-                td.tn-td-title "Document backup" @44,3076 224x20
-                td.tn-right "4 hr. ago" @284,3076 56x20
-                td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @44,3092 292x16
-                  span.tn-sep-dot "·" @80,3092 8x16
-                  span.tn-sep-dot "·" @132,3092 8x16
-                  span.tn-sep-dot "·" @208,3092 8x16
-                td.tn-td-go @348,3084 16x16
-                  svg.tn-icon @348,3084 16x16
-                td.tn-td-status @24,3136 8x8
-                  span.tn-dot.tn-s-bad [img] "Error" @24,3136 8x8
-                td.tn-td-title "Offsite archive sync" @44,3124 224x20
-                td.tn-right "3 hr. ago" @284,3124 56x20
-                td.tn-td-m "nas-b Backup daily 04:15 –" @44,3140 292x16
-                  span.tn-sep-dot "·" @80,3140 8x16
-                  span.tn-sep-dot "·" @132,3140 8x16
-                  span.tn-sep-dot "·" @208,3140 8x16
-                td.tn-td-go @348,3132 16x16
-                  svg.tn-icon @348,3132 16x16
-                td.tn-td-status @24,3184 8x8
-                  span.tn-dot.tn-s-ok [img] "OK" @24,3184 8x8
-                td.tn-td-title "Certificate renewal" @44,3172 220x20
-                td.tn-right "yesterday" @276,3172 60x20
-                td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @44,3188 292x16
-                  span.tn-sep-dot "·" @88,3188 8x16
-                  span.tn-sep-dot "·" @172,3188 8x16
-                  span.tn-sep-dot "·" @240,3188 8x16
-                td.tn-td-go @348,3180 16x16
-                  svg.tn-icon @348,3180 16x16
+                    span.tn-lv-v "1,287" @276,2172 36x20
+                  span.tn-lv @44,2192 120x20
+                    span.tn-lv-k "Running since" @44,2192 80x16
+                    span.tn-lv-v "6 h" @128,2192 20x20
+                  span.tn-lv @180,2192 88x20
+                    span.tn-lv-k "Restarts" @180,2192 48x16
+                    span.tn-lv-v "1" @228,2192 8x20
+                td.tn-td-status @24,2240 8x8
+                  span.tn-dot.tn-s-bad [img] "Error" @24,2240 8x8
+                td.tn-mono.tn-td-title "homelab-board-updater" @44,2236 172x16
+                button.tn-iconbtn "Watch homelab-board-updater" @336,2228 28x28
+                  svg.tn-icon @344,2236 16x16
+                td.tn-td-metrics @44,2260 320x56
+                  span.tn-lv @44,2260 120x20
+                    span.tn-lv-k "CPU" @44,2260 24x16
+                    span.tn-lv-v "–" @76,2260 8x20
+                  span.tn-lv @180,2260 88x20
+                    span.tn-lv-k "RAM" @180,2260 28x16
+                    span.tn-lv-v "312 MB" @208,2260 48x20
+                  span.tn-lv @276,2260 88x20
+                    span.tn-lv-k "Processes" @276,2260 60x16
+                    span.tn-lv-v "1" @340,2260 8x20
+                  span.tn-lv @44,2284 120x36
+                    span.tn-lv-k "Running since" @44,2284 80x16
+                    span.tn-lv-v "1 min 35 s" @44,2300 64x20
+                  span.tn-lv @180,2280 88x20
+                    span.tn-lv-k "Restarts" @180,2284 48x16
+                    span.tn-lv-v "14" @228,2280 16x20
+                td.tn-td-m @44,2320 320x20
+                  span.tn-badge.tn-badge-bad "failed" @44,2320 40x20
+                td.tn-td-status @24,2368 8x8
+                  span.tn-dot.tn-s-off [img] "Off" @24,2368 8x8
+                td.tn-mono.tn-td-title "backup-offsite-rclone-nightly" @44,2356 172x32
+                button.tn-iconbtn "Watch backup-offsite-rclone-nightly" @336,2356 28x28
+                  svg.tn-icon @344,2364 16x16
+                td.tn-td-metrics @44,2388 320x40
+                  span.tn-lv @44,2388 120x20
+                    span.tn-lv-k "CPU" @44,2392 24x16
+                    span.tn-lv-v "–" @76,2388 8x20
+                  span.tn-lv @180,2388 88x20
+                    span.tn-lv-k "RAM" @180,2392 28x16
+                    span.tn-lv-v "–" @208,2388 8x20
+                  span.tn-lv @276,2388 88x20
+                    span.tn-lv-k "Processes" @276,2392 60x16
+                    span.tn-lv-v "–" @340,2388 8x20
+                  span.tn-lv @44,2412 120x20
+                    span.tn-lv-k "Running since" @44,2412 80x16
+                    span.tn-lv-v "–" @128,2412 8x20
+                  span.tn-lv @180,2412 88x20
+                    span.tn-lv-k "Restarts" @180,2412 48x16
+                    span.tn-lv-v "2" @228,2412 8x20
+                td.tn-td-m @44,2432 320x20
+                  span.tn-badge.tn-badge-off "stopped" @44,2432 56x20
+      section.tn-section @12,2872 368x92
+        header.tn-section-head @12,2872 368x24
+          h2.tn-section-title "Empty" @16,2876 364x16
+        section.tn-card.tn-card-flush @12,2904 368x60
+          div.tn-card-body @12,2904 364x60
+            div.tn-table-wrap @12,2904 364x60
+              div.tn-empty.tn-empty-compact @12,2904 364x60
+                div.tn-empty-title "No jobs in this selection" @120,2924 148x20
+      section.tn-section @12,2980 368x268
+        header.tn-section-head @12,2980 368x24
+          h2.tn-section-title "Narrow container (list mode)" @16,2984 364x16
+        section.tn-card.tn-card-flush @12,3012 368x236
+          div.tn-card-body @12,3012 364x236
+            div.tn-table-wrap.tn-table-click.is-list @12,3012 364x236
+              div.tn-table-sortbar @12,3012 364x44
+                button.tn-btn.tn-btn-ghost.tn-btn-sm {expanded=false} "Sort" @284,3016 84x36
+                  svg.tn-icon @292,3028 16x16
+                  svg.tn-icon @344,3028 16x16
+              table.tn-table @12,3056 364x192
+                td.tn-td-status @24,3076 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,3076 8x8
+                td.tn-td-title "Photo backup" @44,3064 224x20
+                td.tn-right "4 hr. ago" @284,3064 56x20
+                td.tn-td-m "nas-a Backup daily 02:30 45 GB" @44,3080 292x16
+                  span.tn-sep-dot "·" @80,3080 8x16
+                  span.tn-sep-dot "·" @132,3080 8x16
+                  span.tn-sep-dot "·" @208,3080 8x16
+                td.tn-td-go @348,3072 16x16
+                  svg.tn-icon @348,3072 16x16
+                td.tn-td-status @24,3124 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,3124 8x8
+                td.tn-td-title "Document backup" @44,3112 224x20
+                td.tn-right "4 hr. ago" @284,3112 56x20
+                td.tn-td-m "nas-a Backup daily 03:00 2.1 GB" @44,3128 292x16
+                  span.tn-sep-dot "·" @80,3128 8x16
+                  span.tn-sep-dot "·" @132,3128 8x16
+                  span.tn-sep-dot "·" @208,3128 8x16
+                td.tn-td-go @348,3120 16x16
+                  svg.tn-icon @348,3120 16x16
+                td.tn-td-status @24,3172 8x8
+                  span.tn-dot.tn-s-bad [img] "Error" @24,3172 8x8
+                td.tn-td-title "Offsite archive sync" @44,3160 224x20
+                td.tn-right "3 hr. ago" @284,3160 56x20
+                td.tn-td-m "nas-b Backup daily 04:15 –" @44,3176 292x16
+                  span.tn-sep-dot "·" @80,3176 8x16
+                  span.tn-sep-dot "·" @132,3176 8x16
+                  span.tn-sep-dot "·" @208,3176 8x16
+                td.tn-td-go @348,3168 16x16
+                  svg.tn-icon @348,3168 16x16
+                td.tn-td-status @24,3220 8x8
+                  span.tn-dot.tn-s-ok [img] "OK" @24,3220 8x8
+                td.tn-td-title "Certificate renewal" @44,3208 220x20
+                td.tn-right "yesterday" @276,3208 60x20
+                td.tn-td-m "edge-1 Maintenance Sun 05:00 –" @44,3224 292x16
+                  span.tn-sep-dot "·" @88,3224 8x16
+                  span.tn-sep-dot "·" @172,3224 8x16
+                  span.tn-sep-dot "·" @240,3224 8x16
+                td.tn-td-go @348,3216 16x16
+                  svg.tn-icon @348,3216 16x16
 dialog.tn-sheet.is-open @0,328 392x516
   div.tn-sheet-grip @0,328 392x16
   header.tn-sheet-head @0,344 392x48
