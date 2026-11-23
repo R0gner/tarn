@@ -5,6 +5,9 @@
 // pan-y to the browser, so a vertical move stays a native scroll); a touch that starts in something that scrolls sideways by itself (a table, an
 // image strip, a row of chips) or in a field belongs to it. At the first and the last part a rubber band, no wrap. Touch only (mouse and keyboard
 // keep clicks and arrow keys). With reduced motion nothing follows the finger and nothing slides: a swipe switches at once on release.
+// Where: on the content and in the empty room of the view below it, down to the lower edge of the screen (the shell's `.tn-main` takes those
+// touches for the one swipe area of the view; css/core.css gives it touch-action pan-y while such an area is in it, by :has). The neighbour being pulled in never
+// makes the page taller: it is cut at the lower edge of what is visible.
 // Pure parts: js/swipe-data.js.
 import { tokenMs } from './dom.js';
 import { swipeAxis, paneOffset, paneRelease, paneProgress, scrollsSideways } from './swipe-data.js';
@@ -26,6 +29,32 @@ function ownsSideways(target, area) {
     if (scrollsSideways({ overflowX: s.overflowX, scrollWidth: el.scrollWidth, clientWidth: el.clientWidth })) return true;
   }
   return false;
+}
+
+/** The empty room of a view: touches on `.tn-main` itself or on a wrapper that holds the swipe area (not on other content), below the area's top. */
+/** @type {Map<HTMLElement, Set<{ area: HTMLElement, down: (e: PointerEvent) => void }>>} */
+const zones = new Map();
+/** @param {HTMLElement} zone */
+function prune(zone) {
+  const set = zones.get(zone);
+  if (!set) return;
+  for (const x of [...set]) if (!x.area.isConnected || !zone.contains(x.area)) set.delete(x);
+  if (set.size) return;
+  zones.delete(zone);
+  zone.removeEventListener('pointerdown', zoneDown);
+}
+/** @param {PointerEvent} e */
+function zoneDown(e) {
+  const zone = /** @type {HTMLElement} */ (e.currentTarget);
+  prune(zone);
+  const set = zones.get(zone);
+  if (!set || set.size !== 1) return;   // two swipe areas in one view: the empty room belongs to neither
+  const [x] = set;
+  const t = e.target instanceof Element ? e.target : null;
+  if (!t || x.area.contains(t)) return;   // on the content: the area's own listener has it
+  if (t !== zone && !t.contains(x.area)) return;   // other content of the view (a banner, a card below): not the empty room
+  if (e.clientY < x.area.getBoundingClientRect().top) return;   // above the content (the control, the toolbar of the view)
+  x.down(e);
 }
 
 /**
@@ -68,14 +97,28 @@ export function paneSwipe(area, track, on) {
     const top = area.getBoundingClientRect().top;
     const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
     if (top < pad) sl.style.top = `${Math.round(pad - top)}px`;
+    // never taller than what is visible below its top (or the current part, if that is taller): the page does not grow while it is pulled in
+    const doc = document.scrollingElement || document.documentElement;
+    const before = doc.scrollHeight;
+    const tr = track.getBoundingClientRect();
+    const slideTop = tr.top + (parseFloat(sl.style.top) || 0);
+    let cap = Math.max(tr.height - (parseFloat(sl.style.top) || 0), window.innerHeight - slideTop);
+    sl.style.maxHeight = `${Math.max(0, Math.floor(cap))}px`;
     track.append(sl);
+    const grew = doc.scrollHeight - before;   // padding or content below the track still counts: take that off once
+    if (grew > 0) { cap -= grew; sl.style.maxHeight = `${Math.max(0, Math.floor(cap))}px`; }
     g.slide = sl;
   };
 
+  const listen = (/** @type {boolean} */ on2) => {
+    const f = on2 ? window.addEventListener.bind(window) : window.removeEventListener.bind(window);
+    f('pointermove', move, true); f('pointerup', up, true); f('pointercancel', up, true);
+  };
   const down = (/** @type {PointerEvent} */ e) => {
     if (e.pointerType !== 'touch' || !e.isPrimary || g || busy) return;
     if (on.at().n < 2 || ownsSideways(e.target, area)) return;
     g = { id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: e.timeStamp, dx: 0, axis: null, width: area.clientWidth, dir: 0, slide: null, still: still() };
+    listen(true);   // the moves of this touch, wherever they land (it may start in the empty room, outside the area)
   };
   const move = (/** @type {PointerEvent} */ e) => {
     if (!g || e.pointerId !== g.id) return;
@@ -83,7 +126,7 @@ export function paneSwipe(area, track, on) {
     if (!g.axis) {
       g.axis = swipeAxis(g.dx, e.clientY - g.y0);
       if (!g.axis) return;
-      if (g.axis === 'y') { g = null; return; }   // the page scrolls; this touch is no swipe
+      if (g.axis === 'y') { g = null; listen(false); return; }   // the page scrolls; this touch is no swipe
       try { area.setPointerCapture(g.id); } catch { /* the pointer is already gone */ }
       if (!g.still) area.classList.add('is-swiping');
     }
@@ -98,7 +141,9 @@ export function paneSwipe(area, track, on) {
     if (!g || e.pointerId !== g.id) return;
     const done = g;
     g = null;
+    listen(false);
     if (done.axis !== 'x') return;
+    if (!area.isConnected) { done.slide?.remove(); return; }   // the view was drawn anew meanwhile: nothing of the gesture stays
     const { index, n } = on.at();
     const to = e.type === 'pointerup' ? paneRelease({ dx: done.dx, dt: e.timeStamp - done.t0, width: done.width, index, n }) : index;
     if (done.still) { if (to !== index) on.commit(to, null); return; }
@@ -117,7 +162,7 @@ export function paneSwipe(area, track, on) {
         track.style.transform = '';
         area.classList.remove('is-swiping');
         slide.classList.remove('tn-segpane-next');
-        slide.style.left = ''; slide.style.top = '';
+        slide.style.left = ''; slide.style.top = ''; slide.style.maxHeight = '';
         // the content starts above the visible area: show the new part from its start, the control with it (before the switch: a board may
         // draw the view anew in onChange)
         const top = area.getBoundingClientRect().top;
@@ -131,8 +176,16 @@ export function paneSwipe(area, track, on) {
     }, ms + 30);
   };
   area.addEventListener('pointerdown', down);
-  area.addEventListener('pointermove', move);
-  area.addEventListener('pointerup', up);
-  area.addEventListener('pointercancel', up);
-  return { stop: () => { g = null; clear(); } };
+  const entry = { area, down };
+  // the empty room below: registered once the area is in the document (segmented() builds it before the view is mounted)
+  let tries = 0;
+  const join = () => {
+    const zone = /** @type {HTMLElement | null} */ (area.closest('.tn-main'));
+    if (!zone) { if (!area.isConnected && ++tries < 30) requestAnimationFrame(join); return; }   // not mounted yet: a few frames later
+    if (!zones.has(zone)) { zones.set(zone, new Set()); zone.addEventListener('pointerdown', zoneDown); }
+    zones.get(zone)?.add(entry);
+    prune(zone);
+  };
+  requestAnimationFrame(join);
+  return { stop: () => { g = null; listen(false); clear(); } };
 }

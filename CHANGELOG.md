@@ -23,6 +23,15 @@ While the major version is 0, minor versions may change the API; every change is
 - verify: geometry rule `metric-cut` (a measurement label or value wider than its box), mutants `metric-value-ellipsis` and `metrics-one-line`;
   verify target `gallery-de` (the gallery's table view in German on the phone sizes).
 
+### Fixed
+- Swipe between parts (`segmented({ pane, swipe: true })`) works wherever it starts below the control, also in the empty room of the view down
+  to the lower edge of the screen: the shell's `.tn-main` takes those touches for the one swipe area of the view (and has touch-action
+  pan-y while it holds one); before, only the content itself took it (a short part ended halfway down the screen), and in the empty room the
+  browser could take the sideways swipe as its own back gesture. Boards get it without a change.
+- The neighbour being pulled in no longer makes the page taller: it is cut at the lower edge of what is visible (before, pulling a long part in
+  from a short one grew the page, e.g. 780 → 1651 px, while the finger held it). The moves of a swipe are followed on the window, and a gesture
+  whose view was drawn anew meanwhile leaves nothing behind.
+
 ### Changed (for existing boards)
 - In list mode the title of a row takes up to two lines before it ends in “…” (was one).
 - In list mode a table with at least two sortable columns gets the sort button above its rows (44 px of height; desktop tables keep their header). Opt out by marking columns `sortable: false`.

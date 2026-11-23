@@ -117,7 +117,9 @@
 .tn-segpane-swipe { touch-action: pan-y pinch-zoom; overflow-x: clip; }
 .tn-segpane-track { position: relative; }
 .tn-segpane-track.is-settling { transition: transform var(--tn-t-close) var(--tn-ease); }
-.tn-segpane-next { position: absolute; top: 0; width: 100%; }
+.tn-segpane-next { position: absolute; top: 0; width: 100%; overflow: hidden; }
+/* the view's empty room below a swipe area takes the swipe too (js/swipe.js): vertical scrolling and zoom stay with the browser */
+.tn-main:has(.tn-segpane-swipe) { touch-action: pan-y pinch-zoom; }
 /* the marker of the active option while a finger swipes: it glides from the option to the neighbour, the option itself looks plain meanwhile */
 .tn-seg:has(> .tn-seg-marker) { position: relative; }
 .tn-seg-marker {
