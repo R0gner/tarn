@@ -36,12 +36,21 @@
 .tn-brand-btn:hover, .tn-brand-btn[aria-expanded="true"] { background: var(--tn-hover); }
 .tn-brand-btn:is(:active, .is-down) { background: var(--tn-press); }
 .tn-brand-btn:hover > .tn-icon { color: var(--tn-text-2); }
-.tn-nav { display: grid; gap: var(--tn-sp-1); }
+.tn-nav { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-sp-1); }   /* minmax: a long entry ends in … instead of widening the column (with a classic scrollbar the sidebar is narrower) */
 .tn-sidebar-foot { margin-top: auto; padding-top: var(--tn-s4); position: sticky; bottom: 0; background: inherit; }
 .tn-sidebar-foot:not(:has(> :not([hidden]))) { display: none; }   /* nothing to show (no install prompt, no notifications entry) */
 .tn-install, .tn-notif-entry { width: 100%; justify-content: flex-start; }
 .tn-nav-group { padding: var(--tn-s3) var(--tn-s2) var(--tn-s1); font-size: var(--tn-fs-section); font-weight: var(--tn-fw-strong); color: var(--tn-text-3-tint); }
 .tn-nav-group:first-child { padding-top: var(--tn-s1); }
+/* collapsible group (navGroups[id].collapsible): the heading is a button, the chevron turns when folded */
+.tn-nav-group-btn {
+  display: flex; align-items: center; gap: var(--tn-s1); min-width: 0; box-sizing: border-box; min-height: var(--tn-hit);
+  border: 0; border-radius: var(--tn-r); background: none; font-family: inherit; text-align: left; cursor: pointer;
+}
+.tn-nav-group-btn:hover { background: var(--tn-hover); color: var(--tn-text-2); }
+.tn-nav-group-btn:is(:active, .is-down) { background: var(--tn-press); }
+.tn-nav-group-btn > .tn-icon { flex: none; margin-left: auto; transition: transform var(--tn-t-open) ease; }
+.tn-nav-group-btn[aria-expanded="false"] > .tn-icon { transform: rotate(-90deg); }
 .tn-nav-item {
   display: flex; align-items: center; gap: var(--tn-s2);
   min-height: var(--tn-hit); padding: 0 var(--tn-s2);
@@ -68,6 +77,7 @@
   border-bottom: 1px solid var(--tn-sep);
 }
 .tn-toolbar-title { font-size: var(--tn-fs-body); font-weight: var(--tn-fw-strong); margin-left: var(--tn-s1); }
+.tn-toolbar-info { flex: none; color: var(--tn-text-3); }   /* ⓘ next to the title (view.info) */
 .tn-toolbar-spacer { flex: 1; }
 .tn-settings-btn { display: none; }   /* phone only, see the media query below */
 .tn-fresh {

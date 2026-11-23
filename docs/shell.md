@@ -46,11 +46,22 @@ source.start();
 ### Views
 
 ```js
-{ id, label, group?, icon?, hidden?, count?(ctx), render(ctx) → Node, detail?(id, ctx) → { title, sub?, body? } | null, source? }
+{ id, label, group?, icon?, hidden?, count?(ctx), render(ctx) → Node, detail?(id, ctx) → { title, sub?, body? } | null, source?,
+  entries?(ctx) → [{ key, label, params?, icon?, count?, active? }], title?(ctx) → string, info?(ctx) → (() => void) | null }
 ```
 
 - `group` is a heading in the navigation; consecutive views with the same `group` share it. `hidden: true` keeps a view reachable (`app.go`) but out of
   the navigation.
+- **Groups that fold** (0.11.0): `createApp({ navGroups: { orders: { label: () => t('nav.orders'), collapsible: true, collapsed?: false } } })` and
+  `group: 'orders'` on the views. The heading becomes a button with a chevron; a tap folds the group, the choice is kept per browser
+  (`localStorage` `tn-nav-<id>`). Without an entry in `navGroups` the group is the plain heading it always was (`group` is then its text).
+- **One entry per thing** (0.11.0): a view with `entries(ctx)` appears in the navigation as those entries instead of one, e.g. one per order. Each links to
+  the view with its `params` (`#/order?m=nas`) and is active while the view shows exactly those params (or when `active: true`; useful when the view
+  falls back to a default without the param). The entries are derived from `ctx.data` like counters; the list follows every new data. An empty list
+  shows nothing; put a “New …” view (hidden from elsewhere) into the same group for the empty case.
+- **Title from the data and ⓘ** (0.11.0): `title(ctx)` replaces the label in the toolbar and the page title (e.g. the order's name instead of
+  “Order”). `info(ctx)` returns what a tap on the ⓘ next to the title does, typically `() => openSheet({ title, body })` with the details of the
+  thing the view shows; return `null` to hide the button. No extra line above the content for this.
 - `count(ctx)` returns a number, `{ n, tone }` (tone is a status) or `null`; it is the counter in the sidebar and is derived from `ctx.data`, never set as
   a side effect of `render()`. `app.setCount(id, n, tone)` is only for counters that cannot be derived from data (live events).
 - `ctx = { app, view, params, open, data, src }`: `data` is the parsed data of the source, `src` its full [state](data.md#state), `params` the query part of

@@ -1,0 +1,105 @@
+# gallery #/things · desktop 1440×900 · dunkel
+div.tn-app @0,0 1424x900
+  aside.tn-sidebar @0,0 208x900
+    div.tn-sidebar-head @8,0 192x44
+      div.tn-brand @16,12 108x24
+        span.tn-bicon @16,12 24x24
+          img.tn-bicon-img @16,12 24x24
+        span.tn-ellipsis "Tarn Gallery" @48,12 76x20
+    nav.tn-nav "Views" @8,44 192x644
+      div.tn-nav-group [presentation] "Core · Tokens" @8,44 192x24
+      a.tn-nav-item @8,68 192x28
+        svg.tn-icon @16,76 16x16
+        span.tn-ellipsis "Foundations" @40,76 76x20
+      a.tn-nav-item @8,100 192x28
+        svg.tn-icon @16,104 16x16
+        span.tn-ellipsis "Light and dark" @40,104 88x20
+      div.tn-nav-group [presentation] "Core · Primitives" @8,128 192x32
+      a.tn-nav-item @8,160 192x28
+        svg.tn-icon @16,168 16x16
+        span.tn-ellipsis "Buttons and status" @40,164 116x20
+      a.tn-nav-item @8,188 192x28
+        svg.tn-icon @16,196 16x16
+        span.tn-ellipsis "Controls" @40,196 52x20
+      a.tn-nav-item @8,220 192x28
+        svg.tn-icon @16,224 16x16
+        span.tn-ellipsis "Inputs" @40,224 40x20
+      a.tn-nav-item @8,248 192x28
+        svg.tn-icon @16,252 16x16
+        span.tn-ellipsis "Forms" @40,252 40x20
+      div.tn-nav-group [presentation] "Shell · Components" @8,276 192x32
+      a.tn-nav-item @8,308 192x28
+        svg.tn-icon @16,316 16x16
+        span.tn-ellipsis "Cards and tiles" @40,316 92x20
+      a.tn-nav-item @8,340 192x28
+        svg.tn-icon @16,344 16x16
+        span.tn-ellipsis "Rows and facts" @40,344 96x20
+      a.tn-nav-item @8,368 192x28
+        svg.tn-icon @16,372 16x16
+        span.tn-ellipsis "Table and filter" @40,372 92x20
+        span.tn-badge.tn-badge-bad.tn-badge-count "1" @172,372 24x20
+      a.tn-nav-item @8,396 192x28
+        svg.tn-icon @16,404 16x16
+        span.tn-ellipsis "Confirm and actions" @40,400 124x20
+      a.tn-nav-item @8,424 192x28
+        svg.tn-icon @16,432 16x16
+        span.tn-ellipsis "Menus and feedback" @40,432 132x20
+      a.tn-nav-item @8,456 192x28
+        svg.tn-icon @16,460 16x16
+        span.tn-ellipsis "Charts" @40,460 40x20
+      a.tn-nav-item @8,484 192x28
+        svg.tn-icon @16,488 16x16
+        span.tn-ellipsis "Markdown" @40,488 64x20
+      a.tn-nav-item @8,512 192x28
+        svg.tn-icon @16,520 16x16
+        span.tn-ellipsis "States and sheets" @40,516 112x20
+      a.tn-nav-item @8,540 192x28
+        svg.tn-icon @16,548 16x16
+        span.tn-ellipsis "Data sources" @40,548 80x20
+      button.tn-nav-group.tn-nav-group-btn {expanded=true} @8,572 192x32
+        span.tn-ellipsis "Shell · App frame" @16,584 96x16
+        svg.tn-icon @180,584 16x16
+      a.tn-nav-item @8,604 192x28
+        svg.tn-icon @16,608 16x16
+        span.tn-ellipsis "Shell and boards" @40,608 104x20
+      a.tn-nav-item.is-active {current=page} @8,632 192x28
+        svg.tn-icon @16,640 16x16
+        span.tn-ellipsis "NAS for the storeroom" @40,636 124x20
+        span.tn-badge.tn-badge-neutral.tn-badge-count "3" @172,636 24x20
+      a.tn-nav-item @8,660 192x28
+        svg.tn-icon @16,668 16x16
+        span.tn-ellipsis "Buy a switch" @40,668 80x20
+  div.tn-scrim @0,0 1424x900
+  div.tn-main @208,0 1216x900
+    header.tn-toolbar @208,0 1216x44
+      button.tn-iconbtn.tn-sb-toggle {expanded=true} "Toggle sidebar" @216,8 28x28
+        svg.tn-icon @224,12 16x16
+      h1.tn-toolbar-title.tn-ellipsis "NAS for the storeroom" @252,12 140x20
+      button.tn-iconbtn.tn-toolbar-info "Details: NAS for the storeroom" @396,8 28x28
+        svg.tn-icon @404,12 16x16
+      div.tn-toolbar-spacer @428,20 760x0
+      button.tn-fresh {expanded=false} "Updated now" @1192,8 92x28
+      button.tn-iconbtn.tn-hide-phone "Reload" @1288,8 28x28
+        svg.tn-icon @1296,12 16x16
+      button.tn-iconbtn.tn-hide-phone {expanded=false} "Language" @1320,8 28x28
+        svg.tn-icon @1328,12 16x16
+      button.tn-iconbtn.tn-hide-phone "Density: Compact (switch)" @1352,8 28x28
+        svg.tn-icon @1360,12 16x16
+      button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1384,8 28x28
+        svg.tn-icon @1392,12 16x16
+    main.tn-content @208,44 1216x408
+      section.tn-card @224,136 1184x284
+        header.tn-card-head @224,136 1184x40
+          div.tn-card-heading @236,144 1160x20
+            h3.tn-card-title "entries, title, info" @236,144 1160x20
+        div.tn-card-body @224,176 1184x244
+          section.tn-card @236,188 1160x108
+            header.tn-card-head @240,188 1156x40
+              div.tn-card-heading @252,200 1132x20
+                h3.tn-card-title "NAS for the storeroom" @252,200 1132x20
+            div.tn-card-body @240,228 1156x64
+              dl.tn-kv @252,240 1132x40
+                dt "Text" @252,240 96x20
+                dd "Two disks and a quiet tower." @364,240 1020x20
+                dt "Budget" @252,264 96x20
+                dd "600 €" @364,264 1020x20

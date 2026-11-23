@@ -13,6 +13,8 @@ export default {
   "common.other": "Sonstige",
   "common.unknownError": "unbekannter Fehler",
   "shell.views": "Ansichten",
+  "shell.viewInfo": "Details",
+  "shell.viewInfoAbout": "Details: {title}",
   "shell.toggleSidebar": "Seitenleiste umschalten",
   "shell.theme": "Darstellung",
   "shell.themeSystem": "Darstellung: System",
