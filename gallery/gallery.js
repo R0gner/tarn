@@ -94,6 +94,10 @@ function viewCards(ctx) {
   const bad = jobs.filter((j) => j.status === 'bad').length, warn = jobs.filter((j) => j.status === 'warn').length;
   const box = (txt) => card({}, h('span', { class: 'tn-muted' }, txt));
   return [
+    demo('section({ fold })', `section('More candidates', { count: 12, fold: { id: 'more', open: false } }, card({ flush: true }, list(…)))
+// the title row folds the content; the state survives redraws (id), not a reload`,
+      section('Folded', { count: 2, fold: 'g-fold-closed' }, box('Hidden until the title is tapped.')),
+      section('Open', { count: 1, fold: { id: 'g-fold-open', open: true } }, box('Shown, folds on a tap on the title.'))),
     demo('statTile()', `statTile({ label: 'Jobs', value: 12, sub: '1 error', status: 'bad', onClick: () => app.go('table') })\ntiles(tile, tile, …)   // grid, two columns on phones`,
       tiles(
         statTile({ label: 'Jobs', value: jobs.length, sub: `${bad} ${bad === 1 ? 'error' : 'errors'} · ${warn} ${warn === 1 ? 'warning' : 'warnings'}`, status: bad ? 'bad' : 'ok', onClick: () => ctx.app.go('table') }),

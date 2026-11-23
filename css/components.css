@@ -188,6 +188,17 @@
 }
 .tn-section-count { font-weight: var(--tn-fw-label); color: var(--tn-text-3-tint); font-variant-numeric: tabular-nums; }
 .tn-section-actions { display: flex; gap: var(--tn-s1); }
+/* folded section (section({ fold })): the title row is a button, the chevron turns when folded; the content keeps the section's gap */
+.tn-section-toggle {
+  display: flex; align-items: center; gap: var(--tn-s1); min-width: 0; max-width: 100%; box-sizing: border-box; min-height: var(--tn-hit); padding: 0 var(--tn-sp-2);
+  border: 0; border-radius: var(--tn-r); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.tn-section-toggle:hover { background: var(--tn-hover); }
+.tn-section-toggle:is(:active, .is-down) { background: var(--tn-press); }
+.tn-section-toggle > .tn-icon { flex: none; transition: transform var(--tn-t-open) ease; }
+.tn-section-toggle[aria-expanded="false"] > .tn-icon { transform: rotate(-90deg); }
+.tn-section-folding > .tn-section-head { padding: 0; }   /* the button carries the head's inset, so its hover surface reaches the edge */
+.tn-section-fold { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s2); min-width: 0; }
 /* The small "i" next to a card or section title (infoButton) and the explanation it opens: a floating layer like the menu, plain text */
 .tn-info-btn { flex: none; }
 .tn-card-titlerow { display: flex; align-items: center; gap: var(--tn-s1); min-width: 0; }

@@ -3,6 +3,13 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.12.0
+
+### Added
+- `section(title, { fold })`: the title row becomes a button that folds the section's content (chevron, `aria-expanded`). `fold: 'id'` starts folded,
+  `fold: { id, open: true }` open; the state is kept by id while the page lives, so a view drawn again on every poll keeps it. For quiet groups such as
+  "More candidates", "Unseen" or "Routine" (Markt-Scout). Gallery "Cards and tiles". docs/components.md
+
 ## 0.11.0
 
 ### Added

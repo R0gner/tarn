@@ -46,7 +46,7 @@ There is no `innerHTML` anywhere; text is set as text.
 | `stack(...kids)` | vertical stack with the default spacing |
 | `toolbarRow(...kids)` | button group inside a card or detail |
 | `card({ title, sub, actions, flush, footer, info, className }, ...kids)` | the container; `flush: true` removes the padding for lists and tables; `footer` is one quiet line under the content (“+13 frequent runs hidden”); `info` see below |
-| `section(title, { count, actions, footer, info, className }, ...kids)` | a titled group without a box, optional counter |
+| `section(title, { count, actions, footer, info, className, fold }, ...kids)` | a titled group without a box, optional counter; `fold: 'id'` (folded) or `{ id, open: true }` makes the title row a button that folds the content, the state survives redraws by id (0.12.0) |
 
 **`info`: an explanation behind a small “i”.** For a display that cannot be read without a key (what a colour, an edge or an axis means): a string or node
 (boards pass `t()` text), a few plain sentences, at most `INFO_MAX` (280) characters. The “i” sits next to the title; a tap, Enter or Space opens the text
