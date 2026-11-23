@@ -1062,6 +1062,32 @@ export const SCENARIOS = [
       return left;
     } },
 
+  { id: 'detail-current-row', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: false,
+    // aria-current marks the row whose detail is open and no other – also when opening or switching the detail draws nothing anew (0.13.0: it was
+    // set only by drawing, so it depended on data arriving afterwards and stayed on the row of the detail opened before)
+    open: (io) => io.press('.tn-row-btn[data-key]'),
+    assert: async (io) => {
+      const left = [];
+      await sleep(150);
+      const st = () => io.eval(`(() => { const open = new URLSearchParams(location.hash.split('?')[1] || '').get('open');
+        const cur = [...document.querySelectorAll('.tn-content [data-key][aria-current]')].map((e) => e.dataset.key);
+        const keys = [...new Set([...document.querySelectorAll('.tn-content .tn-row-btn[data-key]')].map((e) => e.dataset.key))];
+        return { open, cur, keys }; })()`);
+      let s = await st();
+      if (!s.open) return ['tapping a row opened no detail'];
+      if (s.cur.length !== 1 || s.cur[0] !== s.open) left.push(`after opening ${s.open}, aria-current is on [${s.cur.join(', ')}] (exactly the open row expected)`);
+      const other = s.keys.find((k) => k !== s.open);
+      if (!other) return left;
+      const was = s.open;
+      await io.eval(`(() => { location.hash = location.hash.replace(/open=[^&]*/, 'open=' + encodeURIComponent(${JSON.stringify(other)})); return null; })()`);
+      await sleep(250);
+      s = await st();
+      if (s.open !== other) return [...left, `switching the detail by address shows ${s.open} instead of ${other}`];
+      if (s.cur.includes(was)) left.push(`after switching to ${other}, the row of ${was} still carries aria-current`);
+      if (!s.cur.includes(other)) left.push(`after switching to ${other}, its row does not carry aria-current`);
+      return left;
+    } },
+
   // ---- Inputs, filters, forms (stage D) ----
   { id: 'combobox', page: 'gallery', hash: 'inputs', overlay: '.tn-combo-pop', focus: false,
     // popover in the overlay layer: on top, inside the viewport, search field with focus (not on touch: the keyboard would cover the list),

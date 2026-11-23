@@ -54,7 +54,7 @@ div.tn-app @0,0 1424x900
                 span.tn-row-sub "CPU 41 %" @928,84 60x16
               span.tn-go @1000,76 16x16
                 svg.tn-icon @1000,76 16x16
-            button.tn-row.tn-row-btn.is-selected @224,104 804x44
+            button.tn-row.tn-row-btn.is-selected {current=true} @224,104 804x44
               span.tn-row-status @236,124 8x8
                 span.tn-dot.tn-s-warn [img] "Warning" @236,124 8x8
               span.tn-row-main @256,112 668x36

@@ -384,6 +384,13 @@ export const MUTANTS = [
     patch: [{ file: 'js/swipe-data.js', from: 'return to < 0 || to >= n ? index : to;', to: 'return (to + n) % n;' }],
   },
   {
+    // 0.12 fault (Homelab Board storage snapshots): aria-current only from drawing; opening or switching a detail draws nothing anew
+    id: 'current-row-only-drawn',
+    check: 'overlay', scenarios: ['detail-current-row'], sizes: ['phone', 'desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "    for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key][aria-current]')))", to: '    if (0) for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll(\'[data-key][aria-current]\')))' },
+      { file: 'js/shell.js', from: "      el.setAttribute('aria-current', 'true');\n", to: '' }],
+  },
+  {
     // 0.10.1 fault (owner, Host-Jobs → Crontab): only the content takes the swipe; in the empty room below a short part a sideways swipe does nothing
     id: 'swipe-ignores-empty-room',
     check: 'overlay', scenarios: ['segmented-swipe-empty-room'], sizes: ['phone'], expect: ['overlay-behaviour'],

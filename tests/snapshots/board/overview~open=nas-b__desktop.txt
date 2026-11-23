@@ -112,7 +112,7 @@ div.tn-app @0,0 1424x900
                     span.tn-num "40 min. ago" @504,356 72x20
                   span.tn-go @588,356 16x16
                     svg.tn-icon @588,356 16x16
-                button.tn-row.tn-row-btn.is-selected @224,396 392x44
+                button.tn-row.tn-row-btn.is-selected {current=true} @224,396 392x44
                   span.tn-row-status @236,416 8x8
                     span.tn-dot.tn-s-warn [img] "Warning" @236,416 8x8
                   span.tn-row-main @256,400 320x36

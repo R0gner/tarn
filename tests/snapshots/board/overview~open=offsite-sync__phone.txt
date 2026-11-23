@@ -80,7 +80,7 @@ div.tn-app @0,0 392x1116
           section.tn-card.tn-card-flush @12,296 368x300
             div.tn-card-body @12,296 364x296
               div.tn-list [list] @12,296 364x296
-                button.tn-row.tn-row-btn @12,296 364x80
+                button.tn-row.tn-row-btn {current=true} @12,296 364x80
                   span.tn-row-status @24,332 8x8
                     span.tn-dot.tn-s-bad [img] "Error" @24,332 8x8
                   span.tn-row-main @44,300 224x68

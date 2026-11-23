@@ -84,7 +84,7 @@ div.tn-app @0,0 1424x900
           section.tn-card.tn-card-flush @224,204 396x280
             div.tn-card-body @224,208 392x280
               div.tn-list [list] @224,208 392x280
-                button.tn-row.tn-row-btn.is-selected @224,208 392x80
+                button.tn-row.tn-row-btn.is-selected {current=true} @224,208 392x80
                   span.tn-row-status @236,244 8x8
                     span.tn-dot.tn-s-bad [img] "Error" @236,244 8x8
                   span.tn-row-main @256,212 252x68

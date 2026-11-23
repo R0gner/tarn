@@ -35,6 +35,9 @@ While the major version is 0, minor versions may change the API; every change is
   late (a part built after loading, a view put back from a cache) takes it too; nothing to register or clean up.
 - verify scenario `segmented-swipe-empty-room` (the swipe demo alone, short part, a long neighbour): a swipe in the empty room near the lower
   edge switches, and the page does not grow while the neighbour is held; mutants `swipe-ignores-empty-room`, `swipe-neighbour-grows-page`.
+- `aria-current` marks the row whose detail is open, and no other, also when opening or switching the detail draws nothing anew (the shell keeps
+  it, in the inspector and on the phone alike; the highlight stays inspector only). Before, only drawing set it: it depended on data arriving
+  afterwards and stayed on the row of the detail opened before. verify scenario `detail-current-row`, mutant `current-row-only-drawn`.
 
 ### Changed (for existing boards)
 - In list mode the title of a row takes up to two lines before it ends in “…” (was one).

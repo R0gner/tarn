@@ -275,7 +275,7 @@ div.tn-app @0,0 392x3272
                     span.tn-mrow-line "posted 2 days ago" @124,1344 232x20
                       span.tn-badge.tn-badge-ok "Good" @124,1344 40x20
                       span.tn-badge.tn-badge-info "Price cut" @172,1344 60x20
-                button.tn-row.tn-mrow.tn-row-btn {current=true} @28,1376 340x96
+                button.tn-row.tn-mrow.tn-row-btn @28,1376 340x96
                   span.tn-mrow-media @40,1388 72x72
                   span.tn-mrow-main @124,1388 232x56
                     span.tn-mrow-title.tn-clamp.tn-clamp-3 "Short title" @124,1388 232x20

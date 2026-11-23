@@ -594,10 +594,18 @@ export function createApp(cfg0) {
     markSelected();
     renderNav();
   }
+  /** The row whose detail is open: aria-current on it and on no other (inspector and sheet alike, it is the state, not the look), the highlight
+   * (is-selected) only beside an inspector. Kept here because opening or closing a detail draws nothing anew (a row drawn with `selected`
+   * kept its aria-current from the drawing before). */
   function markSelected() {
     for (const el of content.querySelectorAll('[data-key].is-selected')) el.classList.remove('is-selected');
-    if (!cur.open || !inspectorMode()) return;
-    for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key]'))) if (el.dataset.key === cur.open) el.classList.add('is-selected');
+    for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key][aria-current]'))) if (!cur.open || el.dataset.key !== cur.open) el.removeAttribute('aria-current');
+    if (!cur.open) return;
+    for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key]'))) {
+      if (el.dataset.key !== cur.open) continue;
+      el.setAttribute('aria-current', 'true');
+      if (inspectorMode()) el.classList.add('is-selected');
+    }
   }
 
   /* ---- Detail ---- */
