@@ -373,7 +373,9 @@ export const MUTANTS = [
     // check in js/swipe.js covers browsers that do not, the scenario checks the behaviour.)
     id: 'swipe-no-touch-action',
     check: 'overlay', scenarios: ['segmented-swipe'], sizes: ['phone'], expect: ['overlay-behaviour'],
-    patch: [{ file: 'css/core.css', from: '.tn-segpane-swipe { touch-action: pan-y pinch-zoom; overflow-x: clip; }', to: '.tn-segpane-swipe { overflow-x: clip; }' }],
+    // (0.13.0: .tn-main holding a swipe area has pan-y too, and touch-action intersects over the ancestors: both go, or the fault does not appear)
+    patch: [{ file: 'css/core.css', from: '.tn-segpane-swipe { touch-action: pan-y pinch-zoom; overflow-x: clip; }', to: '.tn-segpane-swipe { overflow-x: clip; }' },
+      { file: 'css/core.css', from: '.tn-main:has(.tn-segpane-swipe) { touch-action: pan-y pinch-zoom; }', to: '' }],
   },
   {
     // parts that wrap round: a swipe to the right on the first part shows the last one instead of a rubber band
