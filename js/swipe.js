@@ -31,31 +31,28 @@ function ownsSideways(target, area) {
   return false;
 }
 
-/** The empty room of a view: touches on `.tn-main` itself or on a wrapper that holds the swipe area (not on other content), below the area's top. */
-/** @type {Map<HTMLElement, Set<{ area: HTMLElement, down: (e: PointerEvent) => void }>>} */
-const zones = new Map();
-/** @param {HTMLElement} zone */
-function prune(zone) {
-  const set = zones.get(zone);
-  if (!set) return;
-  for (const x of [...set]) if (!x.area.isConnected || !zone.contains(x.area)) set.delete(x);
-  if (set.size) return;
-  zones.delete(zone);
-  zone.removeEventListener('pointerdown', zoneDown);
-}
-/** @param {PointerEvent} e */
-function zoneDown(e) {
-  const zone = /** @type {HTMLElement} */ (e.currentTarget);
-  prune(zone);
-  const set = zones.get(zone);
-  if (!set || set.size !== 1) return;   // two swipe areas in one view: the empty room belongs to neither
-  const [x] = set;
+/** The swipe area → its pointerdown handler. Looked up when a touch starts (no registration, nothing to clean up, any mount time). */
+/** @type {WeakMap<HTMLElement, (e: PointerEvent) => void>} */
+const areas = new WeakMap();
+/**
+ * The empty room of a view: a touch on `.tn-main` itself or on a wrapper that holds the view's one swipe area (not on other content), below the
+ * area's top, starts that area's gesture. One listener on the document, attached with the first swipe area.
+ * @param {PointerEvent} e
+ */
+function emptyRoomDown(e) {
   const t = e.target instanceof Element ? e.target : null;
-  if (!t || x.area.contains(t)) return;   // on the content: the area's own listener has it
-  if (t !== zone && !t.contains(x.area)) return;   // other content of the view (a banner, a card below): not the empty room
-  if (e.clientY < x.area.getBoundingClientRect().top) return;   // above the content (the control, the toolbar of the view)
-  x.down(e);
+  const zone = t?.closest('.tn-main');
+  if (!t || !zone) return;
+  const found = zone.querySelectorAll('.tn-segpane-swipe');
+  if (found.length !== 1) return;   // none, or two swipe areas in one view: the empty room belongs to neither
+  const area = /** @type {HTMLElement} */ (found[0]);
+  const down = areas.get(area);
+  if (!down || area.contains(t)) return;   // on the content: the area's own listener has it
+  if (t !== zone && !t.contains(area)) return;   // other content of the view (a banner, a card below): not the empty room
+  if (e.clientY < area.getBoundingClientRect().top) return;   // above the content (the control, the toolbar of the view)
+  down(e);
 }
+let listening = false;
 
 /**
  * Attach the gesture. `area` takes the touches, `track` moves (it holds the current content in the flow and the neighbour slide beside it).
@@ -176,16 +173,7 @@ export function paneSwipe(area, track, on) {
     }, ms + 30);
   };
   area.addEventListener('pointerdown', down);
-  const entry = { area, down };
-  // the empty room below: registered once the area is in the document (segmented() builds it before the view is mounted)
-  let tries = 0;
-  const join = () => {
-    const zone = /** @type {HTMLElement | null} */ (area.closest('.tn-main'));
-    if (!zone) { if (!area.isConnected && ++tries < 30) requestAnimationFrame(join); return; }   // not mounted yet: a few frames later
-    if (!zones.has(zone)) { zones.set(zone, new Set()); zone.addEventListener('pointerdown', zoneDown); }
-    zones.get(zone)?.add(entry);
-    prune(zone);
-  };
-  requestAnimationFrame(join);
+  areas.set(area, down);
+  if (!listening) { listening = true; document.addEventListener('pointerdown', emptyRoomDown); }
   return { stop: () => { g = null; listen(false); clear(); } };
 }

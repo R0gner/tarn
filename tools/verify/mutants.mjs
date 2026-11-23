@@ -382,6 +382,18 @@ export const MUTANTS = [
     patch: [{ file: 'js/swipe-data.js', from: 'return to < 0 || to >= n ? index : to;', to: 'return (to + n) % n;' }],
   },
   {
+    // 0.10.1 fault (owner, Host-Jobs → Crontab): only the content takes the swipe; in the empty room below a short part a sideways swipe does nothing
+    id: 'swipe-ignores-empty-room',
+    check: 'overlay', scenarios: ['segmented-swipe-empty-room'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/swipe.js', from: "if (!listening) { listening = true; document.addEventListener('pointerdown', emptyRoomDown); }", to: '' }],
+  },
+  {
+    // 0.10.1 fault: the neighbour being pulled in is clipped only sideways; a long one makes the page taller while the finger holds it
+    id: 'swipe-neighbour-grows-page',
+    check: 'overlay', scenarios: ['segmented-swipe-empty-room'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/swipe.js', from: 'let cap = Math.max(', to: 'let cap = 1e6 + Math.max(' }],
+  },
+  {
     // a swipe that moves the content with the finger although the user asked for reduced motion
     id: 'swipe-ignores-reduced-motion',
     check: 'overlay', scenarios: ['segmented-swipe'], sizes: ['phone'], expect: ['overlay-behaviour'],

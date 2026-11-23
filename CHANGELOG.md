@@ -31,6 +31,10 @@ While the major version is 0, minor versions may change the API; every change is
 - The neighbour being pulled in no longer makes the page taller: it is cut at the lower edge of what is visible (before, pulling a long part in
   from a short one grew the page, e.g. 780 → 1651 px, while the finger held it). The moves of a swipe are followed on the window, and a gesture
   whose view was drawn anew meanwhile leaves nothing behind.
+- The empty room is found when a touch starts (one listener on the document, the view's one swipe area under `.tn-main`): an area mounted
+  late (a part built after loading, a view put back from a cache) takes it too; nothing to register or clean up.
+- verify scenario `segmented-swipe-empty-room` (the swipe demo alone, short part, a long neighbour): a swipe in the empty room near the lower
+  edge switches, and the page does not grow while the neighbour is held; mutants `swipe-ignores-empty-room`, `swipe-neighbour-grows-page`.
 
 ### Changed (for existing boards)
 - In list mode the title of a row takes up to two lines before it ends in “…” (was one).

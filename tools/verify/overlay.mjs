@@ -159,6 +159,47 @@ export const SCENARIOS = [
       }
       return left;
     } },
+  { id: 'segmented-swipe-empty-room', page: 'gallery', hash: 'controls', overlay: '.g-swipe .tn-segpane', focus: false, when: (sz) => sz.mobile,
+    // the swipe demo alone in the view (its siblings hidden), on the short part Notes: empty room below it down to the lower edge of the screen.
+    // A sideways swipe that starts there switches (0.13.0, the owner swipes with the thumb at the lower edge); while a long neighbour (the drawn slide
+    // 1600 px taller) is held half pulled in, the page does not grow; after the switch nothing of the gesture stays
+    open: (io) => io.eval(`(() => {
+      for (let e = document.querySelector('.g-swipe'); e && !e.matches('.tn-content'); e = e.parentElement)
+        for (const sib of e.parentElement.children) if (sib !== e) sib.style.display = 'none';
+      const sh = new CSSStyleSheet(); sh.replaceSync(".g-swipe .tn-segpane-next::after { content: ''; display: block; height: 1600px; }"); document.adoptedStyleSheets = [...document.adoptedStyleSheets, sh];   /* CSP: no <style> */
+      document.querySelector('.g-swipe .tn-seg-btn[data-value="notes"]').click(); scrollTo(0, 0); return null; })()`),
+    assert: async (io) => {
+      const left = [];
+      const tp = (type, px, py) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: px, y: py, id: 0 }] });
+      const drag = async (x, y, dx, { hold = false } = {}) => {
+        await tp('touchStart', x, y); await sleep(30);
+        for (let i = 1; i <= 10; i++) { await tp('touchMove', x + (dx * i) / 10, y); await sleep(16); }
+        if (!hold) { await tp('touchEnd', x + dx, y); await sleep(350); }
+      };
+      const st = () => io.eval(`(() => { const s = document.querySelector('.g-swipe'); const on = s.querySelector('.tn-seg-btn[aria-checked="true"]');
+        const r = s.querySelector('.tn-segpane').getBoundingClientRect();
+        return { on: on && on.textContent.trim(), sh: document.scrollingElement.scrollHeight, ih: innerHeight, bottom: Math.round(r.bottom),
+          next: !!s.querySelector('.tn-segpane-next'), track: s.querySelector('.tn-segpane-track').style.transform }; })()`);
+      let s = await st();
+      if (!/^Notes/.test(s.on || '')) return [`the demo does not show Notes (${s.on})`];
+      if (s.sh > s.ih + 1) return [`the view with only the demo is taller than the screen (${s.sh} > ${s.ih}): no empty room to test`];
+      const h0 = s.sh, y = s.ih - 40;
+      if (y <= s.bottom + 20) return [`no empty room below the short part (content ends at ${s.bottom}, screen ${s.ih})`];
+      // held half pulled in from the content: the long neighbour must not make the page taller
+      const pull = Math.round(0.4 * (await io.eval(`document.querySelector('.g-swipe .tn-segpane').clientWidth`)));
+      await drag(40, s.bottom - 20, pull, { hold: true });
+      s = await st();
+      if (!s.next) left.push('while the finger pulls on the short part, no neighbour is drawn');
+      if (s.sh > h0 + 1) left.push(`the page grows while the long neighbour is pulled in (${h0} → ${s.sh} px)`);
+      await tp('touchEnd', 40 + pull, s.bottom - 20); await sleep(350);
+      await io.eval(`(() => { document.querySelector('.g-swipe .tn-seg-btn[data-value="notes"]').click(); scrollTo(0, 0); return null; })()`); await sleep(100);
+      // a sideways swipe that starts in the empty room below the short part, near the lower edge of the screen
+      await drag(40, y, 200);
+      s = await st();
+      if (!/^Photos/.test(s.on || '')) left.push(`a swipe in the empty room below the short part (y ${y}) does not switch (shows ${s.on})`);
+      if (s.next || s.track) left.push(`after the swipe from the empty room the panes do not rest (neighbour ${s.next}, transform “${s.track}”)`);
+      return left;
+    } },
   // ---- Back by levels (createApp back: 'levels', js/levels.js): the real browser history, driven with taps and history.back() ----
   { id: 'back-views', page: 'board', hash: 'overview', overlay: '.tn-nav-item.is-active', focus: false, when: (sz) => sz.w >= 1000,
     // three view changes, then one Back: the default view; the history grew by one entry at most
