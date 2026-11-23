@@ -3,6 +3,32 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.11.0
+
+### Added
+- **A thing with measurements in list mode** (`table()`): a column with `mobile: 'metric'` is a labelled measurement in the row's measurement
+  line under the title, in a fixed column order (CPU at the same place in every row); `short` is its label there (default `label`), e.g.
+  `{ key: 'mem', label: 'Memory', short: 'RAM', mobile: 'metric' }`. The line holds two to six measurements on one column template for the
+  whole list: as many side by side as fit, balanced lines (five where four fit → 3 + 2), the second line aligned like the first.
+  **A measurement is never cut**: a value that does not fit beside its label moves below it in its own cell (same x), still too wide it wraps
+  at its spaces; a number is never broken. docs/components.md “The measurement line”.
+- `mobile: 'action'`: one control top right of the row (e.g. a watch toggle); it does not open the row, neither by click nor by Enter.
+  Generally, a button inside a row no longer opens the row.
+- `listLabel` per column: show the column label in front of a value or sub value in list mode (“Size 45 GB”); default: only for metrics.
+- **Sorting in list mode**: above a list with at least two sortable columns a sort button shows the current order (“Sorted by CPU” with the
+  direction arrow) and opens a menu of the sortable columns; choosing the current one flips the direction. The default order is the table's `sort`.
+- `iconButton({ onToggle, iconPressed })`: a toggle that flips its own `aria-pressed` and icon. `onToggle` returning `false` or a promise that
+  rejects (or resolves to `false`) puts it back to its old state; while the promise runs it is `aria-busy` and ignores further clicks.
+- Icons `eye` and `eye-off` (watch / not watched).
+- verify: geometry rule `metric-cut` (a measurement label or value wider than its box), mutants `metric-value-ellipsis` and `metrics-one-line`;
+  verify target `gallery-de` (the gallery's table view in German on the phone sizes).
+
+### Changed (for existing boards)
+- In list mode the title of a row takes up to two lines before it ends in “…” (was one).
+- In list mode a table with at least two sortable columns gets the sort button above its rows (44 px of height; desktop tables keep their header). Opt out by marking columns `sortable: false`.
+- On touch every icon button has a hit area of at least 44 px (drawn size unchanged; in a table row the control is drawn at 28 px).
+- Without the new options nothing else changes: a table without `mobile: 'metric'` keeps its list rows (title, sub, value, chevron).
+
 ## 0.10.1
 
 ### Fixed
