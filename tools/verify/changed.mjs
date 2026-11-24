@@ -90,8 +90,8 @@ export function describeScope(scope) {
  * verify --selftest --changed: which mutants must run after these changes?
  * everything: a file under tools/ (the checks themselves) or anything unmapped/shared (scope.all) → the whole selftest, base pass and controls included.
  * Otherwise a mutant is selected when one of the files it patches changed (whatever the page map says), or when its page and one of its views is
- * in the scope (overlay mutants: the page of their scenarios; they have no views, so any change on that page counts).
- * scenarioPage: scenario id → page id.
+ * in the scope (overlay mutants: the page and view of their scenarios).
+ * scenarioPage: scenario id → { page, view } (the page and view the scenario runs on, as --changed narrows the overlay checks).
  */
 export function selectMutants(scope, mutants, scenarioPage = {}) {
   if (scope.error) return { everything: true, ids: mutants.map((m) => m.id), why: scope.error };
@@ -103,7 +103,7 @@ export function selectMutants(scope, mutants, scenarioPage = {}) {
   };
   const ids = mutants.filter((m) => {
     if (m.patch && m.patch.some((x) => scope.files.includes(x.file))) return true;
-    if (m.check === 'overlay') return (m.scenarios || []).some((sc) => hit(scenarioPage[sc] || 'gallery', null));
+    if (m.check === 'overlay') return (m.scenarios || []).some((sc) => { const w = scenarioPage[sc]; return !w || hit(w.page, [w.view]); });   // unknown scenario: selected
     return hit(m.page, m.views);
   }).map((m) => m.id);
   return { everything: false, ids, why: ids.length ? 'the changed pages, views and patched files' : 'no mutant in scope' };

@@ -184,7 +184,7 @@ async function main() {
     if (scope.error) fail(`--changed: ${scope.error}`);
     if (o.selftest) {
       // the dev loop of the selftest: only the mutants the change can affect; the checks themselves are not narrowed
-      const sel = selectMutants(scope, MUTANTS, Object.fromEntries(SCENARIOS.map((sc) => [sc.id, sc.page])));
+      const sel = selectMutants(scope, MUTANTS, Object.fromEntries(SCENARIOS.map((sc) => [sc.id, { page: sc.page, view: sc.hash.split('?')[0] }])));
       if (sel.everything) notes.push(`selftest --changed: all ${sel.ids.length} mutants and the controls (${sel.why})`);
       else { o.mutants = sel.ids; notes.push(`selftest --changed: ${sel.ids.length} of ${MUTANTS.length} mutants (${sel.why})${sel.ids.length ? ': ' + sel.ids.join(', ') : ''}`); }
       scope = { ...scope, all: true };   // no narrowing of pages/views for the selftest

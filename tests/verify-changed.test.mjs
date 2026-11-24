@@ -70,7 +70,7 @@ test('the starter page is its own scope; input and form code reach it too', () =
 });
 
 // verify --selftest --changed: the selection must never hide a mutant whose patched file changed
-const SC = Object.fromEntries(SCENARIOS.map((sc) => [sc.id, sc.page]));
+const SC = Object.fromEntries(SCENARIOS.map((sc) => [sc.id, { page: sc.page, view: sc.hash.split('?')[0] }]));
 test('selftest --changed: a change of a patched file selects its mutant, whatever the page map says', () => {
   assert.deepEqual(hiddenMutants(MUTANTS, selectMutants, SC), []);
 });
