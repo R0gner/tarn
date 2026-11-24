@@ -16,8 +16,9 @@ While the major version is 0, minor versions may change the API; every change is
   tabs with counts need ~300 px, no room for the title), one compact row with tabs and icons (German tab labels overflow at 360 px). From 600 px the
   search field stays visible in the content (there is room) and sticks under the toolbar. New option `filterBar({ inline })`. Texts
   `filter.closeSearch`, `filter.searchFor`, `filter.titleN` (en, de, fr, es).
-- **Phone toolbar: the freshness text shows the age alone** (“2 min ago”) while the data is fresh, so the title and the search icon fit at 360 px; the
-  label, the source list and stale data keep the full text.
+- **Phone toolbar: the freshness text shows the age alone** (“2 min ago”), so the title and the search icon fit at 360 px; stale data stays red
+  and has its banner, the label and the source list keep the full text. (First draft kept “Stale · …” on the phone: “Update-Manager” was cut in
+  the board's stale fixture. found by: verify toolbar-title/board updatemanager (stale)/–)
 
 - **Viewport check `?tn-debug=viewport`** (round 11b, HL board as an installed PWA on a Samsung S23 scrolled by about a toolbar height although the
   content fit): a small closable overlay (`js/viewport-debug.js`, started by `createApp` only with the parameter) shows live innerHeight,
@@ -28,6 +29,8 @@ While the major version is 0, minor versions may change the API; every change is
   never larger than what is visible. Not reproducible headless; the overlay above shows on the phone whether `dvh` > innerHeight.
 
 ### Fixed
+- The fixed bars first reached sideways to the content's edge (negative margins); nested in a tab pane they stuck out of it. found by: verify
+  overflow/board updatemanager, hostjobs/– (Homelab Board; the kit's pages have no tab pane directly in a view)
 - A static main filter bar (phone) painted over the fixed tab bar: `z-index` applies to a grid item even without `position`. found by: review
 - The empty toolbar search field closed on the tap on the filter icon beside it (blur before the click), so the filter sheet never opened; the field
   now stays open while the focus goes to its own row or into a sheet. found by: verify overlay-missing/filter-sheet/–

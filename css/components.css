@@ -119,12 +119,12 @@
 }
 /* Fixed controls: what operates the content – the view's tab bar (segmented() with a pane, tabs()) and its main filter bar – stays under the
    toolbar while the content scrolls. js/shell.js stacks them: --tn-stick-at is each one's offset, --tn-stick the total the table head sits under.
-   Each spans the content's width with the page background, so rows scroll behind it, not beside it. */
-.tn-content { --tn-content-px: var(--tn-s4); }
+   Each has the page background over the width of the content below it (rows are never wider), so rows scroll behind it; a small band above and
+   below (negative margin, same padding) keeps them off the toolbar. No sideways bleed: nested in a tab pane that would stick out (verify overflow). */
 .tn-content > .tn-segset > .tn-segbar, .tn-content > .tn-tabset > .tn-tabs, .tn-content .tn-filterbar.is-main {
   position: sticky; top: calc(var(--tn-toolbar-h) + var(--tn-stick-at, 0px)); z-index: 2;
   background: var(--tn-bg);
-  margin: calc(-1 * var(--tn-s2)) calc(-1 * var(--tn-content-px)); padding: var(--tn-s2) var(--tn-content-px);
+  margin-block: calc(-1 * var(--tn-s2)); padding-block: var(--tn-s2);
 }
 .tn-content > .tn-tabset > .tn-tabs { padding-bottom: 0; margin-bottom: 0; }   /* the tabs' separator line is their lower edge */
 .tn-content .tn-table th { top: calc(var(--tn-toolbar-h) + var(--tn-stick, 0px)); }
@@ -179,7 +179,6 @@
   .tn-content { padding: var(--tn-s3); gap: var(--tn-s4); }
   .tn-banners { padding: var(--tn-s2) var(--tn-s3) 0; }
   .tn-toolbar { padding-left: max(var(--tn-s1), env(safe-area-inset-left)); padding-right: max(var(--tn-s2), env(safe-area-inset-right)); }
-  .tn-content { --tn-content-px: var(--tn-s3); }
   .tn-toolbar > .tn-tsearch-btn { display: inline-grid; }   /* the filter icon sits in the open field's row (.tn-tsearch) */
   .tn-toolbar.is-search > :not(.tn-tsearch) { display: none; }
   .tn-toolbar.is-search > .tn-tsearch { display: flex; flex: 1; min-width: 0; align-items: center; gap: var(--tn-s1); }

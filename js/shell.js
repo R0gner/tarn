@@ -403,9 +403,9 @@ export function createApp(cfg0) {
     /* a range change keeps the old range's data until the new one arrives: the view keeps its layout, the charts show they are refreshing */
     if (activeSrc.state.refreshing) content.setAttribute('aria-busy', 'true'); else content.removeAttribute('aria-busy');
     const full = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
-    /* phone: the age alone (“2 min ago”) while the data is fresh – the toolbar keeps room for the view title and the search icon; the label and the
-       source list say it in full, stale data keeps its word */
-    fresh.textContent = s.data && !s.stale && PHONE.matches ? fmtAgo(s.age) : full;
+    /* phone: the age alone (“2 min ago”) – the toolbar keeps room for the view title and the search icon; the label and the source list say it
+       in full, stale data is red here and has its banner */
+    fresh.textContent = s.data && PHONE.matches ? fmtAgo(s.age) : full;
     fresh.setAttribute('aria-label', s.fetchedAt ? t('shell.freshAriaAt', { text: full, time: fmtFull(s.fetchedAt) }) : t('shell.freshAria', { text: full }));
   }
   function renderBanners() {

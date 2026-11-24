@@ -177,10 +177,10 @@ The level logic is the pure module `js/levels.js` (unit tests in `tests/levels.t
   half a second (reduced motion: no turning, the button is dimmed while busy).
 - Phone toolbar (< 600 px): burger, view title, freshness text and one settings entry (theme, density, language in one sheet). There is no reload
   button in the phone toolbar: tap the freshness text, then “Reload” in the source list. The freshness text gives way
-  before the view title does; while the data is fresh it shows only the age (“2 min ago”, 0.18.0; the label and the source list say it in full).
+  before the view title does; it shows only the age (“2 min ago”, 0.18.0; red when stale; the label and the source list say it in full).
   Do not add more toolbar buttons; verify rule `toolbar-title` fails when a toolbar crowds the title out.
 - **Fixed controls** (0.18.0): what operates the content stays reachable while the content scrolls – the view's tab bar (`segmented({ pane })` or
-  `tabs()` as a direct part of the view) and its main filter bar stick under the toolbar; each spans the content's width, rows scroll behind them, the
+  `tabs()` as a direct part of the view) and its main filter bar stick under the toolbar; each covers the content's width, rows scroll behind them, the
   sticky table head sits below them. Inside a card, a sheet or the detail nothing sticks.
 - **Main filter bar** (0.18.0): the first `filterBar()` of the view's content that is not in a card (and not `filterBar({ inline: true })`). On the
   phone its search row leaves the content: a search icon in the toolbar (a dot while a query is set, the number of active filters as a badge) turns
