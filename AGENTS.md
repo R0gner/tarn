@@ -19,6 +19,7 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
    elsewhere: `app.go('view', { open: id })`. No expanding in lists. **A row that stands for a thing another view owns** (an overview's problem list, failed runs, a
    timeline) opens that thing's detail in place: `onClick: () => ctx.app.open(id)` and in the view `detail: (id, ctx) => ctx.app.detailOf('jobs', id, { link: true })`; the
    “Open in …” link inside the detail is the explicit way to the owning view (docs/shell.md “Detail in place”). Do not `app.go()` away from the overview on a row tap.
+   **A tap that leads into another view shows the link symbol**: `go: 'view'` on the tile, row, table or button (never the chevron; verify `go-symbol`, docs/components.md “Where a tap leads”).
 3. **Detail layout:** `banner()` for error/notice on top → `facts('Status', kv(…))` → history (`heatRow`, chart) →
    `facts('Events', log(…))` → `facts('Technical', kv(…, { mono: true }))` → actions (`toolbarRow`, `menu`).
 4. **Status only through status tokens** (`ok warn bad unknown pending info off`): `statusDot`, `badge({ tone })`,

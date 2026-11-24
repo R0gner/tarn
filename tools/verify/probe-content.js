@@ -5,6 +5,9 @@
 //                code, Markdown, key–value facts, form fields, buttons, badges, charts)
 //   banner-info  an info or neutral banner (tone info/off) on a view outside a detail: a note that is there regardless of the data
 //   info-length  the text behind an "i" (card/section info) is longer than INFO_MAX characters
+//   go-symbol    an element marked as a jump into another view (data-go="view": metricRow/statTile/mediaRow/table/button with go: 'view') does
+//                not show the visible link symbol (arrow-up-right) or still shows the chevron; an element that stays in the view
+//                (data-go="detail") shows the link symbol. Symbols are found by their path, not by a class the same code sets
 // Limits (opts): words, row, tile, card, section, info; measured on the gallery and the sample board (docs/checks.md "Content").
 (function tnContent(opts) {
   const o = Object.assign({ words: 5, row: 120, tile: 40, card: 100, section: 60, info: 280, measure: false }, opts || {});
@@ -69,6 +72,20 @@
       findings.push({ rule: 'info-length', sel: desc(btn), where: where(btn.closest(UNIT) || btn), px: s.length, el: btn,
         text: `info text has ${s.length} characters (limit ${o.info}): “${s.slice(0, 60)}”` });
     }
+  }
+
+  /* ---- go-symbol: the chevron stays in the view, the link symbol leads into another one (HL-72/TN-22) ---- */
+  const CHEVRON = 'm9 18 6-6-6-6', LINK = 'M7 17 17 7';
+  const marks = (el, d) => [...el.querySelectorAll(':scope > .tn-go path, :scope > .tn-td-go path, :scope > svg path')]
+    .filter((p) => p.getAttribute('d') === d && visible(/** @type {Element} */ (p.closest('svg'))));
+  for (const el of document.querySelectorAll('[data-go]')) {
+    if (ignored(el) || !visible(el)) continue;
+    const go = el.getAttribute('data-go'), link = marks(el, LINK).length, chev = marks(el, CHEVRON).length;
+    const bad = go === 'view' ? (!link ? 'shows no link symbol' : chev ? 'shows the chevron as well' : '') : link ? 'stays in the view but shows the link symbol' : '';
+    if (!bad) continue;
+    const name = norm(el.getAttribute('aria-label') || el.textContent || '').slice(0, 40);
+    findings.push({ rule: 'go-symbol', sel: desc(el), where: name || desc(el), el,
+      text: `${go === 'view' ? 'jump into another view' : 'row/tile'} “${name}” ${bad} (go: '${go}')` });
   }
 
   let i = document.querySelectorAll('[data-verify-hit]').length;

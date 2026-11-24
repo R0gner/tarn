@@ -7,7 +7,7 @@
 import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
-import { statusDot, button } from './primitives.js';
+import { statusDot, button, GO_ICONS } from './primitives.js';
 import { empty } from './components.js';
 import { menu } from './widgets.js';
 import { listPlaces, listLabelled, sortChoices, nextSort, opensRow, metricLayout, metricTemplate, metricNeed } from './table-data.js';
@@ -18,7 +18,7 @@ import { t } from './i18n.js';
 /** @typedef {import('./primitives.js').Status} Status */
 /** @typedef {{ key: string, dir: 'asc' | 'desc' }} SortState */
 /** @typedef {{ key: string, label?: Child, get?: (row: any) => any, render?: (row: any) => Child, align?: 'right', width?: number | string, mono?: boolean, wrap?: boolean, sortable?: boolean, mobile?: 'title' | 'value' | 'sub' | 'metric' | 'action' | 'hide', short?: string, listLabel?: boolean }} TableColumn get gives the value for sorting (and the default text); render the cell content. List mode: `metric` = a labelled measurement in the row's measurement grid (fixed order), `action` = a control (e.g. a watch toggle) top right that does not open the row; `short` = the label there (default `label`); `listLabel` = show the label in list mode (default: only for metric). */
-/** @typedef {{ columns: TableColumn[], rows?: any[], rowKey?: (row: any) => string | number | null | undefined, onRow?: (row: any) => void, onSort?: (sort: SortState) => void, status?: (row: any) => Status | undefined, sort?: SortState | null, selected?: string | number | null, empty?: string, caption?: string, pageSize?: number }} TableOptions */
+/** @typedef {{ columns: TableColumn[], rows?: any[], rowKey?: (row: any) => string | number | null | undefined, onRow?: (row: any) => void, go?: import('./primitives.js').Go, onSort?: (sort: SortState) => void, status?: (row: any) => Status | undefined, sort?: SortState | null, selected?: string | number | null, empty?: string, caption?: string, pageSize?: number }} TableOptions */
 /** @typedef {HTMLElement & { update: (o?: { rows?: any[], selected?: string | number | null }) => void }} TableElement */
 
 /** Rows drawn at first and per step (0.9.2: 50 instead of 20; the next ones come by themselves while scrolling). */
@@ -30,7 +30,7 @@ export const MORE_AHEAD = 600;
  * table({
  *   columns: [{ key, label, get?(row), render?(row), align?: 'right', width?, mono?, wrap?, sortable?: true,
  *               mobile?: 'title' | 'value' | 'sub' | 'metric' | 'action' | 'hide', short?, listLabel? }],
- *   rows, rowKey?(row), onRow?(row), status?(row) → Status, sort?: { key, dir }, selected?: key,
+ *   rows, rowKey?(row), onRow?(row), go?: 'detail' | 'view' (where onRow leads: chevron or link symbol), status?(row) → Status, sort?: { key, dir }, selected?: key,
  *   empty?: 'text', caption?, pageSize?: 50 (rows drawn at first and per step; the next ones load while scrolling, “Show more” stays as the fallback; 0 = all)
  * }) → element with .update({ rows, selected })
  * Cells do not wrap (except the title column and wrap: true for longer texts such as schedules).
@@ -63,7 +63,7 @@ export function table(opts) {
   /** @type {HTMLElement | null} */ let more = null;
   let drawn = 0;
 
-  const wrap = h('div', { class: cls('tn-table-wrap', opts.onRow && 'tn-table-click', metrics.length && 'has-metrics', hasAction && 'has-action') });
+  const wrap = h('div', { class: cls('tn-table-wrap', opts.onRow && 'tn-table-click', opts.onRow && opts.go === 'view' && 'is-go-view', metrics.length && 'has-metrics', hasAction && 'has-action') });
   const LIST_BELOW = 600; // container width (px) below which the list always appears
   let list = false, natural = 0;
   /** @param {boolean} on */
@@ -160,7 +160,7 @@ export function table(opts) {
     const onRow = opts.onRow;
     const tr = h('tr', {
       class: cls(k != null && k === selected && 'is-selected'),
-      tabindex: opts.onRow ? '0' : null, 'data-key': k ?? null,
+      tabindex: opts.onRow ? '0' : null, 'data-key': k ?? null, 'data-go': opts.onRow ? (opts.go === 'view' ? 'view' : 'detail') : null,
       onclick: onRow ? (/** @type {MouseEvent} */ e) => { if (opensRow(/** @type {any} */ (e.target), e.currentTarget)) onRow(r); } : null,
       onkeydown: onRow ? (/** @type {KeyboardEvent} */ e) => { if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onRow(r); } } : null,
     },
@@ -173,7 +173,7 @@ export function table(opts) {
     }),
     metrics.length ? h('td', { class: 'tn-td-metrics', 'data-m': 'metrics', 'aria-hidden': 'true' }, metrics.map((c) => labelled(c, r, cell(c, r)))) : null,
     h('td', { class: 'tn-td-m', 'data-m': 'subline', 'aria-hidden': 'true' }, subs.flatMap((x, i) => (i ? [h('span', { class: 'tn-sep-dot' }, ' · '), x] : [x]))),
-    opts.onRow && h('td', { class: 'tn-td-go', 'aria-hidden': 'true' }, icon('chevron-right')));
+    opts.onRow && h('td', { class: 'tn-td-go', 'aria-hidden': 'true' }, icon(GO_ICONS[opts.go === 'view' ? 'view' : 'detail'])));
     return tr;
   }
   function drawMore() {

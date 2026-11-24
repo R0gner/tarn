@@ -478,4 +478,10 @@ export const MUTANTS = [
     page: 'gallery', views: ['cards'], sizes: ['phone', 'desktop'], expect: ['info-length'],
     patch: [{ file: 'gallery/gallery.js', from: "info: 'Bars are runs today. A red edge marks an overlap with a heavy run.' }", to: "info: 'Bars are runs today. A red edge marks an overlap with a heavy run. '.repeat(6) }" }],
   },
+  {
+    // TN-22/HL-72: a row, tile or button marked go: 'view' shows the chevron again – the jump into another view is no longer visible beforehand
+    id: 'go-view-chevron',
+    page: 'gallery', views: ['rows'], sizes: ['phone', 'desktop'], expect: ['go-symbol'],
+    patch: [{ file: 'js/primitives.js', from: "view: 'arrow-up-right' })", to: "view: 'chevron-right' })" }],
+  },
 ];

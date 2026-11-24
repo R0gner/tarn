@@ -799,7 +799,7 @@ export function createApp(cfg0) {
       const v = views.get(viewId);
       const d = v?.detail?.(id, /** @type {ViewContext} */ (ctx(v)));
       if (!v || !d) return null;
-      return link ? { ...d, body: [d.body, toolbarRow(button(t('shell.openInView', { view: v.label }), { variant: 'ghost', iconAfter: 'chevron-right', onClick: () => api.go(viewId, { open: id }) }))] } : d;
+      return link ? { ...d, body: [d.body, toolbarRow(button(t('shell.openInView', { view: v.label }), { variant: 'ghost', go: 'view', onClick: () => api.go(viewId, { open: id }) }))] } : d;
     },
     get isDesktop() { return DESKTOP.matches; },
     get range() { return range; },

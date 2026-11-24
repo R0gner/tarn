@@ -88,6 +88,15 @@ Do: `growList(hits, row, { load: (offset) => fetchHits(offset), more: total > hi
 last 16 while scrolling.
 Don't: ``card({ footer: `${total - 40} more` }, list(rows.slice(0, 40), row))``, or a "Load more" button at the end of a list.
 
+**15. The chevron stays in the view, the link symbol leaves it.** A tap on a row opens its detail in the view you are in (chevron, sheet from
+below on a phone). Whatever leads into another view says so beforehand with the link symbol (`go: 'view'`): an overview tile that stands for its
+view, a row in a detail that opens the thing where it lives, the "Open in …" button.
+Why: the reader expects a row tap to stay where they are; a jump they did not see coming loses their place.
+Do: `statTile({ label: 'Hosts', go: 'view', onClick: () => app.go('hosts') })`; a container's open updates as `metricRow({ go: 'view', onClick: () =>
+app.go('updates', { open }) })` in its detail.
+Don't: `metricRow({ onClick: () => app.go('jobs', { open: id }) })` on the overview – a chevron that leaves the view; or a second small button
+on the row (put the jump into the detail).
+
 ## How much goes on the overview
 
 Start from the question "do I need to act, and where?". That gives tiles for the few figures with a goal (four to six), a Problems list, and at most
@@ -105,5 +114,5 @@ wrong block: fix that first (rule 2). The one exception is a display that cannot
 ## What the checks find
 
 `verify` fails on running text that is always visible in a card, section, tile or row beyond a limit, on an info banner that sits on a view, and on an
-`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6 and 8 to 14 cannot be checked by a machine, rules
+`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rule 15 is checked for the symbol (`go-symbol`: a `go: 'view'` element shows the link symbol and no chevron), not for the handler. Rules 1, 6 and 8 to 14 cannot be checked by a machine, rules
 2, 3, 4 and 7 only by length and placement: check those yourself before handing in.

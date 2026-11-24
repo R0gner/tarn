@@ -58,9 +58,9 @@ Never a disclaimer or a method note ([what goes on a view](dashboard-guidelines.
 
 | Function | Options |
 |---|---|
-| `statTile({ label, value, unit, sub, status, onClick })` | a key figure; `sub` may be text or a `sparkline`; with `onClick` the whole tile is the button |
-| `metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, wrapSub, wrapTitle })` | one row; with `onClick` the whole row is the button with a chevron on the right; `wrapSub` lets the sub line wrap (a problem row's reason must be readable in full); `wrapTitle` gives the title up to two lines before it ends in “…” (long names, e.g. listing titles on a phone); `key` identifies the row for the selection in the inspector |
-| `mediaRow({ media, title, lines, onClick, key, selected, label, titleLines })` | a row with a picture (a listing, a product, a camera): the picture on the left, the title over the whole remaining width (up to `titleLines` lines, default 3, then “…” with the full text as hint), below it the lines the board gives (a value line, a line of badges and facts); with `onClick` the whole row is the button. No chevron, no status dot and no value column: on a phone those take the title’s room – put the value into a line and the state into a badge (a dot next to a verdict word says the same twice) |
+| `statTile({ label, value, unit, sub, status, onClick, go })` | a key figure; `sub` may be text or a `sparkline`; with `onClick` the whole tile is the button (chevron); `go: 'view'` when the tile stands for a view and opens it (link symbol instead of the chevron) |
+| `metricRow({ title, sub, value, valueSub, status, onClick, go, chevron, mono, label, selected, key, wrapSub, wrapTitle })` | one row; with `onClick` the whole row is the button with a chevron on the right (`go: 'detail'`, the default: the detail opens in this view); `go: 'view'` puts the link symbol there instead – the row leads into another view (see “Where a tap leads” below); `wrapSub` lets the sub line wrap (a problem row's reason must be readable in full); `wrapTitle` gives the title up to two lines before it ends in “…” (long names, e.g. listing titles on a phone); `key` identifies the row for the selection in the inspector |
+| `mediaRow({ media, title, lines, onClick, go, key, selected, label, titleLines })` | a row with a picture (a listing, a product, a camera): the picture on the left, the title over the whole remaining width (up to `titleLines` lines, default 3, then “…” with the full text as hint), below it the lines the board gives (a value line, a line of badges and facts); with `onClick` the whole row is the button. No chevron, no status dot and no value column: on a phone those take the title’s room – put the value into a line and the state into a badge (a dot next to a verdict word says the same twice). `go: 'view'`: the link symbol at the end (a jump must be visible) |
 | `list(items, render, { empty, zebra })` | rows from items; `empty` is the text for no items |
 | `growList(items, render, { load, more, key, step, id, empty, zebra })` | a list that is never cut: draws `step` rows (default 50) at first and the next ones while the reader scrolls; with `load(offset)` (→ array, or `{ items, more }`) and `more: true` it asks the board for the rest by itself (loading row, error with “Try again”). `key` drops rows that arrive twice, `id` keeps drawn and loaded rows across redraws. Use it for every list that can be longer than a screen – and in folded sections, where the whole list belongs. Never a “Show more” button, never a “26 more” line that cannot be tapped |
 | `kv(pairs, { mono })` | key–value pairs `[key, value, class?]`; `null` pairs and empty values are dropped |
@@ -211,3 +211,18 @@ With `swipe: true`, on touch a sideways swipe on the content switches to the nei
 
 Pure parts (axis, rubber band, release, marker, sideways scrollers) in `js/swipe-data.js`, unit tests `tests/swipe.test.mjs`; overlay scenario
 `segmented-swipe` (mutants `swipe-wraps`, `swipe-no-touch-action`, `swipe-ignores-reduced-motion`).
+
+## Where a tap leads (`go`)
+
+A tap on a row or tile opens the detail **in the view you are in**: the chevron (`go: 'detail'`, the default with `onClick`). A tap that leads
+**into another view** shows the link symbol (`arrow-up-right`) instead: `go: 'view'` on `metricRow`, `statTile`, `mediaRow`, `table` (all
+rows) and `button` (after the text, e.g. “Open in Jobs” at the bottom of a detail; `detailOf(…, { link: true })` sets it by itself). `go` is
+never guessed from `onClick`; set it where the handler calls `app.go()`. The element carries `data-go`; verify (`go-symbol`) checks that a
+`go: 'view'` element shows the link symbol and no chevron, and that a `detail` one shows no link symbol. `GO_ICONS` names the symbols,
+`goMark(go)` draws one for a row of your own. A later third value (a subpage, one level deeper) gets its own symbol.
+
+A row that opens its detail here **and** offers a jump keeps the row tap in the view; the jump is a labelled button in the detail
+(`button(t('…'), { go: 'view' })`, or the shell's “Open in …” from `detailOf`), not a second button on the row: the row is one `<button>`
+(no button may sit inside it), and a small second target beside the value on a 360 px row is hit by mistake. The button names the target view
+in its text and has the full touch height.
+

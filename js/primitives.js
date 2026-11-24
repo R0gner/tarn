@@ -12,7 +12,8 @@ import { toggleKept } from './inputs-data.js';
 /** @typedef {Status | 'neutral' | 'accent'} Tone Colour meaning of a badge. */
 /** @typedef {{ label?: string, title?: string }} StatusDotOptions */
 /** @typedef {{ tone?: Tone, count?: boolean }} BadgeOptions */
-/** @typedef {{ variant?: 'default' | 'primary' | 'ghost' | 'danger', icon?: string, iconAfter?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, type?: 'button' | 'submit' | 'reset', title?: string, small?: boolean, className?: string }} ButtonOptions */
+/** @typedef {'detail' | 'view'} Go Where a tap leads: 'detail' = the detail opens in the view you are in (chevron), 'view' = into another view (link symbol). A later 'page' (a level deeper) gets its own symbol. */
+/** @typedef {{ variant?: 'default' | 'primary' | 'ghost' | 'danger', icon?: string, iconAfter?: string, go?: 'view', onClick?: (e: MouseEvent) => void, disabled?: boolean, type?: 'button' | 'submit' | 'reset', title?: string, small?: boolean, className?: string }} ButtonOptions */
 /** @typedef {{ label: string, hint?: string, onClick?: (e: MouseEvent) => void, disabled?: boolean, pressed?: boolean | null, className?: string, onToggle?: (pressed: boolean, e: MouseEvent) => (void | boolean | Promise<unknown>), iconPressed?: string }} IconButtonOptions onToggle makes it a toggle that flips its own state (aria-pressed) and icon (iconPressed while pressed) on a click; returning false or a promise that rejects (or resolves to false) puts it back; inside a table row it does not open the row. */
 
 
@@ -40,17 +41,31 @@ export function badge(text, { tone = 'neutral', count = false } = {}) {
   return h('span', { class: cls('tn-badge', `tn-badge-${tone}`, count && 'tn-badge-count') }, text);
 }
 
+/** The symbol per Go: the chevron stays in the view, the arrow leads into another one (not `external`: that is a website outside the board). */
+export const GO_ICONS = Object.freeze({ detail: 'chevron-right', view: 'arrow-up-right' });
+
 /**
- * Button. variant: 'default' | 'primary' | 'ghost' | 'danger'.
+ * The symbol at the end of a row or tile that says where a tap leads (`.tn-go`, aria-hidden; the element itself carries `data-go`).
+ * @param {Go} go
+ * @returns {HTMLElement}
+ */
+export function goMark(go) {
+  return h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon(GO_ICONS[go]));
+}
+
+/**
+ * Button. variant: 'default' | 'primary' | 'ghost' | 'danger'. go: 'view' – the button leads into another view: the link symbol after the text
+ * (instead of iconAfter), e.g. “Open in Jobs” at the bottom of a detail.
  * @param {Child} label
  * @param {ButtonOptions} [o]
  * @returns {HTMLButtonElement}
  */
-export function button(label, { variant = 'default', icon: ic, iconAfter, onClick, disabled, type = 'button', title, small, className } = {}) {
+export function button(label, { variant = 'default', icon: ic, iconAfter, go, onClick, disabled, type = 'button', title, small, className } = {}) {
+  const after = go === 'view' ? GO_ICONS.view : iconAfter;
   const b = h('button', {
     class: cls('tn-btn', `tn-btn-${variant}`, small && 'tn-btn-sm', !label && 'tn-btn-icononly', className),
-    type, disabled: !!disabled, 'aria-label': !label ? (title || null) : null, onclick: onClick || null,
-  }, ic && icon(ic), label && h('span', null, label), iconAfter && icon(iconAfter));
+    type, disabled: !!disabled, 'aria-label': !label ? (title || null) : null, onclick: onClick || null, 'data-go': go === 'view' ? 'view' : null,
+  }, ic && icon(ic), label && h('span', null, label), after && icon(after));
   return label ? b : tooltip(b, title); // icon-only button: tooltip (title = name)
 }
 

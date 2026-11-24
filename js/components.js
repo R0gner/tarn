@@ -4,18 +4,18 @@
 import './locales/shell.js';   // shell texts
 import { h, cls, nextId } from './dom.js';
 import { icon } from './icons.js';
-import { statusDot, button } from './primitives.js';
+import { statusDot, button, goMark } from './primitives.js';
 import { t } from './i18n.js';
 import { showOverlay, removeOverlay, placeOverlay } from './overlay.js';
 import { hideTooltip } from './controls.js';
 import { fitTiles } from './tiles-data.js';
 
-/** @import { Status } from './primitives.js' */
+/** @import { Status, Go } from './primitives.js' */
 /** @typedef {{ title?: Child, sub?: Child, actions?: Child, flush?: boolean, footer?: Child, info?: Child, className?: string }} CardOptions footer: a quiet line under the content ("+13 frequent runs hidden"); info: an optional explanation behind a small "i" next to the title (closed by default, at most INFO_MAX characters). */
 /** @typedef {{ count?: number | string | null, actions?: Child, footer?: Child, info?: Child, className?: string, fold?: string | { id: string, open?: boolean } }} SectionOptions footer: a quiet line under the content; info: an optional explanation behind a small "i" next to the title; fold: the title becomes a button that folds the content (id: stable name, the state survives redraws while the page lives; open: start open, default folded). */
-/** @typedef {{ label?: Child, value?: Child, unit?: Child, sub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, className?: string }} StatTileOptions */
-/** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, wrapSub?: boolean, wrapTitle?: boolean, className?: string }} MetricRowOptions wrapSub: the sub line wraps instead of ending in "…" (a problem row's reason must be readable in full); wrapTitle: the title takes up to two lines. */
-/** @typedef {{ media?: Child, title?: Child, lines?: Array<Child | null | undefined | false>, onClick?: (e: MouseEvent) => void, label?: string, selected?: boolean, key?: string | number, titleLines?: 2 | 3 | 4, className?: string }} MediaRowOptions media: the picture (an <img> or a placeholder), titleLines: lines the title may take before "…" (default 3), lines: the rows below the title (a value line, a line of badges). */
+/** @typedef {{ label?: Child, value?: Child, unit?: Child, sub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, go?: Go, className?: string }} StatTileOptions go: 'view' – the tile stands for a view and opens it (link symbol instead of the chevron). */
+/** @typedef {{ title?: Child, sub?: Child, value?: Child, valueSub?: Child, status?: Status, onClick?: (e: MouseEvent) => void, go?: Go, chevron?: boolean, mono?: boolean, label?: string, selected?: boolean, key?: string | number, wrapSub?: boolean, wrapTitle?: boolean, className?: string }} MetricRowOptions wrapSub: the sub line wraps instead of ending in "…" (a problem row's reason must be readable in full); wrapTitle: the title takes up to two lines. go: 'view' – the row leads into another view (link symbol instead of the chevron); default 'detail' with onClick. */
+/** @typedef {{ media?: Child, title?: Child, lines?: Array<Child | null | undefined | false>, onClick?: (e: MouseEvent) => void, go?: Go, label?: string, selected?: boolean, key?: string | number, titleLines?: 2 | 3 | 4, className?: string }} MediaRowOptions media: the picture (an <img> or a placeholder), titleLines: lines the title may take before "…" (default 3), lines: the rows below the title (a value line, a line of badges). */
 /** @typedef {{ empty?: string, zebra?: boolean }} ListOptions */
 /** @typedef {{ mono?: boolean }} KvOptions */
 /** @typedef {[Child, Child, string?]} KvPair [key, value, optional class for the value] */
@@ -139,30 +139,33 @@ function foldSection(title, { count, actions, footer, info, className, fold }, k
  * @param {StatTileOptions} [o]
  * @returns {HTMLElement}
  */
-export function statTile({ label, value, unit, sub, status, onClick, className } = {}) {
+export function statTile({ label, value, unit, sub, status, onClick, go = 'detail', className } = {}) {
   const inner = [
     h('div', { class: 'tn-stat-label' }, status && statusDot(status), h('span', { class: 'tn-ellipsis' }, label)),
     h('div', { class: 'tn-stat-value tn-num' }, value ?? '–', unit && h('span', { class: 'tn-stat-unit' }, unit)),
     sub && h('div', { class: cls('tn-stat-sub', status && status !== 'ok' && `tn-t-${status}`) }, sub),
   ];
   return onClick
-    ? h('button', { class: cls('tn-stat tn-stat-btn', className), type: 'button', onclick: onClick }, inner, h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon('chevron-right')))
+    ? h('button', { class: cls('tn-stat tn-stat-btn', className), type: 'button', onclick: onClick, 'data-go': go }, inner, goMark(go))
     : h('div', { class: cls('tn-stat', className) }, inner);
 }
 
 /**
  * Row – whole surface tappable (button), title/subtitle left, value right, status dot, chevron.
- * metricRow({ title, sub, value, valueSub, status, onClick, chevron = !!onClick, mono, wrapSub })
+ * metricRow({ title, sub, value, valueSub, status, onClick, go = 'detail', chevron = !!onClick, mono, wrapSub })
+ * go: where the tap leads – 'detail' (chevron, the detail opens in this view: the normal case) or 'view' (link symbol: the row stands for
+ * something another view shows and jumps there). Always set it explicitly for a jump; it is never guessed from onClick.
  * wrapSub: the sub line wraps over as many lines as it needs (default: one line, "…" at the end, full text as hint).
  * wrapTitle: the title takes up to two lines before it ends in "…" (long names such as listing titles; full text as hint).
  * @param {MetricRowOptions} [o]
  * @returns {HTMLElement}
  */
-export function metricRow({ title, sub, value, valueSub, status, onClick, chevron, mono, label, selected, key, wrapSub, wrapTitle, className } = {}) {
+export function metricRow({ title, sub, value, valueSub, status, onClick, go, chevron, mono, label, selected, key, wrapSub, wrapTitle, className } = {}) {
   const tag = onClick ? 'button' : 'div';
+  const mark = go === 'view' ? 'view' : (chevron ?? !!onClick) ? 'detail' : null;
   return h(tag, {
     class: cls('tn-row', onClick && 'tn-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
-    onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null,
+    onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null, 'data-go': onClick ? (go === 'view' ? 'view' : 'detail') : null,
   },
   status && h('span', { class: 'tn-row-status' }, statusDot(status)),
   h('span', { class: 'tn-row-main' },
@@ -170,7 +173,7 @@ export function metricRow({ title, sub, value, valueSub, status, onClick, chevro
     sub && h('span', { class: cls('tn-row-sub', wrapSub ? 'tn-row-sub-wrap' : 'tn-ellipsis') }, sub)),
   value != null && h('span', { class: 'tn-row-value' },
     h('span', { class: 'tn-num' }, value), valueSub && h('span', { class: 'tn-row-sub' }, valueSub)),
-  (chevron ?? !!onClick) && h('span', { class: 'tn-go', 'aria-hidden': 'true' }, icon('chevron-right')));
+  mark && goMark(mark));
 }
 
 /**
@@ -195,21 +198,22 @@ export function list(items, render, { empty: emptyText, zebra = false } = {}) {
  * lines, default 3, then "…" with the full text as hint), below it the lines the board gives (a value line, a line of badges). The whole row is
  * the button; there is no chevron and no status dot – say the state with a badge in a line (the dot and a verdict word side by side say the
  * same twice). A value does not sit in its own column beside the title, it goes into a line: on a phone a right column takes the title's room.
- * Rows without a picture: metricRow().
- * mediaRow({ media, title, lines: [valueLine, badges], onClick, key, selected, label, titleLines })
+ * Rows without a picture: metricRow(). go: 'view' – the row leads into another view: the link symbol at the end (the detail case stays without).
+ * mediaRow({ media, title, lines: [valueLine, badges], onClick, go, key, selected, label, titleLines })
  * @param {MediaRowOptions} [o]
  * @returns {HTMLElement}
  */
-export function mediaRow({ media, title, lines = [], onClick, label, selected, key, titleLines = 3, className } = {}) {
+export function mediaRow({ media, title, lines = [], onClick, go, label, selected, key, titleLines = 3, className } = {}) {
   const tag = onClick ? 'button' : 'div';
   return h(tag, {
     class: cls('tn-row', 'tn-mrow', onClick && 'tn-row-btn', selected && 'is-selected', className), type: onClick ? 'button' : null, 'data-key': key ?? null,
-    onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null,
+    onclick: onClick || null, 'aria-label': label || null, 'aria-current': selected ? 'true' : null, 'data-go': onClick ? (go === 'view' ? 'view' : 'detail') : null,
   },
   h('span', { class: 'tn-mrow-media', 'aria-hidden': 'true' }, media),
   h('span', { class: 'tn-mrow-main' },
     h('span', { class: cls('tn-mrow-title', 'tn-clamp', titleLines !== 2 && `tn-clamp-${titleLines}`) }, title),
-    lines.filter((l) => l != null && l !== false && l !== '').map((l) => h('span', { class: 'tn-mrow-line' }, l))));
+    lines.filter((l) => l != null && l !== false && l !== '').map((l) => h('span', { class: 'tn-mrow-line' }, l))),
+  onClick && go === 'view' && goMark('view'));
 }
 
 /**

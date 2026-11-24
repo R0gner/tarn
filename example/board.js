@@ -89,10 +89,10 @@ function viewOverview(ctx) {
     .map((j) => ({ j, n: j.runs.filter((r) => r === 'bad').length })).sort((a, b) => b.n - a.n).slice(0, 4);
   return [
     tiles(
-      statTile({ label: t('board.jobs'), value: jobs.length, status: nBad ? 'bad' : nWarn ? 'warn' : 'ok', sub: nBad ? t('board.tile.jobsSub', { errors: t('board.tile.errors', { count: nBad }), warnings: t('board.tile.warnings', { count: nWarn }) }) : t('board.tile.allOk'), onClick: () => ctx.app.go('jobs') }),
-      statTile({ label: t('board.hosts'), value: hosts.length, status: hosts.some((x) => x.status === 'bad') ? 'bad' : 'ok', sub: t('board.tile.hostsOk', { n: hosts.filter((x) => x.status === 'ok').length }), onClick: () => ctx.app.go('hosts') }),
-      statTile({ label: t('board.tile.storage'), value: fmtBytes(used).split(' ')[0], unit: fmtBytes(used).split(' ')[1], sub: t('board.tile.storageSub', { name: fullest.name, pct: fmtPct(fullest.diskRatio, 0) }), status: fullest.diskRatio >= 0.9 ? 'bad' : fullest.diskRatio >= 0.8 ? 'warn' : 'ok', onClick: () => ctx.app.go('hosts', { open: fullest.id }) }),
-      statTile({ label: t('board.tile.runs7'), value: fmtNum(ctx.data.runsPerDay.reduce((s, d) => s + d[0] + d[1] + d[2], 0), 0), sub: sparkline({ values: ctx.data.runsPerDay.map((d) => d[2]), color: 'bad', area: false }), onClick: () => ctx.app.go('history') })),
+      statTile({ label: t('board.jobs'), value: jobs.length, status: nBad ? 'bad' : nWarn ? 'warn' : 'ok', sub: nBad ? t('board.tile.jobsSub', { errors: t('board.tile.errors', { count: nBad }), warnings: t('board.tile.warnings', { count: nWarn }) }) : t('board.tile.allOk'), go: 'view', onClick: () => ctx.app.go('jobs') }),
+      statTile({ label: t('board.hosts'), value: hosts.length, status: hosts.some((x) => x.status === 'bad') ? 'bad' : 'ok', sub: t('board.tile.hostsOk', { n: hosts.filter((x) => x.status === 'ok').length }), go: 'view', onClick: () => ctx.app.go('hosts') }),
+      statTile({ label: t('board.tile.storage'), value: fmtBytes(used).split(' ')[0], unit: fmtBytes(used).split(' ')[1], sub: t('board.tile.storageSub', { name: fullest.name, pct: fmtPct(fullest.diskRatio, 0) }), status: fullest.diskRatio >= 0.9 ? 'bad' : fullest.diskRatio >= 0.8 ? 'warn' : 'ok', go: 'view', onClick: () => ctx.app.go('hosts', { open: fullest.id }) }),
+      statTile({ label: t('board.tile.runs7'), value: fmtNum(ctx.data.runsPerDay.reduce((s, d) => s + d[0] + d[1] + d[2], 0), 0), sub: sparkline({ values: ctx.data.runsPerDay.map((d) => d[2]), color: 'bad', area: false }), go: 'view', onClick: () => ctx.app.go('history') })),
     cols(
       section(t('board.sec.problems'), { count: problems.length },
         card({ flush: true }, list(problems, (p) => metricRow({
@@ -195,7 +195,7 @@ function hostDetail(id, ctx) {
         usageBar({ used: x.disk.used, total: x.disk.total, label: t('board.d.disk') }))),
       facts(t('board.d.cpu48'), lineChart({ x: xs, series: [{ label: 'CPU', values: x.cpu, color: 'blue' }], height: 130, area: true, yMax: 100, yFormat: (v) => `${fmtNum(v, 0)} %` })),
       facts(t('board.d.facts'), kv([[t('board.d.uptime'), fmtDuration(x.uptimeSec)], ['Jobs', String(jobs.length)]])),
-      jobs.length > 0 && facts('Jobs', list(jobs, (j) => jobRow(j, ctx))),
+      jobs.length > 0 && facts('Jobs', list(jobs, (j) => jobRow(j, ctx, { go: 'view' }))),
     ],
   };
 }

@@ -11,6 +11,7 @@ the files. `logo.svg` is the Tarn logo (own drawing, not Lucide).
 | `archive` | `archive.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/archive.svg | `78c732e34e232db63af06a2330b4448045cfdf49b48b59f2d31922df54c7bb17` |
 | `arrow-down` | `arrow-down.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-down.svg | `2b641c7a59d39450edfed72067fcc9940a1a316a737346af23b4b9103c0689f2` |
 | `arrow-up` | `arrow-up.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-up.svg | `8c22c25874c80bb062bef985d207d8f1d4a4d7847237d0a8cf720a3235968518` |
+| `arrow-up-right` | `arrow-up-right.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/arrow-up-right.svg | `50b2503b9d11881142255466b7e3461d022b919735841c321d72003ac9959fe1` |
 | `bell` | `bell.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell.svg | `394889e9631fe3a9a63be9a479a95b451b708e432d895978d21d9130b5ee5dbe` |
 | `bell-off` | `bell-off.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bell-off.svg | `14ad2775c3a594f09a79c195531778ae51302f847a9c558f720340d1e450bd6a` |
 | `bookmark` | `bookmark.svg` | https://raw.githubusercontent.com/lucide-icons/lucide/1.70.0/icons/bookmark.svg | `1d5023760db81f21c3b5a63f012ef540acc01932731c733e4645012a876d39f4` |

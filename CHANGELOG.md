@@ -3,6 +3,25 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.16.0
+
+### Added
+- **Where a tap leads** (TN-22, owner's rule HL-72): `go: 'detail' | 'view'` on `metricRow`, `statTile`, `mediaRow`, `table` and `go: 'view'` on
+  `button`. `'detail'` (the default with `onClick`) keeps the chevron: the detail opens in the view you are in. `'view'` shows the link symbol
+  `arrow-up-right` instead: the tap leads into another view (an overview tile, a row that opens the thing where it lives, “Open in …”). Never
+  guessed from `onClick`. `arrow-up-right`, not `external`: that one reads as “another website”. The element carries `data-go`.
+  `GO_ICONS` and `goMark(go)` for rows of your own; a later third value (subpage) gets its own symbol. In a phone list with measurements
+  (`table`, `mobile: 'metric'`) the link symbol stays visible (the chevron is hidden there). docs/components.md “Where a tap leads”,
+  docs/dashboard-guidelines.md rule 15, gallery “Rows and facts”.
+- verify rule `go-symbol` (content probe): a `go: 'view'` element without the visible link symbol or with the chevron, a `detail` one with the link
+  symbol; found by the icon's path. Mutant `go-view-chevron`. Whether a handler stays in the view is not visible without running it: a board checks
+  that in its own test.
+- Icon `arrow-up-right` (Lucide).
+
+### Changed
+- The shell's “Open in …” button of `detailOf(…, { link: true })` shows the link symbol instead of the chevron.
+- Sample board: the overview tiles and the job rows in a host detail are `go: 'view'`.
+
 ## 0.15.0
 
 ### Added

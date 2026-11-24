@@ -352,6 +352,9 @@ th.is-sorted { color: var(--tn-text); }
 /* a control in a row is drawn small (it must not make the title line taller); on touch its target stays 44 px (core.css .tn-iconbtn::before) */
 .tn-table td[data-m="action"] .tn-iconbtn { width: var(--tn-sz-28); height: var(--tn-sz-28); }
 .tn-table-wrap.is-list.has-metrics .tn-table td.tn-td-go { display: none; }
+/* a table whose rows lead into another view keeps the link symbol on the phone too (the chevron may go, the jump must stay visible) */
+.tn-table-wrap.is-list.has-metrics.is-go-view .tn-table tbody tr { grid-template-columns: auto minmax(0, 1fr) auto auto; grid-template-areas: "st title act go" ". met met met" ". sub sub sub"; }
+.tn-table-wrap.is-list.has-metrics.is-go-view .tn-table td.tn-td-go { display: grid; }
 /* one template for the whole list (table.js sets --tn-met-tracks from the widest label + value of every measurement): the same measurement at the
    same x in every row; more measurements than fit wrap to a second line of the same grid; a value longer than its cell moves below its label (never cut) */
 .tn-table-wrap.is-list .tn-table td.tn-td-metrics { display: grid; grid-area: met; grid-template-columns: var(--tn-met-tracks, repeat(3, minmax(0, 1fr))); gap: var(--tn-sp-2) var(--tn-s3); align-items: first baseline; }
