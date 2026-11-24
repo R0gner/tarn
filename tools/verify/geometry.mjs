@@ -10,8 +10,9 @@ const CONTENT = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta
   .replace(/^\s*\/\/.*$/gm, '').trim();
 
 /**
- * Until data is loaded and finite animations are done. Calm must hold for 4 checks in a row (≈ 130 ms),
- * because some transitions only start after two frames.
+ * Until data is loaded and finite animations are done. Calm must hold for 3 checks in a row (3 × 2 frames: a transition
+ * that only starts after two frames is seen running by the second check; the third is the margin). It counts frames, not milliseconds, so a loaded
+ * host makes it slower, not looser.
  */
 export async function settle(page, { max = 3000 } = {}) {
   await evaluate(page, `new Promise((res) => {
@@ -28,7 +29,7 @@ export async function settle(page, { max = 3000 } = {}) {
       document.getAnimations().some((a) => a.playState === 'running' && a.effect?.getComputedTiming().iterations !== Infinity);
     const tick = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       calm = busy() ? 0 : calm + 1;
-      if (calm >= 4 || performance.now() - t0 > ${max}) setTimeout(res, 30); else setTimeout(tick, 0);
+      if (calm >= 3 || performance.now() - t0 > ${max}) setTimeout(res, 30); else setTimeout(tick, 0);
     }));
     fontsReady.then(tick, tick);
   })`, { timeout: max + 5000 });
@@ -137,7 +138,8 @@ export async function geometryTask(w, task, opts) {
     for (const e of con.take()) findings.push({ check: 'geometry', rule: 'console', ...ctx, sel: 'console', where: '', text: e });
     if (shot && res.findings.length) shots.push(...await shot(page, ctx, res.findings, shotState));
     // close the detail again so that the next view starts without an open sheet
-    if (view.includes('open=')) { await goHash(page, view.split('?')[0]); await settle(page); }
+    // (no settle here: the next state's goHash + settle waits for the closing animation too)
+    if (view.includes('open=')) await goHash(page, view.split('?')[0]);
     timing.push({ view, ms: Date.now() - t0, settle: t1 - t0, probe: t2 - t1 });
   }
   return { findings, warnings, states, timing, shots };
