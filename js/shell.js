@@ -27,6 +27,7 @@ import { notifications, openInstallHint } from './notifications.js';
 import { detectPlatform, manualInstall, browserEnv } from './notifications-data.js';
 import { findRange, RANGE_PRESETS } from './prom-data.js';
 import { combineSources } from './data.js';
+import { viewportDebug, wantsViewportDebug } from './viewport-debug.js';
 
 /** @typedef {import('./dom.js').Child} Child */
 /** @typedef {import('./primitives.js').Status} Status */
@@ -73,6 +74,7 @@ import { combineSources } from './data.js';
 /** @typedef {{ el: HTMLElement, readonly view: string | null, readonly openId: string | null, go: (view: string, o?: { open?: string, params?: Record<string, string> }) => void, open: (id: string) => void, closeDetail: () => void, refresh: () => void, setCount: (id: string, n: number | string | null, tone?: Status) => void, readonly isDesktop: boolean, detailOf: (view: string, id: string, o?: { link?: boolean }) => DetailContent | null, readonly range: TimeRange, setRange: (id: string) => void }} App Returned by createApp(). */
 
 const DESKTOP = window.matchMedia('(min-width: 1000px)');
+const PHONE = window.matchMedia('(max-width: 599px)');
 /** Installed app: after the exit hint a second Back within this many ms leaves (the hint shows as long). */
 const EXIT_MS = 2500;
 
@@ -188,7 +190,37 @@ export function createApp(cfg0) {
   /* Phone (< 600 px): theme, density and language leave the toolbar for ONE settings entry; otherwise the view title is cut off. */
   const settingsBtn = iconButton('settings', { label: t('shell.settings'), onClick: openSettings, className: 'tn-settings-btn' });
   const rangeSlot = h('div', { class: 'tn-range', hidden: true });
-  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, infoBtn, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, langBtn, densityBtn, themeBtn, settingsBtn);
+  /* Main filter bar (round 11): the first filterBar() in the view's content (not `inline`, not in a card) is the view's search and filter. On the
+     phone (< 600 px) it leaves the content: a search icon in the toolbar turns the title into a search field (✕ or Escape clears and closes it,
+     leaving it empty closes it) and a filter icon carries the number of active filters; the chips and the count stay in the content. Wider, the bar
+     stays where it is, fixed under the toolbar together with the view's tab bar (syncControls, stack). */
+  const tsInput = /** @type {HTMLInputElement} */ (h('input', {
+    class: 'tn-input', type: 'search', enterkeyhint: 'search', autocomplete: 'off', spellcheck: 'false', 'aria-label': t('filter.searchAria'),
+    oninput: () => { const i = mainInput(); if (i && i.value !== tsInput.value) { i.value = tsInput.value; i.dispatchEvent(new Event('input', { bubbles: true })); } },
+    onkeydown: (/** @type {KeyboardEvent} */ e) => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); setSearch(false, true); } },
+    /* leaving it empty closes it – not when the focus goes to the filter icon or ✕ beside it (a tap there, also where a tap does not focus a
+       button), nor into a sheet the filter icon opened */
+    onblur: (/** @type {FocusEvent} */ e) => {
+      const to = e.relatedTarget instanceof Node ? e.relatedTarget : null;
+      if (tsInput.value || tsHeld || (to && (tsBox.contains(to) || !appEl.contains(to)))) return;
+      setSearch(false);
+    },
+  }));
+  let tsHeld = false;   // a pointer is down on the search row (its buttons)
+  const searchBtn = iconButton('search', { label: t('filter.searchAria'), onClick: () => setSearch(true), className: 'tn-tsearch-btn' });
+  const searchBtnN = h('span', { class: 'tn-filter-n tn-num', 'aria-hidden': 'true', hidden: true });
+  searchBtn.append(searchBtnN);
+  const filterTbN = h('span', { class: 'tn-filter-n tn-num', 'aria-hidden': 'true', hidden: true });
+  const filterTb = iconButton('filter', { label: t('filter.title'), className: 'tn-tfilter-btn',
+    onClick: () => /** @type {HTMLElement | null | undefined} */ (mainFb?.querySelector(':scope > .tn-filter-row > .tn-btn'))?.click() });
+  filterTb.setAttribute('aria-haspopup', 'dialog');
+  filterTb.append(filterTbN);
+  const tsBox = h('div', { class: 'tn-tsearch', hidden: true }, h('label', { class: 'tn-search' }, icon('search'), tsInput), filterTb,
+    iconButton('x', { label: t('filter.closeSearch'), onClick: () => setSearch(false, true) }));
+  tsBox.addEventListener('pointerdown', () => { tsHeld = true; });
+  for (const ev of ['pointerup', 'pointercancel']) window.addEventListener(ev, () => { if (tsHeld) requestAnimationFrame(() => { tsHeld = false; }); }, true);
+  searchBtn.hidden = true; filterTb.hidden = true;
+  const toolbar = h('header', { class: 'tn-toolbar' }, sbBtn, viewTitle, infoBtn, tsBox, h('div', { class: 'tn-toolbar-spacer' }), cfg.toolbarExtra || null, rangeSlot, fresh, reloadBtn, searchBtn, langBtn, densityBtn, themeBtn, settingsBtn);
   const banners = h('div', { class: 'tn-banners' });
   const content = h('main', { class: 'tn-content', id: 'tn-content', tabindex: '-1' });
   const inspTitle = h('h2', { class: 'tn-sheet-title' });
@@ -370,8 +402,11 @@ export function createApp(cfg0) {
     fresh.classList.toggle('is-loading', !!s.loading || reloading);
     /* a range change keeps the old range's data until the new one arrives: the view keeps its layout, the charts show they are refreshing */
     if (activeSrc.state.refreshing) content.setAttribute('aria-busy', 'true'); else content.removeAttribute('aria-busy');
-    fresh.textContent = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
-    fresh.setAttribute('aria-label', s.fetchedAt ? t('shell.freshAriaAt', { text: fresh.textContent, time: fmtFull(s.fetchedAt) }) : t('shell.freshAria', { text: fresh.textContent }));
+    const full = !s.data ? (s.error ? t('shell.noData') : t('shell.loadingShort')) : t(s.stale ? 'shell.updatedStale' : 'shell.updated', { age: fmtAgo(s.age) });
+    /* phone: the age alone (“2 min ago”) while the data is fresh – the toolbar keeps room for the view title and the search icon; the label and the
+       source list say it in full, stale data keeps its word */
+    fresh.textContent = s.data && !s.stale && PHONE.matches ? fmtAgo(s.age) : full;
+    fresh.setAttribute('aria-label', s.fetchedAt ? t('shell.freshAriaAt', { text: full, time: fmtFull(s.fetchedAt) }) : t('shell.freshAria', { text: full }));
   }
   function renderBanners() {
     const s = srcState, items = [];
@@ -577,6 +612,63 @@ export function createApp(cfg0) {
     el.focus({ preventScroll: true });
     if (k.start != null && !(el instanceof HTMLSelectElement)) { try { el.setSelectionRange(k.start, k.end); } catch { /* a type without a caret (checkbox) */ } }
   }
+  /* ---- Fixed controls and the main filter bar (round 11) ---- */
+  /** @type {HTMLElement | null} */ let mainFb = null;
+  let searching = false, controlsFrame = 0, searchView = '';
+  const mainInput = () => /** @type {HTMLInputElement | null} */ (mainFb?.querySelector(':scope > .tn-filter-row input') || null);
+  /** @param {HTMLElement} b @param {string} text */
+  const relabel = (b, text) => { b.setAttribute('aria-label', text); b.dataset.tip = text; };
+  /** @param {boolean} on @param {boolean} [clear] */
+  function setSearch(on, clear = false) {
+    if (clear && tsInput.value) { tsInput.value = ''; tsInput.dispatchEvent(new Event('input')); }
+    const was = searching;
+    searching = on && !!mainInput();
+    toolbar.classList.toggle('is-search', searching);
+    tsBox.hidden = !searching;
+    if (searching) { if (!was) tsInput.value = mainInput()?.value || ''; tsInput.focus({ preventScroll: true }); }
+    else if (was && (document.activeElement === tsInput || document.activeElement === document.body)) searchBtn.focus({ preventScroll: true });
+    syncControls();
+  }
+  /** The content's controls that stay under the toolbar while it scrolls: the view's tab bar and its main filter bar (css: “Fixed controls”). */
+  const STICK = ':scope > .tn-segset > .tn-segbar, :scope > .tn-tabset > .tn-tabs, .tn-filterbar.is-main';
+  const stickRo = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => scheduleControls());
+  /** stacks them: each one's offset under the toolbar (--tn-stick-at), the total for the table head in the content (--tn-stick) */
+  function stack() {
+    let acc = 0;
+    for (const el of /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll(STICK))) {
+      if (getComputedStyle(el).position !== 'sticky') { el.style.removeProperty('--tn-stick-at'); continue; }
+      el.style.setProperty('--tn-stick-at', `${acc}px`);
+      acc += el.offsetHeight;
+      stickRo?.observe(el);
+    }
+    content.style.setProperty('--tn-stick', `${acc}px`);
+  }
+  function syncControls() {
+    const fb = /** @type {HTMLElement | undefined} */ ([...content.querySelectorAll('.tn-filterbar:not([data-inline])')].find((el) => !el.closest('.tn-card'))) || null;
+    if (fb !== mainFb) { mainFb?.classList.remove('is-main'); mainFb = fb; fb?.classList.add('is-main'); }
+    const input = mainInput();
+    if (searching && (!input || searchView !== cur.view)) { searching = false; toolbar.classList.remove('is-search'); tsBox.hidden = true; }
+    searchView = cur.view || '';
+    searchBtn.hidden = !input;
+    filterTb.hidden = !fb?.querySelector(':scope > .tn-filter-row > .tn-btn');
+    const q = input?.value || '';
+    if (searching && document.activeElement !== tsInput && tsInput.value !== q) tsInput.value = q;
+    const n = fb ? fb.querySelectorAll('.tn-chips > .tn-chip:not(.tn-chip-clear)').length : 0;
+    /* the search icon stands for search and filter while the field is closed: a dot for a query, the number of active filters */
+    searchBtn.classList.toggle('is-active', !!q && !n);
+    searchBtnN.textContent = n ? String(n) : ''; searchBtnN.hidden = !n;
+    relabel(searchBtn, [q ? t('filter.searchFor', { q }) : t('filter.searchAria'), n ? t('filter.titleN', { count: n }) : ''].filter(Boolean).join(' · '));
+    filterTbN.textContent = n ? String(n) : ''; filterTbN.hidden = !n;
+    filterTb.classList.toggle('is-active', n > 0);
+    relabel(filterTb, n ? t('filter.titleN', { count: n }) : t('filter.title'));
+    stack();
+  }
+  function scheduleControls() { if (!controlsFrame) controlsFrame = requestAnimationFrame(() => { controlsFrame = 0; syncControls(); }); }
+  new MutationObserver(scheduleControls).observe(content, { childList: true, subtree: true });
+  content.addEventListener('tn-filterbar', scheduleControls);
+  window.addEventListener('resize', scheduleControls);
+  PHONE.addEventListener('change', () => renderFresh());
+
   /** @param {{ keepField?: boolean }} [o] */
   function renderView({ keepField = false } = {}) {
     const v = /** @type {NonNullable<ReturnType<typeof views.get>>} */ (views.get(/** @type {string} */ (cur.view)));
@@ -599,6 +691,7 @@ export function createApp(cfg0) {
     if (row != null) [.../** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-key]'))].find((el) => el.dataset.key === row)?.focus({ preventScroll: true });
     markSelected();
     renderNav();
+    syncControls();
   }
   /** The row whose detail is open: aria-current on it and on no other (inspector and sheet alike, it is the state, not the look), the highlight
    * (is-selected) only beside an inspector. Kept here because opening or closing a detail draws nothing anew (a row drawn with `selected`
@@ -814,6 +907,7 @@ export function createApp(cfg0) {
 
   if (cfg.icon && typeof cfg.icon === 'object') favicon(cfg.icon); else if (cfg.favicon) favicon(cfg.favicon);
   (cfg.root || document.body).append(appEl);
+  if (wantsViewportDebug()) viewportDebug();   // ?tn-debug=viewport: live viewport figures (js/viewport-debug.js); nothing without the parameter
   syncTheme(); syncDensity(); syncSidebarA11y();
   /* The buttons name the theme and density in effect, also when something else changes them (setDensity() in a board, data-density set by a page). */
   watchDensity(syncDensity);

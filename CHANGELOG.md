@@ -3,6 +3,43 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.18.0
+
+### Changed
+- **Controls for the content stay fixed, the content scrolls** (round 11b, Max): the view's tab bar (`segmented({ pane })`, `tabs()` placed directly
+  in the view) and its main filter bar stick under the toolbar; they span the content's width with the page background, rows scroll behind them, the
+  table head sits below them (`--tn-stick`, stacked by the shell). `segmented({ pane })` puts its control into a full-width `.tn-segbar`.
+- **Search as an icon in the toolbar on the phone** (round 11b, Max): the main filter bar (the first `filterBar()` of a view, not in a card, not
+  `inline: true`) loses its search row on a phone; a search icon in the toolbar (dot for a query, badge with the number of active filters) turns the
+  title into a search field with the filter icon and ✕ beside it (✕/Escape clear and close, empty closes). Two fixed rows instead of three. Variants
+  tried at 360 × 780: search and filter as two toolbar icons (title cut to “S…”, settings pushed out of the toolbar), tabs inside the toolbar row (three
+  tabs with counts need ~300 px, no room for the title), one compact row with tabs and icons (German tab labels overflow at 360 px). From 600 px the
+  search field stays visible in the content (there is room) and sticks under the toolbar. New option `filterBar({ inline })`. Texts
+  `filter.closeSearch`, `filter.searchFor`, `filter.titleN` (en, de, fr, es).
+- **Phone toolbar: the freshness text shows the age alone** (“2 min ago”) while the data is fresh, so the title and the search icon fit at 360 px; the
+  label, the source list and stale data keep the full text.
+
+- **Viewport check `?tn-debug=viewport`** (round 11b, HL board as an installed PWA on a Samsung S23 scrolled by about a toolbar height although the
+  content fit): a small closable overlay (`js/viewport-debug.js`, started by `createApp` only with the parameter) shows live innerHeight,
+  visualViewport height/offset, html client/scroll height, body and `.tn-app` heights, the measured 100vh/dvh/svh/lvh, the display mode, the
+  safe-area insets, the scroll position, the three elements that reach furthest below the viewport and every scroll container that scrolls.
+- **`.tn-app` fills the small viewport (`min-height: 100svh`), `body` has no min-height any more** (was `100dvh` on both). Suspected cause of the
+  phantom scroll: in standalone mode Chrome on Android can resolve `100dvh` larger than the visible area (system bars, `viewport-fit=cover`); `svh` is
+  never larger than what is visible. Not reproducible headless; the overlay above shows on the phone whether `dvh` > innerHeight.
+
+### Fixed
+- A static main filter bar (phone) painted over the fixed tab bar: `z-index` applies to a grid item even without `position`. found by: review
+- The empty toolbar search field closed on the tap on the filter icon beside it (blur before the click), so the filter sheet never opened; the field
+  now stays open while the focus goes to its own row or into a sheet. found by: verify overlay-missing/filter-sheet/–
+
+### Tooling
+- verify overlay scenario **`toolbar-search`** (board `jobs`): phone – no search row in the content, the icon opens a focused field, typing filters,
+  a redraw keeps field and text, the filter icon opens the sheet, Escape clears and closes, the title comes back; wider – no icon, the filter bar
+  stays under the toolbar after scrolling. `filter-sheet` opens the sheet through the toolbar on a phone, `filter-refresh` runs from 600 px (the phone
+  part is in `toolbar-search`). Mutants `toolbar-search-deaf`, `filterbar-scrolls-away`, `toolbar-search-blur-closes`.
+- Mutant `toolbar-crowded` gives the freshness text the width of the old “Updated now” back (with the short phone text the title was no longer
+  crowded out and the mutant went undetected). found by: selftest toolbar-crowded
+
 ## 0.17.1
 
 ### Tooling

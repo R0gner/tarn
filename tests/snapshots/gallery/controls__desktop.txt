@@ -174,11 +174,12 @@ div.tn-app @0,0 1424x1372
             h3.tn-card-title "segmented() with panes and swipe" @236,764 1160x20
         div.tn-card-body @224,792 1184x244
           div.tn-segset @236,804 1160x144
-            div.tn-seg [radiogroup] "Parts" @236,804 212x28
-              button.tn-seg-btn [radio] {checked=true} @240,808 80x24
-                span.tn-badge.tn-badge-neutral.tn-badge-count "3" @288,808 24x20
-              button.tn-seg-btn [radio] {checked=false} @324,808 64x24
-              button.tn-seg-btn [radio] {checked=false} @388,808 56x24
+            div.tn-segbar @236,804 1160x28
+              div.tn-seg [radiogroup] "Parts" @236,804 212x28
+                button.tn-seg-btn [radio] {checked=true} @240,808 80x24
+                  span.tn-badge.tn-badge-neutral.tn-badge-count "3" @288,808 24x20
+                button.tn-seg-btn [radio] {checked=false} @324,808 64x24
+                button.tn-seg-btn [radio] {checked=false} @388,808 56x24
             div.tn-segpane.tn-segpane-swipe @236,848 1160x100
               div.tn-segpane-track @236,848 1160x100
                 div.tn-segpane-body @236,848 1160x100

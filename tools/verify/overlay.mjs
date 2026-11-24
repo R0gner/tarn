@@ -950,7 +950,7 @@ export const SCENARIOS = [
     } },
 
   // ---- Gb: a filter bar survives a data refresh ----
-  { id: 'filter-refresh', page: 'board', hash: 'jobs', overlay: '.tn-filterbar input[type="search"]', focus: true,
+  { id: 'filter-refresh', page: 'board', hash: 'jobs', overlay: '.tn-filterbar input[type="search"]', focus: true, when: (sz) => !sz.mobile,   // phone: toolbar-search
     // the sample board rebuilds its filter bar on every redraw (app.refresh() after new data): the search field keeps focus, caret and text, and typing goes on
     open: async (io) => { await io.press('.tn-filterbar input[type="search"]'); await io.page.send('Input.insertText', { text: 'back' }); await sleep(120); },
     assert: async (io) => {
@@ -966,6 +966,56 @@ export const SCENARIOS = [
       await io.page.send('Input.insertText', { text: 's' }); await sleep(120);
       const v = await io.eval(`document.querySelector('.tn-filterbar input[type="search"]')?.value`);
       if (v !== 'backs') left.push(`typing after a redraw gives “${v}” (“backs” expected)`);
+      return left;
+    } },
+
+  { id: 'toolbar-search', page: 'board', hash: 'jobs', overlay: '.tn-toolbar', focus: false,
+    // round 11b (HL board on a phone): the view's controls stay, its content scrolls. Phone: the main filter bar's search is an icon in the toolbar
+    // that turns the title into a search field (typing filters the content, a redraw keeps field, focus and text, the filter icon beside it opens
+    // the filter sheet, Escape clears and closes it); the bar's own search row is not in the content. Wider: the filter bar stays in the content and
+    // sticks under the toolbar while the content scrolls; no toolbar icon.
+    open: (io) => io.until(`!!document.querySelector('.tn-filterbar.is-main') && !!document.querySelector('[data-key="offsite-sync"]')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const vis = (sel) => io.eval(`(() => { const e = document.querySelector(${JSON.stringify(sel)}); if (!e) return false; const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; })()`);
+      const rows = () => io.eval(`document.querySelectorAll('.tn-content [data-key]').length`);
+      if (io.size.w >= 600) {
+        if (await vis('.tn-tsearch-btn')) left.push('the toolbar shows a search icon beside a visible search field');
+        if (!(await vis('.tn-filterbar.is-main .tn-filter-row input'))) left.push('the search field is not shown in the content');
+        await io.eval(`(() => { const s = document.createElement('div'); s.className = 'g-pad'; s.style.height = '3000px'; document.querySelector('.tn-content').append(s); window.scrollTo(0, 600); return null; })()`);
+        await sleep(120);
+        const st = await io.eval(`(() => { const t = document.querySelector('.tn-toolbar').getBoundingClientRect(), f = document.querySelector('.tn-filterbar.is-main').getBoundingClientRect(); return { y: scrollY, gap: Math.round(f.top - t.bottom), h: Math.round(f.height) }; })()`);
+        if (st.y < 300) left.push(`the page did not scroll (${st.y} px), the check proves nothing`);
+        else if (st.gap < -1 || st.gap > 8 || st.h < 20) left.push(`after scrolling the filter bar is ${st.gap} px from the toolbar (fixed under it expected)`);
+        return left;
+      }
+      if (await vis('.tn-filterbar.is-main .tn-filter-row input')) left.push('the main filter bar shows its own search row in the content on a phone');
+      if (!(await vis('.tn-tsearch-btn'))) return [...left, 'no search icon in the toolbar on a phone'];
+      const before = await rows();
+      await io.press('.tn-tsearch-btn'); await sleep(80);
+      const open = await io.eval(`(() => { const i = document.querySelector('.tn-tsearch input'); return { field: !!i && i.getBoundingClientRect().width > 120, focus: document.activeElement === i, title: document.querySelector('.tn-toolbar-title').getBoundingClientRect().width }; })()`);
+      if (!open.field) left.push('the search icon does not open a search field in the toolbar');
+      if (!open.focus) left.push('the opened search field has no focus');
+      if (open.title > 0) left.push('the view title stays beside the open search field');
+      await io.page.send('Input.insertText', { text: 'back' }); await sleep(150);
+      const typed = await io.eval(`document.querySelector('.tn-filterbar.is-main .tn-filter-row input')?.value`);
+      if (typed !== 'back') left.push(`typing in the toolbar field gives “${typed}” in the filter bar (“back” expected)`);
+      const after = await rows();
+      if (!(after > 0 && after < before)) left.push(`the search does not filter the content (${before} → ${after} rows)`);
+      await io.eval(`(() => { window.tnApp.refresh(); return null; })()`); await sleep(150);
+      await io.page.send('Input.insertText', { text: 'u' }); await sleep(150);
+      const re = await io.eval(`({ v: document.querySelector('.tn-filterbar.is-main .tn-filter-row input')?.value, open: document.querySelector('.tn-toolbar').classList.contains('is-search') })`);
+      if (!re.open || re.v !== 'backu') left.push(`after a redraw typing gives “${re.v}”, field ${re.open ? 'open' : 'closed'} (“backu”, open expected)`);
+      await io.press('.tn-tfilter-btn'); await sleep(200);
+      if (!(await io.until(`!!document.querySelector('dialog.tn-sheet[open] .tn-fgroup')`, 1500))) left.push('the filter icon beside the search field opens no filter sheet');
+      await io.key('Escape', 27); await sleep(200);
+      await io.eval(`(() => { document.querySelector('.tn-tsearch input')?.focus(); return null; })()`);
+      await io.key('Escape', 27); await sleep(150);
+      const shut = await io.eval(`({ open: document.querySelector('.tn-toolbar').classList.contains('is-search'), v: document.querySelector('.tn-filterbar.is-main .tn-filter-row input')?.value, title: document.querySelector('.tn-toolbar-title').getBoundingClientRect().width })`);
+      if (shut.open) left.push('Escape in the search field does not close it');
+      if (shut.v !== '') left.push(`closing the search keeps “${shut.v}” as the query`);
+      if (!(shut.title > 0)) left.push('the view title does not come back after the search closes');
+      if ((await rows()) !== before) left.push('closing the search does not show all rows again');
       return left;
     } },
 
@@ -1266,7 +1316,7 @@ export const SCENARIOS = [
     } },
   { id: 'filter-sheet', page: 'gallery', hash: 'table', overlay: 'dialog.tn-sheet[open]', focus: true,
     // filter sheet with all types: choosing keeps the focus on the pressed control (no re-render), a chip appears, a combobox in the sheet is on top
-    open: (io) => io.press('.tn-btn', 'Filter'),
+    open: async (io) => { if (io.size.w < 600) { await io.press('.tn-tsearch-btn'); await io.press('.tn-tfilter-btn'); } else await io.press('.tn-btn', 'Filter'); },
     assert: async (io) => {
       const left = [];
       const groups = await io.eval(`document.querySelectorAll('dialog.tn-sheet[open] .tn-fgroup').length`);

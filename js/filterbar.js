@@ -18,7 +18,7 @@ import { kindOf, chipsOf, withoutChip, matchFilters, cleanValue } from './filter
 /** @typedef {import('./filters-data.js').FilterState} FilterState */
 /** @typedef {{ value: any, label: string, count?: number }} FilterOption */
 /** @typedef {{ key: string, label?: string, type?: 'options' | 'bool' | 'range' | 'time', options?: FilterOption[], single?: boolean, pills?: number, labels?: { yes?: string, no?: string }, unit?: string, min?: number, max?: number, step?: number, format?: (n: number) => string, presets?: string[], custom?: boolean }} FilterDef One filter; the type decides the control in the sheet and the chip text. */
-/** @typedef {{ filters: FilterDef[], placeholder?: string, value?: Partial<FilterState>, onChange?: (state: FilterState) => void, count?: (state: FilterState) => string | null | undefined }} FilterBarOptions */
+/** @typedef {{ filters: FilterDef[], placeholder?: string, value?: Partial<FilterState>, onChange?: (state: FilterState) => void, count?: (state: FilterState) => string | null | undefined, inline?: boolean }} FilterBarOptions inline: stays where it is on every width; without it the first filter bar of a view's content is its main one (phone: search and filter as icons in the toolbar, wider: fixed under the toolbar). */
 /** @typedef {HTMLElement & { state: FilterState, set: (s: Partial<FilterState>) => void, refresh: () => void }} FilterBarElement */
 
 export { matchFilters };
@@ -53,7 +53,7 @@ export function filterBar(opts) {
     icon('filter'), h('span', null, t('filter.title')), countEl);
   const chips = h('div', { class: 'tn-chips', 'aria-label': t('filter.active') });
   const info = h('div', { class: 'tn-filter-info' });
-  const el = h('div', { class: 'tn-filterbar' },
+  const el = h('div', { class: 'tn-filterbar', 'data-inline': opts.inline ? '' : null },
     h('div', { class: 'tn-filter-row' }, h('label', { class: 'tn-search' }, icon('search'), input), defs.length ? filterBtn : null),
     h('div', { class: 'tn-filter-row2' }, chips, info));
   /** @type {import('./sheet.js').Sheet | null} */
@@ -80,6 +80,7 @@ export function filterBar(opts) {
     const txt = opts.count?.(state);
     info.textContent = txt || '';
     /** @type {HTMLElement} */ (el.querySelector('.tn-filter-row2')).hidden = !a.length && !txt;
+    el.dispatchEvent(new CustomEvent('tn-filterbar', { bubbles: true }));   // the shell mirrors query and filter count into the toolbar (phone)
   }
 
   /* ---- sheet: one group per filter; the controls are created once and only synchronised afterwards (no re-render while typing) ---- */

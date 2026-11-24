@@ -9,8 +9,7 @@ html {
   scrollbar-color: var(--tn-indicator) transparent;
 }
 body {
-  margin: 0;
-  min-height: 100dvh;
+  margin: 0;   /* no min-height: the page background is html's; a viewport height here made an installed PWA scroll (round 11b) */
   background: var(--tn-bg);
   color: var(--tn-text);
   font: 400 var(--tn-fs-body) / var(--tn-lh) var(--tn-font);

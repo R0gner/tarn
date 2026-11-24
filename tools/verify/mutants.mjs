@@ -260,10 +260,11 @@ export const MUTANTS = [
   },
   {
     // the old phone toolbar: theme, density and language as three separate buttons next to the reload button and the freshness text
-    // (no single settings entry): the view title of the gallery is cut to “Foundati…” on a 390 px phone
+    // (no single settings entry): the view title of the gallery is cut to “Foundati…” on a 390 px phone. Since 0.18 the phone freshness text is the
+    // age alone (“now”), which leaves the title room even then; the mutant gives it the width of the old “Updated now” (about 120 px) back
     id: 'toolbar-crowded',
     page: 'gallery', views: ['foundations', 'themes'], sizes: ['phone'], expect: ['toolbar-title'],
-    css: '.tn-hide-phone { display: inline-grid !important; } .tn-toolbar .tn-settings-btn { display: none !important; }',
+    css: '.tn-hide-phone { display: inline-grid !important; } .tn-toolbar .tn-settings-btn { display: none !important; } .tn-toolbar .tn-fresh { min-width: var(--tn-sz-120) !important; }',
   },
   {
     // earlier starter fault: the language switch shrinks in a full header row and scrolls sideways (comfortable phone: “Deutsch” cut off)
@@ -483,6 +484,24 @@ export const MUTANTS = [
     id: 'go-view-chevron',
     page: 'gallery', views: ['rows'], sizes: ['phone', 'desktop'], expect: ['go-symbol'],
     patch: [{ file: 'js/primitives.js', from: "view: 'arrow-up-right' })", to: "view: 'chevron-right' })" }],
+  },
+  {
+    // round 11b: the phone toolbar search does not reach the filter bar (typing filters nothing)
+    id: 'toolbar-search-deaf',
+    check: 'overlay', scenarios: ['toolbar-search'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "i.dispatchEvent(new Event('input', { bubbles: true }));", to: "void 0;" }],
+  },
+  {
+    // round 11b: the main filter bar scrolls away with the content on a wide screen (not fixed under the toolbar)
+    id: 'filterbar-scrolls-away',
+    check: 'overlay', scenarios: ['toolbar-search'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    css: '.tn-content .tn-filterbar.is-main { position: static !important; }',
+  },
+  {
+    // round 11b: the empty search field closes on the tap on the filter icon beside it (blur before the click), the sheet never opens
+    id: 'toolbar-search-blur-closes',
+    check: 'overlay', scenarios: ['filter-sheet'], sizes: ['phone'], expect: ['overlay-behaviour', 'overlay-missing'],
+    patch: [{ file: 'js/shell.js', from: "if (tsInput.value || tsHeld || (to && (tsBox.contains(to) || !appEl.contains(to)))) return;", to: "if (tsInput.value) return;" }],
   },
   {
     // round 11: the 0.16 press feedback, the pressed state on every touch pointerdown (a row lit up at the start of each scroll or swipe)

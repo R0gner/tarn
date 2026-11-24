@@ -75,8 +75,8 @@ div.tn-app @0,0 392x2732
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
         svg.tn-icon @20,16 20x20
       h1.tn-toolbar-title.tn-ellipsis "Controls" @68,16 68x24
-      div.tn-toolbar-spacer @140,28 56x0
-      button.tn-fresh {expanded=false} "Updated now" @204,4 120x48
+      div.tn-toolbar-spacer @140,28 124x0
+      button.tn-fresh {expanded=false} "now" @272,4 52x48
       button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
     main.tn-content @0,56 392x2676
@@ -168,11 +168,12 @@ div.tn-app @0,0 392x2732
             h3.tn-card-title "segmented() with panes and swipe" @32,1664 324x24
         div.tn-card-body @16,1704 356x576
           div.tn-segset @32,1720 324x248
-            div.tn-seg [radiogroup] "Parts" @32,1720 268x60
-              button.tn-seg-btn [radio] {checked=true} @36,1724 100x48
-                span.tn-badge.tn-badge-neutral.tn-badge-count "3" @96,1736 24x24
-              button.tn-seg-btn [radio] {checked=false} @140,1724 84x48
-              button.tn-seg-btn [radio] {checked=false} @224,1724 76x48
+            div.tn-segbar @32,1720 324x60
+              div.tn-seg [radiogroup] "Parts" @32,1720 268x60
+                button.tn-seg-btn [radio] {checked=true} @36,1724 100x48
+                  span.tn-badge.tn-badge-neutral.tn-badge-count "3" @96,1736 24x24
+                button.tn-seg-btn [radio] {checked=false} @140,1724 84x48
+                button.tn-seg-btn [radio] {checked=false} @224,1724 76x48
             div.tn-segpane.tn-segpane-swipe @32,1796 324x172
               div.tn-segpane-track @32,1796 324x172
                 div.tn-segpane-body @32,1796 324x172

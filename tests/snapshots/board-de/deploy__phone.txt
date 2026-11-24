@@ -31,8 +31,8 @@ div.tn-app @0,0 392x844
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Seitenleiste umschalten" @4,4 40x40
         svg.tn-icon @16,16 16x16
       h1.tn-toolbar-title.tn-ellipsis "Deploy" @52,16 44x20
-      div.tn-toolbar-spacer @100,24 124x0
-      button.tn-fresh {expanded=false} "Stand vor 2 Min." @228,4 108x40
+      div.tn-toolbar-spacer @100,24 160x0
+      button.tn-fresh {expanded=false} "vor 2 Min." @264,4 72x40
       button.tn-iconbtn.tn-settings-btn "Einstellungen" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x524

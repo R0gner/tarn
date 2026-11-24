@@ -86,7 +86,7 @@ div.tn-app @0,0 1424x2156
       button.tn-iconbtn.tn-hide-phone "Appearance: System (switch)" @1004,8 28x28
         svg.tn-icon @1012,12 16x16
     main.tn-content @208,44 836x2112
-      div.tn-filterbar @224,152 804x52
+      div.tn-filterbar.is-main @208,144 836x68
         div.tn-filter-row @224,152 804x28
           label.tn-search @224,152 720x28
             svg.tn-icon @232,160 16x16

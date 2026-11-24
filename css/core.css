@@ -115,7 +115,7 @@
 .tn-seg-sm .tn-seg-btn { min-height: var(--tn-seg-sm-h); padding: 0 var(--tn-s2); }
 /* segmented with its content (segmented({ pane })): the control above the content of the chosen option, the same gap as stack() */
 .tn-segset { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; min-width: 0; }
-.tn-segset > .tn-seg { justify-self: start; }
+.tn-segbar { display: flex; min-width: 0; }
 .tn-segpane, .tn-segpane-track { min-width: 0; }
 .tn-segpane-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s4); align-content: start; min-width: 0; }
 /* swipe (segmented({ pane, swipe: true })): the browser keeps vertical scrolling and pinch zoom, sideways belongs to the gesture (js/swipe.js);

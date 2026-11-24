@@ -5,7 +5,9 @@
 .tn-app {
   display: grid;
   grid-template-columns: var(--tn-sidebar-w) minmax(0, 1fr);
-  min-height: 100dvh;
+  /* the small viewport, never more than what is visible: 100dvh could exceed innerHeight in an installed PWA on Android and the page scrolled by
+     about a toolbar height although the content fit (round 11b; check with ?tn-debug=viewport) */
+  min-height: 100svh;
 }
 .tn-app[data-inspector="open"] { grid-template-columns: var(--tn-sidebar-w) minmax(0, 1fr) var(--tn-inspector-w); }
 .tn-app[data-sb="closed"] { grid-template-columns: 0 minmax(0, 1fr); }
@@ -115,6 +117,23 @@
   padding-bottom: max(var(--tn-s8), env(safe-area-inset-bottom));
   display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s5); align-content: start;
 }
+/* Fixed controls: what operates the content – the view's tab bar (segmented() with a pane, tabs()) and its main filter bar – stays under the
+   toolbar while the content scrolls. js/shell.js stacks them: --tn-stick-at is each one's offset, --tn-stick the total the table head sits under.
+   Each spans the content's width with the page background, so rows scroll behind it, not beside it. */
+.tn-content { --tn-content-px: var(--tn-s4); }
+.tn-content > .tn-segset > .tn-segbar, .tn-content > .tn-tabset > .tn-tabs, .tn-content .tn-filterbar.is-main {
+  position: sticky; top: calc(var(--tn-toolbar-h) + var(--tn-stick-at, 0px)); z-index: 2;
+  background: var(--tn-bg);
+  margin: calc(-1 * var(--tn-s2)) calc(-1 * var(--tn-content-px)); padding: var(--tn-s2) var(--tn-content-px);
+}
+.tn-content > .tn-tabset > .tn-tabs { padding-bottom: 0; margin-bottom: 0; }   /* the tabs' separator line is their lower edge */
+.tn-content .tn-table th { top: calc(var(--tn-toolbar-h) + var(--tn-stick, 0px)); }
+/* phone: the main filter bar's search and filter button live in the toolbar (search icon, filter icon with count); chips and count stay here */
+.tn-tsearch-btn, .tn-tsearch { display: none; }
+.tn-tfilter-btn, .tn-tsearch-btn { position: relative; }
+:is(.tn-tfilter-btn, .tn-tsearch-btn) > .tn-filter-n { position: absolute; top: var(--tn-sp-2); right: var(--tn-sp-2); }
+.tn-tsearch-btn.is-active { color: var(--tn-text); }
+.tn-tsearch-btn.is-active::after { content: ""; position: absolute; top: var(--tn-s2); right: var(--tn-s2); width: var(--tn-sz-6); height: var(--tn-sz-6); border-radius: var(--tn-r-1); background: var(--tn-primary); }
 /* the source loads a new time range and still holds the old one's data (state.refreshing): the charts stay in place, dimmed, no motion */
 .tn-content[aria-busy="true"] :is(.tn-chart, .tn-spark, .tn-heat, .tn-donut) { opacity: .5; }
 
@@ -160,6 +179,13 @@
   .tn-content { padding: var(--tn-s3); gap: var(--tn-s4); }
   .tn-banners { padding: var(--tn-s2) var(--tn-s3) 0; }
   .tn-toolbar { padding-left: max(var(--tn-s1), env(safe-area-inset-left)); padding-right: max(var(--tn-s2), env(safe-area-inset-right)); }
+  .tn-content { --tn-content-px: var(--tn-s3); }
+  .tn-toolbar > .tn-tsearch-btn { display: inline-grid; }   /* the filter icon sits in the open field's row (.tn-tsearch) */
+  .tn-toolbar.is-search > :not(.tn-tsearch) { display: none; }
+  .tn-toolbar.is-search > .tn-tsearch { display: flex; flex: 1; min-width: 0; align-items: center; gap: var(--tn-s1); }
+  .tn-content .tn-filterbar.is-main { position: static; z-index: auto; margin: 0; padding: 0; background: none; }   /* z-index also applies to a static grid item */
+  .tn-filterbar.is-main > .tn-filter-row { display: none; }
+  .tn-filterbar.is-main:has(> .tn-filter-row2[hidden]) { display: none; }
 }
 
 /* ============ Chips, pills: press behaviour ============ (buttons, status and badges: css/core.css) */
@@ -723,3 +749,19 @@ ol.tn-md-list { list-style: decimal; }
 .tn-steps { list-style: decimal; padding-left: var(--tn-s5); margin: 0; display: grid; gap: var(--tn-s2); }
 .tn-steps li { padding-left: var(--tn-s1); }
 .tn-steps li > .tn-icon { vertical-align: middle; margin-right: var(--tn-s1); }
+
+/* ============ Viewport check (?tn-debug=viewport, js/viewport-debug.js) ============ */
+.tn-vpdbg {
+  position: fixed; left: var(--tn-s2); right: var(--tn-s2); bottom: max(var(--tn-s2), env(safe-area-inset-bottom)); z-index: var(--tn-z-toast);
+  max-height: var(--tn-sz-50svh); overflow: auto; padding: var(--tn-s2) var(--tn-s2) var(--tn-s2) var(--tn-s3); border-radius: var(--tn-r);
+  background: var(--tn-popover); border: 1px solid var(--tn-border); box-shadow: var(--tn-shadow-menu); color: var(--tn-text);
+}
+.tn-vpdbg-out { margin: 0; font: var(--tn-fs-xs) / var(--tn-lh) var(--tn-mono); white-space: pre-wrap; font-variant-numeric: tabular-nums; }
+.tn-vpdbg-x { float: right; display: grid; place-items: center; width: var(--tn-hit); height: var(--tn-hit); margin: calc(-1 * var(--tn-s2)) calc(-1 * var(--tn-s2)) 0 0; color: var(--tn-text-2); }
+.tn-vpdbg-probes { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
+.tn-vpdbg-probe { position: absolute; top: 0; width: var(--tn-sz-1); }
+.tn-vpdbg-probe[data-u="vh"] { height: 100vh; }
+.tn-vpdbg-probe[data-u="dvh"] { height: 100dvh; }
+.tn-vpdbg-probe[data-u="svh"] { height: 100svh; }
+.tn-vpdbg-probe[data-u="lvh"] { height: 100lvh; }
+.tn-vpdbg-safe { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }

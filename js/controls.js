@@ -45,7 +45,9 @@ export function segmented({ options, value, onChange, label, small, className, p
   const body = pane ? h('div', { class: 'tn-segpane-body' }) : null;
   const track = body ? h('div', { class: 'tn-segpane-track' }, body) : null;
   const area = track ? h('div', { class: cls('tn-segpane', swipe && 'tn-segpane-swipe') }, track) : null;
-  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (area ? h('div', { class: cls('tn-segset', className) }, ctl, area) : ctl));
+  /* with a pane the control sits in a full-width bar: in the view's content that bar stays fixed under the toolbar while the content scrolls
+     (css/components.css “Fixed controls”); the bar carries the background the content scrolls behind */
+  const el = /** @type {SegmentedElement} */ (/** @type {HTMLElement} */ (area ? h('div', { class: cls('tn-segset', className) }, h('div', { class: 'tn-segbar' }, ctl), area) : ctl));
   const draw = (/** @type {any} */ v) => [pane?.(v)].flat().filter((x) => x != null && x !== false && x !== '');
   function sync() {
     btns.forEach((b, i) => { const on = options[i].value === cur; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });

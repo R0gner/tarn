@@ -75,8 +75,8 @@ div.tn-app @0,0 392x2004
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
       h1.tn-toolbar-title.tn-ellipsis "Menus and feedback" @52,16 132x20
-      div.tn-toolbar-spacer @188,24 56x0
-      button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
+      div.tn-toolbar-spacer @188,24 108x0
+      button.tn-fresh {expanded=false} "now" @300,4 40x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
     main.tn-content @0,48 392x1956

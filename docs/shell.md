@@ -177,7 +177,24 @@ The level logic is the pure module `js/levels.js` (unit tests in `tests/levels.t
   half a second (reduced motion: no turning, the button is dimmed while busy).
 - Phone toolbar (< 600 px): burger, view title, freshness text and one settings entry (theme, density, language in one sheet). There is no reload
   button in the phone toolbar: tap the freshness text, then “Reload” in the source list. The freshness text gives way
-  before the view title does. Do not add more toolbar buttons; verify rule `toolbar-title` fails when a toolbar crowds the title out.
+  before the view title does; while the data is fresh it shows only the age (“2 min ago”, 0.18.0; the label and the source list say it in full).
+  Do not add more toolbar buttons; verify rule `toolbar-title` fails when a toolbar crowds the title out.
+- **Fixed controls** (0.18.0): what operates the content stays reachable while the content scrolls – the view's tab bar (`segmented({ pane })` or
+  `tabs()` as a direct part of the view) and its main filter bar stick under the toolbar; each spans the content's width, rows scroll behind them, the
+  sticky table head sits below them. Inside a card, a sheet or the detail nothing sticks.
+- **Main filter bar** (0.18.0): the first `filterBar()` of the view's content that is not in a card (and not `filterBar({ inline: true })`). On the
+  phone its search row leaves the content: a search icon in the toolbar (a dot while a query is set, the number of active filters as a badge) turns
+  the title into a search field with the filter icon and ✕ beside it; ✕ or Escape clear and close it, leaving it empty closes it. The chips and the
+  count (“3 of 7”) stay in the content. From 600 px the bar stays in the content, fixed under the toolbar. Phone layout: two fixed rows (toolbar,
+  tab bar) instead of three. verify scenario `toolbar-search`.
+
+## Viewport check
+
+`?tn-debug=viewport` in the address (also after the hash, `#/view?tn-debug=viewport`) opens a small overlay at the bottom (0.18.0, `js/viewport-debug.js`):
+display mode, innerHeight, visualViewport (height, offset, page top, scale), html client/scroll height, body and `.tn-app` heights, the measured
+100vh/dvh/svh/lvh, safe-area insets, scroll position, the three elements reaching furthest below the viewport (“below: +48 div.tn-app”) and every
+scroll container that scrolls. It follows resize, scroll and DOM changes; ✕ closes it until the next load. Without the parameter nothing is created.
+Use it on the device where a page scrolls although its content fits: `dvh` larger than `inner` points at a viewport unit, an entry under “below” at the element.
 
 ## Detail in place
 

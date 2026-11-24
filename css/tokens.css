@@ -195,6 +195,7 @@
   --tn-sz-440: 440px;
   --tn-sz-480: 480px;
   --tn-sz-84vw: 84vw;
+  --tn-sz-50svh: 50svh;   /* viewport check overlay: at most half the small viewport */
 
   /* Motion: hover, press, menus, tooltips and toasts are instant (no duration). Only panels, sheets and the
      sidebar animate, only transform/opacity: 150 ms open, 120 ms close. JS reads these tokens too. */
