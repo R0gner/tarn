@@ -79,6 +79,19 @@ reported; it also sets up a copy of `example/` outside the repo as a foreign boa
 (colour literal, `innerHTML`, a card wider than the page, an edited vendor file), which must be red. Do not loosen or delete checks, budgets,
 exceptions, mutants or snapshots without an explicit assignment; removing a fixed known fault from a list is welcome.
 
+**Which check found which bug.** Pruning checks later (which are duplicates, which never find anything) needs data, and the CHANGELOG did not
+record it. From 0.17.1 a CHANGELOG entry for a fault that a check found ends with one line:
+
+```
+found by: verify <rule>/<scenario or view>/<mutant or –>     e.g.  found by: verify overlay-behaviour/image-zoom/–
+found by: selftest <mutant>                                   a stale mutant (the patch no longer applies, a mutant is no longer detected)
+found by: review | board | user                                no check found it – the gap is the information
+```
+
+Several checks may be listed, separated by `;`. `rule` is the finding's rule (`overlap`, `clip`, `overlay-behaviour`, …), the second part the
+scenario or view the finding names, the third the mutant that replays the fault if one exists (`–` if not). Count with
+`grep -o 'found by: [^;]*' CHANGELOG.md | sort | uniq -c`.
+
 ## lint
 
 `node tools/lint.mjs [-v]` (under a second) checks the static kit rules: colours, sizes, radii and durations only from `css/tokens.css`; transitions and

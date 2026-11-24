@@ -1,7 +1,7 @@
 # Releasing Tarn
 
 One command from a green release branch to a pushed tag: `tools/release.mjs`. Default is a dry run that prints every step; only `--yes`
-changes anything. GitHub then runs `verify` on main and on the tag, and `release.yml` creates the GitHub release from the CHANGELOG section.
+changes anything. GitHub then runs `verify` on main (plus the selftest as a parallel job; not on the tag, which is the tree main just verified), and `release.yml` creates the GitHub release from the CHANGELOG section.
 
 ```
 node tools/release.mjs                 # dry run: preflight for real (read-only + git fetch), every changing step printed as "would run"
@@ -16,6 +16,17 @@ On the release branch (e.g. `r12`), in its own worktree:
 1. The change is committed; the version is bumped in **all four** places: `VERSION`, `js/version.js`, `package.json`, and the top
    section `## X.Y.Z` of `CHANGELOG.md` (a test keeps the first three equal; the script checks all four).
 2. The branch is rebased onto `origin/main` (the script refuses otherwise; a release is always a fast-forward of main).
+
+## The pre-push hook (optional, per clone)
+
+`.githooks/pre-push` runs `node tools/verify.mjs --only tests,lint,types` (about 3 s, no browser) before every `git push`, so a red unit test or a lint
+finding never leaves the machine. Enable it once per clone (nothing sets it globally):
+
+```
+git config core.hooksPath .githooks
+```
+
+`tools/release.mjs` pushes with the same hook, so a release also runs it. Skip it once, knowingly, with `git push --no-verify`.
 
 ## What the script does
 

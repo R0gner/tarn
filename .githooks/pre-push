@@ -1,0 +1,4 @@
+#!/bin/sh
+# tarn · pre-push: the checks that need no browser (tests, lint, types, about 3 s). The full run stays with the release (tools/release.mjs).
+# Enable once per clone: git config core.hooksPath .githooks      Skip once, knowingly: git push --no-verify
+exec node tools/verify.mjs --only tests,lint,types

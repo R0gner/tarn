@@ -1,9 +1,12 @@
 # Tarn · all checks on every push and pull request: tests, lint, types, geometry, overlays, snapshots, animation inventory.
 # Uses the Chrome that is preinstalled on ubuntu-latest; `--ci` makes verify start its own headless Chrome (no --attach).
+# On a push to main a second job runs the selftest (the mutants) in parallel, so GitHub also proves them with a clean Chrome; not on the critical path.
 name: verify
 
 on:
   push:
+    # no verify on a tag push: the tag is the tree that main (pushed with it, atomically) has just verified
+    tags-ignore: ['**']
   pull_request:
 
 permissions:
@@ -36,5 +39,32 @@ jobs:
         with:
           name: tarn-verify-report
           path: ${{ runner.temp }}/tarn-verify
+          if-no-files-found: ignore
+          retention-days: 7
+
+  selftest:
+    # positive control (every mutant must be detected) on the pushed main, in parallel to the job above
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Show tool versions
+        run: |
+          node --version
+          google-chrome --version
+      - name: selftest
+        env:
+          CHROME: /usr/bin/google-chrome
+        run: node tools/verify.mjs --ci --full --selftest --jobs 4 --out "$RUNNER_TEMP/tarn-selftest"
+      - name: Keep images and report on findings
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tarn-selftest-report
+          path: ${{ runner.temp }}/tarn-selftest
           if-no-files-found: ignore
           retention-days: 7

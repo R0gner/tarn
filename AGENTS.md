@@ -80,7 +80,10 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
    budgets (`tools/tempo/cases.mjs`), exceptions and inventory lists, mutants and snapshots (`tests/snapshots/`). Rewrite
    snapshots with `--update` only when the change is intended, and put the reason into the commit message. Removing a fixed known
    fault from the list is allowed and welcome.
-5. What a script can check lives as a script in `tools/`, not here as a rule.
+5. **Record which check found which bug.** When a check finds a real fault (not a typo in the test itself), the CHANGELOG entry of the fix ends with
+   `found by: verify <rule>/<scenario or view>/<mutant or –>` (e.g. `found by: verify overlay-behaviour/image-zoom/–`; `found by: review` or `found by: board`
+   when no check did, `found by: selftest <mutant>` when a stale mutant did). Details and examples: `docs/checks.md`.
+6. What a script can check lives as a script in `tools/`, not here as a rule.
 
 | Tool | Purpose | Duration |
 |---|---|---|
