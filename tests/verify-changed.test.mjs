@@ -1,7 +1,9 @@
 // verify --changed: mapping of changed files to pages/views; tree identity of the report
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { scopeOf, scopeFilters } from '../tools/verify/changed.mjs';
+import { scopeOf, scopeFilters, selectMutants, hiddenMutants } from '../tools/verify/changed.mjs';
+import { MUTANTS } from '../tools/verify/mutants.mjs';
+import { SCENARIOS } from '../tools/verify/overlay.mjs';
 import { PAGES } from '../tools/verify/targets.mjs';
 import { treeIdentity } from '../tools/lib/tree.mjs';
 
@@ -65,4 +67,27 @@ test('the starter page is its own scope; input and form code reach it too', () =
   const f = scopeFilters(s, PAGES);
   assert.deepEqual(f.pages.map((p) => p.id), ['starter', 'starter-de', 'starter-comfortable', 'starter-de-comfortable']);
   assert.ok(scopeOf(['js/form.js']).views.has('starter'));
+});
+
+// verify --selftest --changed: the selection must never hide a mutant whose patched file changed
+const SC = Object.fromEntries(SCENARIOS.map((sc) => [sc.id, sc.page]));
+test('selftest --changed: a change of a patched file selects its mutant, whatever the page map says', () => {
+  assert.deepEqual(hiddenMutants(MUTANTS, selectMutants, SC), []);
+});
+
+test('selftest --changed: hiding a real change on purpose is caught (red)', () => {
+  // a map that wrongly calls every change "nothing to render": the hidden change must show up as missed mutants
+  const blind = (scope, mutants, sp) => selectMutants({ ...scope, all: false, none: true, views: new Map(), files: [] }, mutants, sp);
+  assert.notDeepEqual(hiddenMutants(MUTANTS, blind, SC), [], 'a selection that ignores changed js files must be reported as hiding mutants');
+});
+
+test('selftest --changed: tools/ and shared files select everything, docs select nothing, a gallery view only its own', () => {
+  const sel = (files) => selectMutants(scopeOf(files), MUTANTS, SC);
+  assert.equal(sel(['tools/verify/overlay.mjs']).everything, true);
+  assert.equal(sel(['css/tokens.css']).everything, true);
+  assert.equal(sel(['docs/checks.md']).ids.length, 0);
+  const g = sel(['gallery/gallery-inputs.js']);
+  assert.equal(g.everything, false);
+  assert.ok(g.ids.length > 0 && g.ids.length < MUTANTS.length);
+  for (const id of g.ids) { const m = MUTANTS.find((x) => x.id === id); assert.ok(m.check === 'overlay' ? true : m.page.startsWith('gallery') && m.views.includes('inputs'), id); }
 });

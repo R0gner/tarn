@@ -36,6 +36,8 @@
 //   --changed [REV]    dev loop: only the pages/views that the changed files (git diff against REV, default HEAD, plus untracked files)
 //                      can affect; all sizes and themes. Not a replacement for the full run at the end of a stage and in CI
 //   --jobs N           parallel workers (own headless Chrome, one browser context each); default min(4, cores/2). --attach is serial
+//   --selftest --changed [REV]  only the mutants the change can affect (patched file changed, or their page/views in scope); all mutants, the base
+//                      pass and the controls when tools/ or anything shared changes. A dev loop: the release needs the full selftest (stamp)
 //   --mutants LIST     with --selftest: only these mutants, base run skipped (development; the full selftest is the proof)
 //   --update           rewrite snapshots (deliberately only, reason in the commit)
 //   --out DIR          output folder (outside the repo); default: new temp folder, deleted when green
@@ -64,7 +66,7 @@ import { writeStamp } from './lib/stamp.mjs';
 import { PAGES, SIZES, DEFAULT_SIZES, QUICK_SIZES, THEMES, parseSize } from './verify/targets.mjs';
 import { geometryTasks, geometryTask, runGeometry, runGeometryOn, mergeGeometry } from './verify/geometry.mjs';
 import { overlayTasks, overlayTask, runOverlay, runOverlayOn, mergeOverlay, SCENARIOS } from './verify/overlay.mjs';
-import { changedScope, scopeFilters, describeScope } from './verify/changed.mjs';
+import { changedScope, scopeFilters, describeScope, selectMutants } from './verify/changed.mjs';
 import { MUTANTS } from './verify/mutants.mjs';
 import { snapshotTasks, snapshotTask, mergeSnapshots } from './verify/snapshots.mjs';
 import { lintFindings } from './lint.mjs';
@@ -127,7 +129,8 @@ function parseArgs(argv) {
   if (o.full && (o.quick || o.pages || o.views || o.sizes || o.themes || o.scenarios || o.only || o.skip.length || o.changed || o.mutants || o.update)) fail('--full is the complete matrix; do not combine with --quick/--pages/--views/--sizes/--themes/--scenarios/--only/--skip/--changed/--mutants/--update');
   if (o.baseReport && !o.selftest) fail('--base-report belongs to --selftest');
   if (o.baseReport && o.full) fail('--base-report and --full both provide the selftest base; use one');
-  if (o.changed && (o.selftest || o.update)) fail('--changed is a dev loop for the checks; not with --selftest/--update');
+  if (o.changed && o.update) fail('--changed is a dev loop for the checks; not with --update');
+  if (o.changed && o.selftest && (o.full || o.mutants || o.baseReport)) fail('--selftest --changed selects the mutants itself; not with --full/--mutants/--base-report');
   if (!o.board) for (const c of [...(o.only || []), ...o.skip]) if (!CHECKS.includes(c)) fail(`unknown check ${c} (${CHECKS.join(', ')})`);
   return o;
 }
@@ -179,6 +182,13 @@ async function main() {
   if (o.changed) {
     scope = changedScope(ROOT, o.changed === true ? undefined : o.changed);
     if (scope.error) fail(`--changed: ${scope.error}`);
+    if (o.selftest) {
+      // the dev loop of the selftest: only the mutants the change can affect; the checks themselves are not narrowed
+      const sel = selectMutants(scope, MUTANTS, Object.fromEntries(SCENARIOS.map((sc) => [sc.id, sc.page])));
+      if (sel.everything) notes.push(`selftest --changed: all ${sel.ids.length} mutants and the controls (${sel.why})`);
+      else { o.mutants = sel.ids; notes.push(`selftest --changed: ${sel.ids.length} of ${MUTANTS.length} mutants (${sel.why})${sel.ids.length ? ': ' + sel.ids.join(', ') : ''}`); }
+      scope = { ...scope, all: true };   // no narrowing of pages/views for the selftest
+    }
     const f = scopeFilters(scope, pages);
     pages = f.pages;
     const own = viewFilter;

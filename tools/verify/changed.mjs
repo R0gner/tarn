@@ -85,3 +85,36 @@ export function describeScope(scope) {
   if (scope.none) return `no UI-relevant change (${scope.files.length} changed files)`;
   return [...scope.views].map(([p, v]) => `${p}(${v === null ? 'all' : [...v].join(',')})`).join(' ');
 }
+
+/**
+ * verify --selftest --changed: which mutants must run after these changes?
+ * everything: a file under tools/ (the checks themselves) or anything unmapped/shared (scope.all) → the whole selftest, base pass and controls included.
+ * Otherwise a mutant is selected when one of the files it patches changed (whatever the page map says), or when its page and one of its views is
+ * in the scope (overlay mutants: the page of their scenarios; they have no views, so any change on that page counts).
+ * scenarioPage: scenario id → page id.
+ */
+export function selectMutants(scope, mutants, scenarioPage = {}) {
+  if (scope.error) return { everything: true, ids: mutants.map((m) => m.id), why: scope.error };
+  if (scope.all || scope.files.some((f) => f.startsWith('tools/'))) return { everything: true, ids: mutants.map((m) => m.id), why: scope.all ? 'a shared or unmapped file changed' : 'tools/ changed' };
+  const hit = (pageId, views) => {
+    const v = scope.views.get(pageId);
+    if (v === undefined) return false;
+    return v === null || !views || views.some((x) => v.has(x));
+  };
+  const ids = mutants.filter((m) => {
+    if (m.patch && m.patch.some((x) => scope.files.includes(x.file))) return true;
+    if (m.check === 'overlay') return (m.scenarios || []).some((sc) => hit(scenarioPage[sc] || 'gallery', null));
+    return hit(m.page, m.views);
+  }).map((m) => m.id);
+  return { everything: false, ids, why: ids.length ? 'the changed pages, views and patched files' : 'no mutant in scope' };
+}
+
+/** Mutants that a change of one of their patched files would NOT select (must be empty; the test breaks the selection on purpose to see it red). */
+export function hiddenMutants(mutants, select, scenarioPage = {}) {
+  const missed = [];
+  for (const m of mutants) for (const x of m.patch || []) {
+    const sel = select(scopeOf([x.file]), mutants, scenarioPage);
+    if (!sel.ids.includes(m.id)) missed.push(`${m.id} (${x.file})`);
+  }
+  return missed;
+}
