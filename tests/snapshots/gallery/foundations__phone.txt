@@ -1,5 +1,5 @@
 # gallery #/foundations · phone 390×844 · dunkel
-div.tn-app @0,0 392x2304
+div.tn-app @0,0 392x2336
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x2304
         svg.tn-icon @-268,888 16x16
         span.tn-ellipsis "Buy a switch" @-244,888 80x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x2304
+  div.tn-main @0,0 392x2336
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
@@ -79,7 +79,7 @@ div.tn-app @0,0 392x2304
       button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x2256
+    main.tn-content @0,48 392x2288
       section.tn-section @12,168 368x280
         header.tn-section-head @12,168 368x24
           h2.tn-section-title "Status" @16,172 364x16
@@ -110,12 +110,12 @@ div.tn-app @0,0 392x2304
             span.tn-stat-label "Label, subtitle" @156,1616 80x16
             span.tn-section-title "Section" @156,1644 208x16
             span.tn-mono "rsync exit 12 · 02:30:00" @156,1668 172x16
-      section.tn-section @12,1712 368x580
+      section.tn-section @12,1712 368x612
         header.tn-section-head @12,1712 368x24
           h2.tn-section-title "Icons" @16,1716 364x16
-            span.tn-section-count "48" @52,1716 16x16
-        section.tn-card @12,1744 368x548
-          div.tn-card-body @12,1744 364x548
+            span.tn-section-count "50" @52,1716 16x16
+        section.tn-card @12,1744 368x580
+          div.tn-card-body @12,1744 364x580
             svg.tn-icon @32,1764 16x16
             svg.tn-icon @144,1764 16x16
             svg.tn-icon @260,1764 16x16
@@ -164,3 +164,5 @@ div.tn-app @0,0 392x2304
             svg.tn-icon @32,2260 16x16
             svg.tn-icon @144,2260 16x16
             svg.tn-icon @260,2260 16x16
+            svg.tn-icon @32,2292 16x16
+            svg.tn-icon @144,2292 16x16
