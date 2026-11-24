@@ -377,16 +377,23 @@ export const SCENARIOS = [
       const nextSlide = () => io.eval(`(() => { const d = document.querySelector('${VIEW}'); const sl = d.querySelector('.tn-viewer-slide.is-current + .tn-viewer-slide'); if (!sl) return null;
         const img = sl.querySelector('.tn-viewer-img'), r = img.getBoundingClientRect();
         return { ready: img.complete && img.naturalWidth > 0, inView: r.width > 0 && r.left < document.documentElement.clientWidth - 20 && r.right > 0, left: Math.round(r.left) }; })()`);
-      const dbl = async (x, y) => { await io.tapAt(x, y); await sleep(60); await io.tapAt(x, y); await sleep(320); };
+      // wait for the image to come to rest instead of a fixed pause: the visible count, the current and next slide's position and the zoom
+      // are the same on three polls in a row and nothing in the viewer is animating (CSS transition, or the glide, which is script-driven)
+      const calm = (max = 1500) => io.until(`(() => { const d = document.querySelector('${VIEW}'); if (!d) return true;
+        const sl = d.querySelector('.tn-viewer-slide.is-current'), nx = sl.nextElementSibling, img = sl.querySelector('.tn-viewer-img');
+        const k = [d.querySelector('.tn-viewer-count').textContent, getComputedStyle(img).transform, sl.getBoundingClientRect().left, nx ? nx.getBoundingClientRect().left : 0].join('|');
+        const c = window.__calm || (window.__calm = { k: '', n: 0 }); c.n = c.k === k ? c.n + 1 : 0; c.k = k;
+        return c.n >= 2 && d.getAnimations({ subtree: true }).length === 0; })()`, max);
+      const dbl = async (x, y) => { await io.tapAt(x, y); await sleep(60); await io.tapAt(x, y); await calm(); };
       const tp = (type, pts) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: pts.map((p, id) => ({ x: Math.round(p.x), y: Math.round(p.y), id })) });
       // a finger drag in 8 steps; end: false keeps the finger down (for a look during the drag), finish() lifts it
       const drag = async (x, y, dx, dy, end = true) => {
         await tp('touchStart', [{ x, y }]); await sleep(30);
         for (let i = 1; i <= 8; i++) { await tp('touchMove', [{ x: x + (dx * i) / 8, y: y + (dy * i) / 8 }]); await sleep(16); }
-        if (end) { await tp('touchEnd', []); await sleep(250); }
+        if (end) { await tp('touchEnd', []); await calm(); }
       };
-      const lift = async () => { await tp('touchEnd', []); await sleep(250); };
-      await io.key('ArrowRight', 39); await sleep(250);
+      const lift = async () => { await tp('touchEnd', []); await calm(); };
+      await io.key('ArrowRight', 39); await calm();
       let s = await st();
       if (!s || s.count !== '2 / 6') return [`ArrowRight shows ${JSON.stringify(s)} instead of 2 / 6`];
       const steps = [];
@@ -437,16 +444,15 @@ export const SCENARIOS = [
           if (f0.count !== '3 / 6') f0 = null;
           if (f0) {
             await fast(-60); await sleep(30);
-            const a1 = await st(); await sleep(600);
+            const a1 = await st(); await calm(2500);   // the glide runs out
             const a2 = await st();
             if (a2.count !== f0.count) left.push(`a fling inside the zoomed image pages to ${a2.count}`);
             else if (!(a2.tx < a1.tx - 20)) left.push(`a fast drag on a zoomed image stops where the finger lifts (${a1.tx} → ${a2.tx} px, no glide)`);
             else if (Math.abs(a2.tx) > a2.lx + 1) left.push(`the glide goes beyond the image's edge (${a2.tx}, limit ${a2.lx})`);
-            await sleep(1600);
             // a new finger during the glide holds the image
             await fast(60); await sleep(30);
             await tp('touchStart', [{ x: p.cx, y: p.cy }]); await sleep(30);
-            const h1 = await st(); await sleep(250);
+            const h1 = await st(); await sleep(150);
             const h2 = await st();
             if (Math.abs(h2.tx - h1.tx) > 1) left.push(`a finger on a gliding image does not stop it (${h1.tx} → ${h2.tx} px)`);
             await tp('touchEnd', []); await sleep(450);
@@ -454,11 +460,11 @@ export const SCENARIOS = [
             // reduced motion: no glide
             await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
             await fast(-60); await sleep(30);
-            const r1 = await st(); await sleep(400);
+            const r1 = await st(); await sleep(200);
             const r2 = await st();
             await io.page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }] });
             if (Math.abs(r2.tx - r1.tx) > 1) left.push(`with reduced motion a zoomed image still glides (${r1.tx} → ${r2.tx} px)`);
-            await sleep(1800);   // a faulty glide is over before the next taps (a press on a gliding image is no tap)
+            await calm(2500);   // a faulty glide is over before the next taps (a press on a gliding image is no tap)
           } else left.push('before the fling check the viewer is not on image 3 / 6');
         } else left.push(`the pinch left no room for a fling check (${JSON.stringify(p)})`);
       }
@@ -466,7 +472,7 @@ export const SCENARIOS = [
       s = await st();
       await dbl(s.cx, s.bottom);
       if (!(await io.count(VIEW))) return [...left, 'a double tap beside the image closes the viewer'];
-      await io.key('-'); await sleep(250);   // back to 1× (zoomed on a wide screen the image covers everything: no "beside" left)
+      await io.key('-'); await calm();   // back to 1× (zoomed on a wide screen the image covers everything: no "beside" left)
       if ((await st()).s !== 1) left.push('the - key does not zoom back to 1×');
       await io.tapAt(s.cx, (await st()).bottom); await sleep(120);
       if (!(await io.count(VIEW))) left.push('a single tap closes before the double-tap wait is over');
