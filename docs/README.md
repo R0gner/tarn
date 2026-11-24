@@ -17,6 +17,8 @@ at the [gallery](https://r0gner.github.io/tarn/gallery/) and the [demo board](ht
 | [Notifications](notifications.md) | web push, browser half: sheet, server interface, service worker |
 | [Identity, icons, installing](identity.md) | favicon and title, `brand.mjs`, Lucide icons, install entry and manifest |
 | [Checks](checks.md) | `verify`, `lint`, board mode with `tarn-board.json`, `tempo`, `shoot` |
+| [Releasing](releasing.md) | `tools/release.mjs` (preflight, verify stamp, ff main, tag, push), shipping a release into a board |
+| [Check time](ci-speed.md) | where the time of the checks goes (baseline), what is worth it, the plan to make the loop faster |
 | [Visual judge](visual-judge.md) | the optional, experimental picture check; never a gate |
 | [Design language and tokens](design.md) | principles, colours, status, type, spacing, density, motion, overlays, fonts, licence |
 

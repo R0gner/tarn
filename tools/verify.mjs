@@ -60,6 +60,7 @@ import { fileURLToPath } from 'node:url';
 import { evaluate } from './lib/cdp.mjs';
 import { createPool, startWithRetry } from './lib/pool.mjs';
 import { treeIdentity } from './lib/tree.mjs';
+import { writeStamp } from './lib/stamp.mjs';
 import { PAGES, SIZES, DEFAULT_SIZES, QUICK_SIZES, THEMES, parseSize } from './verify/targets.mjs';
 import { geometryTasks, geometryTask, runGeometry, runGeometryOn, mergeGeometry } from './verify/geometry.mjs';
 import { overlayTasks, overlayTask, runOverlay, runOverlayOn, mergeOverlay, SCENARIOS } from './verify/overlay.mjs';
@@ -205,6 +206,8 @@ async function main() {
   const lines = [], summary = [];
   let findings = [], warnings = [], envError = null;
   const t0 = Date.now();
+  // a green full selftest leaves a stamp for this exact tree (tools/lib/stamp.mjs, read by tools/release.mjs); the tree must not change during the run
+  const stampId = o.full && o.selftest && !o.base && !o.attach ? treeIdentity(ROOT) : null;
   const stats = {};
   let stateTiming = [], poolTimings = [], jobsUsed = 0, modeUsed = null;
   let baseRaw = null; // raw geometry/overlay findings of this run (the selftest base with --full)
@@ -369,6 +372,10 @@ async function main() {
     printOut([`Report: ${path.join(outDir, 'selftest.json')}`]);
   }
   const code = gs.length || (selftestResult && !selftestResult.ok) ? 1 : 0;
+  if (!code && stampId?.tree && stampId.tree === id.tree && selftestResult?.ok) {
+    const file = writeStamp(ROOT, { tree: id.tree, commit: id.commit, at: new Date().toISOString(), jobs: jobsUsed, seconds: Math.round((Date.now() - t0) / 1000), node: process.version });
+    if (file) console.log(`Stamp: green full selftest for tree ${id.tree.slice(0, 12)} (tools/release.mjs accepts it)`);
+  } else if (!code && stampId && stampId.tree !== id.tree) console.log('Stamp: not written – the tree changed during the run');
   if (!code && !o.out) fs.rmSync(outDir, { recursive: true, force: true });
   return code;
 }

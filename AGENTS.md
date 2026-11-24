@@ -96,8 +96,10 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
 ## Releasing
 
 1. Set the same version in `VERSION`, `js/version.js` and `package.json`; move the changes into a `## X.Y.Z` section of `CHANGELOG.md` (the section is the text of the release).
-2. `node --test` and `node tools/verify.mjs` green; `node tools/release-notes.mjs` prints the section.
-3. Commit, tag `vX.Y.Z`, push the branch and the tag. `.github/workflows/release.yml` checks that the tag equals `v` + `VERSION` and creates the GitHub release by itself; do not create it by hand.
+2. Commit, then `node tools/verify.mjs --full --selftest` on that final tree: green, it leaves a stamp for exactly this tree (`Stamp:` line).
+3. `node tools/release.mjs` (dry run: preflight, gate, every step printed), then `node tools/release.mjs --yes`: fast-forward main, annotated tag
+   `vX.Y.Z`, push main and the tag; it runs the full selftest itself when no stamp matches. `.github/workflows/release.yml` checks that the tag
+   equals `v` + `VERSION` and creates the GitHub release by itself; do not create it by hand. Details and the board side: docs/releasing.md.
 
 ## Create a new board
 
