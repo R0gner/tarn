@@ -3,6 +3,24 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.17.1
+
+### Tooling
+- **The checks wait for events, not for time** (stage 2 of the check-time plan, `docs/ci-speed.md`): the image viewer scenario `image-zoom` waits for the
+  image to come to rest (no running animation, same position on three polls) instead of fixed pauses: phone 13.0 → 9.3 s, tablet-s 13.2 → 11.0 s, its
+  7 mutants 26.6 → 16.7 s wall; the real animation times (zoom, glide) and the negative windows stay. `settle` in the geometry check needs 3 calm
+  checks (counted in frames) instead of 4, and closing a detail no longer settles on its own: geometry 29.7 → 22.4 s wall, same findings. Not done: the
+  other 130 fixed `sleep()` calls of `overlay.mjs` (one scenario per step, later).
+- **`verify --selftest --changed [REV]`**: only the mutants the change can affect (a changed patched file always selects its mutant; otherwise the page and
+  views of the mutant or of its scenario); all mutants, the base pass and the controls when `tools/` or anything shared changes. A change in
+  `gallery-inputs.js` runs 3 of 82 mutants in 3 s, in `js/table.js` 42 in 31 s. A dev loop; the release still needs the full selftest (stamp).
+  `tests/verify-changed.test.mjs` proves that every patched file selects its mutant and that a map that hides a change on purpose is reported.
+- **Worker seconds per phase** at the end of every verify run (and `timing.phaseSeconds` in `report.json`); a full selftest above 240 s with 4 or more
+  workers is flagged (`BUDGET:` line, `budget` in `report.json`; never a failure).
+- **Which check found which bug**: CHANGELOG convention `found by: verify <rule>/<scenario or view>/<mutant or –>` (`AGENTS.md`, `docs/checks.md`).
+- **CI**: no verify run on tag pushes (the tag is the tree main just verified); on a push to main a second job runs `--full --selftest --jobs 4`.
+- **`.githooks/pre-push`** (tests, lint, types, about 3 s): `git config core.hooksPath .githooks` per clone, see `docs/releasing.md`.
+
 ## 0.17.0
 
 ### Changed

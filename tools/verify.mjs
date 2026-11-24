@@ -79,6 +79,7 @@ import { boardControl } from './verify/board-control.mjs';
 import { layersMutant } from './verify/layers.mjs';
 import { inventoryUnits, inventoryUnit, inventorySummary } from './tempo.mjs';
 
+const SELFTEST_BUDGET_S = 240;   // full selftest at --jobs 4 or more; flagged in the output and in report.json, never a failure
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const CHECKS = ['tests', 'lint', 'types', 'geometry', 'overlay', 'snapshots', 'tempo'];
@@ -355,6 +356,18 @@ async function main() {
   const knownIds = new Map();
   for (const g of known) { const k = knownIds.get(g.known) || { groups: 0, hits: 0, rules: new Set() }; k.groups++; k.hits += g.n; k.rules.add(g.rule); knownIds.set(g.known, k); }
   const tail = [...notes];
+  // worker seconds per phase (sum over all workers, so independent of --jobs): where the time goes and what drifts
+  const phaseMs = {};
+  for (const t of poolTimings) { const k = t.label.split(' ')[0]; phaseMs[k] = (phaseMs[k] || 0) + t.ms; }
+  report.timing.phaseSeconds = Object.fromEntries(Object.entries(phaseMs).map(([k, ms]) => [k, Math.round(ms / 1000)]));
+  if (Object.keys(phaseMs).length) tail.push(`Worker seconds: ${Object.entries(report.timing.phaseSeconds).map(([k, n]) => `${k} ${n}`).join(' · ')} (sum over ${jobsUsed} workers)`);
+  // budget: a full selftest (verify + mutants + controls) should stay under 240 s with 4 or more workers (docs/ci-speed.md); a flag, not a failure
+  if (o.full && o.selftest && jobsUsed >= 4) {
+    const total = Math.round((Date.now() - t0) / 1000);
+    report.budget = { fullSelftestSeconds: total, limit: SELFTEST_BUDGET_S, jobs: jobsUsed, over: total > SELFTEST_BUDGET_S };
+    if (total > SELFTEST_BUDGET_S) tail.push(`BUDGET: the full selftest took ${total} s at --jobs ${jobsUsed}, over the ${SELFTEST_BUDGET_S} s budget (a busy host, or a check that got slower: see "Worker seconds"; docs/ci-speed.md)`);
+  }
+  fs.writeFileSync(reportFile, JSON.stringify(report, null, 1));   // again, now with the phase seconds and the budget
   if (warnings.length) tail.push(`Warnings: ${warnings.length} (${wGroups} groups, mostly contrast) – not blocking`);
   if (gs.length) tail.push(`Report: ${reportFile}${shotFiles ? ` · images: ${outDir}/*.png` : ''}`);
   if (o.update && !gs.length) tail.push('baseline written, nothing else checked: run again without --update for a verdict · exit 0');

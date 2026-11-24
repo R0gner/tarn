@@ -67,3 +67,18 @@ patches of kit JS that a scenario must catch** – real regression tests, high v
 
 1 as the documented habit (AGENTS.md, briefings), 3 as the handover rule, 4 step by step with numbers, 5 with the hidden-change test, 6 and 7.
 The board side gets its own script from the list in [releasing.md](releasing.md) (in the homelab repo).
+
+## Stage 2 result (0.17.1, 24.11.2026)
+
+Same host as the baseline (load 13–16, I/O pressure "full" 55–70 %): noisy, compare per task. Proof for each step: the same findings, all mutants detected.
+
+| Step | Before → after |
+|---|---|
+| `image-zoom` waits for rest (tools/verify/overlay.mjs) | phone 13.0 → 9.3 s, tablet-s 13.2 → 11.0 s, desktop 3.9 → 3.1 s; 7 viewer mutants 26.6 → 16.7 s wall; 20 green runs in a row. The rest is real time: the zoom transition (≈ 0.3 s × 4 double taps), the glide (≈ 1.8 s), the negative windows. The target of 4 s needs `prefers-reduced-motion` for the non-motion parts, which changes what is tested: **not done** |
+| `settle`: 3 calm checks, no settle after closing a detail | geometry 410 states: 29.7 → 22.4 s wall (state time 98 → 72 s worker, settle 73 → 60 s), 0 findings / 1815 warnings before and after |
+| full selftest, `--jobs 4` | 190 s (baseline) → 169 s |
+| `--selftest --changed` | gallery-inputs.js: 3 of 82 mutants, 3 s; js/table.js: 42 of 82, 31 s; tools/ or shared: all |
+| budget | `Worker seconds:` line; `BUDGET:` flag above 240 s at 4+ workers |
+
+Open: the other fixed `sleep()` calls in `overlay.mjs` (130), one scenario per step; the image-zoom mutants may overlap (check pairwise before pruning); the
+found-by data starts with the first entry after this version.
