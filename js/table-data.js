@@ -49,6 +49,19 @@ export function sortChoices(cols, sort) {
 export function nextSort(sort, c) {
   return sort && sort.key === c.key ? { key: c.key, dir: sort.dir === 'asc' ? 'desc' : 'asc' } : { key: c.key, dir: c.align === 'right' ? 'desc' : 'asc' };
 }
+/**
+ * The phone's sort menu picks a column only (round 11): the current one keeps its direction, another starts in its default direction
+ * (numbers right-aligned: descending). The direction has its own button (flipSort).
+ * @param {{ key: string, dir: 'asc' | 'desc' } | null} sort @param {{ key: string, align?: string }} c
+ * @returns {{ key: string, dir: 'asc' | 'desc' }}
+ */
+export function pickSort(sort, c) {
+  return sort && sort.key === c.key ? sort : { key: c.key, dir: c.align === 'right' ? 'desc' : 'asc' };
+}
+/** @param {{ key: string, dir: 'asc' | 'desc' }} sort @returns {{ key: string, dir: 'asc' | 'desc' }} */
+export function flipSort(sort) {
+  return { key: sort.key, dir: sort.dir === 'asc' ? 'desc' : 'asc' };
+}
 
 /**
  * Should a click or key on `target` inside a row open the row? Not when it lands on a control inside the row (a toggle, a link, a field).

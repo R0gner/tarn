@@ -7,10 +7,10 @@
 import './locales/shell.js';   // shell texts
 import { h, cls } from './dom.js';
 import { icon } from './icons.js';
-import { statusDot, button, GO_ICONS } from './primitives.js';
+import { statusDot, button, iconButton, GO_ICONS } from './primitives.js';
 import { empty } from './components.js';
 import { menu } from './widgets.js';
-import { listPlaces, listLabelled, sortChoices, nextSort, opensRow, metricLayout, metricTemplate, metricNeed } from './table-data.js';
+import { listPlaces, listLabelled, sortChoices, nextSort, pickSort, flipSort, opensRow, metricLayout, metricTemplate, metricNeed } from './table-data.js';
 import { sortRows } from './format.js';
 import { t } from './i18n.js';
 
@@ -127,25 +127,30 @@ export function table(opts) {
     }, label);
   }
   /** @param {TableColumn} c */
-  function toggleSort(c) {
-    sort = nextSort(sort, c);
+  function toggleSort(c) { setSort(nextSort(sort, c)); }
+  /** @param {{ key: string, dir: 'asc' | 'desc' }} next */
+  function setSort(next) {
+    sort = next;
     opts.onSort?.(sort);
     render();
   }
-  /** List mode hides the header: a sort control above the rows shows the order and offers the sortable columns (a choice flips the direction of the current one). */
+  /** List mode hides the header: above the rows a menu picks the column ("By Name") and a button beside it shows the direction as an arrow
+   * and flips it (round 11: flipping by picking the same column again was not found on a phone). */
   function sortBar() {
     const choices = sortChoices(cols, sort);
     if (choices.length < 2) return null;
     const cur = sort && cols.find((c) => c.key === sort?.key);
-    const btn = button(cur ? t('table.sortedBy', { col: String(listName(cur) ?? '') }) : t('table.sort'), {
-      variant: 'ghost', small: true, icon: cur && sort ? (sort.dir === 'desc' ? 'arrow-down' : 'arrow-up') : 'list',
-    });
-    btn.setAttribute('aria-label', cur && sort ? t(sort.dir === 'desc' ? 'table.sortedDesc' : 'table.sortedAsc', { col: String(listName(cur) ?? '') }) : t('table.sort'));
+    const btn = button(cur ? t('table.sortedBy', { col: String(listName(cur) ?? '') }) : t('table.sort'), { variant: 'ghost', small: true, icon: 'list' });
+    btn.setAttribute('aria-label', cur ? t('table.sortedBy', { col: String(listName(cur) ?? '') }) : t('table.sort'));
     menu(btn, choices.map((o) => {
       const c = /** @type {TableColumn} */ (cols.find((x) => x.key === o.key));
-      return { label: String(o.label), checked: o.checked, icon: o.checked && sort ? (sort.dir === 'desc' ? 'arrow-up' : 'arrow-down') : undefined, onClick: () => toggleSort(c) };
+      return { label: String(o.label), checked: o.checked, onClick: () => setSort(pickSort(sort, c)) };
     }), { label: t('table.sort') });
-    return h('div', { class: 'tn-table-sortbar' }, btn);
+    const s = cur ? sort : null;
+    const dir = s ? iconButton(s.dir === 'desc' ? 'arrow-down' : 'arrow-up', {
+      label: t(s.dir === 'desc' ? 'table.desc' : 'table.asc'), className: 'tn-table-dir', onClick: () => setSort(flipSort(s)),
+    }) : null;
+    return h('div', { class: 'tn-table-sortbar' }, btn, dir);
   }
   /** @param {TableColumn} c @param {any} r @param {Child} content */
   function labelled(c, r, content) {

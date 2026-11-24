@@ -575,6 +575,26 @@ export const SCENARIOS = [
       }
       return left;
     } },
+  { id: 'table-sort-dir', page: 'board', hash: 'jobs', overlay: '.tn-table-dir', focus: false, when: (sz) => sz.w < 700,
+    // round 11: in list mode the direction is a button of its own beside the column menu – an arrow, aria-label ascending/descending; one tap
+    // reverses the rows and the arrow, the column stays
+    open: (io) => io.until(`!!document.querySelector('.tn-table-wrap.is-list .tn-table-dir')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const st = () => io.eval(`(() => { const w = [...document.querySelectorAll('.tn-table-wrap.is-list')].find((x) => x.querySelector('.tn-table-dir')); const b = w.querySelector('.tn-table-dir');
+        return { label: b.getAttribute('aria-label'), icon: b.querySelector('svg')?.innerHTML, col: w.querySelector('.tn-table-sortbar .tn-btn').textContent.trim(),
+          keys: [...w.querySelectorAll('tbody tr[data-key]')].map((r) => r.dataset.key).join(',') }; })()`);
+      const a = await st();
+      if (!/^(Ascending|Descending)$/.test(a.label || '')) left.push(`the direction button is not labelled Ascending/Descending (${a.label})`);
+      await io.press('.tn-table-wrap.is-list .tn-table-dir');
+      await sleep(150);
+      const b = await st();
+      if (b.label === a.label) left.push('a tap on the direction button does not change the direction');
+      if (b.col !== a.col) left.push(`a tap on the direction button changed the column (${a.col} → ${b.col})`);
+      if (b.icon === a.icon) left.push('the arrow does not turn with the direction');
+      if (b.keys === a.keys) left.push('a tap on the direction button does not reorder the rows');
+      return left;
+    } },
   { id: 'media-row', page: 'gallery', hash: 'rows', overlay: '.tn-mrow', focus: false, when: (sz) => sz.mobile,
     // mediaRow() (0.9.3, Markt-Scout listing rows): the whole row is the button, the title takes the full width beside the picture and up to
     // three lines, no chevron and no status dot; the picture keeps its square

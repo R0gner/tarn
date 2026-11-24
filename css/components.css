@@ -375,7 +375,7 @@ th.is-sorted { color: var(--tn-text); }
 .tn-list-only { display: none; }
 .tn-table-wrap.is-list .tn-list-only { display: inline; }
 .tn-table-sortbar { display: none; }
-.tn-table-wrap.is-list .tn-table-sortbar { display: flex; justify-content: flex-end; padding: var(--tn-s1) var(--tn-s2); border-bottom: 1px solid var(--tn-sep); }
+.tn-table-wrap.is-list .tn-table-sortbar { display: flex; justify-content: flex-end; align-items: center; gap: var(--tn-s1); padding: var(--tn-s1) var(--tn-s2); border-bottom: 1px solid var(--tn-sep); }
 
 /* ============ Facts, banners ============ */
 .tn-facts { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--tn-s2); min-width: 0; }

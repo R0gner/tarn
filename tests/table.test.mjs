@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { metricLayout, metricTemplate, metricNeed, listPlaces, listLabelled, sortChoices, nextSort, opensRow } from '../js/table-data.js';
+import { metricLayout, metricTemplate, metricNeed, listPlaces, listLabelled, sortChoices, nextSort, pickSort, flipSort, opensRow } from '../js/table-data.js';
 
 test('list places: defaults of 0.10 stay (title, last right-aligned value, rest sub)', () => {
   assert.deepEqual(listPlaces([{}, {}, { align: 'right' }, { align: 'right' }]), ['title', 'sub', 'sub', 'value']);
@@ -23,6 +23,13 @@ test('next sort: same column flips, numbers start descending, text ascending', (
   assert.deepEqual(nextSort({ key: 'b', dir: 'desc' }, { key: 'b' }), { key: 'b', dir: 'asc' });
   assert.deepEqual(nextSort(null, { key: 'c', align: 'right' }), { key: 'c', dir: 'desc' });
   assert.deepEqual(nextSort({ key: 'b', dir: 'desc' }, { key: 'a' }), { key: 'a', dir: 'asc' });
+});
+test('phone sort: the menu picks a column (the current one keeps its direction), the arrow button flips', () => {
+  assert.deepEqual(pickSort({ key: 'b', dir: 'desc' }, { key: 'b' }), { key: 'b', dir: 'desc' });
+  assert.deepEqual(pickSort({ key: 'b', dir: 'asc' }, { key: 'c', align: 'right' }), { key: 'c', dir: 'desc' });
+  assert.deepEqual(pickSort(null, { key: 'a' }), { key: 'a', dir: 'asc' });
+  assert.deepEqual(flipSort({ key: 'a', dir: 'asc' }), { key: 'a', dir: 'desc' });
+  assert.deepEqual(flipSort({ key: 'a', dir: 'desc' }), { key: 'a', dir: 'asc' });
 });
 test('a control inside a row does not open the row', () => {
   const row = { tag: 'tr' };

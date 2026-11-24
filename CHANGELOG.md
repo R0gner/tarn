@@ -3,6 +3,25 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
+## 0.17.0
+
+### Changed
+- **Press feedback on touch only after a real tap** (round 11, HL board on a phone): a row the thumb touched to start a scroll or a swipe lit up.
+  Root cause: `js/press.js` set `.is-down` on every `pointerdown`, and the CSS also styled `:active`, which Chrome on Android sets at touchstart.
+  Now the CSS styles only `.is-down`; under a mouse or pen it is set on `pointerdown` as before, on touch it is a short flash (`--tn-t-tap`,
+  140 ms, new token) after the click of a tap whose finger moved at most 8 px (no `pointercancel`, no scroll); a keyboard click flashes too.
+  Applies to every tappable element (buttons, rows, table rows, tiles, tabs, menu items). Scenario `touch-press`, mutant `press-on-touchdown`;
+  `tests/press.test.mjs` keeps `:active` out of the kit's CSS (headless Chrome does not set it for a synthetic touch, so no mutant can show it).
+- **Hover only for a pointer that hovers** (round 11): every `:hover` rule sits under `@media (hover: hover)`. Chrome on Android keeps `:hover`
+  on the last tapped element; a row whose detail was closed by a swipe or by Back (no further tap) stayed lit with `--tn-hover` and looked
+  still selected. The kit's own mark (`aria-current`, `is-selected` beside the inspector) was already cleared on every close path. The forced
+  gallery states `.is-hover` stay unconditional. Clickable table rows get `touch-action: manipulation` like the other tappable rows.
+  Scenario `detail-mark-cleared` (close button and Back, desktop also Escape), mutants `row-hover-touch`, `mark-kept-on-close`.
+- **Sort direction on a phone** (round 11): in list mode the sort bar holds the column menu (“Sorted by CPU”, the menu only picks a column; the
+  current one keeps its direction) and beside it an arrow button that shows the direction (aria-label “Ascending”/“Descending”) and flips it with
+  one tap. Desktop header sorting unchanged. `pickSort()`/`flipSort()` in `table-data.js`; locale keys `table.asc`/`table.desc` replace
+  `table.sortedAsc`/`table.sortedDesc`. Scenario `table-sort-dir`, mutant `sort-dir-dead`.
+
 ## 0.16.0
 
 ### Added

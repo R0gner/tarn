@@ -504,5 +504,10 @@ export const MUTANTS = [
     check: 'overlay', scenarios: ['detail-mark-cleared'], sizes: ['desktop'], expect: ['overlay-behaviour'],
     patch: [{ file: 'js/shell.js', from: "    if (sheet) { closing = true; sheet.close('api'); closing = false; sheet = null; }\n    markSelected();", to: "    if (sheet) { closing = true; sheet.close('api'); closing = false; sheet = null; }" }],
   },
-
+  {
+    // round 11: the phone's direction button that does not flip (the 0.16 sort: only picking the same column again flipped it)
+    id: 'sort-dir-dead',
+    check: 'overlay', scenarios: ['table-sort-dir'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/table.js', from: "onClick: () => setSort(flipSort(s)),", to: "onClick: () => setSort(s)," }],
+  },
 ];
