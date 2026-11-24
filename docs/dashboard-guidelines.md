@@ -80,6 +80,14 @@ Do: a long form on a view of its own (the sample board's Deploy view); a short o
 when it reopens; a "Discard" button asks with `confirm()`.
 Don't: a ten-field form in a sheet that starts empty again after an accidental swipe.
 
+**14. A list is never cut.** A list shows all its rows, or it draws and loads the next ones by itself while the reader scrolls (`growList`). A
+section that folds holds the whole list when it opens.
+Why: "26 more" under 40 rows that cannot be tapped hides exactly the rows the reader was looking for, and a "Show more" button makes them work for
+data the board already has.
+Do: `growList(hits, row, { load: (offset) => fetchHits(offset), more: total > hits.length })`; a candidate list of 66 that draws 50 and the
+last 16 while scrolling.
+Don't: ``card({ footer: `${total - 40} more` }, list(rows.slice(0, 40), row))``, or a "Load more" button at the end of a list.
+
 ## How much goes on the overview
 
 Start from the question "do I need to act, and where?". That gives tiles for the few figures with a goal (four to six), a Problems list, and at most
@@ -97,5 +105,5 @@ wrong block: fix that first (rule 2). The one exception is a display that cannot
 ## What the checks find
 
 `verify` fails on running text that is always visible in a card, section, tile or row beyond a limit, on an info banner that sits on a view, and on an
-`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6 and 8 to 13 cannot be checked by a machine, rules
+`info` text over 280 characters (limits and exceptions: [checks](checks.md#content)). Rules 1, 6 and 8 to 14 cannot be checked by a machine, rules
 2, 3, 4 and 7 only by length and placement: check those yourself before handing in.

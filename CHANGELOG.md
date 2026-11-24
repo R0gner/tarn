@@ -3,7 +3,7 @@
 Format after [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 While the major version is 0, minor versions may change the API; every change is listed here.
 
-## 0.13.0
+## 0.15.0
 
 ### Added
 - **A thing with measurements in list mode** (`table()`): a column with `mobile: 'metric'` is a labelled measurement in the row's measurement
@@ -44,6 +44,26 @@ While the major version is 0, minor versions may change the API; every change is
 - In list mode a table with at least two sortable columns gets the sort button above its rows (44 px of height; desktop tables keep their header). Opt out by marking columns `sortable: false`.
 - On touch every icon button has a hit area of at least 44 px (drawn size unchanged; in a table row the control is drawn at 28 px).
 - Without the new options nothing else changes: a table without `mobile: 'metric'` keeps its list rows (title, sub, value, chevron).
+
+## 0.14.0
+
+### Added
+- `views[].infoIcon`: the icon of the button next to the toolbar title when it opens the thing's details rather than an explanation (e.g.
+  `'file-text'` for an order's text, terms and budgets); default `'info'`, which stays for explanations. Gallery "Entries per thing". docs/shell.md
+
+## 0.13.0
+
+### Added
+- `growList(items, render, { load, more, key, step, id, empty, zebra })`: a list that is never cut. It draws 50 rows at first and the next ones
+  while the reader scrolls (IntersectionObserver on the end of the list); with `load(offset)` and `more` it asks the board for the rest by itself
+  (loading row, compact error with "Try again"). `key` drops rows that arrive twice, `id` keeps drawn and loaded rows across redraws of the view.
+  Bookkeeping without the DOM in `js/growlist-data.js` (tests/growlist.test.mjs). Gallery "Cards and tiles". docs/components.md
+- Icons `file-text` (a document: details of a thing, next to the ⓘ that stays for explanations) and `pin` (pinned rows).
+
+### Changed
+- New content rule 14 "A list is never cut" (docs/dashboard-guidelines.md) and principle 15 in AGENTS.md: every list shows all rows or grows by
+  itself while scrolling; no "Show more" button, never a "26 more" line that cannot be tapped; a folded section holds the whole list. Found on the
+  Markt-Scout ("26 more candidates" under 40 rows).
 
 ## 0.12.1
 

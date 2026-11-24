@@ -2,9 +2,9 @@
 // groups say which part a view shows: "Core · …" (works without the shell) or "Shell · …" (boards only), see docs/getting-started.md "Core and shell".
 // Doubles as a self-test of the app shell. The gallery text is English; kit texts follow the language (en, de).
 import {
-  h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, toast, card, section, statTile,
-  metricRow, mediaRow, list, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
-  cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT, getLocale,
+  h, icon, ICON_NAMES, createApp, dataSource, statusDot, badge, button, iconButton, card, section, statTile,
+  metricRow, mediaRow, list, growList, table, filterBar, matchFilters, kv, facts, banner, empty, error, loading, tiles, toolbarRow,
+  cols, stack, openSheet, imageStrip, openImageViewer, normalizeImages, markdown, INFO_MAX, infoButton, fmtBytes, fmtDuration, fmtAgo, fmtNum, fmtPct, fmtWhen, matchQuery, STATUS_TEXT, toast, getLocale,
 } from '../js/tarn.js';
 import { viewControls, viewFeedback, viewShell, viewCharts, viewThemes } from './gallery2.js';
 import { viewInputs } from './gallery-inputs.js';
@@ -176,6 +176,14 @@ function viewRows(ctx) {
       h('div', { class: 'g-grid2' },
         state('default: one line, "…"', card({ flush: true }, list([0], () => metricRow({ title: 'Offsite archive sync', sub: 'Exit 23 after 41 min: 3 files could not be transferred (permission denied on /srv/archive/2026/11)', status: 'bad', value: '2 h' })))),
         state('wrapSub: readable in full', card({ flush: true }, list([0], () => metricRow({ title: 'Offsite archive sync', sub: 'Exit 23 after 41 min: 3 files could not be transferred (permission denied on /srv/archive/2026/11)', status: 'bad', value: '2 h', wrapSub: true })))))),
+    demo('growList()', `growList(rows, render, { load: (offset) => fetchPage(offset), more: total > rows.length, key: (r) => r.id, id: 'hits' })
+// a list is never cut: it draws 50 rows per step while the reader scrolls and loads the rest by itself – no "Show more", no "26 more" line`,
+      h('div', { class: 'g-grid2' },
+        state('all rows known: drawn while scrolling', card({ flush: true }, growList(Array.from({ length: 66 }, (_, i) => i + 1),
+          (i) => metricRow({ title: `Candidate ${i}`, sub: 'kept in full', value: fmtNum(i * 7, 0) }), { id: 'g-grow-all' }))),
+        state('first page, the board loads the rest', card({ flush: true }, growList([1, 2, 3], (i) => metricRow({ title: `Hit ${i}`, value: fmtNum(i, 0) }),
+          { more: true, id: 'g-grow-load', load: (offset) => Promise.resolve({ items: offset < 12 ? [offset + 1, offset + 2, offset + 3] : [], more: offset + 3 < 12 }) }))),
+        state('empty', card({ flush: true }, growList([], noop, { empty: 'No hits' }))))),
     demo('list() empty', `list([], render, { empty: 'No problems' })`, card({ flush: true }, list([], noop, { empty: 'No problems' }))),
     demo('kv() and facts()', `facts('Run', kv([['Host', 'nas-a'], ['Duration', '21 min'], ['Error', text, 'tn-t-bad']]))  // empty values are dropped`,
       h('div', { class: 'g-narrow' }, facts('Run', kv([['Host', 'nas-b'], ['Schedule', 'daily 04:15'], ['Last run', fmtWhen(now() - 11100e3)], ['Duration', fmtDuration(31)], ['Empty', null], ['Error', 'rsync: connection unexpectedly closed', 'tn-t-bad']])))),
@@ -394,7 +402,7 @@ const app = createApp({
     { id: 'datasources', label: 'Data sources', icon: 'database', render: viewDataSources, source: dataSourcesSource },
     { id: 'shell', group: 'Shell · App frame', label: 'Shell and boards', icon: 'sidebar', render: viewShell },
     // one navigation entry per thing (views[].entries), title from the data and ⓘ next to it (0.11.0)
-    { id: 'things', label: 'Entries per thing', icon: 'list', render: viewThings, entries: thingEntries, title: thingTitle, info: thingInfo },
+    { id: 'things', label: 'Entries per thing', icon: 'list', render: viewThings, entries: thingEntries, title: thingTitle, info: thingInfo, infoIcon: 'file-text' },
   ],
   navGroups: { 'Shell · App frame': { collapsible: true } },
 });
@@ -425,7 +433,8 @@ function viewThings(ctx) {
     h('p', { class: 'g-intro' }, 'views[].entries(ctx) makes one navigation entry per thing (here: per order); title(ctx) puts its name into the toolbar, info(ctx) the ⓘ that opens its details. The group heading above folds (navGroups[id].collapsible).'),
     demo('entries, title, info', `createApp({ navGroups: { orders: { label: 'Orders', collapsible: true } }, views: [
   { id: 'order', group: 'orders', label: 'Order', render, entries: (ctx) => orders.map((o) => ({ key: o.id, label: o.title, params: { m: o.id } })),
-    title: (ctx) => orderOf(ctx).title, info: (ctx) => () => openSheet({ title: orderOf(ctx).title, body: details(orderOf(ctx)) }) },
+    title: (ctx) => orderOf(ctx).title, info: (ctx) => () => openSheet({ title: orderOf(ctx).title, body: details(orderOf(ctx)) }),
+    infoIcon: 'file-text' },   // a document: the order's details (the ⓘ stays for explanations)
   { id: 'new', group: 'orders', label: 'New order', icon: 'square-plus', render: viewNew },
 ] })`, card({ title: x.label }, kv([['Text', x.text], ['Budget', x.budget]]))),
   ];

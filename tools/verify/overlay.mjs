@@ -161,7 +161,7 @@ export const SCENARIOS = [
     } },
   { id: 'segmented-swipe-empty-room', page: 'gallery', hash: 'controls', overlay: '.g-swipe .tn-segpane', focus: false, when: (sz) => sz.mobile,
     // the swipe demo alone in the view (its siblings hidden), on the short part Notes: empty room below it down to the lower edge of the screen.
-    // A sideways swipe that starts there switches (0.13.0, the owner swipes with the thumb at the lower edge); while a long neighbour (the drawn slide
+    // A sideways swipe that starts there switches (0.15.0, the owner swipes with the thumb at the lower edge); while a long neighbour (the drawn slide
     // 1600 px taller) is held half pulled in, the page does not grow; after the switch nothing of the gesture stays
     open: (io) => io.eval(`(() => {
       for (let e = document.querySelector('.g-swipe'); e && !e.matches('.tn-content'); e = e.parentElement)
@@ -1063,7 +1063,7 @@ export const SCENARIOS = [
     } },
 
   { id: 'detail-current-row', page: 'board', hash: 'overview', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: false,
-    // aria-current marks the row whose detail is open and no other – also when opening or switching the detail draws nothing anew (0.13.0: it was
+    // aria-current marks the row whose detail is open and no other – also when opening or switching the detail draws nothing anew (0.15.0: it was
     // set only by drawing, so it depended on data arriving afterwards and stayed on the row of the detail opened before)
     open: (io) => io.press('.tn-row-btn[data-key]'),
     assert: async (io) => {

@@ -61,6 +61,9 @@ building block, tool and option is `docs/` (index: `docs/README.md`); this file 
     No always-visible explanations, disclaimers, caveats or method notes: those go into your hand-in report. A complex display may carry one optional
     `info` (`card({ info })`, `section(title, { info })`). Empty and error states: one line, one action. A number appears once per view.
 
+15. **A list is never cut.** Every list shows all its rows or grows by itself while scrolling: `growList(items, render, { load, more })`. No “Show more”
+    button, never a “26 more” line that cannot be tapped; a folded section holds the whole list (docs/dashboard-guidelines.md rule 14).
+
 ## Verification
 
 1. **Name the check before the code:** command and expected output (e.g. `node tools/verify.mjs --quick --views jobs` → “GREEN ·

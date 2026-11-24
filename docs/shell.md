@@ -63,6 +63,8 @@ source.start();
   “Order”). `info(ctx)` returns what a tap on the ⓘ next to the title does, typically `() => openSheet({ title, body })` with the details of the
   thing the view shows; return `null` to hide the button. No extra line above the content for this. A long title from the data ends in … on the phone
   (the ⓘ shows it in full); verify's `toolbar-title` rule checks only the board's own labels (0.12.1).
+  `infoIcon` (0.14.0) changes the button's icon when it opens the thing's details rather than an explanation, e.g. `infoIcon: 'file-text'`
+  for an order's text and terms; the ⓘ stays for explanations.
 - `count(ctx)` returns a number, `{ n, tone }` (tone is a status) or `null`; it is the counter in the sidebar and is derived from `ctx.data`, never set as
   a side effect of `render()`. `app.setCount(id, n, tone)` is only for counters that cannot be derived from data (live events).
 - `ctx = { app, view, params, open, data, src }`: `data` is the parsed data of the source, `src` its full [state](data.md#state), `params` the query part of
