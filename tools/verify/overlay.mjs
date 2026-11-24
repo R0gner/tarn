@@ -509,6 +509,72 @@ export const SCENARIOS = [
     } },
   { id: 'detail', page: 'board', hash: 'jobs', overlay: 'dialog.tn-sheet[open], .tn-inspector:not([hidden])', focus: 'modal',
     open: (io) => io.press('[data-key="offsite-sync"], tr[data-key="offsite-sync"], .tn-row-btn', 'Offsite archive sync') },
+  { id: 'touch-press', page: 'board', hash: 'jobs', overlay: '.tn-toolbar-title', focus: false, when: (sz) => sz.mobile,
+    // round 11 (HL board on a phone): a touch that starts a scroll or a swipe on a row lights nothing up (no .is-down, no :active colour
+    // while the finger rests); a real tap (down and up in place) shows a short pressed flash that goes away by itself
+    open: (io) => io.until(`!!document.querySelector('[data-key="offsite-sync"]')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const tp = (type, px, py) => io.page.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: px, y: py, id: 0 }] });
+      await io.eval(`(() => { window.__downs = []; new MutationObserver((ms) => { for (const m of ms) if (m.target.classList?.contains('is-down')) window.__downs.push(m.target.tagName); })
+        .observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] }); document.querySelector('[data-key="offsite-sync"]').scrollIntoView({ block: 'center', behavior: 'instant' }); return null; })()`);
+      const SEL = JSON.stringify('[data-key="offsite-sync"]');
+      const look = () => io.eval(`(() => { const r = document.querySelector(${SEL}); const td = r.querySelector('td'); const b = r.getBoundingClientRect();
+        return { bg: getComputedStyle(r).backgroundColor + '|' + (td ? getComputedStyle(td).backgroundColor : ''), x: Math.round(b.left + b.width / 2), y: Math.round(b.top + b.height / 2), down: r.classList.contains('is-down') }; })()`);
+      const rest = await look();
+      // the thumb rests on the row, then scrolls the page up
+      await tp('touchStart', rest.x, rest.y); await sleep(180);
+      const held = await look();
+      if (held.bg !== rest.bg || held.down) left.push('a finger resting on a row (start of a scroll) already shows the pressed state');
+      for (let i = 1; i <= 10; i++) { await tp('touchMove', rest.x, rest.y - 12 * i); await sleep(16); }
+      await tp('touchEnd', rest.x, rest.y - 120); await sleep(250);
+      // a sideways swipe across the row
+      const r2 = await look();
+      await tp('touchStart', r2.x, r2.y); await sleep(30);
+      for (let i = 1; i <= 10; i++) { await tp('touchMove', r2.x - 14 * i, r2.y); await sleep(16); }
+      await tp('touchEnd', r2.x - 140, r2.y); await sleep(250);
+      const n = await io.eval('window.__downs.length');
+      if (n) left.push(`a scroll or a swipe that started on a row set the pressed state ${n}×`);
+      if (await io.eval(`!!document.querySelector('dialog.tn-sheet[open], .tn-inspector:not([hidden])')`)) left.push('a scroll that started on a row opened its detail');
+      // a real tap: a short flash, then gone
+      const r3 = await look();
+      await tp('touchStart', r3.x, r3.y); await sleep(40); await tp('touchEnd', r3.x, r3.y);
+      if (!(await io.until('window.__downs.length > 0', 400))) left.push('a real tap on a row shows no pressed flash');
+      if (!(await io.until(`!document.querySelector('.is-down')`, 1000))) left.push('the pressed flash after a tap does not go away');
+      return left;
+    } },
+  { id: 'detail-mark-cleared', page: 'board', hash: 'jobs', overlay: '.tn-toolbar-title', focus: false,
+    // round 11 (HL board, phone): a row is marked while its detail is open and looks like every other row once the detail is closed, by
+    // any path – here the close button and Back, on a phone also after the tap left its (sticky) :hover on the row, beside an inspector
+    // also Escape. Checked: no is-selected, no aria-current, the row's colour (row and cell) equals the colour it had before the tap.
+    open: (io) => io.until(`!!document.querySelector('[data-key="offsite-sync"]')`, 3000),
+    assert: async (io) => {
+      const left = [];
+      const KEY = JSON.stringify('[data-key="offsite-sync"]');
+      const DET = 'dialog.tn-sheet[open], .tn-inspector:not([hidden])';
+      const look = () => io.eval(`(() => { const r = document.querySelector(${KEY}); const td = r.querySelector('td');
+        return { bg: getComputedStyle(r).backgroundColor + '|' + (td ? getComputedStyle(td).backgroundColor : ''), sel: r.classList.contains('is-selected'), cur: r.hasAttribute('aria-current') }; })()`);
+      const rest = await look();
+      const inspector = io.size.w >= 1000;
+      const closers = [
+        ['the close button', () => io.press(`dialog.tn-sheet[open] .tn-sheet-head .tn-iconbtn, .tn-inspector:not([hidden]) .tn-sheet-head .tn-iconbtn`)],
+        ['Back', () => io.eval('(history.back(), null)')],
+        ...(inspector ? [['Escape', () => io.key('Escape')]] : []),
+      ];
+      for (const [name, close] of closers) {
+        await io.press('[data-key="offsite-sync"]');
+        if (!(await io.until(`!!document.querySelector(${JSON.stringify(DET)})`, 2000))) { left.push(`a tap on the row opened no detail (before ${name})`); break; }
+        await sleep(200);
+        const open = await look();
+        if (!open.cur) left.push('the row whose detail is open has no aria-current');
+        if (inspector && !open.sel) left.push('the row beside the open inspector is not marked');
+        await close();
+        await io.gone(DET, 1500); await sleep(250);
+        const after = await look();
+        if (after.sel || after.cur || after.bg !== rest.bg) left.push(`after closing the detail with ${name} the row stays marked (${[after.sel && 'is-selected', after.cur && 'aria-current', after.bg !== rest.bg && `colour ${after.bg}`].filter(Boolean).join(', ')})`);
+      }
+      return left;
+    } },
   { id: 'media-row', page: 'gallery', hash: 'rows', overlay: '.tn-mrow', focus: false, when: (sz) => sz.mobile,
     // mediaRow() (0.9.3, Markt-Scout listing rows): the whole row is the button, the title takes the full width beside the picture and up to
     // three lines, no chevron and no status dot; the picture keeps its square

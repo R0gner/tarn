@@ -22,7 +22,7 @@ h1, h2, h3, h4, p, dl, dd, ul, ol, figure, pre { margin: 0; }
 h1, h2, h3, h4 { font-size: inherit; font-weight: var(--tn-fw-strong); }
 ul, ol { padding: 0; list-style: none; }
 a { color: var(--tn-info-text); text-decoration: none; }
-a:hover { text-decoration: underline; }
+@media (hover: hover) { a:hover { text-decoration: underline; } }
 img, svg { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
 button { background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }

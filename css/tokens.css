@@ -200,6 +200,7 @@
      sidebar animate, only transform/opacity: 150 ms open, 120 ms close. JS reads these tokens too. */
   --tn-t-open: 150ms;
   --tn-t-close: 120ms;
+  --tn-t-tap: 140ms;           /* pressed flash after a real tap on touch (js/press.js); colour only, so it stays under reduced motion */
   --tn-t-lead: -16ms;          /* lead-in on open: the first painted frame already shows motion (negative delay) */
   --tn-t-loop-pulse: 1400ms;   /* loading skeleton */
   --tn-t-loop-indet: 1300ms;   /* indeterminate progress */

@@ -19,18 +19,22 @@
 .tn-btn-sm { min-height: var(--tn-btn-sm-h); padding: 0 var(--tn-s2); }
 .tn-btn-icononly { padding: 0; width: var(--tn-hit); }
 .tn-btn-default { background: var(--tn-card); border: 1px solid var(--tn-border); color: var(--tn-text); }
-.tn-btn-default:hover, .tn-btn-default.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); }
-.tn-btn-default:is(:active, .is-down), .tn-btn-default.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
+.tn-btn-default.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); }
+@media (hover: hover) { .tn-btn-default:hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); } }
+.tn-btn-default.is-down, .tn-btn-default.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
 .tn-btn-default.is-active { border-color: color-mix(in oklch, var(--tn-accent) 55%, transparent); }
 .tn-btn-primary { background: var(--tn-primary); color: var(--tn-text-on-accent); }
-.tn-btn-primary:hover, .tn-btn-primary.is-hover { background: color-mix(in oklch, var(--tn-primary), var(--tn-black) 8%); }
-.tn-btn-primary:is(:active, .is-down), .tn-btn-primary.is-pressed { background: color-mix(in oklch, var(--tn-primary), var(--tn-black) 16%); }
+.tn-btn-primary.is-hover { background: color-mix(in oklch, var(--tn-primary), var(--tn-black) 8%); }
+@media (hover: hover) { .tn-btn-primary:hover { background: color-mix(in oklch, var(--tn-primary), var(--tn-black) 8%); } }
+.tn-btn-primary.is-down, .tn-btn-primary.is-pressed { background: color-mix(in oklch, var(--tn-primary), var(--tn-black) 16%); }
 .tn-btn-ghost { color: var(--tn-text-2); }
-.tn-btn-ghost:hover, .tn-btn-ghost.is-hover { background: var(--tn-hover); color: var(--tn-text); }
-.tn-btn-ghost:is(:active, .is-down), .tn-btn-ghost.is-pressed { background: var(--tn-press); }
+.tn-btn-ghost.is-hover { background: var(--tn-hover); color: var(--tn-text); }
+@media (hover: hover) { .tn-btn-ghost:hover { background: var(--tn-hover); color: var(--tn-text); } }
+.tn-btn-ghost.is-down, .tn-btn-ghost.is-pressed { background: var(--tn-press); }
 .tn-btn-danger { background: var(--tn-card); border: 1px solid color-mix(in oklch, var(--tn-bad) 45%, transparent); color: var(--tn-bad-text); }
-.tn-btn-danger:hover, .tn-btn-danger.is-hover { background: var(--tn-bad-bg); }
-.tn-btn-danger:is(:active, .is-down), .tn-btn-danger.is-pressed { background: light-dark(color-mix(in oklch, var(--tn-bad) 17%, transparent), color-mix(in oklch, var(--tn-bad) 24%, transparent)); }
+.tn-btn-danger.is-hover { background: var(--tn-bad-bg); }
+@media (hover: hover) { .tn-btn-danger:hover { background: var(--tn-bad-bg); } }
+.tn-btn-danger.is-down, .tn-btn-danger.is-pressed { background: light-dark(color-mix(in oklch, var(--tn-bad) 17%, transparent), color-mix(in oklch, var(--tn-bad) 24%, transparent)); }
 .tn-btn:disabled, .tn-iconbtn:disabled { opacity: .45; pointer-events: none; }
 
 .tn-iconbtn {
@@ -38,8 +42,9 @@
   width: var(--tn-hit); height: var(--tn-hit);
   border-radius: var(--tn-r); color: var(--tn-text-2);
 }
-.tn-iconbtn:hover, .tn-iconbtn.is-hover { background: var(--tn-hover); color: var(--tn-text); }
-.tn-iconbtn:is(:active, .is-down), .tn-iconbtn.is-pressed { background: var(--tn-press); }
+.tn-iconbtn.is-hover { background: var(--tn-hover); color: var(--tn-text); }
+@media (hover: hover) { .tn-iconbtn:hover { background: var(--tn-hover); color: var(--tn-text); } }
+.tn-iconbtn.is-down, .tn-iconbtn.is-pressed { background: var(--tn-press); }
 .tn-iconbtn[aria-pressed="true"] { background: var(--tn-selected); color: var(--tn-text); }
 /* touch: the target of an icon button is at least 44 px, also when it is drawn smaller (a toggle in a table row) */
 @media (pointer: coarse) { .tn-iconbtn::before { content: ''; position: absolute; inset: min(0px, calc(50% - var(--tn-sz-44) / 2)); } }
@@ -83,8 +88,9 @@
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2);
   position: relative; user-select: none; -webkit-user-select: none; touch-action: manipulation;
 }
-.tn-pill:hover, .tn-pill.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); color: var(--tn-text); }
-.tn-pill:is(:active, .is-down), .tn-pill.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
+.tn-pill.is-hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); color: var(--tn-text); }
+@media (hover: hover) { .tn-pill:hover { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 5%); color: var(--tn-text); } }
+.tn-pill.is-down, .tn-pill.is-pressed { background: color-mix(in oklch, var(--tn-card), var(--tn-text) 10%); }
 .tn-pill.is-on { border-color: color-mix(in oklch, var(--tn-accent) 60%, transparent); background: var(--tn-info-bg); color: var(--tn-text); }
 .tn-pill.is-on > .tn-icon { color: var(--tn-accent); }
 .tn-pill:disabled { opacity: .45; pointer-events: none; }
@@ -103,8 +109,8 @@
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); white-space: nowrap;
   touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
-.tn-seg-btn:hover { background: var(--tn-hover); color: var(--tn-text); }
-.tn-seg-btn:is(:active, .is-down) { background: var(--tn-press); }
+@media (hover: hover) { .tn-seg-btn:hover { background: var(--tn-hover); color: var(--tn-text); } }
+.tn-seg-btn.is-down { background: var(--tn-press); }
 .tn-seg-btn[aria-checked="true"] { background: var(--tn-card); color: var(--tn-text); box-shadow: 0 0 0 1px var(--tn-border); }
 .tn-seg-sm .tn-seg-btn { min-height: var(--tn-seg-sm-h); padding: 0 var(--tn-s2); }
 /* segmented with its content (segmented({ pane })): the control above the content of the chosen option, the same gap as stack() */
@@ -140,8 +146,8 @@
   font-size: var(--tn-fs-label); font-weight: var(--tn-fw-label); color: var(--tn-text-2); border-radius: var(--tn-r-sm) var(--tn-r-sm) 0 0;
   touch-action: manipulation;
 }
-.tn-tab:hover { color: var(--tn-text); background: var(--tn-hover); }
-.tn-tab:is(:active, .is-down) { background: var(--tn-press); }
+@media (hover: hover) { .tn-tab:hover { color: var(--tn-text); background: var(--tn-hover); } }
+.tn-tab.is-down { background: var(--tn-press); }
 .tn-tab[aria-selected="true"] { color: var(--tn-text); }
 .tn-tab[aria-selected="true"]::after { content: ""; position: absolute; left: var(--tn-s2); right: var(--tn-s2); bottom: 0; height: var(--tn-sz-2); border-radius: var(--tn-r-1); background: var(--tn-text); }
 .tn-tab-count { font-size: var(--tn-fs-xs); color: var(--tn-text-3); font-variant-numeric: tabular-nums; }
@@ -173,7 +179,7 @@
   background: var(--tn-card); border: 1px solid var(--tn-border); border-radius: var(--tn-r); font-size: var(--tn-fs-body);
 }
 @media (pointer: coarse) { .tn-inputbox { font-size: var(--tn-fs-input); } } /* no auto-zoom on mobile devices */
-.tn-inputbox:hover { border-color: color-mix(in oklch, var(--tn-border), var(--tn-text) 12%); }
+@media (hover: hover) { .tn-inputbox:hover { border-color: color-mix(in oklch, var(--tn-border), var(--tn-text) 12%); } }
 .tn-inputbox:focus-within { border-color: var(--tn-focus); outline: var(--tn-ring) solid var(--tn-focus); outline-offset: calc(-1 * var(--tn-sp-1)); }
 .tn-inputbox.is-invalid { border-color: var(--tn-bad); }
 .tn-inputbox.is-invalid:focus-within { outline-color: var(--tn-bad); }
@@ -202,7 +208,7 @@ input[type="number"].tn-input-el { appearance: textfield; }
 }
 .tn-check-box { width: var(--tn-check); height: var(--tn-check); border-radius: var(--tn-r-sm); color: var(--tn-text-on-accent); }
 .tn-check-box > .tn-icon { grid-area: 1 / 1; opacity: 0; }
-.tn-tick:hover .tn-check-box, .tn-tick:hover .tn-toggle-track { border-color: var(--tn-text-2); }
+@media (hover: hover) { .tn-tick:hover .tn-check-box, .tn-tick:hover .tn-toggle-track { border-color: var(--tn-text-2); } }
 .tn-tick-input:checked + .tn-check-box, .tn-tick.is-mixed .tn-check-box { background: var(--tn-primary); border-color: var(--tn-primary); }
 .tn-tick-input:checked + .tn-check-box > .tn-icon:nth-child(1) { opacity: 1; }
 .tn-tick.is-mixed .tn-check-box > .tn-icon:nth-child(1) { opacity: 0; }
@@ -238,7 +244,7 @@ input[type="number"].tn-input-el { appearance: textfield; }
 .tn-combo-list { overflow-y: auto; overscroll-behavior: contain; max-height: min(var(--tn-sz-280), var(--tn-sz-45dvh)); padding-top: var(--tn-s1); outline: none; }
 .tn-combo-opt { display: flex; align-items: center; gap: var(--tn-s2); min-height: var(--tn-input-h); padding: 0 var(--tn-s2); border-radius: var(--tn-r-sm); cursor: pointer; font-size: var(--tn-fs-body); }
 .tn-combo-opt.is-active { background: var(--tn-hover); }
-.tn-combo-opt:active { background: var(--tn-press); }
+.tn-combo-opt.is-down { background: var(--tn-press); }
 .tn-combo-opt.is-disabled { opacity: .45; pointer-events: none; }
 .tn-combo-tick { flex: none; width: var(--tn-s4); display: inline-grid; place-items: center; color: var(--tn-accent); }
 .tn-combo-opt-label { flex: 1 1 auto; }

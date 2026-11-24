@@ -484,4 +484,25 @@ export const MUTANTS = [
     page: 'gallery', views: ['rows'], sizes: ['phone', 'desktop'], expect: ['go-symbol'],
     patch: [{ file: 'js/primitives.js', from: "view: 'arrow-up-right' })", to: "view: 'chevron-right' })" }],
   },
+  {
+    // round 11: the 0.16 press feedback, the pressed state on every touch pointerdown (a row lit up at the start of each scroll or swipe)
+    id: 'press-on-touchdown',
+    check: 'overlay', scenarios: ['touch-press'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/press.js', from: "if (e.pointerType === 'touch') { touch = { el, x: e.clientX, y: e.clientY, id: e.pointerId }; return; }", to: "if (e.pointerType === 'touch') touch = { el, x: e.clientX, y: e.clientY, id: e.pointerId };" }],
+  },
+
+  {
+    // round 11 (HL board, phone): the row's hover colour for every pointer – Chrome on Android keeps :hover on the last tapped row, so after a
+    // detail closed by swipe or Back (no further tap) the row stayed lit
+    id: 'row-hover-touch',
+    check: 'overlay', scenarios: ['detail-mark-cleared'], sizes: ['phone'], expect: ['overlay-behaviour'],
+    css: '.tn-row-btn:hover, .tn-table-wrap.is-list.tn-table-click tbody tr:hover, .tn-table-click tbody tr:hover td { background: var(--tn-hover) !important; }',
+  },
+  {
+    // a close path that does not reach the list: hiding the detail leaves the mark on the row
+    id: 'mark-kept-on-close',
+    check: 'overlay', scenarios: ['detail-mark-cleared'], sizes: ['desktop'], expect: ['overlay-behaviour'],
+    patch: [{ file: 'js/shell.js', from: "    if (sheet) { closing = true; sheet.close('api'); closing = false; sheet = null; }\n    markSelected();", to: "    if (sheet) { closing = true; sheet.close('api'); closing = false; sheet = null; }" }],
+  },
+
 ];

@@ -34,7 +34,7 @@ follows `prefers-color-scheme`; manual: `<html data-theme="light|dark">`).
 | Radii | `--tn-r-1`, `-xs`, `-3`, `-sm` (4 px), `--tn-r` (6 px), `--tn-r-lg` (10 px, top of the bottom sheet) |
 | Shadows | `--tn-shadow-sheet`, `-toast`, `-menu`, `-card` (floating layers only) |
 | Sizes | `--tn-row-h`, `--tn-hit`, `--tn-toolbar-h`, `--tn-input-h`, `--tn-icon`, `--tn-dot`, `--tn-sidebar-w`, `--tn-inspector-w`, control heights (`--tn-btn-sm-h`, `--tn-seg-h`, `--tn-pill-h`, …); fixed component dimensions as `--tn-sz-<px>` (and `em`, `ch`, `vw` forms) |
-| Motion | `--tn-t-open` 150 ms, `--tn-t-close` 120 ms, `--tn-t-lead` −16 ms, loops `--tn-t-loop-pulse`, `-indet`, `-spin` |
+| Motion | `--tn-t-open` 150 ms, `--tn-t-close` 120 ms, `--tn-t-lead` −16 ms, pressed flash after a tap `--tn-t-tap` 140 ms (colour only, kept under reduced motion), loops `--tn-t-loop-pulse`, `-indet`, `-spin` |
 
 Chart colours are token names: `blue green orange purple pink graphite` or a status, never a colour value. Literals for colours, sizes, radii and
 durations live only in `tokens.css`; a missing size is added there as a named token, not written into a component.
