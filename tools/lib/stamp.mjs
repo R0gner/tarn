@@ -24,7 +24,7 @@ export function judgeStamp(stamp, id, now = Date.now()) {
   if (stamp.kind !== STAMP_KIND || stamp.exit !== 0) return { ok: false, reason: `stamp is ${stamp.kind} exit ${stamp.exit}, not a green ${STAMP_KIND}` };
   const age = (now - Date.parse(stamp.at)) / 86400000;
   if (!(age >= 0 && age <= MAX_AGE_DAYS)) return { ok: false, reason: `stamp is ${Math.round(age)} days old (max ${MAX_AGE_DAYS})` };
-  return { ok: true, line: `${stamp.kind} green at ${stamp.at} (commit ${String(stamp.commit).slice(0, 7)}, ${stamp.jobs} workers, ${stamp.seconds} s, ${stamp.chrome || 'chrome ?'})` };
+  return { ok: true, line: `${stamp.kind} green at ${stamp.at} (commit ${String(stamp.commit).slice(0, 7)}, ${stamp.jobs} workers, ${stamp.seconds} s, node ${stamp.node || '?'})` };
 }
 
 export function readStamp(root, id) {

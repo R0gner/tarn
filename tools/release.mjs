@@ -95,8 +95,9 @@ async function main() {
   const remoteMain = git(['rev-parse', `${o.remote}/main`]).out;
   check(git(['merge-base', '--is-ancestor', `${o.remote}/main`, 'HEAD']).ok, `${o.remote}/main ${remoteMain.slice(0, 7)} is an ancestor of HEAD ${head.slice(0, 7)}`,
     `${o.remote}/main is not an ancestor of HEAD: rebase onto ${o.remote}/main first`);
-  const localMain = git(['rev-parse', 'main']).out;
-  check(git(['merge-base', '--is-ancestor', 'main', 'HEAD']).ok, `local main ${localMain.slice(0, 7)} is an ancestor of HEAD (fast-forward possible)`,
+  const localMain = git(['rev-parse', '-q', '--verify', 'refs/heads/main']).out;
+  check(!!localMain, 'local branch main exists', `no local branch main: git branch main ${o.remote}/main`);
+  if (localMain) check(git(['merge-base', '--is-ancestor', 'main', 'HEAD']).ok, `local main ${localMain.slice(0, 7)} is an ancestor of HEAD (fast-forward possible)`,
     'local main is not an ancestor of HEAD: no fast-forward possible');
   const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
   const sources = versionSources({ version: read('VERSION'), versionJs: read('js/version.js'), packageJson: read('package.json'), changelog: read('CHANGELOG.md') });
