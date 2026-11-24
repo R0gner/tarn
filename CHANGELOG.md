@@ -22,6 +22,14 @@ While the major version is 0, minor versions may change the API; every change is
   one tap. Desktop header sorting unchanged. `pickSort()`/`flipSort()` in `table-data.js`; locale keys `table.asc`/`table.desc` replace
   `table.sortedAsc`/`table.sortedDesc`. Scenario `table-sort-dir`, mutant `sort-dir-dead`.
 
+### Tooling
+- **Release in one command** (TN-29): `tools/release.mjs` (dry run by default, `--yes` releases): preflight (clean tree, release branch,
+  fetch, origin/main ancestor, the four versions agree and are newer than the newest tag, release notes build), then a green verify stamp for
+  exactly this tree or the full selftest, ff main, annotated tag, atomic push. `docs/releasing.md` also lists the consumer (board) steps.
+- **Verify stamp**: a green `verify --full --selftest` writes `<git common dir>/tarn-verify/stamps/<tree>.json` keyed on the content hash of
+  all files (shared by all worktrees), so a release does not rerun a selftest that already ran green on the identical tree.
+- `docs/ci-speed.md`: baseline of the check time (`--full --selftest` 349 s at `--jobs 2`, 190 s at 4, 143 s at 6) and the plan for stage 2.
+
 ## 0.16.0
 
 ### Added
@@ -535,158 +543,3 @@ Round 5.
 - **verify (G12):** `load()` returned before the page had loaded: the load event it waited for could be the one of `about:blank`, so the page's scripts ran after the next
   step of the check (`document.readyState` was `loading` in 13 of 14 trial loads). It now returns when the requested document is complete. A snapshot of the shell's density button
   therefore depended on timing (GitHub's 2-core runner, one worker, measured "Compact"; the baseline had "Comfortable"). Every page now also starts from a clean origin (own Chrome:
-  `Storage.clearDataForOrigin`), so no scenario can leak theme, density, language or sidebar state into other pages of the same run; selftest control `state isolation` plants such state and expects defaults.
-- The shell names the theme and density in effect on its buttons also when something else changes them (`setDensity()` in a board, a page that sets `data-density`): observers on `<html>`, no polling (`watchDensity()` in `js/density.js`, unit test).
-  No snapshot changed.
-- **Texts with a formatted age (G6):** `shell.dataStale` put a full stop after `{age}` ("Stand vor 3 Std.."; English future ages end in one too); the text is now "Daten veraltet (Stand {age})." in all four languages. A test fails when any kit or sample board text has a full stop right after `{age}`.
-- **`createApp({ fallbackLocale })` (G1):** the language for a browser none of whose languages is offered (default `en`); the language menu stays, a stored or forced choice and a matching browser language still win. `resolveLocale({ fallback })`.
-- **`ViewDef.group` may be a function (G2),** like `label`: group headings can call `t()` after the language is set (`resolveViews()` in `js/router.js`, unit-tested; every view of every board goes through it).
-- **Icons (G3):** `hard-drive`, `archive`, `database`, `calendar`, `container` (`tools/icons.mjs add`; gallery foundations shows them, snapshots re-baselined for the five extra symbols).
-- **Dates (G9):** `fmtDay(t)`: a short date without time ("09.11." de, "11/09" en). `fmtWhen` in German no longer puts a comma after the full stop of the date ("07.11. 22:10", was "07.11., 22:10"); the other languages keep Intl's patterns.
-  Snapshots of the German sample board pages re-baselined for it.
-- **verify --ci (G11):** a failed Chrome start ("debugger on port … not reachable") is tried once more before exit 2, and the output says so (also in a board run); a missing Chrome is not retried.
-
-### Stage Gb
-- **Pattern "detail in place" (item 13):** a row that stands for a thing another view owns opens that thing's detail in the current view; moving to the owner is a link inside the detail. `app.detailOf(view, id, { link })`
-  reuses another view's `detail` (and adds "Open in <view>", text in en, de, es, fr). The sample board's overview (problems, up next, recently failed) and history (timeline) follow it; new board states `overview?open=…`,
-  overlay scenario `detail-in-place`, mutant `row-leaves-view`. README "Pattern: detail in place", AGENTS principle 2.
-- **A redraw keeps the field you are typing in (G10):** `app.refresh()` (new data) rebuilds the view, and with it the filter bar; the shell now gives focus and caret back to the same field (matched by position, tag, type and label). The text stays the
-  board's state (`filterBar({ value })`, as in the sample board). Overlay scenario `filter-refresh` (real typing, a redraw, typing goes on), mutant `redraw-loses-focus`.
-- **`tiles()` closes its rows for any number of tiles (G8):** 5 tiles are wide 5 in a row, medium 3 + 2, phone 2 + 2 + 1 with a wide last tile (`fitTiles()` in `js/tiles-data.js`: balanced rows, the tiles of an incomplete row
-  take whole parts of a common grid); `tiles({ className }, …)`; `loading({ tiles })` uses the same grid. Verify rule `tiles-ragged`, mutant `tiles-ragged`, `tests/tiles.test.mjs`, gallery demo with 3, 5 and 7 tiles.
-- **`metricRow({ wrapSub })` (G7):** the sub line wraps over as many lines as it needs instead of ending in "…" (a problem row's reason is readable in full at 340 px); the sample board's problem list uses it. Verify rule `wrap-sub`, mutant `row-sub-wrap-ellipsis`, gallery demo.
-- **Quiet footer line (G4):** `card({ footer })` and `section(title, { footer })` put one short muted sentence under the content ("+13 frequent runs hidden"; a link or button inside is fine), wrapping instead of truncating. Class `tn-foot`; gallery demo with four states (cards view).
-- **shoot (G5):** `tools/shoot.mjs` now takes `http(s)://host:port/…` URLs of a running server without `--attach`: Node fetches the requests and fulfils them over CDP (like `verify --board`), so Chrome
-  needs no network of its own; `--base URL` for paths, `--direct` for Chrome's own network. Cause of the old hang at `Page.navigate` in an agent sandbox: an inherited `DBUS_SESSION_BUS_ADDRESS` blocks
-  Chrome's first D-Bus call and every HTTP navigation; the kit's own Chrome is now started without it (`chromeEnv()`), README documents what to do for `--attach`. Selftest checks the Node route; `shoot` and `load()` no longer
-  leave an unhandled rejection when a navigation fails.
-
-### Stage J: visual judge (optional second layer)
-- `node tools/judge.mjs`: photographs page × view × size × theme with the capture path of verify (fixed clock, animations off, screenshot repeated until it is stable) and asks
-  a decision model (TypeSafe Jev) one yes/no question per fault type (overflow, overlap, clipped, misaligned, malformed). Prints at most 10 lines (pictures marked, API calls,
-  calls saved, cost) and writes `judge-report.json`. Not part of `verify`, `--ci` or the workflow; never a gate (exit 0 with marked pictures); only pages with invented data can be chosen.
-- Never pays twice: verdicts cached by sha256 of the PNG + question-set version (`--cache`, default `$XDG_CACHE_HOME/tarn/`), spend ledger next to it, cost from the reported tokens
-  at the list price, `--max-usd` (default 0.10) and `--max-total-usd` stop before a run would pass the limit; `--dry-run`, `--mock FILE`.
-- `--calibrate`: the known faults of `verify --selftest` against the same states unmutated; thresholds per fault type and the table are in README "Visual judge".
-- `tests/judge.test.mjs` (request, cost, cache, ledger, budget stop, calibration, CLI) against a recorded answer; no network, no key. `snapshots.mjs` exports `dateShim`.
-
-### Board check: small things found by the first real board
-- `verify --board`: an exceptions file that is named in `tarn-board.json` but missing no longer stops the run with ENOENT; it means no exceptions (as the README
-  said, and as `lint.allow` already behaved) and is noted in the output.
-- `--update` (kit and board) ends with "baseline written, nothing else checked" instead of GREEN: it rewrites the snapshots and is no verdict. The selftest checks this.
-- README: which two touch exceptions a board with `timeline()` or `heatRow()` copies into its own file.
-
-## 0.4.0
-
-Round 4, stage R: renamed from dashkit.
-
-### Changed
-- The kit is now called **Tarn** (`tarn` in paths and files). Renamed from dashkit; no behaviour change.
-- CSS classes and custom properties use the prefix `tn-` / `--tn-` (was `dk-` / `--dk-`), data attributes `data-tn-*`,
-  test hooks `window.__tnMissingKeys` and `window.tnApp`, environment variables `TN_NO_SANDBOX`, `TN_SERVE_QUIET`, `TN_DEBUG`.
-- The barrel is `js/tarn.js` (was `js/dashkit.js`); boards serve the kit under `/tarn/` and `tools/vendor.mjs` targets `vendor/tarn`.
-- `js/version.js` also exports `NAME` and `PREFIX` (one place for the name and the prefix in JS).
-- Text snapshots are deliberately re-baselined: only the class names changed (`dk-*` → `tn-*`), no pixel and no structure change.
-
-### Added
-- Migration: the stored settings `dk-theme`, `dk-locale` and `dk-sb` are read once by `js/theme-init.js`, copied to `tn-theme`,
-  `tn-locale`, `tn-sb` and removed. Boards must include `theme-init.js` (they already do) to keep their users' choices.
-- Lint rule `legacy`: the old name and prefix may appear only in the migration code and in this changelog.
-
-### Round 4, stage K: core and shell
-- The kit has two parts: **core** (tokens, fonts, icons, base CSS, formatting/i18n/dom helpers, `button`, `iconButton`, `badge`, `statusDot`,
-  `segmented`, `tabs`, `progress`, `tooltip`, inputs and `form`) and the **ops shell** (everything else). Classification: `tools/lib/kit-files.mjs`,
-  README "Core and shell".
-- New files from splits: `js/primitives.js` (core, from `components.js`), `js/widgets.js` (shell: `log`, `toast`, `usageBar`, `menu`, from
-  `controls.js`), `js/confirm.js` (shell, from `form.js`); `validateFields()` moved from `actions-data.js` to `inputs-data.js`. The public API
-  and the barrel `js/tarn.js` are unchanged.
-- Entry points: `js/core.js` (core only) and `css/core.css` (primitives, inputs and form styles, split out of `components.css` and
-  `charts.css`; load it after `base.css`). `js/tarn.js` re-exports `core.js`; pages and boards that use the shell load `core.css` too.
-- `tools/vendor.mjs --profile core|full` (default `full`); the profile is recorded as `# profile: …` in `SHA256SUMS`, `--check` and updates
-  read it from there. Copies now include the `icons/*.svg` sources.
-- `starter/`: a plain website page built only from the core (en/de), covered by lint and verify.
-- `package.json` (`@r0gner/tarn`, private, no dependencies, no scripts): `exports` for `.`, `./core`, `./css/*`, `./fonts/*`, `./icons/*`;
-  `files` equals the full vendor profile. README "Include in a project" describes the git dependency and the fixed copy as equal ways.
-- Gallery: navigation groups `Core · …` and `Shell · …`; the Forms view is split into Forms (core) and Confirm and actions (shell).
-  Gallery snapshots re-baselined for that (group headings, new view); all other snapshots unchanged.
-- Lint: rules `classified` (every css/js file is listed once as core or shell) and `layers` (core never imports shell; the starter page
-  imports and loads core files only); positive controls in the tests and in `verify --selftest`.
-- Fixed: `vendor.mjs` crashed when an update removed several files of one stale folder.
-
-### Round 4, stage T: comfortable density
-- `data-density="comfortable"` on `<html>`: the same tokens with other values (type scale, spacing, 48 px targets for every interactive element,
-  stronger contrast, wider sidebar). Compact stays the default and pixel-identical (every compact snapshot unchanged except the gallery toolbar,
-  see below). `js/density.js` (`getDensity`, `setDensity`, `DENSITIES`, stored as `tn-density`, applied by `theme-init.js`); control
-  dimensions that used to be fixed or `pointer: coarse` rules are tokens now (`--tn-min-w`, `--tn-btn-sm-h`, `--tn-seg-h`, `--tn-seg-sm-h`,
-  `--tn-seg-py`, `--tn-pill-h`, `--tn-badge-h`, `--tn-check`, `--tn-toggle-*`, `--tn-fresh-*`). README "Density" lists the values.
-- Fixed: `.tn-pill` (used by `dateRange`) was styled in the shell stylesheet; it moved to `css/core.css`, so a core-only page gets it.
-- Lint rule `density`: `data-density` only in `css/tokens.css` (positive control in the tests).
-- Gallery: density button next to the theme switch (`createApp({ densitySwitch: true })`) and a Density demo in "Light and dark"; the starter page uses
-  comfortable. The gallery snapshots changed only in the toolbar (new button) and in the "Light and dark" view; board snapshots unchanged.
-- verify: pages `gallery-comfortable` (core views), `starter-comfortable`, `starter-de-comfortable` (geometry, snapshots, phone + desktop, dark + light);
-  strict rule `touch48` without exceptions; mutants `comfortable-target-shrunk` and `comfortable-hit-token-lowered`; `--changed` includes the twins.
-- Starter page: the help icon button sits in the header (it dropped to its own line on a 444 px phone), button rows wrap evenly; starter snapshots re-baselined.
-- Fixed: the toggle thumb left its track under `pointer: coarse` (checked: 8 px outside, touching the label) and sat flush at the right and bottom edge
-  with a fine pointer. Inset and travel are derived with `calc()` from the track tokens (`--tn-toggle-w/-h/-thumb`; `--tn-toggle-go` is gone); the thumb
-  keeps the same inset on all four sides in both states (deliberate pixel change in compact: fine thumb 12 → 10 px; one gallery phone snapshot changed).
-  New verify rule `contained` (toggle thumb and determinate progress fill lie inside their track, in the state shown) and selftest mutant `toggle-thumb-leaves-track`.
-- Fixed: on the starter page in comfortable density on a phone the language switch was squeezed and scrolled sideways (an option was cut off). The header
-  wraps now (brand left, controls right, the switch moves to a second row). New verify finding under `scroll-x`: a segmented control must show all
-  its options; selftest mutant `segmented-squeezed`.
-- Locale catalogs split: `js/locales/<lang>.js` core texts (37 keys), `<lang>-shell.js` shell texts (98 keys), merged by `js/locales/shell.js`
-  (`addKitMessages()`); `--profile core` and `@r0gner/tarn/core` ship only core texts. The full barrel is unchanged for boards.
-
-## 0.3.0
-
-First version with its own history. Round 3 "foundation", in stages:
-
-### A – Check path
-- `tools/verify.mjs`: one command for tests, lint, DOM geometry (overflow, clipped text, overlap, misaligned siblings, touch targets,
-  contrast as a warning), "overlay is on top", text snapshots and the tempo inventory; exit codes 0 / 1 / 2, at most 10 lines of output.
-- `--selftest`: known faults and CSS/JS mutants must be detected (positive control).
-- `tools/lint.mjs` (tokens only, no `innerHTML`, transitions on `transform`/`opacity`, texts through `t()`), `tools/tempo.mjs`
-  (frame budgets per building block, Event Timing, Long Animation Frames), text snapshots in `tests/snapshots/`.
-
-### B – Behaviour
-- Overlay layer: menus, toasts, tooltips and data cards open inside the topmost dialog; Esc closes the menu first.
-- Long values without a break point no longer overflow (banner, key/value, table cells); touch targets of at least 40 px.
-- Timing from tokens, first visible change within one frame; panels 150 ms open, 120 ms close.
-- One hover concept: data card for chart elements, hint for icon buttons and clipped text; no native `title`.
-- Detail in two variants: inspector next to the list (≥ 1000 px), panel from the right (700–999 px), bottom sheet below 700 px.
-- Local fonts (Inter, IBM Plex Mono, OFL), `markdown()` building block, timeline fitted to the container width.
-- Light mode: status text tokens, `--dk-text-3` and the primary button meet 4.5:1.
-
-### C – Identity and i18n
-- Lucide icons (ISC, pinned version) with `tools/icons.mjs`; `tools/brand.mjs` writes favicon, PNG icons and manifest.
-- `favicon()`, tab title "View · Board", install button, board icon and board switcher (`createApp({ icon, boards, categories })`).
-- English throughout, runtime texts through `t()` with catalogs `en`, `de`, `es`, `fr`; Intl-based formats, locale and time zone
-  from the browser (overridable), language menu, plural forms.
-
-### D – Inputs, filters, actions
-- Inputs: `textField`, `numberField`, `select`, `combobox`, `checkbox`, `toggle`, `dateField`, `dateRange`, `field`.
-- `filterBar` by data type (`options`, `bool`, `range`, `time`) with readable chips; `matchFilters` for all types.
-- `form()` with validation and submit state, `confirm()` for dangerous actions, `actionRun()` with status, progress and live log.
-- `table()` draws 20 rows and a "Show more" footer (`pageSize`).
-
-### Delivery
-- `VERSION` file and `VERSION` export from `js/dashkit.js`.
-- `tools/vendor.mjs`: copies a fixed kit version into a board (`vendor/dashkit/`) with a `SHA256SUMS` record; `--check` reports local changes
-  and the version; an update refuses over local changes.
-- JSDoc types for the whole public API (`@typedef` option objects), `// @ts-check` in every file, `jsconfig.json`, `verify --types`
-  (TypeScript as a pure type checker, pinned version, skipped offline).
-- Status labels use one capital in every locale; the placeholder colour (`--dk-placeholder`) meets 4.5:1.
-- `LICENSE` (MIT), `NOTICE` (Lucide, Inter, IBM Plex Mono), README for newcomers (quick start, tools, licence), `.gitignore`.
-- GitHub Actions: `verify.yml` (every push and pull request, `verify --ci` with its own headless Chrome), `pages.yml` (manual only: gallery,
-  sample board and start page as a static site).
-
-### V – Faster verify
-- `tools/verify.mjs` runs geometry, overlay and snapshot states on parallel workers (`--jobs N`, default min(4, cores/2)): one own headless
-  Chrome, one browser context per worker, files served from the repo over CDP (`Fetch.fulfillRequest`; no HTTP server, works in sandboxes).
-  Results are merged in task order, so reports do not depend on `--jobs`. `--attach` stays serial. `--ci` now runs locally too.
-- `--full --selftest` is one run (the selftest takes the base findings from it); `--selftest --base-report FILE` takes them from the
-  report of a full run of the same commit and tree. Selftest mutants run on the workers; every worker must see one.
-- `--changed [rev]`: only the pages and views that the changed files can affect (dev loop; the full run stays mandatory).
-- `report.json` carries commit, tree hash, matrix and timings (per task and per state).
-- `settle` no longer waits for its 3 s limit in gallery views whose demos show a loading skeleton; the tempo inventory runs as parallel units;
-  overlay scenarios wait for the condition (closing, hint, submit) instead of fixed pauses. Full run 403 s → about 1 min.
-- Sample board: the schedule label “Disabled” (all four languages) follows the capitalisation of the status labels; snapshots updated (text only).
