@@ -1,5 +1,5 @@
 # gallery #/rows · phone 390×844 · dunkel
-div.tn-app @0,0 392x6092
+div.tn-app @0,0 392x6800
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-276,0 264x48
       div.tn-brand @-268,12 108x24
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x6092
         svg.tn-icon @-268,888 16x16
         span.tn-ellipsis "Buy a switch" @-244,888 80x20
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x6092
+  div.tn-main @0,0 392x6800
     header.tn-toolbar @0,0 392x48
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @4,4 40x40
         svg.tn-icon @16,16 16x16
@@ -79,7 +79,7 @@ div.tn-app @0,0 392x6092
       button.tn-fresh {expanded=false} "Updated now" @248,4 92x40
       button.tn-iconbtn.tn-settings-btn "Settings" @344,4 40x40
         svg.tn-icon @356,16 16x16
-    main.tn-content @0,48 392x6044
+    main.tn-content @0,48 392x6752
       section.tn-card @12,60 368x452
         header.tn-card-head @12,60 364x40
           div.tn-card-heading @24,72 340x20
@@ -285,435 +285,492 @@ div.tn-app @0,0 392x6092
                 button.tn-row.tn-mrow.tn-row-btn @28,1472 340x96
                   span.tn-mrow-media @40,1484 72x72
                     svg.tn-icon @68,1512 16x16
-                  span.tn-mrow-main @124,1484 232x36
-                    span.tn-mrow-title.tn-clamp.tn-clamp-3 "Without a picture: a calm placeholder" @124,1484 232x20
-                    span.tn-mrow-line "no badges, one line" @124,1504 232x16
-      section.tn-card @12,1744 368x332
+                  span.tn-mrow-main @124,1484 204x56
+                    span.tn-mrow-title.tn-clamp.tn-clamp-3 "Without a picture: a calm placeholder" @124,1484 204x36
+                    span.tn-mrow-line "go: 'view': opens another view" @124,1524 204x16
+                  span.tn-go @336,1484 16x16
+                    svg.tn-icon @336,1484 16x16
+      section.tn-card @12,1744 368x692
         header.tn-card-head @12,1744 364x40
           div.tn-card-heading @24,1756 340x20
-            h3.tn-card-title "metricRow({ wrapSub })" @24,1756 340x20
-        div.tn-card-body @12,1784 364x288
-          section.tn-card.tn-card-flush @24,1796 340x48
-            div.tn-card-body @28,1800 340x44
-              div.tn-list [list] @28,1800 340x44
-                div.tn-row [listitem] @28,1800 340x44
+            h3.tn-card-title "go: chevron or link symbol" @24,1756 340x20
+        div.tn-card-body @12,1784 364x648
+          section.tn-card.tn-card-flush @24,1796 220x48
+            div.tn-card-body @28,1800 220x44
+              div.tn-list [list] @28,1800 220x44
+                button.tn-row.tn-row-btn @28,1800 220x44
                   span.tn-row-status @40,1816 8x8
-                    span.tn-dot.tn-s-bad [img] "Error" @40,1816 8x8
-                  span.tn-row-main @60,1804 264x36
-                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,1804 264x20
-                    span.tn-row-sub.tn-ellipsis "Exit 23 after 41 min: 3 files could not be transferred (perm" @60,1824 264x16
-                  span.tn-row-value @332,1812 20x20
-                    span.tn-num "2 h" @332,1812 20x20
-          section.tn-card.tn-card-flush @24,1884 340x80
-            div.tn-card-body @28,1884 340x80
-              div.tn-list [list] @28,1884 340x80
-                div.tn-row [listitem] @28,1884 340x80
-                  span.tn-row-status @40,1920 8x8
-                    span.tn-dot.tn-s-bad [img] "Error" @40,1920 8x8
-                  span.tn-row-main @60,1888 264x68
-                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,1888 264x20
-                    span.tn-row-sub.tn-row-sub-wrap "Exit 23 after 41 min: 3 files could not be transferred (perm" @60,1908 264x52
-                  span.tn-row-value @332,1912 20x20
-                    span.tn-num "2 h" @332,1912 20x20
-      section.tn-card @12,2092 368x2804
-        header.tn-card-head @12,2092 364x40
-          div.tn-card-heading @24,2104 340x20
-            h3.tn-card-title "growList()" @24,2104 340x20
-        div.tn-card-body @12,2132 364x2764
-          section.tn-card.tn-card-flush @24,2144 148x2300
-            div.tn-card-body @28,2148 144x2300
-              div.tn-grow @28,2148 144x2300
-                div.tn-list [list] @28,2148 144x2300
-                  div.tn-row [listitem] @28,2148 144x44
-                    span.tn-row-main @40,2152 100x36
-                      span.tn-row-title.tn-ellipsis "Candidate 1" @40,2152 100x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2168 100x16
-                    span.tn-row-value @148,2160 8x20
-                      span.tn-num "7" @148,2160 8x20
-                  div.tn-row [listitem] @28,2192 144x44
-                    span.tn-row-main @40,2196 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 2" @40,2196 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2216 92x16
-                    span.tn-row-value @140,2208 16x20
-                      span.tn-num "14" @140,2208 16x20
-                  div.tn-row [listitem] @28,2236 144x44
-                    span.tn-row-main @40,2244 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 3" @40,2244 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2260 92x16
-                    span.tn-row-value @140,2252 16x20
-                      span.tn-num "21" @140,2252 16x20
-                  div.tn-row [listitem] @28,2284 144x44
-                    span.tn-row-main @40,2288 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 4" @40,2288 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2308 92x16
-                    span.tn-row-value @140,2300 16x20
-                      span.tn-num "28" @140,2300 16x20
-                  div.tn-row [listitem] @28,2328 144x44
-                    span.tn-row-main @40,2336 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 5" @40,2336 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2352 92x16
-                    span.tn-row-value @140,2344 16x20
-                      span.tn-num "35" @140,2344 16x20
-                  div.tn-row [listitem] @28,2376 144x44
-                    span.tn-row-main @40,2380 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 6" @40,2380 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2400 92x16
-                    span.tn-row-value @140,2388 16x20
-                      span.tn-num "42" @140,2388 16x20
-                  div.tn-row [listitem] @28,2420 144x44
-                    span.tn-row-main @40,2428 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 7" @40,2428 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2444 92x16
-                    span.tn-row-value @140,2436 16x20
-                      span.tn-num "49" @140,2436 16x20
-                  div.tn-row [listitem] @28,2468 144x44
-                    span.tn-row-main @40,2472 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 8" @40,2472 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2492 92x16
-                    span.tn-row-value @140,2480 16x20
-                      span.tn-num "56" @140,2480 16x20
-                  div.tn-row [listitem] @28,2512 144x44
-                    span.tn-row-main @40,2520 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 9" @40,2520 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2536 92x16
-                    span.tn-row-value @140,2528 16x20
-                      span.tn-num "63" @140,2528 16x20
-                  div.tn-row [listitem] @28,2560 144x44
-                    span.tn-row-main @40,2564 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 10" @40,2564 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2584 92x16
-                    span.tn-row-value @140,2572 16x20
-                      span.tn-num "70" @140,2572 16x20
-                  div.tn-row [listitem] @28,2604 144x44
-                    span.tn-row-main @40,2612 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 11" @40,2612 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2628 92x16
-                    span.tn-row-value @140,2620 16x20
-                      span.tn-num "77" @140,2620 16x20
-                  div.tn-row [listitem] @28,2652 144x44
-                    span.tn-row-main @40,2656 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 12" @40,2656 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2676 92x16
-                    span.tn-row-value @140,2664 16x20
-                      span.tn-num "84" @140,2664 16x20
-                  div.tn-row [listitem] @28,2696 144x44
-                    span.tn-row-main @40,2704 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 13" @40,2704 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2720 92x16
-                    span.tn-row-value @140,2712 16x20
-                      span.tn-num "91" @140,2712 16x20
-                  div.tn-row [listitem] @28,2744 144x44
-                    span.tn-row-main @40,2748 92x36
-                      span.tn-row-title.tn-ellipsis "Candidate 14" @40,2748 92x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2768 92x16
-                    span.tn-row-value @140,2756 16x20
-                      span.tn-num "98" @140,2756 16x20
-                  div.tn-row [listitem] @28,2788 144x44
-                    span.tn-row-main @40,2796 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 15" @40,2796 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2812 84x16
-                    span.tn-row-value @132,2804 24x20
-                      span.tn-num "105" @132,2804 24x20
-                  div.tn-row [listitem] @28,2836 144x44
-                    span.tn-row-main @40,2840 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 16" @40,2840 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2860 84x16
-                    span.tn-row-value @132,2848 24x20
-                      span.tn-num "112" @132,2848 24x20
-                  div.tn-row [listitem] @28,2880 144x44
-                    span.tn-row-main @40,2888 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 17" @40,2888 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2904 84x16
-                    span.tn-row-value @132,2896 24x20
-                      span.tn-num "119" @132,2896 24x20
-                  div.tn-row [listitem] @28,2928 144x44
-                    span.tn-row-main @40,2932 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 18" @40,2932 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2952 84x16
-                    span.tn-row-value @132,2940 24x20
-                      span.tn-num "126" @132,2940 24x20
-                  div.tn-row [listitem] @28,2972 144x44
-                    span.tn-row-main @40,2980 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 19" @40,2980 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2996 84x16
-                    span.tn-row-value @132,2988 24x20
-                      span.tn-num "133" @132,2988 24x20
-                  div.tn-row [listitem] @28,3020 144x44
-                    span.tn-row-main @40,3024 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 20" @40,3024 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3044 84x16
-                    span.tn-row-value @132,3032 24x20
-                      span.tn-num "140" @132,3032 24x20
-                  div.tn-row [listitem] @28,3064 144x44
-                    span.tn-row-main @40,3072 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 21" @40,3072 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3088 84x16
-                    span.tn-row-value @132,3080 24x20
-                      span.tn-num "147" @132,3080 24x20
-                  div.tn-row [listitem] @28,3112 144x44
-                    span.tn-row-main @40,3116 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 22" @40,3116 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3136 84x16
-                    span.tn-row-value @132,3124 24x20
-                      span.tn-num "154" @132,3124 24x20
-                  div.tn-row [listitem] @28,3156 144x44
-                    span.tn-row-main @40,3164 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 23" @40,3164 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3180 84x16
-                    span.tn-row-value @132,3172 24x20
-                      span.tn-num "161" @132,3172 24x20
-                  div.tn-row [listitem] @28,3204 144x44
-                    span.tn-row-main @40,3208 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 24" @40,3208 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3228 84x16
-                    span.tn-row-value @132,3216 24x20
-                      span.tn-num "168" @132,3216 24x20
-                  div.tn-row [listitem] @28,3248 144x44
-                    span.tn-row-main @40,3256 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 25" @40,3256 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3272 84x16
-                    span.tn-row-value @132,3264 24x20
-                      span.tn-num "175" @132,3264 24x20
-                  div.tn-row [listitem] @28,3296 144x44
-                    span.tn-row-main @40,3300 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 26" @40,3300 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3320 84x16
-                    span.tn-row-value @132,3308 24x20
-                      span.tn-num "182" @132,3308 24x20
-                  div.tn-row [listitem] @28,3340 144x44
-                    span.tn-row-main @40,3348 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 27" @40,3348 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3364 84x16
-                    span.tn-row-value @132,3356 24x20
-                      span.tn-num "189" @132,3356 24x20
-                  div.tn-row [listitem] @28,3388 144x44
-                    span.tn-row-main @40,3392 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 28" @40,3392 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3412 84x16
-                    span.tn-row-value @132,3400 24x20
-                      span.tn-num "196" @132,3400 24x20
-                  div.tn-row [listitem] @28,3432 144x44
-                    span.tn-row-main @40,3440 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 29" @40,3440 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3456 84x16
-                    span.tn-row-value @132,3448 24x20
-                      span.tn-num "203" @132,3448 24x20
-                  div.tn-row [listitem] @28,3480 144x44
-                    span.tn-row-main @40,3484 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 30" @40,3484 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3504 84x16
-                    span.tn-row-value @132,3492 24x20
-                      span.tn-num "210" @132,3492 24x20
-                  div.tn-row [listitem] @28,3524 144x44
-                    span.tn-row-main @40,3532 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 31" @40,3532 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3548 84x16
-                    span.tn-row-value @132,3540 24x20
-                      span.tn-num "217" @132,3540 24x20
-                  div.tn-row [listitem] @28,3572 144x44
-                    span.tn-row-main @40,3576 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 32" @40,3576 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3596 84x16
-                    span.tn-row-value @132,3584 24x20
-                      span.tn-num "224" @132,3584 24x20
-                  div.tn-row [listitem] @28,3616 144x44
-                    span.tn-row-main @40,3624 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 33" @40,3624 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3640 84x16
-                    span.tn-row-value @132,3632 24x20
-                      span.tn-num "231" @132,3632 24x20
-                  div.tn-row [listitem] @28,3664 144x44
-                    span.tn-row-main @40,3668 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 34" @40,3668 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3688 84x16
-                    span.tn-row-value @132,3676 24x20
-                      span.tn-num "238" @132,3676 24x20
-                  div.tn-row [listitem] @28,3708 144x44
-                    span.tn-row-main @40,3716 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 35" @40,3716 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3732 84x16
-                    span.tn-row-value @132,3724 24x20
-                      span.tn-num "245" @132,3724 24x20
-                  div.tn-row [listitem] @28,3756 144x44
-                    span.tn-row-main @40,3760 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 36" @40,3760 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3780 84x16
-                    span.tn-row-value @132,3768 24x20
-                      span.tn-num "252" @132,3768 24x20
-                  div.tn-row [listitem] @28,3800 144x44
-                    span.tn-row-main @40,3808 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 37" @40,3808 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3824 84x16
-                    span.tn-row-value @132,3816 24x20
-                      span.tn-num "259" @132,3816 24x20
-                  div.tn-row [listitem] @28,3848 144x44
-                    span.tn-row-main @40,3852 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 38" @40,3852 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3872 84x16
-                    span.tn-row-value @132,3860 24x20
-                      span.tn-num "266" @132,3860 24x20
-                  div.tn-row [listitem] @28,3892 144x44
-                    span.tn-row-main @40,3900 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 39" @40,3900 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3916 84x16
-                    span.tn-row-value @132,3908 24x20
-                      span.tn-num "273" @132,3908 24x20
-                  div.tn-row [listitem] @28,3940 144x44
-                    span.tn-row-main @40,3944 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 40" @40,3944 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3964 84x16
-                    span.tn-row-value @132,3952 24x20
-                      span.tn-num "280" @132,3952 24x20
-                  div.tn-row [listitem] @28,3984 144x44
-                    span.tn-row-main @40,3992 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 41" @40,3992 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4008 84x16
-                    span.tn-row-value @132,4000 24x20
-                      span.tn-num "287" @132,4000 24x20
-                  div.tn-row [listitem] @28,4032 144x44
-                    span.tn-row-main @40,4036 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 42" @40,4036 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4056 84x16
-                    span.tn-row-value @132,4044 24x20
-                      span.tn-num "294" @132,4044 24x20
-                  div.tn-row [listitem] @28,4076 144x44
-                    span.tn-row-main @40,4084 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 43" @40,4084 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4100 84x16
-                    span.tn-row-value @132,4092 24x20
-                      span.tn-num "301" @132,4092 24x20
-                  div.tn-row [listitem] @28,4124 144x44
-                    span.tn-row-main @40,4128 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 44" @40,4128 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4148 84x16
-                    span.tn-row-value @132,4136 24x20
-                      span.tn-num "308" @132,4136 24x20
-                  div.tn-row [listitem] @28,4168 144x44
-                    span.tn-row-main @40,4176 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 45" @40,4176 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4192 84x16
-                    span.tn-row-value @132,4184 24x20
-                      span.tn-num "315" @132,4184 24x20
-                  div.tn-row [listitem] @28,4216 144x44
-                    span.tn-row-main @40,4220 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 46" @40,4220 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4240 84x16
-                    span.tn-row-value @132,4228 24x20
-                      span.tn-num "322" @132,4228 24x20
-                  div.tn-row [listitem] @28,4260 144x44
-                    span.tn-row-main @40,4268 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 47" @40,4268 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4284 84x16
-                    span.tn-row-value @132,4276 24x20
-                      span.tn-num "329" @132,4276 24x20
-                  div.tn-row [listitem] @28,4308 144x44
-                    span.tn-row-main @40,4312 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 48" @40,4312 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4332 84x16
-                    span.tn-row-value @132,4320 24x20
-                      span.tn-num "336" @132,4320 24x20
-                  div.tn-row [listitem] @28,4352 144x44
-                    span.tn-row-main @40,4360 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 49" @40,4360 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4376 84x16
-                    span.tn-row-value @132,4368 24x20
-                      span.tn-num "343" @132,4368 24x20
-                  div.tn-row [listitem] @28,4400 144x44
-                    span.tn-row-main @40,4404 84x36
-                      span.tn-row-title.tn-ellipsis "Candidate 50" @40,4404 84x20
-                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4424 84x16
-                    span.tn-row-value @132,4412 24x20
-                      span.tn-num "350" @132,4412 24x20
-                div.tn-grow-end @28,4444 144x0
-          section.tn-card.tn-card-flush @24,4484 76x136
-            div.tn-card-body @28,4484 72x132
-              div.tn-grow @28,4484 72x132
-                div.tn-list [list] @28,4484 72x132
-                  div.tn-row [listitem] @28,4484 72x44
-                    span.tn-row-main @40,4500 28x20
-                      span.tn-row-title.tn-ellipsis "Hit 1" @40,4500 28x20
-                    span.tn-row-value @80,4500 8x20
-                      span.tn-num "1" @80,4500 8x20
-                  div.tn-row [listitem] @28,4528 72x44
-                    span.tn-row-main @40,4544 28x20
-                      span.tn-row-title.tn-ellipsis "Hit 2" @40,4544 28x20
-                    span.tn-row-value @80,4544 8x20
-                      span.tn-num "2" @80,4544 8x20
-                  div.tn-row [listitem] @28,4572 72x44
-                    span.tn-row-main @40,4588 28x20
-                      span.tn-row-title.tn-ellipsis "Hit 3" @40,4588 28x20
-                    span.tn-row-value @80,4588 8x20
-                      span.tn-num "3" @80,4588 8x20
-                div.tn-grow-end @28,4616 72x0
-          section.tn-card.tn-card-flush @24,4656 68x60
-            div.tn-card-body @28,4656 68x60
-              div.tn-empty.tn-empty-compact @28,4656 68x60
-                div.tn-empty-title "No hits" @40,4676 44x20
-      section.tn-card @12,4912 368x172
-        header.tn-card-head @12,4912 364x40
-          div.tn-card-heading @24,4924 340x20
-            h3.tn-card-title "list() empty" @24,4924 340x20
-        div.tn-card-body @12,4952 364x132
-          section.tn-card.tn-card-flush @24,4964 340x60
-            div.tn-card-body @28,4968 340x60
-              div.tn-empty.tn-empty-compact @28,4968 340x60
-                div.tn-empty-title "No problems" @156,4988 80x20
-      section.tn-card @12,5100 368x300
-        header.tn-card-head @12,5104 364x40
-          div.tn-card-heading @24,5112 340x20
-            h3.tn-card-title "kv() and facts()" @24,5112 340x20
-        div.tn-card-body @12,5144 364x256
-          section.tn-facts @24,5156 340x152
-            h3.tn-facts-title "Run" @24,5156 340x16
-            dl.tn-kv @24,5180 340x128
-              dt "Host" @24,5180 96x20
-              dd "nas-b" @136,5180 228x20
-              dt "Schedule" @24,5200 96x20
-              dd "daily 04:15" @136,5200 228x20
-              dt "Last run" @24,5224 96x20
-              dd "06:55 AM" @136,5224 228x20
-              dt "Duration" @24,5248 96x20
-              dd "31 s" @136,5248 228x20
-              dt "Error" @24,5272 96x36
-              dd.tn-t-bad "rsync: connection unexpectedly closed" @136,5272 228x36
-      section.tn-card @12,5416 368x664
-        header.tn-card-head @12,5416 364x40
-          div.tn-card-heading @24,5428 340x20
-            h3.tn-card-title "Long words" @24,5428 340x20
-        div.tn-card-body @12,5456 364x624
-          div.tn-stack @24,5468 300x468
-            div.tn-banner.tn-banner-warn [status] @24,5468 300x52
-              svg.tn-icon @40,5480 16x16
-              div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @64,5480 252x32
-            section.tn-card.tn-card-flush @24,5536 300x48
-              div.tn-card-body @28,5536 300x44
-                div.tn-list [list] @28,5536 300x44
-                  button.tn-row.tn-row-btn @28,5536 300x44
-                    span.tn-row-status @40,5556 8x8
-                      span.tn-dot.tn-s-warn [img] "Warning" @40,5556 8x8
-                    span.tn-row-main @60,5544 92x36
-                      span.tn-row-title.tn-ellipsis "Occupational safety regulation" @60,5544 92x20
-                      span.tn-row-sub.tn-ellipsis "Donaudampfschifffahrtsgesellschaft" @60,5560 92x16
-                    span.tn-row-value @160,5552 124x20
-                      span.tn-num "Betriebssicherheitsverordnung" @160,5552 124x20
-                    span.tn-go @296,5552 16x16
-                      svg.tn-icon @296,5552 16x16
-            div.tn-tiles @24,5600 300x72
-              div.tn-stat @24,5600 148x72
-                div.tn-stat-label @40,5608 120x16
-                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @40,5608 120x16
-                div.tn-stat-value.tn-num "3" @40,5628 120x24
-              div.tn-stat @180,5600 148x72
-                div.tn-stat-label @192,5608 120x16
-                  span.tn-ellipsis "Short" @192,5608 32x16
-                div.tn-stat-value.tn-num "4" @192,5628 120x24
-            section.tn-facts @24,5688 300x120
-              h3.tn-facts-title "Values" @24,5688 300x16
-              dl.tn-kv @24,5712 300x96
-                dt "Administration" @24,5712 96x20
-                dd "Medienbibliotheksverwaltung" @136,5712 188x20
-                dt "Path" @24,5736 96x72
-                dd "/srv/stack/compose/services/media-library/config/filters/exc" @136,5736 188x72
-            div.tn-empty.tn-empty-compact @24,5824 300x116
-              div.tn-empty-title "No entries" @144,5844 64x20
-              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @36,5868 276x52
+                    span.tn-dot.tn-s-ok [img] "OK" @40,1816 8x8
+                  span.tn-row-main @60,1804 116x36
+                    span.tn-row-title.tn-ellipsis "backup-nas" @60,1804 116x20
+                    span.tn-row-sub.tn-ellipsis "opens its detail here" @60,1824 116x16
+                  span.tn-row-value @184,1812 20x20
+                    span.tn-num "2 h" @184,1812 20x20
+                  span.tn-go @216,1812 16x16
+                    svg.tn-icon @216,1812 16x16
+          section.tn-card.tn-card-flush @24,1884 204x48
+            div.tn-card-body @28,1884 200x44
+              div.tn-list [list] @28,1884 200x44
+                button.tn-row.tn-row-btn @28,1884 200x44
+                  span.tn-row-status @40,1904 8x8
+                    span.tn-dot.tn-s-info [img] "Note" @40,1904 8x8
+                  span.tn-row-main @60,1888 108x36
+                    span.tn-row-title.tn-ellipsis "Updates" @60,1888 108x20
+                    span.tn-row-sub.tn-ellipsis "in Update manager" @60,1908 108x16
+                  span.tn-row-value @176,1896 8x20
+                    span.tn-num "3" @176,1896 8x20
+                  span.tn-go @200,1896 16x16
+                    svg.tn-icon @200,1896 16x16
+          div.tn-tiles @24,1968 244x84
+            button.tn-stat.tn-stat-btn @24,1968 116x84
+              div.tn-stat-label @40,1976 80x16
+                span.tn-dot.tn-s-warn [img] "Warning" @40,1980 8x8
+                span.tn-ellipsis "Hosts" @52,1976 32x16
+              div.tn-stat-value.tn-num "12" @40,1996 80x24
+              div.tn-stat-sub.tn-t-warn "1 offline" @40,2020 80x16
+              span.tn-go @116,1976 16x16
+                svg.tn-icon @116,1976 16x16
+            button.tn-stat.tn-stat-btn @152,1968 116x84
+              div.tn-stat-label @164,1976 80x16
+                span.tn-ellipsis "Jobs" @164,1976 28x16
+              div.tn-stat-value.tn-num "24" @164,1996 80x24
+              div.tn-stat-sub "opens a detail" @164,2020 80x16
+              span.tn-go @244,1976 16x16
+                svg.tn-icon @244,1976 16x16
+          div.tn-toolrow @24,2088 188x40
+            button.tn-btn.tn-btn-ghost @24,2088 188x40
+              svg.tn-icon @184,2100 16x16
+          div.tn-stack @24,2164 112x56
+            span.tn-go @24,2164 16x16
+              svg.tn-icon @24,2164 16x16
+            span.tn-go @24,2204 16x16
+              svg.tn-icon @24,2204 16x16
+      section.tn-card @12,2452 368x332
+        header.tn-card-head @12,2452 364x40
+          div.tn-card-heading @24,2464 340x20
+            h3.tn-card-title "metricRow({ wrapSub })" @24,2464 340x20
+        div.tn-card-body @12,2492 364x288
+          section.tn-card.tn-card-flush @24,2504 340x48
+            div.tn-card-body @28,2504 340x44
+              div.tn-list [list] @28,2504 340x44
+                div.tn-row [listitem] @28,2504 340x44
+                  span.tn-row-status @40,2524 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @40,2524 8x8
+                  span.tn-row-main @60,2512 264x36
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,2512 264x20
+                    span.tn-row-sub.tn-ellipsis "Exit 23 after 41 min: 3 files could not be transferred (perm" @60,2528 264x16
+                  span.tn-row-value @332,2520 20x20
+                    span.tn-num "2 h" @332,2520 20x20
+          section.tn-card.tn-card-flush @24,2588 340x80
+            div.tn-card-body @28,2588 340x80
+              div.tn-list [list] @28,2588 340x80
+                div.tn-row [listitem] @28,2588 340x80
+                  span.tn-row-status @40,2624 8x8
+                    span.tn-dot.tn-s-bad [img] "Error" @40,2624 8x8
+                  span.tn-row-main @60,2596 264x68
+                    span.tn-row-title.tn-ellipsis "Offsite archive sync" @60,2596 264x20
+                    span.tn-row-sub.tn-row-sub-wrap "Exit 23 after 41 min: 3 files could not be transferred (perm" @60,2612 264x52
+                  span.tn-row-value @332,2620 20x20
+                    span.tn-num "2 h" @332,2620 20x20
+      section.tn-card @12,2800 368x2804
+        header.tn-card-head @12,2800 364x40
+          div.tn-card-heading @24,2812 340x20
+            h3.tn-card-title "growList()" @24,2812 340x20
+        div.tn-card-body @12,2840 364x2764
+          section.tn-card.tn-card-flush @24,2852 148x2300
+            div.tn-card-body @28,2852 144x2300
+              div.tn-grow @28,2852 144x2300
+                div.tn-list [list] @28,2852 144x2300
+                  div.tn-row [listitem] @28,2852 144x44
+                    span.tn-row-main @40,2860 100x36
+                      span.tn-row-title.tn-ellipsis "Candidate 1" @40,2860 100x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2876 100x16
+                    span.tn-row-value @148,2868 8x20
+                      span.tn-num "7" @148,2868 8x20
+                  div.tn-row [listitem] @28,2900 144x44
+                    span.tn-row-main @40,2904 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 2" @40,2904 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2924 92x16
+                    span.tn-row-value @140,2912 16x20
+                      span.tn-num "14" @140,2912 16x20
+                  div.tn-row [listitem] @28,2944 144x44
+                    span.tn-row-main @40,2952 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 3" @40,2952 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,2968 92x16
+                    span.tn-row-value @140,2960 16x20
+                      span.tn-num "21" @140,2960 16x20
+                  div.tn-row [listitem] @28,2992 144x44
+                    span.tn-row-main @40,2996 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 4" @40,2996 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3016 92x16
+                    span.tn-row-value @140,3004 16x20
+                      span.tn-num "28" @140,3004 16x20
+                  div.tn-row [listitem] @28,3036 144x44
+                    span.tn-row-main @40,3040 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 5" @40,3040 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3060 92x16
+                    span.tn-row-value @140,3052 16x20
+                      span.tn-num "35" @140,3052 16x20
+                  div.tn-row [listitem] @28,3080 144x44
+                    span.tn-row-main @40,3088 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 6" @40,3088 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3108 92x16
+                    span.tn-row-value @140,3096 16x20
+                      span.tn-num "42" @140,3096 16x20
+                  div.tn-row [listitem] @28,3128 144x44
+                    span.tn-row-main @40,3132 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 7" @40,3132 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3152 92x16
+                    span.tn-row-value @140,3144 16x20
+                      span.tn-num "49" @140,3144 16x20
+                  div.tn-row [listitem] @28,3172 144x44
+                    span.tn-row-main @40,3180 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 8" @40,3180 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3200 92x16
+                    span.tn-row-value @140,3188 16x20
+                      span.tn-num "56" @140,3188 16x20
+                  div.tn-row [listitem] @28,3220 144x44
+                    span.tn-row-main @40,3224 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 9" @40,3224 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3244 92x16
+                    span.tn-row-value @140,3236 16x20
+                      span.tn-num "63" @140,3236 16x20
+                  div.tn-row [listitem] @28,3264 144x44
+                    span.tn-row-main @40,3272 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 10" @40,3272 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3292 92x16
+                    span.tn-row-value @140,3280 16x20
+                      span.tn-num "70" @140,3280 16x20
+                  div.tn-row [listitem] @28,3312 144x44
+                    span.tn-row-main @40,3316 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 11" @40,3316 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3336 92x16
+                    span.tn-row-value @140,3328 16x20
+                      span.tn-num "77" @140,3328 16x20
+                  div.tn-row [listitem] @28,3356 144x44
+                    span.tn-row-main @40,3364 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 12" @40,3364 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3384 92x16
+                    span.tn-row-value @140,3372 16x20
+                      span.tn-num "84" @140,3372 16x20
+                  div.tn-row [listitem] @28,3404 144x44
+                    span.tn-row-main @40,3408 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 13" @40,3408 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3428 92x16
+                    span.tn-row-value @140,3420 16x20
+                      span.tn-num "91" @140,3420 16x20
+                  div.tn-row [listitem] @28,3448 144x44
+                    span.tn-row-main @40,3456 92x36
+                      span.tn-row-title.tn-ellipsis "Candidate 14" @40,3456 92x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3476 92x16
+                    span.tn-row-value @140,3464 16x20
+                      span.tn-num "98" @140,3464 16x20
+                  div.tn-row [listitem] @28,3496 144x44
+                    span.tn-row-main @40,3500 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 15" @40,3500 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3520 84x16
+                    span.tn-row-value @132,3512 24x20
+                      span.tn-num "105" @132,3512 24x20
+                  div.tn-row [listitem] @28,3540 144x44
+                    span.tn-row-main @40,3548 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 16" @40,3548 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3568 84x16
+                    span.tn-row-value @132,3556 24x20
+                      span.tn-num "112" @132,3556 24x20
+                  div.tn-row [listitem] @28,3588 144x44
+                    span.tn-row-main @40,3592 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 17" @40,3592 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3612 84x16
+                    span.tn-row-value @132,3604 24x20
+                      span.tn-num "119" @132,3604 24x20
+                  div.tn-row [listitem] @28,3632 144x44
+                    span.tn-row-main @40,3640 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 18" @40,3640 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3656 84x16
+                    span.tn-row-value @132,3648 24x20
+                      span.tn-num "126" @132,3648 24x20
+                  div.tn-row [listitem] @28,3680 144x44
+                    span.tn-row-main @40,3684 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 19" @40,3684 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3704 84x16
+                    span.tn-row-value @132,3696 24x20
+                      span.tn-num "133" @132,3696 24x20
+                  div.tn-row [listitem] @28,3724 144x44
+                    span.tn-row-main @40,3732 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 20" @40,3732 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3748 84x16
+                    span.tn-row-value @132,3740 24x20
+                      span.tn-num "140" @132,3740 24x20
+                  div.tn-row [listitem] @28,3772 144x44
+                    span.tn-row-main @40,3776 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 21" @40,3776 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3796 84x16
+                    span.tn-row-value @132,3788 24x20
+                      span.tn-num "147" @132,3788 24x20
+                  div.tn-row [listitem] @28,3816 144x44
+                    span.tn-row-main @40,3824 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 22" @40,3824 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3840 84x16
+                    span.tn-row-value @132,3832 24x20
+                      span.tn-num "154" @132,3832 24x20
+                  div.tn-row [listitem] @28,3864 144x44
+                    span.tn-row-main @40,3868 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 23" @40,3868 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3888 84x16
+                    span.tn-row-value @132,3880 24x20
+                      span.tn-num "161" @132,3880 24x20
+                  div.tn-row [listitem] @28,3908 144x44
+                    span.tn-row-main @40,3916 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 24" @40,3916 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3932 84x16
+                    span.tn-row-value @132,3924 24x20
+                      span.tn-num "168" @132,3924 24x20
+                  div.tn-row [listitem] @28,3956 144x44
+                    span.tn-row-main @40,3960 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 25" @40,3960 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,3980 84x16
+                    span.tn-row-value @132,3972 24x20
+                      span.tn-num "175" @132,3972 24x20
+                  div.tn-row [listitem] @28,4000 144x44
+                    span.tn-row-main @40,4008 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 26" @40,4008 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4024 84x16
+                    span.tn-row-value @132,4016 24x20
+                      span.tn-num "182" @132,4016 24x20
+                  div.tn-row [listitem] @28,4048 144x44
+                    span.tn-row-main @40,4052 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 27" @40,4052 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4072 84x16
+                    span.tn-row-value @132,4064 24x20
+                      span.tn-num "189" @132,4064 24x20
+                  div.tn-row [listitem] @28,4092 144x44
+                    span.tn-row-main @40,4100 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 28" @40,4100 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4116 84x16
+                    span.tn-row-value @132,4108 24x20
+                      span.tn-num "196" @132,4108 24x20
+                  div.tn-row [listitem] @28,4140 144x44
+                    span.tn-row-main @40,4144 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 29" @40,4144 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4164 84x16
+                    span.tn-row-value @132,4156 24x20
+                      span.tn-num "203" @132,4156 24x20
+                  div.tn-row [listitem] @28,4184 144x44
+                    span.tn-row-main @40,4192 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 30" @40,4192 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4208 84x16
+                    span.tn-row-value @132,4200 24x20
+                      span.tn-num "210" @132,4200 24x20
+                  div.tn-row [listitem] @28,4232 144x44
+                    span.tn-row-main @40,4236 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 31" @40,4236 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4256 84x16
+                    span.tn-row-value @132,4244 24x20
+                      span.tn-num "217" @132,4244 24x20
+                  div.tn-row [listitem] @28,4276 144x44
+                    span.tn-row-main @40,4284 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 32" @40,4284 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4300 84x16
+                    span.tn-row-value @132,4292 24x20
+                      span.tn-num "224" @132,4292 24x20
+                  div.tn-row [listitem] @28,4324 144x44
+                    span.tn-row-main @40,4328 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 33" @40,4328 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4348 84x16
+                    span.tn-row-value @132,4336 24x20
+                      span.tn-num "231" @132,4336 24x20
+                  div.tn-row [listitem] @28,4368 144x44
+                    span.tn-row-main @40,4376 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 34" @40,4376 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4392 84x16
+                    span.tn-row-value @132,4384 24x20
+                      span.tn-num "238" @132,4384 24x20
+                  div.tn-row [listitem] @28,4416 144x44
+                    span.tn-row-main @40,4420 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 35" @40,4420 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4440 84x16
+                    span.tn-row-value @132,4428 24x20
+                      span.tn-num "245" @132,4428 24x20
+                  div.tn-row [listitem] @28,4460 144x44
+                    span.tn-row-main @40,4468 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 36" @40,4468 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4484 84x16
+                    span.tn-row-value @132,4476 24x20
+                      span.tn-num "252" @132,4476 24x20
+                  div.tn-row [listitem] @28,4508 144x44
+                    span.tn-row-main @40,4512 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 37" @40,4512 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4532 84x16
+                    span.tn-row-value @132,4520 24x20
+                      span.tn-num "259" @132,4520 24x20
+                  div.tn-row [listitem] @28,4552 144x44
+                    span.tn-row-main @40,4560 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 38" @40,4560 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4576 84x16
+                    span.tn-row-value @132,4568 24x20
+                      span.tn-num "266" @132,4568 24x20
+                  div.tn-row [listitem] @28,4600 144x44
+                    span.tn-row-main @40,4604 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 39" @40,4604 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4624 84x16
+                    span.tn-row-value @132,4612 24x20
+                      span.tn-num "273" @132,4612 24x20
+                  div.tn-row [listitem] @28,4644 144x44
+                    span.tn-row-main @40,4652 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 40" @40,4652 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4668 84x16
+                    span.tn-row-value @132,4660 24x20
+                      span.tn-num "280" @132,4660 24x20
+                  div.tn-row [listitem] @28,4692 144x44
+                    span.tn-row-main @40,4696 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 41" @40,4696 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4716 84x16
+                    span.tn-row-value @132,4704 24x20
+                      span.tn-num "287" @132,4704 24x20
+                  div.tn-row [listitem] @28,4736 144x44
+                    span.tn-row-main @40,4744 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 42" @40,4744 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4760 84x16
+                    span.tn-row-value @132,4752 24x20
+                      span.tn-num "294" @132,4752 24x20
+                  div.tn-row [listitem] @28,4784 144x44
+                    span.tn-row-main @40,4788 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 43" @40,4788 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4808 84x16
+                    span.tn-row-value @132,4796 24x20
+                      span.tn-num "301" @132,4796 24x20
+                  div.tn-row [listitem] @28,4828 144x44
+                    span.tn-row-main @40,4836 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 44" @40,4836 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4852 84x16
+                    span.tn-row-value @132,4844 24x20
+                      span.tn-num "308" @132,4844 24x20
+                  div.tn-row [listitem] @28,4876 144x44
+                    span.tn-row-main @40,4880 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 45" @40,4880 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4900 84x16
+                    span.tn-row-value @132,4888 24x20
+                      span.tn-num "315" @132,4888 24x20
+                  div.tn-row [listitem] @28,4920 144x44
+                    span.tn-row-main @40,4928 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 46" @40,4928 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4944 84x16
+                    span.tn-row-value @132,4936 24x20
+                      span.tn-num "322" @132,4936 24x20
+                  div.tn-row [listitem] @28,4968 144x44
+                    span.tn-row-main @40,4972 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 47" @40,4972 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,4992 84x16
+                    span.tn-row-value @132,4980 24x20
+                      span.tn-num "329" @132,4980 24x20
+                  div.tn-row [listitem] @28,5012 144x44
+                    span.tn-row-main @40,5020 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 48" @40,5020 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,5036 84x16
+                    span.tn-row-value @132,5028 24x20
+                      span.tn-num "336" @132,5028 24x20
+                  div.tn-row [listitem] @28,5060 144x44
+                    span.tn-row-main @40,5064 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 49" @40,5064 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,5084 84x16
+                    span.tn-row-value @132,5072 24x20
+                      span.tn-num "343" @132,5072 24x20
+                  div.tn-row [listitem] @28,5104 144x44
+                    span.tn-row-main @40,5112 84x36
+                      span.tn-row-title.tn-ellipsis "Candidate 50" @40,5112 84x20
+                      span.tn-row-sub.tn-ellipsis "kept in full" @40,5128 84x16
+                    span.tn-row-value @132,5120 24x20
+                      span.tn-num "350" @132,5120 24x20
+                div.tn-grow-end @28,5152 144x0
+          section.tn-card.tn-card-flush @24,5192 76x136
+            div.tn-card-body @28,5192 72x132
+              div.tn-grow @28,5192 72x132
+                div.tn-list [list] @28,5192 72x132
+                  div.tn-row [listitem] @28,5192 72x44
+                    span.tn-row-main @40,5204 28x20
+                      span.tn-row-title.tn-ellipsis "Hit 1" @40,5204 28x20
+                    span.tn-row-value @80,5204 8x20
+                      span.tn-num "1" @80,5204 8x20
+                  div.tn-row [listitem] @28,5236 72x44
+                    span.tn-row-main @40,5248 28x20
+                      span.tn-row-title.tn-ellipsis "Hit 2" @40,5248 28x20
+                    span.tn-row-value @80,5248 8x20
+                      span.tn-num "2" @80,5248 8x20
+                  div.tn-row [listitem] @28,5280 72x44
+                    span.tn-row-main @40,5292 28x20
+                      span.tn-row-title.tn-ellipsis "Hit 3" @40,5292 28x20
+                    span.tn-row-value @80,5292 8x20
+                      span.tn-num "3" @80,5292 8x20
+                div.tn-grow-end @28,5324 72x0
+          section.tn-card.tn-card-flush @24,5364 68x60
+            div.tn-card-body @28,5364 68x60
+              div.tn-empty.tn-empty-compact @28,5364 68x60
+                div.tn-empty-title "No hits" @40,5384 44x20
+      section.tn-card @12,5620 368x172
+        header.tn-card-head @12,5620 364x40
+          div.tn-card-heading @24,5632 340x20
+            h3.tn-card-title "list() empty" @24,5632 340x20
+        div.tn-card-body @12,5660 364x132
+          section.tn-card.tn-card-flush @24,5672 340x60
+            div.tn-card-body @28,5672 340x60
+              div.tn-empty.tn-empty-compact @28,5672 340x60
+                div.tn-empty-title "No problems" @156,5692 80x20
+      section.tn-card @12,5808 368x300
+        header.tn-card-head @12,5808 364x40
+          div.tn-card-heading @24,5820 340x20
+            h3.tn-card-title "kv() and facts()" @24,5820 340x20
+        div.tn-card-body @12,5848 364x256
+          section.tn-facts @24,5860 340x152
+            h3.tn-facts-title "Run" @24,5860 340x16
+            dl.tn-kv @24,5884 340x128
+              dt "Host" @24,5884 96x20
+              dd "nas-b" @136,5884 228x20
+              dt "Schedule" @24,5908 96x20
+              dd "daily 04:15" @136,5908 228x20
+              dt "Last run" @24,5932 96x20
+              dd "06:55 AM" @136,5932 228x20
+              dt "Duration" @24,5956 96x20
+              dd "31 s" @136,5956 228x20
+              dt "Error" @24,5976 96x36
+              dd.tn-t-bad "rsync: connection unexpectedly closed" @136,5976 228x36
+      section.tn-card @12,6124 368x664
+        header.tn-card-head @12,6124 364x40
+          div.tn-card-heading @24,6132 340x20
+            h3.tn-card-title "Long words" @24,6132 340x20
+        div.tn-card-body @12,6164 364x624
+          div.tn-stack @24,6176 300x468
+            div.tn-banner.tn-banner-warn [status] @24,6176 300x52
+              svg.tn-icon @40,6184 16x16
+              div.tn-banner-text "The collector reports: Medienbibliothek does not respond." @64,6184 252x32
+            section.tn-card.tn-card-flush @24,6244 300x48
+              div.tn-card-body @28,6244 300x44
+                div.tn-list [list] @28,6244 300x44
+                  button.tn-row.tn-row-btn @28,6244 300x44
+                    span.tn-row-status @40,6264 8x8
+                      span.tn-dot.tn-s-warn [img] "Warning" @40,6264 8x8
+                    span.tn-row-main @60,6248 92x36
+                      span.tn-row-title.tn-ellipsis "Occupational safety regulation" @60,6248 92x20
+                      span.tn-row-sub.tn-ellipsis "Donaudampfschifffahrtsgesellschaft" @60,6268 92x16
+                    span.tn-row-value @160,6256 124x20
+                      span.tn-num "Betriebssicherheitsverordnung" @160,6256 124x20
+                    span.tn-go @296,6260 16x16
+                      svg.tn-icon @296,6260 16x16
+            div.tn-tiles @24,6308 300x72
+              div.tn-stat @24,6308 148x72
+                div.tn-stat-label @40,6316 120x16
+                  span.tn-ellipsis "Datenschutzbeauftragtenbestellung" @40,6316 120x16
+                div.tn-stat-value.tn-num "3" @40,6332 120x24
+              div.tn-stat @180,6308 148x72
+                div.tn-stat-label @192,6316 120x16
+                  span.tn-ellipsis "Short" @192,6316 32x16
+                div.tn-stat-value.tn-num "4" @192,6332 120x24
+            section.tn-facts @24,6396 300x120
+              h3.tn-facts-title "Values" @24,6396 300x16
+              dl.tn-kv @24,6420 300x96
+                dt "Administration" @24,6420 96x20
+                dd "Medienbibliotheksverwaltung" @136,6420 188x20
+                dt "Path" @24,6440 96x72
+                dd "/srv/stack/compose/services/media-library/config/filters/exc" @136,6440 188x72
+            div.tn-empty.tn-empty-compact @24,6532 300x116
+              div.tn-empty-title "No entries" @144,6552 64x20
+              div.tn-empty-text "There were no Geschwindigkeitsbegrenzungsüberschreitungen in" @36,6576 276x52

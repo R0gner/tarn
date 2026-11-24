@@ -171,7 +171,7 @@ function viewRows(ctx) {
           lines: [[h('strong', null, '€420'), ' · + €1.99 shipping · €26/TB'], [badge('Good', { tone: 'ok' }), badge('Price cut', { tone: 'info' }), 'posted 2 days ago']] }),
         mediaRow({ key: 'm2', media: h('img', { src: './img/photo-2.svg', alt: '' }), onClick: noop, selected: true,
           title: 'Short title', lines: [[h('strong', null, '€60'), ' · pickup · 45 km'], [badge('Reserved', { tone: 'warn' })]] }),
-        mediaRow({ key: 'm3', media: icon('camera'), onClick: noop, title: 'Without a picture: a calm placeholder', lines: ['no badges, one line'] })))),
+        mediaRow({ key: 'm3', media: icon('camera'), go: 'view', onClick: noop, title: 'Without a picture: a calm placeholder', lines: ['go: \'view\': opens another view'] })))),
     demo('go: chevron or link symbol', `metricRow({ …, onClick: () => app.open(id) })                 // chevron: the detail opens here, in this view
 metricRow({ …, go: 'view', onClick: () => app.go('hosts') })    // link symbol: the tap leads into another view (statTile, mediaRow, table, button too)
 GO_ICONS = { detail: 'chevron-right', view: 'arrow-up-right' }; goMark(go) draws the symbol at the end of a row of your own`,
@@ -181,8 +181,7 @@ GO_ICONS = { detail: 'chevron-right', view: 'arrow-up-right' }; goMark(go) draws
         state('tile for a view', tiles(statTile({ label: 'Hosts', value: '12', sub: '1 offline', status: 'warn', go: 'view', onClick: noop }),
           statTile({ label: 'Jobs', value: '24', sub: 'opens a detail', onClick: noop }))),
         state('the jump in a detail', toolbarRow(button('Open in Update manager', { variant: 'ghost', go: 'view', onClick: noop }))),
-        state('mediaRow', card({ flush: true }, h('div', { class: 'tn-list' }, mediaRow({ key: 'm9', media: icon('camera'), go: 'view', onClick: noop, title: 'Camera garage', lines: ['in Cameras'] }))))),
-        state('GO_ICONS', h('div', null, /** @type {const} */ (['detail', 'view']).map((k) => h('span', { class: 'g-code' }, goMark(k), ` ${k}: ${GO_ICONS[k]}  `)))))),
+        state('GO_ICONS', stack(h('div', null, goMark('detail'), ` ${GO_ICONS.detail}`), h('div', null, goMark('view'), ` ${GO_ICONS.view}`))))),
     demo('metricRow({ wrapSub })', `metricRow({ title: 'Offsite archive sync', sub: reason, status: 'bad', wrapSub: true })   // the sub line wraps instead of ending in "…"`,
       h('div', { class: 'g-grid2' },
         state('default: one line, "…"', card({ flush: true }, list([0], () => metricRow({ title: 'Offsite archive sync', sub: 'Exit 23 after 41 min: 3 files could not be transferred (permission denied on /srv/archive/2026/11)', status: 'bad', value: '2 h' })))),

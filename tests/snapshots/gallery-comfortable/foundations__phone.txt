@@ -1,5 +1,5 @@
 # gallery-comfortable #/foundations · phone 390×844 · dunkel
-div.tn-app @0,0 392x2996
+div.tn-app @0,0 392x3016
   aside.tn-sidebar @-284,0 280x844
     div.tn-sidebar-head @-272,0 256x56
       div.tn-brand @-260,16 136x24
@@ -70,7 +70,7 @@ div.tn-app @0,0 392x2996
         svg.tn-icon @-260,1072 20x20
         span.tn-ellipsis "Buy a switch" @-228,1068 104x24
   div.tn-scrim @0,0 392x844
-  div.tn-main @0,0 392x2996
+  div.tn-main @0,0 392x3016
     header.tn-toolbar @0,0 392x56
       button.tn-iconbtn.tn-sb-toggle {expanded=false} "Toggle sidebar" @8,4 48x48
         svg.tn-icon @20,16 20x20
@@ -79,7 +79,7 @@ div.tn-app @0,0 392x2996
       button.tn-fresh {expanded=false} "Updated now" @204,4 120x48
       button.tn-iconbtn.tn-settings-btn "Settings" @332,4 48x48
         svg.tn-icon @344,16 20x20
-    main.tn-content @0,56 392x2940
+    main.tn-content @0,56 392x2960
       section.tn-section @16,264 360x324
         header.tn-section-head @16,264 360x24
           h2.tn-section-title "Status" @20,268 356x20
@@ -110,59 +110,60 @@ div.tn-app @0,0 392x2996
             span.tn-stat-label "Label, subtitle" @168,2016 100x20
             span.tn-section-title "Section" @168,2052 188x20
             span.tn-mono "rsync exit 12 · 02:30:00" @168,2100 188x44
-      section.tn-section @16,2184 360x800
+      section.tn-section @16,2184 360x816
         header.tn-section-head @16,2184 360x24
           h2.tn-section-title "Icons" @20,2184 356x20
-            span.tn-section-count "50" @68,2184 20x20
-        section.tn-card @16,2220 360x764
-          div.tn-card-body @16,2220 356x760
+            span.tn-section-count "51" @68,2184 20x20
+        section.tn-card @16,2220 360x780
+          div.tn-card-body @16,2220 356x780
             svg.tn-icon @40,2252 20x20
             svg.tn-icon @148,2252 20x20
             svg.tn-icon @260,2252 20x20
-            svg.tn-icon @40,2296 20x20
-            svg.tn-icon @148,2296 20x20
-            svg.tn-icon @260,2296 20x20
-            svg.tn-icon @40,2336 20x20
-            svg.tn-icon @148,2336 20x20
-            svg.tn-icon @260,2336 20x20
-            svg.tn-icon @40,2372 20x20
-            svg.tn-icon @148,2372 20x20
-            svg.tn-icon @260,2372 20x20
-            svg.tn-icon @40,2420 20x20
-            svg.tn-icon @148,2420 20x20
-            svg.tn-icon @260,2420 20x20
-            svg.tn-icon @40,2476 20x20
-            svg.tn-icon @148,2476 20x20
-            svg.tn-icon @260,2476 20x20
-            svg.tn-icon @40,2524 20x20
-            svg.tn-icon @148,2524 20x20
-            svg.tn-icon @260,2524 20x20
-            svg.tn-icon @40,2560 20x20
-            svg.tn-icon @148,2560 20x20
-            svg.tn-icon @260,2560 20x20
-            svg.tn-icon @40,2600 20x20
-            svg.tn-icon @148,2600 20x20
-            svg.tn-icon @260,2600 20x20
-            svg.tn-icon @40,2644 20x20
-            svg.tn-icon @148,2644 20x20
-            svg.tn-icon @260,2644 20x20
-            svg.tn-icon @40,2692 20x20
-            svg.tn-icon @148,2692 20x20
-            svg.tn-icon @260,2692 20x20
-            svg.tn-icon @40,2732 20x20
-            svg.tn-icon @148,2732 20x20
-            svg.tn-icon @260,2732 20x20
-            svg.tn-icon @40,2768 20x20
-            svg.tn-icon @148,2768 20x20
-            svg.tn-icon @260,2768 20x20
-            svg.tn-icon @40,2808 20x20
-            svg.tn-icon @148,2808 20x20
-            svg.tn-icon @260,2808 20x20
-            svg.tn-icon @40,2844 20x20
-            svg.tn-icon @148,2844 20x20
-            svg.tn-icon @260,2844 20x20
-            svg.tn-icon @40,2892 20x20
-            svg.tn-icon @148,2892 20x20
-            svg.tn-icon @260,2892 20x20
-            svg.tn-icon @40,2936 20x20
-            svg.tn-icon @148,2936 20x20
+            svg.tn-icon @40,2304 20x20
+            svg.tn-icon @148,2304 20x20
+            svg.tn-icon @260,2304 20x20
+            svg.tn-icon @40,2352 20x20
+            svg.tn-icon @148,2352 20x20
+            svg.tn-icon @260,2352 20x20
+            svg.tn-icon @40,2392 20x20
+            svg.tn-icon @148,2392 20x20
+            svg.tn-icon @260,2392 20x20
+            svg.tn-icon @40,2436 20x20
+            svg.tn-icon @148,2436 20x20
+            svg.tn-icon @260,2436 20x20
+            svg.tn-icon @40,2492 20x20
+            svg.tn-icon @148,2492 20x20
+            svg.tn-icon @260,2492 20x20
+            svg.tn-icon @40,2540 20x20
+            svg.tn-icon @148,2540 20x20
+            svg.tn-icon @260,2540 20x20
+            svg.tn-icon @40,2580 20x20
+            svg.tn-icon @148,2580 20x20
+            svg.tn-icon @260,2580 20x20
+            svg.tn-icon @40,2616 20x20
+            svg.tn-icon @148,2616 20x20
+            svg.tn-icon @260,2616 20x20
+            svg.tn-icon @40,2664 20x20
+            svg.tn-icon @148,2664 20x20
+            svg.tn-icon @260,2664 20x20
+            svg.tn-icon @40,2708 20x20
+            svg.tn-icon @148,2708 20x20
+            svg.tn-icon @260,2708 20x20
+            svg.tn-icon @40,2748 20x20
+            svg.tn-icon @148,2748 20x20
+            svg.tn-icon @260,2748 20x20
+            svg.tn-icon @40,2784 20x20
+            svg.tn-icon @148,2784 20x20
+            svg.tn-icon @260,2784 20x20
+            svg.tn-icon @40,2824 20x20
+            svg.tn-icon @148,2824 20x20
+            svg.tn-icon @260,2824 20x20
+            svg.tn-icon @40,2860 20x20
+            svg.tn-icon @148,2860 20x20
+            svg.tn-icon @260,2860 20x20
+            svg.tn-icon @40,2900 20x20
+            svg.tn-icon @148,2900 20x20
+            svg.tn-icon @260,2900 20x20
+            svg.tn-icon @40,2948 20x20
+            svg.tn-icon @148,2948 20x20
+            svg.tn-icon @260,2948 20x20
