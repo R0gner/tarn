@@ -1269,7 +1269,9 @@ export function makeIO(page, size) {
       for (let i = 1; i <= 8; i++) { await touch('touchMove', { x: x + (dx * i) / 8, y }); await sleep(16); }
       await touch('touchEnd', { x: x + dx, y });
     },
-    eval: (js) => evaluate(page, js),
+    // a scenario script that reaches for an element the page does not have (a mutant removed it, the gallery moved it) reports it as missing
+    // instead of aborting the whole measurement
+    eval: (js) => evaluate(page, js).catch((e) => { if (/Cannot read properties of (null|undefined)/.test(e.message)) e.missing = true; throw e; }),
     settle: () => settle(page),
     count: (sel) => evaluate(page, `[...document.querySelectorAll(${JSON.stringify(sel)})].filter((e) => e.checkVisibility()).length`),
     // wait for a condition instead of a fixed pause: returns as soon as the expression is truthy, after at most `max` ms (the old pause) with the last value
@@ -1372,7 +1374,10 @@ export async function overlayTask(w, task, opts = {}) {
   const st = await evaluate(page, STATE_JS(sc.overlay, sc.focus));
   if (typeof release === 'function') await release();
   const add = (rule, text) => findings.push({ ...ctx, rule, where: sc.hash, text });
-  if (sc.assert) for (const text of await sc.assert(io, size)) add('overlay-behaviour', text);
+  if (sc.assert) {
+    try { for (const text of await sc.assert(io, size)) add('overlay-behaviour', text); }
+    catch (e) { if (!e.missing) throw e; add('overlay-missing', e.message); }
+  }
   if (sc.steady) { await sleep(120); for (const text of await evaluate(page, STEADY_END_JS)) add('overlay-shift', text); }
   if (st.missing) add('overlay-missing', `${sc.overlay} does not appear`);
   else {

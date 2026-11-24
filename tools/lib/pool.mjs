@@ -50,7 +50,12 @@ export async function createPool({ attach, base, proxy, chrome, noSandbox, jobs,
           async withRewrite(rewrite, cb) {
             if (!rewrite && base) return cb(h.origin);
             page.rewrite(rewrite);
-            try { const r = await cb(h.origin); const err = page.takeServeErrors(); if (err.length) throw new Error(err[0]); return r; } finally { page.rewrite(null); }
+            // a patch that does not apply is the cause, not what the page did without the file: report it first
+            try {
+              let r;
+              try { r = await cb(h.origin); } catch (e) { const err = page.takeServeErrors(); throw err.length ? new Error(err[0]) : e; }
+              const err = page.takeServeErrors(); if (err.length) throw new Error(err[0]); return r;
+            } finally { page.rewrite(null); }
           },
         });
       }
